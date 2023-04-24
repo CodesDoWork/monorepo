@@ -1,0 +1,20 @@
+FROM <%= baseImage %> AS base
+
+RUN apk add git
+
+
+FROM base AS builder
+WORKDIR /app
+
+RUN npm i -g @antfu/ni
+
+COPY package.json .
+COPY *lock* .
+RUN ni
+
+COPY . .
+
+RUN npx nx format:check
+RUN npx nx run-many -t lint
+RUN npx nx run-many -t test
+RUN npx nx run-many -t build

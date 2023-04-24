@@ -1,12 +1,12 @@
 import { createTreeWithEmptyWorkspace } from "@nrwl/devkit/testing";
-import { readProjectConfiguration, Tree } from "@nrwl/devkit";
+import { Tree } from "@nrwl/devkit";
 
 import generator from "./generator";
 import { NxContainersGeneratorSchema } from "./schema";
 
 describe("nx-containers generator", () => {
     let appTree: Tree;
-    const options: NxContainersGeneratorSchema = { name: "test" };
+    const options: NxContainersGeneratorSchema = { dockerCompose: true };
 
     beforeEach(() => {
         appTree = createTreeWithEmptyWorkspace({ layout: "apps-libs" });
@@ -14,7 +14,6 @@ describe("nx-containers generator", () => {
 
     it("should run successfully", async () => {
         await generator(appTree, options);
-        const config = readProjectConfiguration(appTree, "test");
-        expect(config).toBeDefined();
+        expect(appTree.exists("Dockerfile")).toBe(true);
     });
 });

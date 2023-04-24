@@ -5,6 +5,35 @@
     "title": "Build executor",
     "description": "",
     "type": "object",
-    "properties": {},
+    "properties": {
+        "image": {
+            "type": "string",
+            "description": "Image name",
+            "alias": "i"
+        },
+        "tags": {
+            "type": "array",
+            "description": "Tags for the image",
+            "items": {
+                "type": "string"
+            },
+            "alias": "t"
+        },
+        "organization": {
+            "type": "string",
+            "description": "Organization is used as prefix for image names",
+            "alias": "o"
+        },
+        "dockerCompose": {
+            "type": "boolean",
+            "description": "Whether to use docker compose or not",
+            "alias": "c"
+        },
+        "dockerfile": {
+            "type": "string",
+            "description": "Dockerfile to use",
+            "alias": "f"
+        }
+    },
     "required": []
 }

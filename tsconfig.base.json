@@ -15,7 +15,7 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "@nx-plugins/nx-containers": ["packages/nx-containers/src/index.ts"]
+            "@codesdowork/nx-containers": ["packages/nx-containers/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp"]

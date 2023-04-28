@@ -53,7 +53,6 @@ export default async function (tree: Tree, options: NxContainersGeneratorSchema)
             image: getImage(appName, organization),
             tags: ["latest"],
             organization,
-            dockerCompose,
         },
     };
     updateProjectConfiguration(tree, appName, projectConfig);

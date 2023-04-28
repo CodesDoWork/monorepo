@@ -1,7 +1,32 @@
 {
     "name": "@codesdowork/nx-containers",
-    "version": "0.0.1",
+    "version": "0.1.0",
+    "description": "An nx plugin to create containers for your apps.",
+    "keywords": [
+        "nx",
+        "plugin",
+        "tools",
+        "workspace",
+        "containers",
+        "docker"
+    ],
+    "homepage": "https://github.com/CodesDoWork/nx-plugins/tree/master/packages/nx-containers",
+    "bugs": {
+        "url": "https://github.com/CodesDoWork/nx-plugins/issues",
+        "email": "codesdowork@gmail.com"
+    },
+    "license": "MIT",
+    "author": {
+        "name": "Justin Konratt",
+        "email": "codesdowork@gmail.com",
+        "url": "https://github.com/CodesDoWork"
+    },
     "main": "src/index.js",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/CodesDoWork/nx-plugins.git",
+        "directory": "packages/nx-containers"
+    },
     "generators": "./generators.json",
     "executors": "./executors.json"
 }

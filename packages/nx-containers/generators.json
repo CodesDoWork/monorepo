@@ -3,11 +3,6 @@
     "name": "nx-containers",
     "version": "0.0.1",
     "generators": {
-        "base": {
-            "factory": "./src/generators/base/generator",
-            "schema": "./src/generators/base/schema.json",
-            "description": "Creates a base.Dockerfile to extend from"
-        },
         "workspace": {
             "factory": "./src/generators/workspace/generator",
             "schema": "./src/generators/workspace/schema.json",

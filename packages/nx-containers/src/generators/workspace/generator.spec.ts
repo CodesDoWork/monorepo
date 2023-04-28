@@ -6,7 +6,7 @@ import { NxContainersGeneratorSchema } from "./schema";
 
 describe("nx-containers generator", () => {
     let appTree: Tree;
-    const options: NxContainersGeneratorSchema = { dockerCompose: true };
+    const options: NxContainersGeneratorSchema = {};
 
     beforeEach(() => {
         appTree = createTreeWithEmptyWorkspace({ layout: "apps-libs" });

@@ -78,7 +78,7 @@ nx g @codesdowork/nx-containers:node <appName> [-o <organization>] [-c] [-v <nod
 
 This executor runs the build steps:
 
-1. Build base.Dockerfile and tag it as `${organization}/${projectName}/base`
+1. Build `base.Dockerfile` and tag it as `${organization}/${projectName}/base`
 2. Build workspace Dockerfile and tag it as `${organization}/${projectName}/workspace`
 3. Build app Dockerfile with specified options.
 
@@ -87,7 +87,7 @@ nx build-container <appName>
 ```
 
 The target is automatically added by the generators for apps. You can also add it manually by
-adding the following to your app's project.json file:
+adding the following to your app's `project.json` file:
 
 ```
 executor: "@codesdowork/nx-containers:build",

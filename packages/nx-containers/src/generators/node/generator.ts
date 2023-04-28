@@ -15,10 +15,7 @@ import { Image } from "../../utils/Image";
 
 const ensureWorkspace = async (tree: Tree, options: NxContainersGeneratorSchema) => {
     if (!tree.exists(Dockerfile.Normal)) {
-        await generateWorkspace(tree, {
-            organization: options.organization,
-            dockerCompose: options.dockerCompose,
-        });
+        await generateWorkspace(tree, options);
     }
 };
 

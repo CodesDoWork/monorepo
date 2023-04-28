@@ -23,6 +23,11 @@
             "type": "boolean",
             "description": "Whether to use a docker-compose.yml config file or not",
             "alias": "c"
+        },
+        "nodeVersion": {
+            "type": "string",
+            "description": "Use when generating workspace and base Dockerfiles too. Version of node-alpine docker image",
+            "alias": "v"
         }
     },
     "required": ["appName"]

@@ -5,9 +5,10 @@ import { versions } from "../../utils/versions";
 import { Dockerfile, getImage } from "../../utils/docker";
 import { Image } from "../../utils/Image";
 import { sleep } from "../../utils/sleep";
+import { hasComposeService } from "../../utils/docker-compose";
 
-const sanitizeOptions = (options: BuildExecutorSchema) => {
-    if (!options.image && !options.dockerCompose) {
+const sanitizeOptions = (options: BuildExecutorSchema, projectName: string) => {
+    if (!options.image && !hasComposeService(projectName)) {
         throw new Error("You need to specify the image name!");
     }
 
@@ -52,70 +53,53 @@ const execute = async (cmd: string): Promise<ExecuteStatus> => {
         await sleep(500);
     }
 
+    if (status === ExecuteStatus.Failed) {
+        throw new Error(status);
+    }
+
     return status;
 };
 
 export default async function runExecutor(options: BuildExecutorSchema, context: ExecutorContext) {
-    sanitizeOptions(options);
-    const { image, tags, organization, dockerfile, dockerCompose } = options;
-    const appRoot = context.workspace.projects[context.projectName].root;
+    const { workspace, projectName } = context;
+    sanitizeOptions(options, projectName);
+    const { image, tags, organization } = options;
+    const appRoot = workspace.projects[projectName].root;
 
     console.info("Building base image");
-    const baseStatus = await execute(
-        dockerCompose
-            ? dockerComposeBuild(Image.Base)
-            : dockerBuild(
-                  getImage(Image.Base, options.organization),
-                  {},
-                  [],
-                  `${appRoot}/${Dockerfile.Base}`,
-              ),
-    );
-
-    if (baseStatus === ExecuteStatus.Failed) {
-        return { success: false };
-    }
-
-    console.info("Building workspace image");
-    const workspaceStatus = await execute(
-        dockerCompose
-            ? dockerComposeBuild(Image.Workspace)
-            : dockerBuild(
-                  getImage(Image.Workspace, organization),
-                  {},
-                  [],
-                  `${appRoot}/${Dockerfile.Normal}`,
-              ),
-    );
-
-    if (workspaceStatus === ExecuteStatus.Failed) {
-        return { success: false };
-    }
-
-    console.info(`Building image for ${context.projectName}`);
-    const buildArgs = { VERSION: versions().version };
-    const appStatus = await execute(
-        dockerCompose
-            ? dockerComposeBuild(context.projectName, buildArgs)
-            : dockerBuild(image, buildArgs, tags, `${appRoot}/${dockerfile}`),
-    );
-
-    if (appStatus === ExecuteStatus.Failed) {
-        return { success: false };
-    }
-
-    if (dockerCompose) {
-        for (const tag of tags) {
-            const tagStatus = await execute(`docker tag ${image} ${image}:${tag}`);
-            if (tagStatus === ExecuteStatus.Failed) {
-                return { success: false };
+    return execute(
+        dockerBuild(getImage(Image.Base, organization), {}, tags, `${appRoot}/${Dockerfile.Base}`),
+    )
+        .then(() => {
+            console.info("Building workspace image");
+            return execute(
+                dockerBuild(
+                    getImage(Image.Workspace, organization),
+                    {},
+                    tags,
+                    `${appRoot}/${Dockerfile.Normal}`,
+                ),
+            );
+        })
+        .then(() => {
+            console.info(`Building image for ${projectName}`);
+            const isComposeService = hasComposeService(projectName);
+            const buildArgs = { VERSION: versions().version };
+            return execute(
+                isComposeService
+                    ? dockerComposeBuild(projectName, buildArgs)
+                    : dockerBuild(image, buildArgs, tags, `${appRoot}/${Dockerfile.Normal}`),
+            );
+        })
+        .then(async () => {
+            if (hasComposeService(projectName)) {
+                for (const tag of tags) {
+                    await execute(`docker tag ${image} ${image}:${tag}`);
+                }
             }
-        }
-    }
-
-    return {
-        success: true,
-    };
+        })
+        .then(() => ({ success: true }))
+        .catch(() => ({ success: false }));
 }
 
 type BuildArgs = Record<string, string | number | boolean>;

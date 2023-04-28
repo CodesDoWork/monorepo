@@ -1,23 +1,16 @@
 import { generateFiles, formatFiles, Tree } from "@nrwl/devkit";
 import { join } from "path";
 import { NxContainersGeneratorSchema } from "./schema";
-import { addComposeService } from "../../utils/docker-compose";
-import { Dockerfile, getImage } from "../../utils/docker";
-import generateBase from "../base/generator";
+import { getImage } from "../../utils/docker";
 import { Image } from "../../utils/Image";
 
-const image = Image.Workspace;
-
-const sanitizeOptions = async (tree: Tree, options: NxContainersGeneratorSchema) => {
-    if (!tree.exists(Dockerfile.Base)) {
-        await generateBase(tree, {
-            organization: options.organization,
-            dockerCompose: options.dockerCompose,
-        });
+const sanitizeOptions = async (options: NxContainersGeneratorSchema) => {
+    if (!options.nodeVersion) {
+        options.nodeVersion = "20";
     }
 };
 
-const addDockerfile = (tree: Tree, options: NxContainersGeneratorSchema) => {
+const addDockerfiles = (tree: Tree, options: NxContainersGeneratorSchema) => {
     generateFiles(tree, join(__dirname, "files"), "", {
         ...options,
         baseImage: getImage(Image.Base, options.organization),
@@ -26,15 +19,8 @@ const addDockerfile = (tree: Tree, options: NxContainersGeneratorSchema) => {
 };
 
 export default async function (tree: Tree, options: NxContainersGeneratorSchema) {
-    await sanitizeOptions(tree, options);
-    addDockerfile(tree, options);
-
-    if (options.dockerCompose) {
-        addComposeService(tree, image, {
-            build: ".",
-            image: getImage(image, options.organization),
-        });
-    }
+    await sanitizeOptions(options);
+    addDockerfiles(tree, options);
 
     await formatFiles(tree);
 }

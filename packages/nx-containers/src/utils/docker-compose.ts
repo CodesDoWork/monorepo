@@ -1,5 +1,6 @@
 import { Tree } from "@nrwl/devkit";
 import { load, dump } from "js-yaml";
+import { existsSync, readFileSync } from "fs";
 
 const composeFile = "docker-compose.yml";
 
@@ -22,16 +23,24 @@ type ComposeConfig = {
 
 export const addComposeService = (tree: Tree, serviceName: string, service: ComposeService) => {
     ensureComposeFile(tree);
-    const config = loadConfig(tree);
+    const config = loadConfig(tree.read(composeFile).toString());
     if (!config.services[serviceName]) {
         config.services[serviceName] = service;
         saveConfig(tree, config);
     }
 };
 
-const loadConfig = (tree: Tree): ComposeConfig => {
-    const contents = tree.read(composeFile).toString();
-    const config = load(contents);
+export const hasComposeService = (serviceName: string): boolean => {
+    if (!existsSync(composeFile)) {
+        return false;
+    }
+
+    const config = loadConfig(readFileSync(composeFile).toString());
+    return Object.keys(config.services).includes(serviceName);
+};
+
+const loadConfig = (content: string): ComposeConfig => {
+    const config = load(content);
     if (config !== null && typeof config === "object") {
         return config as ComposeConfig;
     } else {
@@ -45,7 +54,7 @@ const saveConfig = (tree: Tree, config: ComposeConfig) => {
 
 const ensureComposeFile = (tree: Tree) => {
     if (tree.exists(composeFile)) {
-        const config = loadConfig(tree);
+        const config = loadConfig(tree.read(composeFile).toString());
         if (!config.services) {
             config.services = {};
             saveConfig(tree, config);

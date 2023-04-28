@@ -62,13 +62,8 @@
                 }
             }
         },
-        "build-container": {
-            "executor": "@codesdowork/nx-containers:build",
-            "options": {
-                "image": "testtag",
-                "tags": ["latest", "{version}", "{major}", "{major}.{minor}", "{major}.{minor}.{patch}"],
-                "dockerCompose": true
-            }
+        "publish": {
+            "executor": "npm publish dist/packages/nx-containers"
         }
     },
     "tags": []

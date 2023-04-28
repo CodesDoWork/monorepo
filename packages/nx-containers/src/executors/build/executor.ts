@@ -6,6 +6,11 @@ import { Dockerfile, getImage } from "../../utils/docker";
 import { Image } from "../../utils/Image";
 import { sleep } from "../../utils/sleep";
 import { hasComposeService } from "../../utils/docker-compose";
+import chalk from "chalk";
+
+const log = console.log;
+const logStep = (step: string) => log(chalk.green.bold(step), "\n ");
+const logError = (...data: any[]) => console.error(chalk.red(data));
 
 const sanitizeOptions = (options: BuildExecutorSchema, projectName: string) => {
     if (!options.image && !hasComposeService(projectName)) {
@@ -33,19 +38,19 @@ enum ExecuteStatus {
 }
 
 const execute = async (cmd: string): Promise<ExecuteStatus> => {
-    console.info(cmd);
+    log(chalk.blue("Executing: ", cmd));
     let status = ExecuteStatus.Running;
 
     const [command, ...args] = cmd.split(" ");
     const process = spawn(command, args);
-    process.stdout.on("data", data => console.info(data.toString()));
-    process.stderr.on("data", data => console.error(data.toString()));
+    process.stdout.on("data", data => log(chalk.cyan(data.toString())));
+    process.stderr.on("data", data => log(chalk.cyan(data.toString())));
     process.on("exit", code => {
         if (code === 0) {
             status = ExecuteStatus.Done;
         } else {
             status = ExecuteStatus.Failed;
-            console.error(`Finished with code: ${code}`);
+            logError(`Finished with code: ${code}`);
         }
     });
 
@@ -61,17 +66,17 @@ const execute = async (cmd: string): Promise<ExecuteStatus> => {
 };
 
 export default async function runExecutor(options: BuildExecutorSchema, context: ExecutorContext) {
-    const { workspace, projectName } = context;
+    const { workspace, projectName, root } = context;
     sanitizeOptions(options, projectName);
     const { image, tags, organization } = options;
     const appRoot = workspace.projects[projectName].root;
 
-    console.info("Building base image");
+    logStep("Building base image");
     return execute(
-        dockerBuild(getImage(Image.Base, organization), {}, tags, `${appRoot}/${Dockerfile.Base}`),
+        dockerBuild(getImage(Image.Base, organization), {}, tags, `${root}/${Dockerfile.Base}`),
     )
         .then(() => {
-            console.info("Building workspace image");
+            logStep("Building workspace image");
             return execute(
                 dockerBuild(
                     getImage(Image.Workspace, organization),
@@ -82,7 +87,7 @@ export default async function runExecutor(options: BuildExecutorSchema, context:
             );
         })
         .then(() => {
-            console.info(`Building image for ${projectName}`);
+            logStep(`Building image for ${projectName}`);
             const isComposeService = hasComposeService(projectName);
             const buildArgs = { VERSION: versions().version };
             return execute(
@@ -93,6 +98,7 @@ export default async function runExecutor(options: BuildExecutorSchema, context:
         })
         .then(async () => {
             if (hasComposeService(projectName)) {
+                logStep("Tagging image");
                 for (const tag of tags) {
                     await execute(`docker tag ${image} ${image}:${tag}`);
                 }
@@ -104,9 +110,11 @@ export default async function runExecutor(options: BuildExecutorSchema, context:
 
 type BuildArgs = Record<string, string | number | boolean>;
 const buildBuildArgs = (args: BuildArgs) =>
-    ` --buildArgs ${Object.entries(args)
-        .map(([key, value]) => `${key}=${value}`)
-        .join(" ")}`;
+    Object.keys(args).length
+        ? ` --buildArgs ${Object.entries(args)
+              .map(([key, value]) => `${key}=${value}`)
+              .join(" ")}`
+        : "";
 
 const buildTags = (image: string, tags: string[]) =>
     tags.map(tag => `-t ${image}:${tag}`).join(" ");

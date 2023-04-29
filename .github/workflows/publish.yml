@@ -1,0 +1,49 @@
+name: Publish
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  publish:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
+    - name: Check package version of 'nx-containers'
+      uses: technote-space/package-version-check-action@v1
+      with:
+        COMMIT_DISABLED: 1
+        PACKAGE_DIR: packages/nx-containers
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: 20.x
+
+    - uses: pnpm/action-setup@v2
+      with:
+        version: latest
+
+    - name: Use Nx
+      uses: nrwl/nx-set-shas@v3
+      with:
+        main-branch-name: develop
+
+    - run: pnpm i
+    - run: pnpm run format:check
+    - run: pnpm run test
+    - run: pnpm run lint
+    - run: pnpm run build
+
+    - name: Publish
+      run: |
+        npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
+        nx publish nx-containers
+      env:
+        NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

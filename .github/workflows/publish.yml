@@ -44,6 +44,6 @@ jobs:
     - name: Publish
       run: |
         npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
-        nx publish nx-containers
+        npx nx publish nx-containers
       env:
         NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

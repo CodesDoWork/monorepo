@@ -27,6 +27,9 @@
         "url": "https://github.com/CodesDoWork/nx-plugins.git",
         "directory": "packages/nx-containers"
     },
+    "publishConfig": {
+        "access": "public"
+    },
     "generators": "./generators.json",
     "executors": "./executors.json"
 }

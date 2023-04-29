@@ -63,7 +63,10 @@
             }
         },
         "publish": {
-            "executor": "npm publish dist/packages/nx-containers"
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "npm publish dist/packages/nx-containers"
+            }
         }
     },
     "tags": []

@@ -34,8 +34,8 @@ pnpm add @codesdowork/nx-containers
 
 The following generator types are available:
 
-- workspace
-- node
+-   workspace
+-   node
 
 #### Workspace
 
@@ -49,7 +49,7 @@ nx g @codesdowork/nx-containers:workspace [-o <organization>] [-v <nodeVersion>]
 ##### Options
 
 | Name         | Description                                    | alias | default   |
-|--------------|------------------------------------------------|-------|-----------|
+| ------------ | ---------------------------------------------- | ----- | --------- |
 | organization | Organization is used as prefix for image names | o     | undefined |
 | nodeVersion  | Version of node-alpine docker image            | v     | 20        |
 
@@ -66,7 +66,7 @@ nx g @codesdowork/nx-containers:node <appName> [-o <organization>] [-c] [-v <nod
 ##### Options
 
 | Name          | Description                                                                                             | alias | default   |
-|---------------|---------------------------------------------------------------------------------------------------------|-------|-----------|
+| ------------- | ------------------------------------------------------------------------------------------------------- | ----- | --------- |
 | appName       | Name of the app you want to containerize                                                                | -     | undefined |
 | organization  | Organization is used as prefix for image names                                                          | o     | undefined |
 | dockerCompose | Specify whether dockerCompose is used (app will be added as a service to the `docker-compose.yml` file) | c     | undefined |
@@ -78,7 +78,7 @@ nx g @codesdowork/nx-containers:node <appName> [-o <organization>] [-c] [-v <nod
 
 This executor runs the build steps:
 
-1. Build base.Dockerfile and tag it as `${organization}/${projectName}/base`
+1. Build `base.Dockerfile` and tag it as `${organization}/${projectName}/base`
 2. Build workspace Dockerfile and tag it as `${organization}/${projectName}/workspace`
 3. Build app Dockerfile with specified options.
 
@@ -87,7 +87,7 @@ nx build-container <appName>
 ```
 
 The target is automatically added by the generators for apps. You can also add it manually by
-adding the following to your app's project.json file:
+adding the following to your app's `project.json` file:
 
 ```
 executor: "@codesdowork/nx-containers:build",
@@ -107,7 +107,7 @@ nx @codesdowork/nx-containers:build <appName> [-t <tags>] [-o <organization>] [-
 ##### Options
 
 | Name         | Description                                                                            | alias | default                                     |
-|--------------|----------------------------------------------------------------------------------------|-------|---------------------------------------------|
+| ------------ | -------------------------------------------------------------------------------------- | ----- | ------------------------------------------- |
 | tags         | An array of tags for the app image [1]                                                 | t     | ["latest"]                                  |
 | organization | Organization is used as prefix for image names                                         | o     | undefined                                   |
 | image        | Custom name for the built image (only used when not specified in `docker-compose.yml`) | i     | `${organization}/${projectName}/${appName}` |

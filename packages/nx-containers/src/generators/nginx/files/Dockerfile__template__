@@ -15,6 +15,4 @@ COPY <%= confFolder -%> /etc/nginx/conf.d
 <% if (locals.templatesFolder) { -%>
 COPY <%= templatesFolder -%> /etc/nginx/templates
 <% } -%>
-<% if (locals.htmlFolder) { -%>
-COPY <%= htmlFolder -%> .
-<% } -%>
+COPY --from=builder /app/dist/apps/<%= appName %><% if (locals.htmlFolder) { -%>/<%= htmlFolder %><% } -%> .

@@ -51,7 +51,7 @@
         },
         "htmlFolder": {
             "type": "string",
-            "description": "Path to folder with html files to be copied to /usr/share/nginx/html",
+            "description": "Path to folder with html files, which will be copied into /usr/share/nginx/html",
             "alias": "h"
         }
     },

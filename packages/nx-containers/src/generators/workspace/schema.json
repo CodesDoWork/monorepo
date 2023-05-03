@@ -13,7 +13,7 @@
         "nodeVersion": {
             "type": "string",
             "description": "Version of node-alpine docker image",
-            "alias": "v"
+            "alias": "V"
         }
     },
     "required": []

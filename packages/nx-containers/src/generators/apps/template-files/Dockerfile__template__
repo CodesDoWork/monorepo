@@ -1,0 +1,9 @@
+FROM <%= workspaceImage %> AS builder
+FROM <%= baseImage %> AS base
+
+
+FROM base AS deps
+WORKDIR /app
+
+COPY --from=builder /app/dist/apps/<%= appName %>/package.json .
+RUN npm i

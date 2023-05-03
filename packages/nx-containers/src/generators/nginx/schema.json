@@ -28,6 +28,26 @@
             "type": "string",
             "description": "Use when generating workspace and base Dockerfiles too. Version of node-alpine docker image",
             "alias": "V"
+        },
+        "nginxVersion": {
+            "type": "string",
+            "description": "Version of nginx-alpine docker image",
+            "alias": "v"
+        },
+        "nginxConf": {
+            "type": "string",
+            "description": "Path to nginx.conf file",
+            "alias": "c"
+        },
+        "confFolder": {
+            "type": "string",
+            "description": "Path to folder with config files, which will be copied into /etc/nginx/conf.d",
+            "alias": "f"
+        },
+        "templatesFolder": {
+            "type": "string",
+            "description": "Path to folder with templates, which will be copied into /etc/nginx/templates",
+            "alias": "t"
         }
     },
     "required": ["appName"]

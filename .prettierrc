@@ -8,5 +8,13 @@
     "jsxSingleQuote": false,
     "semi": true,
     "arrowParens": "avoid",
-    "printWidth": 100
+    "printWidth": 100,
+    "overrides": [
+        {
+            "files": ["*.yml", "*.yaml", "*.md"],
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
 }

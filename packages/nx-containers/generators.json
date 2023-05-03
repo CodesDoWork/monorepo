@@ -11,7 +11,12 @@
         "node": {
             "factory": "./src/generators/node/generator",
             "schema": "./src/generators/node/schema.json",
-            "description": "Creates Dockerfiles for your app"
+            "description": "Creates Dockerfiles for your node app"
+        },
+        "nginx": {
+            "factory": "./src/generators/nginx/generator",
+            "schema": "./src/generators/nginx/schema.json",
+            "description": "Creates Dockerfiles for your app running with nginx"
         }
     }
 }

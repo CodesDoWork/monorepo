@@ -51,7 +51,7 @@ nx g @codesdowork/nx-containers:workspace [-o <organization>] [-V <nodeVersion>]
 ##### Options
 
 | Name         | Description                                    | alias | default   |
-|--------------|------------------------------------------------|-------|-----------|
+| ------------ | ---------------------------------------------- | ----- | --------- |
 | organization | Organization is used as prefix for image names | o     | undefined |
 | nodeVersion  | Version of node-alpine docker image            | V     | 20        |
 
@@ -75,7 +75,7 @@ nx g @codesdowork/nx-containers:node <appName> [-o <organization>] [-c] [-v <nod
 ##### Options
 
 | Name          | Description                                                                     | alias | default   |
-|---------------|---------------------------------------------------------------------------------|-------|-----------|
+| ------------- | ------------------------------------------------------------------------------- | ----- | --------- |
 | appName       | Name of the app you want to containerize                                        | -     | undefined |
 | organization  | Organization is used as prefix for image names                                  | o     | undefined |
 | dockerCompose | Specify whether dockerCompose is used                                           | C     | undefined |
@@ -92,7 +92,7 @@ nx g @codesdowork/nx-containers:nginx <appName> [-o <organization>] [-c] [-v <no
 ##### Options
 
 | Name            | Description                                                                     | alias | default   |
-|-----------------|---------------------------------------------------------------------------------|-------|-----------|
+| --------------- | ------------------------------------------------------------------------------- | ----- | --------- |
 | appName         | Name of the app you want to containerize                                        | -     | undefined |
 | organization    | Organization is used as prefix for image names                                  | o     | undefined |
 | dockerCompose   | Specify whether dockerCompose is usedl                                          | C     | undefined |
@@ -140,7 +140,7 @@ uses that service with `docker compose build`.
 ##### Options
 
 | Name         | Description                                                                            | alias | default                                     |
-|--------------|----------------------------------------------------------------------------------------|-------|---------------------------------------------|
+| ------------ | -------------------------------------------------------------------------------------- | ----- | ------------------------------------------- |
 | tags         | An array of tags for the app image [1]                                                 | t     | ["latest"]                                  |
 | organization | Organization is used as prefix for image names                                         | o     | undefined                                   |
 | image        | Custom name for the built image (only used when not specified in `docker-compose.yml`) | i     | `${organization}/${projectName}/${appName}` |

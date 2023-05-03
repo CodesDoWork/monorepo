@@ -1,6 +1,3 @@
-export interface NodeAppGeneratorSchema {
-    appName: string;
-    organization?: string;
-    dockerCompose?: boolean;
-    nodeVersion?: string;
-}
+import { BaseAppGeneratorSchema } from "../apps/schema";
+
+export type NodeAppGeneratorSchema = BaseAppGeneratorSchema;

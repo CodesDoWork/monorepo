@@ -1,0 +1,16 @@
+FROM nginx:<%= nginxVersion %>-alpine as runner
+
+ARG VERSION
+
+ENV NODE_ENV production
+ENV PACKAGE_VERSION $VERSION
+
+<% if (locals.nginxConf) { -%>
+COPY <%= nginxConf -%> /etc/nginx/nginx.conf
+<% } -%>
+<% if (locals.confFolder) { -%>
+COPY <%= confFolder -%> /etc/nginx/conf.d
+<% } -%>
+<% if (locals.templatesFolder) { -%>
+COPY <%= templatesFolder -%> /etc/nginx/templates
+<% } -%>

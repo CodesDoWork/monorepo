@@ -1,7 +1,10 @@
-export interface AppGeneratorSchema {
+import { WorkspaceGeneratorSchema } from "../workspace/schema";
+
+export type BaseAppGeneratorSchema = WorkspaceGeneratorSchema & {
     appName: string;
-    organization?: string;
     dockerCompose?: boolean;
-    nodeVersion?: string;
+};
+
+export type AppGeneratorSchema = BaseAppGeneratorSchema & {
     runnerFile: string;
-}
+};

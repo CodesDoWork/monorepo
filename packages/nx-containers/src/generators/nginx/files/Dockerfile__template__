@@ -1,4 +1,4 @@
-FROM nginx:<%= nginxVersion %>-alpine as runner
+FROM nginx:<%= nginxVersion %>-alpine AS runner
 WORKDIR /usr/share/nginx/html
 
 ARG VERSION
@@ -15,4 +15,4 @@ COPY <%= confFolder -%> /etc/nginx/conf.d
 <% if (locals.templatesFolder) { -%>
 COPY <%= templatesFolder -%> /etc/nginx/templates
 <% } -%>
-COPY --from=builder /app/dist/apps/<%= appName %><% if (locals.htmlFolder) { -%>/<%= htmlFolder %><% } -%> .
+COPY --from=builder /app/dist/apps/<%= appName %> .

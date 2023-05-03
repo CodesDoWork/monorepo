@@ -23,6 +23,10 @@
             "type": "string",
             "description": "Image name",
             "alias": "i"
+        },
+        "composeFile": {
+            "type": "string",
+            "description": "Compose config file to use"
         }
     },
     "required": []

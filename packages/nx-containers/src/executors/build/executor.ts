@@ -2,9 +2,9 @@ import { BuildExecutorSchema } from "./schema";
 import { ExecutorContext } from "nx/src/config/misc-interfaces";
 import { spawn } from "child_process";
 import { versions } from "../../utils/versions";
-import { Dockerfile, Image, getImage } from "../../utils/docker";
+import { Dockerfile, getImage, Image } from "../../utils/docker";
 import { sleep } from "../../utils/sleep";
-import { hasComposeService } from "../../utils/docker-compose";
+import { composeFile, hasComposeService } from "../../utils/docker-compose";
 import chalk from "chalk";
 
 const log = console.log;
@@ -12,7 +12,7 @@ const logStep = (step: string) => log(chalk.green.bold(step), "\n ");
 const logError = (...data: any[]) => console.error(chalk.red(data));
 
 const sanitizeOptions = (options: BuildExecutorSchema, projectName: string) => {
-    if (!options.image && !hasComposeService(projectName)) {
+    if (!options.image && !hasComposeService(projectName, options.composeFile)) {
         throw new Error("You need to specify the image name!");
     }
 
@@ -67,36 +67,42 @@ const execute = async (cmd: string): Promise<ExecuteStatus> => {
 export default async function runExecutor(options: BuildExecutorSchema, context: ExecutorContext) {
     const { workspace, projectName, root } = context;
     sanitizeOptions(options, projectName);
-    const { image, tags, organization } = options;
+    const { image, tags, organization, composeFile } = options;
     const appRoot = workspace.projects[projectName].root;
+
+    const isComposeService = hasComposeService(projectName, composeFile);
 
     logStep("Building base image");
     return execute(
-        dockerBuild(getImage(Image.Base, organization), {}, tags, `${root}/${Dockerfile.Base}`),
+        dockerBuild(
+            getImage(Image.Base, organization),
+            undefined,
+            undefined,
+            `${root}/${Dockerfile.Base}`,
+        ),
     )
         .then(() => {
             logStep("Building workspace image");
             return execute(
                 dockerBuild(
                     getImage(Image.Workspace, organization),
-                    {},
-                    tags,
-                    `${appRoot}/${Dockerfile.Normal}`,
+                    undefined,
+                    undefined,
+                    Dockerfile.Normal,
                 ),
             );
         })
         .then(() => {
             logStep(`Building image for ${projectName}`);
-            const isComposeService = hasComposeService(projectName);
             const buildArgs = { VERSION: versions().version };
             return execute(
                 isComposeService
-                    ? dockerComposeBuild(projectName, buildArgs)
+                    ? dockerComposeBuild(projectName, buildArgs, composeFile)
                     : dockerBuild(image, buildArgs, tags, `${appRoot}/${Dockerfile.Normal}`),
             );
         })
         .then(async () => {
-            if (hasComposeService(projectName)) {
+            if (isComposeService) {
                 logStep("Tagging image");
                 for (const tag of tags) {
                     await execute(`docker tag ${image} ${image}:${tag}`);
@@ -109,19 +115,32 @@ export default async function runExecutor(options: BuildExecutorSchema, context:
 
 type BuildArgs = Record<string, string | number | boolean>;
 const buildBuildArgs = (args: BuildArgs) =>
-    Object.keys(args).length
-        ? ` --buildArgs ${Object.entries(args)
-              .map(([key, value]) => `${key}=${value}`)
-              .join(" ")}`
-        : "";
+    Object.entries(args)
+        .map(([key, value]) => `--build-arg ${key}=${value}`)
+        .join(" ");
 
 const buildTags = (image: string, tags: string[]) =>
     tags.map(tag => `-t ${image}:${tag}`).join(" ");
 
-const dockerComposeBuild = (service: string, args?: BuildArgs) =>
-    `docker compose build${args ? buildBuildArgs(args) : ""} ${service}`;
+const buildCommand = (...parts: string[]) => parts.filter(Boolean).join(" ");
 
-const dockerBuild = (image: string, args?: BuildArgs, tags?: string[], dockerfile = "Dockerfile") =>
-    `docker build${args ? buildBuildArgs(args) : ""} ${
-        tags ? buildTags(image, tags) : ""
-    } -f ${dockerfile} .`;
+const dockerComposeBuild = (service: string, args?: BuildArgs, configFile = composeFile) =>
+    buildCommand(
+        "docker compose",
+        `-f ${configFile}`,
+        "build",
+        args ? buildBuildArgs(args) : "",
+        service,
+    );
+
+const dockerBuild = (
+    image: string,
+    args?: BuildArgs,
+    tags?: string[],
+    dockerfile = "Dockerfile",
+) => {
+    const argsArg = args ? buildBuildArgs(args) : "";
+    const tagsArg = tags ? buildTags(image, tags) : `-t ${image}`;
+
+    return buildCommand("docker build", argsArg, tagsArg, `-f ${dockerfile}`, ".");
+};

@@ -2,7 +2,7 @@ import { Tree } from "@nrwl/devkit";
 import { load, dump } from "js-yaml";
 import { existsSync, readFileSync } from "fs";
 
-const composeFile = "docker-compose.yml";
+export const composeFile = "docker-compose.yml";
 
 export type ComposeService = {
     build:
@@ -30,12 +30,12 @@ export const addComposeService = (tree: Tree, serviceName: string, service: Comp
     }
 };
 
-export const hasComposeService = (serviceName: string): boolean => {
-    if (!existsSync(composeFile)) {
+export const hasComposeService = (serviceName: string, configFile = composeFile): boolean => {
+    if (!existsSync(configFile)) {
         return false;
     }
 
-    const config = loadConfig(readFileSync(composeFile).toString());
+    const config = loadConfig(readFileSync(configFile).toString());
     return Object.keys(config.services).includes(serviceName);
 };
 

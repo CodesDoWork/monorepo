@@ -5,4 +5,5 @@ export type NginxAppGeneratorSchema = BaseAppGeneratorSchema & {
     nginxConf?: string;
     confFolder?: string;
     templatesFolder?: string;
+    htmlFolder?: string;
 };

@@ -1,8 +1,7 @@
 import { generateFiles, formatFiles, Tree } from "@nrwl/devkit";
 import { join } from "path";
 import { NxContainersGeneratorSchema } from "./schema";
-import { getImage } from "../../utils/docker";
-import { Image } from "../../utils/Image";
+import { Image, getImage } from "../../utils/docker";
 
 const sanitizeOptions = async (options: NxContainersGeneratorSchema) => {
     if (!options.nodeVersion) {

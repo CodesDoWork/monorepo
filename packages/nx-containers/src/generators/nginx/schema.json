@@ -48,6 +48,11 @@
             "type": "string",
             "description": "Path to folder with templates, which will be copied into /etc/nginx/templates",
             "alias": "t"
+        },
+        "htmlFolder": {
+            "type": "string",
+            "description": "Path to folder with html files, which will be copied into /usr/share/nginx/html",
+            "alias": "h"
         }
     },
     "required": ["appName"]

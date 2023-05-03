@@ -91,16 +91,17 @@ nx g @codesdowork/nx-containers:nginx <appName> [-o <organization>] [-c] [-v <no
 
 ##### Options
 
-| Name            | Description                                                                     | alias | default   |
-| --------------- | ------------------------------------------------------------------------------- | ----- | --------- |
-| appName         | Name of the app you want to containerize                                        | -     | undefined |
-| organization    | Organization is used as prefix for image names                                  | o     | undefined |
-| dockerCompose   | Specify whether dockerCompose is usedl                                          | C     | undefined |
-| nodeVersion     | Version of node-alpine docker image (only used when workspace generator is run) | V     | 20        |
-| nginxVersion    | Version of nginx-alpine docker image                                            | v     | 1         |
-| nginxConf       | Path to nginx.conf file                                                         | c     | undefined |
-| confFolder      | Path to folder with config files, which will be copied into /etc/nginx/conf.d   | f     | undefined |
-| templatesFolder | Path to folder with templates, which will be copied into /etc/nginx/templates   | t     | undefined |
+| Name            | Description                                                                                                 | alias | default   |
+| --------------- | ----------------------------------------------------------------------------------------------------------- | ----- | --------- |
+| appName         | Name of the app you want to containerize                                                                    | -     | undefined |
+| organization    | Organization is used as prefix for image names                                                              | o     | undefined |
+| dockerCompose   | Specify whether dockerCompose is usedl                                                                      | C     | undefined |
+| nodeVersion     | Version of node-alpine docker image (only used when workspace generator is run)                             | V     | 20        |
+| nginxVersion    | Version of nginx-alpine docker image                                                                        | v     | 1         |
+| nginxConf       | Path to nginx.conf file                                                                                     | c     | undefined |
+| confFolder      | Path to folder with config files, which will be copied into /etc/nginx/conf.d                               | f     | undefined |
+| templatesFolder | Path to folder with templates, which will be copied into /etc/nginx/templates                               | t     | undefined |
+| htmlFolder      | Path to folder with html files (from `dist/apps/{appName}`, which will be copied into /usr/share/nginx/html | h     | undefined |
 
 ### Executors
 

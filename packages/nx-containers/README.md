@@ -101,7 +101,6 @@ nx g @codesdowork/nx-containers:nginx <appName> [-o <organization>] [-c] [-v <no
 | nginxConf       | Path to nginx.conf file                                                         | c     | undefined |
 | confFolder      | Path to folder with config files, which will be copied into /etc/nginx/conf.d   | f     | undefined |
 | templatesFolder | Path to folder with templates, which will be copied into /etc/nginx/templates   | t     | undefined |
-| htmlFolder      | Path to folder with html files to be copied to /usr/share/nginx/html            | h     | undefined |
 
 ### Executors
 

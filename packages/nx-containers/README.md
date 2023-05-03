@@ -36,8 +36,8 @@ The following generator types are available:
 
 - [workspace](#workspace)
 - [apps](#apps)
-- [node](#node)
-- [nginx](#nginx)
+  - [node](#node)
+  - [nginx](#nginx)
 
 #### Workspace
 

@@ -1,20 +1,22 @@
-FROM <%= baseImage %> AS base
-
-RUN apk add git
-
-
-FROM base AS builder
+FROM <%= baseImage %> AS workspace
 WORKDIR /app
 
+<%- installGit %>
+
 RUN npm i -g @antfu/ni
+<%- preInstall -%>
 
 COPY package.json .
 COPY *lock* .
 RUN ni
+<%- postInstall -%>
+<%- preCopy -%>
 
 COPY . .
+<%- preChecks -%>
 
 RUN npx nx format:check
 RUN npx nx run-many -t lint
 RUN npx nx run-many -t test
 RUN npx nx run-many -t build
+<%- end -%>

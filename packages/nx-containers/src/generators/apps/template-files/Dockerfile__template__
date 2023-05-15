@@ -1,2 +1,0 @@
-FROM <%= workspaceImage %> AS builder
-FROM <%= baseImage %> AS base

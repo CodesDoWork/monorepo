@@ -1,0 +1,5 @@
+FROM <%= baseImage %> AS dev
+WORKDIR /app
+<%- preInstall -%>
+<%- postInstall -%>
+<%- end -%>

@@ -1,0 +1,24 @@
+<%- workspaceStages %>
+
+
+FROM nginx:<%= nginxVersion %>-alpine-slim AS runner
+WORKDIR /usr/share/nginx/html
+
+<%- argsAndEnvs %>
+<%- preInstall -%>
+<%- postInstall -%>
+<%- preCopy -%>
+
+<% if (locals.nginxConf) { -%>
+COPY <%= nginxConf -%> /etc/nginx/nginx.conf
+<% } -%>
+<% if (locals.confFolder) { -%>
+COPY <%= confFolder -%> /etc/nginx/conf.d
+<% } -%>
+<% if (locals.templatesFolder) { -%>
+COPY <%= templatesFolder -%> /etc/nginx/templates
+<% } -%>
+COPY --from=workspace /app/dist/apps/<%= appName %> .
+<%- copy -%>
+<%- preChecks -%>
+<%- end -%>

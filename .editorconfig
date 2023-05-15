@@ -12,3 +12,6 @@ indent_style = space
 [*.{md,yml}]
 indent_size = 2
 tab_width = 2
+
+[*__template__]
+insert_final_newline = false

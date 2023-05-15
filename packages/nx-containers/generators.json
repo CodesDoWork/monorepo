@@ -6,17 +6,17 @@
         "workspace": {
             "factory": "./src/generators/workspace/generator",
             "schema": "./src/generators/workspace/schema.json",
-            "description": "Creates a Dockerfile for your workspace to use with your apps"
+            "description": "Creates containerization for your workspace to use with your apps"
         },
-        "node": {
-            "factory": "./src/generators/node/generator",
-            "schema": "./src/generators/node/schema.json",
-            "description": "Creates Dockerfiles for your node app"
+        "dockerfiles": {
+            "factory": "./src/generators/dockerfiles/generator",
+            "schema": "./src/generators/dockerfiles/schema.json",
+            "description": "Creates dockerfiles for your configurations"
         },
-        "nginx": {
-            "factory": "./src/generators/nginx/generator",
-            "schema": "./src/generators/nginx/schema.json",
-            "description": "Creates Dockerfiles for your app running with nginx"
+        "app": {
+            "factory": "./src/generators/app/generator",
+            "schema": "./src/generators/app/schema.json",
+            "description": "Creates containerization for your app"
         }
     }
 }

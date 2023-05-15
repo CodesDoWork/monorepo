@@ -10,7 +10,8 @@ export enum Dockerfile {
     Normal = "Dockerfile",
 }
 
-export enum Image {
+export enum WorkspaceImage {
     Base = "base",
     Workspace = "workspace",
+    Dev = "dev",
 }

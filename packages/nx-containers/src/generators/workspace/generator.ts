@@ -1,14 +1,14 @@
-import {formatFiles, generateFiles, Tree} from "@nrwl/devkit";
-import {join} from "path";
+import { formatFiles, generateFiles, Tree } from "@nrwl/devkit";
+import { join } from "path";
 import inquirer from "inquirer";
-import {DockerfileKind, getExtensions} from "../extensions";
-import {configFile, loadWorkspaceConfig} from "../../config/config";
-import {ImageVariant, WorkspaceConfig} from "../../config/config.schema";
-import {cleanObject} from "../../utils/object";
+import { DockerfileKind, getExtensions } from "../extensions";
+import { configFile, loadWorkspaceConfig } from "../../config/config";
+import { ImageVariant, WorkspaceConfig } from "../../config/config.schema";
+import { cleanObject } from "../../utils/object";
 
 export default async function (tree: Tree) {
     const config = loadWorkspaceConfig(tree.root);
-    const {base, variant, organization} = await inquirer.prompt([
+    const { base, variant, organization } = await inquirer.prompt([
         {
             name: "base",
             default: config?.base ?? "node:20-alpine",
@@ -30,7 +30,7 @@ export default async function (tree: Tree) {
         },
     ]);
 
-    const {baseExtensions, workspaceExtensions, devExtensions} = await inquirer.prompt([
+    const { baseExtensions, workspaceExtensions, devExtensions } = await inquirer.prompt([
         {
             name: "baseExtensions",
             default: config?.baseExtensions ?? [],
@@ -56,14 +56,15 @@ export default async function (tree: Tree) {
         },
     ]);
 
-    tree.write(configFile, JSON.stringify(cleanObject({
+    const newConfig: WorkspaceConfig = {
         base,
         variant,
         organization,
         baseExtensions,
         workspaceExtensions,
         devExtensions,
-    } satisfies WorkspaceConfig), undefined, 2));
+    };
+    tree.write(configFile, JSON.stringify(cleanObject(newConfig), undefined, 2));
     generateFiles(tree, join(__dirname, "files"), "", {});
 
     await formatFiles(tree);

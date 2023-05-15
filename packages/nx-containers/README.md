@@ -36,8 +36,6 @@ The following generator types are available:
 
 - [workspace](#workspace)
 - [apps](#apps)
-  - [node](#node)
-  - [nginx](#nginx)
 - [dockerfiles](#dockerfiles)
 
 #### Workspace
@@ -55,7 +53,6 @@ The following generators create `container.config.json` files for your apps.
 They only contain information for the single project.
 A `build-container` target is automatically added to the `project.json` configuration.
 If you choose to use docker compose, the app is added as a service to the `docker-compose.yml` file.
-
 
 Creates a Dockerfile for your app. You can choose type and other options interactively.
 

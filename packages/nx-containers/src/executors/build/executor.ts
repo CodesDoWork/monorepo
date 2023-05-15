@@ -1,34 +1,21 @@
-import { BuildExecutorSchema } from "./schema";
 import { ExecutorContext } from "nx/src/config/misc-interfaces";
 import { spawn } from "child_process";
 import { versions } from "../../utils/versions";
-import { Dockerfile, getImage, Image } from "../../utils/docker";
+import { Dockerfile, getImage, WorkspaceImage } from "../../utils/docker";
 import { sleep } from "../../utils/sleep";
-import { composeFile, hasComposeService } from "../../utils/docker-compose";
+import { composeFile, getComposeService } from "../../utils/docker-compose";
 import chalk from "chalk";
-
-const log = console.log;
-const logStep = (step: string) => log(chalk.green.bold(step), "\n ");
-const logError = (...data: any[]) => console.error(chalk.red(data));
-
-const sanitizeOptions = (options: BuildExecutorSchema, projectName: string) => {
-    if (!options.image && !hasComposeService(projectName, options.composeFile)) {
-        throw new Error("You need to specify the image name!");
-    }
-
-    if (!options.tags) {
-        options.tags = ["latest"];
-    } else {
-        const { version, major, minor, patch } = versions();
-        options.tags = options.tags.map(tag =>
-            tag
-                .replace("{version}", version)
-                .replace("{major}", major)
-                .replace("{minor}", minor)
-                .replace("{patch}", patch),
-        );
-    }
-};
+import { log, logCmd, logError, logStep } from "../../utils/logging";
+import { existsSync, rmSync } from "fs";
+import {
+    generateAppDockerfile,
+    generateBaseDockerfile,
+    generateWorkspaceDockerfile,
+} from "../../generators/dockerfiles/generator";
+import { getWorkspaceConfig } from "../../generators/workspace/getWorkspaceConfig";
+import { join } from "path";
+import { getAppConfig } from "../../generators/app/getAppConfig";
+import { FsTree } from "nx/src/generators/tree";
 
 enum ExecuteStatus {
     Running = "running",
@@ -37,7 +24,7 @@ enum ExecuteStatus {
 }
 
 const execute = async (cmd: string): Promise<ExecuteStatus> => {
-    log(chalk.blue("Executing: ", cmd));
+    logCmd(cmd);
     let status = ExecuteStatus.Running;
 
     const [command, ...args] = cmd.split(" ");
@@ -64,53 +51,94 @@ const execute = async (cmd: string): Promise<ExecuteStatus> => {
     return status;
 };
 
-export default async function runExecutor(options: BuildExecutorSchema, context: ExecutorContext) {
+export default async function runExecutor(options: unknown, context: ExecutorContext) {
     const { workspace, projectName, root } = context;
-    sanitizeOptions(options, projectName);
-    const { image, tags, organization, composeFile } = options;
     const appRoot = workspace.projects[projectName].root;
 
-    const isComposeService = hasComposeService(projectName, composeFile);
+    const isComposeService = !!getComposeService(projectName, composeFile)?.build;
+
+    const tree = new FsTree(root, false);
+    const tempFilesDir = join(__dirname.replace(root, ""), "tmp");
+
+    const workspaceConfig = getWorkspaceConfig(tree);
+    const { organization } = workspaceConfig;
+    const appConfig = getAppConfig(tree, projectName);
+    const image = getImage(projectName, organization);
+    const { version, major, minor, patch } = versions(appRoot);
+    appConfig.tags = appConfig.tags.map(tag =>
+        tag
+            .replace("{version}", version)
+            .replace("{major}", major)
+            .replace("{minor}", minor)
+            .replace("{patch}", patch),
+    );
 
     logStep("Building base image");
+    let baseDockerfile = join(root, Dockerfile.Base);
+    if (!existsSync(baseDockerfile)) {
+        baseDockerfile = join(tempFilesDir, Dockerfile.Base);
+        await generateBaseDockerfile(tree, workspaceConfig, tempFilesDir, true);
+    }
+
     return execute(
         dockerBuild(
-            getImage(Image.Base, organization),
+            getImage(WorkspaceImage.Base, organization),
             undefined,
             undefined,
-            `${root}/${Dockerfile.Base}`,
+            baseDockerfile,
         ),
     )
-        .then(() => {
+        .then(async () => {
             logStep("Building workspace image");
+            let workspaceDockerfile = join(root, Dockerfile.Normal);
+            if (!existsSync(workspaceDockerfile)) {
+                workspaceDockerfile = `${tempFilesDir}/${Dockerfile.Normal}`;
+                await generateWorkspaceDockerfile(tree, workspaceConfig, tempFilesDir, true);
+            }
+
             return execute(
                 dockerBuild(
-                    getImage(Image.Workspace, organization),
+                    getImage(WorkspaceImage.Workspace, organization),
                     undefined,
                     undefined,
-                    Dockerfile.Normal,
+                    workspaceDockerfile,
                 ),
             );
         })
-        .then(() => {
+        .then(async () => {
             logStep(`Building image for ${projectName}`);
-            const buildArgs = { VERSION: versions().version };
+            let appDockerfile = join(appRoot, Dockerfile.Normal);
+            if (!existsSync(appDockerfile)) {
+                const tmpAppPath = join(tempFilesDir, "apps", projectName);
+                appDockerfile = join(tmpAppPath, Dockerfile.Normal);
+                await generateAppDockerfile(tree, projectName, workspaceConfig, tmpAppPath, true);
+            }
+
+            const buildArgs = { VERSION: versions(appRoot).version };
             return execute(
                 isComposeService
-                    ? dockerComposeBuild(projectName, buildArgs, composeFile)
-                    : dockerBuild(image, buildArgs, tags, `${appRoot}/${Dockerfile.Normal}`),
+                    ? dockerComposeBuild(
+                          projectName,
+                          buildArgs,
+                          (appConfig.options.composeFile as string) || composeFile,
+                      )
+                    : dockerBuild(image, buildArgs, appConfig.tags, appDockerfile),
             );
         })
         .then(async () => {
             if (isComposeService) {
                 logStep("Tagging image");
-                for (const tag of tags) {
+                for (const tag of appConfig.tags) {
                     await execute(`docker tag ${image} ${image}:${tag}`);
                 }
             }
         })
         .then(() => ({ success: true }))
-        .catch(() => ({ success: false }));
+        .catch(() => ({ success: false }))
+        .finally(() => {
+            rmSync(tempFilesDir, { recursive: true, force: true });
+            execute("docker image prune -f");
+        });
 }
 
 type BuildArgs = Record<string, string | number | boolean>;

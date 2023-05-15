@@ -5,7 +5,7 @@ import { existsSync, readFileSync } from "fs";
 export const composeFile = "docker-compose.yml";
 
 export type ComposeService = {
-    build:
+    build?:
         | string
         | {
               context: string;
@@ -30,13 +30,16 @@ export const addComposeService = (tree: Tree, serviceName: string, service: Comp
     }
 };
 
-export const hasComposeService = (serviceName: string, configFile = composeFile): boolean => {
+export const getComposeService = (
+    serviceName: string,
+    configFile = composeFile,
+): ComposeService | undefined => {
     if (!existsSync(configFile)) {
-        return false;
+        return undefined;
     }
 
     const config = loadConfig(readFileSync(configFile).toString());
-    return Object.keys(config.services).includes(serviceName);
+    return config.services[serviceName];
 };
 
 const loadConfig = (content: string): ComposeConfig => {

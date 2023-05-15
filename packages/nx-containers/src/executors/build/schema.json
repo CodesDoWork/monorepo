@@ -1,33 +1,7 @@
 {
     "$schema": "http://json-schema.org/schema",
-    "version": 2,
     "cli": "nx",
-    "title": "Build executor",
-    "description": "",
     "type": "object",
-    "properties": {
-        "tags": {
-            "type": "array",
-            "description": "Tags for the image",
-            "items": {
-                "type": "string"
-            },
-            "alias": "t"
-        },
-        "organization": {
-            "type": "string",
-            "description": "Organization is used as prefix for image names",
-            "alias": "o"
-        },
-        "image": {
-            "type": "string",
-            "description": "Image name",
-            "alias": "i"
-        },
-        "composeFile": {
-            "type": "string",
-            "description": "Compose config file to use"
-        }
-    },
+    "properties": {},
     "required": []
 }

@@ -1,20 +1,7 @@
 {
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
-    "$id": "NxContainers",
-    "title": "",
     "type": "object",
-    "properties": {
-        "organization": {
-            "type": "string",
-            "description": "Organization is used as prefix for image names",
-            "alias": "o"
-        },
-        "nodeVersion": {
-            "type": "string",
-            "description": "Version of node-alpine docker image",
-            "alias": "V"
-        }
-    },
+    "properties": {},
     "required": []
 }

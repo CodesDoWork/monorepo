@@ -5,9 +5,11 @@ export type WorkspaceConfig = {
     baseExtensions?: string[];
     workspaceExtensions?: string[];
     devExtensions?: string[];
+    composeFile?: string;
+    registry?: string;
 };
 
-type BaseAppConfig = {
+export type AppConfig = {
     type: string;
     tags?: string[];
     extensions?: string[];
@@ -23,19 +25,3 @@ export enum ImageVariant {
     Alpine = "alpine",
     DebianMinimal = "debian minimal",
 }
-
-type DockerConfig = {
-    engine: "docker";
-    options: {
-        base: string;
-    };
-};
-
-type DockerComposeConfig = {
-    engine: "dockerCompose";
-    options: {
-        composeFile?: string;
-    };
-};
-
-export type AppConfig = BaseAppConfig & (DockerConfig | DockerComposeConfig);

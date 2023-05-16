@@ -4,12 +4,12 @@ import {
     Tree,
     updateProjectConfiguration,
 } from "@nrwl/devkit";
-import { getImage, WorkspaceImage } from "../../utils/docker";
+import { getImage } from "../../utils/docker";
 import { join } from "path";
-import { addComposeService, composeFile } from "../../utils/docker-compose";
+import { addComposeService } from "../../utils/docker-compose";
 import { AppGeneratorSchema } from "./schema";
 import { configFile, loadAppConfig } from "../../config/config";
-import inquirer, { Question } from "inquirer";
+import inquirer from "inquirer";
 import { appVariants } from "./variants";
 import { AppConfig } from "../../config/config.schema";
 import { DockerfileKind, getExtensions } from "../extensions";
@@ -40,49 +40,19 @@ export default async function (tree: Tree, options: AppGeneratorSchema) {
         {
             name: "engine",
             message: "Which engine do you want to use?",
-            default: config?.engine,
             type: "list",
             choices: ["docker", "dockerCompose"],
         },
     ]);
 
-    const composeFileOption = "dockerComposeFile";
-    const engineQuestions: Record<AppConfig["engine"], Question[]> = {
-        docker: [
-            {
-                name: "base",
-                message: "What is the base image for the docker container?",
-                default:
-                    config?.options?.base ??
-                    getImage(WorkspaceImage.Base, workspaceConfig.organization),
-                type: "input",
-            },
-        ],
-        dockerCompose: [
-            {
-                name: composeFileOption,
-                message: "What is the docker compose file?",
-                default: config?.options?.composeFile ?? composeFile,
-                type: "input",
-            },
-        ],
-    };
-
-    const appOptions = await inquirer.prompt([
-        ...engineQuestions[engine],
-        ...appVariants[type].questions(config?.options ?? {}),
-    ]);
-    if (appOptions[composeFileOption] === composeFile) {
-        delete appOptions[composeFileOption];
-    }
-
+    const appOptions = await inquirer.prompt(appVariants[type].questions(config?.options ?? {}));
     const { extensions } = await inquirer.prompt([
         {
             name: "extensions",
             default: config?.extensions ?? [],
             type: "checkbox",
             message: "What extensions do you want to use?",
-            choices: getExtensions(DockerfileKind.App, workspaceConfig.variant).map(
+            choices: getExtensions(DockerfileKind.App, workspaceConfig.variant, type).map(
                 extension => extension.name,
             ),
         },
@@ -91,7 +61,6 @@ export default async function (tree: Tree, options: AppGeneratorSchema) {
     const appConfig: AppConfig = {
         type,
         tags: tags.replace(/\s/g, "").split(","),
-        engine,
         options: appOptions,
         extensions,
     };
@@ -99,10 +68,15 @@ export default async function (tree: Tree, options: AppGeneratorSchema) {
     tree.write(join(appRoot, configFile), JSON.stringify(cleanObject(appConfig), undefined, 2));
 
     if (engine === "dockerCompose") {
-        addComposeService(tree, appName, {
-            container_name: appName,
-            image: getImage(appName, workspaceConfig.organization),
-        });
+        addComposeService(
+            tree,
+            appName,
+            {
+                container_name: appName,
+                image: getImage(appName, workspaceConfig.organization),
+            },
+            workspaceConfig.composeFile,
+        );
     }
 
     const projectConfig = readProjectConfiguration(tree, appName);

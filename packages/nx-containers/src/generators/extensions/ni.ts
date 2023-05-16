@@ -7,7 +7,7 @@ addExtension({
     generators: [
         {
             target: DockerfileKind.Dev,
-            variants: [ImageVariant.Alpine, ImageVariant.DebianMinimal],
+            imageVariants: [ImageVariant.Alpine, ImageVariant.DebianMinimal],
             area: DockerfileArea.PreInstall,
             generator: () => "RUN npm i -g @antfu/ni",
         },

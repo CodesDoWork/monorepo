@@ -22,7 +22,8 @@ export enum DockerfileKind {
 export type ExtensionGenerator<O extends ExtensionOptions> = {
     target: DockerfileKind;
     area: DockerfileArea;
-    variants: ImageVariant[];
+    imageVariants: ImageVariant[];
+    appVariants?: string[];
     generator: (options: ExtensionOptionValues<O>) => string | string[];
 };
 
@@ -45,10 +46,13 @@ export type Extension<O extends ExtensionOptions> = {
 
 export const generatorExtensions: Record<string, Extension<any>> = {};
 
-export const getExtensions = (target: DockerfileKind, variant: ImageVariant) =>
+export const getExtensions = (target: DockerfileKind, variant: ImageVariant, appVariant?: string) =>
     Object.values(generatorExtensions).filter(extension =>
         extension.generators.some(
-            generator => generator.target === target && generator.variants.includes(variant),
+            generator =>
+                generator.target === target &&
+                generator.imageVariants.includes(variant) &&
+                (!appVariant || generator.appVariants?.includes(appVariant)),
         ),
     );
 
@@ -58,13 +62,17 @@ export const addExtension = <O extends ExtensionOptions>(extension: Extension<O>
 export const processExtensions = async (
     extensionNames: string[] = [],
     target: DockerfileKind,
-    variant: ImageVariant,
+    imageVariant: ImageVariant,
+    appVariant?: string,
 ): Promise<Record<DockerfileArea, string>> => {
     const extensionValues: Map<DockerfileArea, string[]> = new Map();
     for (const name of extensionNames) {
         const extension = generatorExtensions[name];
         const availableGenerators = extension.generators.filter(
-            generator => generator.target === target && generator.variants.includes(variant),
+            generator =>
+                generator.target === target &&
+                generator.imageVariants.includes(imageVariant) &&
+                (!appVariant || generator.appVariants?.includes(appVariant)),
         );
 
         if (!availableGenerators.length) {

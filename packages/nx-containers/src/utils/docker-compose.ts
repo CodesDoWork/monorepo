@@ -2,7 +2,7 @@ import { Tree } from "@nrwl/devkit";
 import { load, dump } from "js-yaml";
 import { existsSync, readFileSync } from "fs";
 
-export const composeFile = "docker-compose.yml";
+export const defaultComposeFile = "docker-compose.yml";
 
 export type ComposeService = {
     build?:
@@ -21,18 +21,23 @@ type ComposeConfig = {
     [key: string]: unknown;
 };
 
-export const addComposeService = (tree: Tree, serviceName: string, service: ComposeService) => {
+export const addComposeService = (
+    tree: Tree,
+    serviceName: string,
+    service: ComposeService,
+    composeFile = defaultComposeFile,
+) => {
     ensureComposeFile(tree);
     const config = loadConfig(tree.read(composeFile).toString());
     if (!config.services[serviceName]) {
         config.services[serviceName] = service;
-        saveConfig(tree, config);
+        saveConfig(tree, config, composeFile);
     }
 };
 
 export const getComposeService = (
     serviceName: string,
-    configFile = composeFile,
+    configFile = defaultComposeFile,
 ): ComposeService | undefined => {
     if (!existsSync(configFile)) {
         return undefined;
@@ -47,22 +52,22 @@ const loadConfig = (content: string): ComposeConfig => {
     if (config !== null && typeof config === "object") {
         return config as ComposeConfig;
     } else {
-        throw new Error(`Invalid ${composeFile}!`);
+        throw new Error("Invalid compose file!");
     }
 };
 
-const saveConfig = (tree: Tree, config: ComposeConfig) => {
+const saveConfig = (tree: Tree, config: ComposeConfig, composeFile = defaultComposeFile) => {
     tree.write(composeFile, dump(config));
 };
 
-const ensureComposeFile = (tree: Tree) => {
+const ensureComposeFile = (tree: Tree, composeFile = defaultComposeFile) => {
     if (tree.exists(composeFile)) {
         const config = loadConfig(tree.read(composeFile).toString());
         if (!config.services) {
             config.services = {};
-            saveConfig(tree, config);
+            saveConfig(tree, config, composeFile);
         }
     } else {
-        saveConfig(tree, { services: {} });
+        saveConfig(tree, { services: {} }, composeFile);
     }
 };

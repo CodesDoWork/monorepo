@@ -51,7 +51,7 @@ const execute = async (cmd: string): Promise<ExecuteStatus> => {
     return status;
 };
 
-export default async function runExecutor(options: unknown, context: ExecutorContext) {
+export default async function runExecutor(_options: unknown, context: ExecutorContext) {
     const { workspace, projectName, root } = context;
     const appRoot = workspace.projects[projectName].root;
 
@@ -64,7 +64,7 @@ export default async function runExecutor(options: unknown, context: ExecutorCon
     const { organization } = workspaceConfig;
     const appConfig = getAppConfig(tree, projectName);
     const image = getImage(projectName, organization);
-    const { version, major, minor, patch } = versions(appRoot);
+    const { version, major, minor, patch } = versions(appRoot, root);
     appConfig.tags = appConfig.tags.map(tag =>
         tag
             .replace("{version}", version)
@@ -114,7 +114,7 @@ export default async function runExecutor(options: unknown, context: ExecutorCon
                 await generateAppDockerfile(tree, projectName, workspaceConfig, tmpAppPath, true);
             }
 
-            const buildArgs = { VERSION: versions(appRoot).version };
+            const buildArgs = { VERSION: version };
             return execute(
                 isComposeService
                     ? dockerComposeBuild(

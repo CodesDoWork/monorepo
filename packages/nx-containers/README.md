@@ -72,7 +72,8 @@ You can also add a `copy` option to the app options like this:
 ```
 
 You can also use `{version}`, `{major}`, `{minor}` and `{patch}` inside your tags.
-They will automatically be replaced by their actual representation as specified inside `package.json`.
+They will automatically be replaced by their actual representation as specified inside `package.json` of the app.
+If no `package.json` exists for the app, the one inside the root directory will be used.
 
 #### Dockerfiles
 

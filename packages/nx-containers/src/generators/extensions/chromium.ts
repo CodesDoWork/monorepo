@@ -7,13 +7,13 @@ addExtension({
     generators: [
         {
             target: DockerfileKind.Base,
-            variants: [ImageVariant.Alpine],
+            imageVariants: [ImageVariant.Alpine],
             area: DockerfileArea.PreInstall,
             generator: () => "RUN apk add chromium",
         },
         {
             target: DockerfileKind.Base,
-            variants: [ImageVariant.DebianMinimal],
+            imageVariants: [ImageVariant.DebianMinimal],
             area: DockerfileArea.PreInstall,
             generator: () => [
                 "RUN apt-get update",

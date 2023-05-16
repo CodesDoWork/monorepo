@@ -122,7 +122,12 @@ export const generateAppDockerfile = async (
             appName,
             copy: makeCopy(copy),
             ...appOptions,
-            ...(await processExtensions(appConfig.extensions, DockerfileKind.App, variant)),
+            ...(await processExtensions(
+                appConfig.extensions,
+                DockerfileKind.App,
+                variant,
+                appConfig.type,
+            )),
         },
         isInstant,
         appConfig.type,

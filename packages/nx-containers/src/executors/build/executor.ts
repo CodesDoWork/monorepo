@@ -3,7 +3,7 @@ import { spawn } from "child_process";
 import { versions } from "../../utils/versions";
 import { Dockerfile, getImage, WorkspaceImage } from "../../utils/docker";
 import { sleep } from "../../utils/sleep";
-import { composeFile, getComposeService } from "../../utils/docker-compose";
+import { defaultComposeFile, getComposeService } from "../../utils/docker-compose";
 import chalk from "chalk";
 import { log, logCmd, logError, logStep } from "../../utils/logging";
 import { existsSync, rmSync } from "fs";
@@ -52,17 +52,15 @@ const execute = async (cmd: string): Promise<ExecuteStatus> => {
 };
 
 export default async function runExecutor(_options: unknown, context: ExecutorContext) {
-    const { workspace, projectName, root } = context;
+    const { workspace, projectName, root, configurationName } = context;
     const appRoot = workspace.projects[projectName].root;
 
-    const isComposeService = !!getComposeService(projectName, composeFile)?.build;
-
     const tree = new FsTree(root, false);
-    const tempFilesDir = join(__dirname.replace(root, ""), "tmp");
-
-    const workspaceConfig = getWorkspaceConfig(tree);
-    const { organization } = workspaceConfig;
     const appConfig = getAppConfig(tree, projectName);
+    const workspaceConfig = getWorkspaceConfig(tree);
+    const { organization, composeFile, registry } = workspaceConfig;
+
+    const isComposeService = !!getComposeService(projectName, composeFile)?.build;
     const image = getImage(projectName, organization);
     const { version, major, minor, patch } = versions(appRoot, root);
     appConfig.tags = appConfig.tags.map(tag =>
@@ -72,6 +70,8 @@ export default async function runExecutor(_options: unknown, context: ExecutorCo
             .replace("{minor}", minor)
             .replace("{patch}", patch),
     );
+
+    const tempFilesDir = join(__dirname.replace(root, ""), "tmp");
 
     logStep("Building base image");
     let baseDockerfile = join(root, Dockerfile.Base);
@@ -117,21 +117,22 @@ export default async function runExecutor(_options: unknown, context: ExecutorCo
             const buildArgs = { VERSION: version };
             return execute(
                 isComposeService
-                    ? dockerComposeBuild(
-                          projectName,
-                          buildArgs,
-                          (appConfig.options.composeFile as string) || composeFile,
-                      )
+                    ? dockerComposeBuild(projectName, buildArgs, workspaceConfig.composeFile)
                     : dockerBuild(image, buildArgs, appConfig.tags, appDockerfile),
             );
         })
         .then(async () => {
+            const isPublishMode = configurationName === "production" && registry;
+            const imageTag = isPublishMode ? `${registry}/${image}` : image;
+            isPublishMode && (await execute(`docker tag ${image} ${imageTag}`));
+
             if (isComposeService) {
-                logStep("Tagging image");
                 for (const tag of appConfig.tags) {
-                    await execute(`docker tag ${image} ${image}:${tag}`);
+                    await execute(`docker tag ${imageTag} ${imageTag}:${tag}`);
                 }
             }
+
+            isPublishMode && (await execute(`docker push ${image}`));
         })
         .then(() => ({ success: true }))
         .catch(() => ({ success: false }))
@@ -152,7 +153,7 @@ const buildTags = (image: string, tags: string[]) =>
 
 const buildCommand = (...parts: string[]) => parts.filter(Boolean).join(" ");
 
-const dockerComposeBuild = (service: string, args?: BuildArgs, configFile = composeFile) =>
+const dockerComposeBuild = (service: string, args?: BuildArgs, configFile = defaultComposeFile) =>
     buildCommand(
         "docker compose",
         `-f ${configFile}`,

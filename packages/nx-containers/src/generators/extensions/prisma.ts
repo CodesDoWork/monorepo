@@ -7,14 +7,15 @@ addExtension({
     generators: [
         {
             target: DockerfileKind.Workspace,
-            variants: [ImageVariant.Alpine, ImageVariant.DebianMinimal],
+            imageVariants: [ImageVariant.Alpine, ImageVariant.DebianMinimal],
             area: DockerfileArea.PreChecks,
             generator: () => "RUN npx prisma generate",
         },
         {
             target: DockerfileKind.App,
-            variants: [ImageVariant.Alpine, ImageVariant.DebianMinimal],
+            imageVariants: [ImageVariant.Alpine, ImageVariant.DebianMinimal],
             area: DockerfileArea.PostInstall,
+            appVariants: ["node"],
             generator: () => [
                 "COPY --from=workspace /app/prisma ./prisma",
                 "RUN npx prisma generate",

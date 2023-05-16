@@ -5,10 +5,11 @@ import { DockerfileKind, getExtensions } from "../extensions";
 import { configFile, loadWorkspaceConfig } from "../../config/config";
 import { ImageVariant, WorkspaceConfig } from "../../config/config.schema";
 import { cleanObject } from "../../utils/object";
+import { defaultComposeFile } from "../../utils/docker-compose";
 
 export default async function (tree: Tree) {
     const config = loadWorkspaceConfig(tree.root);
-    const { base, variant, organization } = await inquirer.prompt([
+    const { base, variant, organization, composeFile } = await inquirer.prompt([
         {
             name: "base",
             default: config?.base ?? "node:20-alpine",
@@ -27,6 +28,18 @@ export default async function (tree: Tree) {
             default: config?.organization,
             type: "string",
             message: "Organization (can be blank)",
+        },
+        {
+            name: "dockerCompose",
+            message: "Do you want to use Docker Compose?",
+            type: "confirm",
+        },
+        {
+            name: "composeFile",
+            message: "Which compose file do you want to use?",
+            type: "input",
+            default: defaultComposeFile,
+            when: answers => !!answers.dockerCompose,
         },
     ]);
 
@@ -63,7 +76,9 @@ export default async function (tree: Tree) {
         baseExtensions,
         workspaceExtensions,
         devExtensions,
+        composeFile: composeFile || undefined,
     };
+
     tree.write(configFile, JSON.stringify(cleanObject(newConfig), undefined, 2));
     generateFiles(tree, join(__dirname, "files"), "", {});
 

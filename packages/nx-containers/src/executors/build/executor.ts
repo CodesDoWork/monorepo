@@ -6,7 +6,7 @@ import { sleep } from "../../utils/sleep";
 import { defaultComposeFile, getComposeService } from "../../utils/docker-compose";
 import chalk from "chalk";
 import { log, logCmd, logError, logStep } from "../../utils/logging";
-import { existsSync, rmSync } from "fs";
+import { existsSync } from "fs";
 import {
     generateAppDockerfile,
     generateBaseDockerfile,
@@ -136,9 +136,12 @@ export default async function runExecutor(_options: unknown, context: ExecutorCo
         })
         .then(() => ({ success: true }))
         .catch(() => ({ success: false }))
-        .finally(() => {
-            rmSync(tempFilesDir, { recursive: true, force: true });
-            execute("docker image prune -f");
+        .finally(async () => {
+            try {
+                await execute("docker image prune -f");
+            } catch (e) {
+                // already logged inside execute()
+            }
         });
 }
 

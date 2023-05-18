@@ -1,6 +1,7 @@
 import { Tree } from "@nrwl/devkit";
 import { load, dump } from "js-yaml";
 import { existsSync, readFileSync } from "fs";
+import { logWarn } from "./logging";
 
 export const defaultComposeFile = "docker-compose.yml";
 
@@ -40,6 +41,9 @@ export const getComposeService = (
     configFile = defaultComposeFile,
 ): ComposeService | undefined => {
     if (!existsSync(configFile)) {
+        if (configFile !== defaultComposeFile) {
+            logWarn(`Config file '${configFile}' not found!`);
+        }
         return undefined;
     }
 

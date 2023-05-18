@@ -76,8 +76,12 @@ export default async function (tree: Tree) {
         baseExtensions,
         workspaceExtensions,
         devExtensions,
-        composeFile: composeFile || undefined,
+        composeFile,
     };
+
+    if (newConfig.composeFile === defaultComposeFile) {
+        delete newConfig.composeFile;
+    }
 
     tree.write(configFile, JSON.stringify(cleanObject(newConfig), undefined, 2));
     generateFiles(tree, join(__dirname, "files"), "", {});

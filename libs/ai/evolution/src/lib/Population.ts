@@ -29,9 +29,11 @@ export class Population {
         );
     }
 
-    readonly dispose = () => this.agents.forEach(a => a.dispose());
+    dispose() {
+        this.agents.forEach(a => a.dispose());
+    }
 
-    readonly next = ({ useParents = 5, keepParents = 3 }: NextGenerationOptions = {}) => {
+    next({ useParents = 5, keepParents = 3 }: NextGenerationOptions = {}) {
         const agents = this.agents;
         const scores = agents.map(({ model }) => this.score(model));
 
@@ -65,5 +67,5 @@ export class Population {
 
         agents.slice(keepParents).forEach(a => a.dispose());
         ++this.generation;
-    };
+    }
 }

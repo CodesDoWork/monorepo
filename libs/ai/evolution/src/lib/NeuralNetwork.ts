@@ -22,11 +22,15 @@ export class NeuralNetwork {
         }
     }
 
-    readonly getWeights = () => this.model.getWeights();
+    getWeights() {
+        return this.model.getWeights();
+    }
 
-    readonly dispose = () => this.model.dispose();
+    dispose() {
+        this.model.dispose();
+    }
 
-    static readonly fromParents = (a: NeuralNetwork, b: NeuralNetwork) => {
+    static fromParents(a: NeuralNetwork, b: NeuralNetwork) {
         const weightsA = a.getWeights();
         const weightsB = b.getWeights();
 
@@ -52,5 +56,5 @@ export class NeuralNetwork {
             weights,
             mutationProbability: a.mutationProbability,
         });
-    };
+    }
 }

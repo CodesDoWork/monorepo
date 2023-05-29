@@ -10,7 +10,7 @@
         "containers",
         "docker"
     ],
-    "homepage": "https://github.com/CodesDoWork/monorepo/tree/master/packages/nx-plugins/nx-containers",
+    "homepage": "https://github.com/CodesDoWork/monorepo/tree/master/libs/nx-plugins/nx-containers",
     "bugs": {
         "url": "https://github.com/CodesDoWork/monorepo/issues",
         "email": "codesdowork@gmail.com"
@@ -25,7 +25,7 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/CodesDoWork/monorepo.git",
-        "directory": "packages/nx-plugins/nx-containers"
+        "directory": "libs/nx-plugins/nx-containers"
     },
     "publishConfig": {
         "access": "public"

@@ -1,35 +1,35 @@
 {
     "name": "nx-containers",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/nx-plugins/nx-containers/src",
+    "sourceRoot": "libs/nx-plugins/nx-containers/src",
     "projectType": "library",
     "targets": {
         "build": {
             "executor": "@nrwl/js:tsc",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/packages/nx-plugins/nx-containers",
-                "main": "packages/nx-plugins/nx-containers/src/index.ts",
-                "tsConfig": "packages/nx-plugins/nx-containers/tsconfig.lib.json",
+                "outputPath": "dist/libs/nx-plugins/nx-containers",
+                "main": "libs/nx-plugins/nx-containers/src/index.ts",
+                "tsConfig": "libs/nx-plugins/nx-containers/tsconfig.lib.json",
                 "assets": [
-                    "packages/nx-plugins/nx-containers/*.md",
+                    "libs/nx-plugins/nx-containers/*.md",
                     {
-                        "input": "./packages/nx-plugins/nx-containers/src",
+                        "input": "./libs/nx-plugins/nx-containers/src",
                         "glob": "**/!(*.ts)",
                         "output": "./src"
                     },
                     {
-                        "input": "./packages/nx-plugins/nx-containers/src",
+                        "input": "./libs/nx-plugins/nx-containers/src",
                         "glob": "**/*.d.ts",
                         "output": "./src"
                     },
                     {
-                        "input": "./packages/nx-plugins/nx-containers",
+                        "input": "./libs/nx-plugins/nx-containers",
                         "glob": "generators.json",
                         "output": "."
                     },
                     {
-                        "input": "./packages/nx-plugins/nx-containers",
+                        "input": "./libs/nx-plugins/nx-containers",
                         "glob": "executors.json",
                         "output": "."
                     }
@@ -41,10 +41,10 @@
             "outputs": ["{options.outputFile}"],
             "options": {
                 "lintFilePatterns": [
-                    "packages/nx-plugins/nx-containers/**/*.ts",
-                    "packages/nx-plugins/nx-containers/generators.json",
-                    "packages/nx-plugins/nx-containers/executors.json",
-                    "packages/nx-plugins/nx-containers/package.json"
+                    "libs/nx-plugins/nx-containers/**/*.ts",
+                    "libs/nx-plugins/nx-containers/generators.json",
+                    "libs/nx-plugins/nx-containers/executors.json",
+                    "libs/nx-plugins/nx-containers/package.json"
                 ]
             }
         },
@@ -52,7 +52,7 @@
             "executor": "@nrwl/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
-                "jestConfig": "packages/nx-plugins/nx-containers/jest.config.ts",
+                "jestConfig": "libs/nx-plugins/nx-containers/jest.config.ts",
                 "passWithNoTests": true
             },
             "configurations": {
@@ -65,7 +65,7 @@
         "publish": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "npm publish dist/packages/nx-plugins/nx-containers"
+                "command": "npm publish dist/libs/nx-plugins/nx-containers"
             }
         }
     },

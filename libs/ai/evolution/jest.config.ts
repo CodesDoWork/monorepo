@@ -1,10 +1,11 @@
 /* eslint-disable */
 export default {
-    displayName: "nx-containers",
+    displayName: "ai-evolution",
     preset: "../../../jest.preset.js",
+    testEnvironment: "node",
     transform: {
         "^.+\\.[tj]s$": ["ts-jest", { tsconfig: "<rootDir>/tsconfig.spec.json" }],
     },
     moduleFileExtensions: ["ts", "js", "html"],
-    coverageDirectory: "../../../coverage/packages/nx-plugins/nx-containers",
+    coverageDirectory: "../../../coverage/libs/ai/evolution",
 };

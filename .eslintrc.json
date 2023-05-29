@@ -13,7 +13,8 @@
                         "allow": [],
                         "depConstraints": []
                     }
-                ]
+                ],
+                "@typescript-eslint/no-empty-function": ["error", { "allow": ["arrowFunctions"] }]
             }
         },
         {

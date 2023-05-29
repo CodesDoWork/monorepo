@@ -1,6 +1,6 @@
-# nx-plugins
+# monorepo
 
-Nx-plugins is a collection of handy plugins for your nx workspace.
+A monorepo with helpful projects!
 
 ## nx-containers
 

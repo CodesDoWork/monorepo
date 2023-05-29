@@ -1,16 +1,15 @@
 {
-    "name": "nx-plugins",
+    "name": "monorepo",
     "version": "0.0.0",
-    "description": "A collection of handy plugins for your nx workspace.",
+    "description": "A monorepo with helpful projects! ",
     "keywords": [
         "nx",
-        "plugin",
-        "tools",
-        "workspace"
+        "monorepo",
+        "codesdowork"
     ],
-    "homepage": "https://github.com/CodesDoWork/nx-plugins",
+    "homepage": "https://github.com/CodesDoWork/monorepo",
     "bugs": {
-        "url": "https://github.com/CodesDoWork/nx-plugins/issues",
+        "url": "https://github.com/CodesDoWork/monorepo/issues",
         "email": "codesdowork@gmail.com"
     },
     "license": "MIT",
@@ -22,7 +21,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/CodesDoWork/nx-plugins.git"
+        "url": "https://github.com/CodesDoWork/monorepo.git"
     },
     "scripts": {
         "build": "nx run-many -t build",

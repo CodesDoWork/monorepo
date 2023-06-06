@@ -16,7 +16,4 @@ COPY . .
 <%- preChecks -%>
 
 RUN npx nx format:check
-RUN npx nx run-many -t lint -c production
-RUN npx nx run-many -t test -c production
-RUN npx nx run-many -t build -c production
 <%- end -%>

@@ -46,15 +46,17 @@ export default async function (tree: Tree, options: AppGeneratorSchema) {
     ]);
 
     const appOptions = await inquirer.prompt(appVariants[type].questions(config?.options ?? {}));
+    const possibleExtensions = getExtensions(DockerfileKind.App, workspaceConfig.variant, type).map(
+        extension => extension.name,
+    );
     const { extensions } = await inquirer.prompt([
         {
             name: "extensions",
             default: config?.extensions ?? [],
             type: "checkbox",
             message: "What extensions do you want to use?",
-            choices: getExtensions(DockerfileKind.App, workspaceConfig.variant, type).map(
-                extension => extension.name,
-            ),
+            choices: possibleExtensions,
+            when: !!possibleExtensions,
         },
     ]);
 

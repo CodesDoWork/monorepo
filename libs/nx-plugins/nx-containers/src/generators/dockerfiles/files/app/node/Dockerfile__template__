@@ -1,11 +1,18 @@
 <%- workspaceStages %>
 
 
+FROM workspace AS builder
+
+RUN npx nx lint <%= appName %> -c production
+RUN npx nx test <%= appName %> -c production
+RUN npx nx build <%= appName %> -c production
+
+
 FROM base AS deps
 WORKDIR /app
 <%- preInstall -%>
 
-COPY --from=workspace /app/dist/apps/<%= appName %>/package.json .
+COPY --from=builder /app/dist/apps/<%= appName %>/package.json .
 RUN yarn --prod --no-lockfile --cache-folder .yarn && rm -R .yarn
 <%- postInstall -%>
 
@@ -17,7 +24,7 @@ WORKDIR /app
 ENV NODE_ENV production
 <%- preCopy -%>
 
-COPY --from=workspace /app/dist/apps/<%= appName %> .
+COPY --from=builder /app/dist/apps/<%= appName %> .
 COPY --from=deps /app/node_modules ./node_modules
 <%- copy -%>
 <%- preChecks -%>

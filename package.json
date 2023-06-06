@@ -32,7 +32,7 @@
         "check": "pnpm run format:check && pnpm run lint && pnpm run test && pnpm run build"
     },
     "devDependencies": {
-        "@nx/workspace": "16.2.2",
+        "@nx/workspace": "16.3.2",
         "nx": "16.2.2",
         "prettier": "^2.8.8"
     }

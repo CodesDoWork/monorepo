@@ -1,0 +1,39 @@
+{
+    "name": "@codesdowork/monorepo-private",
+    "version": "0.0.0",
+    "description": "A private monorepo with many projects to speed up development.",
+    "keywords": [
+        "nx",
+        "monorepo",
+        "codesdowork"
+    ],
+    "homepage": "https://github.com/CodesDoWork/monorepo-private",
+    "bugs": {
+        "url": "https://github.com/CodesDoWork/monorepo-private/issues",
+        "email": "codesdowork@gmail.com"
+    },
+    "license": "UNLICENSE",
+    "private": true,
+    "author": {
+        "name": "Justin Konratt",
+        "email": "codesdowork@gmail.com",
+        "url": "https://github.com/CodesDoWork"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/CodesDoWork/monorepo-private.git"
+    },
+    "scripts": {
+        "build": "nx run-many -t build",
+        "lint": "nx run-many -t lint",
+        "test": "nx run-many -t test",
+        "format": "nx format",
+        "format:check": "nx format:check",
+        "check": "pnpm run format:check && pnpm run lint && pnpm run test && pnpm run build"
+    },
+    "devDependencies": {
+        "@nx/workspace": "16.2.2",
+        "nx": "16.2.2",
+        "prettier": "^2.8.8"
+    }
+}

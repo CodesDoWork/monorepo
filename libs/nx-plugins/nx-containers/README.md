@@ -98,6 +98,11 @@ This executor runs the build steps:
 nx build-container <appName>
 ```
 
+> **Note**
+> If you don't create Dockerfiles, they will be generated inside a tmp directory for you.
+> These Dockerfiles check with nx format, lint, test and build.
+> If any of these commands fails, the image won't get built.
+
 The target is automatically added by the generators for apps.
 You can also add it manually by adding the following to your app's `project.json` file:
 

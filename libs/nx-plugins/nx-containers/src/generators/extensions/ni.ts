@@ -1,5 +1,5 @@
 import { addExtension, DockerfileArea, DockerfileKind } from "./index";
-import { ImageVariant } from "../../config/config.schema";
+import { OSVariant } from "../../config/config.schema";
 
 addExtension({
     name: "ni",
@@ -7,7 +7,7 @@ addExtension({
     generators: [
         {
             target: DockerfileKind.Dev,
-            imageVariants: [ImageVariant.Alpine, ImageVariant.DebianMinimal],
+            imageVariants: [OSVariant.Alpine, OSVariant.DebianMinimal],
             area: DockerfileArea.PreInstall,
             generator: () => "RUN npm i -g @antfu/ni",
         },

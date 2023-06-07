@@ -1,5 +1,5 @@
 import { addExtension, DockerfileArea, DockerfileKind } from "./index";
-import { ImageVariant } from "../../config/config.schema";
+import { OSVariant } from "../../config/config.schema";
 
 addExtension({
     name: "prisma",
@@ -7,13 +7,13 @@ addExtension({
     generators: [
         {
             target: DockerfileKind.Workspace,
-            imageVariants: [ImageVariant.Alpine, ImageVariant.DebianMinimal],
+            imageVariants: [OSVariant.Alpine, OSVariant.DebianMinimal],
             area: DockerfileArea.PreChecks,
             generator: () => "RUN npx prisma generate",
         },
         {
             target: DockerfileKind.App,
-            imageVariants: [ImageVariant.Alpine, ImageVariant.DebianMinimal],
+            imageVariants: [OSVariant.Alpine, OSVariant.DebianMinimal],
             area: DockerfileArea.PostInstall,
             appVariants: ["node"],
             generator: () => [

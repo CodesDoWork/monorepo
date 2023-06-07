@@ -8,7 +8,7 @@ export const configFile = "container.config.json";
 export const loadWorkspaceConfig = (dir: string): WorkspaceConfig | null => loadConfig(dir);
 export const loadAppConfig = (dir: string): AppConfig | null => loadConfig(dir);
 
-const loadConfig = (dir: string) => {
+const loadConfig = <T>(dir: string): T | null => {
     const path = join(dir, configFile);
-    return existsSync(path) ? readJsonFile(path) : null;
+    return existsSync(path) ? (readJsonFile(path) as T) : null;
 };

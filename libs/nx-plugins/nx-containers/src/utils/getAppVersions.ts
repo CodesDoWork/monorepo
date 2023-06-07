@@ -2,7 +2,7 @@ import { readJsonFile } from "@nrwl/devkit";
 import { join } from "path";
 import { existsSync } from "fs";
 
-export const versions = (appRoot: string, root: string) => {
+export const getAppVersions = (appRoot: string, root: string) => {
     const packageJson = (dir: string) => join(dir, "package.json");
     const path = existsSync(packageJson(appRoot)) ? appRoot : root;
 

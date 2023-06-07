@@ -2,7 +2,14 @@ import { readdirSync } from "fs";
 import { join } from "path";
 import inquirer, { Question } from "inquirer";
 import { logWarn } from "../../utils/logging";
-import { ImageVariant } from "../../config/config.schema";
+import { OSVariant } from "../../config/config.schema";
+
+// load extensions from files inside this directory
+readdirSync(__dirname).forEach(file => {
+    if (file.endsWith(".js") && file !== "index.js") {
+        require(join(__dirname, file));
+    }
+});
 
 export enum DockerfileArea {
     PreInstall = "preInstall",
@@ -19,34 +26,9 @@ export enum DockerfileKind {
     Dev = "dev",
 }
 
-export type ExtensionGenerator<O extends ExtensionOptions> = {
-    target: DockerfileKind;
-    area: DockerfileArea;
-    imageVariants: ImageVariant[];
-    appVariants?: string[];
-    generator: (options: ExtensionOptionValues<O>) => string | string[];
-};
+const generatorExtensions: Record<string, Extension<any>> = {};
 
-export type ExtensionOptionValues<O extends ExtensionOptions> = {
-    [K in keyof O]: "string" extends O[K]["type"]
-        ? string
-        : "number" extends O[K]["type"]
-        ? number
-        : boolean;
-};
-
-export type ExtensionOptions = Record<string, Question>;
-
-export type Extension<O extends ExtensionOptions> = {
-    name: string;
-    description: string;
-    generators: ExtensionGenerator<O>[];
-    options?: O;
-};
-
-export const generatorExtensions: Record<string, Extension<any>> = {};
-
-export const getExtensions = (target: DockerfileKind, variant: ImageVariant, appVariant?: string) =>
+export const getExtensions = (target: DockerfileKind, variant: OSVariant, appVariant?: string) =>
     Object.values(generatorExtensions).filter(extension =>
         extension.generators.some(
             generator =>
@@ -62,7 +44,7 @@ export const addExtension = <O extends ExtensionOptions>(extension: Extension<O>
 export const processExtensions = async (
     extensionNames: string[] = [],
     target: DockerfileKind,
-    imageVariant: ImageVariant,
+    imageVariant: OSVariant,
     appVariant?: string,
 ): Promise<Record<DockerfileArea, string>> => {
     const extensionValues: Map<DockerfileArea, string[]> = new Map();
@@ -88,7 +70,7 @@ export const processExtensions = async (
             }
 
             const newValues = Array.isArray(generatorResult) ? generatorResult : [generatorResult];
-            extensionValues.set(area, [...extensionValues.get(area), ...newValues]);
+            extensionValues.get(area).push(...newValues);
         }
     }
 
@@ -97,8 +79,27 @@ export const processExtensions = async (
     ) as Record<DockerfileArea, string>;
 };
 
-readdirSync(__dirname).forEach(file => {
-    if (file.endsWith(".js") && file !== "index.js") {
-        require(join(__dirname, file));
-    }
-});
+type Extension<O extends ExtensionOptions> = {
+    name: string;
+    description: string;
+    generators: ExtensionGenerator<O>[];
+    options?: O;
+};
+
+type ExtensionGenerator<O extends ExtensionOptions> = {
+    target: DockerfileKind;
+    area: DockerfileArea;
+    imageVariants: OSVariant[];
+    appVariants?: string[];
+    generator: (options: ExtensionOptionValues<O>) => string | string[];
+};
+
+type ExtensionOptionValues<O extends ExtensionOptions> = {
+    [K in keyof O]: "string" extends O[K]["type"]
+        ? string
+        : "number" extends O[K]["type"]
+        ? number
+        : boolean;
+};
+
+type ExtensionOptions = Record<string, Question>;

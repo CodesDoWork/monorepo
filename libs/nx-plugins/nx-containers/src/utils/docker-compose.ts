@@ -1,54 +1,22 @@
-import { Tree } from "@nrwl/devkit";
-import { load, dump } from "js-yaml";
+import { load } from "js-yaml";
 import { existsSync, readFileSync } from "fs";
 import { logWarn } from "./logging";
 
 export const defaultComposeFile = "docker-compose.yml";
 
-export type ComposeService = {
-    build?:
-        | string
-        | {
-              context: string;
-              dockerfile: string;
-          };
-    container_name?: string;
-    image?: string;
-    [key: string]: unknown;
-};
-
-type ComposeConfig = {
-    services?: Record<string, ComposeService>;
-    [key: string]: unknown;
-};
-
-export const addComposeService = (
-    tree: Tree,
-    serviceName: string,
-    service: ComposeService,
-    composeFile = defaultComposeFile,
-) => {
-    ensureComposeFile(tree);
-    const config = loadConfig(tree.read(composeFile).toString());
-    if (!config.services[serviceName]) {
-        config.services[serviceName] = service;
-        saveConfig(tree, config, composeFile);
-    }
-};
-
-export const getComposeService = (
+export const hasComposeServiceWithBuild = (
     serviceName: string,
     configFile = defaultComposeFile,
-): ComposeService | undefined => {
+): boolean => {
     if (!existsSync(configFile)) {
         if (configFile !== defaultComposeFile) {
             logWarn(`Config file '${configFile}' not found!`);
         }
-        return undefined;
+        return false;
     }
 
     const config = loadConfig(readFileSync(configFile).toString());
-    return config.services[serviceName];
+    return !!config.services[serviceName].build;
 };
 
 const loadConfig = (content: string): ComposeConfig => {
@@ -60,18 +28,12 @@ const loadConfig = (content: string): ComposeConfig => {
     }
 };
 
-const saveConfig = (tree: Tree, config: ComposeConfig, composeFile = defaultComposeFile) => {
-    tree.write(composeFile, dump(config));
+type ComposeService = {
+    build?: unknown;
+    [key: string]: unknown;
 };
 
-const ensureComposeFile = (tree: Tree, composeFile = defaultComposeFile) => {
-    if (tree.exists(composeFile)) {
-        const config = loadConfig(tree.read(composeFile).toString());
-        if (!config.services) {
-            config.services = {};
-            saveConfig(tree, config, composeFile);
-        }
-    } else {
-        saveConfig(tree, { services: {} }, composeFile);
-    }
+type ComposeConfig = {
+    services?: Record<string, ComposeService>;
+    [key: string]: unknown;
 };

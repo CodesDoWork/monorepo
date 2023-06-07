@@ -1,6 +1,6 @@
 export type WorkspaceConfig = {
     base: string;
-    variant: ImageVariant;
+    os: OSVariant;
     organization?: string;
     baseExtensions?: string[];
     workspaceExtensions?: string[];
@@ -21,7 +21,7 @@ export type AppConfig = {
     };
 };
 
-export enum ImageVariant {
+export enum OSVariant {
     Alpine = "alpine",
     DebianMinimal = "debian minimal",
 }

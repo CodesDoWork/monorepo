@@ -60,14 +60,14 @@ export default async function buildImage(_options: unknown, context: ExecutorCon
     );
 
     const registry = appScopeRegistry ?? workspaceScopeRegistry;
+    let image = getImage(projectName, organization);
+    if (registry) {
+        image = `${registry}/${image}`;
+    }
 
     const tmpAppPath = join(tempFilesDir, "apps", projectName);
     const appBuildArgs = { VERSION: version };
-    let image = getImage(projectName, organization);
     const isPublishMode = configurationName === "production" && registry;
-    if (isPublishMode) {
-        image = join(registry, image);
-    }
 
     const buildAppImage = (): Promise<void> => {
         logStep(`Building image for ${projectName}`);

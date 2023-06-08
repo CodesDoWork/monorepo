@@ -36,6 +36,7 @@ The following generator types are available:
 
 - [workspace](#workspace)
 - [apps](#apps)
+- [devImage](#devImage)
 - [dockerfiles](#dockerfiles)
 
 #### Workspace
@@ -72,6 +73,17 @@ You can also add a `copy` option to the app options like this:
 You can also use `{version}`, `{major}`, `{minor}` and `{patch}` inside your tags.
 They will automatically be replaced by their actual representation as specified inside `package.json` of the app.
 If no `package.json` exists for the app, the one inside the root directory will be used.
+
+#### DevImage
+
+This generator builds a dev image with docker. After that it is available as
+`[{organization}/]{workspace}/dev`.
+If there is a `dev.Dockerfile` inside the root of your monorepo, it will be used for building the
+image, otherwise a new one will be generated inside a tmp directory.
+
+```shell
+nx g @codesdowork/nx-containers:devImage
+```
 
 #### Dockerfiles
 

@@ -15,6 +15,7 @@ import { getAppRoot } from "../../utils/tree";
 import { getWorkspaceConfig } from "../workspace/getWorkspaceConfig";
 import { stringifyCleanObject } from "../../utils/object";
 import { askBaseQuestions, askForExtensions } from "./questions";
+import { defaultComposeFile } from "../../utils/docker-compose";
 
 export default async function (tree: Tree, options: AppGeneratorSchema) {
     const { appName } = options;
@@ -22,6 +23,9 @@ export default async function (tree: Tree, options: AppGeneratorSchema) {
     const { os } = getWorkspaceConfig(tree);
     const appRoot = getAppRoot(tree, appName);
     const appConfig = await collectAppConfig(os, loadAppConfig(appRoot));
+    if (appConfig.composeFile === defaultComposeFile) {
+        delete appConfig.composeFile;
+    }
 
     tree.write(join(appRoot, configFile), stringifyCleanObject(appConfig));
     addExecutorToProjectConfig(tree, appName);
@@ -29,7 +33,7 @@ export default async function (tree: Tree, options: AppGeneratorSchema) {
 }
 
 const collectAppConfig = async (os: OSVariant, oldConfig: AppConfig | null): Promise<AppConfig> => {
-    const { type, tags } = await askBaseQuestions();
+    const { type, tags, composeFile } = await askBaseQuestions();
 
     const appOptions = await inquirer.prompt(appVariants[type].questions(oldConfig?.options ?? {}));
 
@@ -42,6 +46,7 @@ const collectAppConfig = async (os: OSVariant, oldConfig: AppConfig | null): Pro
         tags: tags.replace(/\s/g, "").split(","),
         options: appOptions,
         extensions,
+        composeFile,
     };
 };
 

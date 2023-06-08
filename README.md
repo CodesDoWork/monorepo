@@ -1,8 +1,17 @@
-# nx-plugins
+# monorepo
 
-Nx-plugins is a collection of handy plugins for your nx workspace.
+A monorepo with helpful projects!
 
-## nx-containers
+## ai
+
+### evolution (unpublished)
+
+An implementation for evolutionary learning with tfjs-node.
+[Read more](libs/ai/evolution)
+
+## nx-plugins
+
+### nx-containers (published)
 
 A nx plugin to create containers for your apps.
-[Read more](./packages/nx-containers)
+[Read more](libs/nx-plugins/nx-containers)

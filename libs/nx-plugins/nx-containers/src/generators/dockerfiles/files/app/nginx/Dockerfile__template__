@@ -1,0 +1,31 @@
+<%- workspaceStages %>
+
+
+FROM workspace AS builder
+
+RUN npx nx lint <%= appName %> -c production
+RUN npx nx test <%= appName %> -c production
+RUN npx nx build <%= appName %> -c production
+
+
+FROM nginx:<%= nginxVersion %>-alpine-slim AS runner
+WORKDIR /usr/share/nginx/html
+
+<%- argsAndEnvs %>
+<%- preInstall -%>
+<%- postInstall -%>
+<%- preCopy -%>
+
+<% if (locals.nginxConf) { -%>
+COPY <%= nginxConf -%> /etc/nginx/nginx.conf
+<% } -%>
+<% if (locals.confFolder) { -%>
+COPY <%= confFolder -%> /etc/nginx/conf.d
+<% } -%>
+<% if (locals.templatesFolder) { -%>
+COPY <%= templatesFolder -%> /etc/nginx/templates
+<% } -%>
+COPY --from=builder /app/dist/apps/<%= appName %> .
+<%- copy -%>
+<%- preChecks -%>
+<%- end -%>

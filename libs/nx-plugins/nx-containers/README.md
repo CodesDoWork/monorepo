@@ -130,8 +130,11 @@ Or, if you don't want to add it as a target, just run
 nx @codesdowork/nx-containers:build <appName>
 ```
 
-The executor automatically detects if the app has a service inside the `docker-compose.yml` file and
+The executor automatically detects if the app has a service inside the `composeFile` you chose and
 uses that service with `docker compose build`.
+
+> If you specified a `registry` inside the app or workspace `container.config.json` file, the image
+> will be tagged using that registry and is also immediately pushed after build finished.
 
 ## Future
 

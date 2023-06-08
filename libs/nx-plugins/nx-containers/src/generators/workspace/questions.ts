@@ -1,13 +1,11 @@
 import inquirer from "inquirer";
 import { OSVariant, WorkspaceConfig } from "../../config/config.schema";
-import { defaultComposeFile } from "../../utils/docker-compose";
 import { DockerfileKind, getExtensions } from "../extensions";
 
 type BaseQuestionsResult = {
     base: WorkspaceConfig["base"];
     os: WorkspaceConfig["os"];
     organization: WorkspaceConfig["organization"];
-    composeFile: WorkspaceConfig["composeFile"];
 };
 
 export const askBaseQuestions = (oldConfig: WorkspaceConfig | null): Promise<BaseQuestionsResult> =>
@@ -30,18 +28,6 @@ export const askBaseQuestions = (oldConfig: WorkspaceConfig | null): Promise<Bas
             default: oldConfig?.organization,
             type: "string",
             message: "Organization (can be blank)",
-        },
-        {
-            name: "dockerCompose",
-            message: "Do you want to use Docker Compose?",
-            type: "confirm",
-        },
-        {
-            name: "composeFile",
-            message: "Which compose file do you want to use?",
-            type: "input",
-            default: oldConfig?.composeFile ?? defaultComposeFile,
-            when: answers => !!answers.dockerCompose,
         },
     ]);
 

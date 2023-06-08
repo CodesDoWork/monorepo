@@ -18,7 +18,7 @@ export default async function buildImage(_options: unknown, context: ExecutorCon
     const { workspace, projectName, root, configurationName } = context;
     const tree = new FsTree(root, false);
     const workspaceConfig = getWorkspaceConfig(tree);
-    const { organization, composeFile, registry } = workspaceConfig;
+    const { organization, registry: workspaceScopeRegistry } = workspaceConfig;
     const tempFilesDir = join(__dirname.replace(root, ""), "tmp");
 
     const buildBaseImage = async (): Promise<void> => {
@@ -49,13 +49,17 @@ export default async function buildImage(_options: unknown, context: ExecutorCon
 
     const appRoot = workspace.projects[projectName].root;
     const { version, major, minor, patch } = getAppVersions(appRoot, root);
-    const tags = getAppConfig(tree, projectName).tags.map(tag =>
+    const appConfig = getAppConfig(tree, projectName);
+    const { composeFile, registry: appScopeRegistry } = appConfig;
+    const tags = appConfig.tags.map(tag =>
         tag
             .replace("{version}", version)
             .replace("{major}", major)
             .replace("{minor}", minor)
             .replace("{patch}", patch),
     );
+
+    const registry = appScopeRegistry ?? workspaceScopeRegistry;
 
     const tmpAppPath = join(tempFilesDir, "apps", projectName);
     const appBuildArgs = { VERSION: version };

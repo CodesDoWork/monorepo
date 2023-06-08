@@ -1,26 +1,40 @@
 import { AppConfig } from "../../config/config.schema";
 import inquirer from "inquirer";
 import { appVariants } from "./variants";
+import { defaultComposeFile } from "../../utils/docker-compose";
 
 type BaseQuestionsResult = {
     type: AppConfig["type"];
     tags: string;
+    composeFile: AppConfig["composeFile"];
 };
 
-export const askBaseQuestions = (config?: AppConfig): Promise<BaseQuestionsResult> =>
+export const askBaseQuestions = (oldConfig?: AppConfig): Promise<BaseQuestionsResult> =>
     inquirer.prompt([
         {
             name: "type",
             message: "What type of app do you want to create?",
-            default: config?.type,
+            default: oldConfig?.type,
             type: "list",
             choices: Object.keys(appVariants),
         },
         {
             name: "tags",
-            default: (config?.tags ?? ["latest"]).join(","),
+            default: (oldConfig?.tags ?? ["latest"]).join(","),
             message: "What tags do you want to use? (comma separated)",
             type: "input",
+        },
+        {
+            name: "dockerCompose",
+            message: "Do you want to use Docker Compose?",
+            type: "confirm",
+        },
+        {
+            name: "composeFile",
+            message: "Which compose file do you want to use?",
+            type: "input",
+            default: oldConfig?.composeFile ?? defaultComposeFile,
+            when: answers => !!answers.dockerCompose,
         },
     ]);
 

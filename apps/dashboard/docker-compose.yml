@@ -1,0 +1,20 @@
+services:
+  dashboard:
+    image: dockerreg.localhost/codesdowork/monorepo-private/dashboard
+    container_name: dashboard
+    ports:
+      - 4000:80
+    restart: always
+
+  dev:
+    container_name: dashboard-dev
+    environment:
+      - NODE_ENV=production
+    image: lissy93/dashy
+    healthcheck:
+      test: "node /app/services/healthcheck"
+    ports:
+      - 4001:80
+    volumes:
+      - ./public:/app/public
+      - ../../libs/branding/assets/img:/app/public/img

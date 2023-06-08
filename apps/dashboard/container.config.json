@@ -1,0 +1,6 @@
+{
+    "type": "custom",
+    "tags": ["latest"],
+    "options": {},
+    "composeFile": "apps/dashboard/docker-compose.yml"
+}

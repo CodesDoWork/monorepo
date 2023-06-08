@@ -1,0 +1,41 @@
+{
+    "name": "dashboard",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "external",
+    "targets": {
+        "dev": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": ["docker compose -f apps/dashboard/docker-compose.yml up dev"]
+            }
+        },
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "rm -rf dist/apps/dashboard",
+                    "mkdir -p dist/apps/dashboard",
+                    "cp -rf apps/dashboard/public dist/apps/dashboard",
+                    "cp -rf libs/branding/assets/img dist/apps/dashboard/public"
+                ]
+            }
+        },
+        "serve": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose -f apps/dashboard/docker-compose.yml up -d dashboard"
+            }
+        },
+        "lint": {
+            "executor": "@nrwl/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["apps/crawler/**/*.ts"]
+            }
+        },
+        "build-image": {
+            "executor": "@codesdowork/nx-containers:build"
+        }
+    },
+    "tags": ["dashboard"]
+}

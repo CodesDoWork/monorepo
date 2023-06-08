@@ -1,0 +1,8 @@
+{
+    "base": "node:20-alpine",
+    "os": "alpine",
+    "organization": "codesdowork",
+    "devExtensions": ["ni", "pnpm"],
+    "workspaceExtensions": ["pnpm"],
+    "registry": "dockerreg.localhost"
+}

@@ -1,0 +1,275 @@
+pageInfo:
+  footerText: Work productively!
+  logo: /img/icon.png
+  title: Dashy
+
+appConfig:
+  customCss: ".item { padding: 0.5rem 0.1rem 0 0.1rem; } .opening-method-icon { display: none !important; } html[data-theme='nord'] .collapsable:nth-child(2n) { background: #d08770; } html[data-theme='nord'] .collapsable:nth-child(4n+3) { background: #ebcb8b; } html[data-theme='nord'] .collapsable:nth-child(4n) { background: #a3be8c; }"
+  defaultOpeningMethod: sametab
+  disableConfigurationForNonAdmin: true
+  hideComponents:
+    hideFooter: true
+    hideSettings: true
+  iconSize: medium
+  layout: auto
+  preventLocalSave: true
+  preventWriteToDisk: true
+  theme: nord
+  webSearch:
+    openingMethod: sametab
+    searchEngine: google
+    searchBangs:
+      ":y": https://www.youtube.com/results?search_query=
+      ":tg": https://www.google.com/search?q=%C3%BCbersetzung+deutsch+englisch+
+      ":te": https://www.google.com/search?q=%C3%BCbersetzung+englisch+
+
+sections:
+  - name: Utils
+    displayData:
+      cutToHeight: true
+    icon: ":wrench:"
+    items:
+      - title: Translator
+        icon: ":flag_us:"
+        tags:
+          - übersetzer
+        url: https://www.google.com/search?q=%C3%BCbersetzer
+      - title: YouTube
+        icon: youtube.png
+        url: https://www.youtube.com/
+      - title: Nice Playlist
+        icon: youtube.png
+        url: https://www.youtube.com/playlist?list=PLqsQYmlTzb5zqdXuoFk16PwlTNzGTYAkN
+    widgets:
+      - type: github-profile-stats
+        options:
+          username: CodesDoWork
+          hideLanguagesCard: true
+  - name: Work
+    displayData:
+      cutToHeight: true
+    icon: ":computer:"
+    items:
+      - title: Calendar
+        icon: work/calendar.png
+        tags:
+          - google
+          - time
+        url: https://calendar.google.com/calendar/u/0/r?pli=1
+      - title: Notion
+        icon: work/notion.png
+        tags:
+          - knowledge
+          - notes
+        url: https://www.notion.so/
+      - title: Forefront AI
+        icon: favicon-local
+        tags:
+          - ai
+          - ki
+        url: https://chat.forefront.ai/
+      - title: Chat GPT
+        icon: favicon-local
+        tags:
+          - ai
+          - ki
+        url: https://chat.openai.com/chat
+      - title: Daily.dev
+        icon: favicon-local
+        tags:
+          - news
+        url: https://app.daily.dev/my-feed
+      - title: Fireship
+        icon: youtube.png
+        url: https://www.youtube.com/c/Fireship/videos
+      - title: Drive
+        icon: favicon-local
+        tags:
+          - data
+          - files
+          - google
+          - knowledge
+        url: https://drive.google.com/drive/u/0/my-drive
+      - title: GitHub
+        icon: favicon-local
+        tags:
+          - git
+          - code
+        url: https://github.com/
+  - name: Server
+    displayData:
+      cutToHeight: true
+    icon: ":globe_with_meridians:"
+    items:
+      - title: FRITZ!Box
+        icon: favicon-local
+        url: https://fritz.box/
+      - title: Start
+        icon: server/icon.svg
+        tags:
+          - nginx
+          - reverse-proxy
+        url: https://localhost/
+      - title: Docs
+        icon: server/icon.svg
+        tags:
+          - vitepress
+        url: https://docs.localhost/
+      - title: Git
+        icon: server/gitea.svg
+        tags:
+          - gitea
+        url: https://git.localhost/
+      - title: Music
+        icon: server/navidrome.png
+        tags:
+          - navidrome
+        url: https://music.localhost/
+      - title: SonarQube
+        icon: server/sonarqube.png
+        tags:
+          - cicd
+        url: https://sonar.ci.localhost/
+      - title: TeamCity
+        icon: server/teamcity.svg
+        tags:
+          - cicd
+        url: https://teamcity.ci.localhost/
+      - title: Verdaccio
+        icon: server/verdaccio.png
+        tags:
+          - npm
+          - npmreg
+          - registry
+        url: https://npmreg.localhost/
+  - name: Dev
+    displayData:
+      cutToHeight: true
+    icon: ":computer:"
+    items:
+      - title: TS Online Editor
+        icon: favicon-local
+        tags:
+          - code
+          - dev
+          - typescript
+        url: https://www.typescriptlang.org/play
+      - title: Regex
+        icon: favicon-local
+        tags:
+          - dev
+        url: https://regex101.com/
+      - title: Local Directus
+        icon: dev/directus.svg
+        tags:
+          - "8055"
+        url: http://localhost:8055
+      - title: Local Jupyter
+        icon: dev/jupyter.svg
+        tags:
+          - "8888"
+        url: http://localhost:8888
+    widgets:
+      - type: clock
+        options:
+          timezone: Europe/Berlin
+          format: de-DE
+          hideDate: true
+  - name: Purchasing
+    displayData:
+      cutToHeight: true
+    icon: ":poultry_leg:"
+    items:
+      - title: Promotions
+        icon: purchasing/kaufda.png
+        tags:
+          - werbung
+        url: https://www.kaufda.de/Stralsund/aktuelle-Prospekte
+      - title: Bring!
+        icon: purchasing/bring.png
+        url: https://web.getbring.com/app/lists/1
+  - name: Clausohm
+    displayData:
+      cutToHeight: true
+    icon: clausohm/logo.png
+    items:
+      - title: Jira
+        icon: clausohm/jira.svg
+        url: https://intern.clausohm.local/jira/
+      - title: WASSER Board
+        icon: clausohm/jira.svg
+        url: https://intern.clausohm.local/jira/secure/RapidBoard.jspa?projectKey=WASSER&rapidView=1803
+      - title: Confluence
+        icon: clausohm/confluence.svg
+        url: https://intern.clausohm.local/confluence
+      - title: Stash
+        icon: clausohm/stash.png
+        url: https://gitsrv.neverin.clausohm.de/projects/
+      - title: Jenkins
+        icon: clausohm/jenkins.svg
+        url: http://jenkinssrv.neverin.clausohm.de/
+      - title: WZV Daily
+        icon: favicon
+        url: https://us02web.zoom.us/j/84967898980?pwd=OXFrWjNmZDExd3BqbG5pMEtSYnl6QT09#success
+      - title: Vacationizr
+        icon: favicon-local
+        url: https://www.vacationizr.com/overview
+
+  - name: Uni
+    displayData:
+      cutToHeight: true
+    icon: ":books:"
+    items:
+      - title: Termine und Fristen
+        icon: uni/host.png
+        url: https://www.hochschule-stralsund.de/studium-und-lehre/mein-studium/termine-und-fristen/
+      - title: SUP
+        icon: uni/host.png
+        url: https://sup.hochschule-stralsund.de/qisserver/rds?state=user&type=0&category=menu.browse&breadCrumbSource=&startpage=portal.vm&chco=y
+      - title: Studienorganisation
+        icon: uni/host.png
+        url: https://www.hochschule-stralsund.de/host/fakultaeten/elektrotechnik-und-informatik/studienorganisation/
+      - title: Mensaplan
+        icon: favicon-local
+        url: https://stw-greifswald.de/essen/speiseplaene/mensa-stralsund/
+      - title: GitLab
+        icon: favicon-local
+        url: https://gitlab.hochschule-stralsund.de/
+      - title: Moodle
+        icon: uni/host.png
+        url: https://moodle.hochschule-stralsund.de
+      - title: SE II - Trello
+        icon: favicon-local
+        url: https://trello.com/b/sMOBe7nV/reengineering
+      - title: Systemsicherheit
+        icon: uni/host.png
+        url: https://moodle.hochschule-stralsund.de/course/view.php?id=798
+      - title: SE II
+        icon: uni/host.png
+        url: https://moodle.hochschule-stralsund.de/course/view.php?id=763
+      - title: KI
+        icon: uni/host.png
+        url: https://moodle.hochschule-stralsund.de/course/view.php?id=761
+      - title: Mobile Systeme
+        icon: uni/host.png
+        url: https://moodle.hochschule-stralsund.de/course/view.php?id=771
+      - title: BWL
+        icon: uni/host.png
+        url: https://moodle.hochschule-stralsund.de/course/view.php?id=541
+      - title: Theoretische Informatik
+        icon: uni/host.png
+        url: https://moodle.hochschule-stralsund.de/course/view.php?id=788
+      - title: Praxissemester
+        icon: uni/host.png
+        url: https://moodle.hochschule-stralsund.de/course/view.php?id=646
+  - name: Holidays
+    displayData:
+      cutToHeight: true
+    icon: ":palm_tree:"
+    widgets:
+      - type: public-holidays
+        options:
+          country: DE
+          region: MV
+          holidayType: all
+          monthsToShow: 12

@@ -134,7 +134,8 @@ The executor automatically detects if the app has a service inside the `composeF
 uses that service with `docker compose build`.
 
 > If you specified a `registry` inside the app or workspace `container.config.json` file, the image
-> will be tagged using that registry and is also immediately pushed after build finished.
+> will be tagged using that registry.
+> Ts also immediately pushed after build finished if configuration is production.
 
 ## Future
 

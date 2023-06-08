@@ -1,5 +1,5 @@
 import { ExecutorContext } from "nx/src/config/misc-interfaces";
-import { getAppVersions } from "../../utils/getAppVersions";
+import { getAppVersions } from "./getAppVersions";
 import { Dockerfile, getImage, WorkspaceImage } from "../../utils/docker";
 import { hasComposeServiceWithBuild } from "../../utils/docker-compose";
 import { logError, logStep } from "../../utils/logging";
@@ -8,7 +8,7 @@ import { getWorkspaceConfig } from "../../generators/workspace/getWorkspaceConfi
 import { join } from "path";
 import { getAppConfig } from "../../generators/app/getAppConfig";
 import { FsTree } from "nx/src/generators/tree";
-import { executeCmd } from "../utils/process";
+import { executeCmd } from "./process";
 import { buildDockerCommand, buildDockerComposeCommand } from "./buildCommands";
 import { generateBaseDockerfile } from "../../generators/dockerfiles/generateBaseDockerfile";
 import { generateWorkspaceDockerfile } from "../../generators/dockerfiles/generateWorkspaceDockerfile";
@@ -22,30 +22,28 @@ export default async function buildImage(_options: unknown, context: ExecutorCon
     const tempFilesDir = join(__dirname.replace(root, ""), "tmp");
 
     const buildBaseImage = async (): Promise<void> => {
-        const dockerfilePath = getDockerfilePath(Dockerfile.Base, root, tempFilesDir);
-        if (!existsSync(dockerfilePath)) {
+        let dockerfile = join(root, Dockerfile.Base);
+        if (!existsSync(dockerfile)) {
+            dockerfile = join(tempFilesDir, Dockerfile.Base);
             await generateBaseDockerfile(tree, workspaceConfig, tempFilesDir, true);
         }
 
         logStep("Building base image");
         return executeCmd(
-            buildDockerCommand(getImage(WorkspaceImage.Base, organization), {
-                dockerfile: dockerfilePath,
-            }),
+            buildDockerCommand(getImage(WorkspaceImage.Base, organization), { dockerfile }),
         );
     };
 
     const buildWorkspaceImage = async (): Promise<void> => {
-        const dockerfilePath = getDockerfilePath(Dockerfile.Normal, root, tempFilesDir);
-        if (!existsSync(dockerfilePath)) {
+        let dockerfile = join(root, Dockerfile.Normal);
+        if (!existsSync(dockerfile)) {
+            dockerfile = join(tempFilesDir, Dockerfile.Normal);
             await generateWorkspaceDockerfile(tree, workspaceConfig, tempFilesDir, true);
         }
 
         logStep("Building workspace image");
         return executeCmd(
-            buildDockerCommand(getImage(WorkspaceImage.Workspace, organization), {
-                dockerfile: dockerfilePath,
-            }),
+            buildDockerCommand(getImage(WorkspaceImage.Workspace, organization), { dockerfile }),
         );
     };
 
@@ -74,8 +72,9 @@ export default async function buildImage(_options: unknown, context: ExecutorCon
     };
 
     const buildAppImageDocker = async () => {
-        const dockerfile = getDockerfilePath(Dockerfile.Normal, appRoot, tmpAppPath);
+        let dockerfile = join(appRoot, Dockerfile.Normal);
         if (!existsSync(dockerfile)) {
+            dockerfile = join(tmpAppPath, Dockerfile.Normal);
             await generateAppDockerfile(tree, projectName, workspaceConfig, tmpAppPath, true);
         }
 
@@ -116,8 +115,3 @@ export default async function buildImage(_options: unknown, context: ExecutorCon
         })
         .finally(pruneDanglingImages);
 }
-
-const getDockerfilePath = (dockerfile: Dockerfile, root: string, tmpPath: string): string => {
-    const dockerfilePath = join(root, dockerfile);
-    return existsSync(dockerfilePath) ? dockerfilePath : join(tmpPath, dockerfile);
-};

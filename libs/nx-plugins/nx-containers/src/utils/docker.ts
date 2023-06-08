@@ -8,6 +8,7 @@ export const getImage = (subject: string, organization: string | undefined) => {
 export enum Dockerfile {
     Base = "base.Dockerfile",
     Normal = "Dockerfile",
+    Dev = "dev.Dockerfile",
 }
 
 export enum WorkspaceImage {

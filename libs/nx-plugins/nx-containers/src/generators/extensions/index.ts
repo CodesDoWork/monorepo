@@ -4,13 +4,6 @@ import inquirer, { Question } from "inquirer";
 import { logWarn } from "../../utils/logging";
 import { OSVariant } from "../../config/config.schema";
 
-// load extensions from files inside this directory
-readdirSync(__dirname).forEach(file => {
-    if (file.endsWith(".js") && file !== "index.js") {
-        require(join(__dirname, file));
-    }
-});
-
 export enum DockerfileArea {
     PreInstall = "preInstall",
     PostInstall = "postInstall",
@@ -103,3 +96,12 @@ type ExtensionOptionValues<O extends ExtensionOptions> = {
 };
 
 type ExtensionOptions = Record<string, Question>;
+
+// load extensions from files inside this directory
+// IMPORTANT: DO NOT put this at the top of this file because otherwise
+// required files won't be able to import stuff from above.
+readdirSync(__dirname).forEach(file => {
+    if (file.endsWith(".js") && file !== "index.js") {
+        require(join(__dirname, file));
+    }
+});

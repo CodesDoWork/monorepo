@@ -3,20 +3,25 @@
     "name": "nx-containers",
     "version": "0.0.1",
     "generators": {
-        "workspace": {
-            "factory": "./src/generators/workspace/generator",
-            "schema": "./src/generators/workspace/schema.json",
-            "description": "Creates containerization for your workspace to use with your apps"
+        "app": {
+            "factory": "./src/generators/app/generator",
+            "schema": "./src/generators/app/schema.json",
+            "description": "Creates containerization for your app"
+        },
+        "devImage": {
+            "factory": "./src/generators/devImage/generator",
+            "schema": "./src/generators/devImage/schema.json",
+            "description": "Builds a dev image for your workspace"
         },
         "dockerfiles": {
             "factory": "./src/generators/dockerfiles/generator",
             "schema": "./src/generators/dockerfiles/schema.json",
             "description": "Creates dockerfiles for your configurations"
         },
-        "app": {
-            "factory": "./src/generators/app/generator",
-            "schema": "./src/generators/app/schema.json",
-            "description": "Creates containerization for your app"
+        "workspace": {
+            "factory": "./src/generators/workspace/generator",
+            "schema": "./src/generators/workspace/schema.json",
+            "description": "Creates containerization for your workspace to use with your apps"
         }
     }
 }

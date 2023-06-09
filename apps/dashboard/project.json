@@ -26,13 +26,6 @@
                 "command": "docker compose -f apps/dashboard/docker-compose.yml up -d dashboard"
             }
         },
-        "lint": {
-            "executor": "@nrwl/linter:eslint",
-            "outputs": ["{options.outputFile}"],
-            "options": {
-                "lintFilePatterns": ["apps/crawler/**/*.ts"]
-            }
-        },
         "build-image": {
             "executor": "@codesdowork/nx-containers:build"
         }

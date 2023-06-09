@@ -73,5 +73,5 @@
             }
         }
     },
-    "tags": []
+    "tags": ["server/backup-service"]
 }

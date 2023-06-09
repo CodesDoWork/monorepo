@@ -1,0 +1,6 @@
+services:
+  openssl:
+    build: .
+    container_name: openssl
+    volumes:
+      - .:/ssl

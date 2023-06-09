@@ -1,0 +1,353 @@
+services:
+  backup-service:
+    build:
+      context: ./backup-service
+      network: host
+    container_name: ${BACKUP_SERVICE_CONTAINER}
+    environment:
+      - PORT=${BACKUP_SERVICE_PORT}
+    healthcheck:
+      test: wget -qO- http://localhost:${BACKUP_SERVICE_PORT}/health || exit 1
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/server_backup-service
+    profiles:
+      - backup
+    volumes:
+      - ./backup-service/.snapshots:/.snapshots
+      - ${BACKUP_PC_PATH}:/data/pc:ro
+      - git-config:/data/services/git/config:ro
+      - git-data:/data/services/git/data:ro
+      - navidrome-data:/data/services/navidrome/data:ro
+      - postgres-data:/data/services/db/data:ro
+      - sonarqube-config:/data/services/sonarqube/config:ro
+      - sonarqube-data:/data/services/sonarqube/data:ro
+      - sonarqube-extensions:/data/services/sonarqube/extensions:ro
+      - teamcity-data:/data/services/teamcity/data:ro
+
+  backup-service-dev:
+    build:
+      context: ./backup-service
+      dockerfile: Dockerfile.dev
+    container_name: ${BACKUP_SERVICE_CONTAINER}-dev
+    environment:
+      - PORT=${BACKUP_SERVICE_PORT}
+      - HOST=0.0.0.0
+    extra_hosts:
+      - ${VERDACCIO_HOST}:host-gateway
+    healthcheck:
+      test: wget -qO- http://localhost:${BACKUP_SERVICE_PORT}/health || exit 1
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/server_backup-service-dev
+    ports:
+      - ${BACKUP_SERVICE_PORT}:${BACKUP_SERVICE_PORT}
+    profiles:
+      - backup-dev
+    volumes:
+      - ./backup-service:/app
+      - /app/node_modules
+      - ./backup-service/config/rsnapshot.conf:/etc/rsnapshot.conf
+      - ./backup-service/config/crontabs:/var/spool/cron/crontabs
+      - ./backup-service/.snapshots:/.snapshots
+      - ${BACKUP_PC_PATH}:/data/pc:ro
+      - git-config:/data/services/git/config:ro
+      - git-data:/data/services/git/data:ro
+      - navidrome-data:/data/services/navidrome/data:ro
+      - sonarqube-config:/data/services/sonarqube/config:ro
+      - sonarqube-data:/data/services/sonarqube/data:ro
+      - sonarqube-extensions:/data/services/sonarqube/extensions:ro
+      - teamcity-data:/data/services/teamcity/data:ro
+
+  db:
+    container_name: ${DB_CONTAINER}
+    environment:
+      - POSTGRES_DB=${DB_DEFAULT_DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USER}
+    healthcheck:
+      test: pg_isready -U postgres
+    image: postgres:15-alpine
+    networks:
+      - cicd
+      - git
+    profiles:
+      - cicd
+      - dev
+      - db
+      - git
+      - teamcity
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  docker-registry:
+    container_name: ${DOCKER_REGISTRY_CONTAINER}
+    healthcheck:
+      test: wget -qO- http://localhost:${DOCKER_REGISTRY_PORT}/v2/ | grep -e "{}" || exit 1
+    image: registry:2
+    networks:
+      - cicd
+    profiles:
+      - dev
+      - registries
+    volumes:
+      - docker-registry:/var/lib/registry
+
+  documentation:
+    build:
+      context: ./documentation
+      network: host
+    container_name: ${DOCUMENTATION_CONTAINER}
+    healthcheck:
+      test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/server_documentation
+    networks:
+      - documentation
+    profiles:
+      - documentation
+
+  documentation-dev:
+    container_name: ${DOCUMENTATION_CONTAINER}-dev
+    # watch.usePolling is needed for updates over networks (e.g. mounts)
+    entrypoint: sh -c "yarn config set strict-ssl false && yarn && yarn start --host 0.0.0.0 --watch.usePolling"
+    extra_hosts:
+      - ${VERDACCIO_HOST}:host-gateway
+    healthcheck:
+      test: wget -qO- http://localhost:4173 || exit 1
+    image: node:19-alpine
+    ports:
+      - 4173:4173
+    profiles:
+      - documentation-dev
+    volumes:
+      - ./documentation:/app
+      - /app/node_modules
+    working_dir: /app
+
+  git:
+    container_name: ${GIT_CONTAINER}
+    healthcheck:
+      test: curl -f http://localhost:${GIT_PORT}/api/swagger || exit 1
+    image: gitea/gitea:1-rootless
+    networks:
+      - cicd
+      - git
+    profiles:
+      - cicd
+      - dev
+      - git
+      - renovate
+      - renovate-dev
+      - teamcity
+    volumes:
+      - git-config:/etc/gitea
+      - git-data:/var/lib/gitea
+
+  music:
+    build: ./music # healthcheck implemented
+    container_name: ${MUSIC_CONTAINER}
+    env_file:
+      - ./music/.env
+    environment:
+      - ND_PORT=${MUSIC_PORT}
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/server_music
+    networks:
+      - music
+    profiles:
+      - music
+    volumes:
+      - navidrome-data:/data
+      - ${MUSIC_VOLUME}:/music:ro
+
+  renovate:
+    container_name: renovate
+    environment:
+      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
+      - GIT_CONTAINER=${GIT_CONTAINER}
+      - GIT_PORT=${GIT_PORT}
+    image: renovate/renovate:35
+    network_mode: host
+    profiles:
+      - renovate
+    volumes:
+      - ./renovate/config.js:/usr/src/app/config.js
+
+  renovate-dev:
+    container_name: renovate-dev
+    environment:
+      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
+      - GIT_CONTAINER=${GIT_CONTAINER}
+      - GIT_PORT=${GIT_PORT}
+    image: renovate/renovate:35
+    networks:
+      - git
+    profiles:
+      - renovate-dev
+    volumes:
+      - ./renovate/config.js:/usr/src/app/config.js
+
+  reverse-proxy:
+    build:
+      context: ./reverse-proxy
+    container_name: ${REVERSE_PROXY_CONTAINER}
+    env_file:
+      - .env
+    healthcheck:
+      test: curl -f http://localhost || exit 1
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/server_reverse-proxy
+    networks:
+      - cicd
+      - documentation
+      - music
+    ports:
+      - 80:80
+      - 443:443
+    profiles:
+      - cicd
+      - documentation
+      - git
+      - music
+      - sonar
+      - teamcity
+
+  reverse-proxy-local:
+    build:
+      context: .
+      dockerfile: ./reverse-proxy/Dockerfile.local
+    container_name: ${REVERSE_PROXY_CONTAINER}-local
+    env_file:
+      - .env
+    healthcheck:
+      test: curl -f http://localhost || exit 1
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/server_reverse-proxy-local
+    networks:
+      - cicd
+      - documentation
+      - music
+    ports:
+      - 80:80
+      - 443:443
+    profiles:
+      - cicd
+      - dev
+      - documentation
+      - git
+      - music
+      - sonar
+      - teamcity
+
+  sonarqube:
+    container_name: ${SONARQUBE_CONTAINER}
+    healthcheck:
+      test: wget -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
+    image: sonarqube:9-community
+    networks:
+      - cicd
+    profiles:
+      - sonar
+      - cicd
+    volumes:
+      - sonarqube-config:/opt/sonarqube/conf
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-extensions:/opt/sonarqube/extensions
+
+  teamcity-agent:
+    build: ./teamcity-agent
+    container_name: ${TEAMCITY_AGENT_CONTAINER}
+    environment:
+      - SERVER_URL=${TEAMCITY_CONTAINER}:${TEAMCITY_PORT}
+      - DOCKER_IN_DOCKER=start
+    extra_hosts:
+      - ${VERDACCIO_HOST}:host-gateway
+      - ${DOCKER_REGISTRY_HOST}:host-gateway
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/server_teamcity-agent
+    networks:
+      - cicd
+    privileged: true
+    profiles:
+      - teamcity
+      - cicd
+    volumes:
+      - teamcity-agent-volumes:/var/lib/docker
+
+  teamcity-agent-local:
+    build:
+      context: .
+      dockerfile: teamcity-agent/Dockerfile.local
+      args:
+        - DOCKER_REGISTRY_HOST=${DOCKER_REGISTRY_HOST}
+    container_name: ${TEAMCITY_AGENT_CONTAINER}-local
+    environment:
+      - SERVER_URL=${TEAMCITY_CONTAINER}:${TEAMCITY_PORT}
+      - DOCKER_IN_DOCKER=start
+    extra_hosts:
+      - ${VERDACCIO_HOST}:host-gateway
+      - ${DOCKER_REGISTRY_HOST}:host-gateway
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/server_teamcity-agent-local
+    networks:
+      - cicd
+    privileged: true
+    profiles:
+      - teamcity
+      - cicd
+    volumes:
+      - teamcity-agent-volumes:/var/lib/docker
+
+  teamcity:
+    container_name: ${TEAMCITY_CONTAINER}
+    environment:
+      - TEAMCITY_HTTPS_PROXY_ENABLED=true
+    healthcheck:
+      test: curl -f http://localhost:${TEAMCITY_PORT}/app/rest/version || exit 1
+    image: jetbrains/teamcity-server:latest
+    networks:
+      - cicd
+    profiles:
+      - teamcity
+      - cicd
+    volumes:
+      - teamcity-data:/data/teamcity_server/datadir
+
+  verdaccio:
+    container_name: verdaccio
+    environment:
+      - VERDACCIO_PUBLIC_URL=https://${VERDACCIO_HOST}
+    healthcheck:
+      test: wget -qO- http://localhost:${VERDACCIO_PORT}/-/ping | grep -e "{}" || exit 1
+    image: verdaccio/verdaccio:5
+    networks:
+      - cicd
+    profiles:
+      - dev
+      - registries
+    volumes:
+      - verdaccio-storage:/verdaccio/storage
+      - verdaccio-config:/verdaccio/conf
+      - verdaccio-plugins:/verdaccio/plugins
+
+volumes:
+  docker-registry:
+
+  git-config:
+  git-data:
+
+  navidrome-data:
+
+  postgres-data:
+
+  sonarqube-config:
+  sonarqube-data:
+  sonarqube-extensions:
+
+  teamcity-data:
+  teamcity-agent-volumes:
+
+  verdaccio-storage:
+  verdaccio-config:
+  verdaccio-plugins:
+
+networks:
+  cicd:
+    driver: bridge
+  documentation:
+    driver: bridge
+  git:
+    driver: bridge
+  music:
+    driver: bridge

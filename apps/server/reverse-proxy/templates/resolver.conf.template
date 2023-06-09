@@ -1,0 +1,2 @@
+resolver ${REVERSE_PROXY_RESOLVER};
+resolver_timeout 5s;

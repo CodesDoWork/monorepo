@@ -1,0 +1,35 @@
+{
+    "name": "server-documentation",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "vitepress build apps/server/documentation/docs"
+            }
+        },
+        "dev": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "vitepress dev apps/server/documentation/docs"
+                ]
+            }
+        },
+        "preview": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "vitepress preview apps/server/documentation/docs"
+            }
+        },
+        "lint": {
+            "executor": "@nx/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["apps/server/documentation/**/*.js"]
+            }
+        }
+    },
+    "tags": []
+}

@@ -1,0 +1,13 @@
+FROM nginx:1-alpine
+
+RUN touch /var/run/nginx.pid
+RUN chown -R nginx:nginx /var/cache/nginx && \
+    chown -R nginx:nginx /var/log/nginx && \
+    chown -R nginx:nginx /etc/nginx/conf.d && \
+    chown -R nginx:nginx /var/run/nginx.pid
+
+USER nginx
+
+COPY --chown=nginx:nginx ./ssl/certs /var/www/ssl
+COPY --chown=nginx:nginx ./conf /etc/nginx/conf.d
+COPY --chown=nginx:nginx ./templates /etc/nginx/templates

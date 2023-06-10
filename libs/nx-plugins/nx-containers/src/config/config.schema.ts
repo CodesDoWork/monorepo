@@ -4,7 +4,6 @@ export type WorkspaceConfig = {
     organization?: string;
     baseExtensions?: string[];
     workspaceExtensions?: string[];
-    devExtensions?: string[];
     registry?: string;
 };
 

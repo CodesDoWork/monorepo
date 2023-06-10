@@ -1,3 +1,6 @@
 docs/.vitepress/
 !/docs/.vitepress/temp
 !docs/.vitepress/config.js
+
+docs/public/*
+!docs/public/.gitkeep

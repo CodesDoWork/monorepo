@@ -1,3 +1,7 @@
+FROM codesdowork/monorepo-private/base AS base
+FROM codesdowork/monorepo-private/workspace AS workspace
+
+
 FROM nginx:1-alpine
 
 RUN touch /var/run/nginx.pid
@@ -8,6 +12,6 @@ RUN chown -R nginx:nginx /var/cache/nginx && \
 
 USER nginx
 
-COPY --chown=nginx:nginx ./ssl/certs /var/www/ssl
-COPY --chown=nginx:nginx ./conf /etc/nginx/conf.d
-COPY --chown=nginx:nginx ./templates /etc/nginx/templates
+COPY --from=workspace --chown=nginx:nginx /app/libs/server/ssl/certs /var/www/ssl
+COPY --from=workspace --chown=nginx:nginx /app/apps/server/reverse-proxy/conf /etc/nginx/conf.d
+COPY --from=workspace --chown=nginx:nginx /app/apps/server/reverse-proxy/templates /etc/nginx/templates

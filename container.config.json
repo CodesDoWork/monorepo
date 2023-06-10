@@ -2,7 +2,7 @@
     "base": "node:20-alpine",
     "os": "alpine",
     "organization": "codesdowork",
-    "devExtensions": ["ni", "pnpm"],
+    "devExtensions": ["ni", "pnpm", "rsnapshot"],
     "workspaceExtensions": ["pnpm"],
     "registry": "dockerreg.localhost"
 }

@@ -1,51 +1,38 @@
-FROM node:19-alpine AS base
+FROM codesdowork/monorepo-private/base AS base
+FROM codesdowork/monorepo-private/workspace AS workspace
+
+
+FROM workspace AS builder
+
+RUN npx nx lint server-backup-service -c production
+RUN npx nx test server-backup-service -c production
+RUN npx nx build server-backup-service -c production
+
 
 FROM base AS deps
 WORKDIR /app
 
-COPY package.json .
-COPY .npmrc .
-COPY yarn.lock .
-RUN yarn config set strict-ssl false
-RUN yarn --frozen-lockfile
+RUN npm i -g @antfu/ni
 
-WORKDIR /prod
-ENV NODE_ENV production
-RUN cp /app/package.json .
-RUN cp /app/yarn.lock .
-RUN yarn --frozen-lockfile --prod
-
-FROM base AS builder
-WORKDIR /app
-
-COPY --from=deps /app/node_modules ./node_modules
-COPY package.json .
-COPY tsconfig.json .
-COPY .eslintrc.yml .
-COPY .prettierrc .
-COPY src ./src
-
-RUN yarn lint
-RUN yarn build
-RUN yarn test
+COPY --from=builder /app/dist/apps/server/backup-service/package.json .
+RUN ni
 
 
 FROM base AS runner
+WORKDIR /app
 
-ENV NODE_ENV=production
+ENV NODE_ENV production
 
 # create data directory for mounted volumes, which is backed up
 RUN mkdir /data
 
 # install rsnapshot for backups, copy config files and validate config
-RUN apk add rsnapshot --no-cache
-COPY ./config/rsnapshot.conf /etc
-COPY ./config/crontabs/root /var/spool/cron/crontabs
+RUN apk add rsnapshot
+COPY --from=builder app/apps/server/backup-service/config/rsnapshot.conf /etc
+COPY --from=builder app/apps/server/backup-service/config/crontabs/root /var/spool/cron/crontabs
 RUN rsnapshot configtest
 
-WORKDIR /app
-COPY package.json .
-COPY --from=deps /prod/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/dist/apps/server/backup-service .
+COPY --from=deps /app/node_modules ./node_modules
 
-ENTRYPOINT crond && yarn serve
+ENTRYPOINT crond && node .

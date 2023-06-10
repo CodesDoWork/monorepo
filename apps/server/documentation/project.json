@@ -6,13 +6,21 @@
         "build": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "vitepress build apps/server/documentation/docs"
+                "commands": [
+                    "cp libs/branding/assets/img/logo.svg apps/server/documentation/docs/public",
+                    "cp libs/branding/assets/img/icon.svg apps/server/documentation/docs/public",
+                    "cp libs/branding/assets/favicon/favicon.ico apps/server/documentation/docs/public",
+                    "vitepress build apps/server/documentation/docs"
+                ]
             }
         },
         "dev": {
             "executor": "nx:run-commands",
             "options": {
                 "commands": [
+                    "cp libs/branding/assets/img/logo.svg apps/server/documentation/docs/public",
+                    "cp libs/branding/assets/img/icon.svg apps/server/documentation/docs/public",
+                    "cp libs/branding/assets/favicon/favicon.ico apps/server/documentation/docs/public",
                     "vitepress dev apps/server/documentation/docs"
                 ]
             }
@@ -29,6 +37,15 @@
             "options": {
                 "lintFilePatterns": ["apps/server/documentation/**/*.js"]
             }
+        },
+        "test": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "echo no tests yet"
+            }
+        },
+        "build-image": {
+            "executor": "@codesdowork/nx-containers:build"
         }
     },
     "tags": []

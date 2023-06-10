@@ -34,7 +34,6 @@ export const askBaseQuestions = (oldConfig: WorkspaceConfig | null): Promise<Bas
 type ExtensionQuestionsResult = {
     baseExtensions: WorkspaceConfig["baseExtensions"];
     workspaceExtensions: WorkspaceConfig["workspaceExtensions"];
-    devExtensions: WorkspaceConfig["devExtensions"];
 };
 
 export const askForExtensions = (
@@ -55,12 +54,5 @@ export const askForExtensions = (
             type: "checkbox",
             message: "What workspace extensions do you want to use?",
             choices: getExtensions(DockerfileKind.Workspace, os).map(extension => extension.name),
-        },
-        {
-            name: "devExtensions",
-            default: oldConfig?.devExtensions ?? [],
-            type: "checkbox",
-            message: "What dev extensions do you want to use?",
-            choices: getExtensions(DockerfileKind.Dev, os).map(extension => extension.name),
         },
     ]);

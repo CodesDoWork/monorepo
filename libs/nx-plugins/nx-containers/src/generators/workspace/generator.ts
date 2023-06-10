@@ -15,10 +15,7 @@ export default async function (tree: Tree) {
 
 const collectConfig = async (oldConfig: WorkspaceConfig | null): Promise<WorkspaceConfig> => {
     const { base, os, organization } = await askBaseQuestions(oldConfig);
-    const { baseExtensions, workspaceExtensions, devExtensions } = await askForExtensions(
-        oldConfig,
-        os,
-    );
+    const { baseExtensions, workspaceExtensions } = await askForExtensions(oldConfig, os);
 
     return {
         base,
@@ -26,6 +23,5 @@ const collectConfig = async (oldConfig: WorkspaceConfig | null): Promise<Workspa
         organization,
         baseExtensions,
         workspaceExtensions,
-        devExtensions,
     };
 };

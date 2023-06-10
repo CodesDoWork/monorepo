@@ -7,7 +7,6 @@ import { askWhichDockerfilesToCreate } from "./questions";
 import { generateAppDockerfile } from "./generateAppDockerfile";
 import { generateBaseDockerfile } from "./generateBaseDockerfile";
 import { generateWorkspaceDockerfile } from "./generateWorkspaceDockerfile";
-import { generateDevDockerfile } from "./generateDevDockerfile";
 
 export default async function (tree: Tree, options: DockerfilesGeneratorSchema) {
     const workspaceConfig = getWorkspaceConfig(tree);
@@ -30,5 +29,4 @@ const generationFunction: Record<
 > = {
     [WorkspaceImage.Base]: generateBaseDockerfile,
     [WorkspaceImage.Workspace]: generateWorkspaceDockerfile,
-    [WorkspaceImage.Dev]: generateDevDockerfile,
 };

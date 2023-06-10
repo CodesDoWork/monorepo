@@ -4,7 +4,6 @@ export type WorkspaceConfig = {
     organization?: string;
     baseExtensions?: string[];
     workspaceExtensions?: string[];
-    devExtensions?: string[];
     registry?: string;
 };
 
@@ -13,6 +12,7 @@ export type AppConfig = {
     tags?: string[];
     extensions?: string[];
     composeFile?: string;
+    composeServiceName?: string;
     registry?: string;
     options: Record<string, unknown> & {
         copy?: {

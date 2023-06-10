@@ -12,8 +12,10 @@ FROM base AS deps
 WORKDIR /app
 <%- preInstall -%>
 
+RUN npm i -g @antfu/ni
+
 COPY --from=builder /app/dist/apps/<%= appName %>/package.json .
-RUN yarn --prod --no-lockfile --cache-folder .yarn && rm -R .yarn
+RUN ni
 <%- postInstall -%>
 
 

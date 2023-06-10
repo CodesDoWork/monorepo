@@ -1,5 +1,6 @@
 import {
     formatFiles,
+    getProjects,
     readProjectConfiguration,
     Tree,
     updateProjectConfiguration,
@@ -33,7 +34,7 @@ export default async function (tree: Tree, options: AppGeneratorSchema) {
 }
 
 const collectAppConfig = async (os: OSVariant, oldConfig: AppConfig | null): Promise<AppConfig> => {
-    const { type, tags, composeFile } = await askBaseQuestions();
+    const { type, tags, ...baseConfig } = await askBaseQuestions();
 
     const appOptions = await inquirer.prompt(appVariants[type].questions(oldConfig?.options ?? {}));
 
@@ -46,7 +47,7 @@ const collectAppConfig = async (os: OSVariant, oldConfig: AppConfig | null): Pro
         tags: tags.replace(/\s/g, "").split(","),
         options: appOptions,
         extensions,
-        composeFile,
+        ...baseConfig,
     };
 };
 

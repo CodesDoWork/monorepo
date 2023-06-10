@@ -7,6 +7,7 @@ type BaseQuestionsResult = {
     type: AppConfig["type"];
     tags: string;
     composeFile: AppConfig["composeFile"];
+    composeServiceName: AppConfig["composeServiceName"];
 };
 
 export const askBaseQuestions = (oldConfig?: AppConfig): Promise<BaseQuestionsResult> =>
@@ -34,6 +35,13 @@ export const askBaseQuestions = (oldConfig?: AppConfig): Promise<BaseQuestionsRe
             message: "Which compose file do you want to use?",
             type: "input",
             default: oldConfig?.composeFile ?? defaultComposeFile,
+            when: answers => !!answers.dockerCompose,
+        },
+        {
+            name: "composeServiceName",
+            message: "Which service name does your app have?",
+            type: "input",
+            default: oldConfig?.composeServiceName,
             when: answers => !!answers.dockerCompose,
         },
     ]);

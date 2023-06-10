@@ -50,7 +50,7 @@ export default async function buildImage(_options: unknown, context: ExecutorCon
     const appRoot = workspace.projects[projectName].root;
     const { version, major, minor, patch } = getAppVersions(appRoot, root);
     const appConfig = getAppConfig(tree, projectName);
-    const { composeFile, registry: appScopeRegistry } = appConfig;
+    const { composeFile, composeServiceName, registry: appScopeRegistry } = appConfig;
     const tags = appConfig.tags.map(tag =>
         tag
             .replace("{version}", version)
@@ -71,7 +71,10 @@ export default async function buildImage(_options: unknown, context: ExecutorCon
 
     const buildAppImage = (): Promise<void> => {
         logStep(`Building image for ${projectName}`);
-        const projectHasComposeBuild = hasComposeServiceWithBuild(projectName, composeFile);
+        const projectHasComposeBuild = hasComposeServiceWithBuild(
+            composeServiceName ?? projectName,
+            composeFile,
+        );
         return projectHasComposeBuild ? buildAndTagAppImageCompose() : buildAppImageDocker();
     };
 
@@ -93,7 +96,7 @@ export default async function buildImage(_options: unknown, context: ExecutorCon
 
     const buildAndTagAppImageCompose = async () => {
         await executeCmd(
-            buildDockerComposeCommand(projectName, {
+            buildDockerComposeCommand(composeServiceName ?? projectName, {
                 args: appBuildArgs,
                 configFile: composeFile,
             }),

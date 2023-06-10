@@ -8,11 +8,6 @@
             "schema": "./src/generators/app/schema.json",
             "description": "Creates containerization for your app"
         },
-        "devImage": {
-            "factory": "./src/generators/devImage/generator",
-            "schema": "./src/generators/devImage/schema.json",
-            "description": "Builds a dev image for your workspace"
-        },
         "dockerfiles": {
             "factory": "./src/generators/dockerfiles/generator",
             "schema": "./src/generators/dockerfiles/schema.json",

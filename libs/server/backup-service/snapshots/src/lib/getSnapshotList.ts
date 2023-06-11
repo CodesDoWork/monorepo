@@ -2,7 +2,7 @@ import { SnapshotList, SnapshotType } from "./snapshots.schema";
 import { readdirSync, statSync } from "fs";
 import { Directory, SizeFile } from "./constants";
 import { getMTime, inSnapshotDir } from "./utils";
-import { getSnapshotSizes } from "./sizes";
+import { getSnapshotSizes } from "./getSnapshotSizes";
 
 export const getSnapshotList = (): SnapshotList => {
     const snapshotSizes = getSnapshotSizes(SizeFile.Snapshots);

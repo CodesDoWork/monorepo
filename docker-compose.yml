@@ -1,0 +1,19 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    environment:
+      HOST: 0.0.0.0
+    image: codedowork/monorepo-private/dev
+    extra_hosts:
+      - "npmreg.localhost:host-gateway"
+    ports:
+      - 4534:4534
+    profiles:
+      - dev
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+      - /app/node_modules

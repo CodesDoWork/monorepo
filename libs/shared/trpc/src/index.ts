@@ -1,2 +1,3 @@
-export { router, mergeRouters, publicProcedure } from "./lib/trpc";
-export { health } from "./lib/procedures/health";
+export { router, mergeRouters, procedure } from "./lib/trpc";
+export { health, healthRouter } from "./lib/procedures/health";
+export { createAppRouter } from "./lib/createAppRouter";

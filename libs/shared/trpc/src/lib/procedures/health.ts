@@ -1,8 +1,6 @@
-import { publicProcedure } from "../trpc";
+import { procedure, router } from "../trpc";
 import { createHealthcheckResult, HealthStatus } from "shared/health";
 
-export const health = publicProcedure
-    .meta({
-        openapi: { method: "GET", path: "/health" },
-    })
-    .query(() => createHealthcheckResult(HealthStatus.Up));
+export const health = procedure.query(() => createHealthcheckResult(HealthStatus.Up));
+
+export const healthRouter = router({ health });

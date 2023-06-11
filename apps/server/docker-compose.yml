@@ -102,6 +102,25 @@ services:
       - navidrome-data:/data
       - ${MUSIC_VOLUME}:/music:ro
 
+  music-downloader:
+    build:
+      context: ./music-downloader
+      network: host
+    container_name: ${MUSIC_DOWNLOADER_CONTAINER}
+    environment:
+      - HOST=0.0.0.0
+      - PORT=${MUSIC_DOWNLOADER_PORT}
+      - DOWNLOAD_DIR=downloads
+    healthcheck:
+      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/health || exit 1
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-music-downloader
+    networks:
+      - music
+    profiles:
+      - music
+    volumes:
+      - ${MUSIC_VOLUME}/new_downloads:/app/downloads
+
   renovate:
     container_name: renovate
     environment:

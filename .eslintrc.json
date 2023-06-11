@@ -19,6 +19,10 @@
                             {
                                 "sourceTag": "server/backup-service",
                                 "onlyDependOnLibsWithTags": ["shared", "server/backup-service"]
+                            },
+                            {
+                                "sourceTag": "server/music-downloader",
+                                "onlyDependOnLibsWithTags": ["shared", "server/music-downloader"]
                             }
                         ]
                     }

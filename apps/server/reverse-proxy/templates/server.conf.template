@@ -68,6 +68,17 @@ server {
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
+    server_name music-downloader.${REVERSE_PROXY_HOST};
+
+    location / {
+		set $upstream ${MUSIC_DOWNLOADER_CONTAINER}:${MUSIC_DOWNLOADER_PORT};
+        proxy_pass http://$upstream;
+	}
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
     server_name sonar.ci.${REVERSE_PROXY_HOST};
 
     location / {

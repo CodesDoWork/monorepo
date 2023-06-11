@@ -11,6 +11,12 @@
         },
         "build-image": {
             "executor": "@codesdowork/nx-containers:build"
+        },
+        "run-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose -f apps/server/docker-compose.yml up -d reverse-proxy"
+            }
         }
     },
     "tags": []

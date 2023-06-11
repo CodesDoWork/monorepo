@@ -1,0 +1,8 @@
+{
+    "type": "custom",
+    "tags": ["latest"],
+    "options": {},
+    "dockerCompose": true,
+    "composeFile": "apps/server/docker-compose.yml",
+    "composeServiceName": "music-downloader"
+}

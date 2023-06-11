@@ -1,6 +1,6 @@
 {
     "name": "@codesdowork/nx-containers",
-    "version": "0.5.1",
+    "version": "0.5.2",
     "description": "A nx plugin to create containers for your apps.",
     "keywords": [
         "nx",

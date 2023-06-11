@@ -12,10 +12,8 @@ FROM base AS deps
 WORKDIR /app
 <%- preInstall -%>
 
-RUN npm i -g @antfu/ni
-
 COPY --from=builder /app/dist/apps/<%= appName %>/package.json .
-RUN ni
+RUN npm i
 <%- postInstall -%>
 
 

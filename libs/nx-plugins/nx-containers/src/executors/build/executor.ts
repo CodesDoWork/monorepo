@@ -13,6 +13,7 @@ import { buildDockerCommand, buildDockerComposeCommand } from "./buildCommands";
 import { generateBaseDockerfile } from "../../generators/dockerfiles/generateBaseDockerfile";
 import { generateWorkspaceDockerfile } from "../../generators/dockerfiles/generateWorkspaceDockerfile";
 import { generateAppDockerfile } from "../../generators/dockerfiles/generateAppDockerfile";
+import {getAppRoot} from "../../utils/tree";
 
 export default async function buildImage(_options: unknown, context: ExecutorContext) {
     const { workspace, projectName, root, configurationName } = context;
@@ -47,7 +48,7 @@ export default async function buildImage(_options: unknown, context: ExecutorCon
         );
     };
 
-    const appRoot = workspace.projects[projectName].root;
+    const appRoot = getAppRoot(tree, projectName);
     const { version, major, minor, patch } = getAppVersions(appRoot, root);
     const appConfig = getAppConfig(tree, projectName);
     const { composeFile, composeServiceName, registry: appScopeRegistry } = appConfig;

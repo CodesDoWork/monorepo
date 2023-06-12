@@ -31,7 +31,7 @@ export const getExtensions = (target: DockerfileKind, variant: OSVariant, appVar
         ),
     );
 
-export const addExtension = <O extends ExtensionOptions>(extension: Extension<O>) =>
+export const addExtension = <const O extends ExtensionOptions>(extension: Extension<O>) =>
     (generatorExtensions[extension.name] = extension);
 
 export const processExtensions = async (

@@ -9,8 +9,6 @@ services:
     healthcheck:
       test: wget -qO- http://localhost:${BACKUP_SERVICE_PORT}/health || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-backup-service
-    profiles:
-      - backup
     volumes:
       - ./backup-service/.snapshots:/.snapshots
       - ${BACKUP_PC_PATH}:/data/pc:ro
@@ -35,12 +33,6 @@ services:
     networks:
       - cicd
       - git
-    profiles:
-      - cicd
-      - dev
-      - db
-      - git
-      - teamcity
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
@@ -51,9 +43,6 @@ services:
     image: registry:2
     networks:
       - cicd
-    profiles:
-      - dev
-      - registries
     volumes:
       - docker-registry:/var/lib/registry
 
@@ -64,24 +53,18 @@ services:
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-documentation
     networks:
       - documentation
-    profiles:
-      - documentation
 
   git:
     container_name: ${GIT_CONTAINER}
+    depends_on:
+      db:
+        condition: service_healthy
     healthcheck:
       test: curl -f http://localhost:${GIT_PORT}/api/swagger || exit 1
     image: gitea/gitea:1-rootless
     networks:
       - cicd
       - git
-    profiles:
-      - cicd
-      - dev
-      - git
-      - renovate
-      - renovate-dev
-      - teamcity
     volumes:
       - git-config:/etc/gitea
       - git-data:/var/lib/gitea
@@ -95,8 +78,6 @@ services:
       - ND_PORT=${MUSIC_PORT}
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-music
     networks:
-      - music
-    profiles:
       - music
     volumes:
       - navidrome-data:/data
@@ -116,8 +97,6 @@ services:
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-music-downloader
     networks:
       - music
-    profiles:
-      - music
     volumes:
       - ${MUSIC_VOLUME}/new_downloads:/app/downloads
 
@@ -129,8 +108,6 @@ services:
       - GIT_PORT=${GIT_PORT}
     image: renovate/renovate:35
     network_mode: host
-    profiles:
-      - renovate
     volumes:
       - ../../renovate/config.js:/usr/src/app/config.js
 
@@ -143,8 +120,6 @@ services:
     image: renovate/renovate:35
     networks:
       - git
-    profiles:
-      - renovate-dev
     volumes:
       - ../../renovate/config.js:/usr/src/app/config.js
 
@@ -163,14 +138,6 @@ services:
     ports:
       - 80:80
       - 443:443
-    profiles:
-      - cicd
-      - dev
-      - documentation
-      - git
-      - music
-      - sonar
-      - teamcity
 
   sonarqube:
     container_name: ${SONARQUBE_CONTAINER}
@@ -178,9 +145,6 @@ services:
       test: wget -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
     image: sonarqube:9-community
     networks:
-      - cicd
-    profiles:
-      - sonar
       - cicd
     volumes:
       - sonarqube-config:/opt/sonarqube/conf
@@ -203,23 +167,20 @@ services:
     networks:
       - cicd
     privileged: true
-    profiles:
-      - teamcity
-      - cicd
     volumes:
       - teamcity-agent-volumes:/var/lib/docker
 
   teamcity:
     container_name: ${TEAMCITY_CONTAINER}
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
       - TEAMCITY_HTTPS_PROXY_ENABLED=true
     healthcheck:
       test: curl -f http://localhost:${TEAMCITY_PORT}/app/rest/version || exit 1
     image: jetbrains/teamcity-server:latest
     networks:
-      - cicd
-    profiles:
-      - teamcity
       - cicd
     volumes:
       - teamcity-data:/data/teamcity_server/datadir
@@ -233,9 +194,6 @@ services:
     image: verdaccio/verdaccio:5
     networks:
       - cicd
-    profiles:
-      - dev
-      - registries
     volumes:
       - verdaccio-storage:/verdaccio/storage
       - verdaccio-config:/verdaccio/conf

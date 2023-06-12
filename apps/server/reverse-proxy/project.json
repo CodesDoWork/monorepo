@@ -17,6 +17,12 @@
             "options": {
                 "command": "docker compose -f apps/server/docker-compose.yml up -d reverse-proxy"
             }
+        },
+        "brun": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "nx build-image server-reverse-proxy && nx run-image server-reverse-proxy"
+            }
         }
     },
     "tags": []

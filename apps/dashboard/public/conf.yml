@@ -125,6 +125,9 @@ sections:
         tags:
           - navidrome
         url: https://music.localhost/
+      - title: Music Downloader
+        icon: server/icon.svg
+        url: https://music-downloader.localhost/
       - title: SonarQube
         icon: server/sonarqube.png
         tags:

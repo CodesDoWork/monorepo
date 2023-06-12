@@ -5,8 +5,7 @@ import { getTasks, schedulerRouter } from "server/music-downloader/scheduler";
 import cron from "node-cron";
 
 startServer({
-    host: process.env.HOST,
-    port: process.env.PORT || 4534,
+    fallbackPort: 4534,
     router: createAppRouter(downloaderRouter, schedulerRouter),
 });
 

@@ -6,20 +6,33 @@ import { logger } from "shared/logging";
 
 export type FastifyServerOptions = {
     host?: string;
-    port: string | number;
+    port?: string | number;
+    fallbackPort?: number;
+    basePath?: string;
     router: AnyRouter;
     fasitfyOptions?: Parameters<typeof fastify>[0];
 };
 
-export const startServer = ({ host, port, router, fasitfyOptions = {} }: FastifyServerOptions) => {
+export const startServer = ({
+    fallbackPort,
+    host = process.env.HOST,
+    port = process.env.PORT || fallbackPort,
+    basePath = "/",
+    router,
+    fasitfyOptions = {},
+}: FastifyServerOptions) => {
     const server = fastify({ logger, ...fasitfyOptions });
 
     server.register(ws);
     server.register(fastifyTRPCPlugin, {
-        prefix: process.env.BASE_PATH || "/",
+        prefix: basePath,
         trpcOptions: { router },
         useWSS: true,
     });
+
+    if (!port) {
+        throw new Error("Please specify a valid port");
+    }
 
     server.listen({ host: host || "localhost", port: Number(port) }, err => {
         if (err) {

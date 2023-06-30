@@ -1,12 +1,12 @@
 import { Tree } from "@nrwl/devkit";
-import { OSVariant, WorkspaceConfig } from "../../config/config.schema";
-import { convertTemplates } from "./convertTemplates";
-import { DockerfileKind, processExtensions } from "../extensions";
+import { WorkspaceConfig } from "../../config/config.schema";
+import { convertTemplates, DockerfileKind } from "./convertTemplates";
 import { getImage, WorkspaceImage } from "../../utils/docker";
+import { processExtensions } from "./extensions";
 
 export const generateWorkspaceDockerfile = async (
     tree: Tree,
-    { workspaceExtensions, organization, os }: WorkspaceConfig,
+    { workspaceExtensions, organization }: WorkspaceConfig,
     target = "",
     isInstant = false,
 ) => {
@@ -16,15 +16,8 @@ export const generateWorkspaceDockerfile = async (
         DockerfileKind.Workspace,
         {
             baseImage: getImage(WorkspaceImage.Base, organization),
-            installGit: getInstallGitDockerfileCommands(os).join("\n"),
-            ...(await processExtensions(workspaceExtensions, DockerfileKind.Workspace, os)),
+            ...processExtensions(workspaceExtensions),
         },
         isInstant,
     );
-};
-
-const getInstallGitDockerfileCommands = (os: OSVariant): string[] => {
-    return os === OSVariant.Alpine
-        ? ["RUN apk add git"]
-        : ["RUN apt-get update", "RUN apt-get install -y git"];
 };

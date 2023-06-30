@@ -48,6 +48,31 @@ This is the configuration, which holds information needed to build Dockerfiles a
 nx g @codesdowork/nx-containers:workspace
 ```
 
+You can also add extensions to the config like this:
+
+```
+"workspaceExtensions": {
+    "preInstall": [
+        "RUN apk add git",
+        "RUN npm i -g pnpm"
+    ],
+    "preCopy": [
+        "RUN some command"
+    ]
+}
+```
+
+This adds the given lines to the specified dockerfileAreas.
+You can choose between the following areas:
+
+- preInstall
+- postInstall
+- preCopy
+- preChecks
+- end
+
+The same applies for `baseExtensions`.
+
 #### Apps
 
 The following generators create `container.config.json` files for your apps.
@@ -59,13 +84,15 @@ You can choose type and other options interactively.
 nx g @codesdowork/nx-containers:app <appName>
 ```
 
-You can also add a `copy` option to the app options like this:
+As inside the workspace config, you can add extensions to your app config like this:
 
-```
-"options": {
-    "copy": [
-        { "from": "srcPath", "to": "dstPath" }
-        { "from": "--from=workspace /dist/srcPath", "to": "dstPath" }
+```json
+"extensions": {
+    "preInstall": [
+        "RUN npm i -g some-package"
+    ],
+    "preCopy": [
+        "RUN some command"
     ]
 }
 ```
@@ -73,17 +100,6 @@ You can also add a `copy` option to the app options like this:
 You can also use `{version}`, `{major}`, `{minor}` and `{patch}` inside your tags.
 They will automatically be replaced by their actual representation as specified inside `package.json` of the app.
 If no `package.json` exists for the app, the one inside the root directory will be used.
-
-#### DevImage
-
-This generator builds a dev image with docker. After that it is available as
-`[{organization}/]{workspace}/dev`.
-If there is a `dev.Dockerfile` inside the root of your monorepo, it will be used for building the
-image, otherwise a new one will be generated inside a tmp directory.
-
-```shell
-nx g @codesdowork/nx-containers:devImage
-```
 
 #### Dockerfiles
 
@@ -136,6 +152,18 @@ uses that service with `docker compose build`.
 > If you specified a `registry` inside the app or workspace `container.config.json` file, the image
 > will be tagged using that registry.
 > Ts also immediately pushed after build finished if configuration is production.
+
+In case you want to add additional build parameters (e.g. `--network host`) to docker build command,
+you can do so by adding a `args` entry to `options`:
+
+```json
+"build-image": {
+    "builder": "@codesdowork/nx-containers:build",
+    "options": {
+        "args": "whatever you want"
+    }
+}
+```
 
 ## Future
 

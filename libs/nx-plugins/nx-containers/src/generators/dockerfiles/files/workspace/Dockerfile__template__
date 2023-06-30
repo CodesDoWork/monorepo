@@ -1,8 +1,6 @@
 FROM <%= baseImage %> AS workspace
 WORKDIR /app
 
-<%- installGit %>
-
 RUN npm i -g @antfu/ni
 <%- preInstall -%>
 

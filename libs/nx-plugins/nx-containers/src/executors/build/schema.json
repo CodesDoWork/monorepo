@@ -2,6 +2,11 @@
     "$schema": "http://json-schema.org/schema",
     "cli": "nx",
     "type": "object",
-    "properties": {},
+    "properties": {
+        "name": {
+            "args": "string",
+            "description": "Additional args for the build command"
+        }
+    },
     "required": []
 }

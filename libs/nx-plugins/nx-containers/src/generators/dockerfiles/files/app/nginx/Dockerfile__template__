@@ -25,7 +25,6 @@ COPY <%= confFolder -%> /etc/nginx/conf.d
 <% if (locals.templatesFolder) { -%>
 COPY <%= templatesFolder -%> /etc/nginx/templates
 <% } -%>
-COPY --from=builder /app/dist/apps/<%= appName %> .
-<%- copy -%>
+COPY --from=builder /app/dist/<%= appDir %> .
 <%- preChecks -%>
 <%- end -%>

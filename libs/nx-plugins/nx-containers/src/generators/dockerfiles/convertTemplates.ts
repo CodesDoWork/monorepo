@@ -1,9 +1,9 @@
 import { generateFiles, Tree } from "@nrwl/devkit";
-import { DockerfileArea, DockerfileKind } from "../extensions";
 import { join, relative } from "path";
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "fs";
 import { logError } from "../../utils/logging";
 import { render } from "ejs";
+import { DockerfileArea } from "../../config/config.schema";
 
 export const convertTemplates = (
     tree: Tree,
@@ -71,3 +71,10 @@ const computePath = (
 };
 
 const makeArgsAndEnvs = () => ["ARG VERSION", "ENV PACKAGE_VERSION $VERSION"].join("\n");
+
+export enum DockerfileKind {
+    Base = "base",
+    Workspace = "workspace",
+    App = "app",
+    Dev = "dev",
+}

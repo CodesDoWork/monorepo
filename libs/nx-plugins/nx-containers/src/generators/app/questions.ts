@@ -45,22 +45,3 @@ export const askBaseQuestions = (oldConfig?: AppConfig): Promise<BaseQuestionsRe
             when: answers => !!answers.dockerCompose,
         },
     ]);
-
-type ExtensionQuestionResult = {
-    extensions?: string[];
-};
-
-export const askForExtensions = (
-    extensions: string[],
-    config?: AppConfig,
-): Promise<ExtensionQuestionResult> =>
-    inquirer.prompt([
-        {
-            name: "extensions",
-            default: config?.extensions ?? [],
-            type: "checkbox",
-            message: "What extensions do you want to use?",
-            choices: extensions,
-            when: !!extensions.length,
-        },
-    ]);

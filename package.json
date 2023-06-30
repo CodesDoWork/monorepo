@@ -32,7 +32,7 @@
         "check": "pnpm run format:check && pnpm run lint && pnpm run test && pnpm run build"
     },
     "devDependencies": {
-        "@codesdowork/nx-containers": "^0.5.2",
+        "@codesdowork/nx-containers": "^0.6.0",
         "@nx/esbuild": "16.3.2",
         "@nx/eslint-plugin": "16.3.2",
         "@nx/jest": "16.3.2",

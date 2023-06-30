@@ -1,8 +1,5 @@
 services:
   backup-service:
-    build:
-      context: ./backup-service
-      network: host
     container_name: ${BACKUP_SERVICE_CONTAINER}
     environment:
       - PORT=${BACKUP_SERVICE_PORT}
@@ -84,9 +81,6 @@ services:
       - ${MUSIC_VOLUME}:/music:ro
 
   music-downloader:
-    build:
-      context: ./music-downloader
-      network: host
     container_name: ${MUSIC_DOWNLOADER_CONTAINER}
     environment:
       - HOST=0.0.0.0

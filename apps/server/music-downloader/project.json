@@ -75,7 +75,10 @@
             }
         },
         "build-image": {
-            "executor": "@codesdowork/nx-containers:build"
+            "executor": "@codesdowork/nx-containers:build",
+            "options": {
+                "args": "--network host"
+            }
         },
         "run-image": {
             "executor": "nx:run-commands",

@@ -2,7 +2,8 @@
     "base": "node:20-alpine",
     "os": "alpine",
     "organization": "codesdowork",
-    "devExtensions": ["ni", "pnpm", "rsnapshot"],
-    "workspaceExtensions": ["pnpm"],
-    "registry": "dockerreg.localhost"
+    "registry": "dockerreg.localhost",
+    "workspaceExtensions": {
+        "preInstall": ["RUN apk add git", "RUN npm i -g pnpm"]
+    }
 }

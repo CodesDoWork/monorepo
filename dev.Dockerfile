@@ -9,3 +9,4 @@ RUN pnpm config set store-dir node_modules/.pnpm-store
 
 RUN apk add rsnapshot
 RUN apk add yt-dlp
+RUN apk add ffmpeg

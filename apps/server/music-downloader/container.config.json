@@ -1,8 +1,11 @@
 {
-    "type": "custom",
+    "type": "node",
     "tags": ["latest"],
     "options": {},
     "dockerCompose": true,
     "composeFile": "apps/server/docker-compose.yml",
-    "composeServiceName": "music-downloader"
+    "composeServiceName": "music-downloader",
+    "extensions": {
+        "preCopy": ["RUN apk add yt-dlp", "RUN apk add ffmpeg"]
+    }
 }

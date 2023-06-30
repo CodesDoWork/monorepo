@@ -1,6 +1,15 @@
 {
-    "type": "custom",
+    "type": "node",
     "tags": ["latest"],
     "composeFile": "apps/server/docker-compose.yml",
-    "composeServiceName": "backup-service"
+    "composeServiceName": "backup-service",
+    "extensions": {
+        "preCopy": [
+            "RUN mkdir /data",
+            "RUN apk add rsnapshot",
+            "COPY --from=builder app/apps/server/backup-service/config/rsnapshot.conf /etc",
+            "COPY --from=builder app/apps/server/backup-service/config/crontabs/root /var/spool/cron/crontabs",
+            "RUN rsnapshot configtest"
+        ]
+    }
 }

@@ -12,8 +12,8 @@ dependencies:
     specifier: ^4.6.0
     version: 4.6.0(seedrandom@3.0.5)
   chalk:
-    specifier: ^5.2.0
-    version: 5.2.0
+    specifier: ^4.1.2
+    version: 4.1.2
   ejs:
     specifier: ^3.1.9
     version: 3.1.9
@@ -3758,11 +3758,6 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
-
-  /chalk@5.2.0:
-    resolution: {integrity: sha512-ree3Gqw/nazQAPuJJEy+avdl7QfZMcUvmHIKgEZkGL+xOBzRvup5Hxo6LHuMceSxOabuJLJm5Yp/92R9eMmMvA==}
-    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
-    dev: false
 
   /char-regex@1.0.2:
     resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}

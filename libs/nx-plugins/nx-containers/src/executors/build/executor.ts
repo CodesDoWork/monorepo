@@ -13,10 +13,12 @@ import { buildDockerCommand, buildDockerComposeCommand } from "./buildCommands";
 import { generateBaseDockerfile } from "../../generators/dockerfiles/generateBaseDockerfile";
 import { generateWorkspaceDockerfile } from "../../generators/dockerfiles/generateWorkspaceDockerfile";
 import { generateAppDockerfile } from "../../generators/dockerfiles/generateAppDockerfile";
-import {getAppRoot} from "../../utils/tree";
+import { getAppRoot } from "../../utils/tree";
+import { CommandOptions } from "./schema";
 
-export default async function buildImage(_options: unknown, context: ExecutorContext) {
-    const { workspace, projectName, root, configurationName } = context;
+export default async function (options: CommandOptions, context: ExecutorContext) {
+    const { args } = options;
+    const { projectName, root, configurationName } = context;
     const tree = new FsTree(root, false);
     const workspaceConfig = getWorkspaceConfig(tree);
     const { organization, registry: workspaceScopeRegistry } = workspaceConfig;
@@ -48,17 +50,21 @@ export default async function buildImage(_options: unknown, context: ExecutorCon
         );
     };
 
+    if (!projectName) {
+        throw new Error("projectName is required");
+    }
+
     const appRoot = getAppRoot(tree, projectName);
     const { version, major, minor, patch } = getAppVersions(appRoot, root);
     const appConfig = getAppConfig(tree, projectName);
     const { composeFile, composeServiceName, registry: appScopeRegistry } = appConfig;
-    const tags = appConfig.tags.map(tag =>
+    const tags = appConfig.tags?.map(tag =>
         tag
             .replace("{version}", version)
             .replace("{major}", major)
             .replace("{minor}", minor)
             .replace("{patch}", patch),
-    );
+    ) ?? ["latest"];
 
     const registry = appScopeRegistry ?? workspaceScopeRegistry;
     let image = getImage(projectName, organization);
@@ -91,6 +97,7 @@ export default async function buildImage(_options: unknown, context: ExecutorCon
                 args: appBuildArgs,
                 tags,
                 dockerfile,
+                additionalArgs: args,
             }),
         );
     };
@@ -115,7 +122,11 @@ export default async function buildImage(_options: unknown, context: ExecutorCon
     return buildBaseImage()
         .then(buildWorkspaceImage)
         .then(buildAppImage)
-        .then(() => isPublishMode && publishAppImage())
+        .then(async () => {
+            if (isPublishMode) {
+                await publishAppImage();
+            }
+        })
         .then(() => ({ success: true }))
         .catch(err => {
             logError(err);

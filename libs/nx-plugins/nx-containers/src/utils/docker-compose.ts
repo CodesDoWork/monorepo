@@ -16,7 +16,7 @@ export const hasComposeServiceWithBuild = (
     }
 
     const config = loadConfig(readFileSync(configFile).toString());
-    return !!config.services[serviceName]?.build;
+    return !!config.services && !!config.services[serviceName]?.build;
 };
 
 const loadConfig = (content: string): ComposeConfig => {

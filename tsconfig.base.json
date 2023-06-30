@@ -15,6 +15,7 @@
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
+        "strict": true,
         "paths": {
             "@codesdowork/ai/evolution": ["libs/ai/evolution/src/index.ts"],
             "@codesdowork/nx-containers": ["libs/nx-plugins/nx-containers/src/index.ts"]

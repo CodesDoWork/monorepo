@@ -7,15 +7,17 @@ import { Dockerfile } from "../../utils/docker";
  * @param args Build arguments
  * @param tags Image tags
  * @param dockerfile Dockerfile to use
+ * @param additionalArgs Additional arguments for build command
  */
 export const buildDockerCommand = (
     image: string,
-    { args = {}, tags = [], dockerfile = Dockerfile.Normal }: DockerOptions = {},
+    { args = {}, tags = [], dockerfile = Dockerfile.Normal, additionalArgs }: DockerOptions = {},
 ): string =>
     buildCommand(
         "docker build",
         buildBuildArgsArgument(args),
         buildTagsArgument(image, tags),
+        additionalArgs,
         `-f ${dockerfile}`,
         ".",
     );
@@ -38,7 +40,7 @@ export const buildDockerComposeCommand = (
         service,
     );
 
-const buildCommand = (...parts: string[]): string => parts.filter(Boolean).join(" ");
+const buildCommand = (...parts: (string | undefined)[]): string => parts.filter(Boolean).join(" ");
 
 const buildBuildArgsArgument = (args: BuildArgs): string =>
     Object.entries(args)
@@ -52,6 +54,7 @@ type DockerOptions = {
     args?: BuildArgs;
     tags?: string[];
     dockerfile?: string;
+    additionalArgs?: string;
 };
 
 type DockerComposeOptions = {

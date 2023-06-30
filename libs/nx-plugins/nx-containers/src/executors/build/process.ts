@@ -20,8 +20,8 @@ const spawnLoggingProcess = (command: string, ...args: string[]): Promise<void> 
     );
 
 const addLoggingToProcess = (process: ChildProcess): ChildProcess => {
-    process.stdout.on("data", data => log(chalk.cyan(data.toString())));
-    process.stderr.on("data", data => log(chalk.cyan(data.toString())));
+    process.stdout?.on("data", data => log(chalk.cyan(data.toString())));
+    process.stderr?.on("data", data => log(chalk.cyan(data.toString())));
 
     return process;
 };

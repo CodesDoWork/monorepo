@@ -1,11 +1,11 @@
 import { Tree } from "@nrwl/devkit";
 import { WorkspaceConfig } from "../../config/config.schema";
-import { convertTemplates } from "./convertTemplates";
-import { DockerfileKind, processExtensions } from "../extensions";
+import { convertTemplates, DockerfileKind } from "./convertTemplates";
+import { processExtensions } from "./extensions";
 
 export const generateBaseDockerfile = async (
     tree: Tree,
-    { base, baseExtensions, os }: WorkspaceConfig,
+    { base, baseExtensions }: WorkspaceConfig,
     target = "",
     isInstant = false,
 ) => {
@@ -15,7 +15,7 @@ export const generateBaseDockerfile = async (
         DockerfileKind.Base,
         {
             image: base,
-            ...(await processExtensions(baseExtensions, DockerfileKind.Base, os)),
+            ...processExtensions(baseExtensions),
         },
         isInstant,
     );

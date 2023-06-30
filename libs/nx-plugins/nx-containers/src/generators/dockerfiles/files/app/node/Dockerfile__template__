@@ -12,7 +12,7 @@ FROM base AS deps
 WORKDIR /app
 <%- preInstall -%>
 
-COPY --from=builder /app/dist/apps/<%= appName %>/package.json .
+COPY --from=builder /app/dist/<%= appDir %>/package.json .
 RUN npm i
 <%- postInstall -%>
 
@@ -24,9 +24,8 @@ WORKDIR /app
 ENV NODE_ENV production
 <%- preCopy -%>
 
-COPY --from=builder /app/dist/apps/<%= appName %> .
+COPY --from=builder /app/dist/<%= appDir %> .
 COPY --from=deps /app/node_modules ./node_modules
-<%- copy -%>
 <%- preChecks -%>
 
 ENTRYPOINT node .

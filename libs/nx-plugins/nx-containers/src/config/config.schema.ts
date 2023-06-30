@@ -1,28 +1,25 @@
 export type WorkspaceConfig = {
     base: string;
-    os: OSVariant;
     organization?: string;
-    baseExtensions?: string[];
-    workspaceExtensions?: string[];
+    baseExtensions?: Record<DockerfileArea, string[]>;
+    workspaceExtensions?: Record<DockerfileArea, string[]>;
     registry?: string;
 };
 
 export type AppConfig = {
     type: string;
     tags?: string[];
-    extensions?: string[];
+    extensions?: Record<DockerfileArea, string[]>;
     composeFile?: string;
     composeServiceName?: string;
     registry?: string;
-    options: Record<string, unknown> & {
-        copy?: {
-            from: string;
-            to: string;
-        }[];
-    };
+    options: Record<string, unknown>;
 };
 
-export enum OSVariant {
-    Alpine = "alpine",
-    DebianMinimal = "debian minimal",
+export enum DockerfileArea {
+    PreInstall = "preInstall",
+    PostInstall = "postInstall",
+    PreCopy = "preCopy",
+    PreChecks = "preChecks",
+    End = "end",
 }

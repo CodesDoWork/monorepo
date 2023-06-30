@@ -3,7 +3,7 @@ import { join } from "path";
 import { configFile, loadWorkspaceConfig } from "../../config/config";
 import { WorkspaceConfig } from "../../config/config.schema";
 import { stringifyCleanObject } from "../../utils/object";
-import { askBaseQuestions, askForExtensions } from "./questions";
+import { askBaseQuestions } from "./questions";
 
 export default async function (tree: Tree) {
     const newConfig = await collectConfig(loadWorkspaceConfig(tree.root));
@@ -14,14 +14,10 @@ export default async function (tree: Tree) {
 }
 
 const collectConfig = async (oldConfig: WorkspaceConfig | null): Promise<WorkspaceConfig> => {
-    const { base, os, organization } = await askBaseQuestions(oldConfig);
-    const { baseExtensions, workspaceExtensions } = await askForExtensions(oldConfig, os);
+    const { base, organization } = await askBaseQuestions(oldConfig);
 
     return {
         base,
-        os,
         organization,
-        baseExtensions,
-        workspaceExtensions,
     };
 };

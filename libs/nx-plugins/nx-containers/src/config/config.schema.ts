@@ -10,6 +10,8 @@ export type AppConfig = {
     type: string;
     tags?: string[];
     extensions?: Record<DockerfileArea, string[]>;
+    noLint?: boolean;
+    noTest?: boolean;
     composeFile?: string;
     composeServiceName?: string;
     registry?: string;

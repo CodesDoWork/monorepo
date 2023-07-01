@@ -3,8 +3,12 @@
 
 FROM workspace AS builder
 
+<% if (!locals.noLint) { -%>
 RUN npx nx lint <%= appName %> -c production
+<% } -%>
+<% if (!locals.noTest) { -%>
 RUN npx nx test <%= appName %> -c production
+<% } -%>
 RUN npx nx build <%= appName %> -c production
 
 

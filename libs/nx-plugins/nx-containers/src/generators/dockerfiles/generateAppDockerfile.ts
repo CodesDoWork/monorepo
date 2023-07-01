@@ -13,7 +13,7 @@ export const generateAppDockerfile = async (
     target = getAppRoot(tree, appName),
     isInstant = false,
 ) => {
-    const { extensions, type, options } = getAppConfig(tree, appName);
+    const { extensions, type, noLint, noTest, options } = getAppConfig(tree, appName);
 
     convertTemplates(
         tree,
@@ -23,6 +23,8 @@ export const generateAppDockerfile = async (
             workspaceStages: makeWorkspaceStages(organization),
             appName,
             appDir: getAppRoot(tree, appName).replace(tree.root, ""),
+            noLint,
+            noTest,
             ...options,
             ...processExtensions(extensions),
         },

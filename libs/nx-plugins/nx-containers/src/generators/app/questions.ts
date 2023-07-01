@@ -6,6 +6,8 @@ import { defaultComposeFile } from "../../utils/docker-compose";
 type BaseQuestionsResult = {
     type: AppConfig["type"];
     tags: string;
+    noLint: AppConfig["noLint"];
+    noLTest: AppConfig["noTest"];
     composeFile: AppConfig["composeFile"];
     composeServiceName: AppConfig["composeServiceName"];
 };
@@ -24,6 +26,18 @@ export const askBaseQuestions = (oldConfig?: AppConfig): Promise<BaseQuestionsRe
             default: (oldConfig?.tags ?? ["latest"]).join(","),
             message: "What tags do you want to use? (comma separated)",
             type: "input",
+        },
+        {
+            name: "noLint",
+            default: oldConfig?.noLint ?? false,
+            message: "Do you want to skip linting?",
+            type: "confirm",
+        },
+        {
+            name: "noTest",
+            default: oldConfig?.noTest ?? false,
+            message: "Do you want to skip tests?",
+            type: "confirm",
         },
         {
             name: "dockerCompose",

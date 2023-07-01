@@ -20,9 +20,10 @@ export default async function (tree: Tree, options: AppGeneratorSchema) {
 
     const appRoot = getAppRoot(tree, appName);
     const appConfig = await collectAppConfig(loadAppConfig(appRoot));
-    if (appConfig.composeFile === defaultComposeFile) {
-        delete appConfig.composeFile;
-    }
+
+    appConfig.composeFile === defaultComposeFile && delete appConfig.composeFile;
+    !appConfig.noLint && delete appConfig.noLint;
+    !appConfig.noTest && delete appConfig.noTest;
 
     tree.write(join(appRoot, configFile), stringifyCleanObject(appConfig));
     addExecutorToProjectConfig(tree, appName);

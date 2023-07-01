@@ -9,7 +9,7 @@ const updateYtDlp = () => execSync("yt-dlp -U").toString();
 export const downloaderRouter = router({
     update: procedure.query(updateYtDlp),
     download: procedure.input(z.string().url()).query(({ input }) => download(input)),
-    normalize: procedure
-        .input(z.string())
-        .query(({ input }) => setTimeout(() => normalize(input), 0)),
+    normalize: procedure.input(z.string()).query(({ input }) => {
+        setTimeout(() => normalize(input), 0);
+    }),
 });

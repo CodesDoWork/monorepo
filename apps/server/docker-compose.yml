@@ -85,14 +85,15 @@ services:
     environment:
       - HOST=0.0.0.0
       - PORT=${MUSIC_DOWNLOADER_PORT}
-      - DOWNLOAD_DIR=downloads
+      - DOWNLOAD_DIR=/music/downloads
     healthcheck:
       test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/health || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-music-downloader
     networks:
       - music
     volumes:
-      - ${MUSIC_VOLUME}/new_downloads:/app/downloads
+      - music-downloader-data:/app/.data
+      - ${MUSIC_VOLUME}:/music
 
   renovate:
     container_name: renovate
@@ -198,6 +199,8 @@ volumes:
 
   git-config:
   git-data:
+
+  music-downloader-data:
 
   navidrome-data:
 

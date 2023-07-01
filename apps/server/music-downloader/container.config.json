@@ -6,6 +6,6 @@
     "composeFile": "apps/server/docker-compose.yml",
     "composeServiceName": "music-downloader",
     "extensions": {
-        "preCopy": ["RUN apk add yt-dlp", "RUN apk add ffmpeg"]
+        "preCopy": ["RUN apk add yt-dlp"]
     }
 }

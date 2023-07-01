@@ -1,7 +1,9 @@
 import { executeCmd } from "shared/utils";
+import { normalize } from "./normalize";
+
+const downloadDir = process.env.DOWNLOAD_DIR || "downloads";
 
 export const download = (url: string): Promise<void> => {
-    const downloadDir = process.env.DOWNLOAD_DIR || "downloads";
     const downloadCommandParts = [
         "yt-dlp",
         "--extract-audio",
@@ -19,7 +21,7 @@ export const download = (url: string): Promise<void> => {
         url,
     ].flat();
 
-    return executeCmd(downloadCommandParts);
+    return executeCmd(downloadCommandParts).then(() => normalize(downloadDir));
 };
 
 const stopWords = [

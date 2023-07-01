@@ -32,7 +32,7 @@
         "check": "pnpm run format:check && pnpm run lint && pnpm run test && pnpm run build"
     },
     "devDependencies": {
-        "@codesdowork/nx-containers": "^0.6.0",
+        "@codesdowork/nx-containers": "^0.6.1",
         "@nx/esbuild": "16.3.2",
         "@nx/eslint-plugin": "16.3.2",
         "@nx/jest": "16.3.2",
@@ -60,6 +60,7 @@
     },
     "dependencies": {
         "@fastify/websocket": "^8.1.0",
+        "@ffmpeg-installer/ffmpeg": "^1.1.0",
         "@mermaid-js/mermaid-mindmap": "^9.3.0",
         "@trpc/server": "^10.29.1",
         "axios": "^1.0.0",

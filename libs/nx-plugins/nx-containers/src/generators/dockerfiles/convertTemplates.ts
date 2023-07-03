@@ -70,7 +70,7 @@ const computePath = (
     return computedPath;
 };
 
-const makeArgsAndEnvs = () => ["ARG VERSION", "ENV PACKAGE_VERSION $VERSION"].join("\n");
+const makeArgsAndEnvs = () => ["ARG VERSION", "ENV VERSION $VERSION"].join("\n");
 
 export enum DockerfileKind {
     Base = "base",

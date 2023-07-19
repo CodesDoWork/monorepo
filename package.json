@@ -32,7 +32,7 @@
         "check": "pnpm run format:check && pnpm run lint && pnpm run test && pnpm run build"
     },
     "devDependencies": {
-        "@codesdowork/nx-containers": "^0.6.1",
+        "@codesdowork/nx-containers": "^0.6.3",
         "@nx/esbuild": "16.3.2",
         "@nx/eslint-plugin": "16.3.2",
         "@nx/jest": "16.3.2",
@@ -59,9 +59,12 @@
         "typescript": "5.0.4"
     },
     "dependencies": {
+        "@fastify/swagger": "^8.8.0",
+        "@fastify/swagger-ui": "^1.9.2",
         "@fastify/websocket": "^8.1.0",
         "@mermaid-js/mermaid-mindmap": "^9.3.0",
-        "@trpc/server": "^10.29.1",
+        "@t3-oss/env-core": "^0.6.0",
+        "@trpc/server": "^10.30.0",
         "axios": "^1.0.0",
         "dotenv": "^16.1.4",
         "fastify": "^4.17.0",
@@ -69,6 +72,7 @@
         "moment": "^2.29.4",
         "node-cron": "^3.0.2",
         "pino": "^8.14.1",
+        "trpc-openapi": "^1.2.0",
         "tslib": "^2.3.0",
         "vitepress": "1.0.0-beta.1",
         "vitepress-plugin-mermaid": "^2.0.10",

@@ -1,20 +1,33 @@
 import { observable } from "@trpc/server/observable";
 import { exec } from "child_process";
 import { procedure, router } from "shared/trpc";
-import { createSnapshotParams } from "./snapshots.schema";
+import { snapshotListType, snapshotTypeZod } from "./snapshots.schema";
 import { getSnapshotList } from "./getSnapshotList";
 import { getRunningSnapshot } from "./getRunningSnapshot";
+import { z } from "zod";
 
 export const snapshotsRouter = router({
-    createSnapshot: procedure.input(createSnapshotParams).subscription(({ input }) => {
-        exec(`rsnapshot ${input}`);
+    createSnapshot: procedure
+        .meta({ openapi: { method: "GET", path: "/createSnapshot" } })
+        .input(z.object({ type: snapshotTypeZod }))
+        .output(z.object({}))
+        .subscription(({ input }) => {
+            exec(`rsnapshot ${input.type}`);
 
-        return currentSnapshotObservable();
-    }),
+            return currentSnapshotObservable();
+        }),
 
-    currentSnapshot: procedure.subscription(() => currentSnapshotObservable()),
+    currentSnapshot: procedure
+        .meta({ openapi: { method: "GET", path: "/currentSnapshot" } })
+        .input(z.object({}))
+        .output(z.object({}))
+        .subscription(() => currentSnapshotObservable()),
 
-    listSnapshots: procedure.query(getSnapshotList),
+    listSnapshots: procedure
+        .meta({ openapi: { method: "GET", path: "/listSnapshots" } })
+        .input(z.object({}))
+        .output(snapshotListType)
+        .query(getSnapshotList),
 });
 
 const currentSnapshotObservable = () =>

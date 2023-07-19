@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { Duration, Moment } from "moment";
 
 export enum SnapshotType {
     Alpha = "alpha",
@@ -8,22 +7,31 @@ export enum SnapshotType {
     Delta = "delta",
 }
 
-export const createSnapshotParams = z.nativeEnum(SnapshotType);
+export const snapshotTypeZod = z.nativeEnum(SnapshotType);
 
-export type SnapshotStats = {
-    name: string;
-    type: SnapshotType;
-    mtime: Moment;
-    totalSizeBytes: number;
-};
+export const snapshotStatsType = z.object({
+    name: z.string(),
+    type: snapshotTypeZod,
+    mtime: z.date(),
+    totalSizeBytes: z.number(),
+});
 
-export type RunningSnapshot = SnapshotStats & {
-    elapsedTime: Duration;
-    startTime: Moment;
-    currentSizeBytes: number;
-    progress: number;
-};
+export const runningSnapshotType = z.object({
+    ...snapshotStatsType.shape,
+    elapsedTime: z.string(),
+    startTime: z.date(),
+    currentSizeBytes: z.number(),
+    progress: z.number(),
+});
 
-export type SnapshotList = Record<SnapshotType, SnapshotStats[]> & {
-    totalSizeBytes: number;
-};
+export const snapshotListType = z.object({
+    [SnapshotType.Alpha]: z.array(snapshotStatsType),
+    [SnapshotType.Beta]: z.array(snapshotStatsType),
+    [SnapshotType.Gamma]: z.array(snapshotStatsType),
+    [SnapshotType.Delta]: z.array(snapshotStatsType),
+    totalSizeBytes: z.number(),
+});
+
+export type SnapshotStats = z.infer<typeof snapshotStatsType>;
+export type RunningSnapshot = z.infer<typeof runningSnapshotType>;
+export type SnapshotList = z.infer<typeof snapshotListType>;

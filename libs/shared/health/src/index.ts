@@ -1,2 +1,6 @@
-export { createHealthcheckResult, HealthcheckResult } from "./lib/healthcheckResult";
+export {
+    createHealthcheckResult,
+    healthcheckResultType,
+    HealthcheckResult,
+} from "./lib/healthcheckResult";
 export { HealthStatus } from "./lib/HealthStatus";

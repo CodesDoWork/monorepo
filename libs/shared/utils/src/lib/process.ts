@@ -18,8 +18,8 @@ const spawnLoggingProcess = (command: string, ...args: string[]): Promise<void> 
     );
 
 const addLoggingToProcess = (process: ChildProcess): ChildProcess => {
-    process.stdout.on("data", data => logger.info(data.toString()));
-    process.stderr.on("data", data => logger.info(data.toString()));
+    process.stdout?.on("data", data => logger.info(data.toString()));
+    process.stderr?.on("data", data => logger.info(data.toString()));
 
     return process;
 };

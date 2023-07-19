@@ -1,26 +1,29 @@
 import { HealthStatus } from "./HealthStatus";
 import { hostname } from "os";
-import { readFileSync, existsSync } from "fs";
+import { existsSync, readFileSync } from "fs";
+import { z } from "zod";
 
-export type HealthcheckResult = {
-    status: HealthStatus;
-    startupTime: Date;
-    hostname: string;
-    version: string;
-    memoryUsed: number;
-    memoryUsedFormatted: string;
-    heapUsed: number;
-    heapUsedFormatted: string;
-    heapTotal: number;
-    heapTotalFormatted: string;
-    timestamp: Date;
-};
+export const healthcheckResultType = z.object({
+    status: z.nativeEnum(HealthStatus),
+    startupTime: z.date(),
+    hostname: z.string(),
+    version: z.string(),
+    memoryUsed: z.number(),
+    memoryUsedFormatted: z.string(),
+    heapUsed: z.number(),
+    heapUsedFormatted: z.string(),
+    heapTotal: z.number(),
+    heapTotalFormatted: z.string(),
+    timestamp: z.date(),
+});
+
+export type HealthcheckResult = z.infer<typeof healthcheckResultType>;
 
 export const commitFile = "./commit.sha";
 
 export const createHealthcheckResult = (status: HealthcheckResult["status"]): HealthcheckResult => {
     const { rss: memoryUsed, heapUsed, heapTotal } = process.memoryUsage();
-    const projectVersion = process.env.npm_package_version;
+    const projectVersion = process.env.VERSION ?? "development";
     const lastCommit = existsSync(commitFile)
         ? readFileSync(commitFile).toString().trim()
         : "development";

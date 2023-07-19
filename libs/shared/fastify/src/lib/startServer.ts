@@ -1,40 +1,56 @@
 import { AnyRouter } from "@trpc/server";
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
-import fastify from "fastify";
-import ws from "@fastify/websocket";
+import fastify, { FastifyHttpOptions } from "fastify";
 import { logger } from "shared/logging";
+import { Server } from "http";
+import { generateOpenApiDocument, GenerateOpenApiDocumentOptions } from "trpc-openapi";
+import fastifySwaggerUi from "@fastify/swagger-ui";
+import fastifySwagger from "@fastify/swagger";
 
 export type FastifyServerOptions = {
     host?: string;
-    port?: string | number;
-    fallbackPort?: number;
+    port: string | number;
     basePath?: string;
     router: AnyRouter;
-    fasitfyOptions?: Parameters<typeof fastify>[0];
+    docs?: GenerateOpenApiDocumentOptions & {
+        routePrefix?: string;
+    };
+    fasitfyOptions?: FastifyHttpOptions<Server>;
 };
 
+const openapiTRPCWarning =
+    "Warning: This document was generated from trpc. TRPC uses ?input={{json}} and not the traditional parameters!";
+
 export const startServer = ({
-    fallbackPort,
-    host = process.env.HOST,
-    port = process.env.PORT || fallbackPort,
+    host = process.env.HOST || "0.0.0.0",
+    port,
     basePath = "/",
     router,
+    docs,
     fasitfyOptions = {},
 }: FastifyServerOptions) => {
     const server = fastify({ logger, ...fasitfyOptions });
 
-    server.register(ws);
+    if (docs) {
+        docs.description = docs.description
+            ? `${docs.description}\n${openapiTRPCWarning}`
+            : openapiTRPCWarning;
+
+        server.register(fastifySwagger, {
+            mode: "static",
+            specification: {
+                document: generateOpenApiDocument(router, docs),
+            },
+        });
+        server.register(fastifySwaggerUi, { routePrefix: docs.routePrefix ?? "/api" });
+    }
+
     server.register(fastifyTRPCPlugin, {
         prefix: basePath,
         trpcOptions: { router },
-        useWSS: true,
     });
 
-    if (!port) {
-        throw new Error("Please specify a valid port");
-    }
-
-    server.listen({ host: host || "localhost", port: Number(port) }, err => {
+    server.listen({ host: host || "0.0.0.0", port: Number(port) }, err => {
         if (err) {
             server.log.error(err);
             process.exit(1);

@@ -3,6 +3,7 @@ services:
     container_name: ${BACKUP_SERVICE_CONTAINER}
     environment:
       - PORT=${BACKUP_SERVICE_PORT}
+      - BASE_URL=https://backup.localhost
     healthcheck:
       test: wget -qO- http://localhost:${BACKUP_SERVICE_PORT}/health || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-backup-service
@@ -83,8 +84,8 @@ services:
   music-downloader:
     container_name: ${MUSIC_DOWNLOADER_CONTAINER}
     environment:
-      - HOST=0.0.0.0
       - PORT=${MUSIC_DOWNLOADER_PORT}
+      - BASE_URL=https://music-downloader.localhost
       - DOWNLOAD_DIR=/music/downloads
     healthcheck:
       test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/health || exit 1

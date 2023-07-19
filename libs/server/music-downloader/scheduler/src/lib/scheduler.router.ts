@@ -3,7 +3,19 @@ import { addTask, getTasks, removeTask } from "./json-db";
 import { z } from "zod";
 
 export const schedulerRouter = router({
-    getTasks: procedure.query(getTasks),
-    addTask: procedure.input(z.string().url()).query(({ input }) => addTask(input)),
-    removeTask: procedure.input(z.string().url()).query(({ input }) => removeTask(input)),
+    getTasks: procedure
+        .meta({ openapi: { method: "GET", path: "/getTasks" } })
+        .input(z.object({}))
+        .output(z.array(z.string()))
+        .query(getTasks),
+    addTask: procedure
+        .meta({ openapi: { method: "GET", path: "/addTask" } })
+        .input(z.object({ url: z.string().url() }))
+        .output(z.object({}))
+        .query(({ input }) => addTask(input.url)),
+    removeTask: procedure
+        .meta({ openapi: { method: "GET", path: "/removeTask" } })
+        .input(z.object({ url: z.string().url() }))
+        .output(z.object({}))
+        .query(({ input }) => removeTask(input.url)),
 });

@@ -241,30 +241,6 @@ sections:
       - title: Moodle
         icon: uni/host.png
         url: https://moodle.hochschule-stralsund.de
-      - title: SE II - Trello
-        icon: favicon-local
-        url: https://trello.com/b/sMOBe7nV/reengineering
-      - title: Systemsicherheit
-        icon: uni/host.png
-        url: https://moodle.hochschule-stralsund.de/course/view.php?id=798
-      - title: SE II
-        icon: uni/host.png
-        url: https://moodle.hochschule-stralsund.de/course/view.php?id=763
-      - title: KI
-        icon: uni/host.png
-        url: https://moodle.hochschule-stralsund.de/course/view.php?id=761
-      - title: Mobile Systeme
-        icon: uni/host.png
-        url: https://moodle.hochschule-stralsund.de/course/view.php?id=771
-      - title: BWL
-        icon: uni/host.png
-        url: https://moodle.hochschule-stralsund.de/course/view.php?id=541
-      - title: Theoretische Informatik
-        icon: uni/host.png
-        url: https://moodle.hochschule-stralsund.de/course/view.php?id=788
-      - title: Praxissemester
-        icon: uni/host.png
-        url: https://moodle.hochschule-stralsund.de/course/view.php?id=646
   - name: Holidays
     displayData:
       cutToHeight: true

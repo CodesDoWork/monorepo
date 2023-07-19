@@ -136,6 +136,10 @@ services:
 
   sonarqube:
     container_name: ${SONARQUBE_CONTAINER}
+    environment:
+      - SONAR_JDBC_USERNAME=${DB_USER}
+      - SONAR_JDBC_PASSWORD=${DB_PASSWORD}
+      - SONAR_JDBC_URL=jdbc:postgresql://${DB_CONTAINER}:5432/sonarqube
     healthcheck:
       test: wget -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
     image: sonarqube:9-community

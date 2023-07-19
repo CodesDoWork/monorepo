@@ -1,6 +1,7 @@
 import { executeCmd } from "shared/utils";
 
-const downloadDir = process.env.DOWNLOAD_DIR || "downloads";
+let downloadDir: string;
+export const setDownloadDir = (dir: string) => (downloadDir = dir);
 
 export const download = (url: string): Promise<void> => {
     const downloadCommandParts = [

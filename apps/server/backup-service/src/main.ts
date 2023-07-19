@@ -1,10 +1,12 @@
 import { startServer } from "shared/fastify";
 import { snapshotsRouter } from "server/backup-service/snapshots";
-import { createFastifyEnv, executeCmd } from "shared/utils";
+import { enrichFastifyEnvs, executeCmd } from "shared/utils";
 import { createAppRouter } from "shared/trpc";
+import { createEnv } from "@t3-oss/env-core";
 
 executeCmd(["crond"])
-    .then(() => createFastifyEnv())
+    .then(() => enrichFastifyEnvs({}))
+    .then(envSchema => createEnv({ server: envSchema, runtimeEnv: process.env }))
     .then(env => {
         startServer({
             port: env.PORT,

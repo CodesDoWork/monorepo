@@ -23,6 +23,10 @@
                             {
                                 "sourceTag": "server/music-downloader",
                                 "onlyDependOnLibsWithTags": ["shared", "server/music-downloader"]
+                            },
+                            {
+                                "sourceTag": "server/scoreboard",
+                                "onlyDependOnLibsWithTags": ["shared"]
                             }
                         ]
                     }

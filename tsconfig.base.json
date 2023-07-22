@@ -31,7 +31,11 @@
             "shared/health": ["libs/shared/health/src/index.ts"],
             "shared/logging": ["libs/shared/logging/src/index.ts"],
             "shared/trpc": ["libs/shared/trpc/src/index.ts"],
-            "shared/utils": ["libs/shared/utils/src/index.ts"]
+            "shared/utils": ["libs/shared/utils/src/index.ts"],
+            "shared/web/components": ["libs/shared/web/components/src/index.ts"],
+            "shared/web/components/server": ["libs/shared/web/components/src/server.ts"],
+            "shared/web/utils": ["libs/shared/web/utils/src/index.ts"],
+            "shared/web/utils/server": ["libs/shared/web/utils/src/server.ts"]
         }
     },
     "exclude": ["node_modules", "tmp"]

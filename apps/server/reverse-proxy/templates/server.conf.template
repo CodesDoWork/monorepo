@@ -20,6 +20,17 @@ server {
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
+    server_name auth.${REVERSE_PROXY_HOST};
+
+    location / {
+        set $upstream ${AUTH_CONTAINER}:${AUTH_PORT};
+        proxy_pass http://$upstream;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
     server_name dockerreg.${REVERSE_PROXY_HOST};
 
     location / {

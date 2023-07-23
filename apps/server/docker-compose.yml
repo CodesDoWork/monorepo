@@ -1,4 +1,49 @@
 services:
+  auth:
+    command: server
+    container_name: ${AUTH_CONTAINER}
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    environment:
+      AUTHENTIK_REDIS__HOST: ${CACHE_CONTAINER}
+      AUTHENTIK_POSTGRESQL__HOST: ${DB_CONTAINER}
+      AUTHENTIK_POSTGRESQL__USER: ${DB_USER}
+      AUTHENTIK_POSTGRESQL__NAME: ${AUTH_DB}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${DB_PASSWORD}
+      AUTHENTIK_SECRET_KEY: ${AUTH_SECRET_KEY}
+    image: ${AUTH_IMAGE}
+    networks:
+      - auth
+    volumes:
+      - authentik-media:/media
+      - authentik-templates:/templates
+
+  auth-worker:
+    command: worker
+    container_name: ${AUTH_WORKER_CONTAINER}
+    depends_on:
+      db:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    environment:
+      AUTHENTIK_REDIS__HOST: ${CACHE_CONTAINER}
+      AUTHENTIK_POSTGRESQL__HOST: ${DB_CONTAINER}
+      AUTHENTIK_POSTGRESQL__USER: ${DB_USER}
+      AUTHENTIK_POSTGRESQL__NAME: ${AUTH_DB}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${DB_PASSWORD}
+      AUTHENTIK_SECRET_KEY: ${AUTH_SECRET_KEY}
+    image: ${AUTH_IMAGE}
+    networks:
+      - auth
+    volumes:
+      - authentik-media:/media
+      - authentik-templates:/templates
+      - authentik-certs:/certs
+
   backup-service:
     container_name: ${BACKUP_SERVICE_CONTAINER}
     environment:
@@ -19,6 +64,17 @@ services:
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
       - teamcity-data:/data/services/teamcity/data:ro
 
+  cache:
+    container_name: ${CACHE_CONTAINER}
+    command: --save 60 1 --loglevel warning
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
+    image: docker.io/library/redis:alpine
+    networks:
+      - auth
+    volumes:
+      - cache:/data
+
   db:
     container_name: ${DB_CONTAINER}
     environment:
@@ -29,6 +85,7 @@ services:
       test: pg_isready -U postgres
     image: postgres:15-alpine
     networks:
+      - auth
       - cicd
       - git
     volumes:
@@ -128,6 +185,7 @@ services:
       test: curl -f http://localhost || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-reverse-proxy
     networks:
+      - auth
       - cicd
       - documentation
       - music
@@ -137,6 +195,9 @@ services:
 
   sonarqube:
     container_name: ${SONARQUBE_CONTAINER}
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
       - SONAR_JDBC_USERNAME=${DB_USER}
       - SONAR_JDBC_PASSWORD=${DB_PASSWORD}
@@ -200,6 +261,12 @@ services:
       - verdaccio-plugins:/verdaccio/plugins
 
 volumes:
+  authentik-media:
+  authentik-templates:
+  authentik-certs:
+
+  cache:
+
   docker-registry:
 
   git-config:
@@ -223,6 +290,10 @@ volumes:
   verdaccio-plugins:
 
 networks:
+  auth:
+    driver: bridge
+  cache:
+    driver: bridge
   cicd:
     driver: bridge
   documentation:

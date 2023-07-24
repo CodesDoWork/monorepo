@@ -102,7 +102,7 @@ sections:
     icon: ":globe_with_meridians:"
     items:
       - title: FRITZ!Box
-        icon: favicon-local
+        icon: server/fritzbox.svg
         url: https://fritz.box/
       - title: Start
         icon: server/icon.svg
@@ -110,6 +110,9 @@ sections:
           - nginx
           - reverse-proxy
         url: https://localhost/
+      - title: Auth
+        icon: server/authentik.svg
+        url: https://auth.localhost/
       - title: Docs
         icon: server/icon.svg
         tags:

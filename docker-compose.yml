@@ -1,17 +1,30 @@
 services:
+  db:
+    container_name: monorepo-private-db
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+    healthcheck:
+      test: pg_isready -U postgres
+    image: postgres:15-alpine
+    ports:
+      - 5432:5432
+
   dev:
     build:
       context: .
       dockerfile: dev.Dockerfile
+    container_name: monorepo-private-dev
     environment:
-      HOST: 0.0.0.0
-    image: codedowork/monorepo-private/dev
+      - HOST=0.0.0.0
+      - NEXT_WEBPACK_USEPOLLING=1
     extra_hosts:
       - "npmreg.localhost:host-gateway"
+      - "auth.localhost:host-gateway"
+    image: codedowork/monorepo-private/dev
     ports:
-      - 4534:4534
-    profiles:
-      - dev
+      - 4200:4200
     stdin_open: true
     tty: true
     volumes:

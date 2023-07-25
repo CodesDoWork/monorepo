@@ -12,6 +12,16 @@ const nextConfig = {
         // See: https://github.com/gregberge/svgr
         svgr: false,
     },
+    webpack: config => {
+        if (process.env.NEXT_WEBPACK_USEPOLLING) {
+            config.watchOptions = {
+                poll: 500,
+                aggregateTimeout: 300,
+            };
+        }
+
+        return config;
+    },
 };
 
 const plugins = [

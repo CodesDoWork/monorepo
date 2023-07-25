@@ -88,6 +88,7 @@ services:
       - auth
       - cicd
       - git
+      - scoreboard
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
@@ -192,6 +193,19 @@ services:
     ports:
       - 80:80
       - 443:443
+
+  scoreboard:
+    container_name: ${SCOREBOARD_CONTAINER}
+    environment:
+      - PORT=${SCOREBOARD_PORT}
+      - PG_PASSWORD=${DB_PASSWORD}
+    env_file:
+      - scoreboard/.env
+    extra_hosts:
+      - auth.localhost:host-gateway
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-scoreboard
+    networks:
+      - scoreboard
 
   sonarqube:
     container_name: ${SONARQUBE_CONTAINER}
@@ -301,4 +315,6 @@ networks:
   git:
     driver: bridge
   music:
+    driver: bridge
+  scoreboard:
     driver: bridge

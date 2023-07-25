@@ -131,6 +131,9 @@ sections:
       - title: Music Downloader
         icon: server/icon.svg
         url: https://music-downloader.localhost/
+      - title: Scoreboard
+        icon: server/icon.svg
+        url: https://scoreboard.localhost/
       - title: SonarQube
         icon: server/sonarqube.png
         tags:

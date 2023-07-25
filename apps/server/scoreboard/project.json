@@ -62,6 +62,15 @@
             "options": {
                 "lintFilePatterns": ["apps/server/scoreboard/**/*.{ts,tsx,js,jsx}"]
             }
+        },
+        "build-image": {
+            "executor": "@codesdowork/nx-containers:build"
+        },
+        "run-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose -f apps/server/docker-compose.yml up -d scoreboard"
+            }
         }
     },
     "tags": ["server/scoreboard"]

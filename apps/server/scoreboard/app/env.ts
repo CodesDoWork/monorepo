@@ -8,6 +8,12 @@ export const env = createEnv({
         AUTHENTIK_ISSUER: z.string(),
         NEXTAUTH_URL: z.string(),
         NEXTAUTH_SECRET: z.string(),
+        PG_USER: z.string(),
+        PG_PASSWORD: z.string(),
+        PG_HOST: z.string(),
+        PG_PORT: z.coerce.number().optional().default(5432),
+        DB_NAME: z.string(),
+        PORT: z.coerce.number().optional().default(4200),
     },
     runtimeEnv: process.env,
 });

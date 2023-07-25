@@ -1,0 +1,12 @@
+{
+    "type": "node",
+    "tags": ["latest"],
+    "options": {},
+    "dockerCompose": true,
+    "composeFile": "apps/server/docker-compose.yml",
+    "composeServiceName": "scoreboard",
+    "extensions": {
+        "postInstall": ["RUN npm i next@13.4.1 --omit dev"],
+        "end": ["ENTRYPOINT npm start"]
+    }
+}

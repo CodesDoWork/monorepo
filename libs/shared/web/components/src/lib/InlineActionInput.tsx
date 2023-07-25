@@ -14,7 +14,7 @@ export const InlineActionInput = ({
 }: InlineActionInputProps) => {
     const boxClassName = clsx(
         "flex flex-row-reverse rounded-md",
-        "shadow-sm hover:shadow focus-within:!shadow-md",
+        "shadow-sm hover:shadow focus-within:!shadow-md transition-shadow",
         className,
     );
 

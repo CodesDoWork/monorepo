@@ -6,6 +6,8 @@ export const env = createEnv({
         AUTH_CLIENT_ID: z.string(),
         AUTH_CLIENT_SECRET: z.string(),
         AUTHENTIK_ISSUER: z.string(),
+        NEXTAUTH_URL: z.string(),
+        NEXTAUTH_SECRET: z.string(),
     },
     runtimeEnv: process.env,
 });

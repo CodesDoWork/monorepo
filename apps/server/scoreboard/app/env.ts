@@ -14,6 +14,7 @@ export const env = createEnv({
         PG_PORT: z.coerce.number().optional().default(5432),
         DB_NAME: z.string(),
         PORT: z.coerce.number().optional().default(4200),
+        SECRET_KEY: z.string(),
     },
     runtimeEnv: process.env,
 });

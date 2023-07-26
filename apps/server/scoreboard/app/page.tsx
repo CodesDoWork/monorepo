@@ -1,8 +1,8 @@
-import { Login } from "../components/login/Login";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { LogoutButton } from "shared/web/components";
+import { Content } from "../components/content/Content";
 
 export default async function Index() {
     const session = await getServerSession(authOptions);
@@ -20,7 +20,7 @@ export default async function Index() {
                 </nav>
             </header>
             <main className="absolute h-screen w-screen flex items-center justify-center">
-                <Login className="m-auto" />
+                <Content className="m-auto" />
             </main>
         </div>
     );

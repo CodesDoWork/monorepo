@@ -1,23 +1,10 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { Sequelize } from "sequelize";
 import { env } from "../app/env";
+import * as pg from "pg";
 
 export const sequelize = new Sequelize(
     `postgres://${env.PG_USER}:${env.PG_PASSWORD}@${env.PG_HOST}:${env.PG_PORT}/${env.DB_NAME}`,
+    {
+        dialectModule: pg,
+    },
 );
-
-export const User = sequelize.define("User", {
-    email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-        primaryKey: true,
-    },
-    username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    notionApiKey: DataTypes.STRING,
-    selectedDB: DataTypes.STRING,
-});
-
-sequelize.authenticate().then(() => sequelize.sync({ force: true }));

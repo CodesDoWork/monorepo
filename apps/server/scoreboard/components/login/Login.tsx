@@ -1,32 +1,29 @@
 "use client";
 
 import { InlineActionInput, Label } from "shared/web/components";
-import { HTMLProps, useCallback, useState } from "react";
-import { trpc } from "../../app/trpc";
+import { useLogin } from "./useLogin";
 
-type LoginProps = HTMLProps<HTMLDivElement>;
+type LoginProps = {
+    onSuccess: () => void;
+};
 
 export function Login(props: LoginProps) {
-    const inputId = "notion-api-key";
-
-    const [value, setValue] = useState("");
-
-    const onLogin = useCallback(() => {
-        trpc.setApiKey.query({ key: value }).then(console.log);
-    }, [value]);
+    const { inputId, apiKey, setApiKey, error, onLogin } = useLogin(props);
 
     return (
-        <div {...props}>
+        <>
             <Label htmlFor={inputId}>Login</Label>
             <InlineActionInput
                 buttonProps={{ children: "✓", onClick: onLogin }}
                 inputProps={{
                     id: inputId,
                     placeholder: "Notion API Key",
-                    value,
-                    onChange: e => setValue((e.target as HTMLInputElement).value),
+                    type: "password",
+                    value: apiKey,
+                    onChange: setApiKey,
                 }}
+                error={error}
             />
-        </div>
+        </>
     );
 }

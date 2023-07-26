@@ -1,10 +1,11 @@
-/* eslint-disable-next-line */
-export interface ScoreboardProps {}
+import { useScoreboard } from "./useScoreboard";
 
-export function Scoreboard(props: ScoreboardProps) {
+export function Scoreboard() {
+    const { dbData } = useScoreboard();
+
     return (
         <div>
-            <h1>Welcome to Scoreboard!</h1>
+            <h1>{JSON.stringify(dbData)}</h1>
         </div>
     );
 }

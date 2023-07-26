@@ -3,7 +3,7 @@ import crypto from "crypto";
 export const decrypt = (text: string, secret: string): string => {
     const { iv, authTag, encrypted } = getParamsFromString(text);
 
-    const decipher = crypto.createDecipheriv("aes-256-gcm", Buffer.from(secret), iv);
+    const decipher = crypto.createDecipheriv("aes-256-gcm", Buffer.from(secret, "base64"), iv);
     decipher.setAuthTag(authTag);
     const decrypted = Buffer.concat([decipher.update(encrypted), decipher.final()]);
 

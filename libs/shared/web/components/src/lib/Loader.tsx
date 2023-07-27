@@ -6,7 +6,7 @@ type LoaderProps = {
 
 export const Loader = (props: LoaderProps) => {
     const className = clsx(
-        "w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-primary-600",
+        "text-gray-200 animate-spin dark:text-gray-600 fill-primary-600",
         props.className,
     );
 

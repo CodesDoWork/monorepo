@@ -1,6 +1,6 @@
 "use client";
 
-import { InlineActionInput, Label } from "shared/web/components";
+import { InlineActionInput, Label, Loader } from "shared/web/components";
 import { useDbSelection } from "./useDbSelection";
 
 type DbSelectionProps = {
@@ -8,7 +8,11 @@ type DbSelectionProps = {
 };
 
 export function DbSelection(props: DbSelectionProps) {
-    const { inputId, dbOptions, value, setValue, onSelect } = useDbSelection(props);
+    const { inputId, dbOptions, value, setValue, onSelect, isLoading } = useDbSelection(props);
+
+    if (isLoading) {
+        return <Loader className="w-8 h-8" />;
+    }
 
     return (
         <>

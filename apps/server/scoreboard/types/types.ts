@@ -1,9 +1,10 @@
 import { z } from "zod";
 
 export enum Stage {
-    Login = "login",
-    DbSelection = "db-selection",
-    Scoreboard = "scoreboard",
+    Loading,
+    Login,
+    DbSelection,
+    Scoreboard,
 }
 
 export const databaseType = z.object({

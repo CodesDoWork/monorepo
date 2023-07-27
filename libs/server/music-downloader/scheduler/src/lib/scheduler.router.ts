@@ -12,10 +12,10 @@ export const schedulerRouter = router({
         .meta({ openapi: { method: "GET", path: "/addTask" } })
         .input(z.object({ url: z.string().url() }))
         .output(z.object({}))
-        .query(({ input }) => addTask(input.url)),
+        .query(({ input }) => addTask(input.url).then(() => ({}))),
     removeTask: procedure
         .meta({ openapi: { method: "GET", path: "/removeTask" } })
         .input(z.object({ url: z.string().url() }))
         .output(z.object({}))
-        .query(({ input }) => removeTask(input.url)),
+        .query(({ input }) => removeTask(input.url).then(() => ({}))),
 });

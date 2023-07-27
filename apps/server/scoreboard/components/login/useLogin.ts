@@ -17,7 +17,7 @@ export const useLogin = ({ onSuccess }: UseLoginProps) => {
     const [error, setError] = useState("");
 
     const onLogin = useCallback(() => {
-        trpc.setApiKey
+        return trpc.setApiKey
             .query({ key: apiKey })
             .then(async ({ isValidKey }) => {
                 if (isValidKey) {

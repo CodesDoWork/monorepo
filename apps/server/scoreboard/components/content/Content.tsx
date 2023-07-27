@@ -5,7 +5,7 @@ import { DbSelection } from "../db-selection/DbSelection";
 import { Scoreboard } from "../scoreboard/Scoreboard";
 import { Stage } from "../../types/types";
 import { useContent } from "./useContent";
-import { IconButton } from "shared/web/components";
+import { IconButton, Loader } from "shared/web/components";
 import { BiArrowBack } from "react-icons/bi";
 import { signOut } from "next-auth/react";
 import { FiLogOut } from "react-icons/fi";
@@ -15,6 +15,9 @@ export const Content = () => {
 
     let component;
     switch (stage) {
+        case Stage.Loading:
+            component = <Loader className="w-8 h-8" />;
+            break;
         case Stage.DbSelection:
             component = <DbSelection onSuccess={update} />;
             break;
@@ -26,15 +29,13 @@ export const Content = () => {
             break;
     }
 
+    const showBackButton = stage > Stage.Login;
+
     return (
         <>
             <header className="z-10 w-full p-3">
                 <nav className="flex justify-between">
-                    {stage === Stage.Login ? (
-                        <span />
-                    ) : (
-                        <IconButton onClick={goBack} Icon={BiArrowBack} />
-                    )}
+                    {showBackButton ? <IconButton onClick={goBack} Icon={BiArrowBack} /> : <span />}
                     <IconButton onClick={signOut} Icon={FiLogOut} />
                 </nav>
             </header>

@@ -35,6 +35,9 @@ type Scales = {
     yScale: ScaleLinear<number, number>;
 };
 
+const offsetX = 32;
+const offsetY = 16;
+
 export const MultilineChart = ({ data, width, height }: MultilineChartProps) => {
     const svgRef = useRef<SVGSVGElement>(null);
     const [prevItems, setPrevItems] = useState<string[]>([]);
@@ -49,7 +52,7 @@ export const MultilineChart = ({ data, width, height }: MultilineChartProps) => 
         setPrevItems(data.map(({ name }) => name));
     }, [data]);
 
-    return <svg ref={svgRef} width={width + 16} height={height + 16} />;
+    return <svg ref={svgRef} width={width + offsetX} height={height + offsetY} />;
 };
 
 const computeMinMax = (data: DataType): MinMaxData => {
@@ -79,7 +82,7 @@ const setupScales = (
 const setupSvg = (svgRef: React.RefObject<SVGSVGElement>) => {
     const svgEl = d3.select(svgRef.current);
     svgEl.selectAll("*").remove();
-    return svgEl.append("g").attr("transform", `translate(16,0)`);
+    return svgEl.append("g").attr("transform", `translate(${offsetX},-${offsetY})`);
 };
 
 const setupAxis = (

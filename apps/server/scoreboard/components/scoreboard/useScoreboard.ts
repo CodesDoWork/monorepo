@@ -3,6 +3,8 @@ import { trpc } from "../../app/trpc";
 import { getIsoDate } from "shared/web/utils";
 
 export const useScoreboard = () => {
+    const [isLoading, setIsLoading] = useState(true);
+    const [loadingCounters, setLoadingCounters] = useState<string[]>([]);
     const [dbInfo, setDbInfo] = useState<DBInfo>();
     const [dbData, setDbData] = useState<DBData>({});
     const [counters, setCounters] = useState<Counter[]>([]);
@@ -38,7 +40,7 @@ export const useScoreboard = () => {
 
             setDbData(newData);
         });
-    }, [setDbInfo, setDbData]);
+    }, [setDbInfo, setDbData, setIsLoading]);
 
     useEffect(() => {
         if (!dbInfo) {
@@ -51,12 +53,18 @@ export const useScoreboard = () => {
                 .sort((p1, p2) => p1.localeCompare(p2))
                 .map((prop, idx) => {
                     const updateProperty = (add: number) => {
-                        trpc.updateProperty.query({ propName: prop, add }).then(res => {
-                            setCounters(old => {
-                                old[idx].value = res.value;
-                                return [...old];
-                            });
-                        });
+                        setLoadingCounters(old => [...old, prop]);
+                        trpc.updateProperty
+                            .query({ propName: prop, add })
+                            .then(res => {
+                                setCounters(old => {
+                                    old[idx].value = res.value;
+                                    return [...old];
+                                });
+                            })
+                            .then(() =>
+                                setLoadingCounters(old => old.filter(name => name !== prop)),
+                            );
                     };
 
                     return {
@@ -64,14 +72,14 @@ export const useScoreboard = () => {
                         value: todayProperties[prop]?.value ?? 0,
                         increment: () => updateProperty(1),
                         decrement: () => updateProperty(-1),
+                        isLoading: loadingCounters.includes(prop),
                     };
                 }),
         );
-    }, [dbInfo, dbData, setCounters]);
+    }, [dbInfo, dbData, setCounters, setLoadingCounters, loadingCounters]);
 
     const chartData = useMemo(() => {
         const today = getIsoDate(new Date());
-
         return counters.map((counter, idx) => ({
             name: counter.name,
             colorClass: chartColors[idx % chartColors.length],
@@ -84,9 +92,12 @@ export const useScoreboard = () => {
         }));
     }, [counters, dbData]);
 
-    useEffect(() => setSelectedCounters(chartData.map(d => d.name)), [chartData]);
+    useEffect(() => {
+        setSelectedCounters(chartData.map(d => d.name));
+        setIsLoading(false);
+    }, [chartData]);
 
-    return { dbInfo, counters, selectedCounters, setSelectedCounters, chartData };
+    return { dbInfo, counters, selectedCounters, setSelectedCounters, chartData, isLoading };
 };
 
 type DBInfo = {
@@ -108,9 +119,11 @@ export type Counter = {
     value: number;
     increment: () => void;
     decrement: () => void;
+    isLoading: boolean;
 };
 
 const chartColors = [
+    "text-stone-500 stroke-stone-500",
     "text-red-500 stroke-red-500",
     "text-orange-500 stroke-orange-500",
     "text-yellow-500 stroke-yellow-500",
@@ -121,4 +134,5 @@ const chartColors = [
     "text-indigo-500 stroke-indigo-500",
     "text-violet-500 stroke-violet-500",
     "text-fuchsia-500 stroke-fuchsia-500",
+    "text-rose-500 stroke-rose-500",
 ];

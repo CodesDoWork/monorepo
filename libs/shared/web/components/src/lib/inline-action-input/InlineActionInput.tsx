@@ -1,12 +1,13 @@
 import { PropsWithChildren } from "react";
 import { clsx } from "clsx";
 import { useInlineActionInput } from "./useInlineActionInput";
+import { Loader } from "../Loader";
 
 type InlineActionInputProps = {
     className?: string;
     buttonProps: Partial<
         PropsWithChildren<{
-            onClick: () => void;
+            onClick: () => Promise<void>;
             className: string;
         }>
     >;
@@ -31,7 +32,10 @@ export const InlineActionInput = ({
     inputProps,
     error,
 }: InlineActionInputProps) => {
-    const { onChange } = useInlineActionInput({ onChange: inputProps.onChange });
+    const { onChange, onSubmit, isLoading } = useInlineActionInput({
+        onChange: inputProps.onChange,
+        onClick: buttonProps.onClick,
+    });
 
     const boxClassName = clsx(
         "flex flex-row-reverse rounded-md",
@@ -73,7 +77,13 @@ export const InlineActionInput = ({
     return (
         <div>
             <div className={boxClassName}>
-                <button {...buttonProps} className={buttonClassName} />
+                <button
+                    {...buttonProps}
+                    onClick={onSubmit}
+                    className={buttonClassName}
+                    disabled={isLoading}>
+                    {isLoading ? <Loader className="w-4 h-4" /> : buttonProps.children}
+                </button>
                 {input}
             </div>
             {error && <span className={"text-xs text-error-600"}>{error}</span>}

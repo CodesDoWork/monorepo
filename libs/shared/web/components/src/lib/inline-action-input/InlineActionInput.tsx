@@ -71,9 +71,11 @@ export const InlineActionInput = ({
     );
 
     return (
-        <div className={boxClassName}>
-            <button {...buttonProps} className={buttonClassName} />
-            {input}
+        <div>
+            <div className={boxClassName}>
+                <button {...buttonProps} className={buttonClassName} />
+                {input}
+            </div>
             {error && <span className={"text-xs text-error-600"}>{error}</span>}
         </div>
     );

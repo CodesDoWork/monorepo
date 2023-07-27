@@ -1,5 +1,3 @@
-"use client";
-
 import { createTRPCProxyClient, httpBatchLink } from "@trpc/client";
 import { AppRouter } from "./api/trpc/[...trpc]/route";
 

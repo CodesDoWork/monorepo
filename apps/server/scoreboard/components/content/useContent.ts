@@ -11,5 +11,9 @@ export const useContent = () => {
 
     useEffect(update, [update]);
 
-    return { stage, update };
+    const goBack = useCallback(async () => {
+        await trpc.goBack.query({}).then(update);
+    }, [update]);
+
+    return { stage, update, goBack };
 };

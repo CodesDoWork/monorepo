@@ -8,6 +8,7 @@ import { getDatabases } from "./notion/getDatabases";
 import { getDatabase } from "./notion/getDatabase";
 import { updateProperty } from "./notion/updateProperty";
 import { createAppRouter, procedure, router } from "shared/trpc";
+import { goBack } from "./goBack";
 
 const apiRouter = router({
     getStage: procedure
@@ -36,6 +37,11 @@ const apiRouter = router({
         .input(z.object({ propName: z.string().min(1), add: z.number() }))
         .output(z.object({ value: z.number() }))
         .query(({ input }) => updateProperty(input.propName, input.add).then(value => ({ value }))),
+
+    goBack: procedure
+        .input(z.object({}))
+        .output(z.object({}))
+        .query(() => goBack().then(() => ({}))),
 });
 const appRouter = createAppRouter(apiRouter);
 export type AppRouter = typeof appRouter;

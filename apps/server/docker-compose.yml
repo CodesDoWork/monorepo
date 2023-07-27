@@ -200,6 +200,8 @@ services:
     environment:
       - PORT=${SCOREBOARD_PORT}
       - PG_PASSWORD=${DB_PASSWORD}
+      - NEXTAUTH_URL=${SCOREBOARD_HOST}
+      - NEXT_PUBLIC_API=${SCOREBOARD_HOST}
     env_file:
       - scoreboard/.env.local
     extra_hosts:

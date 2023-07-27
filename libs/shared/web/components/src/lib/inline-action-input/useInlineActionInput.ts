@@ -1,13 +1,11 @@
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback } from "react";
 
 type UseInlineActionInputProps = {
     onChange?: (value: string) => void;
-    onClick?: () => Promise<void>;
+    onClick?: () => void | Promise<void>;
 };
 
 export const useInlineActionInput = ({ onChange, onClick }: UseInlineActionInputProps) => {
-    const [isLoading, setIsLoading] = useState(false);
-
     const onChangeCallback = useCallback(
         (e: ChangeEvent) => {
             onChange && onChange((e.target as HTMLInputElement).value);
@@ -15,12 +13,9 @@ export const useInlineActionInput = ({ onChange, onClick }: UseInlineActionInput
         [onChange],
     );
 
-    const onSubmit = useCallback(() => {
-        if (onClick) {
-            setIsLoading(true);
-            onClick().then(() => setIsLoading(false));
-        }
-    }, [onClick, setIsLoading]);
+    const onSubmit = useCallback(async () => {
+        onClick && (await onClick());
+    }, [onClick]);
 
-    return { onChange: onChangeCallback, onSubmit, isLoading };
+    return { onChange: onChangeCallback, onSubmit };
 };

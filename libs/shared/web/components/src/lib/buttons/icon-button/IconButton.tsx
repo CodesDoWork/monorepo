@@ -1,27 +1,22 @@
 "use client";
 
-import { Loader } from "../../Loader";
-import { useIconButton, UseIconButtonProps } from "./useIconButton";
 import { IconType } from "react-icons";
+import { Button, ButtonProps } from "../button/Button";
+import { clsx } from "clsx";
 
-type IconButtonProps = UseIconButtonProps & {
+type IconButtonProps = ButtonProps & {
     Icon: IconType;
 };
 
-export const IconButton = ({ Icon, ...useIconButtonProps }: IconButtonProps) => {
-    const { isLoading, onClick } = useIconButton(useIconButtonProps);
+export const IconButton = ({ Icon, ...buttonProps }: IconButtonProps) => {
+    buttonProps.className = clsx(
+        "group p-1 transition-opacity duration-100 opacity-80 hover:opacity-100",
+        buttonProps.className,
+    );
 
     return (
-        <button
-            className="group p-1 rounded-md transition-opacity duration-100 opacity-80 hover:opacity-100"
-            type="button"
-            onClick={onClick}
-            disabled={isLoading}>
-            {isLoading ? (
-                <Loader className="w-5 h-5" />
-            ) : (
-                <Icon className="w-5 h-5 group-hover:drop-shadow group-hover:scale-110 transition duration-100" />
-            )}
-        </button>
+        <Button {...buttonProps} loaderClass="w-5 h-5">
+            <Icon className="w-5 h-5 group-hover:drop-shadow group-hover:scale-110 transition duration-100" />
+        </Button>
     );
 };

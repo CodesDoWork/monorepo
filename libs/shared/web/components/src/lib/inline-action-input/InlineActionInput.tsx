@@ -1,13 +1,13 @@
 import { PropsWithChildren } from "react";
 import { clsx } from "clsx";
 import { useInlineActionInput } from "./useInlineActionInput";
-import { Loader } from "../Loader";
+import { Button } from "../buttons/button/Button";
 
 type InlineActionInputProps = {
     className?: string;
     buttonProps: Partial<
         PropsWithChildren<{
-            onClick: () => Promise<void>;
+            onClick: () => void | Promise<void>;
             className: string;
         }>
     >;
@@ -32,7 +32,7 @@ export const InlineActionInput = ({
     inputProps,
     error,
 }: InlineActionInputProps) => {
-    const { onChange, onSubmit, isLoading } = useInlineActionInput({
+    const { onChange, onSubmit } = useInlineActionInput({
         onChange: inputProps.onChange,
         onClick: buttonProps.onClick,
     });
@@ -45,7 +45,7 @@ export const InlineActionInput = ({
 
     const ringClasses = "ring-1 !ring-inset ring-primary-500";
 
-    const buttonClassName = clsx(
+    buttonProps.className = clsx(
         "rounded-r-md py-2 px-4 ml-[-1px] text-white peer",
         "bg-primary-500 hover:bg-primary-400 active:bg-primary-500",
         ringClasses,
@@ -53,7 +53,7 @@ export const InlineActionInput = ({
         buttonProps.className,
     );
 
-    const inputClassName = clsx(
+    inputProps.className = clsx(
         "min-w-[20rem] rounded-l-md py-2 px-6 outline-none sm:text-sm sm:leading-6",
         "border-0 bg-white appearance-none",
         "text-gray-900 placeholder:text-gray-400",
@@ -63,7 +63,7 @@ export const InlineActionInput = ({
     );
 
     const input = inputProps.options ? (
-        <select {...inputProps} className={inputClassName} onChange={onChange}>
+        <select {...inputProps} onChange={onChange}>
             {inputProps.options.map(option => (
                 <option key={option.key} value={option.key}>
                     {option.value}
@@ -71,19 +71,13 @@ export const InlineActionInput = ({
             ))}
         </select>
     ) : (
-        <input {...inputProps} className={inputClassName} onChange={onChange} />
+        <input {...inputProps} onChange={onChange} />
     );
 
     return (
         <div>
             <div className={boxClassName}>
-                <button
-                    {...buttonProps}
-                    onClick={onSubmit}
-                    className={buttonClassName}
-                    disabled={isLoading}>
-                    {isLoading ? <Loader className="w-4 h-4" /> : buttonProps.children}
-                </button>
+                <Button {...buttonProps} onClick={onSubmit} loaderClass="w-4 h-4" />
                 {input}
             </div>
             {error && <span className={"text-xs text-error-600"}>{error}</span>}

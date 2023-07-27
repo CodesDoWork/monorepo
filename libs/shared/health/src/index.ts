@@ -1,6 +1,6 @@
 export {
     createHealthcheckResult,
     healthcheckResultType,
-    HealthcheckResult,
+    type HealthcheckResult,
 } from "./lib/healthcheckResult";
 export { HealthStatus } from "./lib/HealthStatus";

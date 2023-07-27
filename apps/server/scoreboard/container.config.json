@@ -6,7 +6,7 @@
     "composeFile": "apps/server/docker-compose.yml",
     "composeServiceName": "scoreboard",
     "extensions": {
-        "postInstall": ["RUN npm i next@13.4.1 --omit dev"],
+        "postInstall": ["RUN npm i next@13.4.1 pg --omit dev"],
         "end": ["ENTRYPOINT npm start"]
     }
 }

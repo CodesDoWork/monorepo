@@ -1,5 +1,5 @@
 import { getServerSession, Session } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { authOptions } from "../../auth/[...nextauth]/authOptions";
 import { TRPCError } from "@trpc/server";
 
 export const getSession = async (): Promise<Session> => {

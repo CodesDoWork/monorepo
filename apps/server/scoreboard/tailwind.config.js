@@ -12,6 +12,7 @@ module.exports = {
         extend: {
             colors: {
                 primary: colors.blue,
+                onPrimary: colors.white,
                 error: colors.red,
             },
         },

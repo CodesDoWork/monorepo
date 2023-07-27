@@ -1,0 +1,16 @@
+{
+    "name": "shared-web-utils",
+    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/shared/web/utils/src",
+    "projectType": "library",
+    "tags": ["shared"],
+    "targets": {
+        "lint": {
+            "executor": "@nx/linter:eslint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["libs/shared/web/utils/**/*.{ts,tsx,js,jsx}"]
+            }
+        }
+    }
+}

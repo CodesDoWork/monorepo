@@ -23,3 +23,5 @@ export const User = sequelize.define<UserModel>("User", {
     notionApiKey: DataTypes.STRING,
     selectedDB: DataTypes.STRING,
 });
+
+sequelize.sync();

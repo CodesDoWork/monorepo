@@ -50,7 +50,7 @@ services:
       - PORT=${BACKUP_SERVICE_PORT}
       - BASE_URL=https://backup.localhost
     healthcheck:
-      test: wget -qO- http://localhost:${BACKUP_SERVICE_PORT}/health || exit 1
+      test: wget -qO- http://localhost:${BACKUP_SERVICE_PORT}/health?input={} || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-backup-service
     volumes:
       - ./backup-service/.snapshots:/.snapshots
@@ -146,7 +146,7 @@ services:
       - BASE_URL=https://music-downloader.localhost
       - DOWNLOAD_DIR=/music/downloads
     healthcheck:
-      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/health || exit 1
+      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/health?input={} || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-music-downloader
     networks:
       - music
@@ -190,6 +190,7 @@ services:
       - cicd
       - documentation
       - music
+      - scoreboard
     ports:
       - 80:80
       - 443:443
@@ -200,9 +201,11 @@ services:
       - PORT=${SCOREBOARD_PORT}
       - PG_PASSWORD=${DB_PASSWORD}
     env_file:
-      - scoreboard/.env
+      - scoreboard/.env.local
     extra_hosts:
       - auth.localhost:host-gateway
+    healthcheck:
+      test: wget -qO- http://localhost:${SCOREBOARD_PORT}/api/trpc/health?input={} || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-scoreboard
     networks:
       - scoreboard

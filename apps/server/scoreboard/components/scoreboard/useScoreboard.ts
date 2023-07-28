@@ -22,7 +22,6 @@ export const useScoreboard = () => {
                     if ("number" in prop) {
                         dbProperties[propName] = {
                             name: propName,
-                            id: prop.id,
                             value: prop.number ?? 0,
                         };
                     } else if ("date" in prop) {
@@ -40,39 +39,42 @@ export const useScoreboard = () => {
 
             setDbData(newData);
         });
-    }, [setDbInfo, setDbData, setIsLoading]);
+    }, [setDbInfo, setDbData]);
 
     useEffect(() => {
         if (!dbInfo) {
             return;
         }
 
-        const todayProperties = dbData[getIsoDate(new Date())] || [];
+        const today = getIsoDate(new Date());
+        const todayProperties = dbData[today] || [];
         setCounters(
             dbInfo.properties
                 .sort((p1, p2) => p1.localeCompare(p2))
-                .map((prop, idx) => {
-                    const updateProperty = (add: number) => {
-                        setLoadingCounters(old => [...old, prop]);
-                        trpc.updateProperty
-                            .query({ propName: prop, add })
-                            .then(res => {
-                                setCounters(old => {
-                                    old[idx].value = res.value;
-                                    return [...old];
-                                });
-                            })
-                            .then(() =>
-                                setLoadingCounters(old => old.filter(name => name !== prop)),
-                            );
+                .map(propName => {
+                    const updateProperty = async (add: number) => {
+                        setLoadingCounters(old => [...old, propName]);
+                        const res = await trpc.updateProperty.query({ propName, add });
+
+                        if (todayProperties[propName]) {
+                            todayProperties[propName].value = res.value;
+                        } else {
+                            todayProperties[propName] = {
+                                name: propName,
+                                value: res.value,
+                            };
+                        }
+                        setDbData({ ...dbData, [today]: todayProperties });
+
+                        setLoadingCounters(old => old.filter(name => name !== propName));
                     };
 
                     return {
-                        name: prop,
-                        value: todayProperties[prop]?.value ?? 0,
+                        name: propName,
+                        value: todayProperties[propName]?.value ?? 0,
                         increment: () => updateProperty(1),
                         decrement: () => updateProperty(-1),
-                        isLoading: loadingCounters.includes(prop),
+                        isLoading: loadingCounters.includes(propName),
                     };
                 }),
         );
@@ -95,7 +97,7 @@ export const useScoreboard = () => {
     useEffect(() => {
         setSelectedCounters(chartData.map(d => d.name));
         setIsLoading(false);
-    }, [chartData]);
+    }, [chartData, setSelectedCounters, setIsLoading]);
 
     return { dbInfo, counters, selectedCounters, setSelectedCounters, chartData, isLoading };
 };
@@ -110,7 +112,6 @@ type DBData = Record<string, Record<string, DBProperty>>;
 
 type DBProperty = {
     name: string;
-    id: string;
     value: number;
 };
 

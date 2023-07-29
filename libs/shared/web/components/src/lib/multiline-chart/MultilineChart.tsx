@@ -45,14 +45,14 @@ export const MultilineChart = ({ data, width, height }: MultilineChartProps) => 
     const { minX, maxX, minY, maxY } = computeMinMax(data);
 
     useEffect(() => {
-        const { xScale, yScale } = setupScales(minX, maxX, minY, maxY, width, height);
+        const { xScale, yScale } = setupScales(minX, maxX, minY, maxY, width, height - offsetY);
         const svg = setupSvg(svgRef);
         setupAxis(svg, xScale, yScale, width, height);
         drawLines(svg, data, xScale, yScale, prevItems);
         setPrevItems(data.map(({ name }) => name));
     }, [data]);
 
-    return <svg ref={svgRef} width={width + offsetX} height={height + offsetY} />;
+    return <svg ref={svgRef} width={width + offsetX} height={height} />;
 };
 
 const computeMinMax = (data: DataType): MinMaxData => {
@@ -74,15 +74,21 @@ const setupScales = (
     width: number,
     height: number,
 ): Scales => {
-    const xScale = d3.scaleTime().domain([minX, maxX]).range([0, width]);
-    const yScale = d3.scaleLinear().domain([minY, maxY]).range([height, 8]);
+    const xScale = d3
+        .scaleTime()
+        .domain([minX, maxX])
+        .range([0, width - offsetX]);
+    const yScale = d3
+        .scaleLinear()
+        .domain([minY, maxY + maxY * 0.1])
+        .range([height - offsetY, 0]);
     return { xScale, yScale };
 };
 
 const setupSvg = (svgRef: React.RefObject<SVGSVGElement>) => {
     const svgEl = d3.select(svgRef.current);
     svgEl.selectAll("*").remove();
-    return svgEl.append("g").attr("transform", `translate(${offsetX},-${offsetY})`);
+    return svgEl.append("g").attr("transform", `translate(${offsetX},0)`);
 };
 
 const setupAxis = (
@@ -92,11 +98,17 @@ const setupAxis = (
     width: number,
     height: number,
 ): void => {
-    const xAxis = d3.axisBottom(xScale).tickSize(-height + 32);
-    const xAxisGroup = svg.append("g").attr("transform", `translate(0, ${height})`).call(xAxis);
+    const xAxis = d3.axisBottom(xScale).tickSize(0);
+    const xAxisGroup = svg
+        .append("g")
+        .attr("transform", `translate(0,${height - offsetY})`)
+        .call(xAxis);
     customizeAxis(xAxisGroup);
 
-    const yAxis = d3.axisLeft(yScale).ticks(5).tickSize(-width);
+    const yAxis = d3
+        .axisLeft(yScale)
+        .ticks(5)
+        .tickSize(-width + offsetX);
     const yAxisGroup = svg.append("g").call(yAxis);
     customizeAxis(yAxisGroup);
 };

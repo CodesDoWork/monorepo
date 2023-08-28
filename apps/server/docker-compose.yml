@@ -72,7 +72,6 @@ services:
     image: docker.io/library/redis:alpine
     networks:
       - auth
-      - nutrition
     volumes:
       - cache:/data
 
@@ -89,7 +88,6 @@ services:
       - auth
       - cicd
       - git
-      - nutrition
       - scoreboard
       - sonar
     volumes:
@@ -156,35 +154,6 @@ services:
     volumes:
       - music-downloader-data:/app/.data
       - ${MUSIC_VOLUME}:/music
-
-  nutrition-dev:
-    container_name: ${NUTRITION_CONTAINER}
-    depends_on:
-      cache:
-        condition: service_healthy
-      db:
-        condition: service_healthy
-    environment:
-      - KEY=${NUTRITION_KEY}
-      - SECRET=${NUTRITION_SECRET}
-      - DB_CLIENT=pg
-      - DB_HOST=db
-      - DB_PORT=5432
-      - DB_DATABASE=nutrition
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - CACHE_ENABLED=true
-      - CACHE_STORE=redis
-      - REDIS=redis://cache:6379
-      - EXTENSIONS_AUTO_RELOAD=true
-    image: directus/directus:10
-    networks:
-      - nutrition
-    ports:
-      - 8055:8055
-    volumes:
-      - ../../dist/libs/server/nutrition/extensions:/directus/extensions
-      - nutrition-uploads:/directus/uploads
 
   renovate:
     container_name: renovate
@@ -331,8 +300,6 @@ volumes:
 
   navidrome-data:
 
-  nutrition-uploads:
-
   postgres-data:
 
   sonarqube-config:
@@ -358,8 +325,6 @@ networks:
   git:
     driver: bridge
   music:
-    driver: bridge
-  nutrition:
     driver: bridge
   scoreboard:
     driver: bridge

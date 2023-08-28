@@ -27,7 +27,9 @@
             "server/music-downloader/scheduler": [
                 "libs/server/music-downloader/scheduler/src/index.ts"
             ],
-            "server/nutrition/analytics": ["libs/server/nutrition/analytics/src/index.ts"],
+            "server/nutrition/extensions-bundle": [
+                "libs/server/nutrition/extensions-bundle/src/index.ts"
+            ],
             "shared/fastify": ["libs/shared/fastify/src/index.ts"],
             "shared/health": ["libs/shared/health/src/index.ts"],
             "shared/logging": ["libs/shared/logging/src/index.ts"],

@@ -1,59 +1,66 @@
+import { logger } from "shared/logging";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
 import { AnyRouter } from "@trpc/server";
 import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
-import fastify, { FastifyHttpOptions } from "fastify";
-import { logger } from "shared/logging";
+import fastify, { FastifyHttpOptions, FastifyInstance } from "fastify";
 import { Server } from "http";
 import { generateOpenApiDocument, GenerateOpenApiDocumentOptions } from "trpc-openapi";
-import fastifySwaggerUi from "@fastify/swagger-ui";
-import fastifySwagger from "@fastify/swagger";
 
-export type FastifyServerOptions = {
+export interface FastifyServerOptions {
     host?: string;
     port: string | number;
     basePath?: string;
     router: AnyRouter;
-    docs?: GenerateOpenApiDocumentOptions & {
-        routePrefix?: string;
-    };
+    docs?: SwaggerOptions;
     fasitfyOptions?: FastifyHttpOptions<Server>;
-};
+}
+
+interface SwaggerOptions extends GenerateOpenApiDocumentOptions {
+    routePrefix?: string;
+}
 
 const openapiTRPCWarning =
     "Warning: This document was generated from trpc. TRPC uses ?input={{json}} and not the traditional parameters!";
 
-export const startServer = ({
+export function startServer({
     host = process.env.HOST || "0.0.0.0",
     port,
     basePath = "/",
     router,
     docs,
     fasitfyOptions = {},
-}: FastifyServerOptions) => {
+}: FastifyServerOptions) {
     const server = fastify({ logger, ...fasitfyOptions });
-
-    if (docs) {
-        docs.description = docs.description
-            ? `${docs.description}\n${openapiTRPCWarning}`
-            : openapiTRPCWarning;
-
-        server.register(fastifySwagger, {
-            mode: "static",
-            specification: {
-                document: generateOpenApiDocument(router, docs),
-            },
-        });
-        server.register(fastifySwaggerUi, { routePrefix: docs.routePrefix ?? "/api" });
-    }
+    setupSwagger(server, router, docs);
 
     server.register(fastifyTRPCPlugin, {
         prefix: basePath,
         trpcOptions: { router },
     });
 
-    server.listen({ host: host || "0.0.0.0", port: Number(port) }, err => {
+    server.listen({ host, port: Number(port) }, err => {
         if (err) {
             server.log.error(err);
             process.exit(1);
         }
     });
-};
+}
+
+function setupSwagger(server: FastifyInstance, router: AnyRouter, docs?: SwaggerOptions) {
+    if (!docs) {
+        return;
+    }
+
+    docs.description = docs.description
+        ? `${docs.description}\n${openapiTRPCWarning}`
+        : openapiTRPCWarning;
+
+    server.register(fastifySwagger, {
+        mode: "static",
+        specification: {
+            document: generateOpenApiDocument(router, docs),
+        },
+    });
+    server.register(fastifySwaggerUi, { routePrefix: docs.routePrefix ?? "/api" });
+}

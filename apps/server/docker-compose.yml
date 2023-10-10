@@ -1,79 +1,65 @@
 services:
   auth:
-    command: server
+    command:
+      - start
+      - --db postgres
+      - --db-url-host ${DB_CONTAINER}
+      - --db-username ${DB_USER}
+      - --db-password ${DB_PASSWORD}
+      - --hostname-path=${AUTH_BASE}
+      - --hostname-strict=false
+      - --http-relative-path=${AUTH_BASE}
+      - --http-enabled=true
+      - --health-enabled=true
+      - --metrics-enabled=true
+      - --features="docker,token-exchange"
+      - --proxy=edge
     container_name: ${AUTH_CONTAINER}
     depends_on:
       db:
         condition: service_healthy
-      cache:
-        condition: service_healthy
     environment:
-      AUTHENTIK_REDIS__HOST: ${CACHE_CONTAINER}
-      AUTHENTIK_POSTGRESQL__HOST: ${DB_CONTAINER}
-      AUTHENTIK_POSTGRESQL__USER: ${DB_USER}
-      AUTHENTIK_POSTGRESQL__NAME: ${AUTH_DB}
-      AUTHENTIK_POSTGRESQL__PASSWORD: ${DB_PASSWORD}
-      AUTHENTIK_SECRET_KEY: ${AUTH_SECRET_KEY}
-    image: ${AUTH_IMAGE}
+      - KEYCLOAK_ADMIN=${AUTH_USER}
+      - KEYCLOAK_ADMIN_PASSWORD=${AUTH_PASSWORD}
+    image: quay.io/keycloak/keycloak:22.0.3
     networks:
       - auth
-    volumes:
-      - authentik-media:/media
-      - authentik-templates:/templates
-
-  auth-worker:
-    command: worker
-    container_name: ${AUTH_WORKER_CONTAINER}
-    depends_on:
-      db:
-        condition: service_healthy
-      cache:
-        condition: service_healthy
-    environment:
-      AUTHENTIK_REDIS__HOST: ${CACHE_CONTAINER}
-      AUTHENTIK_POSTGRESQL__HOST: ${DB_CONTAINER}
-      AUTHENTIK_POSTGRESQL__USER: ${DB_USER}
-      AUTHENTIK_POSTGRESQL__NAME: ${AUTH_DB}
-      AUTHENTIK_POSTGRESQL__PASSWORD: ${DB_PASSWORD}
-      AUTHENTIK_SECRET_KEY: ${AUTH_SECRET_KEY}
-    image: ${AUTH_IMAGE}
-    networks:
-      - auth
-    volumes:
-      - authentik-media:/media
-      - authentik-templates:/templates
-      - authentik-certs:/certs
+    restart: unless-stopped
 
   backup-service:
     container_name: ${BACKUP_SERVICE_CONTAINER}
     environment:
       - PORT=${BACKUP_SERVICE_PORT}
-      - BASE_URL=https://backup.localhost
+      - BASE_URL=https://${DOMAIN}${BACKUP_BASE}
+      - BASE_PATH=${BACKUP_BASE}
     healthcheck:
-      test: wget -qO- http://localhost:${BACKUP_SERVICE_PORT}/health?input={} || exit 1
+      test: wget -qO- http://localhost:${BACKUP_SERVICE_PORT}${BACKUP_BASE}/health?input={} || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-backup-service
+    restart: unless-stopped
     volumes:
       - ./backup-service/.snapshots:/.snapshots
-      - ${BACKUP_PC_PATH}:/data/pc:ro
-      - git-config:/data/services/git/config:ro
-      - git-data:/data/services/git/data:ro
+      # - ${BACKUP_PC_PATH}:/data/pc:ro
+      - docker-registry:/data/services/docker-registry/data:ro
+      - gitlab-config:/data/services/gitlab/config:ro
+      - gitlab-data:/data/services/gitlab/data:ro
+      - music-downloader-data:/data/services/music-downloader/data:ro
       - navidrome-data:/data/services/navidrome/data:ro
+      - portainer_data:/data/services/portainer/data:ro
       - postgres-data:/data/services/db/data:ro
       - sonarqube-config:/data/services/sonarqube/config:ro
       - sonarqube-data:/data/services/sonarqube/data:ro
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
-      - teamcity-data:/data/services/teamcity/data:ro
+      - verdaccio-storage:/data/services/verdaccio/storage:ro
+      - verdaccio-config:/data/services/verdaccio/config:ro
+      - verdaccio-plugins:/data/services/verdaccio/plugins:ro
 
-  cache:
-    container_name: ${CACHE_CONTAINER}
-    command: --save 60 1 --loglevel warning
-    healthcheck:
-      test: ["CMD-SHELL", "redis-cli ping | grep PONG"]
-    image: docker.io/library/redis:alpine
+  dashboard:
+    build: ./dashboard
+    container_name: ${DASHBOARD_CONTAINER}
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-dashboard
     networks:
-      - auth
-    volumes:
-      - cache:/data
+      - dashboard
+    restart: unless-stopped
 
   db:
     container_name: ${DB_CONTAINER}
@@ -87,44 +73,80 @@ services:
     networks:
       - auth
       - cicd
-      - git
       - scoreboard
       - sonar
+    restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
   docker-registry:
     container_name: ${DOCKER_REGISTRY_CONTAINER}
+    environment:
+      - REGISTRY_AUTH_TOKEN_REALM=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}/protocol/docker-v2/auth
+      - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
+      - REGISTRY_AUTH_TOKEN_ISSUER=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}
+      - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/opt/certs/trust_chain.pem
     healthcheck:
       test: wget -qO- http://localhost:${DOCKER_REGISTRY_PORT}/v2/ | grep -e "{}" || exit 1
     image: registry:2
     networks:
       - cicd
+    restart: unless-stopped
     volumes:
       - docker-registry:/var/lib/registry
+      - ./docker-registry/certs:/opt/certs
 
   documentation:
+    build: ./documentation
     container_name: ${DOCUMENTATION_CONTAINER}
     healthcheck:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-documentation
     networks:
       - documentation
+    restart: unless-stopped
 
-  git:
-    container_name: ${GIT_CONTAINER}
-    depends_on:
-      db:
-        condition: service_healthy
-    healthcheck:
-      test: curl -f http://localhost:${GIT_PORT}/api/swagger || exit 1
-    image: gitea/gitea:1-rootless
+  gitlab:
+    container_name: ${GITLAB_CONTAINER}
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://${DOMAIN}${GITLAB_BASE}'
+        letsencrypt['enabled'] = false
+        nginx['enable'] = true
+        nginx['listen_https'] = false
+        nginx['listen_port'] = ${GITLAB_PORT}
+        gitlab_rails['omniauth_enabled'] = true
+        gitlab_rails['omniauth_allow_single_sign_on'] = ['openid_connect']
+        gitlab_rails['omniauth_block_auto_created_users'] = false
+        gitlab_rails['omniauth_auto_link_ldap_user'] = true
+        gitlab_rails['omniauth_providers'] = [
+          {
+            "name" => "openid_connect",
+            "label" => "Keycloak",
+            "args" => {
+              "name" => "openid_connect",
+              "scope" => ["openid", "profile", "email"],
+              "uid_field" => "email",
+              "response_type" => "code",
+              "issuer" => "https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}",
+              "discovery" => true,
+              "client_auth_method" => "query",
+              "client_options" => {
+                "identifier" => "${GITLAB_AUTH_CLIENT_ID}",
+                "secret" => "${GITLAB_AUTH_CLIENT_SECRET}",
+                "redirect_uri" => "https://${DOMAIN}${GITLAB_BASE}/users/auth/openid_connect/callback"
+              }
+            }
+          }
+        ]
+    image: gitlab/gitlab-ee:latest
     networks:
       - cicd
-      - git
+    restart: unless-stopped
+    shm_size: "256m"
     volumes:
-      - git-config:/etc/gitea
-      - git-data:/var/lib/gitea
+      - gitlab-config:/etc/gitlab
+      - gitlab-data:/var/opt/gitlab
 
   music:
     build: ./music # healthcheck implemented
@@ -132,10 +154,14 @@ services:
     env_file:
       - ./music/.env
     environment:
+      - ND_BASEURL=${MUSIC_BASE}
       - ND_PORT=${MUSIC_PORT}
+      - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
+      - ND_REVERSEPROXYWHITELIST=${MUSIC_SUBNET}
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-music
     networks:
       - music
+    restart: unless-stopped
     volumes:
       - navidrome-data:/data
       - ${MUSIC_VOLUME}:/music:ro
@@ -144,57 +170,79 @@ services:
     container_name: ${MUSIC_DOWNLOADER_CONTAINER}
     environment:
       - PORT=${MUSIC_DOWNLOADER_PORT}
-      - BASE_URL=https://music-downloader.localhost
+      - BASE_URL=https://${DOMAIN}${MUSIC_DOWNLOADER_BASE}
+      - BASE_PATH=${MUSIC_DOWNLOADER_BASE}
       - DOWNLOAD_DIR=/music/downloads
     healthcheck:
-      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/health?input={} || exit 1
+      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}${MUSIC_DOWNLOADER_BASE}/health?input={} || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-music-downloader
     networks:
       - music
+    restart: unless-stopped
     volumes:
       - music-downloader-data:/app/.data
       - ${MUSIC_VOLUME}:/music
 
-  renovate:
-    container_name: renovate
-    environment:
-      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
-      - GIT_CONTAINER=${GIT_CONTAINER}
-      - GIT_PORT=${GIT_PORT}
-    image: renovate/renovate:35
-    network_mode: host
-    volumes:
-      - ../../renovate/config.js:/usr/src/app/config.js
-
-  renovate-dev:
-    container_name: renovate-dev
-    environment:
-      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
-      - GIT_CONTAINER=${GIT_CONTAINER}
-      - GIT_PORT=${GIT_PORT}
-    image: renovate/renovate:35
-    networks:
-      - git
-    volumes:
-      - ../../renovate/config.js:/usr/src/app/config.js
-
-  reverse-proxy:
-    build: ./reverse-proxy
-    container_name: ${REVERSE_PROXY_CONTAINER}
+  nginx:
+    build: ./nginx
+    container_name: ${NGINX_CONTAINER}
     env_file:
       - .env
     healthcheck:
       test: curl -f http://localhost || exit 1
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-reverse-proxy
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-nginx
     networks:
-      - auth
-      - cicd
-      - documentation
-      - music
-      - scoreboard
+      auth:
+      cicd:
+      dashboard:
+      documentation:
+      music:
+        ipv4_address: ${NGINX_MUSIC_IP}
+      portainer:
+      scoreboard:
+      ssh:
+      tunnel:
     ports:
       - 80:80
       - 443:443
+    restart: unless-stopped
+
+  portainer:
+    command:
+      - --base-url="${PORTAINER_BASE}"
+    container_name: ${PORTAINER_CONTAINER}
+    extra_hosts:
+      - "${DOMAIN}:host-gateway"
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-portainer
+    networks:
+      - portainer
+    restart: unless-stopped
+    volumes:
+      - portainer_data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  #  renovate:
+  #    container_name: renovate
+  #    environment:
+  #      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
+  #      - GIT_CONTAINER=${GIT_CONTAINER}
+  #      - GIT_PORT=${GIT_PORT}
+  #    image: renovate/renovate:35
+  #    network_mode: host
+  #    volumes:
+  #      - ../../renovate/config.js:/usr/src/app/config.js
+  #
+  #  renovate-dev:
+  #    container_name: renovate-dev
+  #    environment:
+  #      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
+  #      - GIT_CONTAINER=${GIT_CONTAINER}
+  #      - GIT_PORT=${GIT_PORT}
+  #    image: renovate/renovate:35
+  #    networks:
+  #      - cicd
+  #    volumes:
+  #      - ../../renovate/config.js:/usr/src/app/config.js
 
   scoreboard:
     container_name: ${SCOREBOARD_CONTAINER}
@@ -204,17 +252,22 @@ services:
     environment:
       - PORT=${SCOREBOARD_PORT}
       - PG_PASSWORD=${DB_PASSWORD}
-      - NEXTAUTH_URL=${SCOREBOARD_HOST}
-      - NEXT_PUBLIC_API=${SCOREBOARD_HOST}
+      - NEXTAUTH_URL=https://${DOMAIN}${SCOREBOARD_BASE}/api/auth
+      - NEXT_PUBLIC_API=https://${DOMAIN}${SCOREBOARD_BASE}
+      - BASE_PATH=${SCOREBOARD_BASE}
+      - AUTH_CLIENT_ID=${SCOREBOARD_AUTH_CLIENT_ID}
+      - AUTH_CLIENT_SECRET=${SCOREBOARD_AUTH_CLIENT_SECRET}
+      - AUTH_ISSUER=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}
     env_file:
       - scoreboard/.env.local
     extra_hosts:
       - auth.localhost:host-gateway
     healthcheck:
-      test: wget -qO- http://localhost:${SCOREBOARD_PORT}/api/trpc/health?input={} || exit 1
+      test: wget -qO- http://localhost:${SCOREBOARD_PORT}${SCOREBOARD_BASE}/api/trpc/health?input={} || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-scoreboard
     networks:
       - scoreboard
+    restart: unless-stopped
 
   sonarqube:
     container_name: ${SONARQUBE_CONTAINER}
@@ -225,89 +278,78 @@ services:
       - SONAR_JDBC_USERNAME=${DB_USER}
       - SONAR_JDBC_PASSWORD=${DB_PASSWORD}
       - SONAR_JDBC_URL=jdbc:postgresql://${DB_CONTAINER}:5432/sonarqube
+      - SONAR_WEB_CONTEXT=${SONARQUBE_BASE}
     healthcheck:
-      test: wget -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
+      test: wget -qO- http://localhost:9000${SONARQUBE_BASE}/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
     image: sonarqube:9-community
     networks:
       - cicd
       - sonar
+    restart: unless-stopped
     volumes:
       - sonarqube-config:/opt/sonarqube/conf
       - sonarqube-data:/opt/sonarqube/data
       - sonarqube-extensions:/opt/sonarqube/extensions
 
-  teamcity-agent:
-    build:
-      context: ./teamcity-agent
-      args:
-        - DOCKER_REGISTRY_HOST=${DOCKER_REGISTRY_HOST}
-    container_name: ${TEAMCITY_AGENT_CONTAINER}
+  ssh:
+    build: ./ssh
+    container_name: ${SSH_CONTAINER}
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-ssh
     environment:
-      - SERVER_URL=${TEAMCITY_CONTAINER}:${TEAMCITY_PORT}
-      - DOCKER_IN_DOCKER=start
-    extra_hosts:
-      - ${VERDACCIO_HOST}:host-gateway
-      - ${DOCKER_REGISTRY_HOST}:host-gateway
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-teamcity-agent
+      - BASE_PATH=${SSH_BASE}
     networks:
-      - cicd
-    privileged: true
-    volumes:
-      - teamcity-agent-volumes:/var/lib/docker
+      - ssh
+    restart: unless-stopped
 
-  teamcity:
-    container_name: ${TEAMCITY_CONTAINER}
+  tunnel:
+    build: ./tunnel
+    container_name: ${TUNNEL_CONTAINER}
     depends_on:
-      db:
+      nginx:
         condition: service_healthy
-    environment:
-      - TEAMCITY_HTTPS_PROXY_ENABLED=true
-    healthcheck:
-      test: curl -f http://localhost:${TEAMCITY_PORT}/app/rest/version || exit 1
-    image: jetbrains/teamcity-server:latest
+    entrypoint: lt -p 443 -l ${NGINX_CONTAINER} -s ${TUNNEL_SUBDOMAIN} --local-https --allow-invalid-cert
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-tunnel
     networks:
-      - cicd
-    volumes:
-      - teamcity-data:/data/teamcity_server/datadir
+      - tunnel
+    restart: unless-stopped
 
   verdaccio:
-    container_name: verdaccio
+    build:
+      context: ./verdaccio
+      args:
+        - AUTH_CLIENT_ID=${VERDACCIO_AUTH_CLIENT_ID}
+        - AUTH_CLIENT_SECRET=${VERDACCIO_AUTH_CLIENT_SECRET}
+    container_name: ${VERDACCIO_CONTAINER}
     environment:
-      - VERDACCIO_PUBLIC_URL=https://${VERDACCIO_HOST}
+      - VERDACCIO_PUBLIC_URL=https://${DOMAIN}${VERDACCIO_BASE}
+      - NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/server.crt
     healthcheck:
       test: wget -qO- http://localhost:${VERDACCIO_PORT}/-/ping | grep -e "{}" || exit 1
-    image: verdaccio/verdaccio:5
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-verdaccio
     networks:
       - cicd
+    restart: unless-stopped
     volumes:
       - verdaccio-storage:/verdaccio/storage
-      - verdaccio-config:/verdaccio/conf
       - verdaccio-plugins:/verdaccio/plugins
 
 volumes:
-  authentik-media:
-  authentik-templates:
-  authentik-certs:
-
-  cache:
-
   docker-registry:
 
-  git-config:
-  git-data:
+  gitlab-config:
+  gitlab-data:
 
   music-downloader-data:
 
   navidrome-data:
+
+  portainer_data:
 
   postgres-data:
 
   sonarqube-config:
   sonarqube-data:
   sonarqube-extensions:
-
-  teamcity-data:
-  teamcity-agent-volumes:
 
   verdaccio-storage:
   verdaccio-config:
@@ -316,17 +358,25 @@ volumes:
 networks:
   auth:
     driver: bridge
-  cache:
-    driver: bridge
   cicd:
+    driver: bridge
+  dashboard:
     driver: bridge
   documentation:
     driver: bridge
-  git:
-    driver: bridge
   music:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: ${MUSIC_SUBNET}
+          gateway: ${MUSIC_GATEWAY}
+  portainer:
     driver: bridge
   scoreboard:
     driver: bridge
   sonar:
+    driver: bridge
+  ssh:
+    driver: bridge
+  tunnel:
     driver: bridge

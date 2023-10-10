@@ -9,7 +9,7 @@ export const enrichFastifyEnvs = async <TOptions extends Record<string, ZodType>
     return {
         HOST: z.string().optional(),
         PORT: z.coerce.number().optional().default(randomPort),
-        BASE: z.string().optional(),
+        BASE_PATH: z.string().optional().default("/"),
         BASE_URL: z.string().optional().default(`http://localhost:${randomPort}`),
         VERSION: z.string().optional().default("development"),
         ...options,

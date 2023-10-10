@@ -10,6 +10,7 @@ executeCmd(["crond"])
     .then(env => {
         startServer({
             port: env.PORT,
+            basePath: env.BASE_PATH,
             router: createAppRouter(snapshotsRouter),
             docs: {
                 title: "Music Downloader API",

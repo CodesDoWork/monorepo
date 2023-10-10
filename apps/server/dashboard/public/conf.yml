@@ -1,0 +1,95 @@
+pageInfo:
+  footerText: Work productively!
+  logo: /img/icon.png
+  title: Server Dashy
+
+appConfig:
+  customCss: ".item { padding: 0.5rem 0.1rem 0 0.1rem; } .opening-method-icon { display: none !important; } html[data-theme='nord'] .collapsable:nth-child(2n) { background: #d08770; } html[data-theme='nord'] .collapsable:nth-child(4n+3) { background: #ebcb8b; } html[data-theme='nord'] .collapsable:nth-child(4n) { background: #a3be8c; }"
+  defaultOpeningMethod: sametab
+  disableConfigurationForNonAdmin: true
+  hideComponents:
+    hideFooter: true
+    hideSettings: true
+  iconSize: medium
+  layout: auto
+  preventLocalSave: true
+  preventWriteToDisk: true
+  theme: nord
+  webSearch:
+    openingMethod: sametab
+    searchEngine: google
+    searchBangs:
+      ":y": https://www.youtube.com/results?search_query=
+      ":tg": https://www.google.com/search?q=%C3%BCbersetzung+deutsch+englisch+
+      ":te": https://www.google.com/search?q=%C3%BCbersetzung+englisch+
+
+sections:
+  - name: Tools
+    displayData:
+      cutToHeight: true
+    icon: ":wrench:"
+    items:
+      - title: Music
+        icon: navidrome.png
+        tags:
+          - navidrome
+        url: /music
+      - title: Music Downloader
+        icon: icon.svg
+        url: /music-downloader
+      - title: Scoreboard
+        icon: icon.svg
+        url: /scoreboard
+      - title: Logout
+        icon: logout.svg
+        url: /logout
+  - name: Server
+    displayData:
+      cutToHeight: true
+    icon: ":globe_with_meridians:"
+    items:
+      - title: FRITZ!Box
+        icon: fritzbox.svg
+        url: /fritz
+      - title: SSH
+        icon: ssh.png
+        url: /ssh
+  - name: Admin
+    displayData:
+      cutToHeight: true
+    icon: ":construction_worker:"
+    items:
+      - title: Auth
+        icon: keycloak.svg
+        url: /auth
+      - title: Portainer
+        icon: portainer.svg
+        tags:
+          - docker
+          - container
+        url: /portainer
+  - name: Dev
+    displayData:
+      cutToHeight: true
+    icon: ":computer:"
+    items:
+      - title: Docs
+        icon: icon.svg
+        tags:
+          - vitepress
+        url: /docs
+      - title: Gitlab
+        icon: gitlab.svg
+        url: /gitlab
+      - title: SonarQube
+        icon: sonarqube.png
+        tags:
+          - cicd
+        url: /sonar
+      - title: Verdaccio
+        icon: verdaccio.png
+        tags:
+          - npm
+          - npmreg
+          - registry
+        url: /npm

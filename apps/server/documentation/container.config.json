@@ -1,5 +1,5 @@
 {
-    "type": "nginx",
+    "type": "custom",
     "tags": ["latest"],
     "options": {
         "nginxVersion": "1",

@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Stage } from "../../types/types";
 import { trpc } from "../../app/trpc";
+import { signOut } from "next-auth/react";
+import { env } from "../../app/env";
 
 export const useContent = () => {
     const [stage, setStage] = useState(Stage.Loading);

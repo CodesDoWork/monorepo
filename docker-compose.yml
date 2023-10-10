@@ -19,12 +19,7 @@ services:
     environment:
       - HOST=0.0.0.0
       - NEXT_WEBPACK_USEPOLLING=1
-    extra_hosts:
-      - "npmreg.localhost:host-gateway"
-      - "auth.localhost:host-gateway"
     image: codedowork/monorepo-private/dev
-    ports:
-      - 4200:4200
     stdin_open: true
     tty: true
     volumes:

@@ -7,10 +7,15 @@ import { Stage } from "../../types/types";
 import { useContent } from "./useContent";
 import { IconButton, Loader } from "shared/web/components";
 import { BiArrowBack } from "react-icons/bi";
-import { signOut } from "next-auth/react";
+import { SessionProvider, signOut } from "next-auth/react";
 import { FiLogOut } from "react-icons/fi";
+import { Session } from "next-auth";
 
-export const Content = () => {
+type ContentProps = {
+    session: Session;
+};
+
+export const Content = ({ session }: ContentProps) => {
     const { stage, update, goBack } = useContent();
 
     let component;
@@ -32,7 +37,9 @@ export const Content = () => {
     const showBackButton = stage > Stage.Login;
 
     return (
-        <>
+        <SessionProvider
+            session={session}
+            basePath={`${process.env.NEXT_PUBLIC_BASE_PATH}/api/auth`}>
             <header className="z-10 w-full p-3">
                 <nav className="flex justify-between">
                     {showBackButton ? <IconButton onClick={goBack} Icon={BiArrowBack} /> : <span />}
@@ -42,6 +49,6 @@ export const Content = () => {
             <main className="absolute h-screen w-screen px-4 flex items-center justify-center">
                 <div className="m-auto">{component}</div>
             </main>
-        </>
+        </SessionProvider>
     );
 };

@@ -1,0 +1,46 @@
+storage: /verdaccio/storage/data
+plugins: /verdaccio/plugins
+
+web:
+  enabled: true
+  title: Verdaccio
+  gravatar: true
+
+auth:
+  # https://github.com/deeplay-io/verdaccio-openid-connect
+  openid-connect:
+    publicUrl: https://server.fritz.box/npm/
+    fsSessionStorePath: /tmp
+    fsTokenStorePath: /tmp
+    issuer: https://server.fritz.box/auth/realms/server/
+    clientId: $AUTH_CLIENT_ID
+    clientSecret: $AUTH_CLIENT_SECRET
+    scope: openid profile email offline_access
+    usernameClaim: preferred_username
+    accessTokenAuth: false
+
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+
+packages:
+  "@*/*":
+    access: $authenticated
+    publish: $authenticated
+    unpublish: $authenticated
+    proxy: npmjs
+
+  "**":
+    access: $authenticated
+    publish: $authenticated
+    unpublish: $authenticated
+    proxy: npmjs
+
+server:
+  keepAliveTimeout: 60
+
+middlewares:
+  audit:
+    enabled: true
+
+log: { type: stdout, format: pretty, level: http }

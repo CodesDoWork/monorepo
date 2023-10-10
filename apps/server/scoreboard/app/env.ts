@@ -5,7 +5,8 @@ export const env = createEnv({
     server: {
         AUTH_CLIENT_ID: z.string(),
         AUTH_CLIENT_SECRET: z.string(),
-        AUTHENTIK_ISSUER: z.string(),
+        AUTH_ISSUER: z.string(),
+        BASE_PATH: z.string().optional().default(""),
         NEXTAUTH_URL: z.string(),
         NEXTAUTH_SECRET: z.string(),
         PG_USER: z.string(),

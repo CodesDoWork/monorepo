@@ -2,9 +2,8 @@
     "base": "node:20-alpine",
     "os": "alpine",
     "organization": "codesdowork",
-    "registry": "dockerreg.localhost",
+    "registry": "server.fritz.box",
     "workspaceExtensions": {
         "preInstall": ["RUN apk add git", "RUN npm i -g pnpm"]
-    },
-    "workspaceBuildArgs": "--network host"
+    }
 }

@@ -1,0 +1,34 @@
+{
+    "name": "server-dashboard",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "targets": {
+        "serve": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose -f apps/server/docker-compose.yml up -d dashboard"
+            }
+        },
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "rm -rf dist/apps/server/dashboard",
+                    "mkdir -p dist/apps/server/dashboard",
+                    "cp -rf apps/server/dashboard/public dist/apps/server/dashboard",
+                    "cp -rf libs/branding/assets/img dist/apps/server/dashboard/public"
+                ]
+            }
+        },
+        "build-image": {
+            "executor": "@codesdowork/nx-containers:build"
+        },
+        "run-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose -f apps/server/docker-compose.yml up -d dashboard"
+            }
+        }
+    },
+    "tags": []
+}

@@ -32,7 +32,7 @@ export function startServer({
     fasitfyOptions = {},
 }: FastifyServerOptions) {
     const server = fastify({ logger, ...fasitfyOptions });
-    setupSwagger(server, router, docs);
+    setupSwagger(server, router, basePath, docs);
 
     server.register(fastifyTRPCPlugin, {
         prefix: basePath,
@@ -47,7 +47,12 @@ export function startServer({
     });
 }
 
-function setupSwagger(server: FastifyInstance, router: AnyRouter, docs?: SwaggerOptions) {
+function setupSwagger(
+    server: FastifyInstance,
+    router: AnyRouter,
+    basePath: string,
+    docs?: SwaggerOptions,
+) {
     if (!docs) {
         return;
     }
@@ -57,10 +62,14 @@ function setupSwagger(server: FastifyInstance, router: AnyRouter, docs?: Swagger
         : openapiTRPCWarning;
 
     server.register(fastifySwagger, {
+        prefix: basePath,
         mode: "static",
         specification: {
             document: generateOpenApiDocument(router, docs),
         },
     });
-    server.register(fastifySwaggerUi, { routePrefix: docs.routePrefix ?? "/api" });
+    server.register(fastifySwaggerUi, {
+        prefix: basePath,
+        routePrefix: docs.routePrefix || "/api",
+    });
 }

@@ -13,6 +13,7 @@ enrichFastifyEnvs({ DOWNLOAD_DIR: z.string().optional().default("downloads") })
         setDownloadDir(env.DOWNLOAD_DIR);
         startServer({
             port: env.PORT,
+            basePath: env.BASE_PATH,
             router: createAppRouter(downloaderRouter, schedulerRouter),
             docs: {
                 title: "Music Downloader API",

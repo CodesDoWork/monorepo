@@ -8,7 +8,7 @@ import { z } from "zod";
 
 export const snapshotsRouter = router({
     createSnapshot: procedure
-        .meta({ openapi: { method: "GET", path: "/createSnapshot" } })
+        // .meta({ openapi: { method: "GET", path: "/createSnapshot" } })
         .input(z.object({ type: snapshotTypeZod }))
         .output(z.object({}))
         .subscription(({ input }) => {
@@ -18,13 +18,13 @@ export const snapshotsRouter = router({
         }),
 
     currentSnapshot: procedure
-        .meta({ openapi: { method: "GET", path: "/currentSnapshot" } })
+        // .meta({ openapi: { method: "GET", path: "/currentSnapshot" } })
         .input(z.object({}))
         .output(z.object({}))
         .subscription(() => currentSnapshotObservable()),
 
     listSnapshots: procedure
-        .meta({ openapi: { method: "GET", path: "/listSnapshots" } })
+        // .meta({ openapi: { method: "GET", path: "/listSnapshots" } })
         .input(z.object({}))
         .output(snapshotListType)
         .query(getSnapshotList),

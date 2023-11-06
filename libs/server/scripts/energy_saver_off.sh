@@ -1,3 +1,4 @@
+docker compose -f /home/jkonratt/server/docker-compose.yml pull
 docker compose -f /home/jkonratt/server/docker-compose.yml up -d
 
 apt-get -y autoremove

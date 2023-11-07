@@ -62,26 +62,12 @@ sections:
           - knowledge
           - notes
         url: https://www.notion.so/
-      - title: Forefront AI
-        icon: favicon-local
-        tags:
-          - ai
-          - ki
-        url: https://chat.forefront.ai/
       - title: Chat GPT
         icon: favicon-local
         tags:
           - ai
           - ki
         url: https://chat.openai.com/chat
-      - title: Daily.dev
-        icon: favicon-local
-        tags:
-          - news
-        url: https://app.daily.dev/my-feed
-      - title: Fireship
-        icon: youtube.png
-        url: https://www.youtube.com/c/Fireship/videos
       - title: Drive
         icon: favicon-local
         tags:
@@ -90,67 +76,12 @@ sections:
           - google
           - knowledge
         url: https://drive.google.com/drive/u/0/my-drive
-      - title: GitHub
-        icon: favicon-local
-        tags:
-          - git
-          - code
-        url: https://github.com/
-  - name: Server
-    displayData:
-      cutToHeight: true
-    icon: ":globe_with_meridians:"
-    items:
-      - title: FRITZ!Box
-        icon: server/fritzbox.svg
-        url: https://fritz.box/
-      - title: Start
-        icon: server/icon.svg
-        tags:
-          - nginx
-          - reverse-proxy
-        url: https://localhost/
-      - title: Auth
-        icon: server/authentik.svg
-        url: https://auth.localhost/
-      - title: Docs
-        icon: server/icon.svg
-        tags:
-          - vitepress
-        url: https://docs.localhost/
-      - title: Git
-        icon: server/gitea.svg
-        tags:
-          - gitea
-        url: https://git.localhost/
-      - title: Music
-        icon: server/navidrome.png
-        tags:
-          - navidrome
-        url: https://music.localhost/
-      - title: Music Downloader
-        icon: server/icon.svg
-        url: https://music-downloader.localhost/
-      - title: Scoreboard
-        icon: server/icon.svg
-        url: https://scoreboard.localhost/
-      - title: SonarQube
-        icon: server/sonarqube.png
-        tags:
-          - cicd
-        url: https://sonar.ci.localhost/
-      - title: TeamCity
-        icon: server/teamcity.svg
-        tags:
-          - cicd
-        url: https://teamcity.ci.localhost/
-      - title: Verdaccio
-        icon: server/verdaccio.png
-        tags:
-          - npm
-          - npmreg
-          - registry
-        url: https://npmreg.localhost/
+    widgets:
+      - type: clock
+        options:
+          timezone: Europe/Berlin
+          format: de-DE
+          hideDate: true
   - name: Dev
     displayData:
       cutToHeight: true
@@ -168,35 +99,46 @@ sections:
         tags:
           - dev
         url: https://regex101.com/
-      - title: Local Directus
-        icon: dev/directus.svg
+      - title: GitHub
+        icon: favicon-local
         tags:
-          - "8055"
-        url: http://localhost:8055
-      - title: Local Jupyter
-        icon: dev/jupyter.svg
+          - git
+          - code
+        url: https://github.com/
+      - title: Daily.dev
+        icon: favicon-local
         tags:
-          - "8888"
-        url: http://localhost:8888
-    widgets:
-      - type: clock
-        options:
-          timezone: Europe/Berlin
-          format: de-DE
-          hideDate: true
-  - name: Purchasing
+          - news
+        url: https://app.daily.dev/my-feed
+      - title: Server
+        icon: server/icon.svg
+        url: https://server.fritz.box
+      - title: Server External
+        icon: server/icon.svg
+        url: https://codesdowork.loca.lt
+  - name: Uni
     displayData:
       cutToHeight: true
-    icon: ":poultry_leg:"
+    icon: ":books:"
     items:
-      - title: Promotions
-        icon: purchasing/kaufda.png
-        tags:
-          - werbung
-        url: https://www.kaufda.de/Stralsund/aktuelle-Prospekte
-      - title: Bring!
-        icon: purchasing/bring.png
-        url: https://web.getbring.com/app/lists/1
+      - title: Termine und Fristen
+        icon: uni/host.png
+        url: https://www.hochschule-stralsund.de/studium-und-lehre/mein-studium/termine-und-fristen/
+      - title: SUP
+        icon: uni/host.png
+        url: https://sup.hochschule-stralsund.de/qisserver/rds?state=user&type=0&category=menu.browse&breadCrumbSource=&startpage=portal.vm&chco=y
+      - title: Studienorganisation
+        icon: uni/host.png
+        url: https://www.hochschule-stralsund.de/host/fakultaeten/elektrotechnik-und-informatik/studienorganisation/
+      - title: Mensaplan
+        icon: favicon-local
+        url: https://stw-greifswald.de/essen/speiseplaene/mensa-stralsund/
+      - title: GitLab
+        icon: favicon-local
+        url: https://gitlab.hochschule-stralsund.de/
+      - title: Moodle
+        icon: uni/host.png
+        url: https://moodle.hochschule-stralsund.de
   - name: Clausohm
     displayData:
       cutToHeight: true
@@ -223,30 +165,6 @@ sections:
       - title: Vacationizr
         icon: favicon-local
         url: https://www.vacationizr.com/overview
-
-  - name: Uni
-    displayData:
-      cutToHeight: true
-    icon: ":books:"
-    items:
-      - title: Termine und Fristen
-        icon: uni/host.png
-        url: https://www.hochschule-stralsund.de/studium-und-lehre/mein-studium/termine-und-fristen/
-      - title: SUP
-        icon: uni/host.png
-        url: https://sup.hochschule-stralsund.de/qisserver/rds?state=user&type=0&category=menu.browse&breadCrumbSource=&startpage=portal.vm&chco=y
-      - title: Studienorganisation
-        icon: uni/host.png
-        url: https://www.hochschule-stralsund.de/host/fakultaeten/elektrotechnik-und-informatik/studienorganisation/
-      - title: Mensaplan
-        icon: favicon-local
-        url: https://stw-greifswald.de/essen/speiseplaene/mensa-stralsund/
-      - title: GitLab
-        icon: favicon-local
-        url: https://gitlab.hochschule-stralsund.de/
-      - title: Moodle
-        icon: uni/host.png
-        url: https://moodle.hochschule-stralsund.de
   - name: Holidays
     displayData:
       cutToHeight: true

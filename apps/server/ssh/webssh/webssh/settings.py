@@ -3,15 +3,14 @@ import os
 import os.path
 import ssl
 import sys
-
 from tornado.options import define
+from webssh._version import __version__
 from webssh.policy import (
     load_host_keys, get_policy_class, check_policy_setting
 )
 from webssh.utils import (
     to_ip_address, parse_origin_from_url, is_valid_encoding
 )
-from webssh._version import __version__
 
 
 def print_version(flag):
@@ -37,7 +36,7 @@ define('fbidhttp', type=bool, default=True,
        help='Forbid public plain http incoming requests')
 define('xheaders', type=bool, default=True, help='Support xheaders')
 define('xsrf', type=bool, default=True, help='CSRF protection')
-define('origin', default='same', help='''Origin policy,
+define('origin', default='https://codesdowork.loca.lt', help='''Origin policy,
 'same': same origin policy, matches host name and port number;
 'primary': primary domain policy, matches primary domain only;
 '<domains>': custom domains policy, matches any domain in the <domains> list

@@ -110,6 +110,12 @@ sections:
         tags:
           - news
         url: https://app.daily.dev/my-feed
+      - title: Cloudflare
+        icon: favicon-local
+        url: https://dash.cloudflare.com/
+      - title: Porkbun
+        icon: favicon-local
+        url: https://porkbun.com/account/domainsSpeedy
       - title: Server
         icon: server/icon.svg
         url: https://just-dashy.konratts.de

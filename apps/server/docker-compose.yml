@@ -98,6 +98,14 @@ services:
       - documentation
     restart: unless-stopped
 
+  doku:
+    image: amerkurev/doku
+    networks:
+      - doku
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /:/hostroot:ro
+
   gitlab:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
@@ -195,6 +203,7 @@ services:
       cicd:
       dashboard:
       documentation:
+      doku:
       linkstack:
       music:
         ipv4_address: ${NGINX_MUSIC_IP}
@@ -330,6 +339,7 @@ networks:
   cicd:
   dashboard:
   documentation:
+  doku:
   linkstack:
   music:
     ipam:

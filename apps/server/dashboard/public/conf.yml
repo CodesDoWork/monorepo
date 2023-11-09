@@ -24,7 +24,7 @@ appConfig:
       ":te": https://www.google.com/search?q=%C3%BCbersetzung+englisch+
 
 sections:
-  - name: Tools
+  - name: Misc
     displayData:
       cutToHeight: true
     icon: ":wrench:"
@@ -33,16 +33,19 @@ sections:
         icon: navidrome.png
         tags:
           - navidrome
-        url: /music
+        url: https://justin.konratts.de/music
       - title: Music Downloader
         icon: icon.svg
-        url: /music-downloader
+        url: https://justin.konratts.de/music-downloader
       - title: Scoreboard
         icon: icon.svg
-        url: /scoreboard
+        url: https://justin.konratts.de/scoreboard
+      - title: Start
+        icon: linkstack.svg
+        url: https://justin.konratts.de
       - title: Logout
         icon: logout.svg
-        url: /logout
+        url: https://justin.konratts.de/logout
   - name: Server
     displayData:
       cutToHeight: true
@@ -50,10 +53,10 @@ sections:
     items:
       - title: FRITZ!Box
         icon: fritzbox.svg
-        url: /fritz
+        url: https://justin.konratts.de/fritz
       - title: SSH
         icon: ssh.png
-        url: /ssh
+        url: https://justin.konratts.de/ssh
   - name: Admin
     displayData:
       cutToHeight: true
@@ -61,13 +64,16 @@ sections:
     items:
       - title: Auth
         icon: keycloak.svg
-        url: /auth
+        url: https://justin.konratts.de/auth
       - title: Portainer
         icon: portainer.svg
         tags:
           - docker
           - container
-        url: /portainer
+        url: https://justin.konratts.de/portainer
+      - title: Linkstack
+        icon: linkstack.svg
+        url: https://just-links.konratts.de/dashboard
   - name: Dev
     displayData:
       cutToHeight: true
@@ -77,19 +83,12 @@ sections:
         icon: icon.svg
         tags:
           - vitepress
-        url: /docs
+        url: https://justin.konratts.de/docs
       - title: Gitlab
         icon: gitlab.svg
-        url: /gitlab
+        url: https://justin.konratts.de/gitlab
       - title: SonarQube
         icon: sonarqube.png
         tags:
           - cicd
-        url: /sonar
-      - title: Verdaccio
-        icon: verdaccio.png
-        tags:
-          - npm
-          - npmreg
-          - registry
-        url: /npm
+        url: https://justin.konratts.de/sonar

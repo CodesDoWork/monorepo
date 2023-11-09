@@ -112,10 +112,7 @@ sections:
         url: https://app.daily.dev/my-feed
       - title: Server
         icon: server/icon.svg
-        url: https://server.fritz.box
-      - title: Server External
-        icon: server/icon.svg
-        url: https://codesdowork.loca.lt
+        url: https://just-dashy.konratts.de
   - name: Uni
     displayData:
       cutToHeight: true

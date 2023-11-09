@@ -102,8 +102,8 @@ dependencies:
     specifier: ^2.9.1
     version: 2.9.1(react-dom@18.2.0)(react@18.2.0)
   vitepress-plugin-mermaid:
-    specifier: ^2.0.10
-    version: 2.0.15(mermaid@9.1.7)(vitepress@1.0.0-rc.20)
+    specifier: 2.0.10
+    version: 2.0.10(mermaid@9.1.7)(vitepress@1.0.0-rc.20)
   vue:
     specifier: ^3.3.4
     version: 3.3.4
@@ -15205,16 +15205,14 @@ packages:
     optionalDependencies:
       fsevents: 2.3.3
 
-  /vitepress-plugin-mermaid@2.0.15(mermaid@9.1.7)(vitepress@1.0.0-rc.20):
-    resolution: {integrity: sha512-63tTqK4WvYXSnT1jY+Ex0htUCb4XGQmHeIexvqZHkVOBruFiDFG0f+ishLnS1F+1IYkVkyYHacv7PDX3wUP9hQ==}
+  /vitepress-plugin-mermaid@2.0.10(mermaid@9.1.7)(vitepress@1.0.0-rc.20):
+    resolution: {integrity: sha512-sujwlcuyK5vCyS9OfH3Fwq4V723nUFWlOsezDU+RcGtqO32Y8HHXpxejibIZSed5DsL9zdjTgScRmdZYG+PsSw==}
     peerDependencies:
-      mermaid: '10'
-      vitepress: ^1.0.0 || ^1.0.0-alpha
+      mermaid: ^8.0.0 || ^9.0.0
+      vitepress: ^0.21.6 || ^1.0.0 || ^1.0.0-alpha
     dependencies:
       mermaid: 9.1.7
       vitepress: 1.0.0-rc.20(@algolia/client-search@4.20.0)(@types/node@18.14.2)(@types/react@18.2.14)(axios@1.5.1)(postcss@8.4.31)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)
-    optionalDependencies:
-      '@mermaid-js/mermaid-mindmap': 9.3.0
     dev: false
 
   /vitepress@1.0.0-rc.20(@algolia/client-search@4.20.0)(@types/node@18.14.2)(@types/react@18.2.14)(axios@1.5.1)(postcss@8.4.31)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3):

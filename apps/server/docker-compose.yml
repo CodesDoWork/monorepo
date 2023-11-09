@@ -3,7 +3,7 @@ services:
     command:
       - start
       - --db postgres
-      - --db-url-host ${DB_CONTAINER}
+      - --db-url-host db
       - --db-username ${DB_USER}
       - --db-password ${DB_PASSWORD}
       - --hostname-path=${AUTH_BASE}
@@ -14,7 +14,6 @@ services:
       - --metrics-enabled=true
       - --features="docker,token-exchange"
       - --proxy=edge
-    container_name: ${AUTH_CONTAINER}
     depends_on:
       db:
         condition: service_healthy
@@ -27,7 +26,6 @@ services:
     restart: unless-stopped
 
   backup-service:
-    container_name: ${BACKUP_SERVICE_CONTAINER}
     environment:
       - PORT=${BACKUP_SERVICE_PORT}
       - BASE_URL=https://${DOMAIN}${BACKUP_BASE}
@@ -42,27 +40,23 @@ services:
       - docker-registry:/data/services/docker-registry/data:ro
       - gitlab-config:/data/services/gitlab/config:ro
       - gitlab-data:/data/services/gitlab/data:ro
+      - linkstack-data:/data/services/linkstack/data:ro
       - music-downloader-data:/data/services/music-downloader/data:ro
       - navidrome-data:/data/services/navidrome/data:ro
-      - portainer_data:/data/services/portainer/data:ro
+      - portainer-data:/data/services/portainer/data:ro
       - postgres-data:/data/services/db/data:ro
       - sonarqube-config:/data/services/sonarqube/config:ro
       - sonarqube-data:/data/services/sonarqube/data:ro
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
-      - verdaccio-storage:/data/services/verdaccio/storage:ro
-      - verdaccio-config:/data/services/verdaccio/config:ro
-      - verdaccio-plugins:/data/services/verdaccio/plugins:ro
 
   dashboard:
     build: ./dashboard
-    container_name: ${DASHBOARD_CONTAINER}
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-dashboard
     networks:
       - dashboard
     restart: unless-stopped
 
   db:
-    container_name: ${DB_CONTAINER}
     environment:
       - POSTGRES_DB=${DB_DEFAULT_DB_NAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -80,7 +74,6 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   docker-registry:
-    container_name: ${DOCKER_REGISTRY_CONTAINER}
     environment:
       - REGISTRY_AUTH_TOKEN_REALM=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}/protocol/docker-v2/auth
       - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
@@ -98,7 +91,6 @@ services:
 
   documentation:
     build: ./documentation
-    container_name: ${DOCUMENTATION_CONTAINER}
     healthcheck:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-documentation
@@ -107,7 +99,6 @@ services:
     restart: unless-stopped
 
   gitlab:
-    container_name: ${GITLAB_CONTAINER}
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'https://${DOMAIN}${GITLAB_BASE}'
@@ -148,9 +139,19 @@ services:
       - gitlab-config:/etc/gitlab
       - gitlab-data:/var/opt/gitlab
 
+  linkstack:
+    environment:
+      TZ: ${TZ}
+    image: linkstackorg/linkstack
+    networks:
+      - linkstack
+      - tunnel
+    restart: unless-stopped
+    volumes:
+      - linkstack-data:/htdocs
+
   music:
     build: ./music # healthcheck implemented
-    container_name: ${MUSIC_CONTAINER}
     env_file:
       - ./music/.env
     environment:
@@ -167,7 +168,6 @@ services:
       - ${MUSIC_VOLUME}:/music:ro
 
   music-downloader:
-    container_name: ${MUSIC_DOWNLOADER_CONTAINER}
     environment:
       - PORT=${MUSIC_DOWNLOADER_PORT}
       - BASE_URL=https://${DOMAIN}${MUSIC_DOWNLOADER_BASE}
@@ -185,7 +185,6 @@ services:
 
   nginx:
     build: ./nginx
-    container_name: ${NGINX_CONTAINER}
     env_file:
       - .env
     healthcheck:
@@ -196,6 +195,7 @@ services:
       cicd:
       dashboard:
       documentation:
+      linkstack:
       music:
         ipv4_address: ${NGINX_MUSIC_IP}
       portainer:
@@ -210,22 +210,18 @@ services:
   portainer:
     command:
       - --base-url="${PORTAINER_BASE}"
-    container_name: ${PORTAINER_CONTAINER}
-    extra_hosts:
-      - "${DOMAIN}:host-gateway"
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-portainer
     networks:
       - portainer
     restart: unless-stopped
     volumes:
-      - portainer_data:/data
+      - portainer-data:/data
       - /var/run/docker.sock:/var/run/docker.sock
 
   #  renovate:
   #    container_name: renovate
   #    environment:
   #      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
-  #      - GIT_CONTAINER=${GIT_CONTAINER}
   #      - GIT_PORT=${GIT_PORT}
   #    image: renovate/renovate:35
   #    network_mode: host
@@ -236,7 +232,6 @@ services:
   #    container_name: renovate-dev
   #    environment:
   #      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
-  #      - GIT_CONTAINER=${GIT_CONTAINER}
   #      - GIT_PORT=${GIT_PORT}
   #    image: renovate/renovate:35
   #    networks:
@@ -245,7 +240,6 @@ services:
   #      - ../../renovate/config.js:/usr/src/app/config.js
 
   scoreboard:
-    container_name: ${SCOREBOARD_CONTAINER}
     depends_on:
       db:
         condition: service_healthy
@@ -270,14 +264,13 @@ services:
     restart: unless-stopped
 
   sonarqube:
-    container_name: ${SONARQUBE_CONTAINER}
     depends_on:
       db:
         condition: service_healthy
     environment:
       - SONAR_JDBC_USERNAME=${DB_USER}
       - SONAR_JDBC_PASSWORD=${DB_PASSWORD}
-      - SONAR_JDBC_URL=jdbc:postgresql://${DB_CONTAINER}:5432/sonarqube
+      - SONAR_JDBC_URL=jdbc:postgresql://db:5432/sonarqube
       - SONAR_WEB_CONTEXT=${SONARQUBE_BASE}
     healthcheck:
       test: wget -qO- http://localhost:9000${SONARQUBE_BASE}/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
@@ -293,7 +286,6 @@ services:
 
   ssh:
     build: ./ssh
-    container_name: ${SSH_CONTAINER}
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-ssh
     environment:
       - BASE_PATH=${SSH_BASE}
@@ -302,36 +294,16 @@ services:
     restart: unless-stopped
 
   tunnel:
-    build: ./tunnel
-    container_name: ${TUNNEL_CONTAINER}
-    depends_on:
-      nginx:
-        condition: service_healthy
-    entrypoint: lt -p 443 -l ${NGINX_CONTAINER} -s ${TUNNEL_SUBDOMAIN} --local-https --allow-invalid-cert
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-tunnel
+    command:
+      - tunnel
+      - --no-autoupdate
+      - run
+      - --token
+      - ${TUNNEL_TOKEN}
+    image: cloudflare/cloudflared
     networks:
       - tunnel
     restart: unless-stopped
-
-  verdaccio:
-    build:
-      context: ./verdaccio
-      args:
-        - AUTH_CLIENT_ID=${VERDACCIO_AUTH_CLIENT_ID}
-        - AUTH_CLIENT_SECRET=${VERDACCIO_AUTH_CLIENT_SECRET}
-    container_name: ${VERDACCIO_CONTAINER}
-    environment:
-      - VERDACCIO_PUBLIC_URL=https://${DOMAIN}${VERDACCIO_BASE}
-      - NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/server.crt
-    healthcheck:
-      test: wget -qO- http://localhost:${VERDACCIO_PORT}/-/ping | grep -e "{}" || exit 1
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-verdaccio
-    networks:
-      - cicd
-    restart: unless-stopped
-    volumes:
-      - verdaccio-storage:/verdaccio/storage
-      - verdaccio-plugins:/verdaccio/plugins
 
 volumes:
   docker-registry:
@@ -339,11 +311,13 @@ volumes:
   gitlab-config:
   gitlab-data:
 
+  linkstack-data:
+
   music-downloader-data:
 
   navidrome-data:
 
-  portainer_data:
+  portainer-data:
 
   postgres-data:
 
@@ -351,32 +325,19 @@ volumes:
   sonarqube-data:
   sonarqube-extensions:
 
-  verdaccio-storage:
-  verdaccio-config:
-  verdaccio-plugins:
-
 networks:
   auth:
-    driver: bridge
   cicd:
-    driver: bridge
   dashboard:
-    driver: bridge
   documentation:
-    driver: bridge
+  linkstack:
   music:
-    driver: bridge
     ipam:
       config:
         - subnet: ${MUSIC_SUBNET}
           gateway: ${MUSIC_GATEWAY}
   portainer:
-    driver: bridge
   scoreboard:
-    driver: bridge
   sonar:
-    driver: bridge
   ssh:
-    driver: bridge
   tunnel:
-    driver: bridge

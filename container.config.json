@@ -2,7 +2,7 @@
     "base": "node:20-alpine",
     "os": "alpine",
     "organization": "codesdowork",
-    "registry": "server.fritz.box",
+    "registry": "justin.konratts.de",
     "workspaceExtensions": {
         "preInstall": ["RUN apk add git", "RUN npm i -g pnpm"]
     }

@@ -1,6 +1,6 @@
 services:
   dashboard:
-    image: server.fritz.box/codesdowork/monorepo-private/dashboard
+    image: justin.konratts.de/codesdowork/monorepo-private/dashboard
     container_name: dashboard
     ports:
       - 4000:80

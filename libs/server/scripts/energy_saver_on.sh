@@ -1,5 +1,4 @@
 docker stop \
-    auth \
     backup-service \
     dashboard \
     db \

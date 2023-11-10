@@ -40,11 +40,17 @@ services:
       - docker-registry:/data/services/docker-registry/data:ro
       - gitlab-config:/data/services/gitlab/config:ro
       - gitlab-data:/data/services/gitlab/data:ro
+      - grafana-storage:/data/services/grafana/storage:ro
+      - grafana-config:/data/services/grafana/config:ro
       - linkstack-data:/data/services/linkstack/data:ro
       - music-downloader-data:/data/services/music-downloader/data:ro
       - navidrome-data:/data/services/navidrome/data:ro
+      - netdata-config:/data/services/netdata/config:ro
+      - netdata-lib:/data/services/netdata/lib:ro
+      - netdata-cache:/data/services/netdata/cache:ro
       - portainer-data:/data/services/portainer/data:ro
       - postgres-data:/data/services/db/data:ro
+      - prometheus-data:/data/services/prometheus/data:ro
       - sonarqube-config:/data/services/sonarqube/config:ro
       - sonarqube-data:/data/services/sonarqube/data:ro
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
@@ -80,7 +86,7 @@ services:
       - REGISTRY_AUTH_TOKEN_ISSUER=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}
       - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/opt/certs/trust_chain.pem
     healthcheck:
-      test: wget -qO- http://localhost:${DOCKER_REGISTRY_PORT}/v2/ | grep -e "{}" || exit 1
+      test: wget -qO- http://localhost:${DOCKER_REGISTRY_PORT}/v2/ | grep -e "401 Unauthorized" || exit 1
     image: registry:2
     networks:
       - cicd
@@ -147,6 +153,14 @@ services:
       - gitlab-config:/etc/gitlab
       - gitlab-data:/var/opt/gitlab
 
+  grafana:
+    image: grafana/grafana
+    networks:
+      - monitoring
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - grafana-config:/usr/share/grafana/conf
+
   linkstack:
     environment:
       TZ: ${TZ}
@@ -191,6 +205,27 @@ services:
       - music-downloader-data:/app/.data
       - ${MUSIC_VOLUME}:/music
 
+  netdata:
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    image: netdata/netdata
+    network_mode: host
+    pid: host
+    restart: unless-stopped
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - netdata-config:/etc/netdata
+      - netdata-lib:/var/lib/netdata
+      - netdata-cache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
   nginx:
     build: ./nginx
     env_file:
@@ -207,6 +242,7 @@ services:
       linkstack:
       music:
         ipv4_address: ${NGINX_MUSIC_IP}
+      monitoring:
       portainer:
       scoreboard:
       ssh:
@@ -226,6 +262,14 @@ services:
     volumes:
       - portainer-data:/data
       - /var/run/docker.sock:/var/run/docker.sock
+
+  prometheus:
+    build: ./prometheus
+    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-prometheus
+    networks:
+      - monitoring
+    volumes:
+      - prometheus-data:/prometheus
 
   #  renovate:
   #    container_name: renovate
@@ -320,15 +364,24 @@ volumes:
   gitlab-config:
   gitlab-data:
 
+  grafana-storage:
+  grafana-config:
+
   linkstack-data:
 
   music-downloader-data:
 
   navidrome-data:
 
+  netdata-config:
+  netdata-lib:
+  netdata-cache:
+
   portainer-data:
 
   postgres-data:
+
+  prometheus-data:
 
   sonarqube-config:
   sonarqube-data:
@@ -346,6 +399,7 @@ networks:
       config:
         - subnet: ${MUSIC_SUBNET}
           gateway: ${MUSIC_GATEWAY}
+  monitoring:
   portainer:
   scoreboard:
   sonar:

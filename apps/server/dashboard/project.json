@@ -15,8 +15,8 @@
                 "commands": [
                     "rm -rf dist/apps/server/dashboard",
                     "mkdir -p dist/apps/server/dashboard",
-                    "cp -rf apps/server/dashboard/public dist/apps/server/dashboard",
-                    "cp -rf libs/branding/assets/img dist/apps/server/dashboard/public"
+                    "cp -r apps/server/dashboard/public dist/apps/server/dashboard",
+                    "cp -r libs/branding/assets/img dist/apps/server/dashboard/public"
                 ]
             }
         },

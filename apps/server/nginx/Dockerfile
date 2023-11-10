@@ -15,6 +15,7 @@ WORKDIR /etc/nginx
 COPY --from=workspace /app/libs/server/ssl/certs/server.crt ssl/
 COPY --from=workspace /app/libs/server/ssl/certs/server.key ssl/
 COPY --from=workspace /app/apps/server/nginx/conf conf.d
+COPY --from=workspace /app/apps/server/nginx/lua lua
 
 WORKDIR /usr/local/openresty/nginx/conf
 COPY --from=workspace /app/apps/server/nginx/envs.conf .

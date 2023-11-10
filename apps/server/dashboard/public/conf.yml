@@ -46,14 +46,14 @@ sections:
       - title: Logout
         icon: logout.svg
         url: https://justin.konratts.de/logout
-  - name: Server
+  - name: Network
     displayData:
       cutToHeight: true
     icon: ":globe_with_meridians:"
     items:
       - title: FRITZ!Box
         icon: fritzbox.svg
-        url: https://justin.konratts.de/fritz
+        url: https://just-fritz.konratts.de
       - title: SSH
         icon: ssh.png
         url: https://justin.konratts.de/ssh
@@ -71,6 +71,18 @@ sections:
           - docker
           - container
         url: https://justin.konratts.de/portainer
+      - title: Doku
+        icon: doku.svg
+        url: https://just-doku.konratts.de
+      - title: Netdata
+        icon: netdata.png
+        url: https://just-netdata.konratts.de
+      - title: Prometheus
+        icon: prometheus.svg
+        url: https://just-prometheus.konratts.de
+      - title: Grafana
+        icon: grafana.svg
+        url: https://just-grafana.konratts.de
       - title: Linkstack
         icon: linkstack.svg
         url: https://just-links.konratts.de/dashboard

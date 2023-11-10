@@ -1,0 +1,10 @@
+[Unit]
+Description=Connects to local NAS
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=mount -t cifs -o rw,vers=1.0,credentials=/home/jkonratt/.smbcredentials //fritz.box/WazzNet /mnt/nas
+
+[Install]
+WantedBy=multi-user.target

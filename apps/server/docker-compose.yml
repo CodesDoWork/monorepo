@@ -30,12 +30,11 @@ services:
       - PORT=${BACKUP_SERVICE_PORT}
       - BASE_URL=https://${DOMAIN}${BACKUP_BASE}
       - BASE_PATH=${BACKUP_BASE}
-    healthcheck:
-      test: wget -qO- http://localhost:${BACKUP_SERVICE_PORT}${BACKUP_BASE}/health?input={} || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-backup-service
     restart: unless-stopped
+    user: 0:0
     volumes:
-      - ./backup-service/.snapshots:/.snapshots
+      - /mnt/nas/Kingston-DataTraveler3-0-01/backup-service/.snapshots:/.snapshots
       # - ${BACKUP_PC_PATH}:/data/pc:ro
       - docker-registry:/data/services/docker-registry/data:ro
       - gitlab-config:/data/services/gitlab/config:ro
@@ -86,14 +85,14 @@ services:
       - REGISTRY_AUTH_TOKEN_ISSUER=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}
       - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/opt/certs/trust_chain.pem
     healthcheck:
-      test: wget -qO- http://localhost:${DOCKER_REGISTRY_PORT}/v2/ | grep -e "401 Unauthorized" || exit 1
+      test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
     image: registry:2
     networks:
       - cicd
     restart: unless-stopped
     volumes:
       - docker-registry:/var/lib/registry
-      - ./docker-registry/certs:/opt/certs
+      - ./docker-registry/certs:/opt/certs:ro
 
   documentation:
     build: ./documentation
@@ -203,7 +202,7 @@ services:
     restart: unless-stopped
     volumes:
       - music-downloader-data:/app/.data
-      - ${MUSIC_VOLUME}:/music
+      - ${MUSIC_VOLUME}/downloads:/music/downloads
 
   netdata:
     cap_add:

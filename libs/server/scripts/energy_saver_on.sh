@@ -8,6 +8,8 @@ docker compose -f /home/jkonratt/server/docker-compose.yml stop \
     grafana \
     music \
     music-downloader \
+    netdata \
     portainer \
+    prometheus \
     scoreboard \
     sonarqube

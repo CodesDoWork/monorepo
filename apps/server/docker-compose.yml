@@ -142,6 +142,26 @@ services:
             }
           }
         ]
+        puma['worker_processes'] = 0
+        sidekiq['max_concurrency'] = 10
+        gitaly['configuration'] = {
+            concurrency: [
+              {
+                'rpc' => "/gitaly.SmartHTTPService/PostReceivePack",
+                'max_per_repo' => 3,
+              }, {
+                'rpc' => "/gitaly.SSHService/SSHUploadPack",
+                'max_per_repo' => 3,
+              },
+            ]
+        }
+        gitaly['env'] = {
+          'GITALY_COMMAND_SPAWN_MAX_PARALLEL' => '2',
+          'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
+        }
+        gitlab_rails['env'] = {
+          'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
+        }
     image: gitlab/gitlab-ee:latest
     networks:
       - cicd

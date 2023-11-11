@@ -27,14 +27,13 @@ services:
 
   backup-service:
     environment:
-      - PORT=${BACKUP_SERVICE_PORT}
-      - BASE_URL=https://${DOMAIN}${BACKUP_BASE}
-      - BASE_PATH=${BACKUP_BASE}
+      - PUID=0
+      - GUID=0
+      - TZ=${TZ}
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-backup-service
     restart: unless-stopped
-    user: 0:0
     volumes:
-      - /mnt/nas/Kingston-DataTraveler3-0-01/backup-service/.snapshots:/.snapshots
+      - ${BACKUP_VOLUME_PATH}/.snapshots:/.snapshots
       # - ${BACKUP_PC_PATH}:/data/pc:ro
       - docker-registry:/data/services/docker-registry/data:ro
       - gitlab-config:/data/services/gitlab/config:ro
@@ -156,6 +155,7 @@ services:
     image: grafana/grafana
     networks:
       - monitoring
+    restart: unless-stopped
     volumes:
       - grafana-storage:/var/lib/grafana
       - grafana-config:/usr/share/grafana/conf

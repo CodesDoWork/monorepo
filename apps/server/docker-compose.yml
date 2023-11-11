@@ -152,6 +152,8 @@ services:
       - gitlab-data:/var/opt/gitlab
 
   grafana:
+    healthcheck:
+      test: curl -fs http://localhost:${GRAFANA_PORT}/api/health | grep "ok" || exit 1
     image: grafana/grafana
     networks:
       - monitoring
@@ -264,6 +266,8 @@ services:
 
   prometheus:
     build: ./prometheus
+    healthcheck:
+      test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-prometheus
     networks:
       - monitoring
@@ -338,6 +342,8 @@ services:
 
   ssh:
     build: ./ssh
+    healthcheck:
+      test:  wget -S http://localhost:${SSH_PORT} 2>&1 | grep "200 OK" || exit 1
     image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-ssh
     environment:
       - BASE_PATH=${SSH_BASE}

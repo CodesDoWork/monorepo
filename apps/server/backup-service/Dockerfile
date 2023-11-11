@@ -4,4 +4,7 @@ FROM codesdowork/monorepo-private/workspace AS workspace
 
 FROM lscr.io/linuxserver/rsnapshot
 
+COPY --from=workspace app/apps/server/backup-service/healthcheck.sh /
+HEALTHCHECK CMD /healthcheck.sh
+
 COPY --from=workspace app/apps/server/backup-service/config /config

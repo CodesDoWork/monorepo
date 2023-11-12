@@ -2,7 +2,7 @@
     "name": "nginx",
     "version": "1.0.0",
     "scripts": {
-        "build-image": "docker compose -f ../docker-compose.yml build nginx",
+        "build-image": "docker compose -f ../docker-compose.yml build --push nginx",
         "run-image": "docker compose -f ../docker-compose.yml up -d nginx"
     }
 }

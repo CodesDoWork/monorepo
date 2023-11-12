@@ -2,7 +2,7 @@
     "name": "scoreboard",
     "version": "1.0.0",
     "scripts": {
-        "build-image": "docker compose -f ../docker-compose.yml build scoreboard",
+        "build-image": "docker compose -f ../docker-compose.yml build --push scoreboard",
         "run-image": "docker compose -f ../docker-compose.yml up -d scoreboard"
     }
 }

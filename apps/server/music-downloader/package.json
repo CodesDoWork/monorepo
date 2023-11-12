@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "This app automatically downloads music from youtube",
     "scripts": {
-        "build-image": "docker compose -f ../docker-compose.yml build music-downloader",
+        "build-image": "docker compose -f ../docker-compose.yml build --push music-downloader",
         "run-image": "docker compose -f ../docker-compose.yml up -d music-downloader"
     }
 }

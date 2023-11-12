@@ -1,2 +1,2 @@
- 0  8 * * * root cp -ra /home/jkonratt/server/backup-service /justSSD/backups
-30 20 * * * root cp -ra /home/jkonratt/server/backup-service /justSSD/backups
+ 0  8 * * * root rsync -avuH --delete /home/jkonratt/server/backup-service/ /justSSD/backups
+30 20 * * * root rsync -avuH --delete /home/jkonratt/server/backup-service/ /justSSD/backups

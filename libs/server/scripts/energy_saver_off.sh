@@ -9,6 +9,9 @@ tail -1 $DOCKER_LOGIN_FILE | docker login $DOCKER_REGISTRY --username $(head -1 
 docker compose -f $COMPOSE_FILE up -d --pull always
 docker compose  -f $COMPOSE_FILE exec $DOCKER_REGISTRY_SERVICE registry garbage-collect /etc/docker/registry/config.yml --delete-untagged=true
 
+docker image prune -af
+docker volume prune -af
+
 apt-get -y autoremove
 apt-get -y update
 apt-get -y upgrade

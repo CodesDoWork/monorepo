@@ -1,9 +1,0 @@
-{
-    "base": "node:20-alpine",
-    "os": "alpine",
-    "organization": "codesdowork",
-    "registry": "justin.konratts.de",
-    "workspaceExtensions": {
-        "preInstall": ["RUN apk add git", "RUN npm i -g pnpm"]
-    }
-}

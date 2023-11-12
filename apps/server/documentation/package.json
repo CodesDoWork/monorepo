@@ -1,5 +1,9 @@
 {
     "name": "documentation",
     "version": "1.0.0",
-    "description": "This package provides documentation for the server"
+    "description": "This package provides documentation for the server",
+    "scripts": {
+        "build-image": "docker compose -f ../docker-compose.yml build documentation",
+        "run-image": "docker compose -f ../docker-compose.yml up -d documentation"
+    }
 }

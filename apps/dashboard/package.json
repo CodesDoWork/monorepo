@@ -1,0 +1,9 @@
+{
+    "name": "dashboard",
+    "version": "1.0.0",
+    "scripts": {
+        "build-image": "docker compose build dashboard",
+        "run-image": "docker compose up -d dashboard",
+        "dev": "docker compose up dev"
+    }
+}

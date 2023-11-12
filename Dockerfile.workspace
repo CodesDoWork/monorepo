@@ -1,0 +1,17 @@
+ARG DOCKER_REGISTRY
+ARG ORGANIZATION
+ARG PROJECT
+
+FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/base AS base
+
+WORKDIR /app
+
+RUN apk add git
+RUN npm i -g @antfu/ni pnpm
+
+COPY package.json pnpm-lock.yaml ./
+RUN ni
+
+COPY . .
+
+RUN npx nx format:check

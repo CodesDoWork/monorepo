@@ -1,0 +1,2 @@
+ 0  8 * * * root cp -ra /home/jkonratt/server/backup-service /justSSD/backups
+30 20 * * * root cp -ra /home/jkonratt/server/backup-service /justSSD/backups

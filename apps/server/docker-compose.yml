@@ -1,3 +1,10 @@
+x-build-args:
+  build: &build-args
+    args:
+      - DOCKER_REGISTRY
+      - ORGANIZATION
+      - PROJECT
+
 services:
   auth:
     command:
@@ -26,11 +33,14 @@ services:
     restart: unless-stopped
 
   backup-service:
+    build:
+      <<: *build-args
+      context: ./backup-service
     environment:
       - PUID=0
       - GUID=0
       - TZ=${TZ}
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-backup-service
+    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-backup-service
     restart: unless-stopped
     volumes:
       - ${BACKUP_VOLUME_PATH}/.snapshots:/.snapshots
@@ -54,8 +64,10 @@ services:
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
 
   dashboard:
-    build: ./dashboard
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-dashboard
+    build:
+      <<: *build-args
+      context: ./dashboard
+    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-dashboard
     networks:
       - dashboard
     restart: unless-stopped
@@ -94,10 +106,12 @@ services:
       - ./docker-registry/certs:/opt/certs:ro
 
   documentation:
-    build: ./documentation
+    build:
+      <<: *build-args
+      context: ./documentation
     healthcheck:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-documentation
+    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-documentation
     networks:
       - documentation
     restart: unless-stopped
@@ -194,7 +208,9 @@ services:
       - linkstack-data:/htdocs
 
   music:
-    build: ./music # healthcheck implemented
+    build:
+      <<: *build-args
+      context: ./music # healthcheck implemented
     env_file:
       - ./music/.env
     environment:
@@ -202,7 +218,7 @@ services:
       - ND_PORT=${MUSIC_PORT}
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
       - ND_REVERSEPROXYWHITELIST=${MUSIC_SUBNET}
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-music
+    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-music
     networks:
       - music
     restart: unless-stopped
@@ -218,7 +234,7 @@ services:
       - DOWNLOAD_DIR=/music/downloads
     healthcheck:
       test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}${MUSIC_DOWNLOADER_BASE}/health?input={} || exit 1
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-music-downloader
+    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-music-downloader
     networks:
       - music
     restart: unless-stopped
@@ -248,12 +264,14 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   nginx:
-    build: ./nginx
+    build:
+      <<: *build-args
+      context: ./nginx
     env_file:
       - .env
     healthcheck:
       test: curl -f http://localhost || exit 1
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-nginx
+    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-nginx
     networks:
       auth:
       cicd:
@@ -276,19 +294,22 @@ services:
   portainer:
     command:
       - --base-url="${PORTAINER_BASE}"
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-portainer
+    image: portainer/portainer-ce:latest
     networks:
       - portainer
     restart: unless-stopped
     volumes:
       - portainer-data:/data
+      - ${CERTS_DIR}:/etc/ssl/certs:ro
       - /var/run/docker.sock:/var/run/docker.sock
 
   prometheus:
-    build: ./prometheus
+    build:
+      <<: *build-args
+      context: ./prometheus
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-prometheus
+    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-prometheus
     networks:
       - monitoring
     volumes:
@@ -316,6 +337,9 @@ services:
   #      - ../../renovate/config.js:/usr/src/app/config.js
 
   scoreboard:
+    build:
+      <<: *build-args
+      context: ./scoreboard
     depends_on:
       db:
         condition: service_healthy
@@ -330,11 +354,9 @@ services:
       - AUTH_ISSUER=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}
     env_file:
       - scoreboard/.env.local
-    extra_hosts:
-      - auth.localhost:host-gateway
     healthcheck:
       test: wget -qO- http://localhost:${SCOREBOARD_PORT}${SCOREBOARD_BASE}/api/trpc/health?input={} || exit 1
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-scoreboard
+    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-scoreboard
     networks:
       - scoreboard
     restart: unless-stopped
@@ -361,10 +383,12 @@ services:
       - sonarqube-extensions:/opt/sonarqube/extensions
 
   ssh:
-    build: ./ssh
+    build:
+      <<: *build-args
+      context: ./ssh
     healthcheck:
-      test:  wget -S http://localhost:${SSH_PORT} 2>&1 | grep "200 OK" || exit 1
-    image: ${DOCKER_REGISTRY_HOST}/codesdowork/monorepo-private/server-ssh
+      test: wget -S http://localhost:${SSH_PORT} 2>&1 | grep "200 OK" || exit 1
+    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-ssh
     environment:
       - BASE_PATH=${SSH_BASE}
     networks:

@@ -1,7 +1,14 @@
-FROM codesdowork/monorepo-private/base AS base
-FROM codesdowork/monorepo-private/workspace AS workspace
+ARG DOCKER_REGISTRY
+ARG ORGANIZATION
+ARG PROJECT
+
+ARG APP_NAME=server-prometheus
+ARG APP_DIR=server/prometheus
+
+FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/base AS base
+FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/workspace AS workspace
 
 
 FROM prom/prometheus
-
-COPY --from=workspace /app/apps/server/prometheus/prometheus.yml /etc/prometheus/
+ARG APP_DIR
+COPY --from=workspace /app/apps/$APP_DIR/prometheus.yml /etc/prometheus/

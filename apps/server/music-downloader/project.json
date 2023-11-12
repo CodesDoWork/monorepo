@@ -73,18 +73,6 @@
                     "codeCoverage": true
                 }
             }
-        },
-        "build-image": {
-            "executor": "@codesdowork/nx-containers:build",
-            "options": {
-                "args": "--network host"
-            }
-        },
-        "run-image": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "docker compose -f apps/server/docker-compose.yml up -d music-downloader"
-            }
         }
     },
     "tags": ["server/music-downloader"]

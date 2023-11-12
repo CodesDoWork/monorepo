@@ -1,7 +1,0 @@
-{
-    "type": "custom",
-    "tags": ["latest"],
-    "options": {},
-    "composeFile": "apps/server/docker-compose.yml",
-    "composeServiceName": "ssh"
-}

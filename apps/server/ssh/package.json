@@ -1,0 +1,8 @@
+{
+    "name": "ssh",
+    "version": "1.0.0",
+    "scripts": {
+        "build-image": "docker compose -f ../docker-compose.yml build ssh",
+        "run-image": "docker compose -f ../docker-compose.yml up -d ssh"
+    }
+}

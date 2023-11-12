@@ -1,2 +1,2 @@
-0 7 * * * root /home/jkonratt/server/energy_saver_off.sh > /var/log/energy_saver_cron.log 2> /var/log/energy_saver_cron_err.log
-45 21 * * * root /home/jkonratt/server/energy_saver_on.sh > /var/log/energy_saver_cron.log 2> /var/log/energy_saver_cron_err.log
+0 7 * * * root /home/jkonratt/server/energy_saver_off.sh
+45 21 * * * root /home/jkonratt/server/energy_saver_on.sh

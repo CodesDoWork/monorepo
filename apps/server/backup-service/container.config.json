@@ -1,6 +1,0 @@
-{
-    "type": "custom",
-    "tags": ["latest"],
-    "composeFile": "apps/server/docker-compose.yml",
-    "composeServiceName": "backup-service"
-}

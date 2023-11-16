@@ -227,6 +227,9 @@ services:
       - ${MUSIC_VOLUME}:/music:ro
 
   music-downloader:
+    build:
+      <<: *build-args
+      context: ./music-downloader
     environment:
       - PORT=${MUSIC_DOWNLOADER_PORT}
       - BASE_URL=https://${DOMAIN}${MUSIC_DOWNLOADER_BASE}

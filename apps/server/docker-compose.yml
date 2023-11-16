@@ -303,7 +303,7 @@ services:
     restart: unless-stopped
     volumes:
       - portainer-data:/data
-      - ${CERTS_DIR}:/etc/ssl/certs:ro
+      - ${CERTS_DIR}/server.crt:/etc/ssl/certs/cacert.pem:ro
       - /var/run/docker.sock:/var/run/docker.sock
 
   prometheus:

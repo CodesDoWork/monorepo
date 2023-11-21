@@ -29,6 +29,8 @@ WORKDIR /app
 ARG APP_DIR
 ENV NODE_ENV production
 
+RUN apk add yt-dlp
+
 COPY --from=builder /app/dist/apps/$APP_DIR .
 COPY --from=deps /app/node_modules ./node_modules
 

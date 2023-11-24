@@ -179,3 +179,4 @@ sections:
           region: MV
           holidayType: all
           monthsToShow: 12
+          lang: de

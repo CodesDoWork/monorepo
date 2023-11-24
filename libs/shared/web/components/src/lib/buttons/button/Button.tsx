@@ -3,6 +3,7 @@
 import { PropsWithChildren } from "react";
 import { Loader } from "../../Loader";
 import { useButton, UseButtonProps } from "./useButton";
+import { clsx } from "clsx";
 
 export type ButtonProps = PropsWithChildren<
     UseButtonProps & {
@@ -16,7 +17,7 @@ export const Button = ({ className, loaderClass, children, ...props }: ButtonPro
 
     return (
         <button type="button" className={className} onClick={onClick} disabled={isLoading}>
-            {isLoading ? <Loader className={loaderClass} /> : children}
+            {isLoading ? <Loader className={clsx("mx-auto h-2/3", loaderClass)} /> : children}
         </button>
     );
 };

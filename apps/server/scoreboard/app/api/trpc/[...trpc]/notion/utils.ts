@@ -28,4 +28,5 @@ export const getSelectedDB = async () => {
     return selectedDB;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getDBTitle = (res: GetDatabaseResponse): string => (res as any).title[0].plain_text;

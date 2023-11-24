@@ -51,7 +51,6 @@ services:
       - grafana-storage:/data/services/grafana/storage:ro
       - grafana-config:/data/services/grafana/config:ro
       - linkstack-data:/data/services/linkstack/data:ro
-      - music-downloader-data:/data/services/music-downloader/data:ro
       - navidrome-data:/data/services/navidrome/data:ro
       - netdata-config:/data/services/netdata/config:ro
       - netdata-lib:/data/services/netdata/lib:ro
@@ -231,18 +230,15 @@ services:
       <<: *build-args
       context: ./music-downloader
     environment:
-      - PORT=${MUSIC_DOWNLOADER_PORT}
-      - BASE_URL=https://${DOMAIN}${MUSIC_DOWNLOADER_BASE}
-      - BASE_PATH=${MUSIC_DOWNLOADER_BASE}
+      - NEXT_PUBLIC_BASE_PATH=${MUSIC_DOWNLOADER_BASE}
       - DOWNLOAD_DIR=/music/downloads
     healthcheck:
-      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}${MUSIC_DOWNLOADER_BASE}/health?input={} || exit 1
+      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}${MUSIC_DOWNLOADER_BASE}/api/health?input={} || exit 1
     image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-music-downloader
     networks:
       - music
     restart: unless-stopped
     volumes:
-      - music-downloader-data:/app/.data
       - ${MUSIC_VOLUME}/downloads:/music/downloads
 
   netdata:
@@ -420,8 +416,6 @@ volumes:
   grafana-config:
 
   linkstack-data:
-
-  music-downloader-data:
 
   navidrome-data:
 

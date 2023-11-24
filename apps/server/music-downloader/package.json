@@ -1,0 +1,8 @@
+{
+    "name": "music-downloader",
+    "version": "1.0.0",
+    "scripts": {
+        "build-image": "docker compose -f ../docker-compose.yml build --push --no-cache music-downloader",
+        "run-image": "docker compose -f ../docker-compose.yml up -d music-downloader"
+    }
+}

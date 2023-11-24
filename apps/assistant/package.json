@@ -1,9 +1,0 @@
-{
-    "name": "assistant",
-    "version": "1.0.0",
-    "scripts": {
-        "venv": "python -m venv .venv",
-        "install": "pip install wheel && pip install -r requirements.txt",
-        "start": "python ./src/main.py"
-    }
-}

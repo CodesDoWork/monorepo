@@ -1,28 +1,10 @@
-x-build-args:
-  build: &build-args
-    args:
-      - DOCKER_REGISTRY
-      - ORGANIZATION
-      - PROJECT
-
 services:
-  dashboard:
-    container_name: dashboard
-    build:
-      <<: *build-args
-      context: .
-    healthcheck:
-      test: "node /app/services/healthcheck"
-    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/dashboard
-    ports:
-      - 4000:80
-    restart: unless-stopped
 
-  dev:
+  dashboard:
     container_name: dashboard-dev
     image: lissy93/dashy
     ports:
-      - 4001:80
+      - 4000:80
     volumes:
       - ./public:/app/public
       - ../../libs/branding/assets/img:/app/public/img

@@ -2,8 +2,6 @@
     "name": "dashboard",
     "version": "1.0.0",
     "scripts": {
-        "build-image": "docker compose build --push dashboard",
-        "run-image": "docker compose up -d dashboard",
-        "push-image": "docker compose push dashboard"
+        "start": "docker compose up -d"
     }
 }

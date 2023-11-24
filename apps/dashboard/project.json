@@ -2,20 +2,6 @@
     "name": "dashboard",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "projectType": "application",
-    "targets": {
-        "build": {
-            "executor": "nx:run-commands",
-            "options": {
-                "commands": [
-                    "rm -rf dist/apps/dashboard",
-                    "mkdir dist",
-                    "mkdir dist/apps",
-                    "mkdir dist/apps/dashboard",
-                    "cp -rf apps/dashboard/public dist/apps/dashboard",
-                    "cp -rf libs/branding/assets/img dist/apps/dashboard/public"
-                ]
-            }
-        }
-    },
+    "targets": {},
     "tags": ["dashboard"]
 }

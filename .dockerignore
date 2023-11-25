@@ -7,3 +7,5 @@
 /tmp
 
 /apps/server/backup-service/.snapshots
+/apps/server/music-downloader/.next
+/apps/server/scoreboard/.next

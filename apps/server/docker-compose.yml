@@ -35,12 +35,16 @@ services:
   backup-service:
     build:
       <<: *build-args
+      cache_from:
+        - type=registry,ref=${CACHE_BASE}/server-backup-service
+      cache_to:
+        - type=registry,ref=${CACHE_BASE}/server-backup-service,mode=max,compression=zstd
       context: ./backup-service
     environment:
       - PUID=0
       - GUID=0
       - TZ=${TZ}
-    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-backup-service
+    image: ${IMAGE_BASE}/server-backup-service
     restart: unless-stopped
     volumes:
       - ${BACKUP_VOLUME_PATH}/.snapshots:/.snapshots
@@ -66,7 +70,7 @@ services:
     build:
       <<: *build-args
       context: ./dashboard
-    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-dashboard
+    image: ${IMAGE_BASE}/server-dashboard
     networks:
       - dashboard
     restart: unless-stopped
@@ -110,7 +114,7 @@ services:
       context: ./documentation
     healthcheck:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
-    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-documentation
+    image: ${IMAGE_BASE}/server-documentation
     networks:
       - documentation
     restart: unless-stopped
@@ -209,6 +213,10 @@ services:
   music:
     build:
       <<: *build-args
+      cache_from:
+        - type=registry,ref=${CACHE_BASE}/server-music
+      cache_to:
+        - type=registry,ref=${CACHE_BASE}/server-music,mode=max,compression=zstd
       context: ./music # healthcheck implemented
     env_file:
       - ./music/.env
@@ -217,7 +225,7 @@ services:
       - ND_PORT=${MUSIC_PORT}
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
       - ND_REVERSEPROXYWHITELIST=${MUSIC_SUBNET}
-    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-music
+    image: ${IMAGE_BASE}/server-music
     networks:
       - music
     restart: unless-stopped
@@ -234,7 +242,7 @@ services:
       - DOWNLOAD_DIR=/music/downloads
     healthcheck:
       test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}${MUSIC_DOWNLOADER_BASE}/api/health?input={} || exit 1
-    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-music-downloader
+    image: ${IMAGE_BASE}/server-music-downloader
     networks:
       - music
     restart: unless-stopped
@@ -265,12 +273,16 @@ services:
   nginx:
     build:
       <<: *build-args
+      cache_from:
+        - type=registry,ref=${CACHE_BASE}/server-nginx
+      cache_to:
+        - type=registry,ref=${CACHE_BASE}/server-nginx,mode=max,compression=zstd
       context: ./nginx
     env_file:
       - .env
     healthcheck:
       test: curl -f http://localhost || exit 1
-    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-nginx
+    image: ${IMAGE_BASE}/server-nginx
     networks:
       auth:
       cicd:
@@ -305,10 +317,14 @@ services:
   prometheus:
     build:
       <<: *build-args
+      cache_from:
+        - type=registry,ref=${CACHE_BASE}/server-prometheus
+      cache_to:
+        - type=registry,ref=${CACHE_BASE}/server-prometheus,mode=max,compression=zstd
       context: ./prometheus
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
-    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-prometheus
+    image: ${IMAGE_BASE}/server-prometheus
     networks:
       - monitoring
     volumes:
@@ -355,7 +371,7 @@ services:
       - scoreboard/.env.local
     healthcheck:
       test: wget -qO- http://localhost:${SCOREBOARD_PORT}${SCOREBOARD_BASE}/api/trpc/health?input={} || exit 1
-    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-scoreboard
+    image: ${IMAGE_BASE}/server-scoreboard
     networks:
       - scoreboard
     restart: unless-stopped
@@ -384,10 +400,14 @@ services:
   ssh:
     build:
       <<: *build-args
+      cache_from:
+        - type=registry,ref=${CACHE_BASE}/server-ssh
+      cache_to:
+        - type=registry,ref=${CACHE_BASE}/server-ssh,mode=max,compression=zstd
       context: ./ssh
     healthcheck:
       test: wget -S http://localhost:${SSH_PORT} 2>&1 | grep "200 OK" || exit 1
-    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/server-ssh
+    image: ${IMAGE_BASE}/server-ssh
     environment:
       - BASE_PATH=${SSH_BASE}
     networks:

@@ -2,7 +2,8 @@
     "name": "music-downloader",
     "version": "1.0.0",
     "scripts": {
-        "build-image": "docker compose -f ../docker-compose.yml build --push --no-cache music-downloader",
+        "build-image": "cross-env $COMPOSE=\"docker compose -f ../docker-compose.yml\" $SERVICE=music-downloader npm run build-and-push",
+        "build-and-push": "cross-env-shell \"$COMPOSE build --builder container $SERVICE && $COMPOSE push $SERVICE\"",
         "run-image": "docker compose -f ../docker-compose.yml up -d music-downloader"
     }
 }

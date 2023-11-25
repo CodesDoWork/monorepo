@@ -11,7 +11,6 @@ FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/workspace AS workspace
 
 FROM workspace AS builder
 ARG APP_NAME
-RUN npx nx reset
 RUN npx nx lint $APP_NAME -c production
 RUN npx nx test $APP_NAME -c production
 RUN npx nx build $APP_NAME -c production

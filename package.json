@@ -34,8 +34,6 @@
         "check": "pnpm run format:check && pnpm run lint && pnpm run test && pnpm run build"
     },
     "devDependencies": {
-        "@directus/extensions-sdk": "^10.1.9",
-        "@directus/types": "^10.1.5",
         "@nx/cypress": "17.1.3",
         "@nx/esbuild": "17.1.3",
         "@nx/eslint": "17.1.3",

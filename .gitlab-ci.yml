@@ -59,10 +59,10 @@ docker:
   before_script:
     - *nx-install
     - apk add docker docker-cli-compose
+  script:
     - docker info
     - docker buildx create --name container --driver=docker-container
     - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
-  script:
     - nr docker:build-workspace
     - npx nx affected -t build-image
   only:

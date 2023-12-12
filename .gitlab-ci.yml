@@ -1,14 +1,94 @@
+variables:
+  MASTER_BRANCH: master
+  NODE_IMAGE: node:20-alpine
+
+stages:
+  - nx
+  - sonarqube
+  - docker
+  - deploy
+
+.nx-install: &nx-install
+  - npm install -g @antfu/ni pnpm
+  - nci
+
+nx-workspace:
+  image: ${NODE_IMAGE}
+  stage: nx
+  cache:
+    key: ${CI_JOB_NAME}
+    paths:
+      - node_modules
+  before_script:
+    - *nx-install
+  script:
+    - nx affected -t format:check
+    - nx affected -t lint
+    - nx affected -t test
+    - nx affected -t build
+
 sonarqube-check:
   image:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
+  stage: sonarqube
   variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+    SONAR_USER_HOME: ${CI_PROJECT_DIR}/.sonar # Defines the location of the analysis task cache
+    GIT_DEPTH: 0 # Tells git to fetch all the branches of the project, required by the analysis task
   cache:
-    key: "${CI_JOB_NAME}"
+    key: ${CI_JOB_NAME}
     paths:
       - .sonar/cache
   script:
     - sonar-scanner
   allow_failure: true
+
+docker:
+  image: ${NODE_IMAGE}
+  services:
+    - name: docker:24.0.7-dind
+      alias: docker
+  stage: docker
+  cache:
+    key: ${CI_JOB_NAME}
+    paths:
+      - node_modules
+  before_script:
+    - *nx-install
+    - apk add docker docker-cli-compose
+    - docker info
+    - docker buildx create --name container --driver=docker-container
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+  script:
+    - nr docker:build-workspace
+    - nx affected -t build-image
+  only:
+    - ${MASTER_BRANCH}
+
+deploy:
+  image: ringcentral/sshpass
+  stage: deploy
+  before_script:
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - grep "${KNOWN_HOST_PUB}" ~/.ssh/known_hosts || echo "${KNOWN_HOST_PUB}" > ~/.ssh/known_hosts
+    - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+    - chmod 400 ~/.ssh/id_rsa
+  script:
+    # copy compose file and scripts
+    - scp ./apps/server/docker-compose.yml ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
+    - scp ./libs/server/scripts/* ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
+    # change system-script ownership
+    - ssh ${SSH_USER}@${SSH_HOST} sudo chown root:root ${SSH_PATH}/cron.d/*
+    - ssh ${SSH_USER}@${SSH_HOST} sudo chown root:root ${SSH_PATH}/systemd/system/*
+    # move system-scripts
+    - ssh ${SSH_USER}@${SSH_HOST} sudo mv ${SSH_PATH}/cron.d/* /etc/cron.d/
+    - ssh ${SSH_USER}@${SSH_HOST} sudo mv ${SSH_PATH}/systemd/system/* /etc/systemd/system/
+    # reload systemd
+    - ssh ${SSH_USER}@${SSH_HOST} sudo systemctl daemon-reload
+    # pull and run docker containers
+    - ssh ${SSH_USER}@${SSH_HOST} docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml pull
+    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml up -d --remove-orphans
+  only:
+    - ${MASTER_BRANCH}

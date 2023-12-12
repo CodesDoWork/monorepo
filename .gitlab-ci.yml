@@ -9,6 +9,8 @@ stages:
 
 .nx-install: &nx-install
   - apk add git
+  - git checkout master
+  - git checkout $CI_COMMIT_BRANCH
   - npm install -g @antfu/ni pnpm
   - nci
 
@@ -34,7 +36,6 @@ sonarqube-check:
   stage: sonarqube
   variables:
     SONAR_USER_HOME: ${CI_PROJECT_DIR}/.sonar # Defines the location of the analysis task cache
-    GIT_DEPTH: 0 # Tells git to fetch all the branches of the project, required by the analysis task
   cache:
     key: ${CI_JOB_NAME}
     paths:

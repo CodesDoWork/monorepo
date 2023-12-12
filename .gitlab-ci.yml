@@ -8,6 +8,7 @@ stages:
   - deploy
 
 .nx-install: &nx-install
+  - apk add git
   - npm install -g @antfu/ni pnpm
   - nci
   - export PATH="$(pwd)/node_modules:$PATH"

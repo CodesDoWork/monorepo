@@ -1,5 +1,4 @@
 variables:
-  MASTER_BRANCH: master
   NODE_IMAGE: node:20-alpine
 
 stages:
@@ -63,7 +62,7 @@ docker:
     - nr docker:build-workspace
     - nx affected -t build-image
   only:
-    - "${MASTER_BRANCH}"
+    - master
 
 deploy:
   image: ringcentral/sshpass
@@ -91,4 +90,4 @@ deploy:
     - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml pull
     - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml up -d --remove-orphans
   only:
-    - "${MASTER_BRANCH}"
+    - master

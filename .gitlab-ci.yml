@@ -54,6 +54,8 @@ docker:
     key: ${CI_PIPELINE_ID}
     paths:
       - node_modules
+  variables:
+    DOCKER_HOST: tcp://docker:2375
   before_script:
     - *nx-install
     - apk add docker docker-cli-compose

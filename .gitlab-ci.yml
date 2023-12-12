@@ -56,7 +56,6 @@ docker:
   before_script:
     - apk add npm
     - *nx-install
-    - apk add docker docker-cli-compose
   script:
     - docker info
     - docker buildx create --name container --driver=docker-container

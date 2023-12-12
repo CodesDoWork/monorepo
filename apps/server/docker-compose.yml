@@ -52,6 +52,7 @@ services:
       - docker-registry:/data/services/docker-registry/data:ro
       - gitlab-config:/data/services/gitlab/config:ro
       - gitlab-data:/data/services/gitlab/data:ro
+      - gitlab-runner-config:/data/services/gitlab-runner/config:ro
       - grafana-storage:/data/services/grafana/storage:ro
       - grafana-config:/data/services/grafana/config:ro
       - linkstack-data:/data/services/linkstack/data:ro
@@ -188,6 +189,13 @@ services:
       - gitlab-config:/etc/gitlab
       - gitlab-data:/var/opt/gitlab
 
+  gitlab-runner:
+    image: gitlab/gitlab-runner
+    restart: unless-stopped
+    volumes:
+      - gitlab-runner-config:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+
   grafana:
     healthcheck:
       test: curl -fs http://localhost:${GRAFANA_PORT}/api/health | grep "ok" || exit 1
@@ -240,8 +248,9 @@ services:
     environment:
       - NEXT_PUBLIC_BASE_PATH=${MUSIC_DOWNLOADER_BASE}
       - DOWNLOAD_DIR=/music/downloads
+      - PORT=${MUSIC_DOWNLOADER_PORT}
     healthcheck:
-      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}${MUSIC_DOWNLOADER_BASE}/api/health?input={} || exit 1
+      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}${MUSIC_DOWNLOADER_BASE}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/server-music-downloader
     networks:
       - music
@@ -431,6 +440,7 @@ volumes:
 
   gitlab-config:
   gitlab-data:
+  gitlab-runner-config:
 
   grafana-storage:
   grafana-config:

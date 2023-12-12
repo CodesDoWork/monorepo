@@ -10,6 +10,7 @@ stages:
 .nx-install: &nx-install
   - npm install -g @antfu/ni pnpm
   - nci
+  - export PATH="$(pwd)/node_modules:$PATH"
 
 nx-workspace:
   image: ${NODE_IMAGE}

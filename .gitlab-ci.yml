@@ -52,7 +52,7 @@ docker:
     paths:
       - node_modules
   variables:
-    DOCKER_HOST: tcp://docker:2375
+    DOCKER_HOST: tcp://localhost:2375
   before_script:
     - apk add npm
     - *nx-install

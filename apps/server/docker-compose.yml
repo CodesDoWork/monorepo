@@ -339,26 +339,19 @@ services:
     volumes:
       - prometheus-data:/prometheus
 
-  #  renovate:
-  #    container_name: renovate
-  #    environment:
-  #      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
-  #      - GIT_PORT=${GIT_PORT}
-  #    image: renovate/renovate:35
-  #    network_mode: host
-  #    volumes:
-  #      - ../../renovate/config.js:/usr/src/app/config.js
-  #
-  #  renovate-dev:
-  #    container_name: renovate-dev
-  #    environment:
-  #      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
-  #      - GIT_PORT=${GIT_PORT}
-  #    image: renovate/renovate:35
-  #    networks:
-  #      - cicd
-  #    volumes:
-  #      - ../../renovate/config.js:/usr/src/app/config.js
+  renovate:
+    build:
+      <<: *build-args
+      cache_from:
+        - type=registry,ref=${CACHE_BASE}/server-renovate
+      cache_to:
+        - type=registry,ref=${CACHE_BASE}/server-renovate,mode=max,compression=zstd
+      context: ./renovate
+    container_name: renovate
+    environment:
+      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
+      - GIT_URL=https://${DOMAIN}${GITLAB_BASE}
+    image: ${IMAGE_BASE}/server-renovate
 
   scoreboard:
     build:

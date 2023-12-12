@@ -18,7 +18,7 @@ nx-workspace:
   image: ${NODE_IMAGE}
   stage: nx
   cache:
-    key: ${CI_JOB_NAME}
+    key: ${CI_PIPELINE_ID}
     paths:
       - node_modules
   before_script:
@@ -37,7 +37,7 @@ sonarqube-check:
   variables:
     SONAR_USER_HOME: ${CI_PROJECT_DIR}/.sonar # Defines the location of the analysis task cache
   cache:
-    key: ${CI_JOB_NAME}
+    key: ${CI_PIPELINE_ID}
     paths:
       - .sonar/cache
   script:
@@ -51,7 +51,7 @@ docker:
       alias: docker
   stage: docker
   cache:
-    key: ${CI_JOB_NAME}
+    key: ${CI_PIPELINE_ID}
     paths:
       - node_modules
   before_script:

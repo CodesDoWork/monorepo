@@ -1,7 +1,7 @@
 services:
 
   dashboard:
-    container_name: dashboard-dev
+    container_name: dashboard
     image: lissy93/dashy
     ports:
       - 4000:80

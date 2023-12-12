@@ -11,7 +11,6 @@ stages:
   - apk add git
   - npm install -g @antfu/ni pnpm
   - nci
-  - export PATH="$(pwd)/node_modules:$PATH"
 
 nx-workspace:
   image: ${NODE_IMAGE}
@@ -23,10 +22,10 @@ nx-workspace:
   before_script:
     - *nx-install
   script:
-    - nx affected -t format:check
-    - nx affected -t lint
-    - nx affected -t test
-    - nx affected -t build
+    - npx nx affected -t format:check
+    - npx nx affected -t lint
+    - npx nx affected -t test
+    - npx nx affected -t build
 
 sonarqube-check:
   image:
@@ -62,7 +61,7 @@ docker:
     - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
   script:
     - nr docker:build-workspace
-    - nx affected -t build-image
+    - npx nx affected -t build-image
   only:
     - master
 

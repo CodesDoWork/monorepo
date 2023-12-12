@@ -79,13 +79,15 @@ deploy:
   script:
     # copy compose file and scripts
     - scp ./apps/server/docker-compose.yml ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
-    - scp ./libs/server/scripts/* ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
+    - scp ./libs/server/scripts/*.sh ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
+    - scp ./libs/server/scripts/etc/cron.d/* ${SSH_USER}@${SSH_HOST}:/tmp/scripts/cron.d
+    - scp ./libs/server/scripts/etc/systemd/system/* ${SSH_USER}@${SSH_HOST}:/tmp/scripts/systemd/system
     # change system-script ownership
-    - ssh ${SSH_USER}@${SSH_HOST} sudo chown root:root ${SSH_PATH}/cron.d/*
-    - ssh ${SSH_USER}@${SSH_HOST} sudo chown root:root ${SSH_PATH}/systemd/system/*
+    - ssh ${SSH_USER}@${SSH_HOST} sudo chown root:root /tmp/scripts/cron.d/*
+    - ssh ${SSH_USER}@${SSH_HOST} sudo chown root:root /tmp/scripts/systemd/system/*
     # move system-scripts
-    - ssh ${SSH_USER}@${SSH_HOST} sudo mv ${SSH_PATH}/cron.d/* /etc/cron.d/
-    - ssh ${SSH_USER}@${SSH_HOST} sudo mv ${SSH_PATH}/systemd/system/* /etc/systemd/system/
+    - ssh ${SSH_USER}@${SSH_HOST} sudo mv /tmp/scripts/cron.d/* /etc/cron.d/
+    - ssh ${SSH_USER}@${SSH_HOST} sudo mv /tmp/scripts/systemd/system/* /etc/systemd/system/
     # reload systemd
     - ssh ${SSH_USER}@${SSH_HOST} sudo systemctl daemon-reload
     # pull and run docker containers

@@ -49,6 +49,7 @@ services:
     volumes:
       - ${BACKUP_VOLUME_PATH}/.snapshots:/.snapshots
       # - ${BACKUP_PC_PATH}:/data/pc:ro
+      - bitwarden-data:/data/services/bitwarden/data:ro
       - docker-registry:/data/services/docker-registry/data:ro
       - gitlab-config:/data/services/gitlab/config:ro
       - gitlab-data:/data/services/gitlab/data:ro
@@ -67,6 +68,32 @@ services:
       - sonarqube-data:/data/services/sonarqube/data:ro
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
 
+  bitwarden:
+    image: vaultwarden/server:alpine
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - bitwarden
+    environment:
+      - TZ=${TZ}
+      - PUID=1000
+      - PGID=1000
+      - DOMAIN=https://${BITWARDEN_DOMAIN}
+      - IP_HEADER=X-Forwarded-For
+      - SIGNUPS_ALLOWED=false
+      - ADMIN_TOKEN=${BITWARDEN_ADMIN_TOKEN}
+      - INVITATION_ORG_NAME=Bitwarden
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_FROM=no-reply@${BITWARDEN_DOMAIN}
+      - SMTP_FROM_NAME=Bitwarden
+      - SMTP_PORT=587
+      - SMTP_SECURITY=starttls
+      - SMTP_USERNAME=${BITWARDEN_SMTP_USERNAME}
+      - SMTP_PASSWORD=${BITWARDEN_SMTP_PASSWORD}
+    volumes:
+      - bitwarden-data:/data
+
   dashboard:
     build:
       <<: *build-args
@@ -74,6 +101,8 @@ services:
     image: ${IMAGE_BASE}/server-dashboard
     networks:
       - dashboard
+    profiles:
+      - off-at-night
     restart: unless-stopped
 
   db:
@@ -104,6 +133,8 @@ services:
     image: registry:2
     networks:
       - cicd
+    profiles:
+      - off-at-night
     restart: unless-stopped
     volumes:
       - docker-registry:/var/lib/registry
@@ -118,12 +149,16 @@ services:
     image: ${IMAGE_BASE}/server-documentation
     networks:
       - documentation
+    profiles:
+      - off-at-night
     restart: unless-stopped
 
   doku:
     image: amerkurev/doku
     networks:
       - doku
+    profiles:
+      - off-at-night
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/hostroot:ro
@@ -183,6 +218,8 @@ services:
     image: gitlab/gitlab-ee:latest
     networks:
       - cicd
+    profiles:
+      - off-at-night
     restart: unless-stopped
     shm_size: "256m"
     volumes:
@@ -191,6 +228,8 @@ services:
 
   gitlab-runner:
     image: gitlab/gitlab-runner
+    profiles:
+      - off-at-night
     restart: unless-stopped
     volumes:
       - gitlab-runner-config:/etc/gitlab-runner
@@ -202,6 +241,8 @@ services:
     image: grafana/grafana
     networks:
       - monitoring
+    profiles:
+      - off-at-night
     restart: unless-stopped
     volumes:
       - grafana-storage:/var/lib/grafana
@@ -236,6 +277,8 @@ services:
     image: ${IMAGE_BASE}/server-music
     networks:
       - music
+    profiles:
+      - off-at-night
     restart: unless-stopped
     volumes:
       - navidrome-data:/data
@@ -254,6 +297,8 @@ services:
     image: ${IMAGE_BASE}/server-music-downloader
     networks:
       - music
+    profiles:
+      - off-at-night
     restart: unless-stopped
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
@@ -265,6 +310,8 @@ services:
     image: netdata/netdata
     network_mode: host
     pid: host
+    profiles:
+      - off-at-night
     restart: unless-stopped
     security_opt:
       - apparmor:unconfined
@@ -294,6 +341,7 @@ services:
     image: ${IMAGE_BASE}/server-nginx
     networks:
       auth:
+      bitwarden:
       cicd:
       dashboard:
       documentation:
@@ -317,6 +365,8 @@ services:
     image: portainer/portainer-ce:latest
     networks:
       - portainer
+    profiles:
+      - off-at-night
     restart: unless-stopped
     volumes:
       - portainer-data:/data
@@ -336,6 +386,8 @@ services:
     image: ${IMAGE_BASE}/server-prometheus
     networks:
       - monitoring
+    profiles:
+      - off-at-night
     volumes:
       - prometheus-data:/prometheus
 
@@ -362,6 +414,8 @@ services:
     image: ${IMAGE_BASE}/server-scoreboard
     networks:
       - scoreboard
+    profiles:
+      - off-at-night
     restart: unless-stopped
 
   sonarqube:
@@ -379,6 +433,8 @@ services:
     networks:
       - cicd
       - sonar
+    profiles:
+      - off-at-night
     restart: unless-stopped
     volumes:
       - sonarqube-config:/opt/sonarqube/conf
@@ -415,6 +471,8 @@ services:
     restart: unless-stopped
 
 volumes:
+  bitwarden-data:
+
   docker-registry:
 
   gitlab-config:
@@ -444,6 +502,7 @@ volumes:
 
 networks:
   auth:
+  bitwarden:
   cicd:
   dashboard:
   documentation:

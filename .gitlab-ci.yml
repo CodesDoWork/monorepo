@@ -71,6 +71,8 @@ build-renovate:
   stage: renovate
   script:
     - npx nx affected -t build-image --exclude="*,!server-renovate"
+  except:
+    - master
 
 run-renovate:
   <<: *ssh
@@ -78,6 +80,8 @@ run-renovate:
   script:
     - scp ./apps/server/docker-compose-renovate.yml ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
     - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose-renovate.yml up --pull always renovate
+  except:
+    - master
 
 docker:
   <<: *docker

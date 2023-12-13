@@ -1,54 +1,22 @@
 stages:
   - nx
-  - checks
+  - lint
+  - renovate
   - docker
   - deploy
 
 .nx-install: &nx-install
-  - apk add git
-  - git checkout master
-  - git checkout $CI_COMMIT_BRANCH
   - npm install -g @antfu/ni pnpm
   - nci
+  - apk add git
 
-nx-workspace:
-  image: node:20-alpine
-  stage: nx
-  cache:
-    key: ${CI_PIPELINE_ID}
-    paths:
-      - node_modules
-  before_script:
-    - *nx-install
-  script:
-    - npx nx affected -t format:check
-    - npx nx affected -t lint
-    - npx nx affected -t test
-    - npx nx affected -t build
-
-sonarqube-scanner:
-  image:
-    name: sonarsource/sonar-scanner-cli:latest
-    entrypoint: [""]
-  stage: checks
-  variables:
-    SONAR_USER_HOME: ${CI_PROJECT_DIR}/.sonar # Defines the location of the analysis task cache
-  cache:
-    key: ${CI_PIPELINE_ID}
-    paths:
-      - .sonar/cache
-  script:
-    - sonar-scanner
-  allow_failure: true
-
-docker:
+.docker: &docker
   image: docker:24.0.7
   services:
     - name: docker:24.0.7-dind
       alias: docker-service
-  stage: docker
   cache:
-    key: ${CI_PIPELINE_ID}
+    key: deps
     paths:
       - node_modules
   variables:
@@ -58,24 +26,71 @@ docker:
   before_script:
     - apk add npm
     - *nx-install
-  script:
     - docker info
+    - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
     - docker buildx create --name container --driver=docker-container
-    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
     - nr docker:build-workspace
-    - npx nx affected -t build-image
-  only:
-    - master
 
-deploy:
+.ssh: &ssh
   image: ringcentral/sshpass
-  stage: deploy
   before_script:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - grep "${KNOWN_HOST_PUB}" ~/.ssh/known_hosts || echo "${KNOWN_HOST_PUB}" > ~/.ssh/known_hosts
     - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
+
+nx-workspace:
+  image: node:20-alpine
+  stage: nx
+  cache:
+    key: deps
+    paths:
+      - node_modules
+  before_script:
+    - *nx-install
+  script:
+    - npx nx affected -t format:check
+    - npx nx affected -t lint
+    - npx nx affected -t test
+    - npx nx affected -t build -c production
+  except:
+    - master
+
+sonarqube-scanner:
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  stage: lint
+  script:
+    - sonar-scanner
+  allow_failure: true
+
+build-renovate:
+  <<: *docker
+  stage: renovate
+  script:
+    - npx nx affected -t build-image --exclude="*,!server-renovate"
+
+run-renovate:
+  <<: *ssh
+  stage: renovate
+  script:
+    - scp ./apps/server/docker-compose-renovate.yml ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
+    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose-renovate.yml up --pull always renovate
+
+docker:
+  <<: *docker
+  stage: docker
+  script:
+    - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+    - npx nx affected --base=remotes/origin/master~1 -t build-image
+  only:
+    - master
+
+deploy:
+  <<: *ssh
+  stage: deploy
   script:
     # copy compose file and scripts
     - scp ./apps/server/docker-compose.yml ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
@@ -93,9 +108,8 @@ deploy:
     # reload systemd
     - ssh ${SSH_USER}@${SSH_HOST} sudo systemctl daemon-reload
     # pull and run docker containers
-    - ssh ${SSH_USER}@${SSH_HOST} docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD} ${CI_REGISTRY}
+    - ssh ${SSH_USER}@${SSH_HOST} docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
     - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml pull
-    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml up renovate
-    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml up -d --remove-orphans
+    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml up -d
   only:
     - master

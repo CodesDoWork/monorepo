@@ -1,0 +1,17 @@
+x-build-args:
+  build: &build-args
+    args:
+      - DOCKER_REGISTRY
+      - ORGANIZATION
+      - PROJECT
+
+services:
+  renovate:
+    build:
+      <<: *build-args
+      context: ./renovate
+    environment:
+      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
+      - GIT_URL=https://${DOMAIN}${GITLAB_BASE}
+      - GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}
+    image: ${IMAGE_BASE}/server-renovate

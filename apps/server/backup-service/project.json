@@ -1,70 +1,7 @@
 {
     "name": "server-backup-service",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "apps/server/backup-service/src",
     "projectType": "application",
-    "targets": {
-        "build": {
-            "executor": "@nx/esbuild:esbuild",
-            "outputs": ["{options.outputPath}"],
-            "defaultConfiguration": "production",
-            "options": {
-                "platform": "node",
-                "outputPath": "dist/apps/server/backup-service",
-                "format": ["cjs"],
-                "bundle": false,
-                "main": "apps/server/backup-service/src/main.ts",
-                "tsConfig": "apps/server/backup-service/tsconfig.app.json",
-                "assets": ["apps/server/backup-service/src/assets"],
-                "generatePackageJson": true,
-                "esbuildOptions": {
-                    "sourcemap": true,
-                    "outExtension": {
-                        ".js": ".js"
-                    }
-                }
-            },
-            "configurations": {
-                "development": {},
-                "production": {
-                    "esbuildOptions": {
-                        "sourcemap": false,
-                        "outExtension": {
-                            ".js": ".js"
-                        }
-                    }
-                }
-            }
-        },
-        "serve": {
-            "executor": "@nx/js:node",
-            "defaultConfiguration": "development",
-            "options": {
-                "buildTarget": "server-backup-service:build"
-            },
-            "configurations": {
-                "development": {
-                    "buildTarget": "server-backup-service:build:development"
-                },
-                "production": {
-                    "buildTarget": "server-backup-service:build:production"
-                }
-            }
-        },
-        "lint": {
-            "executor": "@nx/eslint:lint",
-            "outputs": ["{options.outputFile}"],
-            "options": {
-                "lintFilePatterns": ["apps/server/backup-service/**/*.ts"]
-            }
-        },
-        "test": {
-            "executor": "@nx/jest:jest",
-            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-            "options": {
-                "jestConfig": "apps/server/backup-service/jest.config.ts"
-            }
-        }
-    },
+    "targets": {},
     "tags": ["server/backup-service"]
 }

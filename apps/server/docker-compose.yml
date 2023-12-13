@@ -35,10 +35,6 @@ services:
   backup-service:
     build:
       <<: *build-args
-      cache_from:
-        - type=registry,ref=${CACHE_BASE}/server-backup-service
-      cache_to:
-        - type=registry,ref=${CACHE_BASE}/server-backup-service,mode=max,compression=zstd
       context: ./backup-service
     environment:
       - PUID=0
@@ -262,10 +258,6 @@ services:
   music:
     build:
       <<: *build-args
-      cache_from:
-        - type=registry,ref=${CACHE_BASE}/server-music
-      cache_to:
-        - type=registry,ref=${CACHE_BASE}/server-music,mode=max,compression=zstd
       context: ./music # healthcheck implemented
     env_file:
       - ./music/.env
@@ -329,10 +321,6 @@ services:
   nginx:
     build:
       <<: *build-args
-      cache_from:
-        - type=registry,ref=${CACHE_BASE}/server-nginx
-      cache_to:
-        - type=registry,ref=${CACHE_BASE}/server-nginx,mode=max,compression=zstd
       context: ./nginx
     env_file:
       - .env
@@ -376,10 +364,6 @@ services:
   prometheus:
     build:
       <<: *build-args
-      cache_from:
-        - type=registry,ref=${CACHE_BASE}/server-prometheus
-      cache_to:
-        - type=registry,ref=${CACHE_BASE}/server-prometheus,mode=max,compression=zstd
       context: ./prometheus
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
@@ -444,10 +428,6 @@ services:
   ssh:
     build:
       <<: *build-args
-      cache_from:
-        - type=registry,ref=${CACHE_BASE}/server-ssh
-      cache_to:
-        - type=registry,ref=${CACHE_BASE}/server-ssh,mode=max,compression=zstd
       context: ./ssh
     healthcheck:
       test: wget -S http://localhost:${SSH_PORT} 2>&1 | grep "200 OK" || exit 1

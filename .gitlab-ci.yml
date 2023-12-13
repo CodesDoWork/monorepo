@@ -28,7 +28,6 @@ stages:
     - *nx-install
     - docker info
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
-    - docker buildx create --name container --driver=docker-container
     - nr docker:build-workspace
 
 .ssh: &ssh

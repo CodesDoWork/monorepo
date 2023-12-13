@@ -25,7 +25,7 @@
     },
     "scripts": {
         "build": "nx run-many -t build",
-        "docker:build-workspace": "docker compose build --builder container base && docker compose build --builder container workspace && docker compose push base workspace",
+        "docker:build-workspace": "docker compose build base && docker compose build workspace",
         "docker:build": "npm run docker:build-workspace && nx affected --base master -t build-image",
         "docker:builder": "docker buildx create --name container --driver=docker-container",
         "lint": "nx run-many -t lint",

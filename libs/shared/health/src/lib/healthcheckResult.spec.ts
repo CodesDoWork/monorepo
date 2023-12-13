@@ -1,6 +1,6 @@
 import { commitFile, createHealthcheckResult, formatBytes } from "./healthcheckResult";
 import { HealthStatus } from "./HealthStatus";
-import { writeFileSync, rmSync } from "fs";
+import { rmSync, writeFileSync } from "fs";
 
 describe("createHealthcheckResult", () => {
     it("should create with status", () => {
@@ -23,9 +23,9 @@ describe("createHealthcheckResult", () => {
         expect(devResult.version).toMatch(new RegExp("\\w+ \\(development\\)"));
     });
 
-    it("should use package version", () => {
+    it("should use version from env", () => {
         const version = "1.0.0";
-        process.env.npm_package_version = version;
+        process.env.VERSION = version;
         const result = createHealthcheckResult(HealthStatus.Up);
         expect(result.version).toMatch(new RegExp(`${version}.+`));
     });

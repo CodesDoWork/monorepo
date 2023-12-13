@@ -282,7 +282,7 @@ services:
     restart: unless-stopped
     volumes:
       - navidrome-data:/data
-      - ${MUSIC_VOLUME}:/music:ro
+      - ${MUSIC_VOLUME:-music}:/music:ro
 
   music-downloader:
     build:

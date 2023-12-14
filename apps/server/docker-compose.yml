@@ -30,6 +30,8 @@ services:
     image: quay.io/keycloak/keycloak:22.0.3
     networks:
       - auth
+    profiles:
+      - always
     restart: unless-stopped
 
   backup-service:
@@ -41,6 +43,8 @@ services:
       - GUID=0
       - TZ=${TZ}
     image: ${IMAGE_BASE}/server-backup-service
+    profiles:
+      - always
     restart: unless-stopped
     volumes:
       - ${BACKUP_VOLUME_PATH}/.snapshots:/.snapshots
@@ -65,12 +69,6 @@ services:
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
 
   bitwarden:
-    image: vaultwarden/server:alpine
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
-    networks:
-      - bitwarden
     environment:
       - TZ=${TZ}
       - PUID=1000
@@ -87,6 +85,14 @@ services:
       - SMTP_SECURITY=starttls
       - SMTP_USERNAME=${BITWARDEN_SMTP_USERNAME}
       - SMTP_PASSWORD=${BITWARDEN_SMTP_PASSWORD}
+    image: vaultwarden/server:alpine
+    networks:
+      - bitwarden
+    profiles:
+      - always
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
     volumes:
       - bitwarden-data:/data
 
@@ -98,7 +104,7 @@ services:
     networks:
       - dashboard
     profiles:
-      - off-at-night
+      - day
     restart: unless-stopped
 
   db:
@@ -114,6 +120,8 @@ services:
       - cicd
       - scoreboard
       - sonar
+    profiles:
+      - always
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
@@ -130,7 +138,7 @@ services:
     networks:
       - cicd
     profiles:
-      - off-at-night
+      - day
     restart: unless-stopped
     volumes:
       - docker-registry:/var/lib/registry
@@ -146,7 +154,7 @@ services:
     networks:
       - documentation
     profiles:
-      - off-at-night
+      - day
     restart: unless-stopped
 
   doku:
@@ -154,7 +162,7 @@ services:
     networks:
       - doku
     profiles:
-      - off-at-night
+      - day
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/hostroot:ro
@@ -215,7 +223,7 @@ services:
     networks:
       - cicd
     profiles:
-      - off-at-night
+      - day
     restart: unless-stopped
     shm_size: "256m"
     volumes:
@@ -225,7 +233,7 @@ services:
   gitlab-runner:
     image: gitlab/gitlab-runner
     profiles:
-      - off-at-night
+      - day
     restart: unless-stopped
     volumes:
       - gitlab-runner-config:/etc/gitlab-runner
@@ -238,7 +246,7 @@ services:
     networks:
       - monitoring
     profiles:
-      - off-at-night
+      - day
     restart: unless-stopped
     volumes:
       - grafana-storage:/var/lib/grafana
@@ -251,6 +259,8 @@ services:
     networks:
       - linkstack
       - tunnel
+    profiles:
+      - always
     restart: unless-stopped
     volumes:
       - linkstack-data:/htdocs
@@ -270,7 +280,7 @@ services:
     networks:
       - music
     profiles:
-      - off-at-night
+      - day
     restart: unless-stopped
     volumes:
       - navidrome-data:/data
@@ -290,7 +300,7 @@ services:
     networks:
       - music
     profiles:
-      - off-at-night
+      - day
     restart: unless-stopped
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
@@ -303,7 +313,7 @@ services:
     network_mode: host
     pid: host
     profiles:
-      - off-at-night
+      - day
     restart: unless-stopped
     security_opt:
       - apparmor:unconfined
@@ -345,6 +355,8 @@ services:
     ports:
       - 80:80
       - 443:443
+    profiles:
+      - always
     restart: unless-stopped
 
   portainer:
@@ -354,7 +366,7 @@ services:
     networks:
       - portainer
     profiles:
-      - off-at-night
+      - day
     restart: unless-stopped
     volumes:
       - portainer-data:/data
@@ -371,7 +383,7 @@ services:
     networks:
       - monitoring
     profiles:
-      - off-at-night
+      - day
     volumes:
       - prometheus-data:/prometheus
 
@@ -379,9 +391,6 @@ services:
     build:
       <<: *build-args
       context: ./scoreboard
-    depends_on:
-      db:
-        condition: service_healthy
     environment:
       - PORT=${SCOREBOARD_PORT}
       - PG_PASSWORD=${DB_PASSWORD}
@@ -399,13 +408,10 @@ services:
     networks:
       - scoreboard
     profiles:
-      - off-at-night
+      - day
     restart: unless-stopped
 
   sonarqube:
-    depends_on:
-      db:
-        condition: service_healthy
     environment:
       - SONAR_JDBC_USERNAME=${DB_USER}
       - SONAR_JDBC_PASSWORD=${DB_PASSWORD}
@@ -418,7 +424,7 @@ services:
       - cicd
       - sonar
     profiles:
-      - off-at-night
+      - day
     restart: unless-stopped
     volumes:
       - sonarqube-config:/opt/sonarqube/conf
@@ -436,6 +442,8 @@ services:
       - BASE_PATH=${SSH_BASE}
     networks:
       - ssh
+    profiles:
+      - always
     restart: unless-stopped
 
   tunnel:
@@ -448,6 +456,8 @@ services:
     image: cloudflare/cloudflared
     networks:
       - tunnel
+    profiles:
+      - always
     restart: unless-stopped
 
 volumes:

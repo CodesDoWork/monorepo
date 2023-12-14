@@ -113,6 +113,6 @@ deploy:
     # pull and run docker containers
     - ssh ${SSH_USER}@${SSH_HOST} docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
     - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml pull
-    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml up -d
+    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml --profile always --profile day up -d
   only:
     - master

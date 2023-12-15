@@ -2,8 +2,7 @@
     "name": "nginx",
     "version": "1.0.0",
     "scripts": {
-        "build-image": "cross-env COMPOSE=\"docker compose -f ../docker-compose.yml\" SERVICE=nginx npm run build-and-push",
-        "build-and-push": "cross-env-shell \"$COMPOSE build $SERVICE && $COMPOSE push $SERVICE\"",
+        "build-image": "docker compose -f ../docker-compose.yml build nginx --push",
         "run-image": "docker compose -f ../docker-compose.yml up -d nginx"
     }
 }

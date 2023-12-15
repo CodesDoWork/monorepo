@@ -9,7 +9,7 @@ services:
   renovate:
     build:
       <<: *build-args
-      context: ./renovate
+      context: .
     environment:
       - RENOVATE_TOKEN=${RENOVATE_TOKEN}
       - GIT_URL=https://${DOMAIN}${GITLAB_BASE}

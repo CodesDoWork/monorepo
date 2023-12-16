@@ -365,7 +365,6 @@ services:
       monitoring:
       portainer:
       scoreboard:
-      ssh:
       tunnel:
     ports:
       - 80:80
@@ -451,21 +450,6 @@ services:
       - sonarqube-data:/opt/sonarqube/data
       - sonarqube-extensions:/opt/sonarqube/extensions
 
-  ssh:
-    build:
-      <<: *build-args
-      context: ./ssh
-    healthcheck:
-      test: wget -S http://localhost:${SSH_PORT} 2>&1 | grep "200 OK" || exit 1
-    image: ${IMAGE_BASE}/server-ssh
-    environment:
-      - BASE_PATH=${SSH_BASE}
-    networks:
-      - ssh
-    profiles:
-      - always
-    restart: unless-stopped
-
   tunnel:
     command:
       - tunnel
@@ -527,5 +511,4 @@ networks:
   portainer:
   scoreboard:
   sonar:
-  ssh:
   tunnel:

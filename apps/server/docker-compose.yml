@@ -212,16 +212,25 @@ services:
         puma['worker_processes'] = 0
         sidekiq['max_concurrency'] = 10
         gitaly['configuration'] = {
-            concurrency: [
-              {
-                'rpc' => "/gitaly.SmartHTTPService/PostReceivePack",
-                'max_per_repo' => 3,
-              }, {
-                'rpc' => "/gitaly.SSHService/SSHUploadPack",
-                'max_per_repo' => 3,
-              },
-            ]
+          concurrency: [
+            {
+              'rpc' => "/gitaly.SmartHTTPService/PostReceivePack",
+              'max_per_repo' => 3,
+            }, {
+              'rpc' => "/gitaly.SSHService/SSHUploadPack",
+              'max_per_repo' => 3,
+            },
+          ]
         }
+        cgroups: {
+          repositories: {
+            count: 2,
+          },
+          mountpoint: "/sys/fs/cgroup",
+          hierarchy_root: 'gitaly',
+          memory_bytes: 500000,
+          cpu_shares: 512,
+        },
         gitaly['env'] = {
           'GITALY_COMMAND_SPAWN_MAX_PARALLEL' => '2',
           'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
@@ -229,6 +238,7 @@ services:
         gitlab_rails['env'] = {
           'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
         }
+        prometheus_monitoring['enable'] = false
     image: gitlab/gitlab-ee:latest
     networks:
       - cicd
@@ -400,6 +410,7 @@ services:
       - monitoring
     profiles:
       - day
+    restart: unless-stopped
     volumes:
       - prometheus-data:/prometheus
 

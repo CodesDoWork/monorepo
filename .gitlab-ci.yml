@@ -66,7 +66,7 @@ sonarqube-scanner:
     - sonar-scanner
   allow_failure: true
 
-copy:
+copy-env:
   <<: *ssh
   stage: env
   script:
@@ -94,7 +94,7 @@ docker:
   stage: docker
   script:
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
-    - touch apps/server/.env
+    - touch apps/server/.env apps/server/music/.env apps/server/scoreboard/.env.local
     - npx nx affected --base=remotes/origin/master~1 -t build-image
   only:
     - master

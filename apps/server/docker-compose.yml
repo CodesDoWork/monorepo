@@ -410,6 +410,7 @@ services:
       - monitoring
     profiles:
       - day
+    restart: unless-stopped
     volumes:
       - prometheus-data:/prometheus
 

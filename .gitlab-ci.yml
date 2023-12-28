@@ -87,6 +87,7 @@ docker:
   stage: docker
   script:
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+    - touch apps/server/.env
     - npx nx affected --base=remotes/origin/master~1 -t build-image
   only:
     - master

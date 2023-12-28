@@ -6,5 +6,5 @@ services:
     ports:
       - 4000:80
     volumes:
-      - ./public:/app/public
-      - ../../libs/branding/assets/img:/app/public/img
+      - ./public:/app/public:ro
+      - ../../libs/branding/assets/img:/app/public/img:ro

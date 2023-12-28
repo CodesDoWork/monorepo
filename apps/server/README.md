@@ -7,4 +7,4 @@ See the detailed documentation by visiting `/docs` or the [documentation](./docu
 
 Use `docker compose up` to start all services or `docker compose up documentation` to start the
 docs only.
-Or use `yarn start` inside [documentation](./documentation) to see the docs.
+Or use `nr start` inside [documentation](./documentation) to see the docs.

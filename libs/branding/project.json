@@ -1,21 +1,21 @@
 {
-    "name": "shared-branding",
+    "name": "branding",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "libs/shared/branding/src",
+    "sourceRoot": "libs/branding/src",
     "projectType": "library",
     "targets": {
         "lint": {
             "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["libs/shared/branding/**/*.ts"]
+                "lintFilePatterns": ["libs/branding/**/*.ts"]
             }
         },
         "test": {
             "executor": "@nx/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
-                "jestConfig": "libs/shared/branding/jest.config.ts"
+                "jestConfig": "libs/branding/jest.config.ts"
             }
         }
     },

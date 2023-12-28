@@ -1,9 +1,0 @@
-{
-    "name": "renovate",
-    "version": "1.0.0",
-    "scripts": {
-        "build-image": "cross-env $COMPOSE=\"docker compose -f ../docker-compose.yml\" $SERVICE=renovate npm run build-and-push",
-        "build-and-push": "cross-env-shell \"$COMPOSE build --builder container $SERVICE && $COMPOSE push $SERVICE\"",
-        "run-image": "docker compose -f ../docker-compose.yml up -d renovate"
-    }
-}

@@ -6,7 +6,7 @@ module.exports = {
     gitUrl: "endpoint",
     onboarding: true,
     onboardingConfig: {
-        extends: ["config:base"],
+        extends: ["config:recommended"],
     },
     platform: "gitlab",
 };

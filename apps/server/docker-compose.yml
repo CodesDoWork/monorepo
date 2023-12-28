@@ -30,25 +30,26 @@ services:
     image: quay.io/keycloak/keycloak:22.0.3
     networks:
       - auth
+    profiles:
+      - always
     restart: unless-stopped
 
   backup-service:
     build:
       <<: *build-args
-      cache_from:
-        - type=registry,ref=${CACHE_BASE}/server-backup-service
-      cache_to:
-        - type=registry,ref=${CACHE_BASE}/server-backup-service,mode=max,compression=zstd
       context: ./backup-service
     environment:
       - PUID=0
       - GUID=0
       - TZ=${TZ}
     image: ${IMAGE_BASE}/server-backup-service
+    profiles:
+      - always
     restart: unless-stopped
     volumes:
       - ${BACKUP_VOLUME_PATH}/.snapshots:/.snapshots
       # - ${BACKUP_PC_PATH}:/data/pc:ro
+      - bitwarden-data:/data/services/bitwarden/data:ro
       - docker-registry:/data/services/docker-registry/data:ro
       - gitlab-config:/data/services/gitlab/config:ro
       - gitlab-data:/data/services/gitlab/data:ro
@@ -67,6 +68,34 @@ services:
       - sonarqube-data:/data/services/sonarqube/data:ro
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
 
+  bitwarden:
+    environment:
+      - TZ=${TZ}
+      - PUID=1000
+      - PGID=1000
+      - DOMAIN=https://${BITWARDEN_DOMAIN}
+      - IP_HEADER=X-Forwarded-For
+      - SIGNUPS_ALLOWED=false
+      - ADMIN_TOKEN=${BITWARDEN_ADMIN_TOKEN}
+      - INVITATION_ORG_NAME=Bitwarden
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_FROM=no-reply@${BITWARDEN_DOMAIN}
+      - SMTP_FROM_NAME=Bitwarden
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_SECURITY=starttls
+      - SMTP_USERNAME=${SMTP_USER}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+    image: vaultwarden/server:alpine
+    networks:
+      - bitwarden
+    profiles:
+      - always
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - bitwarden-data:/data
+
   dashboard:
     build:
       <<: *build-args
@@ -74,6 +103,8 @@ services:
     image: ${IMAGE_BASE}/server-dashboard
     networks:
       - dashboard
+    profiles:
+      - day
     restart: unless-stopped
 
   db:
@@ -89,6 +120,8 @@ services:
       - cicd
       - scoreboard
       - sonar
+    profiles:
+      - always
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
@@ -98,12 +131,14 @@ services:
       - REGISTRY_AUTH_TOKEN_REALM=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}/protocol/docker-v2/auth
       - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
       - REGISTRY_AUTH_TOKEN_ISSUER=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}
-      - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/opt/certs/trust_chain.pem
+      - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/opt/certs/trust_chain.pem # exported from keycloak
     healthcheck:
       test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
     image: registry:2
     networks:
       - cicd
+    profiles:
+      - day
     restart: unless-stopped
     volumes:
       - docker-registry:/var/lib/registry
@@ -118,12 +153,16 @@ services:
     image: ${IMAGE_BASE}/server-documentation
     networks:
       - documentation
+    profiles:
+      - day
     restart: unless-stopped
 
   doku:
     image: amerkurev/doku
     networks:
       - doku
+    profiles:
+      - day
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/hostroot:ro
@@ -136,6 +175,16 @@ services:
         nginx['enable'] = true
         nginx['listen_https'] = false
         nginx['listen_port'] = ${GITLAB_PORT}
+        gitlab_rails['smtp_enable'] = true
+        gitlab_rails['smtp_address'] = "${SMTP_HOST}"
+        gitlab_rails['smtp_port'] = ${SMTP_PORT}
+        gitlab_rails['smtp_user_name'] = "${SMTP_USER}"
+        gitlab_rails['smtp_password'] = "${SMTP_PASSWORD}"
+        gitlab_rails['smtp_domain'] = "${SMTP_HOST}"
+        gitlab_rails['smtp_authentication'] = "login"
+        gitlab_rails['smtp_enable_starttls_auto'] = true
+        gitlab_rails['smtp_tls'] = false
+        gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
         gitlab_rails['omniauth_enabled'] = true
         gitlab_rails['omniauth_allow_single_sign_on'] = ['openid_connect']
         gitlab_rails['omniauth_block_auto_created_users'] = false
@@ -163,16 +212,25 @@ services:
         puma['worker_processes'] = 0
         sidekiq['max_concurrency'] = 10
         gitaly['configuration'] = {
-            concurrency: [
-              {
-                'rpc' => "/gitaly.SmartHTTPService/PostReceivePack",
-                'max_per_repo' => 3,
-              }, {
-                'rpc' => "/gitaly.SSHService/SSHUploadPack",
-                'max_per_repo' => 3,
-              },
-            ]
+          concurrency: [
+            {
+              'rpc' => "/gitaly.SmartHTTPService/PostReceivePack",
+              'max_per_repo' => 3,
+            }, {
+              'rpc' => "/gitaly.SSHService/SSHUploadPack",
+              'max_per_repo' => 3,
+            },
+          ]
         }
+        cgroups: {
+          repositories: {
+            count: 2,
+          },
+          mountpoint: "/sys/fs/cgroup",
+          hierarchy_root: 'gitaly',
+          memory_bytes: 500000,
+          cpu_shares: 512,
+        },
         gitaly['env'] = {
           'GITALY_COMMAND_SPAWN_MAX_PARALLEL' => '2',
           'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
@@ -180,9 +238,12 @@ services:
         gitlab_rails['env'] = {
           'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
         }
+        prometheus_monitoring['enable'] = false
     image: gitlab/gitlab-ee:latest
     networks:
       - cicd
+    profiles:
+      - day
     restart: unless-stopped
     shm_size: "256m"
     volumes:
@@ -191,17 +252,26 @@ services:
 
   gitlab-runner:
     image: gitlab/gitlab-runner
+    profiles:
+      - day
     restart: unless-stopped
     volumes:
       - gitlab-runner-config:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
 
   grafana:
+    environment:
+      - GF_SMTP_ENABLED=true
+      - GF_SMTP_HOST=${SMTP_HOST}:${SMTP_PORT}
+      - GF_SMTP_USER=${SMTP_USER}
+      - GF_SMTP_PASSWORD=${SMTP_PASSWORD}
     healthcheck:
       test: curl -fs http://localhost:${GRAFANA_PORT}/api/health | grep "ok" || exit 1
     image: grafana/grafana
     networks:
       - monitoring
+    profiles:
+      - day
     restart: unless-stopped
     volumes:
       - grafana-storage:/var/lib/grafana
@@ -214,6 +284,8 @@ services:
     networks:
       - linkstack
       - tunnel
+    profiles:
+      - always
     restart: unless-stopped
     volumes:
       - linkstack-data:/htdocs
@@ -221,10 +293,6 @@ services:
   music:
     build:
       <<: *build-args
-      cache_from:
-        - type=registry,ref=${CACHE_BASE}/server-music
-      cache_to:
-        - type=registry,ref=${CACHE_BASE}/server-music,mode=max,compression=zstd
       context: ./music # healthcheck implemented
     env_file:
       - ./music/.env
@@ -236,10 +304,12 @@ services:
     image: ${IMAGE_BASE}/server-music
     networks:
       - music
+    profiles:
+      - day
     restart: unless-stopped
     volumes:
       - navidrome-data:/data
-      - ${MUSIC_VOLUME}:/music:ro
+      - ${MUSIC_VOLUME:-./music}:/music:ro
 
   music-downloader:
     build:
@@ -254,6 +324,8 @@ services:
     image: ${IMAGE_BASE}/server-music-downloader
     networks:
       - music
+    profiles:
+      - day
     restart: unless-stopped
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
@@ -265,6 +337,8 @@ services:
     image: netdata/netdata
     network_mode: host
     pid: host
+    profiles:
+      - day
     restart: unless-stopped
     security_opt:
       - apparmor:unconfined
@@ -282,10 +356,6 @@ services:
   nginx:
     build:
       <<: *build-args
-      cache_from:
-        - type=registry,ref=${CACHE_BASE}/server-nginx
-      cache_to:
-        - type=registry,ref=${CACHE_BASE}/server-nginx,mode=max,compression=zstd
       context: ./nginx
     env_file:
       - .env
@@ -294,6 +364,7 @@ services:
     image: ${IMAGE_BASE}/server-nginx
     networks:
       auth:
+      bitwarden:
       cicd:
       dashboard:
       documentation:
@@ -304,12 +375,15 @@ services:
       monitoring:
       portainer:
       scoreboard:
-      ssh:
       tunnel:
     ports:
       - 80:80
       - 443:443
+    profiles:
+      - always
     restart: unless-stopped
+    volumes:
+      - ./certs:/etc/nginx/ssl:ro
 
   portainer:
     command:
@@ -317,6 +391,8 @@ services:
     image: portainer/portainer-ce:latest
     networks:
       - portainer
+    profiles:
+      - day
     restart: unless-stopped
     volumes:
       - portainer-data:/data
@@ -326,40 +402,22 @@ services:
   prometheus:
     build:
       <<: *build-args
-      cache_from:
-        - type=registry,ref=${CACHE_BASE}/server-prometheus
-      cache_to:
-        - type=registry,ref=${CACHE_BASE}/server-prometheus,mode=max,compression=zstd
       context: ./prometheus
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
     image: ${IMAGE_BASE}/server-prometheus
     networks:
       - monitoring
+    profiles:
+      - day
+    restart: unless-stopped
     volumes:
       - prometheus-data:/prometheus
-
-  renovate:
-    build:
-      <<: *build-args
-      cache_from:
-        - type=registry,ref=${CACHE_BASE}/server-renovate
-      cache_to:
-        - type=registry,ref=${CACHE_BASE}/server-renovate,mode=max,compression=zstd
-      context: ./renovate
-    container_name: renovate
-    environment:
-      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
-      - GIT_URL=https://${DOMAIN}${GITLAB_BASE}
-    image: ${IMAGE_BASE}/server-renovate
 
   scoreboard:
     build:
       <<: *build-args
       context: ./scoreboard
-    depends_on:
-      db:
-        condition: service_healthy
     environment:
       - PORT=${SCOREBOARD_PORT}
       - PG_PASSWORD=${DB_PASSWORD}
@@ -376,12 +434,11 @@ services:
     image: ${IMAGE_BASE}/server-scoreboard
     networks:
       - scoreboard
+    profiles:
+      - day
     restart: unless-stopped
 
   sonarqube:
-    depends_on:
-      db:
-        condition: service_healthy
     environment:
       - SONAR_JDBC_USERNAME=${DB_USER}
       - SONAR_JDBC_PASSWORD=${DB_PASSWORD}
@@ -393,28 +450,13 @@ services:
     networks:
       - cicd
       - sonar
+    profiles:
+      - day
     restart: unless-stopped
     volumes:
       - sonarqube-config:/opt/sonarqube/conf
       - sonarqube-data:/opt/sonarqube/data
       - sonarqube-extensions:/opt/sonarqube/extensions
-
-  ssh:
-    build:
-      <<: *build-args
-      cache_from:
-        - type=registry,ref=${CACHE_BASE}/server-ssh
-      cache_to:
-        - type=registry,ref=${CACHE_BASE}/server-ssh,mode=max,compression=zstd
-      context: ./ssh
-    healthcheck:
-      test: wget -S http://localhost:${SSH_PORT} 2>&1 | grep "200 OK" || exit 1
-    image: ${IMAGE_BASE}/server-ssh
-    environment:
-      - BASE_PATH=${SSH_BASE}
-    networks:
-      - ssh
-    restart: unless-stopped
 
   tunnel:
     command:
@@ -426,9 +468,13 @@ services:
     image: cloudflare/cloudflared
     networks:
       - tunnel
+    profiles:
+      - always
     restart: unless-stopped
 
 volumes:
+  bitwarden-data:
+
   docker-registry:
 
   gitlab-config:
@@ -458,6 +504,7 @@ volumes:
 
 networks:
   auth:
+  bitwarden:
   cicd:
   dashboard:
   documentation:
@@ -472,5 +519,4 @@ networks:
   portainer:
   scoreboard:
   sonar:
-  ssh:
   tunnel:

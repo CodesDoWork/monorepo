@@ -32,7 +32,7 @@ export function startServer({
     fasitfyOptions = {},
 }: FastifyServerOptions) {
     const server = fastify({ logger, ...fasitfyOptions });
-    setupSwagger(server, router, basePath, docs);
+    docs && setupSwagger(server, router, basePath, docs);
 
     server.register(fastifyTRPCPlugin, {
         prefix: basePath,
@@ -51,12 +51,8 @@ function setupSwagger(
     server: FastifyInstance,
     router: AnyRouter,
     basePath: string,
-    docs?: SwaggerOptions,
+    docs: SwaggerOptions,
 ) {
-    if (!docs) {
-        return;
-    }
-
     docs.description = docs.description
         ? `${docs.description}\n${openapiTRPCWarning}`
         : openapiTRPCWarning;

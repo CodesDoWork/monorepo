@@ -1,6 +1,7 @@
 stages:
   - nx
   - lint
+  - env
   - renovate
   - docker
   - deploy
@@ -64,6 +65,12 @@ sonarqube-scanner:
   script:
     - sonar-scanner
   allow_failure: true
+
+copy:
+  <<: *ssh
+  stage: env
+  script:
+    - scp .env ${SSH_USER}@${SSH_HOST}:${SSH_PATH}
 
 build-renovate:
   <<: *docker

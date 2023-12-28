@@ -34,4 +34,6 @@ RUN apk add yt-dlp
 COPY --from=builder /app/dist/apps/$APP_DIR .
 COPY --from=deps /app/node_modules ./node_modules
 
+USER node
+
 ENTRYPOINT npm start

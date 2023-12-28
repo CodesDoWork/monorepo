@@ -3,6 +3,9 @@ import { hostname } from "os";
 import { existsSync, readFileSync } from "fs";
 import { z } from "zod";
 
+const MILLIS_PER_SEC = 1000;
+const DEFAULT_DECIMALS = 2;
+
 export const healthcheckResultType = z.object({
     status: z.nativeEnum(HealthStatus),
     startupTime: z.date(),
@@ -30,7 +33,7 @@ export const createHealthcheckResult = (status: HealthcheckResult["status"]): He
 
     return {
         status,
-        startupTime: new Date(Date.now() - process.uptime() * 1000),
+        startupTime: new Date(Date.now() - process.uptime() * MILLIS_PER_SEC),
         hostname: hostname(),
         version: `${projectVersion} (${lastCommit})`,
         memoryUsed,
@@ -44,7 +47,7 @@ export const createHealthcheckResult = (status: HealthcheckResult["status"]): He
 };
 
 //https://stackoverflow.com/questions/15900485/correct-way-to-convert-size-in-bytes-to-kb-mb-gb-in-javascript
-export const formatBytes = (bytes: number, decimals = 2) => {
+export const formatBytes = (bytes: number, decimals = DEFAULT_DECIMALS) => {
     if (!bytes) {
         return "0 Bytes";
     }

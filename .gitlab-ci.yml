@@ -70,7 +70,7 @@ copy-env:
   <<: *ssh
   stage: env
   script:
-    - scp .env ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/..
+    - scp .env ${SSH_USER}@${SSH_HOST}:${SSH_PATH}
 
 build-renovate:
   <<: *docker

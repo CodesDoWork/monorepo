@@ -131,7 +131,7 @@ services:
       - REGISTRY_AUTH_TOKEN_REALM=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}/protocol/docker-v2/auth
       - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
       - REGISTRY_AUTH_TOKEN_ISSUER=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}
-      - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/opt/certs/trust_chain.pem
+      - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/opt/certs/trust_chain.pem # exported from keycloak
     healthcheck:
       test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
     image: registry:2
@@ -372,6 +372,8 @@ services:
     profiles:
       - always
     restart: unless-stopped
+    volumes:
+      - ./certs:/etc/nginx/ssl:ro
 
   portainer:
     command:

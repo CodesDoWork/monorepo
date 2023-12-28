@@ -20,8 +20,6 @@ RUN apk add --no-cache gcc
 RUN luarocks install lua-resty-openidc
 
 WORKDIR /etc/nginx
-COPY --from=workspace /app/libs/server/ssl/certs/server.crt ssl/
-COPY --from=workspace /app/libs/server/ssl/certs/server.key ssl/
 COPY --from=workspace /app/apps/$APP_DIR/conf conf.d
 COPY --from=workspace /app/apps/$APP_DIR/lua lua
 

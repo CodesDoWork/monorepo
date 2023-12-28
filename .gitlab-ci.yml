@@ -70,7 +70,7 @@ copy-env:
   <<: *ssh
   stage: env
   script:
-    - scp .env ${SSH_USER}@${SSH_HOST}:${SSH_PATH}
+    - scp .env ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/..
 
 build-renovate:
   <<: *docker
@@ -104,8 +104,8 @@ deploy:
   stage: deploy
   script:
     # copy compose file and scripts
-    - scp ./apps/server/docker-compose.yml ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
-    - scp ./libs/server/scripts/*.sh ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
+    - scp ./apps/server/docker-compose.yml ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/server/
+    - scp ./libs/server/scripts/*.sh ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/server/
     # copy system scripts
     - ssh ${SSH_USER}@${SSH_HOST} mkdir -p /tmp/scripts/cron.d /tmp/scripts/systemd/system
     - scp ./libs/server/scripts/etc/cron.d/* ${SSH_USER}@${SSH_HOST}:/tmp/scripts/cron.d
@@ -120,7 +120,7 @@ deploy:
     - ssh ${SSH_USER}@${SSH_HOST} sudo systemctl daemon-reload
     # pull and run docker containers
     - ssh ${SSH_USER}@${SSH_HOST} docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
-    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml pull
-    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml --profile always --profile day up -d --remove-orphans
+    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/server/docker-compose.yml pull
+    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/server/docker-compose.yml --profile always --profile day up -d --remove-orphans
   only:
     - master

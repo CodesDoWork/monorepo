@@ -83,7 +83,7 @@
         "ts-jest": "29.1.1",
         "ts-node": "10.9.2",
         "typescript": "5.2.2",
-        "vitepress": "1.0.0-rc.20"
+        "vitepress": "1.0.0-rc.33"
     },
     "dependencies": {
         "@fastify/swagger": "^8.8.0",

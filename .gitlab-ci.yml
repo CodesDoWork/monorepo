@@ -76,7 +76,7 @@ build-renovate:
   <<: *docker
   stage: renovate
   script:
-    - npx nx affected -t build-image --exclude="*,!renovate"
+    - npx nx affected -t build-image --exclude="*,!server-renovate"
   except:
     - master
 

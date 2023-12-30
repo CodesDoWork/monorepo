@@ -11,10 +11,10 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /process/getting-started
+      link: /Getting Started.html
     - theme: alt
       text: View on GitHub
-      link: https://github.com/CodesDoWork/personal-server
+      link: https://github.com/CodesDoWork/monorepo-private
 
 features:
   - icon: ⚡️

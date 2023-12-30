@@ -296,7 +296,7 @@ services:
     networks:
       - music
     profiles:
-      - day
+      - always
     restart: unless-stopped
     volumes:
       - navidrome-data:/data

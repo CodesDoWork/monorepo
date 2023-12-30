@@ -86,7 +86,7 @@
         "typedoc": "^0.25.4",
         "typedoc-plugin-markdown": "^3.17.1",
         "typescript": "5.2.2",
-        "vitepress": "1.0.0-rc.20"
+        "vitepress": "1.0.0-rc.33"
     },
     "dependencies": {
         "@fastify/swagger": "^8.8.0",

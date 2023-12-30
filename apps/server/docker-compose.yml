@@ -27,7 +27,7 @@ services:
     environment:
       - KEYCLOAK_ADMIN=${AUTH_USER}
       - KEYCLOAK_ADMIN_PASSWORD=${AUTH_PASSWORD}
-    image: quay.io/keycloak/keycloak:22.0.3
+    image: quay.io/keycloak/keycloak:22.0.5
     networks:
       - auth
     profiles:

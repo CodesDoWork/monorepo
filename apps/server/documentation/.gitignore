@@ -4,3 +4,5 @@ docs/.vitepress/
 
 docs/public/*
 !docs/public/.gitkeep
+
+docs/projects/

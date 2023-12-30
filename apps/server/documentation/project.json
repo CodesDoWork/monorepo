@@ -7,10 +7,11 @@
             "executor": "nx:run-commands",
             "options": {
                 "commands": [
-                    "cp libs/branding/assets/img/logo.svg apps/server/documentation/docs/public",
-                    "cp libs/branding/assets/img/icon.svg apps/server/documentation/docs/public",
-                    "cp libs/branding/assets/favicon/favicon.ico apps/server/documentation/docs/public",
-                    "vitepress build apps/server/documentation/docs"
+                    "copyfiles libs/branding/assets/img apps/server/documentation/docs/public",
+                    "copyfiles libs/branding/assets/img/icon.svg apps/server/documentation/docs/public",
+                    "copyfiles libs/branding/assets/favicon/favicon.ico apps/server/documentation/docs/public",
+                    "rimraf ./apps/server/documentation/docs/projects",
+                    "node ./apps/server/documentation/create-project-docs.mjs && vitepress build apps/server/documentation/docs"
                 ]
             }
         },
@@ -18,9 +19,9 @@
             "executor": "nx:run-commands",
             "options": {
                 "commands": [
-                    "cp libs/branding/assets/img/logo.svg apps/server/documentation/docs/public",
-                    "cp libs/branding/assets/img/icon.svg apps/server/documentation/docs/public",
-                    "cp libs/branding/assets/favicon/favicon.ico apps/server/documentation/docs/public",
+                    "copyfiles libs/branding/assets/img/logo.svg apps/server/documentation/docs/public",
+                    "copyfiles libs/branding/assets/img/icon.svg apps/server/documentation/docs/public",
+                    "copyfiles libs/branding/assets/favicon/favicon.ico apps/server/documentation/docs/public",
                     "vitepress dev apps/server/documentation/docs"
                 ]
             }

@@ -1,7 +1,9 @@
 import { readFileSync } from "fs";
 import { execSync } from "node:child_process";
 
-const projects = JSON.parse(readFileSync("./apps/server/documentation/doc-projects.json").toString());
+const projects = JSON.parse(
+    readFileSync("./apps/server/documentation/doc-projects.json").toString(),
+);
 projects.forEach(({ name, path }) => {
     console.log(`Creating docs for ${name}`);
     execSync(

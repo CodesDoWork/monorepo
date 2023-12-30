@@ -29,5 +29,4 @@ features:
   - icon: 🎀
     title: Stylish and cool
     details: Always end up with one of the most beautiful UX and DX solutions.
-
 ---

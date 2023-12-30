@@ -209,7 +209,7 @@ services:
             }
           }
         ]
-        puma['worker_processes'] = 0
+        puma['worker_processes'] = 1
         sidekiq['max_concurrency'] = 10
         gitaly['configuration'] = {
           concurrency: [
@@ -222,15 +222,6 @@ services:
             },
           ]
         }
-        cgroups: {
-          repositories: {
-            count: 2,
-          },
-          mountpoint: "/sys/fs/cgroup",
-          hierarchy_root: 'gitaly',
-          memory_bytes: 500000,
-          cpu_shares: 512,
-        },
         gitaly['env'] = {
           'GITALY_COMMAND_SPAWN_MAX_PARALLEL' => '2',
           'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
@@ -305,7 +296,7 @@ services:
     networks:
       - music
     profiles:
-      - day
+      - always
     restart: unless-stopped
     volumes:
       - navidrome-data:/data

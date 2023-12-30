@@ -11,10 +11,10 @@ hero:
   actions:
     - theme: brand
       text: Get Started
-      link: /process/getting-started
+      link: /Getting Started.html
     - theme: alt
       text: View on GitHub
-      link: https://github.com/CodesDoWork/personal-server
+      link: https://github.com/CodesDoWork/monorepo-private
 
 features:
   - icon: ⚡️
@@ -29,5 +29,4 @@ features:
   - icon: 🎀
     title: Stylish and cool
     details: Always end up with one of the most beautiful UX and DX solutions.
-
 ---

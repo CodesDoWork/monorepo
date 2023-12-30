@@ -1,24 +1,21 @@
-# Pipeline
+# Dev Setup
 
-## Overview
-
-The CI/CD pipeline is built as follows:
+My setup looks like this:
 
 ```mermaid
 graph LR
   dev["Dev<br/>(SonarLint + ESLint)"]
   git["Git"]
-  gitea["Gitea"]
   github["GitHub"]
 
-  teamcity["TeamCity<br/>Build with compose,<br/>run tests, store artifacts"]
+  gitlab["GitLab<br/>Run Pipeline"]
   sonarqube["SonarQube"]
 
   docker-compose["Docker Compose"]
 
-  dev --> git --> gitea -->|mirror| github
-  gitea --> teamcity -->|deploy with| docker-compose
-  teamcity -->|inspect with| sonarqube --> dev
+  dev --> git --> gitlab -->|mirror| github
+  gitlab -->|deploy with| docker-compose
+  gitlab -->|inspect with| sonarqube --> dev
 ```
 
 <button type="button" class="custom-button" @click="fullscreen">Fullscreen</button>
@@ -28,8 +25,10 @@ graph LR
 const { isDark } = useData();
 
 const fullscreen = () => {
-    const mermaid = document.querySelector("div > svg");
+    const mermaid = document.querySelector("main div > svg");
     mermaid.style["background-color"] = isDark.value ? "#1e1e20" : "white";
     mermaid.requestFullscreen();
 };
 </script>
+
+See the gitlab pipeline here: [gitlab-ci.yml](../.gitlab-ci.yml)

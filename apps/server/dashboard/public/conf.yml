@@ -54,9 +54,6 @@ sections:
       - title: FRITZ!Box
         icon: fritzbox.svg
         url: https://just-fritz.konratts.de
-      - title: SSH
-        icon: ssh.png
-        url: https://justin.konratts.de/ssh
   - name: Admin
     displayData:
       cutToHeight: true

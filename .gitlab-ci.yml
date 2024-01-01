@@ -32,8 +32,9 @@ stages:
     - nr docker:build-workspace
 
 .ssh: &ssh
-  image: ringcentral/sshpass
+  image: alpine:latest
   before_script:
+    - apk add openssh-client
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - grep "${KNOWN_HOST_PUB}" ~/.ssh/known_hosts || echo "${KNOWN_HOST_PUB}" > ~/.ssh/known_hosts

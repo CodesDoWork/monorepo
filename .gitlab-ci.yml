@@ -2,8 +2,8 @@ stages:
   - nx
   - lint
   - env
-  - renovate
   - docker
+  - renovate
   - deploy
 
 .nx-install: &nx-install
@@ -77,10 +77,14 @@ copy-env:
   only:
     - master
 
-build-renovate:
+docker:
   <<: *docker
-  stage: renovate
+  stage: docker
   script:
+    - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+    - touch apps/server/.env apps/server/music/.env apps/server/scoreboard/.env.local
+    - npx nx affected --base=remotes/origin/master~1 -t build-image
+    - npx nx build-image server-documentation
     - npx nx build-image server-renovate
   only:
     - master
@@ -91,17 +95,6 @@ run-renovate:
   script:
     - scp ./apps/server/renovate/docker-compose.yml ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/renovate
     - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/renovate/docker-compose.yml --env-file ${SSH_PATH}/../.env --env-file ${SSH_PATH}/.env --env-file ${SSH_PATH}/renovate/.env  up --pull always renovate
-  only:
-    - master
-
-docker:
-  <<: *docker
-  stage: docker
-  script:
-    - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
-    - touch apps/server/.env apps/server/music/.env apps/server/scoreboard/.env.local
-    - npx nx affected --base=remotes/origin/master~1 -t build-image
-    - npx nx build-image server-documentation
   only:
     - master
 

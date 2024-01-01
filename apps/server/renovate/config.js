@@ -1,12 +1,22 @@
 const { GIT_URL } = process.env;
 
 module.exports = {
-    autodiscover: true,
-    endpoint: `${GIT_URL}/api/v4/`,
+    platform: "gitlab",
     gitUrl: "endpoint",
+    endpoint: `${GIT_URL}/api/v4/`,
+    autodiscover: true,
     onboarding: true,
     onboardingConfig: {
         extends: ["config:recommended"],
     },
-    platform: "gitlab",
+    packageRules: [
+        {
+            matchUpdateTypes: ["minor", "patch", "pin", "digest"],
+            automerge: true,
+        },
+        {
+            matchDepTypes: ["devDependencies"],
+            automerge: true,
+        },
+    ],
 };

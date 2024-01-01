@@ -16,7 +16,7 @@ let sidebar = getSidebar({
 });
 sidebar = JSON.parse(
     JSON.stringify(sidebar).replace(
-        /"link":"\\\\apps\\\\server\\\\documentation\\\\docs/g,
+        /"link":"(\/\w+)?\/apps\/server\/documentation\/docs/g,
         '"link":"',
     ),
 );

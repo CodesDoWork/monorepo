@@ -12,10 +12,7 @@ FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/workspace AS workspace
 FROM workspace AS builder
 ARG APP_NAME
 ARG APP_DIR
-RUN cp libs/branding/assets/img/logo.svg apps/$APP_DIR/docs/public
-RUN cp libs/branding/assets/img/icon.svg apps/$APP_DIR/docs/public
-RUN cp libs/branding/assets/favicon/favicon.ico apps/$APP_DIR/docs/public
-RUN npx vitepress build --base /docs/ apps/$APP_DIR/docs
+RUN npx nx build $APP_NAME
 
 
 FROM nginx:1-alpine-slim

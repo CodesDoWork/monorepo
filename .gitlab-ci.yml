@@ -65,12 +65,16 @@ sonarqube-scanner:
   script:
     - sonar-scanner
   allow_failure: true
+  only:
+    - master
 
 copy-env:
   <<: *ssh
   stage: env
   script:
     - scp .env ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/../.env
+  only:
+    - master
 
 build-renovate:
   <<: *docker

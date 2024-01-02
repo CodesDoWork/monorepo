@@ -62,7 +62,7 @@
         "copyfiles": "^2.4.1",
         "cypress": "^13.0.0",
         "esbuild": "^0.19.2",
-        "eslint": "8.46.0",
+        "eslint": "8.56.0",
         "eslint-config-next": "13.4.1",
         "eslint-config-prettier": "9.1.0",
         "eslint-plugin-cypress": "2.15.1",

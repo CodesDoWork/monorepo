@@ -11,7 +11,7 @@ FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/workspace AS workspace
 
 FROM lscr.io/linuxserver/rsnapshot
 ARG APP_DIR
-COPY --from=workspace app/apps/$APP_DIR/healthcheck.sh /
+COPY --from=workspace --chmod=111 /app/apps/$APP_DIR/healthcheck.sh /
 HEALTHCHECK CMD /healthcheck.sh
 
-COPY --from=workspace app/apps/$APP_DIR/config /config
+COPY --from=workspace /app/apps/$APP_DIR/config /config

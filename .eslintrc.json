@@ -28,18 +28,16 @@
                                 ]
                             },
                             {
-                                "sourceTag": "server/backup-service",
+                                "sourceTag": "server/ignosi-bot",
                                 "onlyDependOnLibsWithTags": [
                                     "shared",
-                                    "router",
-                                    "server/backup-service"
+                                    "server/ignosi-bot"
                                 ]
                             },
                             {
                                 "sourceTag": "server/music-downloader",
                                 "onlyDependOnLibsWithTags": [
                                     "shared",
-                                    "router",
                                     "server/music-downloader"
                                 ]
                             },
@@ -47,16 +45,7 @@
                                 "sourceTag": "server/scoreboard",
                                 "onlyDependOnLibsWithTags": [
                                     "shared",
-                                    "router",
                                     "server/scoreboard"
-                                ]
-                            },
-                            {
-                                "sourceTag": "server/nutrition",
-                                "onlyDependOnLibsWithTags": [
-                                    "shared",
-                                    "router",
-                                    "server/nutrition"
                                 ]
                             }
                         ]

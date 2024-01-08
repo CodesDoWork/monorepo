@@ -53,19 +53,21 @@ function setupSwagger(
     basePath: string,
     docs: SwaggerOptions,
 ) {
+    const prefix = `${basePath.replace(/\/$/, "")}${docs.routePrefix || "/api"}`;
+
     docs.description = docs.description
         ? `${docs.description}\n${openapiTRPCWarning}`
         : openapiTRPCWarning;
 
     server.register(fastifySwagger, {
-        prefix: basePath,
+        prefix,
         mode: "static",
         specification: {
             document: generateOpenApiDocument(router, docs),
         },
     });
     server.register(fastifySwaggerUi, {
-        prefix: basePath,
-        routePrefix: docs.routePrefix || "/api",
+        prefix,
+        routePrefix: prefix,
     });
 }

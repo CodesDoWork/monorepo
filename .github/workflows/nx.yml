@@ -28,7 +28,7 @@ jobs:
           version: latest
 
       - name: Use Nx
-        uses: nrwl/nx-set-shas@v3
+        uses: nrwl/nx-set-shas@v4
         with:
           main-branch-name: develop
 

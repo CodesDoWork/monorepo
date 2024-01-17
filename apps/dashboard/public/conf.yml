@@ -150,9 +150,6 @@ sections:
       - title: Jira
         icon: clausohm/jira.svg
         url: https://intern.clausohm.local/jira/
-      - title: WASSER Board
-        icon: clausohm/jira.svg
-        url: https://intern.clausohm.local/jira/secure/RapidBoard.jspa?projectKey=WASSER&rapidView=1803
       - title: Confluence
         icon: clausohm/confluence.svg
         url: https://intern.clausohm.local/confluence
@@ -162,12 +159,9 @@ sections:
       - title: Jenkins
         icon: clausohm/jenkins.svg
         url: http://jenkinssrv.neverin.clausohm.de/
-      - title: WZV Daily
-        icon: favicon
-        url: https://us02web.zoom.us/j/84967898980?pwd=OXFrWjNmZDExd3BqbG5pMEtSYnl6QT09#success
-      - title: Vacationizr
+      - title: Personizer
         icon: favicon-local
-        url: https://www.vacationizr.com/overview
+        url: https://www.personizer.com/app/absence-dashboards/personal/
   - name: Holidays
     displayData:
       cutToHeight: true

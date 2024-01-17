@@ -4,6 +4,7 @@ services:
     image: lissy93/dashy
     ports:
       - 4000:80
+    restart: unless-stopped
     volumes:
       - ./public:/app/public
       - ../../libs/branding/assets/img:/app/public/img:ro

@@ -28,13 +28,6 @@
                                 ]
                             },
                             {
-                                "sourceTag": "server/ignosi-bot",
-                                "onlyDependOnLibsWithTags": [
-                                    "shared",
-                                    "server/ignosi-bot"
-                                ]
-                            },
-                            {
                                 "sourceTag": "server/music-downloader",
                                 "onlyDependOnLibsWithTags": [
                                     "shared",

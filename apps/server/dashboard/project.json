@@ -14,8 +14,8 @@
             "options": {
                 "commands": [
                     "rimraf dist/apps/server/dashboard",
-                    "copyfiles apps/server/dashboard/public dist/apps/server/dashboard",
-                    "copyfiles libs/branding/assets/img dist/apps/server/dashboard/public"
+                    "copyfiles apps/server/dashboard/public/* dist/",
+                    "copyfiles -u 3 libs/branding/assets/img/* dist/apps/server/dashboard/public"
                 ]
             }
         }

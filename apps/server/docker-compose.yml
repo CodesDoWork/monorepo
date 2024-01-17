@@ -162,7 +162,7 @@ services:
     networks:
       - doku
     profiles:
-      - day
+      - monitoring
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/hostroot:ro
@@ -262,7 +262,7 @@ services:
     networks:
       - monitoring
     profiles:
-      - day
+      - monitoring
     restart: unless-stopped
     volumes:
       - grafana-storage:/var/lib/grafana
@@ -329,7 +329,7 @@ services:
     network_mode: host
     pid: host
     profiles:
-      - day
+      - monitoring
     restart: unless-stopped
     security_opt:
       - apparmor:unconfined
@@ -400,7 +400,7 @@ services:
     networks:
       - monitoring
     profiles:
-      - day
+      - monitoring
     restart: unless-stopped
     volumes:
       - prometheus-data:/prometheus

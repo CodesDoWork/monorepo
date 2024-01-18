@@ -36,7 +36,6 @@ services:
 
   backup-service:
     build:
-      <<: *build-args
       context: ./backup-service
     environment:
       - PUID=0
@@ -99,7 +98,8 @@ services:
   dashboard:
     build:
       <<: *build-args
-      context: ./dashboard
+      context: ../..
+      dockerfile: apps/server/dashboard/Dockerfile
     image: ${IMAGE_BASE}/server-dashboard
     networks:
       - dashboard
@@ -147,7 +147,8 @@ services:
   documentation:
     build:
       <<: *build-args
-      context: ./documentation
+      context: ../..
+      dockerfile: apps/server/documentation/Dockerfile
     healthcheck:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
     image: ${IMAGE_BASE}/server-documentation
@@ -283,7 +284,6 @@ services:
 
   music:
     build:
-      <<: *build-args
       context: ./music # healthcheck implemented
     env_file:
       - ./music/.env
@@ -305,7 +305,8 @@ services:
   music-downloader:
     build:
       <<: *build-args
-      context: ./music-downloader
+      context: ../..
+      dockerfile: apps/server/music-downloader/Dockerfile
     environment:
       - NEXT_PUBLIC_BASE_PATH=${MUSIC_DOWNLOADER_BASE}
       - DOWNLOAD_DIR=/music/downloads
@@ -346,7 +347,6 @@ services:
 
   nginx:
     build:
-      <<: *build-args
       context: ./nginx
     env_file:
       - .env
@@ -392,7 +392,6 @@ services:
 
   prometheus:
     build:
-      <<: *build-args
       context: ./prometheus
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
@@ -408,7 +407,8 @@ services:
   scoreboard:
     build:
       <<: *build-args
-      context: ./scoreboard
+      context: ../..
+      dockerfile: apps/server/scoreboard/Dockerfile
     environment:
       - PORT=${SCOREBOARD_PORT}
       - PG_PASSWORD=${DB_PASSWORD}

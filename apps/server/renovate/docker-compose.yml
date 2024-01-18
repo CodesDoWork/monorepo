@@ -1,14 +1,6 @@
-x-build-args:
-  build: &build-args
-    args:
-      - DOCKER_REGISTRY
-      - ORGANIZATION
-      - PROJECT
-
 services:
   renovate:
     build:
-      <<: *build-args
       context: .
     environment:
       - RENOVATE_TOKEN=${RENOVATE_TOKEN}

@@ -11,6 +11,8 @@ FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/workspace AS workspace
 
 FROM workspace AS builder
 ARG APP_NAME
+
+COPY . .
 RUN npx nx build $APP_NAME
 
 

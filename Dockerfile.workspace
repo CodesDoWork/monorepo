@@ -2,18 +2,12 @@ ARG DOCKER_REGISTRY
 ARG ORGANIZATION
 ARG PROJECT
 
-FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/base AS base
+FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/base
+ENV PATH=/app/node_modules/.bin:$PATH
 
-WORKDIR /app
-
-RUN apk add git
+RUN apk add git docker docker-cli-compose
 RUN npm i -g @antfu/ni pnpm
 RUN pnpm config set store-dir /tmp/.pnpm-store
-RUN pnpm store path
 
 COPY package.json pnpm-lock.yaml ./
-RUN --mount=type=cache,target=/tmp/.pnpm-store ni
-
-COPY . .
-
-RUN npx nx format:check
+RUN --mount=type=cache,target=/tmp/.pnpm-store nci

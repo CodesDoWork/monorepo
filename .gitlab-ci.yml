@@ -83,7 +83,7 @@ docker:
   script:
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
     - touch apps/server/.env apps/server/music/.env apps/server/scoreboard/.env.local
-    - npx nx affected --base=remotes/origin/master~1 -t build-image
+    - npx nx affected --base=remotes/origin/master~1 -t build-image --parallel 1
     - npx nx build-image server-documentation
     - npx nx build-image server-renovate
   only:

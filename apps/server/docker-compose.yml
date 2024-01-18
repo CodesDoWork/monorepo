@@ -114,7 +114,7 @@ services:
       - POSTGRES_USER=${DB_USER}
     healthcheck:
       test: pg_isready -U $DB_USER
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     networks:
       - auth
       - cicd

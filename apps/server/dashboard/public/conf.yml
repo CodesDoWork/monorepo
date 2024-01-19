@@ -43,9 +43,6 @@ sections:
       - title: Start
         icon: linkstack.svg
         url: https://justin.konratts.de
-      - title: Logout
-        icon: logout.svg
-        url: https://justin.konratts.de/logout
   - name: Network
     displayData:
       cutToHeight: true
@@ -54,6 +51,9 @@ sections:
       - title: FRITZ!Box
         icon: fritzbox.svg
         url: https://just-fritz.konratts.de
+      - title: Logout
+        icon: logout.svg
+        url: https://justin.konratts.de/logout
   - name: Admin
     displayData:
       cutToHeight: true
@@ -92,7 +92,7 @@ sections:
   - name: Monitoring
     displayData:
       cutToHeight: true
-    icon: ":desktop_computer:"
+    icon: "🖥️"
     items:
       - title: Doku
         icon: doku.svg

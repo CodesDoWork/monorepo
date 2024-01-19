@@ -13,9 +13,9 @@
             "executor": "nx:run-commands",
             "options": {
                 "commands": [
-                    "rimraf dist/apps/server/dashboard",
-                    "copyfiles apps/server/dashboard/public/* dist/",
-                    "copyfiles -u 3 libs/branding/assets/img/* dist/apps/server/dashboard/public"
+                    "rimraf -g dist/apps/server/dashboard/**/*",
+                    "copyfiles 'apps/server/dashboard/public/**/*' dist",
+                    "copyfiles -u 3 'libs/branding/assets/img/**/*' dist/apps/server/dashboard/public"
                 ]
             }
         }

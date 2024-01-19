@@ -17,8 +17,7 @@ RUN npx nx build $APP_NAME
 
 
 FROM lissy93/dashy:latest
-ARG APP_DIR
 ENV NODE_ENV=production
+ARG APP_DIR
 
 COPY --from=builder /app/dist/apps/$APP_DIR/public /app/public
-HEALTHCHECK CMD node /app/services/healthcheck

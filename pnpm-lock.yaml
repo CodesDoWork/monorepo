@@ -9,8 +9,8 @@ dependencies:
     specifier: ^8.8.0
     version: 8.11.0
   '@fastify/swagger-ui':
-    specifier: ^1.9.2
-    version: 1.10.0
+    specifier: ^2.0.0
+    version: 2.1.0
   '@fastify/websocket':
     specifier: ^8.1.0
     version: 8.2.0
@@ -2083,8 +2083,8 @@ packages:
       p-limit: 3.1.0
     dev: false
 
-  /@fastify/swagger-ui@1.10.0:
-    resolution: {integrity: sha512-vps8KRDQ8JWQGG9Dh6fCOzAc81Y5a6RnCU/Sumyw3n7+HXJSYExnLLgv4aS9eRFSODtQ8kzZJ//IxAbf0nZ+sQ==}
+  /@fastify/swagger-ui@2.1.0:
+    resolution: {integrity: sha512-mu0C28kMEQDa3miE8f3LmI/OQSmqaKS3dYhZVFO5y4JdgBIPbzZj6COCoRU/P/9nu7UogzzcCJtg89wwLwKtWg==}
     dependencies:
       '@fastify/static': 6.11.2
       fastify-plugin: 4.5.1

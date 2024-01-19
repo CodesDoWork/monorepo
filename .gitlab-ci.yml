@@ -7,29 +7,16 @@ stages:
   - deploy
 
 .nx-install: &nx-install
-  - npm install -g @antfu/ni pnpm
-  - nci
   - apk add git
+  - npm install -g @antfu/ni pnpm
+  - pnpm config set store-dir .pnpm-store
+  - nci
 
-.docker: &docker
-  image: docker:24.0.7
-  services:
-    - name: docker:24.0.7-dind
-      alias: docker-service
+.pnpm-store-cache: &pnpm-store-cache
   cache:
-    key: deps
+    key: pnpm-store
     paths:
-      - node_modules
-  variables:
-    DOCKER_DRIVER: overlay2
-    DOCKER_HOST: tcp://docker-service:2375/
-    DOCKER_TLS_CERTDIR: ""
-  before_script:
-    - apk add npm
-    - *nx-install
-    - docker info
-    - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
-    - nr docker:build-workspace
+      - .pnpm-store/
 
 .ssh: &ssh
   image: alpine:latest
@@ -44,10 +31,7 @@ stages:
 nx-workspace:
   image: node:20-alpine
   stage: nx
-  cache:
-    key: deps
-    paths:
-      - node_modules
+  <<: *pnpm-store-cache
   before_script:
     - *nx-install
   script:
@@ -78,10 +62,22 @@ copy-env:
     - master
 
 docker:
-  <<: *docker
+  image: docker:24.0.7
   stage: docker
-  script:
+  services:
+    - name: docker:24.0.7-dind
+      alias: docker-service
+  <<: *pnpm-store-cache
+  variables:
+    DOCKER_HOST: tcp://docker-service:2375/
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - apk add npm
+    - *nx-install
+    - docker info
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+  script:
+    - nr docker:build-workspace
     - touch apps/server/.env apps/server/music/.env apps/server/scoreboard/.env.local
     - npx nx affected --base=remotes/origin/master~1 -t build-image --parallel 1
     - npx nx build-image server-documentation

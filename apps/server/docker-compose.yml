@@ -27,7 +27,7 @@ services:
     environment:
       - KEYCLOAK_ADMIN=${AUTH_USER}
       - KEYCLOAK_ADMIN_PASSWORD=${AUTH_PASSWORD}
-    image: quay.io/keycloak/keycloak:22.0.5
+    image: quay.io/keycloak/keycloak:23.0.4
     networks:
       - auth
     profiles:
@@ -114,7 +114,7 @@ services:
       - POSTGRES_USER=${DB_USER}
     healthcheck:
       test: pg_isready -U $DB_USER
-    image: postgres:15-alpine
+    image: postgres:16-alpine
     networks:
       - auth
       - cicd
@@ -437,7 +437,7 @@ services:
       - SONAR_WEB_CONTEXT=${SONARQUBE_BASE}
     healthcheck:
       test: wget -qO- http://localhost:9000${SONARQUBE_BASE}/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
-    image: sonarqube:9-community
+    image: sonarqube:10-community
     networks:
       - cicd
       - sonar

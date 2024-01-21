@@ -27,3 +27,7 @@ while IFS= read -r -d '' file; do
         done
     fi
 done < <(find "$root_dir" -type f -print0)
+
+for playlist in $root_dir/*.m3u; do
+    sort "$playlist" -o "$playlist"
+done

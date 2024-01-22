@@ -61,7 +61,7 @@ services:
       - netdata-lib:/data/services/netdata/lib:ro
       - netdata-cache:/data/services/netdata/cache:ro
       - portainer-data:/data/services/portainer/data:ro
-      - postgres-16-data:/data/services/db/data:ro
+      - postgres-data:/data/services/db/data:ro
       - prometheus-data:/data/services/prometheus/data:ro
       - sonarqube-config:/data/services/sonarqube/config:ro
       - sonarqube-data:/data/services/sonarqube/data:ro
@@ -114,7 +114,7 @@ services:
       - POSTGRES_USER=${DB_USER}
     healthcheck:
       test: pg_isready -U $DB_USER
-    image: postgres:16-alpine
+    image: postgres:15-alpine
     networks:
       - auth
       - cicd
@@ -124,7 +124,7 @@ services:
       - always
     restart: unless-stopped
     volumes:
-      - postgres-16-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
 
   docker-registry:
     environment:
@@ -485,7 +485,7 @@ volumes:
 
   portainer-data:
 
-  postgres-16-data:
+  postgres-data:
 
   prometheus-data:
 

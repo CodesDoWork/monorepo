@@ -61,7 +61,7 @@ services:
       - netdata-lib:/data/services/netdata/lib:ro
       - netdata-cache:/data/services/netdata/cache:ro
       - portainer-data:/data/services/portainer/data:ro
-      - postgres-data:/data/services/db/data:ro
+      - postgres-16-data:/data/services/db/data:ro
       - prometheus-data:/data/services/prometheus/data:ro
       - sonarqube-config:/data/services/sonarqube/config:ro
       - sonarqube-data:/data/services/sonarqube/data:ro
@@ -124,7 +124,7 @@ services:
       - always
     restart: unless-stopped
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - postgres-16-data:/var/lib/postgresql/data
 
   docker-registry:
     environment:
@@ -485,7 +485,7 @@ volumes:
 
   portainer-data:
 
-  postgres-data:
+  postgres-16-data:
 
   prometheus-data:
 

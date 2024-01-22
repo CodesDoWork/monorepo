@@ -9,17 +9,17 @@ services:
   auth:
     command:
       - start
-      - --db postgres
-      - --db-url-host db
-      - --db-username ${DB_USER}
-      - --db-password ${DB_PASSWORD}
+      - --db=postgres
+      - --db-url-host=db
+      - --db-username=${DB_USER}
+      - --db-password=${DB_PASSWORD}
       - --hostname-path=${AUTH_BASE}
       - --hostname-strict=false
       - --http-relative-path=${AUTH_BASE}
       - --http-enabled=true
       - --health-enabled=true
       - --metrics-enabled=true
-      - --features="docker,token-exchange"
+      - --features=docker,token-exchange
       - --proxy=edge
     depends_on:
       db:

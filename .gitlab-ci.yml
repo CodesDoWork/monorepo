@@ -62,10 +62,10 @@ copy-env:
     - master
 
 docker:
-  image: docker:24.0.7
+  image: docker:24.0.8
   stage: docker
   services:
-    - name: docker:24.0.7-dind
+    - name: docker:24.0.8-dind
       alias: docker-service
   <<: *pnpm-store-cache
   variables:

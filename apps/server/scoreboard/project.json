@@ -51,9 +51,8 @@
         },
         "lint": {
             "executor": "@nx/eslint:lint",
-            "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["apps/server/scoreboard/**/*.{ts,tsx,js,jsx}"]
+                "lintFilePatterns": ["{projectRoot}/**/*.{ts,tsx,js,jsx}"]
             }
         }
     },

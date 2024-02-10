@@ -34,9 +34,8 @@
         },
         "lint": {
             "executor": "@nx/eslint:lint",
-            "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["apps/server/documentation/**/*.js"]
+                "lintFilePatterns": ["{projectRoot}/**/*.js"]
             }
         },
         "test": {

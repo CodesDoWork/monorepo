@@ -7,9 +7,8 @@
     "targets": {
         "lint": {
             "executor": "@nx/eslint:lint",
-            "outputs": ["{options.outputFile}"],
             "options": {
-                "lintFilePatterns": ["libs/shared/web/components/**/*.{ts,tsx,js,jsx}"]
+                "lintFilePatterns": ["{projectRoot}/**/*.{ts,tsx,js,jsx}"]
             }
         }
     }

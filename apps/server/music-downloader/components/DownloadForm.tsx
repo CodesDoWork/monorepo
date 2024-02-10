@@ -12,14 +12,9 @@ export function DownloadForm({ className }: PropsWithClassName<object>) {
         [setURL],
     );
 
-    const download = useCallback(
-        () =>
-            trpc.download
-                .query({ url })
-                .catch(e => alert(JSON.parse(e.message)[0].message))
-                .then(() => {}),
-        [url],
-    );
+    const download = useCallback(() => {
+        trpc.download.query({ url }).catch(e => alert(JSON.parse(e.message)[0].message));
+    }, [url]);
 
     const containerClassName = clsx("flex w-1/2", className);
     const inputClassName = clsx("rounded-md h-10 w-full");

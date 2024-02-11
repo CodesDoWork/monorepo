@@ -9,6 +9,7 @@ module.exports = {
     onboardingConfig: {
         extends: ["config:recommended"],
     },
+    rangeStrategy: "bump",
     packageRules: [
         {
             matchUpdateTypes: ["minor", "patch", "pin", "digest"],

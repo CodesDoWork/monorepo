@@ -10,7 +10,6 @@ module.exports = {
         extends: ["config:recommended"],
     },
     rangeStrategy: "bump",
-    prHourlyLimit: 6,
     packageRules: [
         {
             matchUpdateTypes: ["minor", "patch", "pin", "digest"],

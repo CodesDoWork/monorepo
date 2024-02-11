@@ -41,6 +41,7 @@ nx-workspace:
     - npx nx affected -t build -c production
   except:
     - master
+  resource_group: single
 
 sonarqube-scanner:
   image:
@@ -52,6 +53,7 @@ sonarqube-scanner:
   allow_failure: true
   only:
     - master
+  resource_group: single
 
 copy-env:
   <<: *ssh
@@ -60,6 +62,7 @@ copy-env:
     - scp .env ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/../.env
   only:
     - master
+  resource_group: single
 
 docker:
   image: docker:25.0.3
@@ -84,6 +87,7 @@ docker:
     - npx nx build-image server-renovate
   only:
     - master
+  resource_group: single
 
 run-renovate:
   <<: *ssh
@@ -93,6 +97,7 @@ run-renovate:
     - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/renovate/docker-compose.yml --env-file ${SSH_PATH}/../.env --env-file ${SSH_PATH}/.env --env-file ${SSH_PATH}/renovate/.env  up --pull always renovate
   only:
     - master
+  resource_group: single
 
 deploy:
   <<: *ssh
@@ -119,3 +124,4 @@ deploy:
     - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml --profile always --profile day up -d --remove-orphans
   only:
     - master
+  resource_group: single

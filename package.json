@@ -108,7 +108,7 @@
         "encoding": "^0.1.13",
         "fastify": "^4.17.0",
         "mermaid": "~9.1.7",
-        "moment": "^2.29.4",
+        "moment": "^2.30.1",
         "next": "^14.1.0",
         "next-auth": "^4.24.5",
         "node-cron": "^3.0.3",

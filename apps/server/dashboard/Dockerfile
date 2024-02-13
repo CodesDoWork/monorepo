@@ -15,7 +15,6 @@ ARG APP_DIR
 
 COPY . .
 RUN npx nx build $APP_NAME
-RUN ls /app/dist/apps/$APP_DIR
 
 
 FROM lissy93/dashy:latest

@@ -65,7 +65,7 @@ nx-workspace:
 docker-test:
   <<: *docker
   script:
-    - nx affected -t build-image --parallel 1
+    - npx nx affected -t build-image --parallel 1
   only:
     - /^docker-test\/.*$/
   resource_group: single

@@ -43,17 +43,6 @@ sections:
       - title: Start
         icon: linkstack.svg
         url: https://justin.konratts.de
-  - name: Network
-    displayData:
-      cutToHeight: true
-    icon: ":globe_with_meridians:"
-    items:
-      - title: FRITZ!Box
-        icon: fritzbox.svg
-        url: https://just-fritz.konratts.de
-      - title: Logout
-        icon: logout.svg
-        url: https://justin.konratts.de/logout
   - name: Admin
     displayData:
       cutToHeight: true
@@ -70,7 +59,7 @@ sections:
         url: https://justin.konratts.de/portainer
       - title: Linkstack
         icon: linkstack.svg
-        url: https://just-links.konratts.de/dashboard
+        url: https://justin.konratts.de/dashboard
   - name: Dev
     displayData:
       cutToHeight: true
@@ -106,3 +95,11 @@ sections:
       - title: Grafana
         icon: grafana.svg
         url: https://just-grafana.konratts.de
+  - name: Network
+    displayData:
+      cutToHeight: true
+    icon: ":globe_with_meridians:"
+    items:
+      - title: Logout
+        icon: logout.svg
+        url: https://justin.konratts.de/logout

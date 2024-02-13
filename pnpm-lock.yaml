@@ -12,8 +12,8 @@ dependencies:
     specifier: ^2.1.0
     version: 2.1.0
   '@fastify/websocket':
-    specifier: ^8.1.0
-    version: 8.2.0
+    specifier: ^8.3.1
+    version: 8.3.1
   '@mermaid-js/mermaid-mindmap':
     specifier: ^9.3.0
     version: 9.3.0
@@ -3450,8 +3450,8 @@ packages:
       - supports-color
     dev: false
 
-  /@fastify/websocket@8.2.0:
-    resolution: {integrity: sha512-B4tlHFBKCX7tenEG9aUcQEpksW2e0+dgRTaH/05+cro1Xsq1+kSj+9IB9Gep7a0KbHZGrat+zBsOas6lRs5dFQ==}
+  /@fastify/websocket@8.3.1:
+    resolution: {integrity: sha512-hsQYHHJme/kvP3ZS4v/WMUznPBVeeQHHwAoMy1LiN6m/HuPfbdXq1MBJ4Nt8qX1YI+eVbog4MnOsU7MTozkwYA==}
     dependencies:
       fastify-plugin: 4.5.1
       ws: 8.14.2

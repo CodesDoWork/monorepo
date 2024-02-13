@@ -9,5 +9,8 @@
 
 ```
 sysctl -w vm.max_map_count=262144
-sysctl vm.overcommit_memory=1
+sysctl -w vm.overcommit_memory=1
 ```
+
+5. Add own user
+6. Add sudo for user

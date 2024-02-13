@@ -117,7 +117,7 @@ deploy:
   script:
     # copy compose file and scripts
     - scp ./apps/server/docker-compose.yml ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
-    - scp ./libs/server/scripts/*.sh ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
+    - scp ./libs/server/scripts/misc/*.sh ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
     # copy system scripts
     - ssh ${SSH_USER}@${SSH_HOST} mkdir -p /tmp/scripts/cron.d /tmp/scripts/systemd/system
     - scp ./libs/server/scripts/etc/cron.d/* ${SSH_USER}@${SSH_HOST}:/tmp/scripts/cron.d

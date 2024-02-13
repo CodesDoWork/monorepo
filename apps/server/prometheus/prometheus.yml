@@ -47,5 +47,5 @@ scrape_configs:
       #server: ["prometheus1"]
     honor_labels: true
     static_configs:
-      - targets: ["server.fritz.box:19999"]
+      - targets: ["194.164.202.152:19999"]
 #################################################################################################

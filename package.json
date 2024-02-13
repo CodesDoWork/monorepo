@@ -90,7 +90,7 @@
         "vitepress": "1.0.0-rc.42"
     },
     "dependencies": {
-        "@fastify/swagger": "^8.8.0",
+        "@fastify/swagger": "^8.14.0",
         "@fastify/swagger-ui": "^2.1.0",
         "@fastify/websocket": "^8.1.0",
         "@mermaid-js/mermaid-mindmap": "^9.3.0",

@@ -59,6 +59,7 @@ nx-workspace:
     - npx nx affected -t build -c production
   except:
     - master
+    - /^docker-test\/.*$/
   resource_group: single
 
 docker-test:
@@ -66,7 +67,7 @@ docker-test:
   script:
     - nx affected -t build-image --parallel 1
   only:
-    - docker-test/*
+    - /^docker-test\/.*$/
   resource_group: single
 
 sonarqube-scanner:

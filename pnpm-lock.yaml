@@ -111,7 +111,7 @@ dependencies:
     specifier: ^3.3.4
     version: 3.3.4
   zod:
-    specifier: ^3.21.4
+    specifier: ^3.22.4
     version: 3.22.4
 
 devDependencies:
@@ -11794,8 +11794,6 @@ packages:
       webpack: '*'
     peerDependenciesMeta:
       webpack:
-        optional: true
-      webpack-sources:
         optional: true
     dependencies:
       webpack: 5.88.2(@swc/core@1.4.0)(esbuild@0.20.0)

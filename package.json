@@ -125,6 +125,6 @@
         "vitepress-plugin-auto-sidebar": "^1.1.0",
         "vitepress-plugin-mermaid": "2.0.10",
         "vue": "^3.3.4",
-        "zod": "^3.21.4"
+        "zod": "^3.22.4"
     }
 }

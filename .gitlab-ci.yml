@@ -18,6 +18,24 @@ stages:
     paths:
       - .pnpm-store/
 
+.docker: &docker
+  image: docker:25.0.3
+  stage: docker
+  services:
+    - name: docker:25.0.3-dind
+      alias: docker-service
+  <<: *pnpm-store-cache
+  variables:
+    DOCKER_HOST: tcp://docker-service:2375/
+    DOCKER_TLS_CERTDIR: ""
+  before_script:
+    - apk add npm
+    - *nx-install
+    - docker info
+    - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+    - nr docker:build-workspace
+    - touch apps/server/.env apps/server/music/.env apps/server/scoreboard/.env.local
+
 .ssh: &ssh
   image: alpine:latest
   before_script:
@@ -41,6 +59,15 @@ nx-workspace:
     - npx nx affected -t build -c production
   except:
     - master
+    - /^docker-test\/.*$/
+  resource_group: single
+
+docker-test:
+  <<: *docker
+  script:
+    - npx nx affected -t build-image --parallel 1
+  only:
+    - /^docker-test\/.*$/
   resource_group: single
 
 sonarqube-scanner:
@@ -65,23 +92,8 @@ copy-env:
   resource_group: single
 
 docker:
-  image: docker:25.0.3
-  stage: docker
-  services:
-    - name: docker:25.0.3-dind
-      alias: docker-service
-  <<: *pnpm-store-cache
-  variables:
-    DOCKER_HOST: tcp://docker-service:2375/
-    DOCKER_TLS_CERTDIR: ""
-  before_script:
-    - apk add npm
-    - *nx-install
-    - docker info
-    - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+  <<: *docker
   script:
-    - nr docker:build-workspace
-    - touch apps/server/.env apps/server/music/.env apps/server/scoreboard/.env.local
     - npx nx affected --base=remotes/origin/master~1 -t build-image --parallel 1
     - npx nx build-image server-documentation
     - npx nx build-image server-renovate

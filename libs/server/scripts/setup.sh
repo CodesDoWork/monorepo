@@ -1,5 +1,5 @@
 apt-get update
-apt-get install lm-sensors
+apt-get install lm-sensors cron
 
 # Add Docker's official GPG key:
 sudo apt-get update

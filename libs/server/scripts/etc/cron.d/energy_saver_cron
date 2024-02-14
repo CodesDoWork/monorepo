@@ -1,2 +1,0 @@
-0 7 * * * root /home/jkonratt/server/energy_saver_off.sh
-30 22 * * * root /home/jkonratt/server/energy_saver_on.sh

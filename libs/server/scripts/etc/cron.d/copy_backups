@@ -1,2 +1,0 @@
- 0  8 * * * root /home/jkonratt/server/copy_backups.sh
-30 20 * * * root /home/jkonratt/server/copy_backups.sh

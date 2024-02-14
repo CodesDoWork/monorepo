@@ -30,8 +30,6 @@ services:
     image: quay.io/keycloak/keycloak:23.0.6
     networks:
       - auth
-    profiles:
-      - always
     restart: unless-stopped
 
   backup-service:
@@ -42,8 +40,6 @@ services:
       - GUID=0
       - TZ=${TZ}
     image: ${IMAGE_BASE}/server-backup-service
-    profiles:
-      - always
     restart: unless-stopped
     volumes:
       - ${BACKUP_VOLUME_PATH}/.snapshots:/.snapshots
@@ -87,8 +83,6 @@ services:
     image: vaultwarden/server:alpine
     networks:
       - bitwarden
-    profiles:
-      - always
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -103,8 +97,6 @@ services:
     image: ${IMAGE_BASE}/server-dashboard
     networks:
       - dashboard
-    profiles:
-      - day
     restart: unless-stopped
 
   db:
@@ -120,8 +112,6 @@ services:
       - cicd
       - scoreboard
       - sonar
-    profiles:
-      - always
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
@@ -137,8 +127,6 @@ services:
     image: registry:2
     networks:
       - cicd
-    profiles:
-      - day
     restart: unless-stopped
     volumes:
       - docker-registry:/var/lib/registry
@@ -154,16 +142,12 @@ services:
     image: ${IMAGE_BASE}/server-documentation
     networks:
       - documentation
-    profiles:
-      - day
     restart: unless-stopped
 
   doku:
     image: amerkurev/doku
     networks:
       - doku
-    profiles:
-      - monitoring
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/hostroot:ro
@@ -234,8 +218,6 @@ services:
     image: gitlab/gitlab-ee:latest
     networks:
       - cicd
-    profiles:
-      - day
     restart: unless-stopped
     shm_size: "256m"
     volumes:
@@ -244,8 +226,6 @@ services:
 
   gitlab-runner:
     image: gitlab/gitlab-runner
-    profiles:
-      - day
     restart: unless-stopped
     volumes:
       - gitlab-runner-config:/etc/gitlab-runner
@@ -262,8 +242,6 @@ services:
     image: grafana/grafana
     networks:
       - monitoring
-    profiles:
-      - monitoring
     restart: unless-stopped
     volumes:
       - grafana-storage:/var/lib/grafana
@@ -276,8 +254,6 @@ services:
     networks:
       - linkstack
       - tunnel
-    profiles:
-      - always
     restart: unless-stopped
     volumes:
       - linkstack-data:/htdocs
@@ -295,8 +271,6 @@ services:
     image: ${IMAGE_BASE}/server-music
     networks:
       - music
-    profiles:
-      - always
     restart: unless-stopped
     volumes:
       - navidrome-data:/data
@@ -316,8 +290,6 @@ services:
     image: ${IMAGE_BASE}/server-music-downloader
     networks:
       - music
-    profiles:
-      - day
     restart: unless-stopped
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
@@ -329,8 +301,6 @@ services:
     image: netdata/netdata
     network_mode: host
     pid: host
-    profiles:
-      - monitoring
     restart: unless-stopped
     security_opt:
       - apparmor:unconfined
@@ -370,8 +340,6 @@ services:
     ports:
       - 80:80
       - 443:443
-    profiles:
-      - always
     restart: unless-stopped
     volumes:
       - ./certs:/etc/nginx/ssl:ro
@@ -382,8 +350,6 @@ services:
     image: portainer/portainer-ce:latest
     networks:
       - portainer
-    profiles:
-      - day
     restart: unless-stopped
     volumes:
       - portainer-data:/data
@@ -397,8 +363,6 @@ services:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
     image: ${IMAGE_BASE}/server-prometheus
     networks:
-      - monitoring
-    profiles:
       - monitoring
     restart: unless-stopped
     volumes:
@@ -425,8 +389,6 @@ services:
     image: ${IMAGE_BASE}/server-scoreboard
     networks:
       - scoreboard
-    profiles:
-      - day
     restart: unless-stopped
 
   sonarqube:
@@ -441,8 +403,6 @@ services:
     networks:
       - cicd
       - sonar
-    profiles:
-      - day
     restart: unless-stopped
     volumes:
       - sonarqube-config:/opt/sonarqube/conf
@@ -459,8 +419,6 @@ services:
     image: cloudflare/cloudflared
     networks:
       - tunnel
-    profiles:
-      - always
     restart: unless-stopped
 
 volumes:

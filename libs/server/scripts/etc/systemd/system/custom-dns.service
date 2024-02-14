@@ -1,9 +1,0 @@
-[Unit]
-Description=Set Custom DNS
-
-[Service]
-Type=oneshot
-ExecStart=/bin/bash -c 'echo "nameserver 192.168.188.1" > /etc/resolv.conf'
-
-[Install]
-WantedBy=multi-user.target

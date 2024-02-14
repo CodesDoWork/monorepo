@@ -116,6 +116,9 @@ sections:
       - title: Porkbun
         icon: favicon-local
         url: https://porkbun.com/account/domainsSpeedy
+      - title: Strato
+        icon: favicon-local
+        url: https://www.strato.de/apps/CustomerService
       - title: Server
         icon: server/icon.svg
         url: https://just-dashy.konratts.de

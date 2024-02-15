@@ -5,6 +5,7 @@ previous_length=0
 
 rm $root_dir/*.m3u
 while IFS= read -r -d '' file; do
+    file="${file/$root_dir\//}"
     if [[ $file == *.mp3 || $file == *.wav ]]; then
         spaces=$(printf '%*s' $((previous_length - ${#file})) "")
         previous_length=${#file}
@@ -12,9 +13,9 @@ while IFS= read -r -d '' file; do
 
         subdir=$(dirname "$file")
         file_path=$(echo $file | cut -d'/' -f2-)
-        depth=$(( $(echo "${file_path//[^\/]}" | wc -m) - 1 ))
+        depth=$(echo "${file_path//[^\/]}" | wc -m)
         for level in $(seq 1 $depth); do
-            level_subdir=$(echo $subdir | cut -d'/' -f2-$((level + 1)))
+            level_subdir=$(echo $subdir | cut -d'/' -f1-$((level + 1)))
             subdir_playlist_name=$(echo $level_subdir | tr '/' '-')
 
             if [ "$level" -eq "$depth" ]; then

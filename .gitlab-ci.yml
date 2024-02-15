@@ -118,10 +118,10 @@ deploy:
     # copy misc scripts
     - scp ./libs/server/scripts/misc/*.sh ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
     - ssh ${SSH_USER}@${SSH_HOST} chmod +x ${SSH_PATH}/*.sh
+    - ssh ${SSH_USER}@${SSH_HOST} chown ${SSH_SCRIPT_OWNER}:${SSH_SCRIPT_OWNER} ${SSH_PATH}/*.sh
     # cron
     - ssh ${SSH_USER}@${SSH_HOST} mkdir -p /tmp/scripts/cron.d
     - scp ./libs/server/scripts/etc/cron.d/* ${SSH_USER}@${SSH_HOST}:/tmp/scripts/cron.d
-    - ssh ${SSH_USER}@${SSH_HOST} chown root:root /tmp/scripts/cron.d/*
     - ssh ${SSH_USER}@${SSH_HOST} mv /tmp/scripts/cron.d/* /etc/cron.d/
     # copy compose file, pull and run docker containers
     - scp ./apps/server/docker-compose.yml ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/

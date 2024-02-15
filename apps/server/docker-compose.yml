@@ -45,7 +45,6 @@ services:
       - ${BACKUP_VOLUME_PATH}/.snapshots:/.snapshots
       # - ${BACKUP_PC_PATH}:/data/pc:ro
       - bitwarden-data:/data/services/bitwarden/data:ro
-      - docker-registry:/data/services/docker-registry/data:ro
       - gitlab-config:/data/services/gitlab/config:ro
       - gitlab-data:/data/services/gitlab/data:ro
       - gitlab-runner-config:/data/services/gitlab-runner/config:ro

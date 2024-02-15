@@ -1,17 +1,18 @@
 import { Counter, useScoreboard } from "./useScoreboard";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useRef } from "react";
 import clsx from "clsx";
 import { Legend, Loader, MultilineChart } from "shared/web/components";
-import { useElementSize } from "usehooks-ts";
+import { useResizeObserver } from "usehooks-ts";
 
 export function Scoreboard() {
     const { dbInfo, counters, chartData, selectedCounters, setSelectedCounters } = useScoreboard();
-    const [chartRef, { width, height }] = useElementSize();
+    const chartRef = useRef<HTMLDivElement>(null);
+    const { width = 0, height = 0 } = useResizeObserver({ ref: chartRef });
 
     return (
         <div className="m-8">
             <h1 className="text-center mb-6 font-bold text-2xl">{dbInfo?.name}</h1>
-            <div className="mb-8 flex flex-wrap justify-evenly">{counters.map(Counter)}</div>
+            <div className="mb-8 flex flex-wrap justify-evenly">{counters.map(CounterPanel)}</div>
             <div className="flex items-center justify-center" ref={chartRef}>
                 <MultilineChart
                     width={width * 0.6}
@@ -29,7 +30,7 @@ export function Scoreboard() {
     );
 }
 
-const Counter = ({ name, value, increment, decrement, isLoading }: Counter) => {
+const CounterPanel = ({ name, value, increment, decrement, isLoading }: Counter) => {
     return (
         <div className="flex flex-col w-32 p-4 items-center justify-between">
             <span className="text-center">{name}</span>

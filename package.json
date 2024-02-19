@@ -92,7 +92,7 @@
     "dependencies": {
         "@fastify/swagger": "^8.14.0",
         "@fastify/swagger-ui": "^3.0.0",
-        "@fastify/websocket": "^8.3.1",
+        "@fastify/websocket": "^9.0.0",
         "@mermaid-js/mermaid-mindmap": "^9.3.0",
         "@notionhq/client": "^2.2.14",
         "@swc/helpers": "0.5.6",

@@ -33,6 +33,11 @@
                 "{workspaceRoot}/.eslintignore"
             ],
             "cache": true
+        },
+        "@nx/esbuild:esbuild": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["production", "^production"]
         }
     },
     "namedInputs": {
@@ -60,5 +65,23 @@
                 "linter": "eslint"
             }
         }
-    }
+    },
+    "plugins": [
+        {
+            "plugin": "@nx/vite/plugin",
+            "options": {
+                "buildTargetName": "build",
+                "previewTargetName": "preview",
+                "testTargetName": "test",
+                "serveTargetName": "serve",
+                "serveStaticTargetName": "serve-static"
+            }
+        },
+        {
+            "plugin": "@nx/eslint/plugin",
+            "options": {
+                "targetName": "lint"
+            }
+        }
+    ]
 }

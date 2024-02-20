@@ -1,0 +1,71 @@
+{
+    "name": "server-just-site",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "apps/server/just-site/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "@nx/vite:build",
+            "outputs": ["{options.outputPath}"],
+            "defaultConfiguration": "production",
+            "options": {
+                "outputPath": "dist/apps/server/just-site"
+            },
+            "configurations": {
+                "development": {
+                    "mode": "development"
+                },
+                "production": {
+                    "mode": "production"
+                }
+            }
+        },
+        "serve": {
+            "executor": "@nx/vite:dev-server",
+            "defaultConfiguration": "development",
+            "options": {
+                "buildTarget": "server-just-site:build"
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "server-just-site:build:development",
+                    "hmr": true
+                },
+                "production": {
+                    "buildTarget": "server-just-site:build:production",
+                    "hmr": false
+                }
+            }
+        },
+        "preview": {
+            "executor": "@nx/vite:preview-server",
+            "defaultConfiguration": "development",
+            "options": {
+                "buildTarget": "server-just-site:build"
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "server-just-site:build:development"
+                },
+                "production": {
+                    "buildTarget": "server-just-site:build:production"
+                }
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["apps/server/just-site/**/*.{ts,svelte,spec.ts}"]
+            }
+        },
+        "check": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "svelte-check",
+                "cwd": "apps/server/just-site"
+            }
+        }
+    },
+    "tags": []
+}

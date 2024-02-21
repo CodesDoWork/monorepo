@@ -1,19 +1,10 @@
 {
     "root": true,
-    "ignorePatterns": [
-        "**/*"
-    ],
-    "plugins": [
-        "@nx"
-    ],
+    "ignorePatterns": ["**/*"],
+    "plugins": ["@nx"],
     "overrides": [
         {
-            "files": [
-                "*.ts",
-                "*.tsx",
-                "*.js",
-                "*.jsx"
-            ],
+            "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
             "rules": {
                 "@nx/enforce-module-boundaries": [
                     "error",
@@ -23,23 +14,19 @@
                         "depConstraints": [
                             {
                                 "sourceTag": "shared",
-                                "onlyDependOnLibsWithTags": [
-                                    "shared"
-                                ]
+                                "onlyDependOnLibsWithTags": ["shared"]
                             },
                             {
                                 "sourceTag": "server/music-downloader",
-                                "onlyDependOnLibsWithTags": [
-                                    "shared",
-                                    "server/music-downloader"
-                                ]
+                                "onlyDependOnLibsWithTags": ["shared", "server/music-downloader"]
                             },
                             {
                                 "sourceTag": "server/scoreboard",
-                                "onlyDependOnLibsWithTags": [
-                                    "shared",
-                                    "server/scoreboard"
-                                ]
+                                "onlyDependOnLibsWithTags": ["shared", "server/scoreboard"]
+                            },
+                            {
+                                "sourceTag": "server/just-site",
+                                "onlyDependOnLibsWithTags": ["shared", "server/just-site"]
                             }
                         ]
                     }
@@ -47,32 +34,17 @@
             }
         },
         {
-            "files": [
-                "*.ts",
-                "*.tsx"
-            ],
-            "extends": [
-                "plugin:@nx/typescript"
-            ],
+            "files": ["*.ts", "*.tsx"],
+            "extends": ["plugin:@nx/typescript"],
             "rules": {}
         },
         {
-            "files": [
-                "*.js",
-                "*.jsx"
-            ],
-            "extends": [
-                "plugin:@nx/javascript"
-            ],
+            "files": ["*.js", "*.jsx"],
+            "extends": ["plugin:@nx/javascript"],
             "rules": {}
         },
         {
-            "files": [
-                "*.spec.ts",
-                "*.spec.tsx",
-                "*.spec.js",
-                "*.spec.jsx"
-            ],
+            "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
             "env": {
                 "jest": true
             },

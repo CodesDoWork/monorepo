@@ -1,11 +1,10 @@
 /// <reference types="vitest" />
 import { defineConfig } from "vite";
-import { svelte } from "@sveltejs/vite-plugin-svelte";
-
+import { sveltekit } from "@sveltejs/kit/vite";
 import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 
 export default defineConfig({
-    cacheDir: "../../../node_modules/.vite/svelte",
+    cacheDir: "../../../node_modules/.vite/apps/server/just-site",
 
     server: {
         port: 4200,
@@ -20,7 +19,7 @@ export default defineConfig({
         host: "localhost",
     },
 
-    plugins: [svelte(), nxViteTsPaths()],
+    plugins: [sveltekit(), nxViteTsPaths()],
 
     // Uncomment this if you are using workers.
     // worker: {

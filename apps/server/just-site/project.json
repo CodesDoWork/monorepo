@@ -5,51 +5,21 @@
     "projectType": "application",
     "targets": {
         "build": {
-            "executor": "@nx/vite:build",
-            "outputs": ["{options.outputPath}"],
-            "defaultConfiguration": "production",
+            "executor": "nx:run-commands",
             "options": {
-                "outputPath": "dist/apps/server/just-site"
-            },
-            "configurations": {
-                "development": {
-                    "mode": "development"
-                },
-                "production": {
-                    "mode": "production"
-                }
+                "commands": ["cd apps/server/just-site && vite build --config vite-config.js"]
             }
         },
-        "serve": {
-            "executor": "@nx/vite:dev-server",
-            "defaultConfiguration": "development",
+        "ertz": {
+            "executor": "nx:run-commands",
             "options": {
-                "buildTarget": "server-just-site:build"
-            },
-            "configurations": {
-                "development": {
-                    "buildTarget": "server-just-site:build:development",
-                    "hmr": true
-                },
-                "production": {
-                    "buildTarget": "server-just-site:build:production",
-                    "hmr": false
-                }
+                "commands": ["cd apps/server/just-site && vite dev --config vite-config.js"]
             }
         },
         "preview": {
-            "executor": "@nx/vite:preview-server",
-            "defaultConfiguration": "development",
+            "executor": "nx:run-commands",
             "options": {
-                "buildTarget": "server-just-site:build"
-            },
-            "configurations": {
-                "development": {
-                    "buildTarget": "server-just-site:build:development"
-                },
-                "production": {
-                    "buildTarget": "server-just-site:build:production"
-                }
+                "commands": ["cd apps/server/just-site && vite preview --config vite-config.js"]
             }
         },
         "lint": {
@@ -67,5 +37,5 @@
             }
         }
     },
-    "tags": []
+    "tags": ["server/just-site"]
 }

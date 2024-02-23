@@ -8,7 +8,7 @@
 </script>
 
 <Header {...header} />
-<main class="pt-4 pb-16 px-8">
+<main class="pt-4 pb-16 px-4 md:px-8">
     <Title {...title} />
     <slot />
 </main>

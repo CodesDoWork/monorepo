@@ -23,7 +23,7 @@
             }
         };
 
-        typeText();
+        setTimeout(typeText, 50);
     }
 
 

@@ -18,11 +18,11 @@
 
     let previousRoute = undefined;
     afterNavigate(({ from }) => {
-        previousRoute = routeLinks.find(r => r.route === from.route.id);
+        previousRoute = routeLinks.find(r => r.route === from?.route.id);
     });
 
     $: headerClass = clsx(
-        "flex justify-end py-4 px-8 gap-8",
+        "grid lg:flex justify-between items-center gap-2 md:gap-4 lg:gap-8 py-4 px-8",
         currentRoute?.header && [
             "shadow",
             "bg-black dark:bg-primary-500 bg-opacity-20 dark:bg-opacity-20 text-white",
@@ -34,14 +34,19 @@
 
 <header class={headerClass}>
     {#if currentRoute?.header}
-        <div style={`--hover-color: ${currentRoute?.color};`}>
+        <span class="text-lg font-mono font-bold drop-shadow-md">Justin Konratt</span>
+        <div class="hidden lg:block flex-1" />
+        <ol style={`--hover-color: ${currentRoute?.color};`} class="col-span-2">
             {#each routeLinks as routeLink, idx (idx)}
-                <li style={`animation-delay: ${idx * 0.1}s;`} class={clsx("inline-block", previousRoute?.header || "animate-fadeInTopSubtle opacity-0")}>
+                <li style={`animation-delay: ${idx * 0.1}s;`}
+                    class={clsx("inline-block", previousRoute?.header || "animate-fadeInTopSubtle opacity-0")}>
                     <a href={routeLink === currentRoute ? "#" : routeLink.route}
-                       class={clsx(routeLink === currentRoute && "font-bold underline", "mx-1 rounded hover:bg-[var(--hover-color)] hover:text-black p-2 transition-colors dark:text-white tracking-wide")}>{routeLink.label}</a>
+                       class={clsx(routeLink === currentRoute && "font-bold underline", "text-sm sm:text-base leading-8 mx-1 rounded hover:bg-[var(--hover-color)] hover:text-black p-1 md:p-2 transition-colors dark:text-white tracking-wide")}>{routeLink.label}</a>
                 </li>
             {/each}
-        </div>
+        </ol>
+    {:else}
+        <div class="flex-1" />
     {/if}
-    <DarkmodeToggle />
+    <DarkmodeToggle class="row-start-1 col-start-2 place-self-end" />
 </header>

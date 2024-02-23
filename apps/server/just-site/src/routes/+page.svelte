@@ -4,7 +4,8 @@
     import { config } from "../config";
     import Heading from "../components/Heading.svelte";
     import Link from "../components/Link.svelte";
-    import DarkmodeToggle from "../components/DarkmodeToggle.svelte";
+    import Title from "../components/Title.svelte";
+    import Card from "../components/Card.svelte";
 
     const { routeLinks } = config;
     const homePageLinks = routeLinks.filter((rl) => rl.route !== "/");
@@ -29,35 +30,28 @@
     };
 </script>
 
-<div class="min-h-screen bg-gradient-to-b from-primary-500 from-5% to-secondary-500 to-95% pt-4 pb-16 dark:from-primary-950 dark:to-secondary-950 transition-colors">
-    <header class="text-end mb-12 mr-8">
-        <DarkmodeToggle />
-    </header>
-    <Heading
-        animateText="Justin Konratt"
-        blinkCursor={true}
-        class="text-3xl sm:text-4xl md:text-5xl xl:text-6xl select-none mb-6 text-center drop-shadow-lg dark:text-primary-500 transition-colors"
-        commandStyle={false}
-        level="h1" />
-    <div class="flex gap-1.5 justify-center mb-12 sm:mb-16 md:mb-24 lg:mb-40">
-        {#each socialLinks as social}
-            <Link href={social.href} title={social.title} external>
-                <Icon class="w-7 h-7 md:w-9 md:h-9 hover:scale-110 transition drop-shadow dark:text-white hover:text-[var(--hover-color)]"
-                      icon={social.icon}
-                      style={`--hover-color: ${social.tone};`}
-                />
-            </Link>
-        {/each}
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-3/5 md:w-4/5 lg:w-2/3 mx-auto">
-        {#each homePageLinks as navLink, idx (idx)}
-            <a style={`--hover-color: ${findRouteColor(navLink.route)}; animation-delay: ${idx * 0.1}s;`}
-               class="group bg-white bg-opacity-95 dark:bg-opacity-10 rounded-lg md:h-20 w-full p-4 sm:p-5 md:p-6 hover:pt-2 hover:pb-6 sm:hover:pb-8 md:hover:pt-4 lg:hover:pt-3 transition-pBgShadowBorder shadow-md hover:shadow-lg border-l-4 hover:border-l-8 border-[var(--hover-color)] animate-fadeIn opacity-0"
-               href={navLink.route}>
+<Title title="Justin Konratt" />
+<div class="flex gap-1.5 justify-center mb-12 sm:mb-16 md:mb-24 lg:mb-40">
+    {#each socialLinks as social}
+        <Link href={social.href} title={social.title} external>
+            <Icon class="w-7 h-7 md:w-9 md:h-9 hover:scale-110 transition drop-shadow dark:text-white hover:text-[var(--hover-color)]"
+                  icon={social.icon}
+                  style={`--hover-color: ${social.tone};`}
+            />
+        </Link>
+    {/each}
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-3/5 md:w-4/5 lg:w-2/3 mx-auto">
+    {#each homePageLinks as navLink, idx (idx)}
+        <Card style={`--hover-color: ${findRouteColor(navLink.route)}; animation-delay: ${idx * 0.1}s;`}
+              class="group border-l-4 hover:border-l-8 border-[var(--hover-color)]">
+            <a
+                class="p-4 sm:p-5 md:p-6 md:h-20 w-full hover:pt-2 hover:pb-6 sm:hover:pb-8 md:hover:pt-4 lg:hover:pt-3 transition-all"
+                href={navLink.route}>
                 <Heading class="text-lg md:text-xl xl:text-2xl cursor-pointer dark:text-white transition-colors group-hover:text-[var(--hover-color)]"
                          level="h3">{navLink.label}</Heading>
                 <p class="text-0 h-0 text-slate-600 dark:text-slate-300 sm:group-hover:text-sm lg:group-hover:text-base transition-fontSize">{navLink.description}</p>
             </a>
-        {/each}
-    </div>
+        </Card>
+    {/each}
 </div>

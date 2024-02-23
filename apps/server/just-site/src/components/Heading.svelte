@@ -10,7 +10,7 @@
 
     let typedText = "";
     let animationDone = !animateText;
-    
+
     if (animateText) {
         let nextTypeIndex = 0
         const typeText = () => {
@@ -28,7 +28,7 @@
 
 
     $: computedClassName = clsx([
-        "font-heading font-bold cursor-default",
+        "font-mono font-bold cursor-default",
         commandStyle && "before:content-['>'] before:mr-2 before:opacity-75",
         blinkCursor && "after:content-['▌'] after:ml-2",
         animationDone && "after:animate-blink",

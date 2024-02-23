@@ -4,7 +4,7 @@
     import { onMount } from "svelte";
     import { clsx } from "clsx";
 
-    let className;
+    let className = "";
     export { className as class };
 
     const animationDuration = 300;

@@ -42,7 +42,7 @@ export default {
                 brandGray,
             },
             fontFamily: {
-                heading: ["Jetbrains Mono"],
+                mono: ["Jetbrains Mono"],
             },
             animation: {
                 blink: "blink 1.25s steps(2) infinite",
@@ -82,7 +82,6 @@ export default {
             },
             transitionProperty: {
                 fontSize: "font-size",
-                pBgShadowBorder: "padding, background-color, shadow, border",
             },
         },
     },

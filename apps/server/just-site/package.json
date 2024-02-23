@@ -2,5 +2,9 @@
     "name": "just-site",
     "version": "1.0.0",
     "description": "This app contains personal website",
-    "type": "module"
+    "type": "module",
+    "scripts": {
+        "build-image": "docker compose -f ../docker-compose.yml build just-site --push",
+        "run-image": "docker compose -f ../docker-compose.yml up -d just-site"
+    }
 }

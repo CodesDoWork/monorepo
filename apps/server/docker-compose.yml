@@ -246,6 +246,18 @@ services:
       - grafana-storage:/var/lib/grafana
       - grafana-config:/usr/share/grafana/conf
 
+  just-site:
+    build:
+      <<: *build-args
+      context: ../..
+      dockerfile: apps/server/just-site/Dockerfile
+    healthcheck:
+      test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
+    image: ${IMAGE_BASE}/server-just-site
+    networks:
+      - website
+    restart: unless-stopped
+
   linkstack:
     environment:
       TZ: ${TZ}
@@ -336,6 +348,7 @@ services:
       portainer:
       scoreboard:
       tunnel:
+      website:
     ports:
       - 80:80
       - 443:443
@@ -468,3 +481,4 @@ networks:
   scoreboard:
   sonar:
   tunnel:
+  website:

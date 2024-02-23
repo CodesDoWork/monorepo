@@ -3,14 +3,19 @@ import { defineConfig } from "vite";
 import { sveltekit } from "@sveltejs/kit/vite";
 import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 
+const pathParts = process.cwd().split(/[\\/]/);
+pathParts.pop();
+pathParts.pop();
+pathParts.pop();
+const nodeModulesPath = pathParts.join("/") + "/node_modules";
+
 export default defineConfig({
     cacheDir: "../../../node_modules/.vite/apps/server/just-site",
-
     server: {
         port: 4200,
         host: "localhost",
         fs: {
-            allow: [process.cwd()],
+            allow: [process.cwd(), nodeModulesPath, "../../../libs/branding/assets"],
         },
     },
 

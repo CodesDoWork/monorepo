@@ -10,7 +10,7 @@
                 "commands": ["cd apps/server/just-site && vite build --config vite-config.js"]
             }
         },
-        "ertz": {
+        "serve": {
             "executor": "nx:run-commands",
             "options": {
                 "commands": ["cd apps/server/just-site && vite dev --config vite-config.js"]

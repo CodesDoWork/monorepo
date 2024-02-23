@@ -1,5 +1,5 @@
 <script lang="ts">
-    import "../styles/app.css";
+    import "../../../../../libs/branding/assets/css/tailwind.css";
 </script>
 
 <svelte:head>

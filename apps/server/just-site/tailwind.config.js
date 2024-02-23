@@ -2,7 +2,7 @@
 import brandingConfig from "../../../libs/branding/tailwind.config.js";
 
 /** @type {import("tailwindcss").Config} */
-module.exports = {
+export default {
     ...brandingConfig,
     content: ["./src/**/*.{html,js,svelte,ts}"],
     plugins: [],

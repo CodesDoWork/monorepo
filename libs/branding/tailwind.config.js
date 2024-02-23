@@ -47,6 +47,7 @@ export default {
             animation: {
                 blink: "blink 1.25s steps(2) infinite",
                 fadeIn: "fadeIn 0.5s ease-in-out forwards",
+                switch: "switch 0.3s ease-in-out",
             },
             keyframes: {
                 blink: {
@@ -64,6 +65,14 @@ export default {
                         transform: "translateY(0)",
                     },
                 },
+                switch: {
+                    "0%": {},
+                    "50%": {
+                        opacity: 0,
+                        transform: "translateY(0.5rem)",
+                    },
+                    "100%": {},
+                },
             },
             fontSize: {
                 0: "0",
@@ -73,7 +82,7 @@ export default {
             },
             transitionProperty: {
                 fontSize: "font-size",
-                pColorsShadow: "padding, color, background-color, shadow",
+                pBgShadowBorder: "padding, background-color, shadow, border",
             },
         },
     },

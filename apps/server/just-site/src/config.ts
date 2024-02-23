@@ -30,7 +30,7 @@ export const config: Config = {
             label: "Reading List",
             route: "/reading-list",
             color: colors.tertiary["500"],
-            description: "Books I want to read or already read with notes and ratings",
+            description: "Books with recommendations and notes",
         },
         {
             label: "Knowledge Base",
@@ -59,12 +59,12 @@ export const config: Config = {
     },
     contact: {
         name: "Justin Konratt",
-        email: "alicia@omg.lol",
-        website: "https://aliciasykes.com",
+        email: "justin@konratts.de",
+        website: "https://justin.konratts.de",
         socials: {
             GitHub: "CodesDoWork",
             LinkedIn: "in/justinkonratt",
-            Instagram: "justin.konratt",
+            Instagram: "justinkonratt",
             YouTube: "DJWazz",
         },
         socialButtonLimit: 6,

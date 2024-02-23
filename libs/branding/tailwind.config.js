@@ -1,5 +1,6 @@
 import colors from "tailwindcss/colors";
 import plugin from "tailwindcss/plugin";
+import deepcopy from "deepcopy";
 
 const brandBlue = colors.sky;
 const brandGreen = colors.teal;
@@ -19,6 +20,22 @@ const animationDelayPlugin = plugin(function ({ matchUtilities, theme }) {
         { values: theme("transitionDelay") },
     );
 });
+
+const fadeIn = {
+    "0%": {
+        opacity: 0,
+        transform: "translateY(4rem)",
+    },
+    "100%": {
+        opacity: 1,
+        transform: "translateY(0)",
+    },
+};
+
+const fadeInSubtle = deepcopy(fadeIn);
+fadeInSubtle["0%"].transform = "translateY(1rem)";
+const fadeInTopSubtle = deepcopy(fadeInSubtle);
+fadeInTopSubtle["0%"].transform = "translateY(-1rem)";
 
 /** @type {import("tailwindcss").Config} */
 export default {
@@ -47,6 +64,8 @@ export default {
             animation: {
                 blink: "blink 1.25s steps(2) infinite",
                 fadeIn: "fadeIn 0.5s ease-in-out forwards",
+                fadeInSubtle: "fadeInSubtle 0.5s ease-in-out forwards",
+                fadeInTopSubtle: "fadeInTopSubtle 0.5s ease-in-out forwards",
                 switch: "switch 0.3s ease-in-out",
             },
             keyframes: {
@@ -55,16 +74,9 @@ export default {
                         opacity: 0,
                     },
                 },
-                fadeIn: {
-                    "0%": {
-                        opacity: 0,
-                        transform: "translateY(4rem)",
-                    },
-                    "100%": {
-                        opacity: 1,
-                        transform: "translateY(0)",
-                    },
-                },
+                fadeIn,
+                fadeInSubtle,
+                fadeInTopSubtle,
                 switch: {
                     "0%": {},
                     "50%": {

@@ -19,12 +19,21 @@
     });
 
     let icon = "";
-    $: if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-        setTimeout(() => icon = "material-symbols:light-mode-outline", icon ? animationDuration / 2 : 0);
-    } else if (theme === "light") {
-        document.documentElement.classList.remove("dark");
-        setTimeout(() => icon = "material-symbols:dark-mode-outline", icon ? animationDuration / 2 : 0);
+    $: {
+        let iconName
+        if (theme === "dark") {
+            document.documentElement.classList.add("dark");
+            iconName = "material-symbols:light-mode-outline";
+        } else if (theme === "light") {
+            document.documentElement.classList.remove("dark");
+            iconName = "material-symbols:dark-mode-outline"
+        }
+
+        if(icon) {
+            setTimeout(() => icon =iconName, animationDuration / 2);
+        } else {
+            icon = iconName;
+        }
     }
 
     let isAnimating = false

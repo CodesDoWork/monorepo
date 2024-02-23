@@ -1,12 +1,23 @@
 <script lang="ts">
     import Heading from "./Heading.svelte";
+    import { clsx } from "clsx";
 
+    let className = "";
+    export { className as class };
     export let title = "";
+    export let small = false;
+
+    $: headingClass = clsx(
+        small ? "text-2xl sm:text-3xl md:text-4xl xl:text-5xl" : "text-3xl sm:text-4xl md:text-5xl xl:text-6xl",
+        "dark:text-primary-500 transition-colors",
+        "select-none mb-6 drop-shadow-lg",
+        !small && "text-center mt-6 md:mt-12"
+    );
 </script>
 
 <Heading
     animateText={title}
-    blinkCursor={true}
-    class="text-3xl sm:text-4xl md:text-5xl xl:text-6xl select-none mb-6 text-center drop-shadow-lg dark:text-primary-500 transition-colors"
-    commandStyle={false}
+    blinkCursor={!small}
+    class={headingClass}
+    commandStyle={small}
     level="h1" />

@@ -14,6 +14,7 @@ interface RouteLink {
     route: string;
     color: string;
     description: string;
+    header: boolean;
 }
 
 interface FooterInfo {

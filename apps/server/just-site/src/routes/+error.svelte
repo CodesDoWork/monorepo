@@ -1,7 +1,7 @@
 <script lang="ts">
     import { page } from "$app/stores";
-    import Title from "../components/Title.svelte";
     import Link from "../components/Link.svelte";
+    import Page from "../components/Page.svelte";
 
     const emojis = {
         400: "❗",
@@ -16,9 +16,10 @@
     };
 </script>
 
-<Title title={$page.status.toString()} />
-<div class="flex flex-col items-center">
-    <p class="dark:text-white text-3xl md:text-4xl lg:text-5xl mb-16 font-mono">{$page.error.message}</p>
-    <span class="text-7xl md:text-8xl lg:text-9xl mb-24">{emojis[$page.status] || ""}</span>
-    <Link button href="/">Back Home</Link>
-</div>
+<Page title={{title: $page.status.toString()}}>
+    <div class="flex flex-col items-center">
+        <p class="dark:text-white text-3xl md:text-4xl lg:text-5xl mb-16 font-mono">{$page.error.message}</p>
+        <span class="text-7xl md:text-8xl lg:text-9xl mb-24">{emojis[$page.status] || ""}</span>
+        <Link button href="/">Back Home</Link>
+    </div>
+</Page>

@@ -10,9 +10,9 @@
     export let icon = false;
 
     $: aClass = clsx(
-        "dark:text-white font-mono transition rounded-md",
+        "font-mono transition rounded-md",
         button && [
-            "p-3",
+            "dark:text-white p-3",
             "bg-white dark:bg-opacity-10",
             "hover:bg-accent-500 dark:hover:bg-opacity-50 dark:hover:bg-secondary-500 hover:rotate-3",
             "shadow-md hover:shadow-lg",

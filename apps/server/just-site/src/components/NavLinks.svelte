@@ -14,7 +14,7 @@
         <li style={`animation-delay: ${idx * 0.1}s;`}
             class={liClass}>
             <a href={routeLink === $currentRoute ? "#" : routeLink.route}
-               class={clsx(routeLink === $currentRoute && "font-bold underline", "leading-none font-mono mx-1 rounded hover:bg-[var(--page-color)] hover:text-black p-1 md:p-2 transition-colors dark:text-white tracking-wide", aClass)}>{routeLink.label}</a>
+               class={clsx(routeLink === $currentRoute && "font-bold underline", "leading-none font-mono mx-1 rounded hover:bg-[var(--page-color)] hover:text-black p-1 md:p-2 transition-colors tracking-wide", aClass)}>{routeLink.label}</a>
         </li>
     {/each}
 </ol>

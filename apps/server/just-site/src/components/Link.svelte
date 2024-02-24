@@ -19,7 +19,7 @@
             "origin-top-left",
         ],
         !button && !icon && [
-            "p-1 hover:text-black text-brandOrange-500 dark:text-brandPink-500 hover:bg-brandOrange-500 dark:hover:bg-brandPink-500",
+            "p-1 hover:text-white dark:hover:text-black text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500",
         ],
         className,
     );

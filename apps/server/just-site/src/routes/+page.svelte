@@ -34,7 +34,7 @@
     <div class="flex gap-1.5 justify-center mb-12 sm:mb-16 md:mb-24 lg:mb-32 xl:mb-40">
         {#each socialLinks as social, idx (idx)}
             <Link href={social.href} title={social.title} external icon class="hover:scale-110 transition-transform">
-                <Icon class="w-7 h-7 md:w-9 md:h-9 transition drop-shadow dark:text-white hover:text-[var(--hover-color)] animate-fadeInSubtle opacity-0"
+                <Icon class="w-7 h-7 md:w-9 md:h-9 transition drop-shadow hover:text-[var(--hover-color)] animate-fadeInSubtle opacity-0"
                       icon={social.icon}
                       style={`--hover-color: ${social.tone}; animation-delay: ${idx * 0.05}s;`}
                 />

@@ -25,11 +25,13 @@
         footerVisibility,
         className,
     );
+
+    const linkClass = "!text-black dark:!text-brandOrange-500 hover:!bg-brandOrange-500 hover:!text-black"
 </script>
 
 <footer class={footerClass}>
     &copy; Justin Konratt {new Date().getFullYear()} - Licensed under
-    <Link external href="/hello" title="License">MIT</Link>
+    <Link class={linkClass} external href="/hello" title="License">MIT</Link>
     - View on
-    <Link external href="/hello" title="Project">GitHub</Link>
+    <Link class={linkClass} external href="/hello" title="Project">GitHub</Link>
 </footer>

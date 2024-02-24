@@ -12,6 +12,7 @@
     const { currentRoute, previousRoute } = getRoutes();
 
     $: mainClass = clsx(
+        "text-black dark:text-white transition-colors",
         $currentRoute?.isHero === false && "bg-white dark:bg-opacity-0",
         "pt-4 pb-16 md:px-8 flex-1 w-full px-8 sm:px-1/20 lg:px-1/10",
         $currentRoute?.isHero === false && $previousRoute?.isHero && "animate-fadeInSubtle"

@@ -6,7 +6,7 @@ const { colors } = tailwindConfig.theme.extend;
 export const config: Config = {
     title: "Just Site",
     description: "Just Site",
-    githubUser: "just-site",
+    githubUser: "CodesDoWork",
     routeLinks: [
         {
             label: "Home",
@@ -81,4 +81,22 @@ export const config: Config = {
             template_params: {},
         },
     },
+    projectComplimentaryData: [
+        {
+            name: "blz-it.de",
+            thumbnail: "/img/thumbnails/blz-it.png",
+        },
+        {
+            name: "StarRun",
+            thumbnail: "/img/thumbnails/StarRun.png",
+        },
+        {
+            name: "MediaDownloader",
+            thumbnail: "/img/thumbnails/media-downloader.png",
+        },
+        {
+            name: "Java-XMLParser",
+            thumbnail: "/img/thumbnails/java-xml-parser.webp",
+        },
+    ],
 };

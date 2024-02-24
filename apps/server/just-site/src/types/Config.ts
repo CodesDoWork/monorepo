@@ -7,6 +7,7 @@ export interface Config {
     routeLinks: RouteLink[];
     footerInfo: FooterInfo;
     contact: Contact;
+    projectComplimentaryData: ProjectComplimentaryData[];
 }
 
 interface RouteLink {
@@ -38,4 +39,9 @@ interface Contact {
             [key: string]: string;
         };
     };
+}
+
+interface ProjectComplimentaryData {
+    name: string;
+    thumbnail: string;
 }

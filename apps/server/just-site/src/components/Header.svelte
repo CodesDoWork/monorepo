@@ -52,8 +52,8 @@
         class="absolute z-20 block lg:hidden p-0 rounded-r-none rounded-l shadow-lg start-auto end-0 top-14 dark:bg-primary-950"
         transitionParams={transitionParams}>
     <Sidebar class="r-0">
-        <SidebarWrapper class="dark:bg-primary-950 rounded-r-none rounded-l">
-            <NavLinks aClass="block" liClass={"my-1 animate-fadeInTopSubtle opacity-0"} />
+        <SidebarWrapper class="dark:bg-primary-950 rounded-r-none rounded-l p-3">
+            <NavLinks aClass="block text-black dark:text-white" liClass={"mb-2 animate-fadeInTopSubtle opacity-0"} />
         </SidebarWrapper>
     </Sidebar>
 </Drawer>

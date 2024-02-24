@@ -31,9 +31,9 @@
 </script>
 
 <Page title={{title: "Justin Konratt"}}>
-    <div class="flex gap-1.5 justify-center mb-12 sm:mb-16 md:mb-24 lg:mb-40">
+    <div class="flex gap-1.5 justify-center mb-12 sm:mb-16 md:mb-24 lg:mb-32 xl:mb-40">
         {#each socialLinks as social, idx (idx)}
-            <Link href={social.href} title={social.title} external class="hover:scale-110 transition-transform">
+            <Link href={social.href} title={social.title} external icon class="hover:scale-110 transition-transform">
                 <Icon class="w-7 h-7 md:w-9 md:h-9 transition drop-shadow dark:text-white hover:text-[var(--hover-color)] animate-fadeInSubtle opacity-0"
                       icon={social.icon}
                       style={`--hover-color: ${social.tone}; animation-delay: ${idx * 0.05}s;`}
@@ -41,7 +41,7 @@
             </Link>
         {/each}
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-3/5 md:w-4/5 lg:w-2/3 mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-4/5 sm:w-3/5 md:w-4/5 lg:w-2/3 mx-auto">
         {#each homePageLinks as navLink, idx (idx)}
             <Card style={`--hover-color: ${findRouteColor(navLink.route)}; animation-delay: ${idx * 0.1}s;`}
                   class="group border-l-4 hover:border-l-8 border-[var(--hover-color)]">

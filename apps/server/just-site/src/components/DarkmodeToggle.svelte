@@ -30,7 +30,7 @@
         }
 
         if(icon) {
-            setTimeout(() => icon =iconName, animationDuration / 2);
+            setTimeout(() => icon = iconName, animationDuration / 2);
         } else {
             icon = iconName;
         }

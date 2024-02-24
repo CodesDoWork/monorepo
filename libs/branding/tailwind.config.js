@@ -25,10 +25,12 @@ const fadeIn = {
     "0%": {
         opacity: 0,
         transform: "translateY(4rem)",
+        display: "none",
     },
     "100%": {
         opacity: 1,
         transform: "translateY(0)",
+        display: "block",
     },
 };
 
@@ -66,7 +68,10 @@ export default {
                 fadeIn: "fadeIn 0.5s ease-in-out forwards",
                 fadeInSubtle: "fadeInSubtle 0.5s ease-in-out forwards",
                 fadeInTopSubtle: "fadeInTopSubtle 0.5s ease-in-out forwards",
+                fadeOutTopSubtle: "fadeInTopSubtle 0.5s ease-in-out reverse forwards",
                 switch: "switch 0.3s ease-in-out",
+                grow: "grow 0.5s ease-in-out forwards",
+                shrink: "grow 0.5s ease-in-out reverse forwards",
             },
             keyframes: {
                 blink: {
@@ -84,6 +89,16 @@ export default {
                         transform: "translateY(0.5rem)",
                     },
                     "100%": {},
+                },
+                grow: {
+                    "0%": {
+                        opacity: 0,
+                        transform: "scaleY(0)",
+                    },
+                    "100%": {
+                        opacity: 1,
+                        transform: "scaleY(1)",
+                    },
                 },
             },
             fontSize: {

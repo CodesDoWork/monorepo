@@ -1,41 +1,28 @@
 <script lang="ts">
     import { clsx } from "clsx";
     import { Drawer, Sidebar, SidebarWrapper } from "flowbite-svelte";
-    import { afterNavigate } from "$app/navigation";
     import DarkmodeToggle from "./DarkmodeToggle.svelte";
-    import { config } from "../config";
-    import { onMount } from "svelte";
     import Icon from "@iconify/svelte";
     import { sineInOut } from "svelte/easing";
     import NavLinks from "./NavLinks.svelte";
+    import { getRoutes } from "../stores/routes";
 
     let className = "";
     export { className as class };
 
-    const { routeLinks } = config;
-
-    let currentRoute = undefined;
-    onMount(() => {
-        const path = window.location.pathname;
-        currentRoute = routeLinks.find(r => r.route === path);
-    });
-
-    let previousRoute = undefined;
-    afterNavigate(({ from }) => {
-        previousRoute = routeLinks.find(r => r.route === from?.route.id);
-    });
+    const { currentRoute, previousRoute } = getRoutes();
 
     let itemVisibility = "";
     let headerVisibility = "";
-    $: if (previousRoute?.isHero === false) {
-        if (currentRoute?.isHero === false) {
+    $: if ($previousRoute?.isHero === false) {
+        if ($currentRoute?.isHero === false) {
             itemVisibility = "opacity-100";
             headerVisibility = "scale-100";
         } else {
             itemVisibility = "animate-fadeOutTopSubtle opacity-0";
             headerVisibility = "animate-shrink opacity-100 scale-100";
         }
-    } else if (currentRoute?.isHero === false) {
+    } else if ($currentRoute?.isHero === false) {
         itemVisibility = "animate-fadeInTopSubtle opacity-0";
         headerVisibility = "animate-grow opacity-100 scale-100";
     } else {
@@ -45,7 +32,7 @@
 
     $: headerClass = clsx(
         "flex justify-between items-center",
-        "py-4 pl-8 pr-24 shadow",
+        "py-4 pl-8 pr-20 lg:pr-24 shadow",
         "bg-black dark:bg-primary-500 bg-opacity-20 dark:bg-opacity-20 text-white transition-colors",
         "origin-top",
         headerVisibility,

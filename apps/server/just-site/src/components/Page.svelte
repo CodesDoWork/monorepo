@@ -9,7 +9,7 @@
 </script>
 
 <Header {...header} />
-<main class="pt-4 pb-16 px-4 md:px-8 flex-1">
+<main class="pt-4 pb-16 px-4 md:px-8 flex-1 w-full sm:w-11/12 lg:w-4/5 mx-auto">
     <Title {...title} />
     <slot />
 </main>

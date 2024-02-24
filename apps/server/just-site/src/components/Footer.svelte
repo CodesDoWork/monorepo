@@ -1,30 +1,17 @@
 <script lang="ts">
     import { clsx } from "clsx";
-    import { afterNavigate } from "$app/navigation";
-    import { config } from "../config";
-    import { onMount } from "svelte";
     import Link from "./Link.svelte";
+    import { getRoutes } from "../stores/routes";
 
     let className = "";
     export { className as class };
 
-    const { routeLinks } = config;
-
-    let currentRoute = undefined;
-    onMount(() => {
-        const path = window.location.pathname;
-        currentRoute = routeLinks.find(r => r.route === path);
-    });
-
-    let previousRoute = undefined;
-    afterNavigate(({ from }) => {
-        previousRoute = routeLinks.find(r => r.route === from?.route.id);
-    });
+    const { currentRoute, previousRoute } = getRoutes();
 
     let footerVisibility = "";
-    $: if (currentRoute?.isHero) {
+    $: if ($currentRoute?.isHero) {
         footerVisibility = "scale-0";
-    } else if (previousRoute?.isHero === false) {
+    } else if ($previousRoute?.isHero === false) {
         footerVisibility = "scale-100";
     } else {
         footerVisibility = "animate-grow opacity-100 scale-100";

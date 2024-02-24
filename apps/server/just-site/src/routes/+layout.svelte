@@ -2,7 +2,7 @@
     import "../../../../../libs/branding/assets/css/tailwind.css";
     import tailwindConfig from "../../tailwind.config";
     import { onMount } from "svelte";
-    import { localStorageStore } from "../helpers/localStorageStore";
+    import { localStorageStore } from "../stores/localStorageStore";
 
     let theme = "";
     let themeStore = undefined;

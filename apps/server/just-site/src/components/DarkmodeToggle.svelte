@@ -1,6 +1,6 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
-    import { localStorageStore } from "../helpers/localStorageStore";
+    import { localStorageStore } from "../stores/localStorageStore";
     import { onMount } from "svelte";
     import { clsx } from "clsx";
 

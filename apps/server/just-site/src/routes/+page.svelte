@@ -41,7 +41,7 @@
             </Link>
         {/each}
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-4/5 sm:w-3/5 md:w-4/5 lg:w-2/3 mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-4/5 sm:w-3/4 md:w-full lg:w-full xl:w-4/5 mx-auto">
         {#each homePageLinks as navLink, idx (idx)}
             <Card style={`--hover-color: ${findRouteColor(navLink.route)}; animation-delay: ${idx * 0.1}s;`}
                   class="group border-l-4 hover:border-l-8 border-[var(--hover-color)]">

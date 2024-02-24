@@ -32,14 +32,14 @@
 
     $: headerClass = clsx(
         "flex justify-between items-center",
-        "py-4 pl-8 pr-20 lg:pr-24 shadow",
+        "py-4 pl-8 pr-18 lg:pr-24 shadow",
         "bg-black dark:bg-primary-500 bg-opacity-20 dark:bg-opacity-20 text-white transition-colors",
         "origin-top",
         headerVisibility,
         className,
     );
 
-    let navDrawerOpen = false;
+    let navDrawerHidden = true;
     let transitionParams = {
         x: "100%",
         duration: 500,
@@ -48,12 +48,12 @@
 
 </script>
 
-<Drawer class="absolute z-20 block lg:hidden p-0 rounded-r-none rounded-l shadow-lg start-auto end-0 top-14"
-        hidden={!navDrawerOpen}
+<Drawer bind:hidden={navDrawerHidden}
+        class="absolute z-20 block lg:hidden p-0 rounded-r-none rounded-l shadow-lg start-auto end-0 top-14 dark:bg-primary-950"
         transitionParams={transitionParams}>
     <Sidebar class="r-0">
         <SidebarWrapper class="dark:bg-primary-950 rounded-r-none rounded-l">
-            <NavLinks aClass="block w-full" liClass={"block my-1 animate-fadeInTopSubtle opacity-0"} />
+            <NavLinks aClass="block" liClass={"my-1 animate-fadeInTopSubtle opacity-0"} />
         </SidebarWrapper>
     </Sidebar>
 </Drawer>
@@ -61,7 +61,7 @@
 <header class={headerClass}>
     <a class={clsx("font-mono font-bold drop-shadow-md", itemVisibility)} href="/">Justin Konratt</a>
     <NavLinks class="hidden lg:block" liClass={clsx("inline-block", itemVisibility)} />
-    <button class="block lg:hidden active:scale-90" on:click={() => navDrawerOpen = !navDrawerOpen}>
+    <button class="block lg:hidden active:scale-90" on:click={() => navDrawerHidden = !navDrawerHidden}>
         <Icon class="w-6 h-6" icon="material-symbols:menu" />
     </button>
 </header>

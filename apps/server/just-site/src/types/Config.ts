@@ -12,7 +12,7 @@ export interface Config {
 interface RouteLink {
     label: string;
     route: string;
-    color: string;
+    color?: string;
     description: string;
     isHero: boolean;
 }

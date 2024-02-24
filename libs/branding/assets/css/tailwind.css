@@ -6,3 +6,8 @@
     font-family: "JetBrains Mono";
     src: url("../font/JetBrainsMono.ttf");
 }
+
+@font-face {
+    font-family: "Inter";
+    src: url("../font/Inter.ttf");
+}

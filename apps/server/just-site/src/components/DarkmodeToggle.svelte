@@ -1,30 +1,23 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
-    import { localStorageStore } from "../stores/localStorageStore";
-    import { onMount } from "svelte";
     import { clsx } from "clsx";
+    import { getRoutes } from "../stores/routes";
+    import { useThemeStore } from "../stores/themeStore";
 
     let className = "";
     export { className as class };
 
+    const { currentRoute } = getRoutes();
+    const theme = useThemeStore();
+
     const animationDuration = 300;
-
-    let theme = "";
-    let themeStore = undefined;
-    onMount(() => {
-        themeStore = localStorageStore("theme", window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-        themeStore.subscribe(value => {
-            theme = value;
-        });
-    });
-
     let icon = "";
     $: {
         let iconName
-        if (theme === "dark") {
+        if ($theme === "dark") {
             document.documentElement.classList.add("dark");
             iconName = "material-symbols:light-mode-outline";
-        } else if (theme === "light") {
+        } else if ($theme === "light") {
             document.documentElement.classList.remove("dark");
             iconName = "material-symbols:dark-mode-outline"
         }
@@ -38,7 +31,7 @@
 
     let isAnimating = false
     const toggleTheme = () => {
-        themeStore?.set(theme === "light" ? "dark" : "light");
+        theme?.set($theme === "light" ? "dark" : "light");
         isAnimating = true;
         setTimeout(() => {
             isAnimating = false
@@ -46,11 +39,11 @@
     };
 
     $: resultClass = clsx(isAnimating && "animate-switch", className)
-
+    $: iconClass = clsx($currentRoute?.isHero ? "text-black dark:text-white" : "text-white", "w-6 h-6");
 </script>
 
 <button class={resultClass} disabled={isAnimating} on:click={toggleTheme} >
-    <Icon class="w-6 h-6 dark:text-white" icon={icon} />
+    <Icon class={iconClass} icon={icon} />
 </button>
 
 

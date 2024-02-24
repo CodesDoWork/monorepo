@@ -11,7 +11,6 @@ export const config: Config = {
         {
             label: "Home",
             route: "/",
-            color: "#000000",
             description: "Home Page",
             isHero: true,
         },

@@ -61,7 +61,8 @@ export default {
                 brandGray,
             },
             fontFamily: {
-                mono: ["Jetbrains Mono"],
+                sans: "Inter",
+                mono: "Jetbrains Mono",
             },
             animation: {
                 blink: "blink 1.25s steps(2) infinite",
@@ -109,6 +110,12 @@ export default {
             },
             transitionProperty: {
                 fontSize: "font-size",
+            },
+            padding: {
+                18: "4.5rem",
+                "1/20": "5%",
+                "1/15": "6.67%",
+                "1/10": "10%",
             },
         },
     },

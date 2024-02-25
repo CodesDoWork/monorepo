@@ -8,7 +8,7 @@
 
     $: cardClass = clsx(
         "flex",
-        "bg-white bg-opacity-95 dark:bg-opacity-10 dark:hover:bg-opacity-20",
+        "bg-white bg-opacity-95 dark:bg-opacity-10 dark:hover:bg-opacity-15",
         "rounded-lg transition-all",
         "shadow-md hover:shadow-lg",
         "animate-fadeIn opacity-0",

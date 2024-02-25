@@ -1,15 +1,16 @@
 <script lang="ts">
     import Page from "../../components/Page.svelte";
     import Card from "../../components/Card.svelte";
-    import type { Project } from "../../types/Project";
     import Heading from "../../components/Heading.svelte";
     import Icon from "@iconify/svelte";
     import Link from "../../components/Link.svelte";
     import { calculateTimeAgo, getMonthYear } from "./card-helpers";
     import { clsx } from "clsx";
+    import type { PageData } from "./$types";
+    import Technology from "../../components/Technology.svelte";
 
-    export let data;
-    const repos: Project[] = data.repos;
+    export let data: PageData;
+    const repos = data.repos;
 
     const sectionClass = "flex items-center gap-1.5";
 </script>
@@ -27,12 +28,8 @@
                     </Heading>
                     <p class="mb-8">{repo.description || "\xa0"}</p>
                     <div class="flex flex-1 lg:items-end justify-between flex-col lg:flex-row gap-8">
-                        <div class="flex gap-3 2xl:gap-10 flex-col 2xl:flex-row">
-                            <div class={sectionClass}>
-                                <span>{repo.language}</span>
-                                <Icon icon={`devicon:${repo.language.replace("#", "sharp").toLowerCase()}`}
-                                      class="inline w-6 h-6" />
-                            </div>
+                        <div class="flex gap-3 2xl:gap-10 flex-col 2xl:flex-row items-start lg:items-center">
+                            <Technology tag="div" technology={repo.language} />
                             <div class={sectionClass}>
                                 <span class="text-lg">{repo.stars}</span>
                                 <Icon icon="ph:star-fill" class="text-yellow-500 w-5 h-5" />
@@ -48,9 +45,9 @@
                         </div>
                         <div class="place-self-end">
                             {#if repo.homepage}
-                                <Link class="mr-4" external title="Project Homepage" href={repo.homepage}>Homepage</Link>
+                                <Link class="mr-4" title="Project Homepage" href={repo.homepage}>Homepage</Link>
                             {/if}
-                            <Link external title="GitHub" href={repo.url}>View on GitHub</Link>
+                            <Link title="GitHub" href={repo.url}>View on GitHub</Link>
                         </div>
                     </div>
                 </div>

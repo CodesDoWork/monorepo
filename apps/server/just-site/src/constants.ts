@@ -28,6 +28,13 @@ export const socialNetworks: SocialNetwork[] = [
         noAt: true,
     },
     {
+        name: "Gravatar",
+        icon: "simple-icons:gravatar",
+        tone: "#4678eb",
+        link: "https://gravatar.com/",
+        noAt: true,
+    },
+    {
         name: "Email",
         icon: "mdi:email",
         tone: "#0ea5e9",

@@ -5,7 +5,6 @@
     export { className as class };
     export let href: string;
     export let title: string;
-    export let external = false;
     export let button = false;
     export let noStyle = false;
 
@@ -23,6 +22,8 @@
         ],
         className,
     );
+
+    const external = href.startsWith("http");
 </script>
 
 <a class={aClass}

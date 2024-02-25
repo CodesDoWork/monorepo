@@ -7,6 +7,7 @@ export interface Config {
     footerInfo: FooterInfo;
     contact: Contact;
     projectComplimentaryData: ProjectComplimentaryData[];
+    about: AboutInfo;
 }
 
 interface RouteLink {
@@ -32,4 +33,28 @@ interface Contact {
 interface ProjectComplimentaryData {
     name: string;
     thumbnail: string;
+}
+
+interface AboutInfo {
+    intro: string;
+    bio: string[];
+    techStack: Record<string, string[]>;
+    workExperience: WorkExperience[];
+}
+
+interface WorkExperience {
+    jobTitle: string;
+    company: string;
+    companyUrl: string;
+    companyLogo: string;
+    datesWorked: string;
+    responsibilities?: string;
+    projectType?: "Projects" | "Clients" | string;
+    projects?: {
+        name: string;
+        logo: string;
+        description: string;
+        link: string;
+    }[];
+    technologies?: string[];
 }

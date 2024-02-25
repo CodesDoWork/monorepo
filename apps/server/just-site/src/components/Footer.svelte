@@ -31,7 +31,7 @@
 
 <footer class={footerClass}>
     &copy; Justin Konratt {new Date().getFullYear()} - Licensed under
-    <Link class={linkClass} external href="/hello" title="License">MIT</Link>
+    <Link class={linkClass} href="/hello" title="License">MIT</Link>
     - View on
-    <Link class={linkClass} external href="/hello" title="Project">GitHub</Link>
+    <Link class={linkClass} href="/hello" title="Project">GitHub</Link>
 </footer>

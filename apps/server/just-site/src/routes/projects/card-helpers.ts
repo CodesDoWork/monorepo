@@ -1,14 +1,13 @@
 /* Get date in month YYYY format*/
-export const getMonthYear = (inputDate: string): string => {
-    const date = new Date(inputDate);
+export const getMonthYear = (date: Date): string => {
     return `${date.toLocaleString("default", {
         month: "short",
     })}, ${date.getFullYear()}`;
 };
 
 /* Get amount of time ago (e.g. 5 days, 1 year) */
-export const calculateTimeAgo = (inputDate: string) => {
-    const seconds = Math.floor((new Date().getTime() - new Date(inputDate).getTime()) / 1000);
+export const calculateTimeAgo = (date: Date) => {
+    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
     const intervals = [31536000, 2592000, 86400, 3600, 60];
     const intervalNames = ["year", "month", "day", "hour", "minute"];
 

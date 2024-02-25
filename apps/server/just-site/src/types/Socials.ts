@@ -1,4 +1,10 @@
-export type SupportedSocials = "GitHub" | "LinkedIn" | "Instagram" | "YouTube" | "Email";
+export type SupportedSocials =
+    | "GitHub"
+    | "LinkedIn"
+    | "Instagram"
+    | "YouTube"
+    | "Gravatar"
+    | "Email";
 
 export interface SocialNetwork {
     name: SupportedSocials;

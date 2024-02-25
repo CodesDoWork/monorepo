@@ -7,7 +7,7 @@
     export let title: string;
     export let external = false;
     export let button = false;
-    export let icon = false;
+    export let noStyle = false;
 
     $: aClass = clsx(
         "font-mono transition rounded-md",
@@ -18,7 +18,7 @@
             "shadow-md hover:shadow-lg",
             "origin-top-left",
         ],
-        !button && !icon && [
+        !button && !noStyle && [
             "p-1 hover:text-white dark:hover:text-black text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500",
         ],
         className,

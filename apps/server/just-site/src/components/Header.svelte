@@ -6,6 +6,7 @@
     import { sineInOut } from "svelte/easing";
     import NavLinks from "./NavLinks.svelte";
     import { getRoutes } from "../stores/routes";
+    import { config } from "../config";
 
     let className = "";
     export { className as class };
@@ -59,7 +60,7 @@
 </Drawer>
 <DarkmodeToggle class="absolute top-4 right-8 z-10" />
 <header class={headerClass}>
-    <a class={clsx("font-mono font-bold drop-shadow-md", itemVisibility)} href="/">Justin Konratt</a>
+    <a class={clsx("font-mono font-bold drop-shadow-md", itemVisibility)} href="/">{config.title}</a>
     <NavLinks class="hidden lg:block" liClass={clsx("inline-block", itemVisibility)} />
     <button class="block lg:hidden active:scale-90" on:click={() => navDrawerHidden = !navDrawerHidden}>
         <Icon class="w-6 h-6" icon="material-symbols:menu" />

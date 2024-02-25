@@ -2,7 +2,6 @@ import type { Usernames } from "./Socials";
 
 export interface Config {
     title: string;
-    description: string;
     githubUser: string;
     routeLinks: RouteLink[];
     footerInfo: FooterInfo;
@@ -28,17 +27,7 @@ interface FooterInfo {
 interface Contact {
     name: string;
     email: string;
-    website: string;
     socials: Usernames;
-    socialButtonLimit: number;
-    mailerConfig: {
-        service_id: string;
-        template_id: string;
-        user_id: string;
-        template_params: {
-            [key: string]: string;
-        };
-    };
 }
 
 interface ProjectComplimentaryData {

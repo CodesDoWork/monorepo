@@ -17,7 +17,7 @@
 <Page title={{title: "Projects", small: true}}>
     <div class="mt-12 md:w-4/5 lg:w-full mx-auto">
         {#each repos as repo, idx (idx)}
-            <Card style={`animation-delay: ${idx * 0.1}s;`} class="outline outline-1 outline-brandGray-100 dark:outline-0 hover:outline-2 dark:hover:outline-0 dark:hover:bg-opacity-20 mb-6 rounded-lg animate-fadeInSubtle flex-col lg:flex-row">
+            <Card style={`animation-delay: ${idx * 0.1}s;`} class="mb-6 flex-col lg:flex-row">
                 <img src={repo.thumbnail} alt="&nbsp;" class="h-48 lg:h-auto lg:w-80 rounded-t-md lg:rounded-tr-none lg:rounded-l-md object-cover" />
                 <div class="p-4 flex flex-col w-full">
                     <Heading commandStyle={false}

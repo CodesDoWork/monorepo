@@ -4,8 +4,7 @@ import tailwindConfig from "../tailwind.config.js";
 const { colors } = tailwindConfig.theme.extend;
 
 export const config: Config = {
-    title: "Just Site",
-    description: "Just Site",
+    title: "Justin Konratt",
     githubUser: "CodesDoWork",
     routeLinks: [
         {
@@ -66,19 +65,11 @@ export const config: Config = {
     contact: {
         name: "Justin Konratt",
         email: "justin@konratts.de",
-        website: "https://justin.konratts.de",
         socials: {
             GitHub: "CodesDoWork",
             LinkedIn: "in/justinkonratt",
             Instagram: "justinkonratt",
             YouTube: "DJWazz",
-        },
-        socialButtonLimit: 6,
-        mailerConfig: {
-            service_id: "gmail",
-            template_id: "website-contact-form",
-            user_id: "",
-            template_params: {},
         },
     },
     projectComplimentaryData: [

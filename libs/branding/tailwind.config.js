@@ -1,6 +1,7 @@
 import colors from "tailwindcss/colors";
 import plugin from "tailwindcss/plugin";
 import deepcopy from "deepcopy";
+import tailwindForms from "@tailwindcss/forms";
 
 const brandBlue = colors.sky;
 const brandGreen = colors.teal;
@@ -8,7 +9,6 @@ const brandOrange = colors.orange;
 const brandRed = colors.red;
 const brandPink = colors.fuchsia;
 const brandPurple = colors.violet;
-const brandGray = colors.stone;
 
 const animationDelayPlugin = plugin(function ({ matchUtilities, theme }) {
     matchUtilities(
@@ -57,8 +57,6 @@ export default {
                 brandPurple,
                 error: brandRed,
                 brandRed,
-                neutral: brandGray,
-                brandGray,
             },
             fontFamily: {
                 sans: "Inter",
@@ -119,5 +117,5 @@ export default {
             },
         },
     },
-    plugins: [animationDelayPlugin],
+    plugins: [animationDelayPlugin, tailwindForms],
 };

@@ -64,12 +64,12 @@ export const config: Config = {
     },
     contact: {
         name: "Justin Konratt",
-        email: "justin@konratts.de",
         socials: {
             GitHub: "CodesDoWork",
-            LinkedIn: "in/justinkonratt",
+            LinkedIn: "justinkonratt",
             Instagram: "justinkonratt",
             YouTube: "DJWazz",
+            Email: "j.konratt@gmx.de",
         },
     },
     projectComplimentaryData: [

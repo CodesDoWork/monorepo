@@ -7,6 +7,7 @@
     import { enhance } from "$app/forms";
     import { clsx } from "clsx";
     import type { ActionData } from "./$types";
+    import Icon from "@iconify/svelte";
 
     export let form: ActionData;
 
@@ -31,9 +32,10 @@
                         <Link
                             noStyle
                             external
-                            class="p-4 sm:p-5 md:p-6 md:h-20 w-full hover:pt-2 hover:pb-6 sm:hover:pb-8 md:hover:pt-4 lg:hover:pt-3 transition-all"
+                            class="p-4 sm:p-5 md:p-6 md:h-20 w-full hover:pt-3 hover:pb-5 sm:hover:pb-7 md:hover:pt-4 lg:hover:pt-3 transition-all grid grid-cols-[auto_1fr]"
                             href={social.href}
                             title={social.title}>
+                            <Icon class="w-8 h-8 sm:w-10 sm:h-10 row-span-2 mr-4 transition-colors group-hover:text-[var(--hover-color)]" icon={social.icon} />
                             <Heading commandStyle={false}
                                      class="cursor-pointer !mb-0 !text-black dark:!text-white group-hover:!text-[var(--hover-color)]"
                                      level="h5">{social.name}</Heading>

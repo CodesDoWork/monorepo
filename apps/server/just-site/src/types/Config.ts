@@ -26,7 +26,6 @@ interface FooterInfo {
 
 interface Contact {
     name: string;
-    email: string;
     socials: Usernames;
 }
 

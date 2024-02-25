@@ -1,7 +1,5 @@
 import type { SocialNetwork } from "./types/Socials";
 
-export const emailJsEndpoint = "https://api.emailjs.com/api/v1.0/email/send";
-
 export const socialNetworks: SocialNetwork[] = [
     {
         name: "GitHub",
@@ -13,7 +11,7 @@ export const socialNetworks: SocialNetwork[] = [
         name: "LinkedIn",
         icon: "mdi:linkedin",
         tone: "#0A66C2",
-        link: "https://www.linkedin.com/",
+        link: "https://www.linkedin.com/in/",
         noAt: true,
     },
     {
@@ -27,5 +25,13 @@ export const socialNetworks: SocialNetwork[] = [
         icon: "mdi:youtube",
         tone: "#FF0000",
         link: "https://www.youtube.com/c/",
+        noAt: true,
+    },
+    {
+        name: "Email",
+        icon: "mdi:email",
+        tone: "#0ea5e9",
+        link: "mailto:",
+        noAt: true,
     },
 ];

@@ -1,28 +1,13 @@
-export const SupportedSocials = ["GitHub", "LinkedIn", "Instagram", "YouTube"] as const;
+export type SupportedSocials = "GitHub" | "LinkedIn" | "Instagram" | "YouTube" | "Email";
 
 export interface SocialNetwork {
-    name: (typeof SupportedSocials)[number];
+    name: SupportedSocials;
     icon: string;
     tone: string;
     link: string;
     noAt?: boolean;
 }
 
-export interface SocialMetric {
-    label: string;
-    value: string | number;
-}
-
-export interface UserSocial extends SocialNetwork {
-    user: string;
-    metrics?: SocialMetric[];
-}
-
 export type Usernames = {
-    [key in (typeof SupportedSocials)[number]]: string;
+    [key in SupportedSocials]: string;
 };
-
-export interface SocialMetric {
-    label: string;
-    value: string | number;
-}

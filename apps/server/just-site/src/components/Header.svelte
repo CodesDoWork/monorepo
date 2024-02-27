@@ -5,13 +5,13 @@
     import Icon from "@iconify/svelte";
     import { sineInOut } from "svelte/easing";
     import NavLinks from "./NavLinks.svelte";
-    import { getRoutes } from "../stores/routes";
+    import { useRoutes } from "../stores/useRoutes";
     import { config } from "../config";
 
     let className = "";
     export { className as class };
 
-    const { currentRoute, previousRoute } = getRoutes();
+    const { currentRoute, previousRoute } = useRoutes();
 
     let itemVisibility = "";
     let headerVisibility = "";

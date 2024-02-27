@@ -1,8 +1,8 @@
 <script lang="ts">
     import { clsx } from "clsx";
-    import { getRoutes } from "../stores/routes";
+    import { useRoutes } from "../stores/useRoutes";
 
-    const { routeLinks, currentRoute } = getRoutes();
+    const { routeLinks, currentRoute } = useRoutes();
 
     let className = "";
     export { className as class };

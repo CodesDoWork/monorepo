@@ -1,7 +1,7 @@
 <script lang="ts">
     import "../../../../../libs/branding/assets/css/tailwind.css";
     import tailwindConfig from "../../tailwind.config";
-    import { useThemeStore } from "../stores/themeStore";
+    import { useThemeStore } from "../stores/useThemeStore";
 
     const themeStore = useThemeStore();
     $: themeColor = $themeStore === "dark" ? tailwindConfig.theme.extend.colors.primary[950] : tailwindConfig.theme.extend.colors.primary[500];

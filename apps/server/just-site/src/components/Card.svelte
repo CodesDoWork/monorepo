@@ -12,7 +12,7 @@
         "rounded-lg transition-all",
         "shadow-md hover:shadow-lg",
         "animate-fadeIn opacity-0",
-        "outline outline-1 outline-stone-100 dark:outline-0 hover:outline-2 dark:hover:outline-0",
+        "outline outline-2 outline-stone-100 dark:outline-0 dark:hover:outline-0",
         padding && "p-4 sm:p-5 md:p-6",
         className
     );

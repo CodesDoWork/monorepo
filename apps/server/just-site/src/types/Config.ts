@@ -1,10 +1,12 @@
 import type { Usernames } from "./Socials";
+import { MyBook } from "./Book";
 
 export interface Config {
     title: string;
     githubUser: string;
     routeLinks: RouteLink[];
     footerInfo: FooterInfo;
+    readingList: MyBook[];
     contact: Contact;
     projectComplimentaryData: ProjectComplimentaryData[];
     about: AboutInfo;

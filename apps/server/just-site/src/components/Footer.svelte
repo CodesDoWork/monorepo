@@ -1,12 +1,12 @@
 <script lang="ts">
     import { clsx } from "clsx";
     import Link from "./Link.svelte";
-    import { getRoutes } from "../stores/routes";
+    import { useRoutes } from "../stores/useRoutes";
 
     let className = "";
     export { className as class };
 
-    const { currentRoute, previousRoute } = getRoutes();
+    const { currentRoute, previousRoute } = useRoutes();
 
     let footerVisibility = "";
     $: if ($currentRoute?.isHero) {

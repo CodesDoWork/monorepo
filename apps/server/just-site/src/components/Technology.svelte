@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { useTechIcon } from "../stores/techIcon.js";
+    import { useTechIcon } from "../stores/useTechIcon";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
 

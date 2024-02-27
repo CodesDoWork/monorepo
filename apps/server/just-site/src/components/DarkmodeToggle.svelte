@@ -1,13 +1,13 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import { getRoutes } from "../stores/routes";
-    import { useThemeStore } from "../stores/themeStore";
+    import { useRoutes } from "../stores/useRoutes";
+    import { useThemeStore } from "../stores/useThemeStore";
 
     let className = "";
     export { className as class };
 
-    const { currentRoute } = getRoutes();
+    const { currentRoute } = useRoutes();
     const theme = useThemeStore();
 
     const animationDuration = 300;

@@ -1,7 +1,7 @@
 import { writable } from "svelte/store";
 import { onMount } from "svelte";
 
-export function localStorageStore(key: string, initial: unknown = null) {
+export function useLocalStorage(key: string, initial: unknown = null) {
     const isInitialFunction = typeof initial === "function";
     const store = writable(isInitialFunction ? undefined : initial);
     onMount(() => {

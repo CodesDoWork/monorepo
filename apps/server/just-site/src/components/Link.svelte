@@ -7,6 +7,12 @@
     export let title: string;
     export let button = false;
     export let noStyle = false;
+    export let smoothScroll = false;
+
+    const scrollTo = ({ target }) => {
+        const el = document.querySelector(target.getAttribute("href"));
+        el && el.scrollIntoView({ behavior: "smooth" });
+    }
 
     $: aClass = clsx(
         "font-mono transition rounded-md",
@@ -28,6 +34,7 @@
 
 <a class={aClass}
    href={href}
+   on:click|preventDefault={smoothScroll ? scrollTo : undefined}
    rel={external ? "noopener" : undefined}
    target={external ? "_blank" : undefined}
    title={title}>

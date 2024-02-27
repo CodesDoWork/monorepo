@@ -1,7 +1,7 @@
-import { localStorageStore } from "./localStorageStore";
+import { useLocalStorage } from "./useLocalStorage";
 
 export function useThemeStore() {
-    return localStorageStore("theme", () =>
+    return useLocalStorage("theme", () =>
         window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
     );
 }

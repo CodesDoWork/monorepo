@@ -3,6 +3,7 @@
 
     let className = "";
     export { className as class };
+    export let id: string | undefined = undefined;
     export let level: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" = "h1";
     export let commandStyle = true;
     export let blinkCursor = false;
@@ -43,7 +44,7 @@
     );
 </script>
 
-<svelte:element class={computedClassName} this={level}>
+<svelte:element class={computedClassName} id={id} this={level}>
     {#if animateText}
         {typedText}
     {:else}

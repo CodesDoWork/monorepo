@@ -5,7 +5,7 @@ import { readable } from "svelte/store";
 
 const { routeLinks } = config;
 
-export function getRoutes() {
+export function useRoutes() {
     const currentRoute = readable(undefined, set => {
         onMount(() => {
             const path = window.location.pathname;

@@ -1,5 +1,6 @@
 import type { Config } from "./types/Config";
 import tailwindConfig from "../tailwind.config.js";
+import { PUBLIC_DOMAIN } from "$env/static/public";
 
 const { colors } = tailwindConfig.theme.extend;
 
@@ -40,10 +41,10 @@ export const config: Config = {
             isHero: false,
         },
         {
-            label: "Knowledge Base",
-            route: "/knowledge-base",
+            label: "Links",
+            route: `https://dashboard.${PUBLIC_DOMAIN}/home/links`,
             color: colors.error["500"],
-            description: "Personal knowledge base",
+            description: "Useful links and bookmarks",
             isHero: false,
         },
         {

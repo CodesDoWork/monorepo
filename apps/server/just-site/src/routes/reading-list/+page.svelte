@@ -27,9 +27,8 @@
     </p>
     <p class="text-red-500 mb-4">
         ⚠️<b>Warning</b>⚠️<br/>
-        There are some books I just found to be informative or a starting point a few years ago.
-        Some are used in funnels to get you into the author's offers.
-        Also, don't use manipulation but learn about it.
+        Some books are used in funnels to get you into the author's offers. They still are informative.
+        Also, don't use manipulation (if described) but learn about it.
         Always apply your own truth and critical thinking.
     </p>
     <Heading level="h3">Categories</Heading>

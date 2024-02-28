@@ -5,10 +5,13 @@ import type { PageServerLoad } from "./$types";
 
 export const prerender = true;
 
-const makeProjectList = async (ghResponse: any): Promise<Project[]> => {
-    if (!ghResponse || !Array.isArray(ghResponse)) return [];
+const makeProjectList = async (ghResponse: unknown): Promise<Project[]> => {
+    if (!ghResponse || !Array.isArray(ghResponse)) {
+        return [];
+    }
+
     return ghResponse
-        .map((repo: any) => {
+        .map(repo => {
             const projectComplimentaryData =
                 config.projectComplimentaryData.find(
                     p => p.name.toLocaleLowerCase() === repo.name.toLocaleLowerCase(),
@@ -46,7 +49,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
     };
 
     const repos = await fetch("https://api.github.com/user/repos", githubRequest)
-        .then((res: any) => res.json())
+        .then(res => res.json())
         .then(async repos => {
             const reposToRemove = [];
             for (const repo of repos) {

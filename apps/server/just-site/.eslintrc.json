@@ -7,7 +7,7 @@
         "prettier"
     ],
     "plugins": ["svelte3", "@typescript-eslint"],
-    "ignorePatterns": ["!**/*", "*.cjs", "vite.config.ts", "node_modules"],
+    "ignorePatterns": ["!**/*", "*.cjs", "vite.config.ts", "node_modules", ".svelte-kit"],
     "overrides": [
         {
             "files": ["*.svelte"],

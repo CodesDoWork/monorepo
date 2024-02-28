@@ -22,3 +22,4 @@ ENV NODE_ENV=production
 ARG APP_DIR
 
 COPY --from=builder /app/dist/apps/$APP_DIR/public /app/public
+RUN yarn build

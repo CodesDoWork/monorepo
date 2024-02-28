@@ -1,7 +1,6 @@
 pageInfo:
-  footerText: Work productively!
   logo: /img/icon.png
-  title: Server Dashy
+  title: Dashoard
 
 appConfig:
   customCss: ".item { padding: 0.5rem 0.1rem 0 0.1rem; } .opening-method-icon { display: none !important; } html[data-theme='nord'] .collapsable:nth-child(2n) { background: #d08770; } html[data-theme='nord'] .collapsable:nth-child(4n+3) { background: #ebcb8b; } html[data-theme='nord'] .collapsable:nth-child(4n) { background: #a3be8c; }"
@@ -23,83 +22,252 @@ appConfig:
       ":tg": https://www.google.com/search?q=%C3%BCbersetzung+deutsch+englisch+
       ":te": https://www.google.com/search?q=%C3%BCbersetzung+englisch+
 
+pages:
+  - name: Server
+    path: "server.yml"
+
 sections:
-  - name: Misc
+  - name: Learning
+    displayData:
+      cutToHeight: true
+    icon: ":book:"
+    items:
+      - title: Bootstrap Academy
+        icon: favicon-local
+        url: https://bootstrap.academy/skill-tree
+      - title: Code Academy
+        icon: favicon-local
+        url: https://www.codecademy.com/catalog
+      - title: Daily.dev
+        icon: favicon-local
+        url: https://app.daily.dev/my-feed
+      - title: Fireship
+        icon: favicon-local
+        url: https://www.youtube.com/c/Fireship/videos
+      - title: Developer Roadmaps
+        icon: favicon-local
+        url: https://roadmap.sh/
+      - title: SciHub
+        icon: favicon-local
+        url: https://sci-hub.se
+      - title: Termine und Fristen
+        icon: uni/host.png
+        url: https://www.hochschule-stralsund.de/studium-und-lehre/mein-studium/termine-und-fristen/
+      - title: SUP
+        icon: uni/host.png
+        url: https://sup.hochschule-stralsund.de/qisserver/rds?state=user&type=0&category=menu.browse&breadCrumbSource=&startpage=portal.vm&chco=y
+      - title: Studienorganisation
+        icon: uni/host.png
+        url: https://www.hochschule-stralsund.de/host/fakultaeten/elektrotechnik-und-informatik/studienorganisation/
+      - title: Mensaplan
+        icon: favicon-local
+        url: https://stw-greifswald.de/essen/speiseplaene/mensa-stralsund/
+      - title: GitLab
+        icon: favicon-local
+        url: https://gitlab.hochschule-stralsund.de/
+      - title: Moodle
+        icon: uni/host.png
+        url: https://moodle.hochschule-stralsund.de
+    widgets:
+      - type: github-profile-stats
+        options:
+          username: CodesDoWork
+          hideLanguagesCard: true
+  - name: Tools
     displayData:
       cutToHeight: true
     icon: ":wrench:"
     items:
-      - title: Music
-        icon: navidrome.png
+      - title: Translator
+        icon: ":flag_us:"
         tags:
-          - navidrome
-        url: https://justin.konratts.de/music
-      - title: Music Downloader
-        icon: icon.svg
-        url: https://justin.konratts.de/music-downloader
-      - title: Scoreboard
-        icon: icon.svg
-        url: https://justin.konratts.de/scoreboard
-      - title: Start
-        icon: linkstack.svg
-        url: https://justin.konratts.de
-  - name: Admin
+          - übersetzer
+        url: https://www.google.com/search?q=%C3%BCbersetzer
+      - title: ChatGPT
+        icon: favicon-local
+        url: https://chat.openai.com
+      - title: Gravatar
+        icon: favicon-local
+        url: https://de.gravatar.com
+      - title: Language Tool
+        icon: favicon-local
+        url: https://languagetool.org
+      - title: Ni Package Manager
+        icon: favicon-local
+        url: https://www.npmjs.com/package/@antfu/ni
+      - title: TS Playground
+        icon: favicon-local
+        url: https://www.typescriptlang.org/play
+      - title: Regex 101
+        icon: favicon.local
+        url: https://regex101.com
+      - title: Codeium
+        icon: favicon-local
+        url: https://codeium.com
+      - title: Wave Generator
+        icon: favicon-local
+        url: https://getwaves.io
+      - title: Blobmaker
+        icon: favicon-local
+        url: https://www.blobmaker.app
+      - title: SVG Generators
+        icon: favicon-local
+        url: https://fffuel.co/
+    widgets:
+      - type: clock
+        options:
+          timezone: Europe/Berlin
+          format: de-DE
+          hideDate: true
+  - name: Resources
     displayData:
       cutToHeight: true
-    icon: ":construction_worker:"
+    icon: "📚"
     items:
-      - title: Auth
-        icon: keycloak.svg
-        url: https://justin.konratts.de/auth
-      - title: Portainer
-        icon: portainer.svg
-        tags:
-          - docker
-          - container
-        url: https://justin.konratts.de/portainer
-      - title: Linkstack
-        icon: linkstack.svg
-        url: https://justin.konratts.de/dashboard
-  - name: Dev
+      - title: Google TS Styleguide
+        icon: favicon-local
+        url: https://google.github.io/styleguide/tsguide.html
+      - title: Markdown Emojis
+        icon: favicon-local
+        url: https://gist.github.com/rxaviers/7360908
+      - title: Google Fonts
+        icon: favicon-local
+        url: https://fonts.google.com
+      - title: Iconify
+        icon: favicon-local
+        url: https://iconify.design
+      - title: Tailwind Docs
+        icon: favicon-local
+        url: https://tailwindcss.com/docs
+      - title: Cool CSS Elements
+        icon: favicon-local
+        url: https://uiverse.io
+      - title: DevSecOps Periodic Table
+        icon: favicon-local
+        url: https://digital.ai/learn/devsecops-periodic-table
+      - title: HTML Head Guide
+        icon: favicon-local
+        url: https://htmlhead.dev
+      - title: Self Hosted Guides
+        icon: favicon-local
+        url: https://noted.lol
+      - title: Self Hosted Apps
+        icon: favicon-local
+        url: https://awesome-selfhosted.net
+      - title: "Lazyweb: Dev Resources"
+        icon: favicon-local
+        url: https://app.lazyweb.rocks
+      - title: "OWASP: Security"
+        icon: favicon-local
+        url: https://owasp.org
+      - title: Lofi Music
+        icon: favicon-local
+        url: https://lofi-life.vercel.app
+      - title: Lyricsify
+        icon: favicon-local
+        url: https://www.lyricsify.com
+  - name: Work
     displayData:
       cutToHeight: true
-    icon: ":computer:"
+    icon: "💻"
     items:
-      - title: Docs
-        icon: icon.svg
+      - title: Google Calendar
+        icon: favicon-local
+        url: https://calendar.google.com
+      - title: Notion
+        icon: favicon-local
+        url: https://www.notion.so
+      - title: GitHub
+        icon: favicon-local
         tags:
-          - vitepress
-        url: https://justin.konratts.de/docs
-      - title: Gitlab
-        icon: gitlab.svg
-        url: https://justin.konratts.de/gitlab
-      - title: SonarQube
-        icon: sonarqube.png
+        url: https://github.com
+      - title: Drive
+        icon: favicon-local
         tags:
-          - cicd
-        url: https://justin.konratts.de/sonar
-  - name: Monitoring
+        url: https://drive.google.com
+      - title: Personizer
+        icon: favicon-local
+        url: https://www.personizer.com/app/absence-dashboards/personal/
+      - title: "RxResume: CV Builder"
+        icon: favicon-local
+        url: https://rxresu.me
+    widgets:
+      - type: public-holidays
+        options:
+          country: DE
+          region: MV
+          holidayType: all
+          monthsToShow: 12
+          lang: de
+  - name: Finances
+    displayData:
+      cutToHeight: true
+    icon: "💸"
+    items:
+      - title: Die Contra
+        icon: favicon-local
+        url: https://www.die-contra.de
+      - title: Erfolgskongress
+        icon: favicon-local
+        url: https://www.erfolgskongress.de
+      - title: Modern Banking
+        icon: favicon-local
+        url: https://www.modern-banking.de
+      - title: Brutto Netto Rechner
+        icon: favicon-local
+        url: https://www.brutto-netto-rechner.info
+      - title: Bundesanzeiger
+        icon: favicon-local
+        url: https://www.bundesanzeiger.de
+  - name: Server
     displayData:
       cutToHeight: true
     icon: "🖥️"
     items:
-      - title: Doku
-        icon: doku.svg
-        url: https://just-doku.konratts.de
-      - title: Netdata
-        icon: netdata.png
-        url: https://just-netdata.konratts.de
-      - title: Prometheus
-        icon: prometheus.svg
-        url: https://just-prometheus.konratts.de
-      - title: Grafana
-        icon: grafana.svg
-        url: https://just-grafana.konratts.de
-  - name: Network
+      - title: Cloudflare
+        icon: favicon-local
+        url: https://dash.cloudflare.com/
+      - title: Porkbun
+        icon: favicon-local
+        url: https://porkbun.com/account/domainsSpeedy
+      - title: Strato
+        icon: favicon-local
+        url: https://www.strato.de/apps/CustomerService
+      - title: Server Dashboard
+        icon: favicon-local
+        url: /home/server
+        hotkey: 1
+  - name: Content Creation
+    displayData:
+      cutToHeight: true
+    icon: ":pencil:"
+    items:
+      - title: Canva
+        icon: favicon-local
+        url: https://www.canva.com
+      - title: Pexels
+        icon: favicon-local
+        url: https://www.pexels.com
+      - title: Pixabay
+        icon: favicon-local
+        url: https://pixabay.com/
+      - title: Freepic
+        icon: favicon-local
+        url: https://www.freepik.com/
+  - name: Firefox Addons
     displayData:
       cutToHeight: true
     icon: ":globe_with_meridians:"
     items:
-      - title: Logout
-        icon: logout.svg
-        url: https://justin.konratts.de/logout
+      - title: Language Tool
+        url: https://addons.mozilla.org/de/firefox/addon/languagetool
+      - title: Adblock Plus
+        url: https://addons.mozilla.org/de/firefox/addon/adblock-plus
+      - title: I don't care about cookies
+        url: https://addons.mozilla.org/de/firefox/addon/i-dont-care-about-cookies
+      - title: ICloud Bookmarks
+        url: https://addons.mozilla.org/de/firefox/addon/icloud-bookmarks
+      - title: New Tab Override
+        url: https://addons.mozilla.org/de/firefox/addon/new-tab-override
+      - title: Simple Translate
+        url: https://addons.mozilla.org/de/firefox/addon/simple-translate

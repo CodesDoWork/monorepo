@@ -1,0 +1,76 @@
+pageInfo:
+  logo: /img/icon.png
+  title: Server
+
+sections:
+  - name: Misc
+    displayData:
+      cutToHeight: true
+    icon: ":wrench:"
+    items:
+      - title: Music
+        icon: navidrome.png
+        tags:
+          - navidrome
+        url: https://justin.konratts.de/music
+      - title: Music Downloader
+        icon: icon.svg
+        url: https://justin.konratts.de/music-downloader
+      - title: Scoreboard
+        icon: icon.svg
+        url: https://justin.konratts.de/scoreboard
+      - title: Website
+        icon: icon.svg
+        url: https://justinkonratt.com
+  - name: Admin
+    displayData:
+      cutToHeight: true
+    icon: ":construction_worker:"
+    items:
+      - title: Auth
+        icon: keycloak.svg
+        url: https://justin.konratts.de/auth
+      - title: Portainer
+        icon: portainer.svg
+        tags:
+          - docker
+          - container
+        url: https://justin.konratts.de/portainer
+      - title: Logout
+        icon: logout.svg
+        url: https://justin.konratts.de/logout
+  - name: Dev
+    displayData:
+      cutToHeight: true
+    icon: ":computer:"
+    items:
+      - title: Docs
+        icon: icon.svg
+        tags:
+          - vitepress
+        url: https://justin.konratts.de/docs
+      - title: Gitlab
+        icon: gitlab.svg
+        url: https://justin.konratts.de/gitlab
+      - title: SonarQube
+        icon: sonarqube.png
+        tags:
+          - cicd
+        url: https://justin.konratts.de/sonar
+  - name: Monitoring
+    displayData:
+      cutToHeight: true
+    icon: "🖥️"
+    items:
+      - title: Doku
+        icon: doku.svg
+        url: https://just-doku.konratts.de
+      - title: Netdata
+        icon: netdata.png
+        url: https://just-netdata.konratts.de
+      - title: Prometheus
+        icon: prometheus.svg
+        url: https://just-prometheus.konratts.de
+      - title: Grafana
+        icon: grafana.svg
+        url: https://just-grafana.konratts.de

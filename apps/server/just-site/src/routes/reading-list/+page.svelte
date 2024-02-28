@@ -27,8 +27,6 @@
     </p>
     <p class="text-red-500 mb-4">
         ⚠️<b>Warning</b>⚠️<br/>
-        Some books are used in funnels to get you into the author's offers. They still are informative.
-        Also, don't use manipulation (if described) but learn about it.
         Always apply your own truth and critical thinking.
     </p>
     <Heading level="h3">Categories</Heading>

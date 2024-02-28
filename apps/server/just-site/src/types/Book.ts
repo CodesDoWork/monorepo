@@ -10,11 +10,10 @@ export interface MyBook extends Partial<OpenLibBook> {
 }
 
 export type BookCategory =
-    | "Body"
+    | "Body & Health"
     | "Communication"
     | "Dating"
     | "Finance"
-    | "Health"
     | "Leadership"
     | "Love"
     | "Masculinity"

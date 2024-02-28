@@ -2,13 +2,18 @@
     import "../../../../../libs/branding/assets/css/tailwind.css";
     import tailwindConfig from "../../tailwind.config";
     import { useThemeStore } from "../stores/useThemeStore";
+    import { useRoutes } from "../stores/useRoutes";
+    import { config } from "../config";
 
     const themeStore = useThemeStore();
     $: themeColor = $themeStore === "dark" ? tailwindConfig.theme.extend.colors.primary[950] : tailwindConfig.theme.extend.colors.primary[500];
+
+    const { currentRoute } = useRoutes();
+    const title = $currentRoute ? `${$currentRoute.label} | ${config.title}` : config.title;
 </script>
 
 <svelte:head>
-    <title>Hello Svelte</title>
+    <title>{title}</title>
     <meta content={themeColor} name="theme-color" />
 </svelte:head>
 

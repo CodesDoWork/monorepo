@@ -1,6 +1,5 @@
 import type { Config } from "./types/Config";
 import tailwindConfig from "../tailwind.config.js";
-import { PUBLIC_DOMAIN } from "$env/static/public";
 
 const { colors } = tailwindConfig.theme.extend;
 
@@ -38,13 +37,6 @@ export const config: Config = {
             route: "/reading-list",
             color: colors.tertiary["500"],
             description: "Books, recommendations and notes",
-            isHero: false,
-        },
-        {
-            label: "Links",
-            route: `https://dashboard.${PUBLIC_DOMAIN}/home/links`,
-            color: colors.error["500"],
-            description: "Useful links and bookmarks",
             isHero: false,
         },
         {
@@ -114,11 +106,11 @@ export const config: Config = {
 
             `Always exploring new facets of life,
             I welcome opportunities for growth, challenges, and new experiences (or technologies).
-            I love traveling, reading, and doing sports (like going to the gym, mainly).
+            Away from keyboard, I love traveling, reading, and doing sports (like going to the gym, mainly).
             I'm into self-development and am currently discovering spiritual practices too.
             Check out my ${link("reading list", "/reading-list")} for some insights on exciting topics!
             <br />
-            Away from keyboard, I also enjoy playing chess, meeting friends, or taking a walk.`,
+            I also enjoy playing chess, meeting friends, or taking a walk.`,
 
             `For work, I'm currently in a dual study, working at
             ${link("Clausohm", "https://www.clausohm.de/")}
@@ -130,8 +122,8 @@ export const config: Config = {
 
             `Since I love competitions and am slowly starting to become more active as a developer,
             I hope to participate in some hackathons and conferences in the future!
-            Besides some local competitions in school, I also became a WorldSkills Champion.
-            In 2022, I won the ${link("bronze medal", "https://worldskills2022se.com/skills/mobile-applications-development/")} in
+            Besides some local competitions in school, I also became a WorldSkills Champion in 2022.
+            I won the ${link("bronze medal", "https://worldskills2022se.com/skills/mobile-applications-development/")} in
             ${link("Skill 08 - Mobile Applications Development", "https://worldskills.org/skills/id/562/")}
             at the ${link("WorldSkills Competition Special Edition 2022", "https://worldskills2022se.com/")}.
             Since then, WorldSkills really been a piece of my heart.
@@ -220,7 +212,7 @@ export const config: Config = {
         {
             title: "Die Gesetze der Gewinner",
             isbn: "978-3-423-34048-9",
-            rating: 3,
+            rating: 4,
             featured: false,
             categories: ["Mindset"],
             description: "30 principles underlined with stories for a successful life",
@@ -239,9 +231,9 @@ export const config: Config = {
             isbn: "9780307463630",
             rating: 5,
             featured: true,
-            categories: ["Body", "Health", "Masculinity"],
+            categories: ["Body & Health", "Masculinity"],
             description:
-                "Science based insights into unbelievable facts about the body, training plans, and other useful stuff for hacking your biology.",
+                "Science based insights into unbelievable capabilities of the body, training plans, and other useful stuff for hacking your biology.",
         },
         {
             title: "Rich Dad Poor Dad",
@@ -264,7 +256,7 @@ export const config: Config = {
             isbn: "9781946546012",
             rating: 5,
             featured: true,
-            categories: ["Health", "Body"],
+            categories: ["Body & Health"],
             description: "Scientific view on modern world poisons",
         },
         {
@@ -287,7 +279,7 @@ export const config: Config = {
         {
             title: "The Way of Men",
             isbn: "9780578824000",
-            rating: 4,
+            rating: 5,
             featured: true,
             categories: ["Masculinity"],
             description:
@@ -306,7 +298,7 @@ export const config: Config = {
             isbn: "9780998716732",
             rating: 3,
             featured: false,
-            categories: ["NLP", "Mindset"],
+            categories: ["NLP", "Mindset", "Psychology"],
             description:
                 "Control your thinking and stop pattern causing negative thoughts and/or behavior.",
         },
@@ -356,7 +348,7 @@ export const config: Config = {
             isbn: "155874374X",
             rating: 4,
             featured: false,
-            categories: ["Spirituality", "Love", "Sexuality"],
+            categories: ["Spirituality", "Love", "Sexuality", "Psychology"],
             description:
                 "About the 3 stages of intimate relationship and how to connect to your inner core and sexual essence.",
         },
@@ -365,7 +357,7 @@ export const config: Config = {
             isbn: "9781591792338",
             rating: 3,
             featured: false,
-            categories: ["Spirituality", "Love", "Sexuality"],
+            categories: ["Spirituality", "Sexuality"],
             description:
                 "Crazy/Wild stories with a whole new perspective on love and sexuality. Quite provocative and with deep spiritual meaning.",
         },
@@ -415,16 +407,16 @@ export const config: Config = {
             isbn: "9781847941831",
             rating: 4,
             featured: false,
-            categories: ["Mindset", "Productivity"],
+            categories: ["Productivity"],
             description:
                 'How to establish new habits and get rid of old ones. How our daily habits and the "small" things shape our in lifes.',
         },
         {
             title: "Die 4-Stunden Woche",
             isbn: "9780307465351",
-            rating: 5,
+            rating: 4,
             featured: true,
-            categories: ["Finance", "Skills"],
+            categories: ["Finance", "Productivity"],
             description:
                 "How to automate and delegate yourself away and work less for same results.",
         },
@@ -508,9 +500,9 @@ export const config: Config = {
             description:
                 "A novel on mindset with especially good description of our inner believe and filter system.",
             cover: {
-                small: "/img/books/entscheidung-erfolg.png",
-                medium: "/img/books/entscheidung-erfolg.png",
-                large: "/img/books/entscheidung-erfolg.png",
+                small: "/img/books/von-0-zur-ersten-million.jpg",
+                medium: "/img/books/von-0-zur-ersten-million.jpg",
+                large: "/img/books/von-0-zur-ersten-million.jpg",
             },
         },
         {
@@ -520,7 +512,7 @@ export const config: Config = {
             authors: [{ name: "Fabian Dittrich", url: "" }],
             rating: 3,
             featured: false,
-            categories: ["Health"],
+            categories: ["Body & Health"],
             description: "A basic book on good sleep and how sleep works.",
             cover: {
                 small: "/img/books/schlaf-im-21-jahrhundert.jpg",

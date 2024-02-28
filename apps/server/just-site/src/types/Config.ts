@@ -12,7 +12,7 @@ export interface Config {
     about: AboutInfo;
 }
 
-interface RouteLink {
+export interface RouteLink {
     label: string;
     route: string;
     color?: string;

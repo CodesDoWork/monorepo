@@ -50,7 +50,6 @@ services:
       - gitlab-runner-config:/data/services/gitlab-runner/config:ro
       - grafana-storage:/data/services/grafana/storage:ro
       - grafana-config:/data/services/grafana/config:ro
-      - linkstack-data:/data/services/linkstack/data:ro
       - navidrome-data:/data/services/navidrome/data:ro
       - netdata-config:/data/services/netdata/config:ro
       - netdata-lib:/data/services/netdata/lib:ro
@@ -252,22 +251,11 @@ services:
       context: ../..
       dockerfile: apps/server/just-site/Dockerfile
     healthcheck:
-      test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
+      test: wget -qO- http://localhost:${JUST_SITE_PORT} || exit 1
     image: ${IMAGE_BASE}/server-just-site
     networks:
       - website
     restart: unless-stopped
-
-  linkstack:
-    environment:
-      TZ: ${TZ}
-    image: linkstackorg/linkstack
-    networks:
-      - linkstack
-      - tunnel
-    restart: unless-stopped
-    volumes:
-      - linkstack-data:/htdocs
 
   music:
     build:
@@ -341,7 +329,6 @@ services:
       dashboard:
       documentation:
       doku:
-      linkstack:
       music:
         ipv4_address: ${NGINX_MUSIC_IP}
       monitoring:
@@ -445,8 +432,6 @@ volumes:
   grafana-storage:
   grafana-config:
 
-  linkstack-data:
-
   navidrome-data:
 
   netdata-config:
@@ -470,7 +455,6 @@ networks:
   dashboard:
   documentation:
   doku:
-  linkstack:
   music:
     ipam:
       config:

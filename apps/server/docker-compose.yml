@@ -248,6 +248,8 @@ services:
       <<: *build-args
       context: ../..
       dockerfile: apps/server/just-site/Dockerfile
+    environment:
+      - PORT=${SCOREBOARD_PORT}
     env_file:
       - ./just-site/.env
     healthcheck:
@@ -367,6 +369,8 @@ services:
       <<: *build-args
       context: ../..
       dockerfile: apps/server/scoreboard/Dockerfile
+    environment:
+      - PORT=${SCOREBOARD_PORT}
     env_file:
       - scoreboard/.env.local
     healthcheck:

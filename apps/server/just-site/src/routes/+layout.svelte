@@ -14,12 +14,12 @@
 
 <svelte:head>
     <title>{title}</title>
-    <meta content="Your Passionate Dev and Student of Life" name={$currentRoute.description} />
+    <meta content="Your Passionate Dev and Student of Life" name={$currentRoute?.description} />
     <meta content={config.keywords} name="keywords" />
     <meta content={themeColor} name="theme-color" />
     <meta content={title} property="og:title">
     <meta content="website" property="og:type" />
-    <meta content={$currentRoute.description} property="og:description">
+    <meta content={$currentRoute?.description} property="og:description">
     <meta content="https://justinkonratt.com" property="og:url">
     <meta content="summary" name="twitter:card">
     <meta content={title} property="og:site_name">

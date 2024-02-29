@@ -78,7 +78,7 @@ services:
       - SMTP_PASSWORD=${SMTP_PASSWORD}
     image: vaultwarden/server:alpine
     networks:
-      - bitwarden
+      - auth
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -92,7 +92,7 @@ services:
       dockerfile: apps/server/dashboard/Dockerfile
     image: ${IMAGE_BASE}/server-dashboard
     networks:
-      - dashboard
+      - web
     restart: unless-stopped
 
   db:
@@ -106,8 +106,7 @@ services:
     networks:
       - auth
       - cicd
-      - scoreboard
-      - sonar
+      - web
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
@@ -137,13 +136,13 @@ services:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
     image: ${IMAGE_BASE}/server-documentation
     networks:
-      - documentation
+      - web
     restart: unless-stopped
 
   doku:
     image: amerkurev/doku
     networks:
-      - doku
+      - monitoring
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/hostroot:ro
@@ -256,7 +255,7 @@ services:
       test: wget -qO- http://localhost:${JUST_SITE_PORT} || exit 1
     image: ${IMAGE_BASE}/server-just-site
     networks:
-      - website
+      - web
     restart: unless-stopped
 
   music:
@@ -267,10 +266,10 @@ services:
     environment:
       - ND_PORT=${MUSIC_PORT}
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
-      - ND_REVERSEPROXYWHITELIST=${MUSIC_SUBNET}
+      - ND_REVERSEPROXYWHITELIST=${MUSIC_PROXY_WHITELIST}
     image: ${IMAGE_BASE}/server-music
     networks:
-      - music
+      - web
     restart: unless-stopped
     volumes:
       - navidrome-data:/data
@@ -288,7 +287,7 @@ services:
       test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/server-music-downloader
     networks:
-      - music
+      - web
     restart: unless-stopped
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
@@ -323,19 +322,11 @@ services:
       test: curl -f http://localhost || exit 1
     image: ${IMAGE_BASE}/server-nginx
     networks:
-      auth:
-      bitwarden:
-      cicd:
-      dashboard:
-      documentation:
-      doku:
-      music:
-        ipv4_address: ${NGINX_MUSIC_IP}
-      monitoring:
-      portainer:
-      scoreboard:
-      tunnel:
-      website:
+      - auth
+      - cicd
+      - monitoring
+      - tunnel
+      - web
     ports:
       - 80:80
       - 443:443
@@ -346,7 +337,7 @@ services:
   portainer:
     image: portainer/portainer-ce:latest
     networks:
-      - portainer
+      - monitoring
     restart: unless-stopped
     volumes:
       - portainer-data:/data
@@ -377,7 +368,7 @@ services:
       test: wget -qO- http://localhost:${SCOREBOARD_PORT}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/server-scoreboard
     networks:
-      - scoreboard
+      - web
     restart: unless-stopped
 
   sonarqube:
@@ -390,7 +381,6 @@ services:
     image: sonarqube:10-community
     networks:
       - cicd
-      - sonar
     restart: unless-stopped
     volumes:
       - sonarqube-config:/opt/sonarqube/conf
@@ -439,19 +429,7 @@ volumes:
 
 networks:
   auth:
-  bitwarden:
   cicd:
-  dashboard:
-  documentation:
-  doku:
-  music:
-    ipam:
-      config:
-        - subnet: ${MUSIC_SUBNET}
-          gateway: ${MUSIC_GATEWAY}
   monitoring:
-  portainer:
-  scoreboard:
-  sonar:
   tunnel:
-  website:
+  web:

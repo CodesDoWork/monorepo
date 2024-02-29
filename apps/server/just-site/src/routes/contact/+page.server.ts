@@ -29,7 +29,7 @@ export const actions: Actions = {
             const mailResult = await client.sendAsync({
                 text: `From: ${name} <${email}>\n\n ${message}`,
                 from: `${name} <${email}>`,
-                to: `${config.contact.name} <${config.contact.email}>`,
+                to: `${config.contact.name} <${config.contact.socials.Email}>`,
                 subject: `[Just-Site] New Message from ${name}`,
             });
             console.log(mailResult);

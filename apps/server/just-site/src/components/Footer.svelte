@@ -31,7 +31,7 @@
 
 <footer class={footerClass}>
     &copy; Justin Konratt {new Date().getFullYear()} - Licensed under
-    <Link class={linkClass} href="/hello" title="License">MIT</Link>
+    <Link class={linkClass} href="https://github.com/CodesDoWork/monorepo/blob/master/LICENSE" title="License">MIT</Link>
     - View on
-    <Link class={linkClass} href="/hello" title="Project">GitHub</Link>
+    <Link class={linkClass} href="https://github.com/CodesDoWork/monorepo/tree/master/apps/server/just-site" title="Project">GitHub</Link>
 </footer>

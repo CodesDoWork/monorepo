@@ -1,5 +1,5 @@
 import type { Usernames } from "./Socials";
-import { MyBook } from "./Book";
+import type { MyBook } from "./Book";
 
 export interface Config {
     title: string;

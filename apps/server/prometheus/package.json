@@ -1,8 +1,0 @@
-{
-    "name": "prometheus",
-    "version": "1.0.0",
-    "scripts": {
-        "build-image": "docker compose -f ../docker-compose.yml build prometheus --push",
-        "run-image": "docker compose -f ../docker-compose.yml up -d prometheus"
-    }
-}

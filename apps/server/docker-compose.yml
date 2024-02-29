@@ -210,7 +210,7 @@ services:
         gitlab_rails['env'] = {
           'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
         }
-        prometheus_monitoring['enable'] = false
+        prometheus_monitoring['enable'] = true
     image: gitlab/gitlab-ee:latest
     networks:
       - cicd
@@ -352,15 +352,14 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   prometheus:
-    build:
-      context: ./prometheus
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
-    image: ${IMAGE_BASE}/server-prometheus
+    image: prom/prometheus
     networks:
       - monitoring
     restart: unless-stopped
     volumes:
+      - ./prometheus:/etc/prometheus/
       - prometheus-data:/prometheus
 
   scoreboard:

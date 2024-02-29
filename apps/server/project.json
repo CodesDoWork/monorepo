@@ -12,7 +12,7 @@
         "deploy": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "copyfiles ./apps/server/docker-compose.yml -u 2 ./deploy/opt/monorepo/server"
+                "command": "copyfiles ./apps/server/docker-compose.yml -u 1 ./deploy/opt/monorepo"
             }
         },
         "deploy-command": {

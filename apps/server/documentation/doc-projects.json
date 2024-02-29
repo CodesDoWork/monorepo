@@ -1,6 +1,6 @@
 [
     {
-        "name": "monorepo-private",
+        "name": "monorepo",
         "paths": ["./apps", "./libs", "./docs"]
     }
 ]

@@ -12,7 +12,7 @@ stages:
   - pnpm config set store-dir .pnpm-store
   - nci
 
-.pnpm-store-cache: &pnpm-store-cache
+.cache: &cache
   cache:
     key: pnpm-store
     paths:
@@ -24,7 +24,7 @@ stages:
   services:
     - name: docker:25.0.3-dind
       alias: docker-service
-  <<: *pnpm-store-cache
+  <<: *cache
   variables:
     DOCKER_HOST: tcp://docker-service:2375/
     DOCKER_TLS_CERTDIR: ""
@@ -34,22 +34,11 @@ stages:
     - docker info
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
     - nr docker:build-workspace
-    - touch apps/server/.env apps/server/music/.env apps/server/scoreboard/.env.local
-
-.ssh: &ssh
-  image: alpine:latest
-  before_script:
-    - apk add openssh-client
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - grep "${KNOWN_HOST_PUB}" ~/.ssh/known_hosts || echo "${KNOWN_HOST_PUB}" > ~/.ssh/known_hosts
-    - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
-    - chmod 400 ~/.ssh/id_rsa
 
 nx-workspace:
   image: node:20-alpine
   stage: nx
-  <<: *pnpm-store-cache
+  <<: *cache
   before_script:
     - *nx-install
   script:
@@ -82,51 +71,41 @@ sonarqube-scanner:
     - master
   resource_group: single
 
-copy-env:
-  <<: *ssh
-  stage: env
-  script:
-    - scp .env ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/../.env
-  only:
-    - master
-  resource_group: single
-
-docker:
+deploy:
   <<: *docker
   script:
+    # ssh
+    - apk add openssh-client
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - grep "${KNOWN_HOST_PUB}" ~/.ssh/known_hosts || echo "${KNOWN_HOST_PUB}" > ~/.ssh/known_hosts
+    - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+    - chmod 400 ~/.ssh/id_rsa
+
+    # copy root env
+    - scp .env ${SSH_USER}@${SSH_HOST}:/opt/monorepo/.env
+
+    # build images
+    - npx nx run-many -t pre-docker
     - npx nx affected --base=remotes/origin/master~1 -t build-image --parallel 1
     - npx nx build-image server-documentation
     - npx nx build-image server-renovate
-  only:
-    - master
-  resource_group: single
 
-run-renovate:
-  <<: *ssh
-  stage: renovate
-  script:
-    - scp ./apps/server/renovate/docker-compose.yml ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/renovate
-    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/renovate/docker-compose.yml --env-file ${SSH_PATH}/../.env --env-file ${SSH_PATH}/.env --env-file ${SSH_PATH}/renovate/.env  up --pull always renovate
-  only:
-    - master
-  resource_group: single
-
-deploy:
-  <<: *ssh
-  stage: deploy
-  script:
     # copy misc scripts
-    - scp ./libs/server/scripts/misc/*.sh ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
-    - ssh ${SSH_USER}@${SSH_HOST} chmod +x ${SSH_PATH}/*.sh
-    - ssh ${SSH_USER}@${SSH_HOST} chown ${SSH_SCRIPT_OWNER}:${SSH_SCRIPT_OWNER} ${SSH_PATH}/*.sh
-    # cron
-    - ssh ${SSH_USER}@${SSH_HOST} mkdir -p /tmp/scripts/cron.d
-    - scp ./libs/server/scripts/etc/cron.d/* ${SSH_USER}@${SSH_HOST}:/tmp/scripts/cron.d
-    - ssh ${SSH_USER}@${SSH_HOST} mv /tmp/scripts/cron.d/* /etc/cron.d/
-    # copy compose file, pull and run docker containers
-    - scp ./apps/server/docker-compose.yml ${SSH_USER}@${SSH_HOST}:${SSH_PATH}/
+    - scp -rp ./libs/server/scripts/* ${SSH_USER}@${SSH_HOST}:/
+
+    # copy deploy targets, pull and run docker containers
+    - nx run-many -t deploy
+    - scp -rp ./deploy/* ${SSH_USER}@${SSH_HOST}:/
+
+    # docker login
     - ssh ${SSH_USER}@${SSH_HOST} docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
-    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f ${SSH_PATH}/docker-compose.yml up -d --pull always --remove-orphans
+
+    # run deploy commands
+    - nr deploy-commands
+    - scp deploy-commands.sh ${SSH_USER}@${SSH_HOST}:/tmp
+    - chmod +x /tmp/deploy-commands.sh
+    - ssh ${SSH_USER}@${SSH_HOST} /tmp/deploy-commands.sh
   only:
     - master
   resource_group: single

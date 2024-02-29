@@ -1,18 +1,18 @@
 {
-    "name": "monorepo-private",
+    "name": "monorepo",
     "version": "0.0.0",
-    "description": "A private monorepo with many projects to speed up development.",
+    "description": "Monorepo of Justin Konratt",
     "keywords": [
         "nx",
         "monorepo",
         "codesdowork"
     ],
-    "homepage": "https://github.com/CodesDoWork/monorepo-private",
+    "homepage": "https://github.com/CodesDoWork/monorepo",
     "bugs": {
-        "url": "https://github.com/CodesDoWork/monorepo-private/issues",
+        "url": "https://github.com/CodesDoWork/monorepo/issues",
         "email": "codesdowork@gmail.com"
     },
-    "license": "UNLICENSE",
+    "license": "MIT",
     "private": true,
     "author": {
         "name": "Justin Konratt",
@@ -21,7 +21,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/CodesDoWork/monorepo-private.git"
+        "url": "https://github.com/CodesDoWork/monorepo.git"
     },
     "scripts": {
         "build": "nx run-many -t build",
@@ -31,7 +31,9 @@
         "test": "nx run-many -t test",
         "format": "nx format",
         "format:check": "nx format:check",
-        "check": "pnpm run format:check && pnpm run lint && pnpm run test && pnpm run build"
+        "check": "pnpm run format:check && pnpm run lint && pnpm run test && pnpm run build",
+        "deploy-commands": "nx run-many -t deploy-command --parallel 1 | grep -v \"^[[:space:]]\\|^>\" | grep -v \"^$\" > deploy-commands.sh",
+        "secretlint": "secretlint --secretlintignore .gitignore \"**/*\""
     },
     "devDependencies": {
         "@iconify/svelte": "^3.1.6",
@@ -47,6 +49,7 @@
         "@nx/vite": "18.0.4",
         "@nx/web": "18.0.4",
         "@nx/workspace": "18.0.4",
+        "@secretlint/secretlint-rule-preset-recommend": "^8.1.2",
         "@sveltejs/adapter-node": "^4.0.1",
         "@sveltejs/kit": "^2.5.0",
         "@sveltejs/vite-plugin-svelte": "^3.0.2",
@@ -93,10 +96,12 @@
         "prettier": "^3.2.5",
         "replace-in-files-cli": "^2.2.0",
         "rimraf": "^5.0.5",
+        "secretlint": "^8.1.2",
         "stream-browserify": "^3.0.0",
         "svelte": "^4.2.11",
         "svelte-check": "^3.6.4",
         "tailwindcss": "^3.4.1",
+        "touch": "^3.1.0",
         "ts-jest": "29.1.2",
         "ts-node": "10.9.2",
         "typedoc": "^0.25.8",

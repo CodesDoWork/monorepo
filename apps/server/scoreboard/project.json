@@ -36,6 +36,12 @@
                 }
             }
         },
+        "pre-docker": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "touch ./apps/server/scoreboard/.env.local"
+            }
+        },
         "export": {
             "executor": "@nx/next:export",
             "options": {

@@ -1,1 +1,1 @@
-0 */4 * * * root docker compose -f /home/jkonratt/server/renovate/docker-compose.yml --env-file /home/jkonratt/.env --env-file /home/jkonratt/server/.env --env-file /home/jkonratt/server/renovate/.env up
+0 */4 * * * root docker compose -f /opt/monorepo/server/renovate/docker-compose.yml --env-file /opt/monorepo/.env --env-file /opt/monorepo/server/.env --env-file /opt/monorepo/server/renovate/.env up

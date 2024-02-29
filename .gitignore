@@ -41,6 +41,14 @@ Thumbs.db
 # Next.js
 .next
 .env.local
-/apps/server/.env
 
 .nx/cache
+
+# outputs
+/deploy
+/deploy-commands.sh
+
+# envs
+/apps/server/.env
+/apps/server/just-site/.env
+/apps/server/renovate/.env

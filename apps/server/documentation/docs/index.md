@@ -14,7 +14,7 @@ hero:
       link: /Getting Started.html
     - theme: alt
       text: View on GitHub
-      link: https://github.com/CodesDoWork/monorepo-private
+      link: https://github.com/CodesDoWork/monorepo
 
 features:
   - icon: ⚡️

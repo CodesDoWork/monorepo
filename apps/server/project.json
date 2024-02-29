@@ -1,0 +1,26 @@
+{
+    "name": "server",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "targets": {
+        "pre-docker": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "touch ./apps/server/.env"
+            }
+        },
+        "deploy": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "copyfiles ./apps/server/docker-compose.yml -u 2 ./deploy/opt/monorepo/server"
+            }
+        },
+        "deploy-command": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "echo docker compose -f /opt/monorepo/server/docker-compose.yml up -d --pull always --remove-orphans"
+            }
+        }
+    },
+    "tags": []
+}

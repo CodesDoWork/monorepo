@@ -30,5 +30,5 @@
             "shared/web/utils": ["libs/shared/web/utils/src/index.ts"]
         }
     },
-    "exclude": ["node_modules", "tmp"]
+    "exclude": ["node_modules", "tmp", "apps/server/just-site"]
 }

@@ -3,6 +3,7 @@ import type { MyBook } from "./Book";
 
 export interface Config {
     title: string;
+    keywords: string;
     githubUser: string;
     routeLinks: RouteLink[];
     footerInfo: FooterInfo;

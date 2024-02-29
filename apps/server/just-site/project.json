@@ -7,25 +7,29 @@
         "build": {
             "executor": "nx:run-commands",
             "options": {
-                "commands": ["cd apps/server/just-site && vite build --config vite-config.js"]
+                "command": "vite build --config vite-config.ts",
+                "cwd": "apps/server/just-site"
             }
         },
         "serve": {
             "executor": "nx:run-commands",
             "options": {
-                "commands": ["cd apps/server/just-site && vite dev --config vite-config.js"]
+                "command": "vite dev --config vite-config.ts",
+                "cwd": "apps/server/just-site"
             }
         },
         "preview": {
             "executor": "nx:run-commands",
             "options": {
-                "commands": ["cd apps/server/just-site && vite preview --config vite-config.js"]
+                "command": "vite preview --config vite-config.ts",
+                "cwd": "apps/server/just-site"
             }
         },
         "pre-docker": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "node ./apps/server/just-site/copy-env.js"
+                "command": "node copy-env.js",
+                "cwd": "apps/server/just-site"
             }
         },
         "lint": {
@@ -40,6 +44,20 @@
             "options": {
                 "command": "svelte-check",
                 "cwd": "apps/server/just-site"
+            }
+        },
+        "build-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose build just-site --push",
+                "cwd": "apps/server"
+            }
+        },
+        "run-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose up -d just-site",
+                "cwd": "apps/server"
             }
         }
     },

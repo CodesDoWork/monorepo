@@ -3,7 +3,7 @@ import type { Project } from "../../types/Project";
 import type { PageServerLoad } from "./$types";
 import { env } from "../../env";
 
-export const prerender = true;
+// export const prerender = true;
 
 const makeProjectList = async (ghResponse: unknown): Promise<Project[]> => {
     if (!ghResponse || !Array.isArray(ghResponse)) {

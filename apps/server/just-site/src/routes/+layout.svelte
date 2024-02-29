@@ -14,7 +14,17 @@
 
 <svelte:head>
     <title>{title}</title>
+    <meta content="Your Passionate Dev and Student of Life" name={$currentRoute.description} />
+    <meta content={config.keywords} name="keywords" />
     <meta content={themeColor} name="theme-color" />
+    <meta content={title} property="og:title">
+    <meta content="website" property="og:type" />
+    <meta content={$currentRoute.description} property="og:description">
+    <meta content="https://justinkonratt.com" property="og:url">
+    <meta content="summary" name="twitter:card">
+    <meta content={title} property="og:site_name">
+    <!-- <meta content="<needed>" property="og:image"> -->
+    <!-- <meta content="Alt text for image" name="twitter:image:alt"> -->
 </svelte:head>
 
 <div class="relative overflow-x-hidden bg-gradient-to-b from-primary-400 from-5% to-secondary-400 to-95% dark:from-primary-950 dark:to-secondary-950 transition-colors">

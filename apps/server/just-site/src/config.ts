@@ -10,12 +10,13 @@ function link(name: string, href: string) {
 
 export const config: Config = {
     title: "Justin Konratt",
+    keywords: "dev developer competition learning self-development personality",
     githubUser: "CodesDoWork",
     routeLinks: [
         {
             label: "Home",
             route: "/",
-            description: "Home Page",
+            description: "Your Passionate Dev and Student of Life",
             isHero: true,
         },
         {

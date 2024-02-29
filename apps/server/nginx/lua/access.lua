@@ -1,4 +1,4 @@
-local domain = os.getenv("DOMAIN")
+local domain = os.getenv("AUTH_DOMAIN")
 local realm = os.getenv("AUTH_REALM")
 
 local client_id = os.getenv("NGINX_AUTH_CLIENT_ID")
@@ -7,13 +7,12 @@ local client_secret = os.getenv("NGINX_AUTH_CLIENT_SECRET")
 local username_header = os.getenv("NGINX_AUTH_USERNAME_HEADER")
 
 local opts = {
-    redirect_uri_path = "/callback-auth",
+    redirect_uri = "/callback-auth",
     accept_none_alg = true,
-    discovery = "https://" .. domain .. "/auth/realms/" .. realm .. "/.well-known/openid-configuration",
+    discovery = "https://" .. domain .. "/realms/" .. realm .. "/.well-known/openid-configuration",
     client_id = client_id,
     client_secret = client_secret,
-    logout_path = "/logout",
-    redirect_after_logout_uri = "https://" .. domain .. "/auth/realms/" .. realm .. "/protocol/openid-connect/logout",
+    logout_path = "/callback-logout",
     session_contents = { id_token = true },
     ssl_verify = "no"
 }

@@ -37,9 +37,7 @@ export const Content = ({ session }: ContentProps) => {
     const showBackButton = stage > Stage.Login;
 
     return (
-        <SessionProvider
-            session={session}
-            basePath={`${process.env.NEXT_PUBLIC_BASE_PATH}/api/auth`}>
+        <SessionProvider session={session} basePath={"/api/auth"}>
             <header className="z-10 w-full p-3">
                 <nav className="flex justify-between">
                     {showBackButton ? <IconButton onClick={goBack} Icon={BiArrowBack} /> : <span />}

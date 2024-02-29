@@ -6,7 +6,6 @@ export const env = createEnv({
         AUTH_CLIENT_ID: z.string(),
         AUTH_CLIENT_SECRET: z.string(),
         AUTH_ISSUER: z.string(),
-        BASE_PATH: z.string().optional().default(""),
         NEXTAUTH_URL: z.string(),
         NEXTAUTH_SECRET: z.string(),
         PG_USER: z.string(),

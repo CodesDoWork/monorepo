@@ -13,9 +13,7 @@ services:
       - --db-url-host=db
       - --db-username=${DB_USER}
       - --db-password=${DB_PASSWORD}
-      - --hostname-path=${AUTH_BASE}
       - --hostname-strict=false
-      - --http-relative-path=${AUTH_BASE}
       - --http-enabled=true
       - --health-enabled=true
       - --metrics-enabled=true
@@ -116,9 +114,9 @@ services:
 
   docker-registry:
     environment:
-      - REGISTRY_AUTH_TOKEN_REALM=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}/protocol/docker-v2/auth
+      - REGISTRY_AUTH_TOKEN_REALM=https://${AUTH_DOMAIN}/realms/${AUTH_REALM}/protocol/docker-v2/auth
       - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
-      - REGISTRY_AUTH_TOKEN_ISSUER=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}
+      - REGISTRY_AUTH_TOKEN_ISSUER=https://${AUTH_DOMAIN}/realms/${AUTH_REALM}
       - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/opt/certs/trust_chain.pem # exported from keycloak
     healthcheck:
       test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
@@ -153,7 +151,7 @@ services:
   gitlab:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://${DOMAIN}${GITLAB_BASE}'
+        external_url 'https://${GITLAB_DOMAIN}'
         letsencrypt['enabled'] = false
         nginx['enable'] = true
         nginx['listen_https'] = false
@@ -181,13 +179,13 @@ services:
               "scope" => ["openid", "profile", "email"],
               "uid_field" => "email",
               "response_type" => "code",
-              "issuer" => "https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}",
+              "issuer" => "https://${AUTH_DOMAIN}/realms/${AUTH_REALM}",
               "discovery" => true,
               "client_auth_method" => "query",
               "client_options" => {
                 "identifier" => "${GITLAB_AUTH_CLIENT_ID}",
                 "secret" => "${GITLAB_AUTH_CLIENT_SECRET}",
-                "redirect_uri" => "https://${DOMAIN}${GITLAB_BASE}/users/auth/openid_connect/callback"
+                "redirect_uri" => "https://${GITLAB_DOMAIN}/users/auth/openid_connect/callback"
               }
             }
           }
@@ -265,7 +263,6 @@ services:
     env_file:
       - ./music/.env
     environment:
-      - ND_BASEURL=${MUSIC_BASE}
       - ND_PORT=${MUSIC_PORT}
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
       - ND_REVERSEPROXYWHITELIST=${MUSIC_SUBNET}
@@ -283,11 +280,10 @@ services:
       context: ../..
       dockerfile: apps/server/music-downloader/Dockerfile
     environment:
-      - NEXT_PUBLIC_BASE_PATH=${MUSIC_DOWNLOADER_BASE}
       - DOWNLOAD_DIR=/music/downloads
       - PORT=${MUSIC_DOWNLOADER_PORT}
     healthcheck:
-      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}${MUSIC_DOWNLOADER_BASE}/api/trpc/health?input={} || exit 1
+      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/server-music-downloader
     networks:
       - music
@@ -346,8 +342,6 @@ services:
       - ./certs:/etc/nginx/ssl:ro
 
   portainer:
-    command:
-      - --base-url="${PORTAINER_BASE}"
     image: portainer/portainer-ce:latest
     networks:
       - portainer
@@ -374,19 +368,10 @@ services:
       <<: *build-args
       context: ../..
       dockerfile: apps/server/scoreboard/Dockerfile
-    environment:
-      - PORT=${SCOREBOARD_PORT}
-      - PG_PASSWORD=${DB_PASSWORD}
-      - NEXTAUTH_URL=https://${DOMAIN}${SCOREBOARD_BASE}/api/auth
-      - NEXT_PUBLIC_API=https://${DOMAIN}${SCOREBOARD_BASE}
-      - BASE_PATH=${SCOREBOARD_BASE}
-      - AUTH_CLIENT_ID=${SCOREBOARD_AUTH_CLIENT_ID}
-      - AUTH_CLIENT_SECRET=${SCOREBOARD_AUTH_CLIENT_SECRET}
-      - AUTH_ISSUER=https://${DOMAIN}${AUTH_BASE}/realms/${AUTH_REALM}
     env_file:
       - scoreboard/.env.local
     healthcheck:
-      test: wget -qO- http://localhost:${SCOREBOARD_PORT}${SCOREBOARD_BASE}/api/trpc/health?input={} || exit 1
+      test: wget -qO- http://localhost:${SCOREBOARD_PORT}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/server-scoreboard
     networks:
       - scoreboard
@@ -397,9 +382,8 @@ services:
       - SONAR_JDBC_USERNAME=${DB_USER}
       - SONAR_JDBC_PASSWORD=${DB_PASSWORD}
       - SONAR_JDBC_URL=jdbc:postgresql://db:5432/sonarqube
-      - SONAR_WEB_CONTEXT=${SONARQUBE_BASE}
     healthcheck:
-      test: wget -qO- http://localhost:9000${SONARQUBE_BASE}/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
+      test: wget -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
     image: sonarqube:10-community
     networks:
       - cicd

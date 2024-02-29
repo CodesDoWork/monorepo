@@ -7,4 +7,4 @@ It provides a Spotify-ish web interface that is used to play your own music.
 
 ## URL
 
-You can reach this service via [https://justin.konratts.de/music](https://justin.konratts.de/music).
+You can reach this service via [https://music.justinkonratt.com](https://music.justinkonratt.com).

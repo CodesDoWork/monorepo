@@ -10,16 +10,4 @@ export const authOptions: AuthOptions = {
             issuer: env.AUTH_ISSUER,
         }),
     ],
-    callbacks: {
-        async redirect({ url }) {
-            const origin = new URL(url).origin;
-            const baseUrl = `${origin}${env.BASE_PATH}`;
-            if (url.startsWith(baseUrl)) {
-                return url;
-            }
-
-            const rest = url.substring(origin.length);
-            return `${baseUrl}${rest}`;
-        },
-    },
 };

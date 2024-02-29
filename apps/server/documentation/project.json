@@ -11,7 +11,7 @@
                     "copyfiles -u 4 libs/branding/assets/img/icon.svg apps/server/documentation/docs/public",
                     "copyfiles -u 4 libs/branding/assets/favicon/favicon.ico apps/server/documentation/docs/public",
                     "rimraf ./apps/server/documentation/docs/projects",
-                    "node ./apps/server/documentation/create-project-docs.mjs && vitepress build --base /docs/ apps/server/documentation/docs"
+                    "node ./apps/server/documentation/create-project-docs.mjs && vitepress build apps/server/documentation/docs"
                 ]
             }
         },

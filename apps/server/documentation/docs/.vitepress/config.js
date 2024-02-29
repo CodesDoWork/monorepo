@@ -1,12 +1,5 @@
-import { config } from "dotenv";
 import { withMermaid } from "vitepress-plugin-mermaid";
 import { getSidebar } from "vitepress-plugin-auto-sidebar";
-
-config();
-
-const base = process.env["BASE_PATH"] || "/";
-
-const withBase = path => (base.endsWith("/") ? `${base}${path.substring(1)}` : base + path);
 
 let sidebar = getSidebar({
     contentRoot: ".",
@@ -23,13 +16,12 @@ sidebar = JSON.parse(
 sidebar = sidebar[0].items.filter(item => !/About|Index/.test(item.text));
 
 export default withMermaid({
-    base,
     title: "Server Docs",
     lang: "en-US",
     outDir: "../../../../dist/apps/server/documentation",
     lastUpdated: true,
     ignoreDeadLinks: true,
-    head: [["link", { rel: "shortcut icon", href: withBase("/favicon.ico") }]],
+    head: [["link", { rel: "shortcut icon", href: "/favicon.ico" }]],
     themeConfig: {
         siteTitle: "Server Docs",
         logo: "/icon.svg",
@@ -70,7 +62,7 @@ export default withMermaid({
                         '\tc16.672-19.398,34.263-45.395,47.742-78.03h40.99C403.684,394.146,372.945,421.258,336.576,438.54z"/>\n' +
                         "</svg>",
                 },
-                link: "https://justin.konratts.de",
+                link: "https://justinkonratt.com",
             },
         ],
         sidebar,

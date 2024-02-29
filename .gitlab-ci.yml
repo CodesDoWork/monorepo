@@ -101,7 +101,8 @@ deploy:
     # run deploy commands
     - nr deploy-commands
     - scp deploy-commands.sh ${SSH_USER}@${SSH_HOST}:/tmp
-    - ssh ${SSH_USER}@${SSH_HOST} chmod +x /tmp/deploy-commands.sh && /tmp/deploy-commands.sh
+    - ssh ${SSH_USER}@${SSH_HOST} chmod +x /tmp/deploy-commands.sh
+    - ssh ${SSH_USER}@${SSH_HOST} /tmp/deploy-commands.sh
   only:
     - master
   resource_group: single

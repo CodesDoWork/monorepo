@@ -67,6 +67,10 @@ export const config: Config = {
             thumbnail: "/img/thumbnails/blz-it.png",
         },
         {
+            name: "monorepo",
+            thumbnail: "/img/thumbnails/monorepo.png",
+        },
+        {
             name: "StarRun",
             thumbnail: "/img/thumbnails/StarRun.png",
         },

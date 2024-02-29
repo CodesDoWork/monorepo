@@ -14,8 +14,15 @@
         el && el.scrollIntoView({ behavior: "smooth" });
     }
 
+    const handleClick = (event) => {
+        if (smoothScroll) {
+            event.preventDefault();
+            scrollTo(event);
+        }
+    };
+
     $: aClass = clsx(
-        "font-mono transition rounded-md",
+        "font-mono transition rounded-md ",
         button && [
             "dark:text-white p-3",
             "bg-white dark:bg-opacity-10",
@@ -34,7 +41,7 @@
 
 <a class={aClass}
    href={href}
-   on:click|preventDefault={smoothScroll ? scrollTo : undefined}
+   on:click={handleClick}
    rel={external ? "noopener" : undefined}
    target={external ? "_blank" : undefined}
    title={title}>

@@ -251,8 +251,6 @@ services:
       - PORT=${SCOREBOARD_PORT}
     env_file:
       - ./just-site/.env
-    healthcheck:
-      test: wget -qO- http://localhost:${JUST_SITE_PORT} || exit 1
     image: ${IMAGE_BASE}/server-just-site
     networks:
       - web

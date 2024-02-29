@@ -1,13 +1,13 @@
 import type { Actions } from "./$types/Actions";
-import { SMTP_HOST, SMTP_PASSWORD, SMTP_PORT, SMTP_USER } from "$env/static/private";
 import { SMTPClient } from "emailjs";
 import { config } from "../../config";
+import { env } from "../../env";
 
 const client = new SMTPClient({
-    user: SMTP_USER,
-    password: SMTP_PASSWORD,
-    host: SMTP_HOST,
-    port: SMTP_PORT,
+    user: env.SMTP_USER,
+    password: env.SMTP_PASSWORD,
+    host: env.SMTP_HOST,
+    port: env.SMTP_PORT,
     tls: true,
 });
 

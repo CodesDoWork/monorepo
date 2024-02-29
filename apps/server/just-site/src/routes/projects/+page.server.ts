@@ -1,7 +1,7 @@
 import { config } from "../../config";
-import { GITHUB_TOKEN } from "$env/static/private";
 import type { Project } from "../../types/Project";
 import type { PageServerLoad } from "./$types";
+import { env } from "../../env";
 
 export const prerender = true;
 
@@ -45,7 +45,7 @@ const makeProjectList = async (ghResponse: unknown): Promise<Project[]> => {
 
 export const load: PageServerLoad = async ({ fetch }) => {
     const githubRequest = {
-        headers: GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : {},
+        headers: env.GITHUB_TOKEN ? { Authorization: `Bearer ${env.GITHUB_TOKEN}` } : {},
     };
 
     const repos = await fetch("https://api.github.com/user/repos", githubRequest)

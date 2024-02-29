@@ -1,9 +1,6 @@
 stages:
   - nx
   - lint
-  - env
-  - docker
-  - renovate
   - deploy
 
 .nx-install: &nx-install
@@ -20,7 +17,7 @@ stages:
 
 .docker: &docker
   image: docker:25.0.3
-  stage: docker
+  stage: deploy
   services:
     - name: docker:25.0.3-dind
       alias: docker-service
@@ -95,7 +92,7 @@ deploy:
     - scp -rp ./libs/server/scripts/* ${SSH_USER}@${SSH_HOST}:/
 
     # copy deploy targets, pull and run docker containers
-    - nx run-many -t deploy
+    - npx nx run-many -t deploy
     - scp -rp ./deploy/* ${SSH_USER}@${SSH_HOST}:/
 
     # docker login

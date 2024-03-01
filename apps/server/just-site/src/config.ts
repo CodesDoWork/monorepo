@@ -167,8 +167,7 @@ export const config: Config = {
                 jobTitle: "Software Developer (Dual Student)",
                 company: "Clausohm",
                 companyUrl: "https://www.clausohm.de",
-                companyLogo:
-                    "https://scontent-fra5-1.xx.fbcdn.net/v/t39.30808-1/294027622_467511505381533_7852819253614189418_n.png?stp=dst-png_p200x200&_nc_cat=100&ccb=1-7&_nc_sid=596444&_nc_ohc=uLSZDnWrwI4AX_BafSa&_nc_ht=scontent-fra5-1.xx&oh=00_AfCMCbNLpJcZMW4jfU_Mtje8CjWf-ZMQGuJfjV820qmfzw&oe=65E0DA1D",
+                companyLogo: "/img/logos/csw.webp",
                 datesWorked: "2020 - present",
                 responsibilities: `Since I'm only a dual student, I and can just work on projects for a limited time. In the practical semester I could massively learn from working on a project for a long time!`,
                 projectType: "Projects",

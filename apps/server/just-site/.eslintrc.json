@@ -1,11 +1,6 @@
 {
     "parser": "@typescript-eslint/parser",
-    "extends": [
-        "../../../.eslintrc.json",
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "prettier"
-    ],
+    "extends": ["../../../.eslintrc.json"],
     "plugins": ["svelte3", "@typescript-eslint"],
     "ignorePatterns": ["!**/*", "*.cjs", "vite.config.ts", "node_modules", ".svelte-kit"],
     "overrides": [

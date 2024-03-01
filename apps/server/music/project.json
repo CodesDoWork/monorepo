@@ -8,6 +8,12 @@
             "options": {
                 "command": "touch ./apps/server/music/.env"
             }
+        },
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "echo no linting"
+            }
         }
     },
     "tags": []

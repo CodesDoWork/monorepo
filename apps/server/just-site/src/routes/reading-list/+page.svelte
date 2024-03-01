@@ -5,6 +5,7 @@
     import Heading from "../../components/Heading.svelte";
     import Link from "../../components/Link.svelte";
     import BookCategory from "../../components/BookCategory.svelte";
+    import { toLinkFriendly } from "../../helpers/toLinkFriendly";
 
     const { readingList } = config;
     const bookData = useBookData(readingList);
@@ -21,12 +22,12 @@
 <Page loading={loading} title={{title: "Reading List", small: true}}>
     <p class="mb-2 italic">
         Here are some of the books I've read. I tagged my recommendations and added ratings based on my
-        personal opinion. I didn't include every book I've read in the list because not every book is worth it.<br/>
+        personal opinion. I didn't include every book I've read in the list because not every book is worth it.<br />
         Regardless of the relative rating, every book on this list is great and worth reading.
         More books are about to come soon, since I just can't (don't want to) stop reading.
     </p>
     <p class="text-red-500 mb-4">
-        ⚠️<b>Warning</b>⚠️<br/>
+        ⚠️<b>Warning</b>⚠️<br />
         Always apply your own truth and critical thinking.
     </p>
     <Heading level="h3">Categories</Heading>
@@ -36,7 +37,11 @@
         </li>
         {#each categories as category}
             <li>
-                <Link title={category} href={`#${category}`} smoothScroll>{category}</Link>
+                <Link title={category}
+                      href={`#${toLinkFriendly(category)}`}
+                      smoothScroll>
+                    {category}
+                </Link>
             </li>
         {/each}
     </ol>

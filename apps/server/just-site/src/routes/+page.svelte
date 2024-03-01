@@ -6,6 +6,7 @@
     import Card from "../components/Card.svelte";
     import Page from "../components/Page.svelte";
     import { getSocials } from "../helpers/getSocials";
+    import { clsx } from "clsx";
 
     const socials = getSocials();
     const { routeLinks } = config;
@@ -13,6 +14,13 @@
     const findRouteColor = (route: string) => {
         return routeLinks?.find((r) => r.route === route)?.color || "var(--accent)";
     };
+
+    const headingClass = clsx(
+        "m-4 sm:m-5 md:m-6",
+        "group-hover:mt-2 group-hover:mb-6 sm:group-hover:mb-8 md:group-hover:mt-4 lg:group-hover:mt-3",
+        "cursor-pointer !mb-0 dark:!text-white group-hover:!text-[var(--hover-color)]",
+        "!transition-all"
+    );
 </script>
 
 <Page title={{title: config.title, class: "dark:text-primary-500"}}>
@@ -26,16 +34,16 @@
             </Link>
         {/each}
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-4/5 sm:w-3/4 md:w-11/12 lg:w-full xl:w-3/4 mx-auto">
+    <div class="grid grid-cols-1 grid-rows-[repeat(10,5rem)] md:grid-cols-2 gap-4 w-4/5 sm:w-3/4 md:w-11/12 lg:w-full xl:w-3/4 mx-auto">
         {#each homePageLinks as navLink, idx (idx)}
             <Card style={`--hover-color: ${findRouteColor(navLink.route)}; animation-delay: ${idx * 0.1}s;`}
-                  class="group border-l-4 hover:border-l-8 border-[var(--hover-color)] !outline-0 !hover:outline-0">
+                  class="flex group border-l-4 hover:border-l-8 border-[var(--hover-color)] !outline-0 !hover:outline-0">
                 <a
-                    class="p-4 sm:p-5 md:p-6 md:h-20 w-full hover:pt-2 hover:pb-6 sm:hover:pb-8 md:hover:pt-4 lg:hover:pt-3 transition-all"
+                    class="flex flex-col w-full h-full"
                     href={navLink.route}>
-                    <Heading class="cursor-pointer !mb-0 dark:!text-white group-hover:!text-[var(--hover-color)]"
+                    <Heading class={headingClass}
                              level="h3">{navLink.label}</Heading>
-                    <p class="text-0 h-0 text-slate-600 dark:text-slate-300 sm:group-hover:text-sm lg:group-hover:text-base transition-fontSize">{navLink.description}</p>
+                    <p class="text-0 h-0 text-slate-600 dark:text-slate-300 sm:group-hover:text-sm lg:group-hover:text-base transition-fontSize ml-4 sm:ml-5 md:ml-6">{navLink.description}</p>
                 </a>
             </Card>
         {/each}

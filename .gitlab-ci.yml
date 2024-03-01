@@ -42,6 +42,7 @@ nx-workspace:
     - npx nx affected -t format:check
     - npx nx affected -t lint
     - npx nx affected -t test
+    - npx nx affected -t pre-build
     - npx nx affected -t build -c production
   except:
     - master
@@ -83,7 +84,7 @@ deploy:
     - scp .env ${SSH_USER}@${SSH_HOST}:/opt/monorepo/.env
 
     # build images
-    - npx nx run-many -t pre-docker
+    - npx nx run-many -t pre-build
     - npx nx affected --base=remotes/origin/master~1 -t build-image --parallel 1
     - npx nx build-image server-documentation
     - npx nx build-image server-renovate

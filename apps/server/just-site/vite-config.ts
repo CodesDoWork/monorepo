@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 import { defineConfig } from "vite";
 import { sveltekit } from "@sveltejs/kit/vite";
+import { sentrySvelteKit } from "@sentry/sveltekit";
 import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 
 const pathParts = process.cwd().split(/[\\/]/);
@@ -24,7 +25,7 @@ export default defineConfig({
         host: "localhost",
     },
 
-    plugins: [sveltekit(), nxViteTsPaths()],
+    plugins: [sentrySvelteKit(), sveltekit(), nxViteTsPaths()],
 
     // Uncomment this if you are using workers.
     // worker: {

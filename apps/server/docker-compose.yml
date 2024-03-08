@@ -43,11 +43,13 @@ services:
       - ${BACKUP_VOLUME_PATH}/.snapshots:/.snapshots
       # - ${BACKUP_PC_PATH}:/data/pc:ro
       - bitwarden-data:/data/services/bitwarden/data:ro
+      - ghost-content:/data/services/ghost/content:ro
       - gitlab-config:/data/services/gitlab/config:ro
       - gitlab-data:/data/services/gitlab/data:ro
       - gitlab-runner-config:/data/services/gitlab-runner/config:ro
       - grafana-storage:/data/services/grafana/storage:ro
       - grafana-config:/data/services/grafana/config:ro
+      - mysql-data:/data/services/mysql/data:ro
       - navidrome-data:/data/services/navidrome/data:ro
       - netdata-config:/data/services/netdata/config:ro
       - netdata-lib:/data/services/netdata/lib:ro
@@ -219,6 +221,25 @@ services:
       - gitlab-config:/etc/gitlab
       - gitlab-data:/var/opt/gitlab
 
+  ghost:
+    image: ghost:5
+    cap_add:
+      - CAP_SYS_NICE
+    security_opt:
+      - seccomp:unconfined
+    restart: unless-stopped
+    depends_on:
+      - mysql
+    environment:
+      url: https://${GHOST_DOMAIN}
+      database__client: mysql
+      database__connection__host: mysql
+      database__connection__user: root
+      database__connection__password: ${MYSQL_PASS}
+      database__connection__database: ghost
+    volumes:
+      - ghost-content:/var/lib/ghost/content
+
   gitlab-runner:
     image: gitlab/gitlab-runner
     restart: unless-stopped
@@ -289,6 +310,17 @@ services:
     restart: unless-stopped
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
+
+  mysql:
+    image: mysql:8
+    security_opt:
+      - seccomp:unconfined
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
+    volumes:
+      - mysql-data:/var/lib/mysql
 
   netdata:
     cap_add:
@@ -402,12 +434,16 @@ volumes:
 
   docker-registry:
 
+  ghost-content:
+
   gitlab-config:
   gitlab-data:
   gitlab-runner-config:
 
   grafana-storage:
   grafana-config:
+
+  mysql-data:
 
   navidrome-data:
 

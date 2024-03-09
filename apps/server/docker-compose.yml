@@ -26,8 +26,6 @@ services:
       - KEYCLOAK_ADMIN=${AUTH_USER}
       - KEYCLOAK_ADMIN_PASSWORD=${AUTH_PASSWORD}
     image: quay.io/keycloak/keycloak:23.0.6
-    networks:
-      - auth
     restart: unless-stopped
 
   backup-service:
@@ -79,8 +77,6 @@ services:
       - SMTP_USERNAME=${SMTP_USER}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
     image: vaultwarden/server:alpine
-    networks:
-      - auth
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
@@ -93,8 +89,6 @@ services:
       context: ../..
       dockerfile: apps/server/dashboard/Dockerfile
     image: ${IMAGE_BASE}/server-dashboard
-    networks:
-      - web
     restart: unless-stopped
 
   db:
@@ -105,10 +99,6 @@ services:
     healthcheck:
       test: pg_isready -U $DB_USER
     image: postgres:15-alpine
-    networks:
-      - auth
-      - cicd
-      - web
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
@@ -122,8 +112,6 @@ services:
     healthcheck:
       test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
     image: registry:2
-    networks:
-      - cicd
     restart: unless-stopped
     volumes:
       - docker-registry:/var/lib/registry
@@ -137,14 +125,10 @@ services:
     healthcheck:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
     image: ${IMAGE_BASE}/server-documentation
-    networks:
-      - web
     restart: unless-stopped
 
   doku:
     image: amerkurev/doku
-    networks:
-      - monitoring
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /:/hostroot:ro
@@ -213,8 +197,6 @@ services:
         }
         prometheus_monitoring['enable'] = true
     image: gitlab/gitlab-ee:latest
-    networks:
-      - cicd
     restart: unless-stopped
     shm_size: "256m"
     volumes:
@@ -256,8 +238,6 @@ services:
     healthcheck:
       test: curl -fs http://localhost:${GRAFANA_PORT}/api/health | grep "ok" || exit 1
     image: grafana/grafana
-    networks:
-      - monitoring
     restart: unless-stopped
     volumes:
       - grafana-storage:/var/lib/grafana
@@ -273,8 +253,6 @@ services:
     env_file:
       - ./just-site/.env
     image: ${IMAGE_BASE}/server-just-site
-    networks:
-      - web
     restart: unless-stopped
 
   music:
@@ -287,8 +265,6 @@ services:
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
       - ND_REVERSEPROXYWHITELIST=${MUSIC_PROXY_WHITELIST}
     image: ${IMAGE_BASE}/server-music
-    networks:
-      - web
     restart: unless-stopped
     volumes:
       - navidrome-data:/data
@@ -305,8 +281,6 @@ services:
     healthcheck:
       test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/server-music-downloader
-    networks:
-      - web
     restart: unless-stopped
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
@@ -351,23 +325,12 @@ services:
     healthcheck:
       test: curl -f http://localhost || exit 1
     image: ${IMAGE_BASE}/server-nginx
-    networks:
-      - auth
-      - cicd
-      - monitoring
-      - tunnel
-      - web
-    ports:
-      - 80:80
-      - 443:443
     restart: unless-stopped
     volumes:
       - ./certs:/etc/nginx/ssl:ro
 
   portainer:
     image: portainer/portainer-ce:latest
-    networks:
-      - monitoring
     restart: unless-stopped
     volumes:
       - portainer-data:/data
@@ -378,8 +341,6 @@ services:
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
     image: prom/prometheus
-    networks:
-      - monitoring
     restart: unless-stopped
     volumes:
       - ./prometheus:/etc/prometheus/
@@ -397,8 +358,6 @@ services:
     healthcheck:
       test: wget -qO- http://localhost:${SCOREBOARD_PORT}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/server-scoreboard
-    networks:
-      - web
     restart: unless-stopped
 
   sonarqube:
@@ -409,8 +368,6 @@ services:
     healthcheck:
       test: wget -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
     image: sonarqube:10-community
-    networks:
-      - cicd
     restart: unless-stopped
     volumes:
       - sonarqube-config:/opt/sonarqube/conf
@@ -425,8 +382,6 @@ services:
       - --token
       - ${TUNNEL_TOKEN}
     image: cloudflare/cloudflared
-    networks:
-      - tunnel
     restart: unless-stopped
 
 volumes:
@@ -460,10 +415,3 @@ volumes:
   sonarqube-config:
   sonarqube-data:
   sonarqube-extensions:
-
-networks:
-  auth:
-  cicd:
-  monitoring:
-  tunnel:
-  web:

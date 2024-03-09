@@ -50,7 +50,6 @@
         "@nx/web": "18.0.4",
         "@nx/workspace": "18.0.4",
         "@secretlint/secretlint-rule-preset-recommend": "^8.1.2",
-        "@sentry/sveltekit": "^7.106.0",
         "@sveltejs/adapter-node": "^4.0.1",
         "@sveltejs/kit": "^2.5.0",
         "@sveltejs/vite-plugin-svelte": "^3.0.2",

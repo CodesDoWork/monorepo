@@ -6,7 +6,7 @@
         "deploy-command": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "echo chmod 755 /home/jkonratt"
+                "commands": ["echo chmod 755 /home/jkonratt", "sudo chmod 600 /etc/cron.d"]
             }
         },
         "lint": {

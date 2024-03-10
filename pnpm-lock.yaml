@@ -112,7 +112,7 @@ dependencies:
     version: 1.1.0
   vitepress-plugin-mermaid:
     specifier: 2.0.10
-    version: 2.0.10(mermaid@9.1.7)(vitepress@1.0.0-rc.44)
+    version: 2.0.10(mermaid@9.1.7)(vitepress@1.0.0-rc.45)
   vue:
     specifier: ^3.4.19
     version: 3.4.19(typescript@5.3.3)
@@ -347,8 +347,8 @@ devDependencies:
     specifier: ^4.5.2
     version: 4.5.2(@types/node@20.11.25)(less@4.1.3)(stylus@0.59.0)
   vitepress:
-    specifier: 1.0.0-rc.44
-    version: 1.0.0-rc.44(@algolia/client-search@4.20.0)(@types/node@20.11.25)(@types/react@18.2.57)(axios@1.6.7)(less@4.1.3)(postcss@8.4.35)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.3.3)
+    specifier: 1.0.0-rc.45
+    version: 1.0.0-rc.45(@algolia/client-search@4.20.0)(@types/node@20.11.25)(@types/react@18.2.57)(axios@1.6.7)(less@4.1.3)(postcss@8.4.35)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.3.3)
   vitest:
     specifier: ^1.3.1
     version: 1.3.1(@types/node@20.11.25)(@vitest/ui@1.3.1)(jsdom@22.1.0)(less@4.1.3)(stylus@0.59.0)
@@ -17693,18 +17693,18 @@ packages:
     engines: {node: ^14.13.1 || ^16.7.0 || >=18}
     dev: false
 
-  /vitepress-plugin-mermaid@2.0.10(mermaid@9.1.7)(vitepress@1.0.0-rc.44):
+  /vitepress-plugin-mermaid@2.0.10(mermaid@9.1.7)(vitepress@1.0.0-rc.45):
     resolution: {integrity: sha512-sujwlcuyK5vCyS9OfH3Fwq4V723nUFWlOsezDU+RcGtqO32Y8HHXpxejibIZSed5DsL9zdjTgScRmdZYG+PsSw==}
     peerDependencies:
       mermaid: ^8.0.0 || ^9.0.0
       vitepress: ^0.21.6 || ^1.0.0 || ^1.0.0-alpha
     dependencies:
       mermaid: 9.1.7
-      vitepress: 1.0.0-rc.44(@algolia/client-search@4.20.0)(@types/node@20.11.25)(@types/react@18.2.57)(axios@1.6.7)(less@4.1.3)(postcss@8.4.35)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.3.3)
+      vitepress: 1.0.0-rc.45(@algolia/client-search@4.20.0)(@types/node@20.11.25)(@types/react@18.2.57)(axios@1.6.7)(less@4.1.3)(postcss@8.4.35)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.3.3)
     dev: false
 
-  /vitepress@1.0.0-rc.44(@algolia/client-search@4.20.0)(@types/node@20.11.25)(@types/react@18.2.57)(axios@1.6.7)(less@4.1.3)(postcss@8.4.35)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.3.3):
-    resolution: {integrity: sha512-tO5taxGI7fSpBK1D8zrZTyJJERlyU9nnt0jHSt3fywfq3VKn977Hg0wUuTkEmwXlFYwuW26+6+3xorf4nD3XvA==}
+  /vitepress@1.0.0-rc.45(@algolia/client-search@4.20.0)(@types/node@20.11.25)(@types/react@18.2.57)(axios@1.6.7)(less@4.1.3)(postcss@8.4.35)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.3.3):
+    resolution: {integrity: sha512-/OiYsu5UKpQKA2c0BAZkfyywjfauDjvXyv6Mo4Ra57m5n4Bxg1HgUGoth1CLH2vwUbR/BHvDA9zOM0RDvgeSVQ==}
     hasBin: true
     peerDependencies:
       markdown-it-mathjax3: ^4.3.2

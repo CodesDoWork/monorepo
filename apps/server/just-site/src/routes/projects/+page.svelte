@@ -29,7 +29,7 @@
                     </Heading>
                     <p class="mb-8">{repo.description || "\xa0"}</p>
                     <div class="flex flex-1 lg:items-end justify-between flex-col lg:flex-row gap-8">
-                        <div class="flex gap-3 2xl:gap-10 flex-col 2xl:flex-row items-start lg:items-center">
+                        <div class="flex gap-3 2xl:gap-10 flex-col 2xl:flex-row items-start 2xl:items-center">
                             <Technology tag="div" technology={repo.language} />
                             <div class={sectionClass}>
                                 <span class="text-lg">{repo.stars}</span>

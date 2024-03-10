@@ -219,6 +219,12 @@ services:
       database__connection__user: root
       database__connection__password: ${MYSQL_PASS}
       database__connection__database: ghost
+      mail__transport: SMTP
+      mail__options__host: smtp.gmail.com
+      mail__options__port: 587
+      mail__options__secure: true
+      mail__options__auth__user: ${SMTP_USER}
+      mail__options__auth__pass: ${SMTP_PASSWORD}
     volumes:
       - ghost-content:/var/lib/ghost/content
 

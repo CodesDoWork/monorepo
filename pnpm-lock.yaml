@@ -38,6 +38,9 @@ dependencies:
   '@trpc/server':
     specifier: ^10.45.1
     version: 10.45.1
+  '@tryghost/content-api':
+    specifier: ^1.11.20
+    version: 1.11.20
   axios:
     specifier: ^1.6.7
     version: 1.6.7
@@ -202,6 +205,9 @@ devDependencies:
   '@types/react-dom':
     specifier: 18.2.19
     version: 18.2.19
+  '@types/tryghost__content-api':
+    specifier: ^1.3.15
+    version: 1.3.15
   '@typescript-eslint/eslint-plugin':
     specifier: 7.0.2
     version: 7.0.2(@typescript-eslint/parser@7.0.2)(eslint@8.56.0)(typescript@5.3.3)
@@ -313,6 +319,9 @@ devDependencies:
   svelte-check:
     specifier: ^3.6.6
     version: 3.6.6(@babel/core@7.23.9)(less@4.1.3)(postcss@8.4.35)(stylus@0.59.0)(svelte@4.2.11)
+  svelte-infinite-scroll:
+    specifier: ^2.0.1
+    version: 2.0.1
   tailwindcss:
     specifier: ^3.4.1
     version: 3.4.1(ts-node@10.9.2)
@@ -5939,6 +5948,14 @@ packages:
     resolution: {integrity: sha512-KOzBEVaHW9IxEedUP9E50y0tYxAuvlzyjn80Bpemw4rcNbT4WtJnhkFPUY+qDJl7Crt3B/oY2qMgSxVWi9toLg==}
     dev: false
 
+  /@tryghost/content-api@1.11.20:
+    resolution: {integrity: sha512-VlCfHP4IMHjTx2iIP+xXT7lUmZalC8StSTchgrfQtIIOkbtd5lNnklqnfUuo2teI8Fag28/KwrLXRVg1g/wO+A==}
+    dependencies:
+      axios: 1.6.7
+    transitivePeerDependencies:
+      - debug
+    dev: false
+
   /@trysound/sax@0.2.0:
     resolution: {integrity: sha512-L7z9BgrNEcYyUYtF+HaEfiS5ebkh9jXqbszz7pC0hRBPaatV0XjSD3+eHrpqFemQfgwiFF0QPIarnIihIDn7OA==}
     engines: {node: '>=10.13.0'}
@@ -6477,6 +6494,10 @@ packages:
 
   /@types/tough-cookie@4.0.3:
     resolution: {integrity: sha512-THo502dA5PzG/sfQH+42Lw3fvmYkceefOspdCwpHRul8ik2Jv1K8I5OZz1AT3/rs46kwgMCe9bSBmDLYkkOMGg==}
+    dev: true
+
+  /@types/tryghost__content-api@1.3.15:
+    resolution: {integrity: sha512-v1AW67EPyx1Vhpidae1x4iXTyM4MVPOB1gOOkMXq67QzCTNSAxU3RV1M3vD5pXLKZ+oLiSRupwgLbiyihLiWBQ==}
     dev: true
 
   /@types/validator@13.11.2:
@@ -16574,6 +16595,10 @@ packages:
       svelte: ^3.19.0 || ^4.0.0
     dependencies:
       svelte: 4.2.11
+    dev: true
+
+  /svelte-infinite-scroll@2.0.1:
+    resolution: {integrity: sha512-goTHCfOHRDCs8C5MeSuIc6LlAQ8zVQ+M4Y3LyvrDjx5rqSSxSrdCuQwIyWYNcO6j6/mnqRro3QB64ClBzfn+Wg==}
     dev: true
 
   /svelte-preprocess@5.1.3(@babel/core@7.23.9)(less@4.1.3)(postcss@8.4.35)(stylus@0.59.0)(svelte@4.2.11)(typescript@5.3.3):

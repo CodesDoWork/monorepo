@@ -153,7 +153,7 @@ export const config: Config = {
             CMS: ["Directus", "Strapi"],
             Mobile: ["Android", "React Native", "Kotlin", "Jetpack Compose", "Java"],
             AI: ["Tensorflow", "Pytorch", "Langchain"],
-            DevOps: ["Gitlab CI", "Netdata", "Prometheus", "Grafana", "Docker", "Podman"],
+            DevOps: ["Gitlab", "Netdata", "Prometheus", "Grafana", "Docker", "Podman"],
             Windows: ["C#"],
             Databases: ["SQLite", "MongoDB", "PostgreSQL"],
             Cloud: ["Cloudflare"],

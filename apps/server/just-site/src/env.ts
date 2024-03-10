@@ -4,6 +4,7 @@ import { env as svelteEnv } from "$env/dynamic/private";
 
 export const env = createEnv({
     server: {
+        GHOST_API_KEY: z.string(),
         GITHUB_TOKEN: z.string(),
         SMTP_HOST: z.string(),
         SMTP_PORT: z.coerce.number(),

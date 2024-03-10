@@ -46,19 +46,8 @@
         duration: 500,
         easing: sineInOut,
     };
-
 </script>
 
-<Drawer bind:hidden={navDrawerHidden}
-        class="absolute z-20 block lg:hidden p-0 rounded-r-none rounded-l shadow-lg start-auto end-0 top-14 dark:bg-primary-950"
-        transitionParams={transitionParams}>
-    <Sidebar class="r-0">
-        <SidebarWrapper class="dark:bg-primary-950 rounded-r-none rounded-l p-3">
-            <NavLinks aClass="block text-black dark:text-white" liClass={"mb-2 animate-fadeInTopSubtle opacity-0"} />
-        </SidebarWrapper>
-    </Sidebar>
-</Drawer>
-<DarkmodeToggle class="absolute top-4 right-8 z-10" />
 <header class={headerClass}>
     <a class={clsx("font-mono font-bold drop-shadow-md", itemVisibility)} href="/">{config.title}</a>
     <NavLinks class="hidden lg:flex" liClass={clsx("inline-block", itemVisibility)} />
@@ -66,3 +55,13 @@
         <Icon class="w-6 h-6" icon="material-symbols:menu" />
     </button>
 </header>
+<Drawer bind:hidden={navDrawerHidden}
+        class="absolute z-20 block lg:hidden p-0 rounded-r-none rounded-l shadow-lg start-auto end-0 top-14 dark:bg-primary-950"
+        transitionParams={transitionParams}>
+    <Sidebar>
+        <SidebarWrapper class="dark:bg-primary-950 rounded-r-none rounded-l p-3">
+            <NavLinks aClass="block text-black dark:text-white" liClass={"mb-2 animate-fadeInTopSubtle opacity-0"} />
+        </SidebarWrapper>
+    </Sidebar>
+</Drawer>
+<DarkmodeToggle class="absolute top-4 right-8 z-10" />

@@ -7,6 +7,7 @@
     import Page from "../components/Page.svelte";
     import { getSocials } from "../helpers/getSocials";
     import { clsx } from "clsx";
+    import { animationDelay } from "../helpers/animationDelay";
 
     const socials = getSocials();
     const { routeLinks } = config;
@@ -29,14 +30,14 @@
             <Link href={social.href} title={social.title} noStyle class="hover:scale-110 transition-transform">
                 <Icon class="w-7 h-7 md:w-9 md:h-9 transition drop-shadow hover:text-[var(--hover-color)] animate-fadeInSubtle opacity-0"
                       icon={social.icon}
-                      style={`--hover-color: ${social.tone}; animation-delay: ${idx * 0.05}s;`}
+                      style={`--hover-color: ${social.tone}; ${animationDelay(idx)}`}
                 />
             </Link>
         {/each}
     </div>
-    <div class="grid grid-cols-1 grid-rows-[repeat(10,5rem)] md:grid-cols-2 gap-4 w-4/5 sm:w-3/4 md:w-11/12 lg:w-full xl:w-3/4 mx-auto">
+    <div class="grid grid-cols-1 grid-rows-[repeat(3,5rem)] md:grid-cols-2 gap-4 w-4/5 sm:w-3/4 md:w-11/12 lg:w-full xl:w-3/4 mx-auto">
         {#each homePageLinks as navLink, idx (idx)}
-            <Card style={`--hover-color: ${findRouteColor(navLink.route)}; animation-delay: ${idx * 0.1}s;`}
+            <Card style={`--hover-color: ${findRouteColor(navLink.route)}; ${animationDelay(idx)}`}
                   class="flex group border-l-4 hover:border-l-8 border-[var(--hover-color)] !outline-0 !hover:outline-0">
                 <a
                     class="flex flex-col w-full h-full"

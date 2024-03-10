@@ -1,14 +1,12 @@
 <script lang="ts">
-    import { clsx } from "clsx";
     import Card from "./Card.svelte";
     import Link from "./Link.svelte";
     import Icon from "@iconify/svelte";
     import { type Book } from "../types/Book";
+    import Label from "./Label.svelte";
 
     export let book: Book;
     export let style = undefined;
-
-    const labelClass = "bg-black bg-opacity-10 p-2 rounded";
 </script>
 
 <Card class="p-2 grid grid-cols-[auto_1fr] gap-4 items-start h-full" style={style}>
@@ -38,10 +36,10 @@
     </div>
     <ul class="flex flex-wrap gap-2 col-span-2">
         {#if book.featured}
-            <li class={clsx(labelClass, "!bg-red-500 !bg-opacity-70")}>Featured</li>
+            <Label tag="li" class="!bg-red-500 !bg-opacity-70" name="Featured" />
         {/if}
         {#each book.categories as category}
-            <li class={labelClass}>{category}</li>
+            <Label tag="li" name={category} />
         {/each}
     </ul>
 </Card>

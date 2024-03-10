@@ -8,6 +8,7 @@
     import { clsx } from "clsx";
     import type { ActionData } from "./$types";
     import Icon from "@iconify/svelte";
+    import { animationDelay } from "../../helpers/animationDelay";
 
     export let form: ActionData;
 
@@ -27,7 +28,7 @@
             <Heading level="h2">Let's Connect</Heading>
             <div class="grid grid-cols- sm:grid-cols-2 gap-4">
                 {#each socials as social, idx (idx)}
-                    <Card style={`--hover-color: ${social.tone}; animation-delay: ${idx * 0.1}s;`}
+                    <Card style={`--hover-color: ${social.tone}; ${animationDelay(idx)}`}
                           class="group border-l-4 hover:border-l-8 border-[var(--hover-color)] outline-0 hover:outline-0">
                         <Link
                             noStyle
@@ -45,7 +46,7 @@
                 {/each}
             </div>
         </div>
-        <div class="animate-fadeInSubtle opacity-0 flex flex-col" style="animation-delay: 0.2s;">
+        <div class="animate-fadeInSubtle opacity-0 flex flex-col" style={animationDelay(2)}>
             <Heading level="h2">Send Message</Heading>
             <form action="?/mail"
                   class="grid grid-cols-2 gap-4 grow grid-rows-[auto_1fr_auto]"

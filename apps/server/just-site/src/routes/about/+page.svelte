@@ -8,16 +8,15 @@
     import Link from "../../components/Link.svelte";
     import VerticalLine from "../../components/VerticalLine.svelte";
     import { clsx } from "clsx";
+    import { animationDelay } from "../../helpers/animationDelay";
 
     export let data: PageData;
     const { portraitSrc } = data;
 
     const { about } = config;
 
-    let animationIx = 0;
-    const getCardStyle = () => {
-        return `animation-delay: ${animationIx++ * 0.1}s;`;
-    };
+    let animationIdx = 0;
+    const getCardStyle = () => animationDelay(animationIdx++);
 
     const cardClass = "flex-col mb-4";
     const labelClass = "block mt-4 font-bold text-slate-500 dark:text-slate-300 mb-2";

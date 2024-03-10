@@ -6,15 +6,14 @@
     import Link from "../../components/Link.svelte";
     import BookCategory from "../../components/BookCategory.svelte";
     import { toLinkFriendly } from "../../helpers/toLinkFriendly";
+    import { animationDelay } from "../../helpers/animationDelay";
 
     const { readingList } = config;
     const bookData = useBookData(readingList);
     const categories = new Set(readingList.flatMap(book => book.categories).sort());
 
-    let animationIx = 0;
-    const getCardStyle = () => {
-        return `animation-delay: ${animationIx++ * 0.1}s;`;
-    };
+    let animationIdx = 0;
+    const getCardStyle = () => animationDelay(animationIdx++);
 
     $: loading = !$bookData.length;
 </script>
@@ -46,8 +45,8 @@
         {/each}
     </ol>
     <hr class="my-8 opacity:50 dark:opacity-20" />
-    <BookCategory books={$bookData} category="Featured" getCardStyle={getCardStyle} />
+    <BookCategory books={$bookData} category="Featured" {getCardStyle} />
     {#each categories as category}
-        <BookCategory category={category} books={$bookData} getCardStyle={getCardStyle} />
+        <BookCategory {category} books={$bookData} {getCardStyle} />
     {/each}
 </Page>

@@ -8,6 +8,7 @@
     import { clsx } from "clsx";
     import type { PageData } from "./$types";
     import Technology from "../../components/Technology.svelte";
+    import { animationDelay } from "../../helpers/animationDelay";
 
     export let data: PageData;
     const repos = data.repos;
@@ -18,7 +19,7 @@
 <Page title={{title: "Projects", small: true}}>
     <div class="mt-12 md:w-4/5 lg:w-full mx-auto">
         {#each repos as repo, idx (idx)}
-            <Card style={`animation-delay: ${idx * 0.1}s;`} class="mb-6 flex-col lg:flex-row">
+            <Card style={animationDelay(idx)} class="mb-6 flex-col lg:flex-row">
                 <img src={repo.thumbnail} alt="&nbsp;" class="h-48 lg:h-auto lg:w-80 rounded-t-md lg:rounded-tr-none lg:rounded-l-md object-cover" />
                 <div class="p-4 flex flex-col w-full">
                     <Heading commandStyle={false}

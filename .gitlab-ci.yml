@@ -16,10 +16,10 @@ stages:
       - .pnpm-store/
 
 .docker: &docker
-  image: docker:25.0.3
+  image: docker:25.0.4
   stage: deploy
   services:
-    - name: docker:25.0.3-dind
+    - name: docker:25.0.4-dind
       alias: docker-service
   <<: *cache
   variables:

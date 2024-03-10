@@ -5,17 +5,22 @@ export const getMonthYear = (date: Date): string => {
     })}, ${date.getFullYear()}`;
 };
 
-/* Get amount of time ago (e.g. 5 days, 1 year) */
-export const calculateTimeAgo = (date: Date) => {
-    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
-    const intervals = [31536000, 2592000, 86400, 3600, 60];
-    const intervalNames = ["year", "month", "day", "hour", "minute"];
+const TIME_INTERVALS = {
+    year: 31_536_000,
+    month: 2_592_000,
+    day: 86_400,
+    hour: 3_600,
+    minute: 60,
+    second: 1,
+};
 
-    for (let i = 0; i < intervals.length; i++) {
-        const interval = Math.floor(seconds / intervals[i]);
-        if (interval >= 1) {
-            return `${interval} ${intervalNames[i]}${interval > 1 ? "s" : ""} ago`;
+/* Get amount of time ago (e.g. 5 days, 1 year) */
+export function calculateTimeAgo(date: Date): string {
+    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+    for (const [unit, intervalSize] of Object.entries(TIME_INTERVALS)) {
+        const interval = Math.floor(seconds / intervalSize);
+        if (interval) {
+            return `${interval} ${unit}${interval > 1 ? "s" : ""} ago`;
         }
     }
-    return `${Math.floor(seconds)} seconds ago`;
-};
+}

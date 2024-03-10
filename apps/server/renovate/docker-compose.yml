@@ -6,4 +6,6 @@ services:
       - RENOVATE_TOKEN=${RENOVATE_TOKEN}
       - GIT_URL=https://${GITLAB_DOMAIN}
       - GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}
-    image: ${IMAGE_BASE}/server-renovate
+    image: renovate/renovate
+    volumes:
+      - ./config.js:/usr/src/app/config.js

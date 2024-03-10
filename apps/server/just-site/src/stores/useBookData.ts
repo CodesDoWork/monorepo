@@ -40,7 +40,7 @@ function fetchChunk(books: MyBook[]): Promise<Book[]> {
                 ...(book.cover ? { cover: book.cover } : {}),
             })),
         )
-        .then(books => books.map(sanitizeBook));
+        .then(enrichedBooks => enrichedBooks.map(sanitizeBook));
 }
 
 function sanitizeBook(book: Book) {

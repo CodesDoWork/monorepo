@@ -49,6 +49,7 @@
         "@nx/vite": "18.0.4",
         "@nx/web": "18.0.4",
         "@nx/workspace": "18.0.4",
+        "@octokit/types": "^12.6.0",
         "@secretlint/secretlint-rule-preset-recommend": "^8.1.2",
         "@sveltejs/adapter-node": "^4.0.1",
         "@sveltejs/kit": "^2.5.0",

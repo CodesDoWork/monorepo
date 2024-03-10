@@ -25,9 +25,10 @@ export const useDbSelection = ({ onSuccess }: UseDbSelectionProps) => {
 
     const dbOptions = useMemo(() => dbs.map(db => ({ key: db.id, value: db.title })), [dbs]);
 
-    const onSelect = useCallback(() => {
-        return trpc.selectDB.query({ db: value }).then(onSuccess);
-    }, [value, onSuccess]);
+    const onSelect = useCallback(
+        () => trpc.selectDB.query({ db: value }).then(onSuccess),
+        [value, onSuccess],
+    );
 
     return { inputId, dbOptions, value, setValue, onSelect, isLoading };
 };

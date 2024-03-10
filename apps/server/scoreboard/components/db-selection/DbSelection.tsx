@@ -23,7 +23,7 @@ export function DbSelection(props: DbSelectionProps) {
                     id: inputId,
                     placeholder: "Notion API Key",
                     type: "password",
-                    value: value,
+                    value,
                     onChange: setValue,
                     options: dbOptions,
                 }}

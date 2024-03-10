@@ -26,16 +26,14 @@ export const actions: Actions = {
 
         try {
             const { name, email, message } = messageData;
-            const mailResult = await client.sendAsync({
+            await client.sendAsync({
                 text: `From: ${name} <${email}>\n\n ${message}`,
                 from: `${name} <${email}>`,
                 to: `${config.contact.name} <${config.contact.socials.Email}>`,
                 subject: `[Just-Site] New Message from ${name}`,
             });
-            console.log(mailResult);
             return { success: true, msg: "Thank you for your message!" };
         } catch (err) {
-            console.error(err);
             return { success: false, data: messageData, msg: err.toString() };
         }
     },

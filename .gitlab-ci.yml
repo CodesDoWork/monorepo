@@ -87,10 +87,6 @@ deploy:
     - npx nx run-many -t pre-build
     - npx nx affected --base=remotes/origin/master~1 -t build-image --parallel 1
     - npx nx build-image server-documentation
-    - npx nx build-image server-renovate
-
-    # copy misc scripts
-    - scp -rp ./libs/server/scripts/* ${SSH_USER}@${SSH_HOST}:/
 
     # copy deploy targets, pull and run docker containers
     - npx nx run-many -t deploy

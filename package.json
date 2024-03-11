@@ -152,7 +152,7 @@
         "usehooks-ts": "^2.14.0",
         "vitepress-plugin-auto-sidebar": "^1.1.0",
         "vitepress-plugin-mermaid": "2.0.10",
-        "vue": "^3.4.19",
+        "vue": "^3.4.21",
         "zod": "^3.22.4"
     }
 }

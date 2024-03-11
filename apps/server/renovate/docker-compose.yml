@@ -1,7 +1,5 @@
 services:
   renovate:
-    build:
-      context: .
     environment:
       - RENOVATE_TOKEN=${RENOVATE_TOKEN}
       - GIT_URL=https://${GITLAB_DOMAIN}

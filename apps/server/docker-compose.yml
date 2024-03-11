@@ -396,7 +396,7 @@ services:
       - NET_ADMIN
       - SYS_MODULE
     environment:
-      - WG_HOST=${VPN_HOST}
+      - WG_HOST=${SERVER_ADDRESS}
       - PORT=${VPN_PORT}
       - PASSWORD=${VPN_PASSWORD}
       - UI_TRAFFIC_STATS=true

@@ -58,6 +58,7 @@ services:
       - sonarqube-config:/data/services/sonarqube/config:ro
       - sonarqube-data:/data/services/sonarqube/data:ro
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
+      - vpn-data:/data/services/vpn/data:ro
 
   bitwarden:
     environment:
@@ -390,6 +391,25 @@ services:
     image: cloudflare/cloudflared
     restart: unless-stopped
 
+  vpn:
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    environment:
+      - WG_HOST=${VPN_HOST}
+      - PORT=${VPN_PORT}
+      - PASSWORD=${VPN_PASSWORD}
+      - UI_TRAFFIC_STATS=true
+    image: ghcr.io/wg-easy/wg-easy
+    ports:
+      - 51820:51820/udp
+    restart: unless-stopped
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv4.ip_forward=1
+    volumes:
+      - vpn-data:/etc/wireguard
+
 volumes:
   bitwarden-data:
 
@@ -421,3 +441,5 @@ volumes:
   sonarqube-config:
   sonarqube-data:
   sonarqube-extensions:
+
+  vpn-data:

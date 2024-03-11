@@ -118,22 +118,6 @@ services:
       - docker-registry:/var/lib/registry
       - ./docker-registry/certs:/opt/certs:ro
 
-  docker-registry-ui:
-    environment:
-      - SINGLE_REGISTRY=true
-      - REGISTRY_TITLE=Docker Registry UI
-      - DELETE_IMAGES=true
-      - SHOW_CONTENT_DIGEST=true
-      - NGINX_PROXY_PASS_URL=http://docker-registry:${DOCKER_REGISTRY_PORT}
-      - SHOW_CATALOG_NB_TAGS=true
-      - CATALOG_MIN_BRANCHES=1
-      - CATALOG_MAX_BRANCHES=1
-      - TAGLIST_PAGE_SIZE=100
-      - REGISTRY_SECURED=true
-      - CATALOG_ELEMENTS_LIMIT=1000
-    image: joxit/docker-registry-ui:main
-    restart: unless-stopped
-
   documentation:
     build:
       <<: *build-args

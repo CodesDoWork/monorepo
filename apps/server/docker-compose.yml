@@ -39,7 +39,7 @@ services:
     restart: unless-stopped
     volumes:
       - ${BACKUP_VOLUME_PATH}/.snapshots:/.snapshots
-      # - ${BACKUP_PC_PATH}:/data/pc:ro
+      - ${BACKUP_PC_PATH}:/data/pc:ro
       - bitwarden-data:/data/services/bitwarden/data:ro
       - ghost-content:/data/services/ghost/content:ro
       - gitlab-config:/data/services/gitlab/config:ro
@@ -52,6 +52,8 @@ services:
       - netdata-config:/data/services/netdata/config:ro
       - netdata-lib:/data/services/netdata/lib:ro
       - netdata-cache:/data/services/netdata/cache:ro
+      - pihole-etc:/data/services/pihole/etc:ro
+      - pihole-dnsmasq:/data/services/pihole/dnsmasq:ro
       - portainer-data:/data/services/portainer/data:ro
       - postgres-data:/data/services/db/data:ro
       - prometheus-data:/data/services/prometheus/data:ro
@@ -103,6 +105,20 @@ services:
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data
+
+  dns:
+    image: pihole/pihole
+    environment:
+      - TZ=${TZ}
+      - WEBPASSWORD=${DNS_PASSWORD}
+      - FTLCONF_LOCAL_IPV4=${DNS_IP}
+    networks:
+      default:
+        ipv4_address: ${DNS_IP}
+    restart: unless-stopped
+    volumes:
+      - pihole-etc:/etc/pihole
+      - pihole-dnsmasq:/etc/dnsmasq.d
 
   docker-registry:
     environment:
@@ -395,8 +411,11 @@ services:
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
+    depends_on:
+      - dns
     environment:
       - WG_HOST=${SERVER_ADDRESS}
+      - WG_DEFAULT_DNS=${DNS_IP}
       - PORT=${VPN_PORT}
       - PASSWORD=${VPN_PASSWORD}
       - UI_TRAFFIC_STATS=true
@@ -432,6 +451,9 @@ volumes:
   netdata-lib:
   netdata-cache:
 
+  pihole-etc:
+  pihole-dnsmasq:
+
   portainer-data:
 
   postgres-data:
@@ -443,3 +465,9 @@ volumes:
   sonarqube-extensions:
 
   vpn-data:
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: ${DEFAULT_NETWORK_MASK}

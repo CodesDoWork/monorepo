@@ -86,6 +86,17 @@ services:
     volumes:
       - bitwarden-data:/data
 
+  certbot:
+    build:
+      context: ./certbot
+    image: ${IMAGE_BASE}/server-certbot
+    command: >-
+      certonly --reinstall --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini --dns-cloudflare-propagation-seconds 20
+      --email ${EMAIL} --agree-tos --no-eff-email
+      -d ${DOMAIN} -d *.${DOMAIN}
+    volumes:
+      - ./letsencrypt:/etc/letsencrypt
+
   dashboard:
     build:
       <<: *build-args
@@ -350,7 +361,7 @@ services:
     image: ${IMAGE_BASE}/server-nginx
     restart: unless-stopped
     volumes:
-      - ./certs:/etc/nginx/ssl:ro
+      - ./letsencrypt:/etc/letsencrypt:ro
 
   portainer:
     image: portainer/portainer-ce:latest

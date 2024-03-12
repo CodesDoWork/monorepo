@@ -1,0 +1,1 @@
+0 3 1 * * root docker compose -f /opt/monorepo/server/docker-compose.yml --env-file /opt/monorepo/server/.env up certbot

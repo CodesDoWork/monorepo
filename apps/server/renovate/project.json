@@ -12,13 +12,13 @@
         "deploy-command": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "echo docker compose -f /opt/monorepo/server/renovate/docker-compose.yml --env-file /opt/monorepo/.env --env-file /opt/monorepo/server/.env --env-file /opt/monorepo/server/renovate/.env  up --pull always renovate"
+                "command": "echo docker compose -f /opt/monorepo/server/docker-compose.yml --env-file /opt/monorepo/server/.env up --pull always renovate"
             }
         },
         "deploy": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "copyfiles ./apps/server/renovate/docker-compose.yml ./apps/server/renovate/config.js -u 1 ./deploy/opt/monorepo"
+                "command": "copyfiles ./apps/server/renovate/config.js -u 1 ./deploy/opt/monorepo"
             }
         }
     },

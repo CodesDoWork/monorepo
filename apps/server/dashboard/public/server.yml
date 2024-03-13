@@ -38,7 +38,7 @@ sections:
         url: https://portainer.justinkonratt.com
       - title: DNS
         icon: pihole.png
-        url: https://dns.justinkonratt.com
+        url: https://dns.justinkonratt.com/admin
       - title: VPN
         icon: wireguard.svg
         url: https://vpn.justinkonratt.com

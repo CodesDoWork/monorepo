@@ -39,7 +39,7 @@ services:
     restart: unless-stopped
     volumes:
       - ${BACKUP_VOLUME_PATH}/.snapshots:/.snapshots
-      - ${BACKUP_PC_PATH}:/data/pc:ro
+      - ${BACKUP_PC_PATH:-./pc-data}:/data/pc:ro
       - bitwarden-data:/data/services/bitwarden/data:ro
       - ghost-content:/data/services/ghost/content:ro
       - gitlab-config:/data/services/gitlab/config:ro

@@ -234,7 +234,7 @@ sections:
         icon: favicon
         url: https://www.strato.de/apps/CustomerService
       - title: Server Dashboard
-        icon: favicon
+        icon: dashy.png
         url: /home/server
         hotkey: 1
   - name: Content Creation

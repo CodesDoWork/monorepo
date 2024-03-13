@@ -22,6 +22,9 @@ sections:
       - title: Website
         icon: icon.svg
         url: https://justinkonratt.com
+      - title: Blog
+        icon: ghost.png
+        url: https://blog.justinkonratt.com
   - name: Admin
     displayData:
       cutToHeight: true
@@ -42,6 +45,9 @@ sections:
       - title: VPN
         icon: wireguard.svg
         url: https://vpn.justinkonratt.com
+      - title: Bitwarden
+        icon: vaultwarden.svg
+        url: https://bitwarden.justinkonratt.com
       - title: Logout
         icon: logout.svg
         url: https://dashboard.justinkonratt.com/callback-logout

@@ -396,7 +396,7 @@ services:
     profiles:
       - renovate
     volumes:
-      - .renovate/config.js:/usr/src/app/config.js
+      - ./renovate/config.js:/usr/src/app/config.js
 
   scoreboard:
     build:

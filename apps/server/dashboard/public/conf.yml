@@ -33,40 +33,40 @@ sections:
     icon: ":book:"
     items:
       - title: Bootstrap Academy
-        icon: favicon-local
+        icon: favicon
         url: https://bootstrap.academy/skill-tree
       - title: Code Academy
-        icon: favicon-local
+        icon: favicon
         url: https://www.codecademy.com/catalog
       - title: Daily.dev
-        icon: favicon-local
+        icon: favicon
         url: https://app.daily.dev/my-feed
       - title: Fireship
-        icon: favicon-local
+        icon: favicon
         url: https://www.youtube.com/c/Fireship/videos
       - title: Developer Roadmaps
-        icon: favicon-local
+        icon: favicon
         url: https://roadmap.sh/
       - title: SciHub
-        icon: favicon-local
+        icon: favicon
         url: https://sci-hub.se
       - title: Termine und Fristen
-        icon: uni/host.png
+        icon: favicon
         url: https://www.hochschule-stralsund.de/studium-und-lehre/mein-studium/termine-und-fristen/
       - title: SUP
-        icon: uni/host.png
+        icon: favicon
         url: https://sup.hochschule-stralsund.de/qisserver/rds?state=user&type=0&category=menu.browse&breadCrumbSource=&startpage=portal.vm&chco=y
       - title: Studienorganisation
-        icon: uni/host.png
+        icon: favicon
         url: https://www.hochschule-stralsund.de/host/fakultaeten/elektrotechnik-und-informatik/studienorganisation/
       - title: Mensaplan
-        icon: favicon-local
+        icon: favicon
         url: https://stw-greifswald.de/essen/speiseplaene/mensa-stralsund/
       - title: GitLab
-        icon: favicon-local
+        icon: favicon
         url: https://gitlab.hochschule-stralsund.de/
       - title: Moodle
-        icon: uni/host.png
+        icon: favicon
         url: https://moodle.hochschule-stralsund.de
     widgets:
       - type: github-profile-stats
@@ -84,34 +84,34 @@ sections:
           - übersetzer
         url: https://www.google.com/search?q=%C3%BCbersetzer
       - title: ChatGPT
-        icon: favicon-local
+        icon: favicon
         url: https://chat.openai.com
       - title: Gravatar
-        icon: favicon-local
+        icon: favicon
         url: https://de.gravatar.com
       - title: Language Tool
-        icon: favicon-local
+        icon: favicon
         url: https://languagetool.org
       - title: Ni Package Manager
-        icon: favicon-local
+        icon: favicon
         url: https://www.npmjs.com/package/@antfu/ni
       - title: TS Playground
-        icon: favicon-local
+        icon: favicon
         url: https://www.typescriptlang.org/play
       - title: Regex 101
         icon: favicon.local
         url: https://regex101.com
       - title: Codeium
-        icon: favicon-local
+        icon: favicon
         url: https://codeium.com
       - title: Wave Generator
-        icon: favicon-local
+        icon: favicon
         url: https://getwaves.io
       - title: Blobmaker
-        icon: favicon-local
+        icon: favicon
         url: https://www.blobmaker.app
       - title: SVG Generators
-        icon: favicon-local
+        icon: favicon
         url: https://fffuel.co/
     widgets:
       - type: clock
@@ -125,46 +125,46 @@ sections:
     icon: "📚"
     items:
       - title: Google TS Styleguide
-        icon: favicon-local
+        icon: favicon
         url: https://google.github.io/styleguide/tsguide.html
       - title: Markdown Emojis
-        icon: favicon-local
+        icon: favicon
         url: https://gist.github.com/rxaviers/7360908
       - title: Google Fonts
-        icon: favicon-local
+        icon: favicon
         url: https://fonts.google.com
       - title: Iconify
-        icon: favicon-local
+        icon: favicon
         url: https://iconify.design
       - title: Tailwind Docs
-        icon: favicon-local
+        icon: favicon
         url: https://tailwindcss.com/docs
       - title: Cool CSS Elements
-        icon: favicon-local
+        icon: favicon
         url: https://uiverse.io
       - title: DevSecOps Periodic Table
-        icon: favicon-local
+        icon: favicon
         url: https://digital.ai/learn/devsecops-periodic-table
       - title: HTML Head Guide
-        icon: favicon-local
+        icon: favicon
         url: https://htmlhead.dev
       - title: Self Hosted Guides
-        icon: favicon-local
+        icon: favicon
         url: https://noted.lol
       - title: Self Hosted Apps
-        icon: favicon-local
+        icon: favicon
         url: https://awesome-selfhosted.net
       - title: "Lazyweb: Dev Resources"
-        icon: favicon-local
+        icon: favicon
         url: https://app.lazyweb.rocks
       - title: "OWASP: Security"
-        icon: favicon-local
+        icon: favicon
         url: https://owasp.org
       - title: Lofi Music
-        icon: favicon-local
+        icon: favicon
         url: https://lofi-life.vercel.app
       - title: Lyricsify
-        icon: favicon-local
+        icon: favicon
         url: https://www.lyricsify.com
   - name: Work
     displayData:
@@ -172,24 +172,24 @@ sections:
     icon: "💻"
     items:
       - title: Google Calendar
-        icon: favicon-local
+        icon: favicon
         url: https://calendar.google.com
       - title: Notion
-        icon: favicon-local
+        icon: favicon
         url: https://www.notion.so
       - title: GitHub
-        icon: favicon-local
+        icon: favicon
         tags:
         url: https://github.com
       - title: Drive
-        icon: favicon-local
+        icon: favicon
         tags:
         url: https://drive.google.com
       - title: Personizer
-        icon: favicon-local
+        icon: favicon
         url: https://www.personizer.com/app/absence-dashboards/personal/
       - title: "RxResume: CV Builder"
-        icon: favicon-local
+        icon: favicon
         url: https://rxresu.me
     widgets:
       - type: public-holidays
@@ -205,19 +205,19 @@ sections:
     icon: "💸"
     items:
       - title: Die Contra
-        icon: favicon-local
+        icon: favicon
         url: https://www.die-contra.de
       - title: Erfolgskongress
-        icon: favicon-local
+        icon: favicon
         url: https://www.erfolgskongress.de
       - title: Modern Banking
-        icon: favicon-local
+        icon: favicon
         url: https://www.modern-banking.de
       - title: Brutto Netto Rechner
-        icon: favicon-local
+        icon: favicon
         url: https://www.brutto-netto-rechner.info
       - title: Bundesanzeiger
-        icon: favicon-local
+        icon: favicon
         url: https://www.bundesanzeiger.de
   - name: Server
     displayData:
@@ -225,16 +225,16 @@ sections:
     icon: "🖥️"
     items:
       - title: Cloudflare
-        icon: favicon-local
+        icon: favicon
         url: https://dash.cloudflare.com/
       - title: Porkbun
-        icon: favicon-local
+        icon: favicon
         url: https://porkbun.com/account/domainsSpeedy
       - title: Strato
-        icon: favicon-local
+        icon: favicon
         url: https://www.strato.de/apps/CustomerService
       - title: Server Dashboard
-        icon: favicon-local
+        icon: favicon
         url: /home/server
         hotkey: 1
   - name: Content Creation
@@ -243,16 +243,16 @@ sections:
     icon: ":pencil:"
     items:
       - title: Canva
-        icon: favicon-local
+        icon: favicon
         url: https://www.canva.com
       - title: Pexels
-        icon: favicon-local
+        icon: favicon
         url: https://www.pexels.com
       - title: Pixabay
-        icon: favicon-local
+        icon: favicon
         url: https://pixabay.com/
       - title: Freepic
-        icon: favicon-local
+        icon: favicon
         url: https://www.freepik.com/
   - name: Firefox Addons
     displayData:

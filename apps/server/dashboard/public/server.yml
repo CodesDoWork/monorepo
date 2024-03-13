@@ -36,6 +36,12 @@ sections:
           - docker
           - container
         url: https://portainer.justinkonratt.com
+      - title: DNS
+        icon: pihole.png
+        url: https://dns.justinkonratt.com
+      - title: VPN
+        icon: wireguard.svg
+        url: https://vpn.justinkonratt.com
       - title: Logout
         icon: logout.svg
         url: https://dashboard.justinkonratt.com/callback-logout

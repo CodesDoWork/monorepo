@@ -99,7 +99,7 @@ sections:
         icon: favicon
         url: https://www.typescriptlang.org/play
       - title: Regex 101
-        icon: favicon.local
+        icon: favicon
         url: https://regex101.com
       - title: Codeium
         icon: favicon

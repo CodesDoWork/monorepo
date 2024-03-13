@@ -94,6 +94,8 @@ services:
       certonly --reinstall --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini --dns-cloudflare-propagation-seconds 20
       --email ${EMAIL} --agree-tos --no-eff-email
       -d ${DOMAIN} -d *.${DOMAIN}
+    profiles:
+      - certbot
     volumes:
       - ./letsencrypt:/etc/letsencrypt
 
@@ -359,6 +361,9 @@ services:
     healthcheck:
       test: curl -f http://localhost || exit 1
     image: ${IMAGE_BASE}/server-nginx
+    networks:
+      default:
+        ipv4_address: ${NGINX_IP}
     restart: unless-stopped
     volumes:
       - ./letsencrypt:/etc/letsencrypt:ro
@@ -431,6 +436,9 @@ services:
       - PASSWORD=${VPN_PASSWORD}
       - UI_TRAFFIC_STATS=true
     image: ghcr.io/wg-easy/wg-easy
+    networks:
+      default:
+        ipv4_address: ${VPN_IP}
     ports:
       - 51820:51820/udp
     restart: unless-stopped

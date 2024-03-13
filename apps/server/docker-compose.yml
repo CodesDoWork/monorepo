@@ -423,6 +423,9 @@ services:
       - --token
       - ${TUNNEL_TOKEN}
     image: cloudflare/cloudflared
+    networks:
+      default:
+        ipv4_address: ${TUNNEL_IP}
     restart: unless-stopped
 
   vpn:
@@ -438,9 +441,6 @@ services:
       - PASSWORD=${VPN_PASSWORD}
       - UI_TRAFFIC_STATS=true
     image: ghcr.io/wg-easy/wg-easy
-    networks:
-      default:
-        ipv4_address: ${VPN_IP}
     ports:
       - 51820:51820/udp
     restart: unless-stopped

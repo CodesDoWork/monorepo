@@ -14,3 +14,4 @@ sysctl -w vm.overcommit_memory=1
 
 5. Add own user
 6. Add sudo for user
+7. Set PiHole as default DNS (127.0.0.1)

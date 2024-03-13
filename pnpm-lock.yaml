@@ -48,8 +48,8 @@ dependencies:
     specifier: ^2.1.0
     version: 2.1.0
   d3:
-    specifier: ^7.8.5
-    version: 7.8.5
+    specifier: ^7.9.0
+    version: 7.9.0
   deepcopy:
     specifier: ^2.1.0
     version: 2.1.0
@@ -3875,7 +3875,7 @@ packages:
       cytoscape: 3.26.0
       cytoscape-cose-bilkent: 4.1.0(cytoscape@3.26.0)
       cytoscape-fcose: 2.2.0(cytoscape@3.26.0)
-      d3: 7.8.5
+      d3: 7.9.0
       khroma: 2.0.0
       non-layered-tidy-tree-layout: 2.0.2
     dev: false
@@ -9184,8 +9184,8 @@ packages:
       d3-zoom: 1.8.3
     dev: false
 
-  /d3@7.8.5:
-    resolution: {integrity: sha512-JgoahDG51ncUfJu6wX/1vWQEqOflgXyl4MaHqlcSruTez7yhaRKR9i8VjjcQGeS2en/jnFivXuaIMnseMMt0XA==}
+  /d3@7.9.0:
+    resolution: {integrity: sha512-e1U46jVP+w7Iut8Jt8ri1YsPOvFpg46k+K8TpCb0P+zjCkjkPnV7WzfDJzMHy1LnA+wj5pLT1wjO901gLXeEhA==}
     engines: {node: '>=12'}
     dependencies:
       d3-array: 3.2.4
@@ -13359,7 +13359,7 @@ packages:
     resolution: {integrity: sha512-MRVHXy5FLjnUQUG7YS3UN9jEN6FXCJbFCXVGJQjVIbiR6Vhw0j/6pLIjqsiah9xoHmQU6DEaKOvB3S1g/1nBPA==}
     dependencies:
       '@braintree/sanitize-url': 6.0.4
-      d3: 7.8.5
+      d3: 7.9.0
       dagre: 0.8.5
       dagre-d3: 0.6.4
       dompurify: 2.4.0

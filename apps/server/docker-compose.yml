@@ -159,12 +159,6 @@ services:
     image: ${IMAGE_BASE}/server-documentation
     restart: unless-stopped
 
-  doku:
-    image: amerkurev/doku
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /:/hostroot:ro
-
   gitlab:
     environment:
       GITLAB_OMNIBUS_CONFIG: |

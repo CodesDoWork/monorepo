@@ -74,9 +74,6 @@ sections:
       cutToHeight: true
     icon: "🖥️"
     items:
-      - title: Doku
-        icon: doku.svg
-        url: https://doku.justinkonratt.com
       - title: Netdata
         icon: netdata.png
         url: https://netdata.justinkonratt.com

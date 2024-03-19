@@ -95,7 +95,7 @@
         "jsdom": "~24.0.0",
         "nx": "18.1.2",
         "pino-pretty": "^10.3.1",
-        "postcss": "^8.4.36",
+        "postcss": "^8.4.37",
         "prettier": "^3.2.5",
         "replace-in-files-cli": "^2.2.0",
         "rimraf": "^5.0.5",

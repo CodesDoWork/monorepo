@@ -69,7 +69,7 @@
         "@typescript-eslint/eslint-plugin": "7.3.1",
         "@typescript-eslint/parser": "7.3.1",
         "@vitest/ui": "^1.4.0",
-        "autoprefixer": "^10.4.18",
+        "autoprefixer": "^10.4.19",
         "babel-jest": "^29.7.0",
         "copy-file": "^11.0.0",
         "copyfiles": "^2.4.1",

@@ -203,8 +203,8 @@ devDependencies:
     specifier: ^8.11.4
     version: 8.11.4
   '@types/react':
-    specifier: 18.2.67
-    version: 18.2.67
+    specifier: 18.2.69
+    version: 18.2.69
   '@types/react-dom':
     specifier: 18.2.22
     version: 18.2.22
@@ -351,7 +351,7 @@ devDependencies:
     version: 5.2.3(@types/node@20.11.30)(less@4.1.3)(stylus@0.59.0)
   vitepress:
     specifier: 1.0.1
-    version: 1.0.1(@algolia/client-search@4.20.0)(@types/node@20.11.30)(@types/react@18.2.67)(axios@1.6.8)(less@4.1.3)(postcss@8.4.38)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.4.3)
+    version: 1.0.1(@algolia/client-search@4.20.0)(@types/node@20.11.30)(@types/react@18.2.69)(axios@1.6.8)(less@4.1.3)(postcss@8.4.38)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.4.3)
   vitest:
     specifier: ^1.4.0
     version: 1.4.0(@types/node@20.11.30)(@vitest/ui@1.4.0)(jsdom@24.0.0)(less@4.1.3)(stylus@0.59.0)
@@ -1887,10 +1887,10 @@ packages:
   /@docsearch/css@3.6.0:
     resolution: {integrity: sha512-+sbxb71sWre+PwDK7X2T8+bhS6clcVMLwBPznX45Qu6opJcgRjAp7gYSDzVFp187J+feSj5dNBN1mJoi6ckkUQ==}
 
-  /@docsearch/js@3.6.0(@algolia/client-search@4.20.0)(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3):
+  /@docsearch/js@3.6.0(@algolia/client-search@4.20.0)(@types/react@18.2.69)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3):
     resolution: {integrity: sha512-QujhqINEElrkIfKwyyyTfbsfMAYCkylInLYMRqHy7PHc8xTBQCow73tlo/Kc7oIwBrCLf0P3YhjlOeV4v8hevQ==}
     dependencies:
-      '@docsearch/react': 3.6.0(@algolia/client-search@4.20.0)(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)
+      '@docsearch/react': 3.6.0(@algolia/client-search@4.20.0)(@types/react@18.2.69)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)
       preact: 10.18.1
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -1899,7 +1899,7 @@ packages:
       - react-dom
       - search-insights
 
-  /@docsearch/react@3.6.0(@algolia/client-search@4.20.0)(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3):
+  /@docsearch/react@3.6.0(@algolia/client-search@4.20.0)(@types/react@18.2.69)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3):
     resolution: {integrity: sha512-HUFut4ztcVNmqy9gp/wxNbC7pTOHhgVVkHVGCACTuLhUKUhKAF9KYHJtMiLUJxEqiFLQiuri1fWF8zqwM/cu1w==}
     peerDependencies:
       '@types/react': '>= 16.8.0 < 19.0.0'
@@ -1919,7 +1919,7 @@ packages:
       '@algolia/autocomplete-core': 1.9.3(@algolia/client-search@4.20.0)(algoliasearch@4.20.0)(search-insights@2.8.3)
       '@algolia/autocomplete-preset-algolia': 1.9.3(@algolia/client-search@4.20.0)(algoliasearch@4.20.0)
       '@docsearch/css': 3.6.0
-      '@types/react': 18.2.67
+      '@types/react': 18.2.69
       algoliasearch: 4.20.0
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -5113,11 +5113,11 @@ packages:
   /@types/react-dom@18.2.22:
     resolution: {integrity: sha512-fHkBXPeNtfvri6gdsMYyW+dW7RXFo6Ad09nLFK0VQWR7yGLai/Cyvyj696gbwYvBnhGtevUG9cET0pmUbMtoPQ==}
     dependencies:
-      '@types/react': 18.2.67
+      '@types/react': 18.2.69
     dev: true
 
-  /@types/react@18.2.67:
-    resolution: {integrity: sha512-vkIE2vTIMHQ/xL0rgmuoECBCkZFZeHr49HeWSc24AptMbNRo7pwSBvj73rlJJs9fGKj0koS+V7kQB1jHS0uCgw==}
+  /@types/react@18.2.69:
+    resolution: {integrity: sha512-W1HOMUWY/1Yyw0ba5TkCV+oqynRjG7BnteBB+B7JmAK7iw3l2SW+VGOxL+akPweix6jk2NNJtyJKpn4TkpfK3Q==}
     dependencies:
       '@types/prop-types': 15.7.8
       '@types/scheduler': 0.16.4
@@ -16530,10 +16530,10 @@ packages:
       vitepress: ^0.21.6 || ^1.0.0 || ^1.0.0-alpha
     dependencies:
       mermaid: 9.1.7
-      vitepress: 1.0.1(@algolia/client-search@4.20.0)(@types/node@20.11.30)(@types/react@18.2.67)(axios@1.6.8)(less@4.1.3)(postcss@8.4.38)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.4.3)
+      vitepress: 1.0.1(@algolia/client-search@4.20.0)(@types/node@20.11.30)(@types/react@18.2.69)(axios@1.6.8)(less@4.1.3)(postcss@8.4.38)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.4.3)
     dev: false
 
-  /vitepress@1.0.1(@algolia/client-search@4.20.0)(@types/node@20.11.30)(@types/react@18.2.67)(axios@1.6.8)(less@4.1.3)(postcss@8.4.38)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.4.3):
+  /vitepress@1.0.1(@algolia/client-search@4.20.0)(@types/node@20.11.30)(@types/react@18.2.69)(axios@1.6.8)(less@4.1.3)(postcss@8.4.38)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.4.3):
     resolution: {integrity: sha512-eNr5pOBppYUUjEhv8S0S2t9Tv95LQ6mMeHj6ivaGwfHxpov70Vduuwl/QQMDRznKDSaP0WKV7a82Pb4JVOaqEw==}
     hasBin: true
     peerDependencies:
@@ -16546,7 +16546,7 @@ packages:
         optional: true
     dependencies:
       '@docsearch/css': 3.6.0
-      '@docsearch/js': 3.6.0(@algolia/client-search@4.20.0)(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)
+      '@docsearch/js': 3.6.0(@algolia/client-search@4.20.0)(@types/react@18.2.69)(react-dom@18.2.0)(react@18.2.0)(search-insights@2.8.3)
       '@shikijs/core': 1.2.0
       '@shikijs/transformers': 1.2.0
       '@types/markdown-it': 13.0.7

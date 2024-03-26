@@ -9,7 +9,8 @@
                 "commands": [
                     "echo chmod 755 /home/jkonratt",
                     "echo chmod -R 600 /etc/cron.d",
-                    "echo systemctl restart cron"
+                    "echo systemctl restart cron",
+                    "node ./libs/server/scripts/scripts+x-deploy-command.mjs"
                 ]
             }
         },

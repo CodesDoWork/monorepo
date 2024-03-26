@@ -277,6 +277,9 @@ devDependencies:
   flowbite-svelte:
     specifier: ^0.44.24
     version: 0.44.24(svelte@4.2.12)
+  glob:
+    specifier: ^10.3.10
+    version: 10.3.10
   husky:
     specifier: ^9.0.11
     version: 9.0.11
@@ -11787,6 +11790,8 @@ packages:
       webpack: '*'
     peerDependenciesMeta:
       webpack:
+        optional: true
+      webpack-sources:
         optional: true
     dependencies:
       webpack: 5.88.2(@swc/core@1.4.11)(esbuild@0.20.2)

@@ -29,6 +29,7 @@ FROM base AS runner
 ARG APP_DIR
 ENV NODE_ENV production
 
+RUN apk update
 RUN apk add yt-dlp
 
 COPY --from=builder /app/dist/apps/$APP_DIR .

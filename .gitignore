@@ -52,3 +52,6 @@ Thumbs.db
 /apps/server/.env
 /apps/server/just-site/.env
 /apps/server/renovate/.env
+
+# svelte
+/apps/server/just-site/.svelte-kit

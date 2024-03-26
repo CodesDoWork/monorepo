@@ -7,10 +7,10 @@
             "executor": "nx:run-commands",
             "options": {
                 "commands": [
-                    "echo chmod 755 /home/jkonratt",
-                    "echo chmod -R 600 /etc/cron.d",
-                    "echo systemctl restart cron",
-                    "node ./libs/server/scripts/scripts+x-deploy-command.mjs"
+                    "echo chmod 755 /home/jkonratt > deploy-commands.sh",
+                    "echo chmod -R 600 /etc/cron.d > deploy-commands.sh",
+                    "echo systemctl restart cron > deploy-commands.sh",
+                    "node ./libs/server/scripts/scripts+x-deploy-command.mjs > deploy-commands.sh"
                 ]
             }
         },

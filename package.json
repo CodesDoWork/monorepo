@@ -32,7 +32,6 @@
         "format": "nx format",
         "format:check": "nx format:check",
         "check": "pnpm run format:check && pnpm run lint && pnpm run test && pnpm run build",
-        "deploy-commands": "nx run-many -t deploy-command --parallel 1 | grep -v \"^[[:space:]]\\|^>\" | grep -v \"^$\" > deploy-commands.sh",
         "secretlint": "secretlint --secretlintignore .gitignore \"**/*\""
     },
     "devDependencies": {

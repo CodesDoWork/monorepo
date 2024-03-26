@@ -12,7 +12,7 @@
         "deploy-command": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "echo docker compose -f /opt/monorepo/server/docker-compose.yml --env-file /opt/monorepo/server/.env up --pull always renovate"
+                "command": "echo docker compose -f /opt/monorepo/server/docker-compose.yml --env-file /opt/monorepo/server/.env up --pull always renovate > deploy-commands.sh"
             }
         },
         "deploy": {

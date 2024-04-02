@@ -13,6 +13,9 @@ sections:
         tags:
           - navidrome
         url: https://music.justinkonratt.com
+      - title: Linkwarden
+        icon: linkwarden.png
+        url: https://links.justinkonratt.com
       - title: Music Downloader
         icon: icon.svg
         url: https://music-downloader.justinkonratt.com

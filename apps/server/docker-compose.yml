@@ -47,6 +47,7 @@ services:
       - gitlab-runner-config:/data/services/gitlab-runner/config:ro
       - grafana-storage:/data/services/grafana/storage:ro
       - grafana-config:/data/services/grafana/config:ro
+      - linkwarden-data:/data/services/linkwarden/data:ro
       - mysql-data:/data/services/mysql/data:ro
       - navidrome-data:/data/services/navidrome/data:ro
       - netdata-config:/data/services/netdata/config:ro
@@ -57,7 +58,7 @@ services:
       - portainer-data:/data/services/portainer/data:ro
       - postgres-data:/data/services/db/data:ro
       - prometheus-data:/data/services/prometheus/data:ro
-      - sonarqube-config:/data/services/sonarqube/config:ro
+      - sonarqube-config:/data/services/sonarqube/config:roocjer
       - sonarqube-data:/data/services/sonarqube/data:ro
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
       - vpn-data:/data/services/vpn/data:ro
@@ -287,6 +288,23 @@ services:
     image: ${IMAGE_BASE}/server-just-site
     restart: unless-stopped
 
+  linkwarden:
+    depends_on:
+      - db
+    environment:
+      - NEXTAUTH_SECRET=${LINKWARDEN_SECRET}
+      - NEXTAUTH_URL=https://${LINKWARDEN_DOMAIN}
+      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/linkwarden
+      - NEXT_PUBLIC_DISABLE_REGISTRATION=true
+      - NEXT_PUBLIC_KEYCLOAK_ENABLED=true
+      - KEYCLOAK_ISSUER=https://${AUTH_DOMAIN}/realms/${AUTH_REALM}
+      - KEYCLOAK_CLIENT_ID=${LINKWARDEN_CLIENT_ID}
+      - KEYCLOAK_CLIENT_SECRET=${LINKWARDEN_CLIENT_SECRET}
+    image: ghcr.io/linkwarden/linkwarden
+    restart: unless-stopped
+    volumes:
+      - linkwarden-data:/data/data
+
   music:
     build:
       context: ./music # healthcheck implemented
@@ -369,7 +387,7 @@ services:
     restart: unless-stopped
     volumes:
       - portainer-data:/data
-      - ${CERTS_DIR}/server.crt:/etc/ssl/certs/cacert.pem:ro
+      - ./letsencrypt/live/justinkonratt.com/fullchain.pem:/etc/ssl/certs/cacert.pem:ro
       - /var/run/docker.sock:/var/run/docker.sock
 
   prometheus:
@@ -468,6 +486,8 @@ volumes:
 
   grafana-storage:
   grafana-config:
+
+  linkwarden-data:
 
   mysql-data:
 

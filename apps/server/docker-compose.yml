@@ -148,7 +148,7 @@ services:
     restart: unless-stopped
     volumes:
       - docker-registry:/var/lib/registry
-      - ./docker-registry/certs:/opt/certs:ro
+      - ./docker-registry/certs:/opt/certs:ro # exported from keycloak
 
   documentation:
     build:
@@ -387,7 +387,6 @@ services:
     restart: unless-stopped
     volumes:
       - portainer-data:/data
-      - ./letsencrypt/live/justinkonratt.com/fullchain.pem:/etc/ssl/certs/cacert.pem:ro
       - /var/run/docker.sock:/var/run/docker.sock
 
   prometheus:

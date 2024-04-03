@@ -150,7 +150,7 @@
         "trpc-openapi": "^1.2.0",
         "tslib": "^2.6.2",
         "usehooks-ts": "^3.0.2",
-        "vitepress-plugin-auto-sidebar": "^1.1.0",
+        "vitepress-plugin-auto-sidebar": "^1.2.0",
         "vitepress-plugin-mermaid": "2.0.10",
         "vue": "^3.4.21",
         "zod": "^3.22.4"

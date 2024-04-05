@@ -168,6 +168,7 @@ services:
         nginx['enable'] = true
         nginx['listen_https'] = false
         nginx['listen_port'] = ${GITLAB_PORT}
+        gitlab_rails['monitoring_whitelist'] = ['${DEFAULT_NETWORK_MASK}']
         gitlab_rails['smtp_enable'] = true
         gitlab_rails['smtp_address'] = "${SMTP_HOST}"
         gitlab_rails['smtp_port'] = ${SMTP_PORT}

@@ -161,8 +161,8 @@ devDependencies:
     specifier: 18.2.2
     version: 18.2.2(@swc-node/register@1.9.0)(@swc/core@1.4.12)
   '@octokit/types':
-    specifier: ^13.0.0
-    version: 13.0.0
+    specifier: ^13.1.0
+    version: 13.1.0
   '@secretlint/secretlint-rule-preset-recommend':
     specifier: ^8.1.2
     version: 8.1.2
@@ -3554,8 +3554,8 @@ packages:
     resolution: {integrity: sha512-B6/NBvsNQT5UWYWSFcUT55XTMZBHyflNke7Ryvhs3dLe3I2TTPwpGPMib70YS1Ha5Iccc5CtXTLU7lHstC5e3Q==}
     dev: true
 
-  /@octokit/types@13.0.0:
-    resolution: {integrity: sha512-jSOgEoFZvjg78txlb7cuRTAEvyyQkIEB4Nujg5ZN7E1xaICsr8A0X045Nwb1wUWNrBUHBHZNtcsDIhk8d8ipCw==}
+  /@octokit/types@13.1.0:
+    resolution: {integrity: sha512-nBwAFOYqVUUJ2AZFK4ZzESQptaAVqdTDKk8gE0Xr0o99WuPDSrhUC38x0F40xD9OUxXhOOuZKWNNVVLPSHQDvQ==}
     dependencies:
       '@octokit/openapi-types': 21.0.0
     dev: true

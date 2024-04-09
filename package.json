@@ -112,7 +112,7 @@
         "typedoc-plugin-markdown": "^3.17.1",
         "typescript": "5.4.4",
         "vite": "^5.2.8",
-        "vitepress": "1.0.2",
+        "vitepress": "1.1.0",
         "vitest": "^1.4.0"
     },
     "dependencies": {

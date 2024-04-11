@@ -52,7 +52,7 @@
         "@secretlint/secretlint-rule-preset-recommend": "^8.2.3",
         "@sveltejs/adapter-node": "^5.0.1",
         "@sveltejs/kit": "^2.5.5",
-        "@sveltejs/vite-plugin-svelte": "^3.0.2",
+        "@sveltejs/vite-plugin-svelte": "^3.1.0",
         "@swc-node/register": "~1.9.0",
         "@swc/cli": "~0.3.12",
         "@swc/core": "1.4.13",

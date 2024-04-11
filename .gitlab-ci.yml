@@ -33,7 +33,7 @@ stages:
     - nr docker:build-workspace
 
 nx-workspace:
-  image: node:20-alpine
+  image: node:20.12.1-alpine
   stage: nx
   <<: *cache
   before_script:

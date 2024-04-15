@@ -55,7 +55,7 @@
         "@sveltejs/vite-plugin-svelte": "^3.1.0",
         "@swc-node/register": "~1.9.0",
         "@swc/cli": "~0.3.12",
-        "@swc/core": "1.4.13",
+        "@swc/core": "1.4.14",
         "@testing-library/react": "15.0.2",
         "@types/d3": "^7.4.3",
         "@types/jest": "^29.5.12",

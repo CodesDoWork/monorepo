@@ -161,8 +161,8 @@ devDependencies:
     specifier: 18.2.4
     version: 18.2.4(@swc-node/register@1.9.0)(@swc/core@1.4.14)
   '@octokit/types':
-    specifier: ^13.4.0
-    version: 13.4.0
+    specifier: ^13.4.1
+    version: 13.4.1
   '@secretlint/secretlint-rule-preset-recommend':
     specifier: ^8.2.3
     version: 8.2.3
@@ -3589,14 +3589,14 @@ packages:
       - debug
     dev: true
 
-  /@octokit/openapi-types@22.0.1:
-    resolution: {integrity: sha512-1yN5m1IMNXthoBDUXFF97N1gHop04B3H8ws7wtOr8GgRyDO1gKALjwMHARNBoMBiB/2vEe/vxstrApcJZzQbnQ==}
+  /@octokit/openapi-types@22.1.0:
+    resolution: {integrity: sha512-pGUdSP+eEPfZiQHNkZI0U01HLipxncisdJQB4G//OAmfeO8sqTQ9KRa0KF03TUPCziNsoXUrTg4B2Q1EX++T0Q==}
     dev: true
 
-  /@octokit/types@13.4.0:
-    resolution: {integrity: sha512-WlMegy3lPXYWASe3k9Jslc5a0anrYAYMWtsFrxBTdQjS70hvLH6C+PGvHbOsgy3RA3LouGJoU/vAt4KarecQLQ==}
+  /@octokit/types@13.4.1:
+    resolution: {integrity: sha512-Y73oOAzRBAUzR/iRAbGULzpNkX8vaxKCqEtg6K74Ff3w9f5apFnWtE/2nade7dMWWW3bS5Kkd6DJS4HF04xreg==}
     dependencies:
-      '@octokit/openapi-types': 22.0.1
+      '@octokit/openapi-types': 22.1.0
     dev: true
 
   /@panva/hkdf@1.1.1:

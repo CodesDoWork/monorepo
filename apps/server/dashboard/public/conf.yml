@@ -161,6 +161,12 @@ sections:
       - title: Bitwarden
         icon: vaultwarden.svg
         url: https://bitwarden.justinkonratt.com
+      - title: CMS
+        icon: directus.svg
+        url: https://cms.justinkonratt.com
+      - title: Adminer
+        icon: adminer.svg
+        url: https://adminer.justinkonratt.com
       - title: Logout
         icon: logout.svg
         url: https://dashboard.justinkonratt.com/callback-logout
@@ -182,6 +188,9 @@ sections:
         tags:
           - cicd
         url: https://sonar.justinkonratt.com
+      - title: WandB
+        icon: wandb.png
+        url: https://wandb.justinkonratt.com
     widgets:
       - type: github-profile-stats
         options:

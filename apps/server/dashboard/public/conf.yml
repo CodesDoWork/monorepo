@@ -189,7 +189,7 @@ sections:
           - cicd
         url: https://sonar.justinkonratt.com
       - title: WandB
-        icon: wandb.png
+        icon: wandb.svg
         url: https://wandb.justinkonratt.com
     widgets:
       - type: github-profile-stats

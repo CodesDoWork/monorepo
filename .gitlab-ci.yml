@@ -30,7 +30,7 @@ stages:
     - *nx-install
     - docker info
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
-    - docker compose build --no-cache base && docker compose build --no-cache workspace
+    - nr docker:build-workspace
 
 nx-workspace:
   image: node:20.12.2-alpine

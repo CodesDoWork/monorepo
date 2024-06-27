@@ -62,6 +62,7 @@ services:
       - sonarqube-data:/data/services/sonarqube/data:ro
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
       - vpn-data:/data/services/vpn/data:ro
+      - wandb-data:/data/services/wandb/data:ro
 
   bitwarden:
     environment:
@@ -473,6 +474,12 @@ services:
     volumes:
       - vpn-data:/etc/wireguard
 
+  wandb:
+    image: wandb/local
+    restart: unless-stopped
+    volumes:
+      - wandb-data:/vol
+
 volumes:
   bitwarden-data:
 
@@ -511,6 +518,8 @@ volumes:
   sonarqube-extensions:
 
   vpn-data:
+
+  wandb-data:
 
 networks:
   default:

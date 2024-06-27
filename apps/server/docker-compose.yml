@@ -6,6 +6,10 @@ x-build-args:
       - PROJECT
 
 services:
+  adminer:
+    image: adminer
+    restart: unless-stopped
+
   auth:
     command:
       - start

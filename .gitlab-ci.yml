@@ -28,8 +28,8 @@ stages:
   before_script:
     - apk add npm
     - *nx-install
-    - docker info
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+    - docker info
     - nr docker:build-workspace
 
 nx-workspace:

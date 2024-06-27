@@ -105,6 +105,23 @@ services:
     volumes:
       - ./letsencrypt:/etc/letsencrypt
 
+  cms:
+    environment:
+      - SECRET="replace-with-secure-random-value"
+      - ADMIN_EMAIL=""
+      - ADMIN_PASSWORD=""
+      - DB_CLIENT="pg"
+      - DB_HOST="database"
+      - DB_PORT="5432"
+      - DB_DATABASE="directus"
+      - DB_USER="directus"
+      - DB_PASSWORD="directus"
+
+    image: directus/directus:10.12
+    restart: unless-stopped
+    volumes:
+      - directus-uploads:/directus/uploads
+
   dashboard:
     build:
       <<: *build-args
@@ -236,6 +253,14 @@ services:
       - gitlab-config:/etc/gitlab
       - gitlab-data:/var/opt/gitlab
 
+  gitlab-runner:
+    dns: ${DNS_IP}
+    image: gitlab/gitlab-runner
+    restart: unless-stopped
+    volumes:
+      - gitlab-runner-config:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+
   ghost:
     image: ghost:5
     cap_add:
@@ -260,13 +285,6 @@ services:
       mail__options__auth__pass: ${SMTP_PASSWORD}
     volumes:
       - ghost-content:/var/lib/ghost/content
-
-  gitlab-runner:
-    image: gitlab/gitlab-runner
-    restart: unless-stopped
-    volumes:
-      - gitlab-runner-config:/etc/gitlab-runner
-      - /var/run/docker.sock:/var/run/docker.sock
 
   grafana:
     environment:

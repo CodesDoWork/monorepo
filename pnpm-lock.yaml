@@ -275,8 +275,8 @@ devDependencies:
     specifier: ^4.0.0
     version: 4.0.0(eslint@9.0.0)(svelte@4.2.14)
   flowbite-svelte:
-    specifier: ^0.46.11
-    version: 0.46.11(svelte@4.2.14)
+    specifier: ^0.46.12
+    version: 0.46.12(svelte@4.2.14)
   glob:
     specifier: ^10.3.12
     version: 10.3.12
@@ -9660,8 +9660,8 @@ packages:
     resolution: {integrity: sha512-36yxDn5H7OFZQla0/jFJmbIKTdZAQHngCedGxiMmpNfEZM0sdEeT+WczLQrjK6D7o2aiyLYDnkw0R3JK0Qv1RQ==}
     dev: true
 
-  /flowbite-svelte@0.46.11(svelte@4.2.14):
-    resolution: {integrity: sha512-kZB1J7S+AB9TWT4mmMvV2EZIM8G0JiVab6YVao49d1Y4X3jnfbNhxsyttlFGRHBFbRfEI3pFR5FetOTa4REP2g==}
+  /flowbite-svelte@0.46.12(svelte@4.2.14):
+    resolution: {integrity: sha512-0LC+LrrVi7XkRq6LbU4TLx9XhQCLZFHyrUANZt1egpq+Uji30icW/2i4KiYSfiTMwdokqXYdLheoOmbX6889Dg==}
     engines: {node: '>=18.0.0', pnpm: '>=8.0.0'}
     peerDependencies:
       svelte: ^3.55.1 || ^4.0.0

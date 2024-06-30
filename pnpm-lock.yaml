@@ -126,7 +126,7 @@ devDependencies:
     version: 3.1.6(svelte@4.2.18)
   '@nx/cypress':
     specifier: 18.3.5
-    version: 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.7.3)(nx@18.3.5)(typescript@5.4.5)
+    version: 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.12.0)(nx@18.3.5)(typescript@5.4.5)
   '@nx/esbuild':
     specifier: 18.3.5
     version: 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(esbuild@0.20.2)(nx@18.3.5)(typescript@5.4.5)
@@ -233,8 +233,8 @@ devDependencies:
     specifier: ^2.4.1
     version: 2.4.1
   cypress:
-    specifier: ^13.7.3
-    version: 13.7.3
+    specifier: ^13.12.0
+    version: 13.12.0
   emailjs:
     specifier: ^4.0.3
     version: 4.0.3(typescript@5.4.5)
@@ -2758,10 +2758,10 @@ packages:
       - encoding
     dev: false
 
-  /@nrwl/cypress@18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.7.3)(nx@18.3.5)(typescript@5.4.5):
+  /@nrwl/cypress@18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.12.0)(nx@18.3.5)(typescript@5.4.5):
     resolution: {integrity: sha512-so2D+WJQGXBIg37FhDpdqYuiSPHOOWrwUwsq6wrVNfzYAUkejHK4J+n5Kw6056ZdKI/yJ3niw50eNprb7yKFpg==}
     dependencies:
-      '@nx/cypress': 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.7.3)(nx@18.3.5)(typescript@5.4.5)
+      '@nx/cypress': 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.12.0)(nx@18.3.5)(typescript@5.4.5)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -3028,7 +3028,7 @@ packages:
       - debug
     dev: true
 
-  /@nx/cypress@18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.7.3)(nx@18.3.5)(typescript@5.4.5):
+  /@nx/cypress@18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.12.0)(nx@18.3.5)(typescript@5.4.5):
     resolution: {integrity: sha512-02wB/tuctBHO3IyOs4F1wMHc566BWcC4Trj4x9BAXj1fI8WI9GF1/tNF0Yzwf1pe9QKqmSFp9zg07+tus++eQg==}
     peerDependencies:
       cypress: '>= 3 < 14'
@@ -3036,12 +3036,12 @@ packages:
       cypress:
         optional: true
     dependencies:
-      '@nrwl/cypress': 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.7.3)(nx@18.3.5)(typescript@5.4.5)
+      '@nrwl/cypress': 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.12.0)(nx@18.3.5)(typescript@5.4.5)
       '@nx/devkit': 18.3.5(nx@18.3.5)
       '@nx/eslint': 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(nx@18.3.5)
       '@nx/js': 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(nx@18.3.5)(typescript@5.4.5)
       '@phenomnomnominal/tsquery': 5.0.1(typescript@5.4.5)
-      cypress: 13.7.3
+      cypress: 13.12.0
       detect-port: 1.5.1
       semver: 7.6.0
       tslib: 2.6.3
@@ -7291,8 +7291,8 @@ packages:
   /csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
-  /cypress@13.7.3:
-    resolution: {integrity: sha512-uoecY6FTCAuIEqLUYkTrxamDBjMHTYak/1O7jtgwboHiTnS1NaMOoR08KcTrbRZFCBvYOiS4tEkQRmsV+xcrag==}
+  /cypress@13.12.0:
+    resolution: {integrity: sha512-udzS2JilmI9ApO/UuqurEwOvThclin5ntz7K0BtnHBs+tg2Bl9QShLISXpSEMDv/u8b6mqdoAdyKeZiSqKWL8g==}
     engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
     hasBin: true
     requiresBuild: true
@@ -13938,21 +13938,21 @@ packages:
     resolution: {integrity: sha512-OQiU+C+Ds5qiH91qh/mg0w+8nwQuLjM4F4M/PbmhDOoYehPh+Fb0bDjtR1sOvy7YKxvj28Y/M0PhP5uVX0kB+g==}
     engines: {node: '>=0.6'}
     dependencies:
-      side-channel: 1.0.4
+      side-channel: 1.0.6
     dev: true
 
   /qs@6.11.0:
     resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==}
     engines: {node: '>=0.6'}
     dependencies:
-      side-channel: 1.0.4
+      side-channel: 1.0.6
     dev: true
 
   /qs@6.11.2:
     resolution: {integrity: sha512-tDNIz22aBzCDxLtVH++VnTfzxlfeK5CbqohpSqpJgj1Wg/cQbStNAz3NuqCs5vV+pjBsK4x4pN9HlVh7rcYRiA==}
     engines: {node: '>=0.6'}
     dependencies:
-      side-channel: 1.0.4
+      side-channel: 1.0.6
 
   /querystringify@2.2.0:
     resolution: {integrity: sha512-FIqgj2EUvTa7R50u0rGsyTftzjYmv/a3hO345bZNrqabNqjtgiDMgmo4mkUjd+nzU5oF3dClKqFIPUKybUyqoQ==}
@@ -14828,6 +14828,7 @@ packages:
       call-bind: 1.0.7
       get-intrinsic: 1.2.4
       object-inspect: 1.13.1
+    dev: true
 
   /side-channel@1.0.6:
     resolution: {integrity: sha512-fDW/EZ6Q9RiO8eFG8Hj+7u/oW+XrPTIChwCOM2+th2A6OblDtYYIpve9m+KvI9Z4C9qSEXlaGR6bTEYHReuglA==}
@@ -14837,7 +14838,6 @@ packages:
       es-errors: 1.3.0
       get-intrinsic: 1.2.4
       object-inspect: 1.13.1
-    dev: true
 
   /siginfo@2.0.0:
     resolution: {integrity: sha512-ybx0WO1/8bSBLEWXZvEd7gMW3Sn3JFlW3TvX1nREbDLRNQNaeNN8WK0meBwPdAaOI7TtRRRJn/Es1zhrrCHu7g==}

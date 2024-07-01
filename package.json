@@ -96,7 +96,7 @@
         "nx": "18.3.5",
         "pino-pretty": "^11.2.1",
         "postcss": "^8.4.39",
-        "prettier": "^3.2.5",
+        "prettier": "^3.3.2",
         "replace-in-files-cli": "^2.2.0",
         "rimraf": "^5.0.7",
         "secretlint": "^8.2.4",

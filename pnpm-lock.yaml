@@ -126,7 +126,7 @@ devDependencies:
     version: 3.1.6(svelte@4.2.18)
   '@nx/cypress':
     specifier: 18.3.5
-    version: 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.12.0)(nx@18.3.5)(typescript@5.5.3)
+    version: 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.13.0)(nx@18.3.5)(typescript@5.5.3)
   '@nx/esbuild':
     specifier: 18.3.5
     version: 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(esbuild@0.22.0)(nx@18.3.5)(typescript@5.5.3)
@@ -233,8 +233,8 @@ devDependencies:
     specifier: ^2.4.1
     version: 2.4.1
   cypress:
-    specifier: ^13.12.0
-    version: 13.12.0
+    specifier: ^13.13.0
+    version: 13.13.0
   emailjs:
     specifier: ^4.0.3
     version: 4.0.3(typescript@5.5.3)
@@ -1877,7 +1877,7 @@ packages:
       performance-now: 2.1.0
       qs: 6.10.4
       safe-buffer: 5.2.1
-      tough-cookie: 4.1.3
+      tough-cookie: 4.1.4
       tunnel-agent: 0.6.0
       uuid: 8.3.2
     dev: true
@@ -2979,10 +2979,10 @@ packages:
       - encoding
     dev: false
 
-  /@nrwl/cypress@18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.12.0)(nx@18.3.5)(typescript@5.5.3):
+  /@nrwl/cypress@18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.13.0)(nx@18.3.5)(typescript@5.5.3):
     resolution: {integrity: sha512-so2D+WJQGXBIg37FhDpdqYuiSPHOOWrwUwsq6wrVNfzYAUkejHK4J+n5Kw6056ZdKI/yJ3niw50eNprb7yKFpg==}
     dependencies:
-      '@nx/cypress': 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.12.0)(nx@18.3.5)(typescript@5.5.3)
+      '@nx/cypress': 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.13.0)(nx@18.3.5)(typescript@5.5.3)
     transitivePeerDependencies:
       - '@babel/traverse'
       - '@swc-node/register'
@@ -3266,7 +3266,7 @@ packages:
       - debug
     dev: true
 
-  /@nx/cypress@18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.12.0)(nx@18.3.5)(typescript@5.5.3):
+  /@nx/cypress@18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.13.0)(nx@18.3.5)(typescript@5.5.3):
     resolution: {integrity: sha512-02wB/tuctBHO3IyOs4F1wMHc566BWcC4Trj4x9BAXj1fI8WI9GF1/tNF0Yzwf1pe9QKqmSFp9zg07+tus++eQg==}
     peerDependencies:
       cypress: '>= 3 < 14'
@@ -3274,12 +3274,12 @@ packages:
       cypress:
         optional: true
     dependencies:
-      '@nrwl/cypress': 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.12.0)(nx@18.3.5)(typescript@5.5.3)
+      '@nrwl/cypress': 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(cypress@13.13.0)(nx@18.3.5)(typescript@5.5.3)
       '@nx/devkit': 18.3.5(nx@18.3.5)
       '@nx/eslint': 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(nx@18.3.5)
       '@nx/js': 18.3.5(@swc-node/register@1.10.0)(@swc/core@1.6.6)(@types/node@20.12.7)(nx@18.3.5)(typescript@5.5.3)
       '@phenomnomnominal/tsquery': 5.0.1(typescript@5.5.3)
-      cypress: 13.12.0
+      cypress: 13.13.0
       detect-port: 1.5.1
       semver: 7.6.0
       tslib: 2.6.3
@@ -6819,7 +6819,7 @@ packages:
   /builtins@5.0.1:
     resolution: {integrity: sha512-qwVpFEHNfhYJIzNRBvd2C1kyo6jz3ZSMPyyuR47OPdiKWlbYnZNyDWuyR175qDnAJLiCo5fBBqPb3RiXgWlkOQ==}
     dependencies:
-      semver: 7.6.0
+      semver: 7.6.2
     dev: true
 
   /busboy@1.6.0:
@@ -7589,8 +7589,8 @@ packages:
   /csstype@3.1.3:
     resolution: {integrity: sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==}
 
-  /cypress@13.12.0:
-    resolution: {integrity: sha512-udzS2JilmI9ApO/UuqurEwOvThclin5ntz7K0BtnHBs+tg2Bl9QShLISXpSEMDv/u8b6mqdoAdyKeZiSqKWL8g==}
+  /cypress@13.13.0:
+    resolution: {integrity: sha512-ou/MQUDq4tcDJI2FsPaod2FZpex4kpIK43JJlcBgWrX8WX7R/05ZxGTuxedOuZBfxjZxja+fbijZGyxiLP6CFA==}
     engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
     hasBin: true
     requiresBuild: true
@@ -7632,9 +7632,9 @@ packages:
       process: 0.11.10
       proxy-from-env: 1.0.0
       request-progress: 3.0.0
-      semver: 7.6.0
+      semver: 7.6.2
       supports-color: 8.1.1
-      tmp: 0.2.1
+      tmp: 0.2.3
       untildify: 4.0.0
       yauzl: 2.10.0
     dev: true
@@ -12250,7 +12250,7 @@ packages:
     resolution: {integrity: sha512-hXdUTZYIVOt1Ex//jAQi+wTZZpUpwBj/0QsOzqegb3rGMMeJiSEu5xLHnYfBrRV4RH2+OCSOO95Is/7x1WJ4bw==}
     engines: {node: '>=10'}
     dependencies:
-      semver: 7.6.0
+      semver: 7.6.2
     dev: true
 
   /make-error@1.3.6:
@@ -12748,7 +12748,7 @@ packages:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.13.1
-      semver: 7.6.0
+      semver: 7.6.2
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -12758,7 +12758,7 @@ packages:
     dependencies:
       hosted-git-info: 7.0.1
       is-core-module: 2.13.1
-      semver: 7.6.0
+      semver: 7.6.2
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -14835,7 +14835,7 @@ packages:
     resolution: {integrity: sha512-LJWA9kSvMolR51oDE6PN3kALBNaUdkxzAGcexw8gjMA8xr5zUqK0JiR3CgARSqanYF3Z1YHvsErb1KDgh+v7Rg==}
     engines: {node: '>=12'}
     dependencies:
-      semver: 7.6.0
+      semver: 7.6.2
     dev: true
 
   /semver@5.7.2:
@@ -16080,6 +16080,11 @@ packages:
     engines: {node: '>=8.17.0'}
     dependencies:
       rimraf: 3.0.2
+    dev: true
+
+  /tmp@0.2.3:
+    resolution: {integrity: sha512-nZD7m9iCPC5g0pYmcaxogYKggSfLsdxl8of3Q/oIbqCqLLIO9IAF0GWjX1z9NZRHPiXv8Wex4yDCaZsgEw0Y8w==}
+    engines: {node: '>=14.14'}
     dev: true
 
   /tmpl@1.0.5:

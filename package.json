@@ -72,7 +72,7 @@
         "babel-jest": "^29.7.0",
         "copy-file": "^11.0.0",
         "copyfiles": "^2.4.1",
-        "cypress": "^13.12.0",
+        "cypress": "^13.13.0",
         "emailjs": "^4.0.3",
         "esbuild": "^0.22.0",
         "eslint": "9.6.0",

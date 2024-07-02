@@ -35,7 +35,7 @@
         "secretlint": "secretlint --secretlintignore .gitignore \"**/*\""
     },
     "devDependencies": {
-        "@iconify/svelte": "^3.1.6",
+        "@iconify/svelte": "^4.0.2",
         "@nx/cypress": "18.3.5",
         "@nx/esbuild": "18.3.5",
         "@nx/eslint": "18.3.5",

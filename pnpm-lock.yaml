@@ -9,8 +9,8 @@ dependencies:
     specifier: ^8.14.0
     version: 8.14.0
   '@fastify/swagger-ui':
-    specifier: ^3.0.0
-    version: 3.0.0
+    specifier: ^3.1.0
+    version: 3.1.0
   '@fastify/websocket':
     specifier: ^10.0.1
     version: 10.0.1
@@ -2467,13 +2467,13 @@ packages:
       glob: 10.4.2
     dev: false
 
-  /@fastify/swagger-ui@3.0.0:
-    resolution: {integrity: sha512-8P5OwHVv6QR4XSE6cW4fsENeMbW4yWWWj6Dz/5tvQN2pwNyTiSWxYpsY3+VP+uiZucNaDrAE2xm11rqytqAocA==}
+  /@fastify/swagger-ui@3.1.0:
+    resolution: {integrity: sha512-68jm6k8VzvHXkEBT4Dakm/kkzUlPO4POIi0agWJSWxsYichPBqzjo+IpfqPl4pSJR1zCToQhEOo+cv+yJL2qew==}
     dependencies:
       '@fastify/static': 7.0.1
       fastify-plugin: 4.5.1
       openapi-types: 12.1.3
-      rfdc: 1.3.1
+      rfdc: 1.4.1
       yaml: 2.3.2
     dev: false
 
@@ -9786,7 +9786,7 @@ packages:
       ajv-formats: 2.1.1(ajv@8.12.0)
       fast-deep-equal: 3.1.3
       fast-uri: 2.2.0
-      rfdc: 1.3.1
+      rfdc: 1.4.1
     dev: false
 
   /fast-levenshtein@2.0.6:
@@ -11920,7 +11920,7 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
-      rfdc: 1.3.1
+      rfdc: 1.4.1
       uri-js: 4.4.1
     transitivePeerDependencies:
       - supports-color

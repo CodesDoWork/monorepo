@@ -42,8 +42,8 @@ dependencies:
     specifier: ^1.11.21
     version: 1.11.21
   axios:
-    specifier: ^1.6.8
-    version: 1.6.8
+    specifier: ^1.7.2
+    version: 1.7.2
   clsx:
     specifier: ^2.1.1
     version: 2.1.1
@@ -354,7 +354,7 @@ devDependencies:
     version: 5.3.2(@types/node@20.14.9)(less@4.1.3)(stylus@0.59.0)
   vitepress:
     specifier: 1.2.3
-    version: 1.2.3(@algolia/client-search@4.20.0)(@types/node@20.14.9)(@types/react@18.3.3)(axios@1.6.8)(less@4.1.3)(postcss@8.4.39)(react-dom@18.3.1)(react@18.3.1)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.5.3)
+    version: 1.2.3(@algolia/client-search@4.20.0)(@types/node@20.14.9)(@types/react@18.3.3)(axios@1.7.2)(less@4.1.3)(postcss@8.4.39)(react-dom@18.3.1)(react@18.3.1)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.5.3)
   vitest:
     specifier: ^1.6.0
     version: 1.6.0(@types/node@20.14.9)(@vitest/ui@1.6.0)(jsdom@24.1.0)(less@4.1.3)(stylus@0.59.0)
@@ -4828,7 +4828,7 @@ packages:
   /@tryghost/content-api@1.11.21:
     resolution: {integrity: sha512-ozJqEMHDUO7D0SGxPbUnG+RvwBbzC3zmdGOW8cFvkcKzrhe7uOAmVKyq7/J3kRAM2QthTlmiDpqp7NEo9ZLlKg==}
     dependencies:
-      axios: 1.6.8
+      axios: 1.7.2
     transitivePeerDependencies:
       - debug
     dev: false
@@ -5838,7 +5838,7 @@ packages:
       - '@vue/composition-api'
       - vue
 
-  /@vueuse/integrations@10.11.0(axios@1.6.8)(focus-trap@7.5.4)(vue@3.4.31):
+  /@vueuse/integrations@10.11.0(axios@1.7.2)(focus-trap@7.5.4)(vue@3.4.31):
     resolution: {integrity: sha512-Pp6MtWEIr+NDOccWd8j59Kpjy5YDXogXI61Kb1JxvSfVBO8NzFQkmrKmSZz47i+ZqHnIzxaT38L358yDHTncZg==}
     peerDependencies:
       async-validator: ^4
@@ -5881,7 +5881,7 @@ packages:
     dependencies:
       '@vueuse/core': 10.11.0(vue@3.4.31)
       '@vueuse/shared': 10.11.0(vue@3.4.31)
-      axios: 1.6.8
+      axios: 1.7.2
       focus-trap: 7.5.4
       vue-demi: 0.14.8(vue@3.4.31)
     transitivePeerDependencies:
@@ -6536,8 +6536,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /axios@1.6.8:
-    resolution: {integrity: sha512-v/ZHtJDU39mDpyBoFVkETcd/uNdxrWRrg3bKpOKzXFA6Bvqopts6ALSMU3y6ijYxbw2B+wPrIv46egTzJXCLGQ==}
+  /axios@1.7.2:
+    resolution: {integrity: sha512-2A8QhOMrbomlDuiLeK9XibIBzuHeRcqqNOHp0Cyp5EoJ1IFDh+XZH3A6BkXtv0K4gFGCI0Y4BM7B1wOEi0Rmgw==}
     dependencies:
       follow-redirects: 1.15.6
       form-data: 4.0.0
@@ -12920,7 +12920,7 @@ packages:
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.46
       '@zkochan/js-yaml': 0.0.6
-      axios: 1.6.8
+      axios: 1.7.2
       chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
@@ -16921,10 +16921,10 @@ packages:
       vitepress: ^0.21.6 || ^1.0.0 || ^1.0.0-alpha
     dependencies:
       mermaid: 9.1.7
-      vitepress: 1.2.3(@algolia/client-search@4.20.0)(@types/node@20.14.9)(@types/react@18.3.3)(axios@1.6.8)(less@4.1.3)(postcss@8.4.39)(react-dom@18.3.1)(react@18.3.1)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.5.3)
+      vitepress: 1.2.3(@algolia/client-search@4.20.0)(@types/node@20.14.9)(@types/react@18.3.3)(axios@1.7.2)(less@4.1.3)(postcss@8.4.39)(react-dom@18.3.1)(react@18.3.1)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.5.3)
     dev: false
 
-  /vitepress@1.2.3(@algolia/client-search@4.20.0)(@types/node@20.14.9)(@types/react@18.3.3)(axios@1.6.8)(less@4.1.3)(postcss@8.4.39)(react-dom@18.3.1)(react@18.3.1)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.5.3):
+  /vitepress@1.2.3(@algolia/client-search@4.20.0)(@types/node@20.14.9)(@types/react@18.3.3)(axios@1.7.2)(less@4.1.3)(postcss@8.4.39)(react-dom@18.3.1)(react@18.3.1)(search-insights@2.8.3)(stylus@0.59.0)(typescript@5.5.3):
     resolution: {integrity: sha512-GvEsrEeNLiDE1+fuwDAYJCYLNZDAna+EtnXlPajhv/MYeTjbNK6Bvyg6NoTdO1sbwuQJ0vuJR99bOlH53bo6lg==}
     hasBin: true
     peerDependencies:
@@ -16945,7 +16945,7 @@ packages:
       '@vue/devtools-api': 7.3.5
       '@vue/shared': 3.4.31
       '@vueuse/core': 10.11.0(vue@3.4.31)
-      '@vueuse/integrations': 10.11.0(axios@1.6.8)(focus-trap@7.5.4)(vue@3.4.31)
+      '@vueuse/integrations': 10.11.0(axios@1.7.2)(focus-trap@7.5.4)(vue@3.4.31)
       focus-trap: 7.5.4
       mark.js: 8.11.1
       minisearch: 6.3.0

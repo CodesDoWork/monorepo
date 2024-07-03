@@ -17,7 +17,7 @@ COPY . .
 RUN npx nx build $APP_NAME
 
 
-FROM lissy93/dashy:2.1.2
+FROM lissy93/dashy:3.1.0
 ENV NODE_ENV=production
 ARG APP_DIR
 

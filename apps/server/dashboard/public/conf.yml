@@ -93,6 +93,9 @@ sections:
       - title: Personizer
         icon: favicon
         url: https://www.personizer.com/app/absence-dashboards/personal/
+      - title: Daily.dev
+        icon: favicon
+        url: https://app.daily.dev
   - name: Server
     displayData:
       cutToHeight: true

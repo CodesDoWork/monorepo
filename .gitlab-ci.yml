@@ -16,10 +16,10 @@ stages:
       - .pnpm-store/
 
 .docker: &docker
-  image: docker:26.0.1
+  image: docker:26.1.4
   stage: deploy
   services:
-    - name: docker:26.0.1-dind
+    - name: docker:26.1.4-dind
       alias: docker-service
   <<: *cache
   variables:
@@ -33,7 +33,7 @@ stages:
     - nr docker:build-workspace
 
 nx-workspace:
-  image: node:20.12.2-alpine
+  image: node:20.15.0-alpine
   stage: nx
   <<: *cache
   before_script:

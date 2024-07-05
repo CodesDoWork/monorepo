@@ -29,7 +29,7 @@ services:
     environment:
       - KEYCLOAK_ADMIN=${AUTH_USER}
       - KEYCLOAK_ADMIN_PASSWORD=${AUTH_PASSWORD}
-    image: quay.io/keycloak/keycloak:24.0.3
+    image: quay.io/keycloak/keycloak:24.0.5
     restart: unless-stopped
 
   backup-service:
@@ -126,7 +126,7 @@ services:
       - AUTH_KEYCLOAK_CLIENT_SECRET=${CMS_AUTH_CLIENT_SECRET}
       - AUTH_KEYCLOAK_ISSUER_URL=https://${AUTH_DOMAIN}/realms/${AUTH_REALM}/.well-known/openid-configuration
       - AUTH_KEYCLOAK_IDENTIFIER_KEY=email
-    image: directus/directus:10.12
+    image: directus/directus:10.13
     restart: unless-stopped
     volumes:
       - directus-uploads:/directus/uploads

@@ -373,7 +373,7 @@ services:
     command: --mysql-native-password=ON --tls-version=''
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
-    image: mysql:8
+    image: mysql:9
     restart: unless-stopped
     security_opt:
       - seccomp:unconfined

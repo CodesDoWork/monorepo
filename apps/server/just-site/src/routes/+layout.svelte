@@ -1,25 +1,26 @@
 <script lang="ts">
+    import type { PageData } from "./$types";
     import "../../../../../libs/branding/assets/css/tailwind.css";
     import tailwindConfig from "../../tailwind.config";
     import { useThemeStore } from "../stores/useThemeStore";
-    import { useRoutes } from "../stores/useRoutes";
-    import { config } from "../config";
+
+    export let data: PageData;
+    const { siteInfo, currentRoute } = data;
 
     const themeStore = useThemeStore();
     $: themeColor = $themeStore === "dark" ? tailwindConfig.theme.extend.colors.primary[950] : tailwindConfig.theme.extend.colors.primary[500];
 
-    const { currentRoute } = useRoutes();
-    const title = $currentRoute ? `${$currentRoute.label} | ${config.title}` : config.title;
+    const title = currentRoute ? `${currentRoute.name} | ${siteInfo.title}` : siteInfo.title;
 </script>
 
 <svelte:head>
     <title>{title}</title>
-    <meta content="Your Passionate Dev and Student of Life" name={$currentRoute?.description} />
-    <meta content={config.keywords} name="keywords" />
+    <meta content="description" name={currentRoute?.description} />
+    <meta content={siteInfo.keywords.join(" ")} name="keywords" />
     <meta content={themeColor} name="theme-color" />
     <meta content={title} property="og:title">
     <meta content="website" property="og:type" />
-    <meta content={$currentRoute?.description} property="og:description">
+    <meta content={currentRoute?.description} property="og:description">
     <meta content="https://justinkonratt.com" property="og:url">
     <meta content="summary" name="twitter:card">
     <meta content={title} property="og:site_name">

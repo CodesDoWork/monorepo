@@ -130,6 +130,7 @@ services:
     restart: unless-stopped
     volumes:
       - directus-uploads:/directus/uploads
+      - ./cms/extensions:/directus/extensions
 
   dashboard:
     build:
@@ -369,13 +370,13 @@ services:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
 
   mysql:
-    image: mysql:8
-    security_opt:
-      - seccomp:unconfined
-    restart: unless-stopped
-    command: --default-authentication-plugin=mysql_native_password
+    command: --mysql-native-password=ON --tls-version=''
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASS}
+    image: mysql:8
+    restart: unless-stopped
+    security_opt:
+      - seccomp:unconfined
     volumes:
       - mysql-data:/var/lib/mysql
 

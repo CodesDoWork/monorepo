@@ -1,8 +1,14 @@
 import { hash } from "../../helpers/hash";
-import { config } from "../../config";
+import { getDirectus, getRoutes, getSiteInfo, getWorkExperience } from "../../helpers/directus";
 
 export async function load() {
-    const portraitSrc = `https://gravatar.com/avatar/${await hash(config.contact.socials.Email)}?size=512`;
+    const directus = await getDirectus();
+    const siteInfo = await getSiteInfo(directus);
+    const routes = await getRoutes(directus);
+    const workExperience = await getWorkExperience(directus);
 
-    return { portraitSrc };
+    const email = siteInfo.socials.find(s => s.platform === "Email").name;
+    const portraitSrc = `https://gravatar.com/avatar/${await hash(email)}?size=512`;
+
+    return { siteInfo, routes, workExperience, portraitSrc };
 }

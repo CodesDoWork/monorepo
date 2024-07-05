@@ -1,18 +1,19 @@
 <script lang="ts">
+    import type { ActionData, PageData } from "./$types";
     import Page from "../../components/Page.svelte";
     import Heading from "../../components/Heading.svelte";
     import Card from "../../components/Card.svelte";
-    import { getSocials } from "../../helpers/getSocials";
     import Link from "../../components/Link.svelte";
     import { enhance } from "$app/forms";
     import { clsx } from "clsx";
-    import type { ActionData } from "./$types";
     import Icon from "@iconify/svelte";
     import { animationDelay } from "../../helpers/animationDelay";
 
+    export let data: PageData;
     export let form: ActionData;
 
-    const socials = getSocials();
+    const { siteInfo, routes } = data;
+    const { socials } = siteInfo;
 
     const inputClass = clsx(
         "p-2 rounded shadow focus:shadow-md focus:outline-2",
@@ -22,7 +23,7 @@
     );
 </script>
 
-<Page title={{title: "Contact", small: true}}>
+<Page routes={routes} siteInfo={siteInfo} title={{title: "Contact", small: true}}>
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-16">
         <div class="animate-fadeInSubtle opacity-0">
             <Heading level="h2">Let's Connect</Heading>
@@ -39,8 +40,8 @@
                             <Icon class="w-8 h-8 sm:w-10 sm:h-10 row-span-2 mr-4 transition-colors group-hover:text-[var(--hover-color)]" icon={social.icon} />
                             <Heading commandStyle={false}
                                      class="cursor-pointer !mb-0 !text-black dark:!text-white group-hover:!text-[var(--hover-color)]"
-                                     level="h5">{social.name}</Heading>
-                            <p class="text-0 h-0 text-slate-600 dark:text-slate-300 sm:group-hover:text-sm xl:group-hover:text-base transition-fontSize">{social.user}</p>
+                                     level="h5">{social.platform}</Heading>
+                            <p class="text-0 h-0 text-slate-600 dark:text-slate-300 sm:group-hover:text-sm xl:group-hover:text-base transition-fontSize">{social.name}</p>
                         </Link>
                     </Card>
                 {/each}

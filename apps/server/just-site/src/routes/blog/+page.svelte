@@ -7,7 +7,7 @@
     import { actionWhenInViewport } from "../../actions/actionWhenInViewport";
 
     export let data: PageData;
-    const { featuredPosts } = data;
+    const { siteInfo, routes, featuredPosts } = data;
 
     let page = 0;
     const limit = 10;
@@ -31,7 +31,7 @@
     $: posts = [...posts, ...newBatch]
 </script>
 
-<Page title={{title: "Blog", small: true}}>
+<Page routes={routes} siteInfo={siteInfo} title={{title: "Blog", small: true}}>
     <Heading class="mt-8" level="h3">Featured Posts</Heading>
     <Posts posts={featuredPosts}/>
     <Heading class="mt-16" level="h3">All Posts</Heading>

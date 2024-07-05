@@ -1,11 +1,11 @@
 <script lang="ts">
     import BookCard from "./BookCard.svelte";
     import Heading from "./Heading.svelte";
-    import type { Book, BookCategory } from "../types/Book";
     import { toLinkFriendly } from "../helpers/toLinkFriendly";
+    import type { JustSiteBooks } from "../types/directus";
 
-    export let category: BookCategory | "Featured";
-    export let books: Book[];
+    export let category: string;
+    export let books: JustSiteBooks[];
     export let getCardStyle: () => string;
 </script>
 

@@ -6,24 +6,26 @@
     import { sineInOut } from "svelte/easing";
     import NavLinks from "./NavLinks.svelte";
     import { useRoutes } from "../stores/useRoutes";
-    import { config } from "../config";
+    import type { JustSiteRoutes } from "../types/directus";
 
     let className = "";
     export { className as class };
+    export let title: string;
+    export let routes: JustSiteRoutes[];
 
-    const { currentRoute, previousRoute } = useRoutes();
+    const { currentRoute, previousRoute } = useRoutes(routes);
 
     let itemVisibility = "";
     let headerVisibility = "";
-    $: if ($previousRoute?.isHero === false) {
-        if ($currentRoute?.isHero === false) {
+    $: if ($previousRoute?.is_hero === false) {
+        if ($currentRoute?.is_hero === false) {
             itemVisibility = "opacity-100";
             headerVisibility = "scale-100";
         } else {
             itemVisibility = "animate-fadeOutTopSubtle opacity-0";
             headerVisibility = "animate-shrink opacity-100 scale-100";
         }
-    } else if ($currentRoute?.isHero === false) {
+    } else if ($currentRoute?.is_hero === false) {
         itemVisibility = "animate-fadeInTopSubtle opacity-0";
         headerVisibility = "animate-grow opacity-100 scale-100";
     } else {
@@ -49,8 +51,8 @@
 </script>
 
 <header class={headerClass}>
-    <a class={clsx("font-mono font-bold drop-shadow-md", itemVisibility)} href="/">{config.title}</a>
-    <NavLinks class="hidden lg:flex" liClass={clsx("inline-block", itemVisibility)} />
+    <a class={clsx("font-mono font-bold drop-shadow-md", itemVisibility)} href="/">{title}</a>
+    <NavLinks class="hidden lg:flex" liClass={clsx("inline-block", itemVisibility)} routes={routes} />
     <button class="block lg:hidden active:scale-90" on:click={() => navDrawerHidden = !navDrawerHidden}>
         <Icon class="w-6 h-6" icon="material-symbols:menu" />
     </button>
@@ -60,8 +62,8 @@
         transitionParams={transitionParams}>
     <Sidebar>
         <SidebarWrapper class="dark:bg-primary-950 rounded-r-none rounded-l p-3">
-            <NavLinks aClass="block text-black dark:text-white" liClass={"mb-2 animate-fadeInTopSubtle opacity-0"} />
+            <NavLinks aClass="block text-black dark:text-white" liClass={"mb-2 animate-fadeInTopSubtle opacity-0"} routes={routes} />
         </SidebarWrapper>
     </Sidebar>
 </Drawer>
-<DarkmodeToggle class="absolute top-4 right-8 z-10" />
+<DarkmodeToggle class="absolute top-4 right-8 z-10" is_on_hero={$currentRoute?.is_hero} />

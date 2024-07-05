@@ -1,13 +1,10 @@
-import { config } from "../config";
 import { onMount } from "svelte";
 import { afterNavigate } from "$app/navigation";
 import { readable } from "svelte/store";
-import type { RouteLink } from "../types/Config";
+import type { JustSiteRoutes } from "../types/directus";
 
-const { routeLinks } = config;
-
-export function useRoutes() {
-    const currentRoute = readable<RouteLink | undefined>(undefined, set => {
+export function useRoutes(routeLinks: JustSiteRoutes[]) {
+    const currentRoute = readable<JustSiteRoutes | undefined>(undefined, set => {
         onMount(() => {
             const path = window.location.pathname;
             set(routeLinks.find(r => r.route === path));
@@ -20,5 +17,5 @@ export function useRoutes() {
         });
     });
 
-    return { routeLinks, currentRoute, previousRoute };
+    return { currentRoute, previousRoute };
 }

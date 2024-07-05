@@ -1,13 +1,12 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import { useRoutes } from "../stores/useRoutes";
     import { useThemeStore } from "../stores/useThemeStore";
 
     let className = "";
     export { className as class };
+    export let is_on_hero: boolean;
 
-    const { currentRoute } = useRoutes();
     const theme = useThemeStore();
 
     const animationDuration = 300;
@@ -39,7 +38,7 @@
     };
 
     $: resultClass = clsx(isAnimating && "animate-switch", className)
-    $: iconClass = clsx($currentRoute?.isHero ? "text-black dark:text-white" : "text-white", "w-6 h-6");
+    $: iconClass = clsx(is_on_hero ? "text-black dark:text-white" : "text-white", "w-6 h-6");
 </script>
 
 <button class={resultClass} disabled={isAnimating} on:click={toggleTheme} >

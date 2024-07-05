@@ -8,23 +8,41 @@
     import BackToTop from "./BackToTop.svelte";
     import Icon from "@iconify/svelte";
     import Card from "./Card.svelte";
+    import type { JustSiteInfo, JustSiteRoutes } from "../types/directus";
 
-    export let header: ComponentProps<Header> = {};
+    export let siteInfo: JustSiteInfo;
+    export let routes: JustSiteRoutes[];
+    export let header: ComponentProps<Header> = { title: siteInfo.title, routes };
     export let title: ComponentProps<Title> = {};
     export let loading = false;
 
-    const { currentRoute, previousRoute } = useRoutes();
+    const { currentRoute, previousRoute } = useRoutes(routes);
+    $: pageTitle = $currentRoute ? `${$currentRoute.name} | ${siteInfo.title}` : siteInfo.title;
 
     $: mainClass = clsx(
         "text-black dark:text-white transition-colors",
-        $currentRoute?.isHero === false && "bg-white dark:bg-opacity-0",
+        $currentRoute?.is_hero === false && "bg-white dark:bg-opacity-0",
         "pt-4 pb-16 md:px-8 flex-1 w-full px-8 sm:px-1/20 lg:px-1/10",
-        $currentRoute?.isHero === false && $previousRoute?.isHero && "animate-fadeInSubtle",
+        $currentRoute?.is_hero === false && $previousRoute?.isHero && "animate-fadeInSubtle",
     );
+
+    const footerProps = {
+        licenseType: siteInfo.project_license,
+        licenseUrl: siteInfo.project_license_url,
+        projectUrl: siteInfo.project_url,
+        projectPlatform: siteInfo.project_platform.name,
+        routes,
+    };
 </script>
 
+<svelte:head>
+    <title>{pageTitle}</title>
+    <meta content="description" name={$currentRoute?.description} />
+    <meta content={$currentRoute?.description} property="og:description">
+    <meta content={pageTitle} property="og:site_name">
+</svelte:head>
 <div class="min-h-screen flex flex-col" style={`--page-color: ${$currentRoute?.color};`}>
-    <Header {...header} />
+    <Header {...header } />
     <main class={mainClass}>
         <Title {...title} />
         {#if loading}
@@ -36,6 +54,6 @@
             <slot />
         {/if}
     </main>
-    <Footer />
+    <Footer {...footerProps} />
     <BackToTop />
 </div>

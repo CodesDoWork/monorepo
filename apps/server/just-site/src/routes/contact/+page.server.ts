@@ -1,7 +1,15 @@
 import type { Actions } from "./$types/Actions";
 import { SMTPClient } from "emailjs";
-import { config } from "../../config";
 import { env } from "../../env";
+import { getDirectus, getRoutes, getSiteInfo } from "../../helpers/directus";
+
+export const load: PageServerLoad = async () => {
+    const directus = await getDirectus();
+    const siteInfo = await getSiteInfo(directus);
+    const routes = await getRoutes(directus);
+
+    return { siteInfo, routes };
+};
 
 const client = new SMTPClient({
     user: env.SMTP_USER,
@@ -29,7 +37,7 @@ export const actions: Actions = {
             await client.sendAsync({
                 text: `From: ${name} <${email}>\n\n ${message}`,
                 from: `${name} <${email}>`,
-                to: `${config.contact.name} <${config.contact.socials.Email}>`,
+                to: env.SMTP_USER,
                 subject: `[Just-Site] New Message from ${name}`,
             });
             return { success: true, msg: "Thank you for your message!" };

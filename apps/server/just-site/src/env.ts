@@ -6,6 +6,9 @@ export const env = createEnv({
     server: {
         GHOST_API_KEY: z.string(),
         GITHUB_TOKEN: z.string(),
+        CMS_URL: z.string().url(),
+        CMS_USER: z.string(),
+        CMS_PASSWORD: z.string(),
         SMTP_HOST: z.string(),
         SMTP_PORT: z.coerce.number(),
         SMTP_USER: z.string(),

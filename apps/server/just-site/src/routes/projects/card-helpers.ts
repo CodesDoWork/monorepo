@@ -1,8 +1,8 @@
 /* Get date in month YYYY format*/
-export const getMonthYear = (date: Date): string => {
+export const getMonthYear = (date: string | Date): string => {
     return `${date.toLocaleString("default", {
         month: "short",
-    })}, ${date.getFullYear()}`;
+    })}, ${new Date(date).getFullYear()}`;
 };
 
 const TIME_INTERVALS = {
@@ -15,8 +15,8 @@ const TIME_INTERVALS = {
 };
 
 /* Get amount of time ago (e.g. 5 days, 1 year) */
-export function calculateTimeAgo(date: Date): string {
-    const seconds = Math.floor((new Date().getTime() - date.getTime()) / 1000);
+export function calculateTimeAgo(date: string | Date): string {
+    const seconds = Math.floor((new Date().getTime() - new Date(date).getTime()) / 1000);
     for (const [unit, intervalSize] of Object.entries(TIME_INTERVALS)) {
         const interval = Math.floor(seconds / intervalSize);
         if (interval) {

@@ -3,7 +3,6 @@
     import type { PageData } from "./$types";
     import Card from "../../components/Card.svelte";
     import Heading from "../../components/Heading.svelte";
-    import { config } from "../../config";
     import Technology from "../../components/Technology.svelte";
     import Link from "../../components/Link.svelte";
     import VerticalLine from "../../components/VerticalLine.svelte";
@@ -11,9 +10,7 @@
     import { animationDelay } from "../../helpers/animationDelay";
 
     export let data: PageData;
-    const { portraitSrc } = data;
-
-    const { about } = config;
+    const { siteInfo, routes, portraitSrc, workExperience } = data;
 
     let animationIdx = 0;
     const getCardStyle = () => animationDelay(animationIdx++);
@@ -22,31 +19,29 @@
     const labelClass = "block mt-4 font-bold text-slate-500 dark:text-slate-300 mb-2";
 </script>
 
-<Page title={{title: "About", small: true}}>
+<Page routes={routes} siteInfo={siteInfo} title={{title: "About", small: true}}>
     <div class="flex gap-4 flex-col md:flex-row">
         <img alt="Portrait" class={clsx(cardClass, "block md:hidden rounded-full self-end mt-[-3rem] w-24 shadow-md")} src={portraitSrc} style={getCardStyle()} />
         <div class="flex-1">
             <Card class={cardClass} padding style={getCardStyle()}>
-                <span class="font-mono italic text-slate-400 mb-6">{about.intro}</span>
-                {#each about.bio as passage}
-                    <p class="mb-4 md:text-justify">{@html passage}</p>
-                {/each}
+                <span class="font-mono italic text-slate-400 mb-6">{siteInfo.about_intro}</span>
+                <div class="mb-4 md:text-justify">{@html siteInfo.about_bio}</div>
             </Card>
             <Card class={cardClass} padding style={getCardStyle()}>
                 <Heading level="h3">Experience</Heading>
-                {#each about.workExperience as experience, idx (idx)}
+                {#each workExperience as experience, idx (idx)}
                     <div class="grid grid-cols-[4rem_1fr] grid-rows-[1rem_auto_1fr]">
                         <VerticalLine />
                         <div class="ml-4 mt-2 pb-8 row-span-3">
-                            <span class="text-sm italic text-slate-400">{experience.datesWorked}</span>
+                            <span class="text-sm italic text-slate-400">{experience.start_year} - {experience.end_year || "present"}</span>
                             <Heading commandStyle={false}
                                      class="!text-black dark:!text-white"
-                                     level="h5">{experience.jobTitle} @
-                                <Link href={experience.companyUrl}
-                                      title={experience.company}>{experience.company}</Link>
+                                     level="h5">{experience.job_title} @
+                                <Link href={experience.company.url}
+                                      title={experience.company.name}>{experience.company.name}</Link>
                             </Heading>
                             <p class="text-slate-400">{experience.responsibilities}</p>
-                            <span class={labelClass}>{experience.projectType}:</span>
+                            <span class={labelClass}>Projects:</span>
                             <ul class="flex gap-4 flex-wrap">
                                 {#each experience.projects as project}
                                     <Link noStyle
@@ -69,8 +64,8 @@
                             </ul>
                         </div>
                         <img alt="Logo"
-                             class="rounded-full w-full aspect-square border border-slate-400 p-0.5"
-                             src={experience.companyLogo} />
+                             class="rounded-full w-full aspect-square object-cover border border-slate-400 p-0.5"
+                             src={experience.company.logo} />
                         <VerticalLine />
                     </div>
                 {/each}
@@ -82,10 +77,10 @@
             </Card>
             <Card class={cardClass} padding style={getCardStyle()}>
                 <Heading level="h3">Tech Stack</Heading>
-                {#each Object.entries(about.techStack) as entry}
-                    <Heading class="mt-4" level="h5">{entry[0]}</Heading>
+                {#each Object.entries(siteInfo.technologies) as techStack}
+                    <Heading class="mt-4" level="h5">{techStack[0]}</Heading>
                     <ul class="flex gap-2 flex-wrap">
-                        {#each entry[1] as technology}
+                        {#each techStack[1] as technology}
                             <Technology class="text-sm lg:text-base" tag="li" technology={technology} />
                         {/each}
                     </ul>

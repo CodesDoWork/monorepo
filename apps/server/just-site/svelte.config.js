@@ -13,4 +13,7 @@ export default {
     prerender: {
         crawl: true,
     },
+    proxy: {
+        "/assets": "https://cms.justinkonratt.com",
+    },
 };

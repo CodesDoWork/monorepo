@@ -28,7 +28,7 @@ export async function getDirectus(): Promise<Directus> {
 const publishedFilter = { filter: { status: { _eq: "published" } } };
 
 function assetUrl(id: string) {
-    return `https://cms.justinkonratt.com/assets/${id}`;
+    return `/assets/${id}`;
 }
 
 export function getSiteInfo(directus: Directus) {

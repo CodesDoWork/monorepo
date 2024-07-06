@@ -17,6 +17,9 @@ export default defineConfig({
         fs: {
             allow: [process.cwd(), nodeModulesPath, "../../../libs/branding/assets"],
         },
+        proxy: {
+            "/assets": "https://cms.justinkonratt.com",
+        },
     },
 
     preview: {

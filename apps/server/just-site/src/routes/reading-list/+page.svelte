@@ -35,7 +35,7 @@
     <Heading level="h3">Categories</Heading>
     <ol class="list-disc list-inside">
         <li>
-            <Link href="#Featured" smoothScroll title="Featured">Featured</Link>
+            <Link href="#featured" smoothScroll title="Featured">Featured</Link>
         </li>
         {#each categories as category}
             <li>

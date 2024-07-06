@@ -1,8 +1,9 @@
 /* Get date in month YYYY format*/
 export const getMonthYear = (date: string | Date): string => {
+    date = new Date(date);
     return `${date.toLocaleString("default", {
         month: "short",
-    })}, ${new Date(date).getFullYear()}`;
+    })}, ${date.getFullYear()}`;
 };
 
 const TIME_INTERVALS = {

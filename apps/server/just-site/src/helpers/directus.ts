@@ -181,6 +181,7 @@ export function getBooks(directus: Directus) {
                 book["categories"] = book.book_categories.map(
                     c => c.just_site_book_categories_id.name,
                 );
+                delete book.book_categories;
             });
 
             return books;

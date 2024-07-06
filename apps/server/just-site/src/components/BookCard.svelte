@@ -15,7 +15,7 @@
         <ul class="flex items-center mb-1 text-sm">
             {#each book.authors || [] as author}
                 <li>
-                    <Link href={author.url || ""} title={author.name}>{author.name}</Link>
+                    <Link href={author.url || ""} title={author.name || author}>{author.name || author}</Link>
                 </li>
             {/each}
         </ul>

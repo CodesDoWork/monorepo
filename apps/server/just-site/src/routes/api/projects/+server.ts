@@ -39,10 +39,9 @@ function filterReposByContribution(githubUser: string) {
 }
 
 async function hasContributedToRepo(githubUser: string, repo: Repo): Promise<boolean> {
-    const contributors: Contributors = await fetch(
-        `https://api.github.com/repos/${repo.full_name}/contributors`,
-        githubRequest,
-    ).then(res => res.json());
+    const contributors: Contributors = await fetch(repo.contributors_url, githubRequest).then(res =>
+        res.json(),
+    );
 
     return contributors.find(contributor => contributor.login === githubUser) !== undefined;
 }

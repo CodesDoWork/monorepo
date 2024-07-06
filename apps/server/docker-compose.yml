@@ -315,6 +315,7 @@ services:
       <<: *build-args
       context: ../..
       dockerfile: apps/server/just-site/Dockerfile
+    dns: ${DNS_IP}
     environment:
       - PORT=${SCOREBOARD_PORT}
     env_file:

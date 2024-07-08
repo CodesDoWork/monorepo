@@ -17,7 +17,7 @@
     let footerVisibility = "";
     $: if ($currentRoute?.is_hero) {
         footerVisibility = "scale-0";
-    } else if ($previousRoute?.isHero === false) {
+    } else if ($previousRoute?.is_hero === false) {
         footerVisibility = "scale-100";
     } else {
         footerVisibility = "animate-grow opacity-100 scale-100";

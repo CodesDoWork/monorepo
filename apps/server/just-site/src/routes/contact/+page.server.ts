@@ -1,15 +1,6 @@
 import type { Actions } from "./$types/Actions";
 import { SMTPClient } from "emailjs";
 import { env } from "../../env";
-import { getDirectus, getRoutes, getSiteInfo } from "../../helpers/directus";
-
-export const load: PageServerLoad = async () => {
-    const directus = await getDirectus();
-    const siteInfo = await getSiteInfo(directus);
-    const routes = await getRoutes(directus);
-
-    return { siteInfo, routes };
-};
 
 const client = new SMTPClient({
     user: env.SMTP_USER,

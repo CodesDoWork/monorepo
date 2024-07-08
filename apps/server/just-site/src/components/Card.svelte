@@ -5,14 +5,16 @@
     export { className as class };
     export let style = undefined;
     export let padding = false;
+    export let safeBg = false
 
     $: cardClass = clsx(
         "flex",
-        "bg-white bg-opacity-95 dark:bg-opacity-10 dark:hover:bg-opacity-15",
+        "bg-gray-50 bg-opacity-90 dark:bg-opacity-10 dark:hover:bg-opacity-15",
+        safeBg ? "hover:bg-opacity-100" : "hover:bg-opacity-40",
         "rounded-lg transition-all",
         "shadow-md hover:shadow-lg",
         "animate-fadeIn opacity-0",
-        "outline outline-2 outline-stone-100 dark:outline-0 dark:hover:outline-0",
+        "outline outline-1 outline-stone-200 dark:outline-0 dark:hover:outline-0",
         padding && "p-4 sm:p-5 md:p-6",
         className
     );

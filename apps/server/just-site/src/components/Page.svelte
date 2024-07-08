@@ -9,10 +9,16 @@
     import Icon from "@iconify/svelte";
     import Card from "./Card.svelte";
     import type { JustSiteInfo, JustSiteRoutes } from "../types/directus";
+    import { useThemeStore } from "../stores/useThemeStore";
+    import tailwindConfig from "../../tailwind.config";
+
+    const theme = useThemeStore();
+    $: themeColor = $theme === "dark" ? tailwindConfig.theme.extend.colors.primary[950] : tailwindConfig.theme.extend.colors.primary[500];
+    $: console.log($theme)
 
     export let siteInfo: JustSiteInfo;
     export let routes: JustSiteRoutes[];
-    export let header: ComponentProps<Header> = { title: siteInfo.title, routes };
+    export let header: ComponentProps<Header> = { title: siteInfo.title, routes, theme };
     export let title: ComponentProps<Title> = {};
     export let loading = false;
 
@@ -24,7 +30,7 @@
         $currentRoute?.is_hero === false && "bg-white dark:bg-opacity-0",
         "pt-4 pb-16 md:px-8 flex-1 w-full px-8 sm:px-1/20 lg:px-1/10",
         $currentRoute?.is_hero === false && $previousRoute?.isHero && "animate-fadeInSubtle",
-    );
+    )
 
     const footerProps = {
         licenseType: siteInfo.project_license,
@@ -38,8 +44,10 @@
 <svelte:head>
     <title>{pageTitle}</title>
     <meta content="description" name={$currentRoute?.description} />
+    <meta content={pageTitle} property="og:title">
     <meta content={$currentRoute?.description} property="og:description">
     <meta content={pageTitle} property="og:site_name">
+    <meta content={themeColor} name="theme-color" />
 </svelte:head>
 <div class="min-h-screen flex flex-col" style={`--page-color: ${$currentRoute?.color};`}>
     <Header {...header } />

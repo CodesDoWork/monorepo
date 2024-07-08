@@ -148,7 +148,10 @@ export function getWorkExperience(directus: Directus) {
                 });
             });
 
-            return experiences;
+            return experiences.sort(
+                (e1, e2) =>
+                    (e1.end_year || 1) - (e2.end_year || 1) || e2.start_year - e1.start_year,
+            );
         });
 }
 

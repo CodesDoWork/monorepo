@@ -1,14 +1,17 @@
 import { hash } from "../../helpers/hash";
-import { getDirectus, getRoutes, getSiteInfo, getWorkExperience } from "../../helpers/directus";
+import { getDirectus, getWorkExperience } from "../../helpers/directus";
+import type { PageServerLoad } from "./$types";
+import { LayoutData } from "../+layout.server";
 
-export async function load() {
+export const load: PageServerLoad = async ({ parent }) => {
     const directus = await getDirectus();
-    const siteInfo = await getSiteInfo(directus);
-    const routes = await getRoutes(directus);
     const workExperience = await getWorkExperience(directus);
+
+    const parentData: LayoutData = await parent();
+    const { siteInfo } = parentData;
 
     const email = siteInfo.socials.find(s => s.platform === "Email").name;
     const portraitSrc = `https://gravatar.com/avatar/${await hash(email)}?size=512`;
 
-    return { siteInfo, routes, workExperience, portraitSrc };
-}
+    return { workExperience, portraitSrc };
+};

@@ -40,6 +40,7 @@
     <div class="grid grid-cols-1 grid-rows-[repeat(5,4rem)] md:grid-rows-[repeat(3,5rem)] md:grid-cols-2 gap-4 w-4/5 sm:w-3/4 md:w-11/12 lg:w-full xl:w-3/4 mx-auto">
         {#each homePageLinks as navLink, idx (idx)}
             <Card style={`--hover-color: ${findRouteColor(navLink.route)}; ${animationDelay(idx)}`}
+                  safeBg
                   class="flex group border-l-4 hover:border-l-8 border-[var(--hover-color)] !outline-0 !hover:outline-0">
                 <a
                     class="flex flex-col w-full h-full"

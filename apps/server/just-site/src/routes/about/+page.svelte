@@ -47,8 +47,8 @@
                                     <Link noStyle
                                           href={project.link}
                                           title={project.description}
-                                          class="flex w-min items-center text-center flex-col group hover:drop-shadow-lg">
-                                        <img class="w-12 h-12 object-contain rounded-full bg-white shadow"
+                                          class="flex w-min min-w-12 items-center text-center flex-col group hover:drop-shadow-lg">
+                                        <img class="w-12 h-12 aspect-square object-contain rounded-full bg-white shadow"
                                              src={project.logo}
                                              alt="logo" />
                                         <span class="text-sm text-slate-600 dark:text-slate-400 group-hover:text-[var(--page-color)] transition-colors">{project.name}</span>

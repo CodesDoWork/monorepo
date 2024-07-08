@@ -1,13 +1,12 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import { useThemeStore } from "../stores/useThemeStore";
+    import type { Writable } from "svelte/store";
 
     let className = "";
     export { className as class };
     export let is_on_hero: boolean;
-
-    const theme = useThemeStore();
+    export let theme: Writable<string>;
 
     const animationDuration = 300;
     let icon = "";

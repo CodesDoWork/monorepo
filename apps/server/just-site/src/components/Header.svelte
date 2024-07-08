@@ -7,11 +7,13 @@
     import NavLinks from "./NavLinks.svelte";
     import { useRoutes } from "../stores/useRoutes";
     import type { JustSiteRoutes } from "../types/directus";
+    import type { Writable } from "svelte/store";
 
     let className = "";
     export { className as class };
     export let title: string;
     export let routes: JustSiteRoutes[];
+    export let theme: Writable<string>;
 
     const { currentRoute, previousRoute } = useRoutes(routes);
 
@@ -66,4 +68,4 @@
         </SidebarWrapper>
     </Sidebar>
 </Drawer>
-<DarkmodeToggle class="absolute top-4 right-8 z-10" is_on_hero={$currentRoute?.is_hero} />
+<DarkmodeToggle class="absolute top-4 right-8 z-10" is_on_hero={$currentRoute?.is_hero} theme={theme} />

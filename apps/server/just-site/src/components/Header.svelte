@@ -60,10 +60,10 @@
     </button>
 </header>
 <Drawer bind:hidden={navDrawerHidden}
-        class="absolute z-20 block lg:hidden p-0 rounded-r-none rounded-l shadow-lg start-auto end-0 top-14 dark:bg-primary-950"
+        class="absolute z-20 block lg:hidden p-0 rounded-r-none rounded-l shadow-md start-auto end-0 top-14 bg-gray-50 dark:bg-primary-950 border-gray-500 border-b-2 border-l-2"
         transitionParams={transitionParams}>
     <Sidebar>
-        <SidebarWrapper class="dark:bg-primary-950 rounded-r-none rounded-l p-3">
+        <SidebarWrapper class="dark:bg-primary-950 rounded-r-none rounded-l p-2">
             <NavLinks aClass="block text-black dark:text-white" liClass={"mb-2 animate-fadeInTopSubtle opacity-0"} routes={routes} />
         </SidebarWrapper>
     </Sidebar>

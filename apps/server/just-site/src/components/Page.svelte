@@ -14,7 +14,6 @@
 
     const theme = useThemeStore();
     $: themeColor = $theme === "dark" ? tailwindConfig.theme.extend.colors.primary[950] : tailwindConfig.theme.extend.colors.primary[500];
-    $: console.log($theme)
 
     export let siteInfo: JustSiteInfo;
     export let routes: JustSiteRoutes[];

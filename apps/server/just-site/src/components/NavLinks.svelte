@@ -3,6 +3,7 @@
     import { useRoutes } from "../stores/useRoutes";
     import { animationDelay } from "../helpers/animationDelay";
     import type { JustSiteRoutes } from "../types/directus";
+    import Link from "./Link.svelte";
 
     let className = "";
     export { className as class };
@@ -16,8 +17,8 @@
     {#each routes as routeLink, idx (idx)}
         <li style={animationDelay(idx)}
             class={liClass}>
-            <a href={routeLink === $currentRoute ? "#" : routeLink.route}
-               class={clsx(routeLink === $currentRoute && "font-bold underline", "leading-none font-mono mx-1 rounded hover:bg-[var(--page-color)] hover:text-black p-1 md:p-2 transition-colors tracking-wide", aClass)}>{routeLink.name}</a>
+            <Link noStyle title={routeLink.name} href={routeLink === $currentRoute ? "#" : routeLink.route}
+               class={clsx(routeLink === $currentRoute && "font-bold underline", "leading-none font-mono mx-1 rounded hover:bg-[var(--page-color)] hover:text-black p-2 transition-colors tracking-wide", aClass)}>{routeLink.name}</Link>
         </li>
     {/each}
 </ol>

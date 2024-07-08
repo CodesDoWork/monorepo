@@ -37,18 +37,20 @@
             </Link>
         {/each}
     </div>
-    <div class="grid grid-cols-1 grid-rows-[repeat(5,4rem)] md:grid-rows-[repeat(3,5rem)] md:grid-cols-2 gap-4 w-4/5 sm:w-3/4 md:w-11/12 lg:w-full xl:w-3/4 mx-auto">
+    <div class="flex flex-col md:grid md:grid-cols-2 gap-4 w-4/5 sm:w-3/4 md:w-11/12 lg:w-full xl:w-3/4 mx-auto">
         {#each homePageLinks as navLink, idx (idx)}
             <Card style={`--hover-color: ${findRouteColor(navLink.route)}; ${animationDelay(idx)}`}
                   safeBg
-                  class="flex group border-l-4 hover:border-l-8 border-[var(--hover-color)] !outline-0 !hover:outline-0">
-                <a
+                  class="flex h-16 md:h-20 group border-l-4 hover:border-l-8 border-[var(--hover-color)] !outline-0 !hover:outline-0">
+                <Link
+                    title={navLink.name}
+                    noStyle
                     class="flex flex-col w-full h-full"
                     href={navLink.route}>
                     <Heading class={headingClass}
                              level="h3">{navLink.name}</Heading>
                     <p class="text-0 h-0 text-slate-600 dark:text-slate-300 sm:group-hover:text-sm lg:group-hover:text-base transition-fontSize ml-4 sm:ml-5 md:ml-6">{navLink.description}</p>
-                </a>
+                </Link>
             </Card>
         {/each}
     </div>

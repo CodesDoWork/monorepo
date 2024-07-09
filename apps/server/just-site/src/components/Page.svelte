@@ -13,7 +13,7 @@
     import tailwindConfig from "../../tailwind.config";
 
     const theme = useThemeStore();
-    $: themeColor = $theme === "dark" ? tailwindConfig.theme.extend.colors.primary[950] : tailwindConfig.theme.extend.colors.primary[500];
+    $: themeColor = $theme === "dark" ? tailwindConfig.theme.extend.colors.primary[950] : tailwindConfig.theme.extend.colors.primary[400];
 
     export let siteInfo: JustSiteInfo;
     export let routes: JustSiteRoutes[];

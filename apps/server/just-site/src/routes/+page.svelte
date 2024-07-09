@@ -17,8 +17,8 @@
     };
 
     const headingClass = clsx(
-        "m-4 md:m-6",
-        "group-hover:mt-2 group-hover:mb-6 sm:group-hover:mb-8 md:group-hover:mt-4 lg:group-hover:mt-3",
+        "m-5 md:m-6",
+        "group-hover:mt-3 group-hover:mb-6 sm:group-hover:mb-8 sm:group-hover:mt-2 md:group-hover:mt-4 lg:group-hover:mt-3",
         "cursor-pointer !mb-0 dark:!text-white group-hover:!text-[var(--hover-color)]",
         "!transition-all",
     );

@@ -13,12 +13,9 @@ export default defineConfig({
     cacheDir: "../../../node_modules/.vite/apps/server/just-site",
     server: {
         port: 4200,
-        host: "localhost",
+        host: "0.0.0.0",
         fs: {
             allow: [process.cwd(), nodeModulesPath, "../../../libs/branding/assets"],
-        },
-        proxy: {
-            "/assets": "https://cms.justinkonratt.com",
         },
     },
 

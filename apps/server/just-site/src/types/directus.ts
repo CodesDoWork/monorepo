@@ -420,7 +420,7 @@ export type JustSiteInfo = {
     name: string;
     project_license: string;
     project_license_url: string;
-    project_platform: unknown;
+    project_platform?: string | SocialNetworks | null;
     project_url: string;
     socials: any[] | JustSiteInfoSocials[];
     status: string;
@@ -539,7 +539,6 @@ export type TechStack = {
     date_updated?: string | null;
     id: string;
     name: string;
-    sort?: number | null;
     status: string;
     technologies: any[] | TechStackTechnologies[];
     user_created?: string | DirectusUsers | null;
@@ -558,6 +557,7 @@ export type Technologies = {
     id: string;
     name: string;
     status: string;
+    tech_stacks: any[] | TechStackTechnologies[];
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
 };

@@ -1,11 +1,4 @@
-import {
-    authentication,
-    createDirectus,
-    readItem,
-    readItems,
-    readSingleton,
-    rest,
-} from "@directus/sdk";
+import { authentication, createDirectus, readItems, readSingleton, rest } from "@directus/sdk";
 import { CustomDirectusTypes } from "../types/directus";
 import { env } from "../env";
 
@@ -28,7 +21,7 @@ export async function getDirectus(): Promise<Directus> {
 const publishedFilter = { filter: { status: { _eq: "published" } } };
 
 function assetUrl(id: string) {
-    return `/assets/${id}`;
+    return `https://cms.justinkonratt.com/assets/${id}`;
 }
 
 export function getSiteInfo(directus: Directus) {
@@ -58,6 +51,9 @@ export function getSiteInfo(directus: Directus) {
                                 ],
                             },
                         ],
+                    },
+                    {
+                        project_platform: ["*"],
                     },
                 ],
             }),
@@ -89,19 +85,17 @@ export function getSiteInfo(directus: Directus) {
                 return stacks;
             }, {});
             const sortedTechStackKeys = Object.keys(pageInfo.technologies).sort();
-            pageInfo.technologies = sortedTechStackKeys.reduce((stacks, key) => {
-                stacks[key] = pageInfo.technologies[key];
-                return stacks;
-            }, {});
+            pageInfo.technologies = sortedTechStackKeys.reduce(
+                (stacks, key) => {
+                    stacks[key] = pageInfo.technologies[key];
+                    return stacks;
+                },
+                {} as typeof pageInfo.technologies,
+            );
 
             pageInfo.about_bio = pageInfo.about_bio.replace(
                 /<a /g,
                 '<a class="text-[var(--page-color)] hover:underline" ',
-            );
-
-            pageInfo.project_platform = await directus.request(
-                readItem(pageInfo.project_platform.collection, pageInfo.project_platform.key),
-                { fields: ["name"] },
             );
 
             return pageInfo;
@@ -140,7 +134,9 @@ export function getWorkExperience(directus: Directus) {
         .then(experiences => {
             experiences.forEach(experience => {
                 experience.company.logo = assetUrl(experience.company.logo as string);
-                experience.technologies = experience.technologies.map(t => t.technologies_id.name);
+                experience.technologies = experience.technologies
+                    .map(t => t.technologies_id.name)
+                    .sort();
                 experience.projects = experience.projects.map(p => {
                     const project = p.just_site_work_projects_id;
                     project.logo = assetUrl(project.logo);

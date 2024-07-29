@@ -8,12 +8,14 @@
     import { useRoutes } from "../stores/useRoutes";
     import type { JustSiteRoutes } from "../types/directus";
     import type { Writable } from "svelte/store";
+    import Link from "./Link.svelte";
 
     let className = "";
     export { className as class };
     export let title: string;
     export let routes: JustSiteRoutes[];
     export let theme: Writable<string>;
+    export let backButton = false;
 
     const { currentRoute, previousRoute } = useRoutes(routes);
 
@@ -53,7 +55,16 @@
 </script>
 
 <header class={headerClass}>
-    <a class={clsx("font-mono font-bold drop-shadow-md", itemVisibility)} href="/">{title}</a>
+    <div class="flex items-center">
+        { #if backButton && $currentRoute !== undefined }
+            <Link
+                class="p-1 mr-4 m-0 inline-block !text-black dark:!text-white hover:!text-white hover:!bg-[var(--page-color)]"
+                href={$currentRoute?.route} title={$currentRoute?.name}>
+                <Icon icon="carbon:chevron-left" />
+            </Link>
+        {/if}
+        <a class={clsx("font-mono font-bold drop-shadow-md", itemVisibility)} href="/">{title}</a>
+    </div>
     <NavLinks class="hidden lg:flex" liClass={clsx("inline-block", itemVisibility)} routes={routes} />
     <button class="block lg:hidden active:scale-90" on:click={() => navDrawerHidden = !navDrawerHidden}>
         <Icon class="w-6 h-6" icon="material-symbols:menu" />
@@ -64,7 +75,8 @@
         transitionParams={transitionParams}>
     <Sidebar>
         <SidebarWrapper class="dark:bg-primary-950 rounded-r-none rounded-l p-2">
-            <NavLinks aClass="block text-black dark:text-white" liClass={"mb-2 animate-fadeInTopSubtle opacity-0"} routes={routes} />
+            <NavLinks aClass="block text-black dark:text-white" liClass={"mb-2 animate-fadeInTopSubtle opacity-0"}
+                      routes={routes} />
         </SidebarWrapper>
     </Sidebar>
 </Drawer>

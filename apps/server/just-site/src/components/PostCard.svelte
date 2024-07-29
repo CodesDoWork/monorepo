@@ -9,7 +9,7 @@
     export let post: JustSiteBlogEntries;
 </script>
 
-<Card style={style}>
+<Card class="p-1" style={style}>
     <Link
         class="flex-1 grid grid-cols-1 sm:grid-cols-[16rem_auto] lg:grid-cols-1 xl:grid-cols-[16rem_auto] items-stretch gap-2 !font-sans"
         href={`/blog/${post.slug}`}

@@ -24,6 +24,13 @@ function assetUrl(id: string) {
     return `https://cms.justinkonratt.com/assets/${id}`;
 }
 
+function replaceLinks(text: string) {
+    return text.replace(
+        /<a /g,
+        "<a class=\"text-[var(--page-color)] hover:underline\" ",
+    );
+}
+
 export function getSiteInfo(directus: Directus) {
     return directus
         .request(
@@ -93,10 +100,7 @@ export function getSiteInfo(directus: Directus) {
                 {} as typeof pageInfo.technologies,
             );
 
-            pageInfo.about_bio = pageInfo.about_bio.replace(
-                /<a /g,
-                '<a class="text-[var(--page-color)] hover:underline" ',
-            );
+            pageInfo.about_bio = replaceLinks(pageInfo.about_bio);
 
             return pageInfo;
         });
@@ -185,4 +189,22 @@ export function getBooks(directus: Directus) {
 
             return books;
         });
+}
+
+export function getBlogPosts(directus: Directus) {
+    return directus.request(readItems("just_site_blog_entries", publishedFilter)).then(posts => {
+        posts.forEach(p => p.cover = assetUrl(p.cover as string));
+        return posts;
+    });
+}
+
+export function getBlogPost(directus: Directus, slug: string) {
+    return directus.request(readItems("just_site_blog_entries", {
+        ...publishedFilter,
+        filter: { slug: { _eq: slug } },
+    })).then(posts => posts[0]).then(p => {
+        p.cover = assetUrl(p.cover as string);
+        p.content = replaceLinks(p.content);
+        return p;
+    });
 }

@@ -378,6 +378,21 @@ export type DirectusWebhooks = {
     was_active_before_deprecation: boolean;
 };
 
+export type JustSiteBlogEntries = {
+    content: string;
+    cover: string | DirectusFiles;
+    date_created?: string | null;
+    date_updated?: string | null;
+    excerpt: string;
+    featured: boolean;
+    id: string;
+    slug: string;
+    status: string;
+    title: string;
+    user_created?: string | DirectusUsers | null;
+    user_updated?: string | DirectusUsers | null;
+};
+
 export type JustSiteBookCategories = {
     date_created?: string | null;
     date_updated?: string | null;
@@ -588,6 +603,7 @@ export type CustomDirectusTypes = {
     directus_users: DirectusUsers[];
     directus_versions: DirectusVersions[];
     directus_webhooks: DirectusWebhooks[];
+    just_site_blog_entries: JustSiteBlogEntries[];
     just_site_book_categories: JustSiteBookCategories[];
     just_site_books: JustSiteBooks[];
     just_site_books_just_site_book_categories: JustSiteBooksJustSiteBookCategories[];

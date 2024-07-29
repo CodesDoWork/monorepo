@@ -22,7 +22,7 @@
     };
 
     $: aClass = clsx(
-        "font-mono transition rounded-md ",
+        "font-mono transition rounded-md cursor-pointer",
         button && [
             "dark:text-white p-3",
             "bg-white dark:bg-opacity-10",

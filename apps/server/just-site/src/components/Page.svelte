@@ -8,9 +8,10 @@
     import BackToTop from "./BackToTop.svelte";
     import Icon from "@iconify/svelte";
     import Card from "./Card.svelte";
-    import type { JustSiteInfo, JustSiteRoutes } from "../types/directus";
+    import type { JustSiteInfo, JustSiteRoutes, SocialNetworks } from "../types/directus";
     import { useThemeStore } from "../stores/useThemeStore";
     import tailwindConfig from "../../tailwind.config";
+    import Link from "./Link.svelte";
 
     const theme = useThemeStore();
     $: themeColor = $theme === "dark" ? tailwindConfig.theme.extend.colors.primary[950] : tailwindConfig.theme.extend.colors.primary[400];
@@ -20,6 +21,7 @@
     export let header: ComponentProps<Header> = { title: siteInfo.title, routes, theme };
     export let title: ComponentProps<Title> = {};
     export let loading = false;
+    export let backButton = false;
 
     const { currentRoute, previousRoute } = useRoutes(routes);
     $: pageTitle = $currentRoute ? `${$currentRoute.name} | ${siteInfo.title}` : siteInfo.title;
@@ -29,13 +31,13 @@
         $currentRoute?.is_hero === false && "bg-white dark:bg-opacity-0",
         "pt-4 pb-16 md:px-8 flex-1 w-full px-8 sm:px-1/20 lg:px-1/10",
         $currentRoute?.is_hero === false && $previousRoute?.isHero && "animate-fadeInSubtle",
-    )
+    );
 
     const footerProps = {
         licenseType: siteInfo.project_license,
         licenseUrl: siteInfo.project_license_url,
         projectUrl: siteInfo.project_url,
-        projectPlatform: siteInfo.project_platform.name,
+        projectPlatform: (siteInfo.project_platform as SocialNetworks).name,
         routes,
     };
 </script>
@@ -51,11 +53,16 @@
 <div class="min-h-screen flex flex-col" style={`--page-color: ${$currentRoute?.color};`}>
     <Header {...header } />
     <main class={mainClass}>
+        { #if backButton && $currentRoute !== undefined }
+            <Link class="p-2 m-4 ml-[-1rem] inline-block lg:left-8 lg:absolute lg:top-14 !text-black dark:!text-white hover:!text-white hover:!bg-[var(--page-color)]" href={$currentRoute?.route} title={$currentRoute?.name}>
+                <Icon icon="carbon:chevron-left" />
+            </Link>
+        {/if}
         <Title {...title} />
         {#if loading}
             <Card padding class="flex w-min mx-auto items-center gap-2">
-            <Icon icon="eos-icons:bubble-loading" />
-            <span class="text-lg font-bold">Loading</span>
+                <Icon icon="eos-icons:bubble-loading" />
+                <span class="text-lg font-bold">Loading</span>
             </Card>
         {:else}
             <slot />

@@ -1,9 +1,9 @@
 <script lang="ts">
     import PostCard from "./PostCard.svelte";
-    import type { PostOrPage } from "@tryghost/content-api";
     import { animationDelay } from "../helpers/animationDelay";
+    import type { JustSiteBlogEntries } from "../types/directus";
 
-    export let posts: PostOrPage[];
+    export let posts: JustSiteBlogEntries[];
 </script>
 
 <div class="grid gap-8 lg:grid-cols-2">

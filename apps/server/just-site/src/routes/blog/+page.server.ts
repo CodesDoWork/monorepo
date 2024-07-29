@@ -1,10 +1,8 @@
-import { ghostApi } from "../../helpers/ghostApi";
+import { getBlogPosts, getDirectus } from "../../helpers/directus";
 
 export async function load() {
-    const featuredPosts = await ghostApi.posts.browse({
-        filter: "featured:true",
-        include: ["tags", "authors"],
-    });
+    const directus = await getDirectus();
+    const posts = await getBlogPosts(directus)
 
-    return { featuredPosts };
+    return { posts };
 }

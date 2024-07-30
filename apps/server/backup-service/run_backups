@@ -1,0 +1,4 @@
+# min   hour    day     month   weekday user    command
+30       2      *       *       *       root    cd /opt/monorepo/server && docker compose run --rm backup-service rsnapshot alpha
+ 0       3      *       *       1       root    cd /opt/monorepo/server && docker compose run --rm backup-service rsnapshot beta
+30       3      1       *       *       root    cd /opt/monorepo/server && docker compose run --rm backup-service rsnapshot gamma

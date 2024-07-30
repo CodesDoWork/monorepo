@@ -80,7 +80,7 @@ deploy:
     - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
 
-    # copy root env
+    # copy run_backups env
     - scp .env ${SSH_USER}@${SSH_HOST}:/opt/monorepo/.env
 
     # build images

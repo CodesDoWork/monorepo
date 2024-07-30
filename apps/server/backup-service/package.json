@@ -1,8 +1,0 @@
-{
-    "name": "backup-service",
-    "version": "1.0.0",
-    "scripts": {
-        "build-image": "docker compose -f ../docker-compose.yml build backup-service --push",
-        "run-image": "docker compose -f ../docker-compose.yml up -d backup-service"
-    }
-}

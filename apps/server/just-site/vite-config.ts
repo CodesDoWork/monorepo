@@ -30,7 +30,7 @@ export default defineConfig({
     // worker: {
     //  plugins: [
     //    viteTsConfigPaths({
-    //      root: '../../',
+    //      run_backups: '../../',
     //    }),
     //  ],
     // },

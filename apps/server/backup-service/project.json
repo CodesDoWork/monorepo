@@ -8,6 +8,15 @@
             "options": {
                 "command": "echo no linting"
             }
+        },
+        "deploy": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "copyfiles ./apps/server/backup-service/run_backups -u 3 ./deploy/etc/cron.d",
+                    "copyfiles ./apps/server/backup-service/rsnapshot.conf -u 1 ./deploy/opt/monorepo"
+                ]
+            }
         }
     },
     "tags": ["server/backup-service"]

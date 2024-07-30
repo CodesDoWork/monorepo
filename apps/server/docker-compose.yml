@@ -33,17 +33,17 @@ services:
     restart: unless-stopped
 
   backup-service:
-    build:
-      context: ./backup-service
     environment:
       - PUID=0
       - GUID=0
       - TZ=${TZ}
-    image: ${IMAGE_BASE}/server-backup-service
-    restart: unless-stopped
+    image: lscr.io/linuxserver/rsnapshot
+    profiles:
+      - backup
     volumes:
       - ${BACKUP_VOLUME_PATH}/.snapshots:/.snapshots
-      - ${BACKUP_PC_PATH:-./pc-data}:/data/pc:ro
+      - ${BACKUP_DOCUMENTS_PATH:-./documents}:/data/personal/documents:ro
+      - ${BACKUP_PICTURES_PATH:-./pictures}:/data/personal/pictures:ro
       - bitwarden-data:/data/services/bitwarden/data:ro
       - directus-uploads:/data/services/directus/uploads:ro
       - gitlab-config:/data/services/gitlab/config:ro

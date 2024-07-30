@@ -138,9 +138,6 @@ sections:
       - title: Website
         icon: icon.svg
         url: https://justinkonratt.com
-      - title: Blog
-        icon: ghost.png
-        url: https://blog.justinkonratt.com
   - name: Admin
     displayData:
       cutToHeight: true

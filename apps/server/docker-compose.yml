@@ -29,7 +29,7 @@ services:
     environment:
       - KEYCLOAK_ADMIN=${AUTH_USER}
       - KEYCLOAK_ADMIN_PASSWORD=${AUTH_PASSWORD}
-    image: quay.io/keycloak/keycloak:24.0.5
+    image: quay.io/keycloak/keycloak:25.0.2
     restart: unless-stopped
 
   backup-service:

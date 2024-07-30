@@ -1,5 +1,6 @@
 <script lang="ts">
     import { clsx } from "clsx";
+    import AnimatedText from "./AnimatedText.svelte";
 
     let className = "";
     export { className as class };
@@ -9,24 +10,10 @@
     export let blinkCursor = false;
     export let animateText = "";
 
-    let typedText = "";
     let animationDone = !animateText;
-
-    if (animateText) {
-        let nextTypeIndex = 0;
-        const typeText = () => {
-            if (nextTypeIndex < animateText.length) {
-                typedText = animateText.slice(0, ++nextTypeIndex);
-                setTimeout(typeText, 50);
-            } else {
-                typedText = typedText.trim();
-                animationDone = true;
-            }
-        };
-
-        setTimeout(typeText, 50);
+    const onAnimationDone = () => {
+        animationDone = true;
     }
-
 
     $: computedClassName = clsx(
         "font-mono font-bold transition-colors drop-shadow-sm cursor-default",
@@ -46,7 +33,7 @@
 
 <svelte:element class={computedClassName} id={id} this={level}>
     {#if animateText}
-        {typedText}
+        <AnimatedText text={animateText} {onAnimationDone} />
     {:else}
         <slot />
     {/if}

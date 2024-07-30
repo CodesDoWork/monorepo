@@ -24,13 +24,13 @@
         <img alt="Portrait" class={clsx(cardClass, "block md:hidden rounded-full self-end mt-[-3rem] w-24 shadow-md")} src={portraitSrc} style={getCardStyle()} />
         <div class="flex-1">
             <Card class={cardClass} padding style={getCardStyle()}>
-                <span class="font-mono italic text-slate-400 mb-6">{siteInfo.about_intro}</span>
-                <div class="mb-4 md:text-justify">{@html siteInfo.about_bio}</div>
+                <span class="font-mono italic text-slate-400 mb-4">{siteInfo.about_intro}</span>
+                <div class="text-justify hyphens-auto *:mb-2">{@html siteInfo.about_bio}</div>
             </Card>
             <Card class={cardClass} padding style={getCardStyle()}>
                 <Heading level="h3">Experience</Heading>
                 {#each workExperience as experience, idx (idx)}
-                    <div class="grid grid-cols-[4rem_1fr] grid-rows-[1rem_auto_1fr]">
+                    <div class="grid grid-cols-[2.5rem_1fr] sm:grid-cols-[4rem_1fr] grid-rows-[1rem_auto_1fr]">
                         <VerticalLine />
                         <div class="ml-4 mt-2 pb-8 row-span-3">
                             <span class="text-sm italic text-slate-400">{experience.start_year} - {experience.end_year || "present"}</span>
@@ -40,7 +40,7 @@
                                 <Link href={experience.company.url}
                                       title={experience.company.name}>{experience.company.name}</Link>
                             </Heading>
-                            <p class="text-slate-400">{experience.responsibilities}</p>
+                            <p class="text-slate-400 text-justify hyphens-auto">{experience.responsibilities}</p>
                             <span class={labelClass}>Projects:</span>
                             <ul class="flex gap-4 flex-wrap">
                                 {#each experience.projects as project}
@@ -48,7 +48,7 @@
                                           href={project.link}
                                           title={project.description}
                                           class="flex w-min min-w-12 items-center text-center flex-col group hover:drop-shadow-lg">
-                                        <img class="w-12 h-12 aspect-square object-contain rounded-full bg-white shadow"
+                                        <img class="w-8 h-8 sm:w-12 sm:h-12 aspect-square object-contain rounded-full bg-white shadow"
                                              src={project.logo}
                                              alt="logo" />
                                         <span class="text-sm text-slate-600 dark:text-slate-400 group-hover:text-[var(--page-color)] transition-colors">{project.name}</span>

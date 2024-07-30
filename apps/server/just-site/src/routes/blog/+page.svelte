@@ -6,11 +6,12 @@
 
     export let data: PageData;
     const { siteInfo, routes, posts } = data;
+    const featuredPosts = posts.filter(post => post.featured);
 </script>
 
 <Page routes={routes} siteInfo={siteInfo} title={{title: "Blog", small: true}}>
     <Heading class="mt-8" level="h3">Featured Posts</Heading>
-    <Posts posts={posts.filter(p => p.featured)}/>
+    <Posts posts={featuredPosts}/>
     <Heading class="mt-16" level="h3">All Posts</Heading>
-    <Posts {posts}/>
+    <Posts {posts} startWithIdx={featuredPosts.length}/>
 </Page>

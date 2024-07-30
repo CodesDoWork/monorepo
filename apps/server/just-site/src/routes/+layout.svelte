@@ -15,6 +15,6 @@
     <!-- <meta content="Alt text for image" name="twitter:image:alt"> -->
 </svelte:head>
 
-<div class="relative bg-gradient-to-b from-primary-400 from-5% to-secondary-400 to-95% dark:from-primary-950 dark:to-secondary-950 transition-colors">
+<div class="overflow-x-hidden relative bg-gradient-to-b from-primary-400 from-5% to-secondary-400 to-95% dark:from-primary-950 dark:to-secondary-950 transition-colors">
     <slot />
 </div>

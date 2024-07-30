@@ -1,6 +1,6 @@
-import { getDirectus, getProjectData, getSiteInfo } from "../../../helpers/directus";
 import type { Endpoints } from "@octokit/types";
 import { env } from "../../../env";
+import { getDirectus, getProjectData, getSiteInfo } from "../../../helpers/directus";
 import { JustSiteProjectData } from "../../../types/directus";
 
 export async function GET() {

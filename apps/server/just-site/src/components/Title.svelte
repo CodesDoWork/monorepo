@@ -10,7 +10,7 @@
     $: headingClass = clsx(
         "select-none !drop-shadow-lg",
         !small && "!text-3xl sm:!text-4xl md:!text-5xl xl:!text-6xl text-center mt-0 md:mt-6 lg:mt-12",
-        className
+        className,
     );
 </script>
 

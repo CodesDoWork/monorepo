@@ -13,7 +13,7 @@
     let animationDone = !animateText;
     const onAnimationDone = () => {
         animationDone = true;
-    }
+    };
 
     $: computedClassName = clsx(
         "font-mono font-bold transition-colors drop-shadow-sm cursor-default",

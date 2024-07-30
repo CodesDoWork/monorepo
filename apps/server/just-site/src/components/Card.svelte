@@ -5,7 +5,7 @@
     export { className as class };
     export let style = undefined;
     export let padding = false;
-    export let safeBg = false
+    export let safeBg = false;
 
     $: cardClass = clsx(
         "flex",
@@ -16,7 +16,7 @@
         "animate-fadeIn opacity-0",
         "outline outline-1 outline-stone-200 dark:outline-0 dark:hover:outline-0",
         padding && "p-4 sm:p-5 md:p-6",
-        className
+        className,
     );
 </script>
 

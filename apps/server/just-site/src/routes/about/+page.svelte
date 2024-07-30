@@ -21,7 +21,8 @@
 
 <Page routes={routes} siteInfo={siteInfo} title={{title: "About", small: true}}>
     <div class="flex gap-4 flex-col md:flex-row">
-        <img alt="Portrait" class={clsx(cardClass, "block md:hidden rounded-full self-end mt-[-3rem] w-24 shadow-md")} src={portraitSrc} style={getCardStyle()} />
+        <img alt="Portrait" class={clsx(cardClass, "block md:hidden rounded-full self-end mt-[-3rem] w-24 shadow-md")}
+             src={portraitSrc} style={getCardStyle()} />
         <div class="flex-1">
             <Card class={cardClass} padding style={getCardStyle()}>
                 <span class="font-mono italic text-slate-400 mb-4">{siteInfo.about_intro}</span>
@@ -33,7 +34,8 @@
                     <div class="grid grid-cols-[2.5rem_1fr] sm:grid-cols-[4rem_1fr] grid-rows-[1rem_auto_1fr]">
                         <VerticalLine />
                         <div class="ml-4 mt-2 pb-8 row-span-3">
-                            <span class="text-sm italic text-slate-400">{experience.start_year} - {experience.end_year || "present"}</span>
+                            <span class="text-sm italic text-slate-400">{experience.start_year}
+                                - {experience.end_year || "present"}</span>
                             <Heading commandStyle={false}
                                      class="!text-black dark:!text-white"
                                      level="h5">{experience.job_title} @
@@ -48,10 +50,12 @@
                                           href={project.link}
                                           title={project.description}
                                           class="flex w-min min-w-12 items-center text-center flex-col group hover:drop-shadow-lg">
-                                        <img class="w-8 h-8 sm:w-12 sm:h-12 aspect-square object-contain rounded-full bg-white shadow"
-                                             src={project.logo}
-                                             alt="logo" />
-                                        <span class="text-sm text-slate-600 dark:text-slate-400 group-hover:text-[var(--page-color)] transition-colors">{project.name}</span>
+                                        <img
+                                            class="w-8 h-8 sm:w-12 sm:h-12 aspect-square object-contain rounded-full bg-white shadow"
+                                            src={project.logo}
+                                            alt="logo" />
+                                        <span
+                                            class="text-sm text-slate-600 dark:text-slate-400 group-hover:text-[var(--page-color)] transition-colors">{project.name}</span>
                                     </Link>
 
                                 {/each}

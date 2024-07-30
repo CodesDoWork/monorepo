@@ -13,11 +13,11 @@
     import { onMount } from "svelte";
 
     export let data: PageData;
-    const {siteInfo, routes} = data;
+    const { siteInfo, routes } = data;
 
     const projects = readable([], set => onMount(() => {
         fetch("/api/projects").then(res => res.json()).then(set);
-    }))
+    }));
 
     const sectionClass = "flex items-center gap-1.5";
 </script>
@@ -26,7 +26,8 @@
     <div class="mt-12 md:w-4/5 lg:w-full mx-auto">
         {#each $projects as repo, idx (idx)}
             <Card style={animationDelay(idx)} class="mb-6 flex-col lg:flex-row">
-                <img src={repo.thumbnail} alt="&nbsp;" class="h-48 lg:h-auto lg:w-80 rounded-t-md lg:rounded-tr-none lg:rounded-l-md object-cover" />
+                <img src={repo.thumbnail} alt="&nbsp;"
+                     class="h-48 lg:h-auto lg:w-80 rounded-t-md lg:rounded-tr-none lg:rounded-l-md object-cover" />
                 <div class="p-4 flex flex-col w-full">
                     <Heading commandStyle={false}
                              class="font-bold text-black dark:text-white"

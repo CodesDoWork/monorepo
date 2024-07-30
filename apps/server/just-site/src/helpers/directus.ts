@@ -1,6 +1,6 @@
 import { authentication, createDirectus, readItems, readSingleton, rest } from "@directus/sdk";
-import { CustomDirectusTypes } from "../types/directus";
 import { env } from "../env";
+import { CustomDirectusTypes } from "../types/directus";
 
 const directus = createDirectus<CustomDirectusTypes>(env.CMS_URL)
     .with(rest())
@@ -25,10 +25,7 @@ function assetUrl(id: string) {
 }
 
 function replaceLinks(text: string) {
-    return text.replace(
-        /<a /g,
-        "<a class=\"text-[var(--page-color)] hover:underline\" ",
-    );
+    return text.replace(/<a /g, '<a class="text-[var(--page-color)] hover:underline" ');
 }
 
 export function getSiteInfo(directus: Directus) {
@@ -193,18 +190,23 @@ export function getBooks(directus: Directus) {
 
 export function getBlogPosts(directus: Directus) {
     return directus.request(readItems("just_site_blog_entries", publishedFilter)).then(posts => {
-        posts.forEach(p => p.cover = assetUrl(p.cover as string));
+        posts.forEach(p => (p.cover = assetUrl(p.cover as string)));
         return posts;
     });
 }
 
 export function getBlogPost(directus: Directus, slug: string) {
-    return directus.request(readItems("just_site_blog_entries", {
-        ...publishedFilter,
-        filter: { slug: { _eq: slug } },
-    })).then(posts => posts[0]).then(p => {
-        p.cover = assetUrl(p.cover as string);
-        p.content = replaceLinks(p.content);
-        return p;
-    });
+    return directus
+        .request(
+            readItems("just_site_blog_entries", {
+                ...publishedFilter,
+                filter: { slug: { _eq: slug } },
+            }),
+        )
+        .then(posts => posts[0])
+        .then(p => {
+            p.cover = assetUrl(p.cover as string);
+            p.content = replaceLinks(p.content);
+            return p;
+        });
 }

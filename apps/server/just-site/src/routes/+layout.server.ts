@@ -1,6 +1,6 @@
-import type { PageServerLoad } from "./$types";
 import { getDirectus, getRoutes, getSiteInfo } from "../helpers/directus";
 import type { JustSiteInfo } from "../types/directus";
+import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ url }): Promise<LayoutData> => {
     const directus = await getDirectus();

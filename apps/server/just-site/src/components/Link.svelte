@@ -12,7 +12,7 @@
     const scrollTo = ({ target }) => {
         const el = document.querySelector(target.getAttribute("href"));
         el && el.scrollIntoView({ behavior: "smooth" });
-    }
+    };
 
     const handleClick = (event) => {
         if (smoothScroll) {

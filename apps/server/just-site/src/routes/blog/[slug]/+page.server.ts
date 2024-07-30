@@ -3,7 +3,7 @@ import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params }) => {
     const directus = await getDirectus();
-    const post = await getBlogPost(directus, params.slug)
+    const post = await getBlogPost(directus, params.slug);
 
     return { post };
-}
+};

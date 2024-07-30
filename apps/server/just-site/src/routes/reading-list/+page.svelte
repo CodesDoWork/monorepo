@@ -13,9 +13,9 @@
     const { siteInfo, routes } = data;
 
     let books = readable([], set =>
-    onMount(() => {
-        fetch("/api/reading-list").then(res => res.json()).then(set);
-    }));
+        onMount(() => {
+            fetch("/api/reading-list").then(res => res.json()).then(set);
+        }));
     $: categories = new Set($books.flatMap(book => book.categories).sort());
 
     let animationIdx = 0;
@@ -24,7 +24,8 @@
 
 <Page loading={!$books.length} routes={routes} siteInfo={siteInfo} title={{title: "Reading List", small: true}}>
     <p class="mb-2 italic">
-        Here are some of the books I've read. I tagged my recommendation but every book on this list is great and worth reading.
+        Here are some of the books I've read. I tagged my recommendation but every book on this list is great and worth
+        reading.
         I didn't include every book I've read in the list because not every book is worth it.
         More books are about to come soon, since I just can't (and don't want to) stop reading.
     </p>

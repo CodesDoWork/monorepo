@@ -1,5 +1,5 @@
-import { type Writable, writable } from "svelte/store";
 import { onMount } from "svelte";
+import { writable, type Writable } from "svelte/store";
 
 export function useLocalStorage<T>(key: string, initial: unknown = null): Writable<T> {
     const isInitialFunction = typeof initial === "function";

@@ -10,8 +10,8 @@
 
     const labelClass = clsx(
         "flex items-center gap-1 bg-black bg-opacity-10 p-2 rounded",
-        className
-    )
+        className,
+    );
 </script>
 
 <svelte:element class={labelClass} this={tag}>

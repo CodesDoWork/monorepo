@@ -11,7 +11,7 @@
 
 <Page routes={routes} siteInfo={siteInfo} title={{title: "Blog", small: true}}>
     <Heading class="mt-8" level="h3">Featured Posts</Heading>
-    <Posts posts={featuredPosts}/>
+    <Posts posts={featuredPosts} />
     <Heading class="mt-16" level="h3">All Posts</Heading>
-    <Posts {posts} startWithIdx={featuredPosts.length}/>
+    <Posts {posts} startWithIdx={featuredPosts.length} />
 </Page>

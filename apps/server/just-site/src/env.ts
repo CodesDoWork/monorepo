@@ -1,6 +1,6 @@
+import { env as svelteEnv } from "$env/dynamic/private";
 import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod";
-import { env as svelteEnv } from "$env/dynamic/private";
 
 export const env = createEnv({
     server: {

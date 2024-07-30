@@ -1,6 +1,6 @@
-import type { Actions } from "./$types/Actions";
 import { SMTPClient } from "emailjs";
 import { env } from "../../env";
+import type { Actions } from "./$types/Actions";
 
 const client = new SMTPClient({
     user: env.SMTP_USER,

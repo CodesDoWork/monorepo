@@ -291,7 +291,7 @@ services:
       dockerfile: apps/server/just-site/Dockerfile
     dns: ${DNS_IP}
     environment:
-      - PORT=${SCOREBOARD_PORT}
+      - PORT=${JUST_SITE_PORT}
     env_file:
       - ./just-site/.env
     image: ${IMAGE_BASE}/server-just-site
@@ -420,6 +420,8 @@ services:
     healthcheck:
       test: wget -qO- http://localhost:${SCOREBOARD_PORT}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/server-scoreboard
+    profiles:
+      - deprecated
     restart: unless-stopped
 
   sonarqube:

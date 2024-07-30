@@ -205,8 +205,11 @@ export function getBlogPost(directus: Directus, slug: string) {
         )
         .then(posts => posts[0])
         .then(p => {
-            p.cover = assetUrl(p.cover as string);
-            p.content = replaceLinks(p.content);
+            if (p) {
+                p.cover = assetUrl(p.cover as string);
+                p.content = replaceLinks(p.content);
+            }
+
             return p;
         });
 }

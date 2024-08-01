@@ -10,16 +10,9 @@
     export let blinkCursor = false;
     export let animateText = "";
 
-    let animationDone = !animateText;
-    const onAnimationDone = () => {
-        animationDone = true;
-    };
-
     $: computedClassName = clsx(
         "font-mono font-bold transition-colors drop-shadow-sm cursor-default",
         commandStyle && "before:content-['>'] before:mr-2 before:opacity-75",
-        blinkCursor && "after:content-['▌'] after:ml-2",
-        animationDone && "after:animate-blink",
         level === "h1" && "text-2xl md:text-3xl xl:text-4xl mb-6 mt-4 md:mt-6 lg:mt-8",
         level === "h2" && "text-xl md:text-2xl xl:text-3xl mb-5",
         level === "h3" && "text-lg md:text-xl xl:text-2xl mb-4",
@@ -33,7 +26,7 @@
 
 <svelte:element class={computedClassName} id={id} this={level}>
     {#if animateText}
-        <AnimatedText text={animateText} {onAnimationDone} />
+        <AnimatedText blinkCursor={blinkCursor} text={animateText} />
     {:else}
         <slot />
     {/if}

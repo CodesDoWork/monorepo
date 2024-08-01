@@ -58,7 +58,7 @@
     <div class="flex items-center">
         { #if backButton && $currentRoute !== undefined }
             <Link
-                class="p-1 mr-4 m-0 inline-block !text-black dark:!text-white hover:!text-white hover:!bg-[var(--page-color)]"
+                class="p-1 mr-4 m-0 inline-block !text-white hover:!text-white hover:!bg-[var(--page-color)]"
                 href={$currentRoute?.route} title={$currentRoute?.name}>
                 <Icon icon="carbon:chevron-left" />
             </Link>

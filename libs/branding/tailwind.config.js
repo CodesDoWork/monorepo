@@ -1,7 +1,7 @@
+import tailwindForms from "@tailwindcss/forms";
+import deepcopy from "deepcopy";
 import colors from "tailwindcss/colors";
 import plugin from "tailwindcss/plugin";
-import deepcopy from "deepcopy";
-import tailwindForms from "@tailwindcss/forms";
 
 const brandBlue = colors.sky;
 const brandGreen = colors.teal;
@@ -63,7 +63,7 @@ export default {
                 mono: "Jetbrains Mono",
             },
             animation: {
-                blink: "blink 1.25s steps(2) infinite",
+                blink: "blink 1.25s steps(1) infinite",
                 fadeIn: "fadeIn 0.5s ease-in-out forwards",
                 fadeInSubtle: "fadeInSubtle 0.5s ease-in-out forwards",
                 fadeInTopSubtle: "fadeInTopSubtle 0.5s ease-in-out forwards",
@@ -74,7 +74,7 @@ export default {
             },
             keyframes: {
                 blink: {
-                    "0%": {
+                    "50%": {
                         opacity: 0,
                     },
                 },

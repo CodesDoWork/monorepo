@@ -24,10 +24,10 @@
 </script>
 
 <Page routes={routes} siteInfo={siteInfo} title={{title: "Contact", small: true}}>
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-16">
+    <div class="grid grid-cols-1 2xl:grid-cols-2 gap-12 xl:gap-16">
         <div class="animate-fadeInSubtle opacity-0">
             <Heading level="h2">Let's Connect</Heading>
-            <div class="grid grid-cols- sm:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {#each socials as social, idx (idx)}
                     <Card style={`--hover-color: ${social.tone}; ${animationDelay(idx)}`}
                           class="group border-l-4 hover:border-l-8 border-[var(--hover-color)] outline-0 hover:outline-0">

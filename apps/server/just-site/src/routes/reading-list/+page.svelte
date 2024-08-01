@@ -8,11 +8,12 @@
     import BookCategory from "./BookCategory.svelte";
     import { onMount } from "svelte";
     import { readable } from "svelte/store";
+    import type { Book } from "./book";
 
     export let data: PageData;
     const { siteInfo, routes } = data;
 
-    let books = readable([], set =>
+    let books = readable<Book[]>([], set =>
         onMount(() => {
             fetch("/api/reading-list").then(res => res.json()).then(set);
         }));

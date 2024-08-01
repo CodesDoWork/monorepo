@@ -164,6 +164,8 @@ export function getProjectData(directus: Directus) {
         });
 }
 
+export type DirectusBooks = Awaited<ReturnType<typeof getBooks>>;
+
 export function getBooks(directus: Directus) {
     return directus
         .request(
@@ -172,20 +174,15 @@ export function getBooks(directus: Directus) {
                 fields: ["*", { book_categories: [{ just_site_book_categories_id: ["*"] }] }],
             }),
         )
-        .then(books => {
-            books.forEach(book => {
-                if (book.cover) {
-                    book.cover = assetUrl(book.cover as string);
-                }
-
-                book["categories"] = book.book_categories.map(
-                    c => c.just_site_book_categories_id.name,
-                );
-                delete book.book_categories;
-            });
-
-            return books;
-        });
+        .then(books =>
+            books.map(book => ({
+                ...book,
+                cover: book.cover ? assetUrl(book.cover as string) : undefined,
+                categories:
+                    book.book_categories?.map(c => c.just_site_book_categories_id.name) || [],
+                book_categories: undefined,
+            })),
+        );
 }
 
 export function getBlogPosts(directus: Directus) {

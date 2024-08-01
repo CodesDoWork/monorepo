@@ -2,8 +2,9 @@
     import Card from "../../components/Card.svelte";
     import Link from "../../components/Link.svelte";
     import Label from "../../components/Label.svelte";
+    import type { Book } from "./book";
 
-    export let book: any;
+    export let book: Book;
     export let style = undefined;
 </script>
 

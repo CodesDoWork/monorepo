@@ -9,7 +9,7 @@ export async function GET() {
     return new Response(JSON.stringify(enrichedBooks));
 }
 
-function fetchChunk(books: any[]): Promise<any[]> {
+function fetchChunk(books: any[]) {
     const bibkeys = books.map(book => `ISBN:${book.isbn}`).join(",");
     return fetch(`https://openlibrary.org/api/books?bibkeys=${bibkeys}&jscmd=data&format=json`)
         .then(res => res.json())

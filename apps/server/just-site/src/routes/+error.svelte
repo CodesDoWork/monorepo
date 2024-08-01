@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { PageData } from "./$types";
     import { page } from "$app/stores";
     import Link from "../components/Link.svelte";
     import Page from "../components/Page.svelte";
@@ -15,7 +16,7 @@
         504: "⌛",
     };
 
-    export let data: any;
+    export let data: PageData;
     const { siteInfo, routes } = data;
 </script>
 

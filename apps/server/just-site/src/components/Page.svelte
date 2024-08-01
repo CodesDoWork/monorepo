@@ -7,7 +7,6 @@
     import { clsx } from "clsx";
     import BackToTop from "./BackToTop.svelte";
     import Icon from "@iconify/svelte";
-    import Card from "./Card.svelte";
     import type { JustSiteInfo, JustSiteRoutes, SocialNetworks } from "../types/directus";
     import { useThemeStore } from "../stores/useThemeStore";
     import tailwindConfig from "../../tailwind.config";
@@ -54,10 +53,10 @@
     <main class={mainClass}>
         <Title {...title} />
         {#if loading}
-            <Card padding class="flex w-min mx-auto items-center gap-2">
+            <div class="flex mt-24 w-min m-auto items-center gap-3 animate-fadeInTopSubtle">
                 <Icon icon="eos-icons:bubble-loading" />
-                <span class="text-lg font-bold">Loading</span>
-            </Card>
+                <span class="text-2xl font-bold">Loading</span>
+            </div>
         {:else}
             <slot />
         {/if}

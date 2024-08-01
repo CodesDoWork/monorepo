@@ -5,7 +5,7 @@
     import Link from "../../components/Link.svelte";
     import { toLinkFriendly } from "../../helpers/toLinkFriendly";
     import { animationDelay } from "../../helpers/animationDelay";
-    import BookCategory from "../../components/BookCategory.svelte";
+    import BookCategory from "./BookCategory.svelte";
     import { onMount } from "svelte";
     import { readable } from "svelte/store";
 

@@ -1,7 +1,7 @@
 <script lang="ts">
     import Page from "../../components/Page.svelte";
     import type { PageData } from "./$types";
-    import Posts from "../../components/Posts.svelte";
+    import Posts from "./Posts.svelte";
     import Heading from "../../components/Heading.svelte";
 
     export let data: PageData;

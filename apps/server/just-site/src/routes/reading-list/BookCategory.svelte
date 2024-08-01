@@ -1,8 +1,8 @@
 <script lang="ts">
     import BookCard from "./BookCard.svelte";
-    import Heading from "./Heading.svelte";
-    import { toLinkFriendly } from "../helpers/toLinkFriendly";
-    import type { JustSiteBooks } from "../types/directus";
+    import Heading from "../../components/Heading.svelte";
+    import { toLinkFriendly } from "../../helpers/toLinkFriendly";
+    import type { JustSiteBooks } from "../../types/directus";
 
     export let category: string;
     export let books: JustSiteBooks[];

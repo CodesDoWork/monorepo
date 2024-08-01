@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Card from "./Card.svelte";
-    import Link from "./Link.svelte";
-    import Label from "./Label.svelte";
+    import Card from "../../components/Card.svelte";
+    import Link from "../../components/Link.svelte";
+    import Label from "../../components/Label.svelte";
 
     export let book: any;
     export let style = undefined;

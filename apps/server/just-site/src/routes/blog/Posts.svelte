@@ -1,7 +1,7 @@
 <script lang="ts">
     import PostCard from "./PostCard.svelte";
-    import { animationDelay } from "../helpers/animationDelay";
-    import type { JustSiteBlogEntries } from "../types/directus";
+    import { animationDelay } from "../../helpers/animationDelay";
+    import type { JustSiteBlogEntries } from "../../types/directus";
 
     export let posts: JustSiteBlogEntries[];
     export let startWithIdx = 0;

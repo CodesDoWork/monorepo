@@ -1,9 +1,9 @@
 <script lang="ts">
-    import Heading from "./Heading.svelte";
-    import Link from "./Link.svelte";
-    import Card from "./Card.svelte";
-    import type { JustSiteBlogEntries } from "../types/directus";
-    import Label from "./Label.svelte";
+    import Heading from "../../components/Heading.svelte";
+    import Link from "../../components/Link.svelte";
+    import Card from "../../components/Card.svelte";
+    import type { JustSiteBlogEntries } from "../../types/directus";
+    import Label from "../../components/Label.svelte";
 
     export let style = "";
     export let post: JustSiteBlogEntries;

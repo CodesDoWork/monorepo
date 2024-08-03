@@ -8,7 +8,7 @@
     import BookCategory from "./BookCategory.svelte";
     import { onMount } from "svelte";
     import { readable } from "svelte/store";
-    import type { Book } from "./book";
+    import type { Book } from "../../types/frontend";
 
     export let data: PageData;
     const { siteInfo, routes } = data;

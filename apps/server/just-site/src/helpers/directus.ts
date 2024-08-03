@@ -1,6 +1,19 @@
 import { authentication, createDirectus, readItems, readSingleton, rest } from "@directus/sdk";
 import { env } from "../env";
-import { CustomDirectusTypes } from "../types/directus";
+import type { CustomDirectusTypes } from "../types/directus";
+import type {
+    DirectusBook,
+    JustSiteBookDto,
+    PageInfoDto,
+    WorkExperienceDto,
+    WorkExperienceWorkProjectsIdDto,
+} from "../types/dtos";
+import type {
+    PageInfo,
+    PageInfoSocials,
+    PageInfoTechnologies,
+    WorkExperience,
+} from "../types/frontend";
 
 const directus = createDirectus<CustomDirectusTypes>(env.CMS_URL)
     .with(rest())
@@ -18,8 +31,6 @@ export async function getDirectus(): Promise<Directus> {
     });
 }
 
-const publishedFilter = { filter: { status: { _eq: "published" } } };
-
 function assetUrl(id: string) {
     return `https://cms.justinkonratt.com/assets/${id}`;
 }
@@ -28,7 +39,7 @@ function replaceLinks(text: string) {
     return text.replace(/<a /g, '<a class="text-[var(--page-color)] hover:underline" ');
 }
 
-export function getSiteInfo(directus: Directus) {
+export function getSiteInfo(directus: Directus): Promise<PageInfo> {
     return directus
         .request(
             readSingleton("just_site_info", {
@@ -62,8 +73,9 @@ export function getSiteInfo(directus: Directus) {
                 ],
             }),
         )
-        .then(async pageInfo => {
-            pageInfo.socials = pageInfo.socials.map(s => {
+        .then(res => res as PageInfoDto)
+        .then(pageInfo => {
+            const socials: PageInfoSocials[] = pageInfo.socials.map(s => {
                 const social = s.socials_id;
                 const { platform } = social;
 
@@ -77,46 +89,47 @@ export function getSiteInfo(directus: Directus) {
                 };
             });
 
-            pageInfo.technologies = pageInfo.technologies.reduce((stacks, t) => {
-                const technology = t.technologies_id;
-                technology.tech_stacks.forEach(({ tech_stack_id: stack }) => {
-                    if (!stacks[stack.name]) {
-                        stacks[stack.name] = [];
-                    }
-                    stacks[stack.name].push(technology.name);
-                });
+            const techStacks = pageInfo.technologies.reduce(
+                (stacks, t) => {
+                    const technology = t.technologies_id;
+                    technology.tech_stacks.forEach(({ tech_stack_id: stack }) => {
+                        if (!stacks[stack.name]) {
+                            stacks[stack.name] = [];
+                        }
+                        stacks[stack.name].push(technology.name);
+                    });
 
-                return stacks;
-            }, {});
-            const sortedTechStackKeys = Object.keys(pageInfo.technologies).sort();
-            pageInfo.technologies = sortedTechStackKeys.reduce(
-                (stacks, key) => {
-                    stacks[key] = pageInfo.technologies[key];
                     return stacks;
                 },
-                {} as typeof pageInfo.technologies,
+                {} as Record<string, string[]>,
+            );
+            const sortedTechStackKeys = Object.keys(techStacks).sort();
+            const technologies: PageInfoTechnologies = sortedTechStackKeys.reduce(
+                (stacks, key) => {
+                    stacks[key] = techStacks[key];
+                    return stacks;
+                },
+                {} as typeof techStacks,
             );
 
             pageInfo.about_bio = replaceLinks(pageInfo.about_bio);
 
-            return pageInfo;
+            return { ...pageInfo, socials, technologies } satisfies PageInfo;
         });
 }
 
 export function getRoutes(directus: Directus) {
     return directus.request(
         readItems("just_site_routes", {
-            ...publishedFilter,
             fields: ["name", "route", "description", "color", "is_hero"],
         }),
     );
 }
 
-export function getWorkExperience(directus: Directus) {
+export function getWorkExperience(directus: Directus): Promise<WorkExperience[]> {
     return directus
         .request(
             readItems("just_site_work_experience", {
-                ...publishedFilter,
                 fields: [
                     "job_title",
                     "start_year",
@@ -132,48 +145,47 @@ export function getWorkExperience(directus: Directus) {
                 ],
             }),
         )
-        .then(experiences => {
-            experiences.forEach(experience => {
-                experience.company.logo = assetUrl(experience.company.logo as string);
-                experience.technologies = experience.technologies
-                    .map(t => t.technologies_id.name)
-                    .sort();
-                experience.projects = experience.projects.map(p => {
-                    const project = p.just_site_work_projects_id;
-                    project.logo = assetUrl(project.logo);
-                    return project;
-                });
-            });
+        .then(res => res as WorkExperienceDto[])
+        .then(experiences =>
+            experiences
+                .map(experience => {
+                    experience.company.logo = assetUrl(experience.company.logo as string);
+                    const technologies = experience.technologies
+                        .map(t => t.technologies_id.name)
+                        .sort();
+                    const projects: WorkExperienceWorkProjectsIdDto[] = experience.projects.map(
+                        p => {
+                            const project = p.just_site_work_projects_id;
+                            project.logo = assetUrl(project.logo);
+                            return project;
+                        },
+                    );
 
-            return experiences.sort(
-                (e1, e2) =>
-                    (e1.end_year || 1) - (e2.end_year || 1) || e2.start_year - e1.start_year,
-            );
-        });
+                    return { ...experience, technologies, projects } satisfies WorkExperience;
+                })
+                .sort(
+                    (e1, e2) =>
+                        (e1.end_year || 1) - (e2.end_year || 1) || e2.start_year - e1.start_year,
+                ),
+        );
 }
 
 export function getProjectData(directus: Directus) {
-    return directus
-        .request(readItems("just_site_project_data", publishedFilter))
-        .then(projectData => {
-            projectData.forEach(
-                project => (project.thumbnail = assetUrl(project.thumbnail as string)),
-            );
+    return directus.request(readItems("just_site_project_data")).then(projectData => {
+        projectData.forEach(project => (project.thumbnail = assetUrl(project.thumbnail as string)));
 
-            return projectData;
-        });
+        return projectData;
+    });
 }
 
-export type DirectusBooks = Awaited<ReturnType<typeof getBooks>>;
-
-export function getBooks(directus: Directus) {
+export function getBooks(directus: Directus): Promise<DirectusBook[]> {
     return directus
         .request(
             readItems("just_site_books", {
-                ...publishedFilter,
                 fields: ["*", { book_categories: [{ just_site_book_categories_id: ["*"] }] }],
             }),
         )
+        .then(res => res as JustSiteBookDto[])
         .then(books =>
             books.map(book => ({
                 ...book,
@@ -186,7 +198,7 @@ export function getBooks(directus: Directus) {
 }
 
 export function getBlogPosts(directus: Directus) {
-    return directus.request(readItems("just_site_blog_entries", publishedFilter)).then(posts => {
+    return directus.request(readItems("just_site_blog_entries")).then(posts => {
         posts.forEach(p => (p.cover = assetUrl(p.cover as string)));
         return posts;
     });
@@ -196,7 +208,6 @@ export function getBlogPost(directus: Directus, slug: string) {
     return directus
         .request(
             readItems("just_site_blog_entries", {
-                ...publishedFilter,
                 filter: { slug: { _eq: slug } },
             }),
         )

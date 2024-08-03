@@ -2,7 +2,7 @@
     import BookCard from "./BookCard.svelte";
     import Heading from "../../components/Heading.svelte";
     import { toLinkFriendly } from "../../helpers/toLinkFriendly";
-    import type { Book } from "./book";
+    import type { Book } from "../../types/frontend";
 
     export let category: string;
     export let books: Book[];

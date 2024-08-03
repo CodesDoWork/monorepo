@@ -1,4 +1,6 @@
 import { getBooks, getDirectus } from "../../../helpers/directus";
+import type { DirectusBook } from "../../../types/dtos";
+import type { Book } from "../../../types/frontend";
 
 export async function GET() {
     const directus = await getDirectus();
@@ -9,27 +11,30 @@ export async function GET() {
     return new Response(JSON.stringify(enrichedBooks));
 }
 
-function fetchChunk(books: any[]) {
+function fetchChunk(books: DirectusBook[]): Promise<Book[]> {
     const bibkeys = books.map(book => `ISBN:${book.isbn}`).join(",");
     return fetch(`https://openlibrary.org/api/books?bibkeys=${bibkeys}&jscmd=data&format=json`)
         .then(res => res.json())
-        .then(Object.entries)
-        .then(resBooks =>
-            books.map(book => ({
-                ...book,
-                ...(resBooks.find(resBook => resBook[0] === `ISBN:${book.isbn}`) || ["", {}])[1],
-                ...(book.cover ? { cover: book.cover } : {}),
-            })),
+        .then(
+            resBooks =>
+                books.map(
+                    book =>
+                        ({
+                            ...book,
+                            ...(resBooks[`ISBN:${book.isbn}`] || {}),
+                            ...(book.cover ? { cover: book.cover } : {}),
+                        }) satisfies Book,
+                ) as Book[],
         )
         .then(enrichedBooks => enrichedBooks.map(sanitizeBook));
 }
 
-function sanitizeBook(book: any) {
-    book.authors = book.authors?.slice(0, 1);
+function sanitizeBook(book: Book) {
+    book.authors = book.authors.slice(0, 1);
 
     return book;
 }
 
-function sortBooks(books: any[]) {
+function sortBooks(books: Book[]) {
     books.sort((a, b) => a.title.localeCompare(b.title)).sort((a, b) => +b.featured - +a.featured);
 }

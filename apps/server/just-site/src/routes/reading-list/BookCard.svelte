@@ -2,7 +2,7 @@
     import Card from "../../components/Card.svelte";
     import Link from "../../components/Link.svelte";
     import Label from "../../components/Label.svelte";
-    import type { Book } from "./book";
+    import type { Book } from "../../types/frontend";
 
     export let book: Book;
     export let style = undefined;
@@ -11,7 +11,7 @@
 <Card class="p-2 grid grid-cols-[auto_1fr] gap-4 items-start h-full" style={style}>
     <Link href={book.url || ""} noStyle title={book.title}>
         <img alt="no cover" class="rounded max-w-20 sm:max-w-32 md:max-w-48"
-             src={typeof book.cover === "string" ? book.cover : book.cover?.medium} />
+             src={typeof book.cover === "string" ? book.cover : book.cover.medium} />
     </Link>
     <div>
         <ul class="flex items-center mb-1 text-sm">

@@ -4,7 +4,6 @@ export type Companies = {
     id: string;
     logo: string | DirectusFiles;
     name: string;
-    status: string;
     url: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
@@ -378,6 +377,76 @@ export type DirectusWebhooks = {
     was_active_before_deprecation: boolean;
 };
 
+export type JustCashAccount = {
+    account_details: any[] | JustCashAccountDetails[];
+    color?: string | null;
+    date_created?: string | null;
+    date_updated?: string | null;
+    groups: any[] | JustCashGroup[];
+    id: string;
+    items: any[] | JustCashItem[];
+    name: string;
+    sort?: number | null;
+    user: string | DirectusUsers;
+    user_created?: string | DirectusUsers | null;
+    user_updated?: string | DirectusUsers | null;
+};
+
+export type JustCashAccountDetails = {
+    account: string | JustCashAccount;
+    date_created?: string | null;
+    date_updated?: string | null;
+    id: string;
+    name: string;
+    user_created?: string | DirectusUsers | null;
+    user_updated?: string | DirectusUsers | null;
+    value: string;
+};
+
+export type JustCashGroup = {
+    account: string | JustCashAccount;
+    children: any[] | JustCashGroup[];
+    color?: string | null;
+    date_created?: string | null;
+    date_updated?: string | null;
+    id: string;
+    items: any[] | JustCashItem[];
+    name: string;
+    parent?: string | JustCashGroup | null;
+    sort?: number | null;
+    user_created?: string | DirectusUsers | null;
+    user_updated?: string | DirectusUsers | null;
+};
+
+export type JustCashItem = {
+    account?: string | JustCashAccount | null;
+    asset_amount?: number | null;
+    asset_identifier?: string | null;
+    color?: string | null;
+    date_created?: string | null;
+    date_updated?: string | null;
+    group?: string | JustCashGroup | null;
+    id: string;
+    income?: number | null;
+    name: string;
+    sort?: number | null;
+    type: string;
+    user_created?: string | DirectusUsers | null;
+    user_updated?: string | DirectusUsers | null;
+    value?: number | null;
+};
+
+export type JustCashOutput = {
+    date_created?: string | null;
+    date_updated?: string | null;
+    from: string | JustCashItem;
+    id: string;
+    percentage: number;
+    to: string | JustCashItem;
+    user_created?: string | DirectusUsers | null;
+    user_updated?: string | DirectusUsers | null;
+};
+
 export type JustSiteBlogEntries = {
     content: string;
     cover: string | DirectusFiles;
@@ -387,7 +456,6 @@ export type JustSiteBlogEntries = {
     featured: boolean;
     id: string;
     slug: string;
-    status: string;
     title: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
@@ -398,7 +466,6 @@ export type JustSiteBookCategories = {
     date_updated?: string | null;
     id: string;
     name: string;
-    status: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
 };
@@ -413,7 +480,6 @@ export type JustSiteBooks = {
     featured: boolean;
     id: string;
     isbn?: string | null;
-    status: string;
     title: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
@@ -438,7 +504,6 @@ export type JustSiteInfo = {
     project_platform?: string | SocialNetworks | null;
     project_url: string;
     socials: any[] | JustSiteInfoSocials[];
-    status: string;
     technologies: any[] | JustSiteInfoTechnologies[];
     title: string;
     user_created?: string | DirectusUsers | null;
@@ -462,7 +527,6 @@ export type JustSiteProjectData = {
     date_updated?: string | null;
     id: string;
     name: string;
-    status: string;
     thumbnail: string | DirectusFiles;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
@@ -474,11 +538,11 @@ export type JustSiteRoutes = {
     date_updated?: string | null;
     description: string;
     id: string;
+    in_nav: boolean;
     is_hero: boolean;
     name: string;
     route: string;
     sort?: number | null;
-    status: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
 };
@@ -493,7 +557,6 @@ export type JustSiteWorkExperience = {
     projects: any[] | JustSiteWorkExperienceJustSiteWorkProjects[];
     responsibilities: string;
     start_year: number;
-    status: string;
     technologies: any[] | JustSiteWorkExperienceTechnologies[];
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
@@ -519,7 +582,6 @@ export type JustSiteWorkProjects = {
     link: string;
     logo: string | DirectusFiles;
     name: string;
-    status: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
 };
@@ -532,7 +594,6 @@ export type SocialNetworks = {
     icon: string;
     id: string;
     name: string;
-    status: string;
     tone: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
@@ -544,7 +605,6 @@ export type Socials = {
     id: string;
     name: string;
     platform: string | SocialNetworks;
-    status: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
 };
@@ -554,7 +614,6 @@ export type TechStack = {
     date_updated?: string | null;
     id: string;
     name: string;
-    status: string;
     technologies: any[] | TechStackTechnologies[];
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
@@ -571,7 +630,6 @@ export type Technologies = {
     date_updated?: string | null;
     id: string;
     name: string;
-    status: string;
     tech_stacks: any[] | TechStackTechnologies[];
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
@@ -603,6 +661,11 @@ export type CustomDirectusTypes = {
     directus_users: DirectusUsers[];
     directus_versions: DirectusVersions[];
     directus_webhooks: DirectusWebhooks[];
+    just_cash_account: JustCashAccount[];
+    just_cash_account_details: JustCashAccountDetails[];
+    just_cash_group: JustCashGroup[];
+    just_cash_item: JustCashItem[];
+    just_cash_output: JustCashOutput[];
     just_site_blog_entries: JustSiteBlogEntries[];
     just_site_book_categories: JustSiteBookCategories[];
     just_site_books: JustSiteBooks[];

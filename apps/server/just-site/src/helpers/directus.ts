@@ -121,7 +121,7 @@ export function getSiteInfo(directus: Directus): Promise<PageInfo> {
 export function getRoutes(directus: Directus) {
     return directus.request(
         readItems("just_site_routes", {
-            fields: ["name", "route", "description", "color", "is_hero"],
+            fields: ["name", "route", "description", "color", "is_hero", "in_nav"],
         }),
     );
 }

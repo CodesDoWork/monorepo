@@ -235,7 +235,6 @@ services:
           }
         ]
         puma['worker_processes'] = 1
-        sidekiq['max_concurrency'] = 10
         gitaly['configuration'] = {
           concurrency: [
             {

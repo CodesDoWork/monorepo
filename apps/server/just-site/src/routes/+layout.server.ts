@@ -1,5 +1,5 @@
 import { getDirectus, getRoutes, getSiteInfo } from "../helpers/directus";
-import type { JustSiteInfo } from "../types/directus";
+import type { PageInfo } from "../types/frontend";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ url }): Promise<LayoutData> => {
@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ url }): Promise<LayoutData> => {
 type Route = ReturnType<typeof getRoutes> extends Promise<Array<infer T>> ? T : never;
 
 export type LayoutData = {
-    siteInfo: JustSiteInfo;
+    siteInfo: PageInfo;
     routes: Route[];
     currentRoute: Route | undefined;
 };

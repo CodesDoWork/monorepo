@@ -2,7 +2,7 @@
     import Heading from "../../components/Heading.svelte";
     import Link from "../../components/Link.svelte";
     import Card from "../../components/Card.svelte";
-    import type { JustSiteBlogEntries } from "../../types/directus";
+    import type { JustSiteBlogEntries } from "../../../../../../libs/server/directus/src/lib/directus-types";
     import Label from "../../components/Label.svelte";
 
     export let style = "";

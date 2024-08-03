@@ -2,7 +2,7 @@
     import { clsx } from "clsx";
     import { useRoutes } from "../stores/useRoutes";
     import { animationDelay } from "../helpers/animationDelay";
-    import type { JustSiteRoutes } from "../types/directus";
+    import type { JustSiteRoutes } from "../../../../../libs/server/directus/src/lib/directus-types";
     import Link from "./Link.svelte";
 
     let className = "";

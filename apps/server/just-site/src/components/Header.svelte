@@ -6,7 +6,7 @@
     import { sineInOut } from "svelte/easing";
     import NavLinks from "./NavLinks.svelte";
     import { useRoutes } from "../stores/useRoutes";
-    import type { JustSiteRoutes } from "../types/directus";
+    import type { JustSiteRoutes } from "../../../../../libs/server/directus/src/lib/directus-types";
     import type { Writable } from "svelte/store";
     import Link from "./Link.svelte";
 

@@ -1,6 +1,6 @@
 import { authentication, createDirectus, readItems, readSingleton, rest } from "@directus/sdk";
+import type { CustomDirectusTypes } from "server/directus";
 import { env } from "../env";
-import type { CustomDirectusTypes } from "../types/directus";
 import type {
     DirectusBook,
     JustSiteBookDto,

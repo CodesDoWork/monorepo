@@ -6,7 +6,7 @@ import type {
     SocialNetworks,
     Socials,
     Technologies,
-} from "./directus";
+} from "server/directus";
 
 export interface PageInfoDto extends JustSiteInfo {
     socials: PageInfoSocialsDto[];

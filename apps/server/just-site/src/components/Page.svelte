@@ -7,7 +7,7 @@
     import { clsx } from "clsx";
     import BackToTop from "./BackToTop.svelte";
     import Icon from "@iconify/svelte";
-    import type { JustSiteInfo, JustSiteRoutes, SocialNetworks } from "../types/directus";
+    import type { JustSiteInfo, JustSiteRoutes, SocialNetworks } from "../../../../../libs/server/directus/src/lib/directus-types";
     import { useThemeStore } from "../stores/useThemeStore";
     import tailwindConfig from "../../tailwind.config";
 

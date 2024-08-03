@@ -1,7 +1,7 @@
 import { afterNavigate } from "$app/navigation";
+import type { JustSiteRoutes } from "server/directus";
 import { onMount } from "svelte";
 import { readable } from "svelte/store";
-import type { JustSiteRoutes } from "../types/directus";
 
 export function useRoutes(routeLinks: JustSiteRoutes[]) {
     const currentRoute = readable<JustSiteRoutes | undefined>(undefined, set => {

@@ -2,7 +2,7 @@
     import { clsx } from "clsx";
     import Link from "./Link.svelte";
     import { useRoutes } from "../stores/useRoutes";
-    import type { JustSiteRoutes } from "../types/directus";
+    import type { JustSiteRoutes } from "../../../../../libs/server/directus/src/lib/directus-types";
 
     let className = "";
     export { className as class };

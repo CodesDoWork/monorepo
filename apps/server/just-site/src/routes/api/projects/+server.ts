@@ -1,7 +1,7 @@
 import type { Endpoints } from "@octokit/types";
+import { JustSiteProjectData } from "server/directus";
 import { env } from "../../../env";
 import { getDirectus, getProjectData, getSiteInfo } from "../../../helpers/directus";
-import { JustSiteProjectData } from "../../../types/directus";
 
 export async function GET() {
     const directus = await getDirectus();

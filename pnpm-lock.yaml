@@ -289,8 +289,8 @@ importers:
         specifier: 19.5.6
         version: 19.5.6(@swc-node/register@1.9.2(@swc/core@1.5.7(@swc/helpers@0.5.12))(@swc/types@0.1.9)(typescript@5.5.4))(@swc/core@1.5.7(@swc/helpers@0.5.12))
       pino-pretty:
-        specifier: ^11.0.0
-        version: 11.0.0
+        specifier: ^11.2.2
+        version: 11.2.2
       postcss:
         specifier: 8.4.40
         version: 8.4.40
@@ -4789,8 +4789,8 @@ packages:
   fast-content-type-parse@1.1.0:
     resolution: {integrity: sha512-fBHHqSTFLVnR61C+gltJuE5GkVQMV0S2nqUO8TJ+5Z3qAKG8vAx4FKai1s5jq/inV1+sREynIWSuQ6HgoSXpDQ==}
 
-  fast-copy@3.0.1:
-    resolution: {integrity: sha512-Knr7NOtK3HWRYGtHoJrjkaWepqT8thIVGAwt0p0aUs1zqkAzXZV4vo9fFNwyb5fcqK1GKYFYxldQdIDVKhUAfA==}
+  fast-copy@3.0.2:
+    resolution: {integrity: sha512-dl0O9Vhju8IrcLndv2eU4ldt1ftXMqqfgN4H1cpmGV7P6jeB9FwpN9a2c8DPGE1Ys88rNUJVYDHq73CGAGOPfQ==}
 
   fast-decode-uri-component@1.0.1:
     resolution: {integrity: sha512-WKgKWg5eUxvRZGwW8FvfbaH7AXSh2cL+3j5fMGzUMCxWBJ3dV3a7Wz8y2f/uQ0e3B6WmodD3oS54jTQ9HVTIIg==}
@@ -6852,8 +6852,8 @@ packages:
   pino-abstract-transport@1.1.0:
     resolution: {integrity: sha512-lsleG3/2a/JIWUtf9Q5gUNErBqwIu1tUKTT3dUzaf5DySw9ra1wcqKjJjLX1VTY64Wk1eEOYsVGSaGfCK85ekA==}
 
-  pino-pretty@11.0.0:
-    resolution: {integrity: sha512-YFJZqw59mHIY72wBnBs7XhLGG6qpJMa4pEQTRgEPEbjIYbng2LXEZZF1DoyDg9CfejEy8uZCyzpcBXXG0oOCwQ==}
+  pino-pretty@11.2.2:
+    resolution: {integrity: sha512-2FnyGir8nAJAqD3srROdrF1J5BIcMT4nwj7hHSc60El6Uxlym00UbCCd8pYIterstVBFlMyF1yFV8XdGIPbj4A==}
     hasBin: true
 
   pino-std-serializers@6.2.2:
@@ -7905,6 +7905,9 @@ packages:
 
   sonic-boom@3.7.0:
     resolution: {integrity: sha512-IudtNvSqA/ObjN97tfgNmOKyDOs4dNcg4cUUsHDebqsgb8wGBBwb31LIgShNO8fye0dFI52X1+tFoKKI6Rq1Gg==}
+
+  sonic-boom@4.0.1:
+    resolution: {integrity: sha512-hTSD/6JMLyT4r9zeof6UtuBDpjJ9sO08/nmS5djaA9eozT9oOlNdpXSnzcgj4FTqpk3nkLrs61l4gip9r1HCrQ==}
 
   sorcery@0.11.0:
     resolution: {integrity: sha512-J69LQ22xrQB1cIFJhPfgtLuI6BpWRiWu1Y3vSsIwK/eAScqJxd/+CJlUuHQRdX2C9NGFamq+KqNywGgaThwfHw==}
@@ -15099,7 +15102,7 @@ snapshots:
 
   fast-content-type-parse@1.1.0: {}
 
-  fast-copy@3.0.1: {}
+  fast-copy@3.0.2: {}
 
   fast-decode-uri-component@1.0.1: {}
 
@@ -17525,11 +17528,11 @@ snapshots:
       readable-stream: 4.4.2
       split2: 4.2.0
 
-  pino-pretty@11.0.0:
+  pino-pretty@11.2.2:
     dependencies:
       colorette: 2.0.20
       dateformat: 4.6.3
-      fast-copy: 3.0.1
+      fast-copy: 3.0.2
       fast-safe-stringify: 2.1.1
       help-me: 5.0.0
       joycon: 3.1.1
@@ -17539,7 +17542,7 @@ snapshots:
       pump: 3.0.0
       readable-stream: 4.4.2
       secure-json-parse: 2.7.0
-      sonic-boom: 3.7.0
+      sonic-boom: 4.0.1
       strip-json-comments: 3.1.1
 
   pino-std-serializers@6.2.2: {}
@@ -18576,6 +18579,10 @@ snapshots:
       websocket-driver: 0.7.4
 
   sonic-boom@3.7.0:
+    dependencies:
+      atomic-sleep: 1.0.0
+
+  sonic-boom@4.0.1:
     dependencies:
       atomic-sleep: 1.0.0
 

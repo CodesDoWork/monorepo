@@ -48,7 +48,6 @@ services:
       - directus-uploads:/data/services/directus/uploads:ro
       - gitlab-config:/data/services/gitlab/config:ro
       - gitlab-data:/data/services/gitlab/data:ro
-      - gitlab-runner-config:/data/services/gitlab-runner/config:ro
       - grafana-storage:/data/services/grafana/storage:ro
       - grafana-config:/data/services/grafana/config:ro
       - linkwarden-data:/data/services/linkwarden/data:ro
@@ -266,7 +265,7 @@ services:
     image: gitlab/gitlab-runner
     restart: unless-stopped
     volumes:
-      - gitlab-runner-config:/etc/gitlab-runner
+      - ./gitlab-runner:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
 
   grafana:
@@ -487,7 +486,6 @@ volumes:
 
   gitlab-config:
   gitlab-data:
-  gitlab-runner-config:
 
   grafana-storage:
   grafana-config:

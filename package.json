@@ -117,7 +117,7 @@
     "dependencies": {
         "@directus/sdk": "^16.1.1",
         "@fastify/swagger": "^8.14.0",
-        "@fastify/swagger-ui": "^3.0.0",
+        "@fastify/swagger-ui": "^4.0.1",
         "@fastify/websocket": "^10.0.1",
         "@mermaid-js/mermaid-mindmap": "^9.3.0",
         "@notionhq/client": "^2.2.15",

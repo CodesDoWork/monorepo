@@ -32,7 +32,7 @@ export async function getDirectus(): Promise<Directus> {
 }
 
 function assetUrl(id: string) {
-    return `https://cms.justinkonratt.com/assets/${id}`;
+    return `${env.CMS_URL}/assets/${id}`;
 }
 
 function replaceLinks(text: string) {

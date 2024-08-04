@@ -4,8 +4,8 @@ import { z } from "zod";
 
 export const env = createEnv({
     server: {
-        GHOST_API_KEY: z.string(),
         GITHUB_TOKEN: z.string(),
+        DOMAIN: z.string().url(),
         CMS_URL: z.string().url(),
         CMS_USER: z.string(),
         CMS_PASSWORD: z.string(),

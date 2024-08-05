@@ -65,7 +65,7 @@
         "@types/react-dom": "18.3.0",
         "@typescript-eslint/eslint-plugin": "7.18.0",
         "@typescript-eslint/parser": "7.18.0",
-        "@vitest/ui": "^1.5.0",
+        "@vitest/ui": "^1.6.0",
         "autoprefixer": "^10.4.20",
         "babel-jest": "^29.7.0",
         "copy-file": "^11.0.0",
@@ -112,7 +112,7 @@
         "typescript": "5.5.4",
         "vite": "^5.3.5",
         "vitepress": "1.3.1",
-        "vitest": "^1.5.0"
+        "vitest": "^1.6.0"
     },
     "dependencies": {
         "@directus/sdk": "^16.1.1",

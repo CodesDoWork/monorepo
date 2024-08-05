@@ -127,8 +127,8 @@ importers:
         version: 3.22.4
     devDependencies:
       '@iconify/svelte':
-        specifier: ^3.1.6
-        version: 3.1.6(svelte@4.2.18)
+        specifier: ^4.0.2
+        version: 4.0.2(svelte@4.2.18)
       '@nx/esbuild':
         specifier: 19.5.6
         version: 19.5.6(@babel/traverse@7.24.7)(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(esbuild@0.23.0)(nx@19.5.6(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12)))(typescript@5.5.4)
@@ -1572,10 +1572,10 @@ packages:
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
     deprecated: Use @eslint/object-schema instead
 
-  '@iconify/svelte@3.1.6':
-    resolution: {integrity: sha512-yLSrlkOx5J6xXU5GDLPBV/MdVBVEZhd36onfqSbxQobp1XBoWQbMPLNZyCAmTKCPnmzXSowGy79agl8FQ3kj6A==}
+  '@iconify/svelte@4.0.2':
+    resolution: {integrity: sha512-6BSrU85FzGfhQD3bTXpnkCCvBAglEt8T9QednVnXAYm4C+d3464y+pYMzhQNJm5mPId2cuiw+2wXlDflXllHDw==}
     peerDependencies:
-      svelte: '*'
+      svelte: '>4.0.0'
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -10690,7 +10690,7 @@ snapshots:
 
   '@humanwhocodes/object-schema@2.0.3': {}
 
-  '@iconify/svelte@3.1.6(svelte@4.2.18)':
+  '@iconify/svelte@4.0.2(svelte@4.2.18)':
     dependencies:
       '@iconify/types': 2.0.0
       svelte: 4.2.18

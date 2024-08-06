@@ -115,7 +115,7 @@
         "vitest": "^2.0.5"
     },
     "dependencies": {
-        "@directus/sdk": "^16.1.1",
+        "@directus/sdk": "^16.1.2",
         "@fastify/swagger": "^8.15.0",
         "@fastify/swagger-ui": "^4.0.1",
         "@fastify/websocket": "^10.0.1",

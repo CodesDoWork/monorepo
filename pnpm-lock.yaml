@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@directus/sdk':
-        specifier: ^16.1.1
-        version: 16.1.1
+        specifier: ^16.1.2
+        version: 16.1.2
       '@fastify/swagger':
         specifier: ^8.15.0
         version: 8.15.0
@@ -1184,12 +1184,9 @@ packages:
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
     engines: {node: '>=12'}
 
-  '@directus/sdk@16.1.1':
-    resolution: {integrity: sha512-vF/vk4PvyndxBE9SwININy3bfqjVPfQ35AXbsvDaJpE5OVclmQGbLqkYP6233GHqVUnveJDDUJssuz/QjeSYyQ==}
+  '@directus/sdk@16.1.2':
+    resolution: {integrity: sha512-TlKmS80tH5mmFQA1kRYZ6QuvggE/kP1uMRTTIM3qSTrAsAabaG1oKhRVLM3Qi8HZYL20DWqSSG6AQFjYgbKxFw==}
     engines: {node: '>=18.0.0'}
-
-  '@directus/system-data@1.1.0':
-    resolution: {integrity: sha512-ETOoTyUXHQJD1NemdlJSADm32GoljQGhZUbg8bB31GAmBnGghTx+E16zzcb1TxRHEqQhV7PfLOrtwEksSTIw8Q==}
 
   '@docsearch/css@3.6.0':
     resolution: {integrity: sha512-+sbxb71sWre+PwDK7X2T8+bhS6clcVMLwBPznX45Qu6opJcgRjAp7gYSDzVFp187J+feSj5dNBN1mJoi6ckkUQ==}
@@ -10417,11 +10414,7 @@ snapshots:
     dependencies:
       '@jridgewell/trace-mapping': 0.3.9
 
-  '@directus/sdk@16.1.1':
-    dependencies:
-      '@directus/system-data': 1.1.0
-
-  '@directus/system-data@1.1.0': {}
+  '@directus/sdk@16.1.2': {}
 
   '@docsearch/css@3.6.0': {}
 

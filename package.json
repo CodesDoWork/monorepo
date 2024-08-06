@@ -97,7 +97,7 @@
         "prettier-plugin-svelte": "^3.2.6",
         "prettier-plugin-tailwindcss": "^0.6.5",
         "replace-in-files-cli": "^2.2.0",
-        "rimraf": "^5.0.10",
+        "rimraf": "^6.0.1",
         "secretlint": "^8.2.4",
         "stream-browserify": "^3.0.0",
         "svelte": "^4.2.18",

@@ -124,7 +124,7 @@ services:
       - AUTH_KEYCLOAK_CLIENT_SECRET=${CMS_AUTH_CLIENT_SECRET}
       - AUTH_KEYCLOAK_ISSUER_URL=https://${AUTH_DOMAIN}/realms/${AUTH_REALM}/.well-known/openid-configuration
       - AUTH_KEYCLOAK_IDENTIFIER_KEY=email
-    image: directus/directus:10.13
+    image: directus/directus:11.0
     restart: unless-stopped
     volumes:
       - directus-uploads:/directus/uploads

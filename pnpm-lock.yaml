@@ -34,7 +34,7 @@ importers:
         version: 0.11.0(typescript@5.5.4)(zod@3.23.8)
       '@tailwindcss/forms':
         specifier: ^0.5.7
-        version: 0.5.7(tailwindcss@3.4.8(ts-node@10.9.2(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(typescript@5.5.4)))
+        version: 0.5.7(tailwindcss@3.4.9(ts-node@10.9.2(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(typescript@5.5.4)))
       '@trpc/client':
         specifier: ^10.45.2
         version: 10.45.2(@trpc/server@10.45.2)
@@ -331,8 +331,8 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1
       tailwindcss:
-        specifier: 3.4.8
-        version: 3.4.8(ts-node@10.9.2(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(typescript@5.5.4))
+        specifier: 3.4.9
+        version: 3.4.9(ts-node@10.9.2(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(typescript@5.5.4))
       touch:
         specifier: ^3.1.1
         version: 3.1.1
@@ -8477,8 +8477,8 @@ packages:
   tailwind-merge@2.4.0:
     resolution: {integrity: sha512-49AwoOQNKdqKPd9CViyH5wJoSKsCDjUlzL8DxuGp3P1FsGY36NJDAa18jLZcaHAUUuTj+JB8IAo8zWgBNvBF7A==}
 
-  tailwindcss@3.4.8:
-    resolution: {integrity: sha512-GkP17r9GQkxgZ9FKHJQEnjJuKBcbFhMFzKu5slmN6NjlCuFnYJMQ8N4AZ6VrUyiRXlDtPKHkesuQ/MS913Nvdg==}
+  tailwindcss@3.4.9:
+    resolution: {integrity: sha512-1SEOvRr6sSdV5IDf9iC+NU4dhwdqzF4zKKq3sAbasUWHEM6lsMhX+eNN5gkPx1BvLFEnZQEUFbXnGj8Qlp83Pg==}
     engines: {node: '>=14.0.0'}
     hasBin: true
 
@@ -9523,7 +9523,7 @@ snapshots:
   '@babel/generator@7.23.6':
     dependencies:
       '@babel/types': 7.24.7
-      '@jridgewell/gen-mapping': 0.3.3
+      '@jridgewell/gen-mapping': 0.3.5
       '@jridgewell/trace-mapping': 0.3.25
       jsesc: 2.5.2
 
@@ -11106,21 +11106,6 @@ snapshots:
       - typescript
       - verdaccio
 
-  '@nrwl/js@19.5.7(@babel/traverse@7.24.7)(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(nx@19.5.7(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12)))(typescript@5.4.5)':
-    dependencies:
-      '@nx/js': 19.5.7(@babel/traverse@7.24.7)(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(nx@19.5.7(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12)))(typescript@5.4.5)
-    transitivePeerDependencies:
-      - '@babel/traverse'
-      - '@swc-node/register'
-      - '@swc/core'
-      - '@swc/wasm'
-      - '@types/node'
-      - debug
-      - nx
-      - supports-color
-      - typescript
-      - verdaccio
-
   '@nrwl/js@19.5.7(@babel/traverse@7.24.7)(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(nx@19.5.7(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12)))(typescript@5.5.4)':
     dependencies:
       '@nx/js': 19.5.7(@babel/traverse@7.24.7)(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(nx@19.5.7(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12)))(typescript@5.5.4)
@@ -11423,7 +11408,7 @@ snapshots:
       '@babel/preset-env': 7.23.9(@babel/core@7.23.9)
       '@babel/preset-typescript': 7.23.0(@babel/core@7.23.9)
       '@babel/runtime': 7.23.7
-      '@nrwl/js': 19.5.7(@babel/traverse@7.24.7)(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(nx@19.5.7(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12)))(typescript@5.4.5)
+      '@nrwl/js': 19.5.7(@babel/traverse@7.24.7)(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(nx@19.5.7(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12)))(typescript@5.5.4)
       '@nx/devkit': 19.5.7(nx@19.5.7(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12)))
       '@nx/workspace': 19.5.7(@swc-node/register@1.10.9(@swc/core@1.7.6(@swc/helpers@0.5.12))(@swc/types@0.1.12)(typescript@5.5.4))(@swc/core@1.7.6(@swc/helpers@0.5.12))
       babel-plugin-const-enum: 1.2.0(@babel/core@7.23.9)
@@ -12279,10 +12264,10 @@ snapshots:
     optionalDependencies:
       typescript: 5.5.4
 
-  '@tailwindcss/forms@0.5.7(tailwindcss@3.4.8(ts-node@10.9.2(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(typescript@5.5.4)))':
+  '@tailwindcss/forms@0.5.7(tailwindcss@3.4.9(ts-node@10.9.2(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(typescript@5.5.4)))':
     dependencies:
       mini-svg-data-uri: 1.4.4
-      tailwindcss: 3.4.8(ts-node@10.9.2(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(typescript@5.5.4))
+      tailwindcss: 3.4.9(ts-node@10.9.2(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(typescript@5.5.4))
 
   '@tanstack/query-core@4.36.1': {}
 
@@ -19341,7 +19326,7 @@ snapshots:
 
   tailwind-merge@2.4.0: {}
 
-  tailwindcss@3.4.8(ts-node@10.9.2(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(typescript@5.5.4)):
+  tailwindcss@3.4.9(ts-node@10.9.2(@swc/core@1.7.6(@swc/helpers@0.5.12))(@types/node@20.14.14)(typescript@5.5.4)):
     dependencies:
       '@alloc/quick-lru': 5.2.0
       arg: 5.0.2

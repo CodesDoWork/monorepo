@@ -7,7 +7,7 @@ let sidebar = getSidebar({
     collapsible: true,
     collapsed: true,
 });
-console.log(JSON.stringify(sidebar));
+
 sidebar = JSON.parse(
     JSON.stringify(sidebar).replace(/"link":"(\/\w+)?\/apps\/documentation\/docs/g, '"link":"'),
 );

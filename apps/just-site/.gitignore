@@ -1,4 +1,5 @@
-/.svelte-kit
+.svelte-kit/*
+!.svelte-kit/tsconfig.json
 /build
 
 .env

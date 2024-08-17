@@ -30,6 +30,8 @@ stages:
     - *nx-install
     - docker info
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+    - npx nx run-many -t pre-build
+    - cp .env.template .env
     - nr docker:build-workspace
 
 nx-workspace:
@@ -82,8 +84,6 @@ deploy:
     - chmod 400 ~/.ssh/id_rsa
 
     # build images
-    - npx nx run-many -t pre-build
-    - cp .env.template .env
     - npx nx affected --base=remotes/origin/master~1 -t build-image --parallel 1
     - npx nx build-image server-documentation
 

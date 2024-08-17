@@ -1,5 +1,6 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
 let content = readFileSync(".env.template").toString();
 
-writeFileSync(".env", content);
+mkdirSync("../../just-site");
+writeFileSync("../../just-site/.env", content);

@@ -310,7 +310,7 @@ services:
     environment:
       - PORT=${JUST_SITE_PORT}
     env_file:
-      - apps/just-site/.env
+      - ./just-site/.env
     image: ${IMAGE_BASE}/just-site
     restart: unless-stopped
 
@@ -335,7 +335,7 @@ services:
     build:
       context: apps/music # healthcheck implemented
     env_file:
-      - apps/music/.env
+      - ./music/.env
     environment:
       - ND_PORT=${MUSIC_PORT}
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}

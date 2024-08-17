@@ -6,7 +6,7 @@
         "pre-build": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "touch ./apps/music/.env"
+                "command": "touch ./music/.env"
             }
         },
         "lint": {

@@ -81,11 +81,9 @@ deploy:
     - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
     - chmod 400 ~/.ssh/id_rsa
 
-    # copy run_backups env
-    - scp .env ${SSH_USER}@${SSH_HOST}:/opt/monorepo/.env
-
     # build images
     - npx nx run-many -t pre-build
+    - cp .env.template .env
     - npx nx affected --base=remotes/origin/master~1 -t build-image --parallel 1
     - npx nx build-image server-documentation
 

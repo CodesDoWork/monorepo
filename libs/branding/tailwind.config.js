@@ -39,7 +39,6 @@ fadeInSubtle["0%"].transform = "translateY(1rem)";
 const fadeInTopSubtle = deepcopy(fadeInSubtle);
 fadeInTopSubtle["0%"].transform = "translateY(-1rem)";
 
-/** @type {import("tailwindcss").Config} */
 export default {
     darkMode: "selector",
     theme: {

@@ -13,11 +13,7 @@
     import type { PageInfo, Route } from "../types/frontend";
 
     const theme = useThemeStore();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     const colors = tailwindConfig.theme.extend.colors;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     $: themeColor = $theme === "dark" ? colors.primary[950] : colors.primary[400];
 
     export let siteInfo: PageInfo;

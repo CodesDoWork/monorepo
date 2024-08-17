@@ -38,6 +38,8 @@ testem.log
 .DS_Store
 Thumbs.db
 
+.env
+
 # Next.js
 .next
 .env.local
@@ -50,9 +52,9 @@ Thumbs.db
 /deploy-commands.sh
 
 # envs
-/apps/server/.env
-/apps/server/just-site/.env
-/apps/server/renovate/.env
+/apps/.env
+/apps/just-site/.env
+/apps/renovate/.env
 
 # svelte
-/apps/server/just-site/.svelte-kit
+/apps/just-site/.svelte-kit

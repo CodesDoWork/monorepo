@@ -1,0 +1,12 @@
+{
+    "extends": "./tsconfig.json",
+    "compilerOptions": {
+        "ignoreDeprecations": "5.0",
+        "isolatedModules": true,
+        "sourceMap": true,
+        "types": ["svelte", "node", "vite/client"],
+        "forceConsistentCasingInFileNames": true,
+        "allowJs": true,
+        "checkJs": true
+    }
+}

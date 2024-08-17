@@ -31,7 +31,7 @@
         "test": "nx run-many -t test",
         "format": "nx format",
         "format:check": "nx format:check",
-        "check": "pnpm run format:check && pnpm run lint && pnpm run test && pnpm run build",
+        "check": "pnpm run format:check && pnpm run lint && nx run-many -t check && pnpm run test && pnpm run build",
         "secretlint": "secretlint --secretlintignore .gitignore \"**/*\""
     },
     "devDependencies": {

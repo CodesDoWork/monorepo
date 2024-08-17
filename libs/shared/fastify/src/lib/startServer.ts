@@ -1,4 +1,4 @@
-import { logger } from "shared/logging";
+import { logger } from "$shared/logging";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { AnyRouter } from "@trpc/server";

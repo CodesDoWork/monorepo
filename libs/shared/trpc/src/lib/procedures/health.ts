@@ -1,6 +1,6 @@
-import { procedure, router } from "../trpc";
-import { createHealthcheckResult, healthcheckResultType, HealthStatus } from "shared/health";
+import { createHealthcheckResult, healthcheckResultType, HealthStatus } from "$shared/health";
 import { z } from "zod";
+import { procedure, router } from "../trpc";
 
 export const health = procedure
     .meta({ openapi: { method: "GET", path: "/health" } })

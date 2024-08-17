@@ -1,6 +1,0 @@
-[
-    {
-        "name": "monorepo",
-        "paths": ["./apps", "./libs", "./docs"]
-    }
-]

@@ -1,0 +1,8 @@
+{
+    "name": "nginx",
+    "version": "1.0.0",
+    "scripts": {
+        "build-image": "docker compose build nginx --push",
+        "run-image": "docker compose up -d nginx"
+    }
+}

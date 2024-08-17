@@ -1,5 +1,5 @@
+import { logger } from "$shared/logging";
 import { ChildProcess, spawn } from "child_process";
-import { logger } from "shared/logging";
 
 /**
  * Executes a command in a new ChildProcess.

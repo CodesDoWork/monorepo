@@ -1,0 +1,20 @@
+{
+    "name": "music",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "targets": {
+        "pre-build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "touch ./apps/music/.env"
+            }
+        },
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "echo no linting"
+            }
+        }
+    },
+    "tags": []
+}

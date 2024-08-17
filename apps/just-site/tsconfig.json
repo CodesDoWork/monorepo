@@ -1,0 +1,44 @@
+{
+    "compilerOptions": {
+        "allowJs": false,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "composite": true,
+        "types": ["vite/client", "vitest"],
+        "paths": {
+            "$directus": ["../../libs/directus/src/index.ts"]
+        }
+    },
+    "references": [
+        {
+            "path": "./tsconfig.app.json"
+        },
+        {
+            "path": "./tsconfig.spec.json"
+        }
+    ],
+    "include": [
+        "./.svelte-kit/ambient.d.ts",
+        "./.svelte-kit/non-ambient.d.ts",
+        "./.svelte-kit/types/**/$types.d.ts",
+        "./vite.config.js",
+        "./vite.config.ts",
+        "./src/**/*.js",
+        "./src/**/*.ts",
+        "./src/**/*.svelte",
+        "./tests/**/*.js",
+        "./tests/**/*.ts",
+        "./tests/**/*.svelte",
+        "../../libs/branding",
+        "../../libs/directus",
+        "./tailwind.config.js"
+    ],
+    "extends": "./.svelte-kit/tsconfig.json"
+}

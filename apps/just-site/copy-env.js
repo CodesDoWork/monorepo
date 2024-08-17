@@ -6,4 +6,5 @@ let content = readFileSync(".env.template").toString();
 if (!existsSync(dir)) {
     mkdirSync(dir);
 }
+writeFileSync(`.env`, content);
 writeFileSync(`${dir}/.env`, content);

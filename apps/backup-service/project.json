@@ -13,7 +13,7 @@
             "executor": "nx:run-commands",
             "options": {
                 "commands": [
-                    "copyfiles ./apps/backup-service/run_backups -u 3 ./deploy/etc/cron.d",
+                    "copyfiles ./apps/backup-service/run_backups -u 2 ./deploy/etc/cron.d",
                     "copyfiles ./apps/backup-service/rsnapshot.conf -u 1 ./deploy/opt/monorepo"
                 ]
             }

@@ -1,6 +1,9 @@
-import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 
+const dir = "../../just-site";
 let content = readFileSync(".env.template").toString();
 
-mkdirSync("../../just-site");
-writeFileSync("../../just-site/.env", content);
+if (!existsSync(dir)) {
+    mkdirSync(dir);
+}
+writeFileSync(`${dir}/.env`, content);

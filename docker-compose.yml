@@ -82,7 +82,7 @@ services:
       - portainer-data:/data/services/portainer/data:ro
       - postgres-data:/data/services/db/data:ro
       - prometheus-data:/data/services/prometheus/data:ro
-      - sonarqube-config:/data/services/sonarqube/config:roocjer
+      - sonarqube-config:/data/services/sonarqube/config:ro
       - sonarqube-data:/data/services/sonarqube/data:ro
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
       - vpn-data:/data/services/vpn/data:ro

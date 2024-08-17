@@ -84,6 +84,7 @@ deploy:
     - chmod 400 ~/.ssh/id_rsa
 
     # build images
+    - npx nx build just-site # generate types needed for documentation
     - npx nx affected --base=remotes/origin/master~1 -t build-image --parallel 1
     - npx nx build-image documentation
 

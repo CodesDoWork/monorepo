@@ -6,7 +6,7 @@
         "serve": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "docker compose -f apps/server/docker-compose.yml up -d dashboard"
+                "command": "docker compose up -d dashboard"
             }
         },
         "build": {

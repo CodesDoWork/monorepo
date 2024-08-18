@@ -6,7 +6,7 @@
         "pre-build": {
             "executor": "nx:run-commands",
             "options": {
-                "command": "node -e \"fs.existsSync('music') || fs.mkdirSync('music'); fs.writeFileSync('./music/.env', '');\""
+                "command": "node -e \"fs.writeFileSync('.env', '');\""
             }
         },
         "lint": {

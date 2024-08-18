@@ -91,6 +91,7 @@ deploy:
     # copy deploy targets, pull and run docker containers
     - npx nx run-many -t deploy
     - cp ./docker-compose.yml ./deploy/opt/monorepo
+    - node prepare-production-compose.js
     - scp -rp ./deploy/* ${SSH_USER}@${SSH_HOST}:/
 
     # docker login

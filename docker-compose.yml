@@ -87,7 +87,7 @@ services:
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
       - vpn-data:/data/services/vpn/data:ro
       - wandb-data:/data/services/wandb/data:ro
-      - ./backup-service/rsnapshot.conf:/config/rsnapshot.conf:ro
+      - ./apps/backup-service/rsnapshot.conf:/config/rsnapshot.conf:ro
 
   bitwarden:
     environment:
@@ -115,7 +115,7 @@ services:
 
   certbot:
     build:
-      context: apps/certbot
+      dockerfile: apps/certbot/Dockerfile
     image: ${IMAGE_BASE}/certbot
     command: >-
       certonly --reinstall --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini --dns-cloudflare-propagation-seconds 20
@@ -124,7 +124,7 @@ services:
     profiles:
       - certbot
     volumes:
-      - ./letsencrypt:/etc/letsencrypt
+      - ./apps/certbot/letsencrypt:/etc/letsencrypt
 
   cms:
     environment:
@@ -150,7 +150,7 @@ services:
     restart: unless-stopped
     volumes:
       - directus-uploads:/directus/uploads
-      - ./cms/extensions:/directus/extensions
+      - ./apps/cms/extensions:/directus/extensions
 
   dashboard:
     build:
@@ -199,7 +199,7 @@ services:
     restart: unless-stopped
     volumes:
       - docker-registry:/var/lib/registry
-      - ./docker-registry/certs:/opt/certs:ro # exported from keycloak
+      - ./apps/docker-registry/certs:/opt/certs:ro # exported from keycloak
 
   documentation:
     build:
@@ -285,7 +285,7 @@ services:
     image: gitlab/gitlab-runner
     restart: unless-stopped
     volumes:
-      - ./gitlab-runner:/etc/gitlab-runner
+      - ./apps/gitlab-runner:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
 
   grafana:
@@ -310,7 +310,7 @@ services:
     environment:
       - PORT=${JUST_SITE_PORT}
     env_file:
-      - ./just-site/.env
+      - ./apps/just-site/.env
     image: ${IMAGE_BASE}/just-site
     restart: unless-stopped
 
@@ -333,9 +333,9 @@ services:
 
   music:
     build:
-      context: apps/music # healthcheck implemented
+      dockerfile: apps/music/Dockerfile
     env_file:
-      - ./music/.env
+      - ./apps/music/.env
     environment:
       - ND_PORT=${MUSIC_PORT}
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
@@ -383,7 +383,7 @@ services:
 
   nginx:
     build:
-      context: apps/nginx
+      dockerfile: apps/nginx/Dockerfile
     env_file:
       - .env
     healthcheck:
@@ -394,7 +394,7 @@ services:
         ipv4_address: ${NGINX_IP}
     restart: unless-stopped
     volumes:
-      - ./letsencrypt:/etc/letsencrypt:ro
+      - ./apps/certbot/letsencrypt:/etc/letsencrypt:ro
 
   portainer:
     image: portainer/portainer-ce:latest
@@ -422,22 +422,7 @@ services:
     profiles:
       - renovate
     volumes:
-      - ./renovate/config.js:/usr/src/app/config.js
-
-  scoreboard:
-    build:
-      <<: *build-args
-      dockerfile: apps/scoreboard/Dockerfile
-    environment:
-      - PORT=${SCOREBOARD_PORT}
-    env_file:
-      - scoreboard/.env.local
-    healthcheck:
-      test: wget -qO- http://localhost:${SCOREBOARD_PORT}/api/trpc/health?input={} || exit 1
-    image: ${IMAGE_BASE}/scoreboard
-    profiles:
-      - deprecated
-    restart: unless-stopped
+      - ./apps/renovate/config.js:/usr/src/app/config.js
 
   sonarqube:
     environment:

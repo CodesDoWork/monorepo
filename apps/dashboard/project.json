@@ -24,6 +24,12 @@
             "options": {
                 "command": "echo no linting"
             }
+        },
+        "build-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose build dashboard --push"
+            }
         }
     },
     "tags": []

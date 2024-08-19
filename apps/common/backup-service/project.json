@@ -1,0 +1,26 @@
+{
+    "name": "common-backup-service",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "targets": {
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "echo no linting"
+            }
+        },
+        "deploy": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "copyfiles ./apps/common/backup-service/run_backups ./deploy/etc/cron.d"
+            }
+        },
+        "build-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose build backup-service --push"
+            }
+        }
+    },
+    "tags": ["common-backup-service"]
+}

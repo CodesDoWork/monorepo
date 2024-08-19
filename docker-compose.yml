@@ -55,11 +55,13 @@ services:
     restart: unless-stopped
 
   backup-service:
+    build:
+      dockerfile: apps/common/backup-service/Dockerfile
     environment:
       - PUID=0
       - GUID=0
       - TZ=${TZ}
-    image: lscr.io/linuxserver/rsnapshot
+    image: ${IMAGE_BASE}/backup-service
     profiles:
       - backup
     volumes:
@@ -68,6 +70,8 @@ services:
       - ${BACKUP_PICTURES_PATH:-./pictures}:/data/personal/pictures:ro
       - bitwarden-data:/data/services/bitwarden/data:ro
       - directus-uploads:/data/services/directus/uploads:ro
+      - directus-extensions-registry:/data/services/directus/extensions/registry:ro
+      - docker-registry-certs:/data/services/docker-registry/certs:ro
       - gitlab-config:/data/services/gitlab/config:ro
       - gitlab-data:/data/services/gitlab/data:ro
       - grafana-storage:/data/services/grafana/storage:ro
@@ -87,7 +91,6 @@ services:
       - sonarqube-extensions:/data/services/sonarqube/extensions:ro
       - vpn-data:/data/services/vpn/data:ro
       - wandb-data:/data/services/wandb/data:ro
-      - ./apps/backup-service/rsnapshot.conf:/config/rsnapshot.conf:ro
 
   bitwarden:
     environment:
@@ -115,7 +118,7 @@ services:
 
   certbot:
     build:
-      dockerfile: apps/certbot/Dockerfile
+      dockerfile: apps/net/certbot/Dockerfile
     image: ${IMAGE_BASE}/certbot
     command: >-
       certonly --reinstall --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini --dns-cloudflare-propagation-seconds 20
@@ -124,7 +127,7 @@ services:
     profiles:
       - certbot
     volumes:
-      - ./apps/certbot/letsencrypt:/etc/letsencrypt
+      - letsencrypt:/etc/letsencrypt
 
   cms:
     environment:
@@ -150,7 +153,7 @@ services:
     restart: unless-stopped
     volumes:
       - directus-uploads:/directus/uploads
-      - ./apps/cms/extensions:/directus/extensions
+      - directus-extensions-registry:/directus/extensions/.registry
 
   dashboard:
     build:
@@ -199,7 +202,7 @@ services:
     restart: unless-stopped
     volumes:
       - docker-registry:/var/lib/registry
-      - ./apps/docker-registry/certs:/opt/certs:ro # exported from keycloak
+      - docker-registry-certs:/opt/certs # exported from keycloak
 
   documentation:
     build:
@@ -282,10 +285,19 @@ services:
 
   gitlab-runner:
     dns: ${DNS_IP}
+    environment:
+      - RUNNER_LIMIT=${GITLAB_RUNNER_RUNNER_LIMIT}
+      - RUNNER_NAME=${GITLAB_RUNNER_RUNNER_NAME}
+      - CI_SERVER_URL=${GITLAB_RUNNER_CI_SERVER_URL}
+      - CI_SERVER_TOKEN=${GITLAB_RUNNER_CI_SERVER_TOKEN}
+      - RUNNER_EXECUTOR=${GITLAB_RUNNER_RUNNER_EXECUTOR}
+      - DOCKER_IMAGE=${GITLAB_RUNNER_DOCKER_IMAGE}
+      - DOCKER_DNS=${GITLAB_RUNNER_DOCKER_DNS}
+      - DOCKER_VOLUMES=${GITLAB_RUNNER_DOCKER_VOLUMES}
+      - DOCKER_NETWORK_MODE=${GITLAB_RUNNER_DOCKER_NETWORK_MODE}
     image: gitlab/gitlab-runner
     restart: unless-stopped
     volumes:
-      - ./apps/gitlab-runner:/etc/gitlab-runner
       - /var/run/docker.sock:/var/run/docker.sock
 
   grafana:
@@ -333,9 +345,9 @@ services:
 
   music:
     build:
-      dockerfile: apps/music/Dockerfile
+      dockerfile: apps/music/service/Dockerfile
     env_file:
-      - ./apps/music/.env
+      - apps/music/service/.env
     environment:
       - ND_PORT=${MUSIC_PORT}
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
@@ -344,7 +356,7 @@ services:
     restart: unless-stopped
     volumes:
       - navidrome-data:/data
-      - ${MUSIC_VOLUME:-./music}:/music:ro
+      - music:/music:ro
 
   music-downloader:
     build:
@@ -358,7 +370,7 @@ services:
     image: ${IMAGE_BASE}/music-downloader
     restart: unless-stopped
     volumes:
-      - ${MUSIC_VOLUME}/downloads:/music/downloads
+      - music:/music
 
   netdata:
     cap_add:
@@ -383,7 +395,7 @@ services:
 
   nginx:
     build:
-      dockerfile: apps/nginx/Dockerfile
+      dockerfile: apps/net/nginx/Dockerfile
     env_file:
       - .env
     healthcheck:
@@ -394,7 +406,7 @@ services:
         ipv4_address: ${NGINX_IP}
     restart: unless-stopped
     volumes:
-      - ./apps/certbot/letsencrypt:/etc/letsencrypt:ro
+      - letsencrypt:/etc/letsencrypt:ro
 
   portainer:
     image: portainer/portainer-ce:latest
@@ -404,12 +416,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 
   prometheus:
+    build:
+      dockerfile: ./apps/monitoring/prometheus/Dockerfile
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
-    image: prom/prometheus
+    image: ${BASE_IMAGE}/prometheus
     restart: unless-stopped
     volumes:
-      - ./prometheus:/etc/prometheus/
       - prometheus-data:/prometheus
 
   renovate:
@@ -483,8 +496,10 @@ volumes:
   bitwarden-data:
 
   directus-uploads:
+  directus-extensions-registry:
 
   docker-registry:
+  docker-registry-certs:
 
   gitlab-config:
   gitlab-data:
@@ -492,8 +507,11 @@ volumes:
   grafana-storage:
   grafana-config:
 
+  letsencrypt:
+
   linkwarden-data:
 
+  music:
   navidrome-data:
 
   netdata-config:

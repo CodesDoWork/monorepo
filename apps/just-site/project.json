@@ -52,13 +52,6 @@
                 "command": "docker compose build just-site --push",
                 "cwd": "apps"
             }
-        },
-        "run-image": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "docker compose up -d just-site",
-                "cwd": "apps"
-            }
         }
     },
     "tags": ["just-site"]

@@ -49,9 +49,8 @@ Thumbs.db
 
 # outputs
 /deploy
-/deploy-commands.sh
 
 # envs
 /apps/.env
 /apps/just-site/.env
-/apps/renovate/.env
+/apps/cicd/renovate/.env

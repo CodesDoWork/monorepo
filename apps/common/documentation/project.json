@@ -1,0 +1,55 @@
+{
+    "name": "documentation",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "copyfiles -u 4 libs/branding/assets/img/logo.svg apps/common/documentation/docs/public",
+                    "copyfiles -u 4 libs/branding/assets/img/icon.svg apps/common/documentation/docs/public",
+                    "copyfiles -u 4 libs/branding/assets/favicon/favicon.ico apps/common/documentation/docs/public",
+                    "rimraf ./apps/common/documentation/docs/projects",
+                    "node ./apps/common/documentation/create-project-docs.mjs && vitepress build apps/common/documentation/docs"
+                ]
+            }
+        },
+        "dev": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "copyfiles -u 4 libs/branding/assets/img/logo.svg apps/common/documentation/docs/public",
+                    "copyfiles -u 4 libs/branding/assets/img/icon.svg apps/common/documentation/docs/public",
+                    "copyfiles -u 4 libs/branding/assets/favicon/favicon.ico apps/common/documentation/docs/public",
+                    "vitepress dev apps/common/documentation/docs"
+                ]
+            }
+        },
+        "preview": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "vitepress preview apps/common/documentation/docs"
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "options": {
+                "lintFilePatterns": ["{projectRoot}/**/*.js"]
+            }
+        },
+        "test": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "echo no tests yet"
+            }
+        },
+        "build-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose build documentation --push"
+            }
+        }
+    },
+    "tags": []
+}

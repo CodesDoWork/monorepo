@@ -1,8 +1,0 @@
-{
-    "name": "certbot",
-    "version": "1.0.0",
-    "scripts": {
-        "build-image": "docker compose build certbot --push",
-        "run-image": "docker compose up -d certbot"
-    }
-}

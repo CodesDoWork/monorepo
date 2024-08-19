@@ -6,6 +6,6 @@
 /node_modules
 /tmp
 
-/apps/backup-service/.snapshots
+/apps/common/backup-service/.snapshots
 /apps/music-downloader/.next
 /apps/scoreboard/.next

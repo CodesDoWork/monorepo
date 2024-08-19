@@ -1,0 +1,20 @@
+{
+    "name": "net-certbot",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "targets": {
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "echo no linting"
+            }
+        },
+        "build-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose build certbot --push"
+            }
+        }
+    },
+    "tags": []
+}

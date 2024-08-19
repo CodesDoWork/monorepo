@@ -92,17 +92,20 @@ deploy:
     - npx nx run-many -t deploy
     - cp ./docker-compose.yml ./deploy/opt/monorepo
     - node prepare-production-compose.js
+
+    - npx nx run-many -t deploy-command --parallel 1
+    - echo docker compose -f /opt/monorepo/docker-compose.yml up -d --pull always --remove-orphans >> ./deploy/opt/monorepo/deploy-commands.sh
+
+    # copy deploy scripts
     - scp -rp ./deploy/* ${SSH_USER}@${SSH_HOST}:/
 
     # docker login
     - ssh ${SSH_USER}@${SSH_HOST} docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
 
     # run deploy commands
-    - npx nx run-many -t deploy-command --parallel 1
-    - echo docker compose -f /opt/monorepo/docker-compose.yml up -d --pull always --remove-orphans >> deploy-commands.sh
-    - scp deploy-commands.sh ${SSH_USER}@${SSH_HOST}:/tmp
-    - ssh ${SSH_USER}@${SSH_HOST} chmod +x /tmp/deploy-commands.sh
-    - ssh ${SSH_USER}@${SSH_HOST} /tmp/deploy-commands.sh
+    - ssh ${SSH_USER}@${SSH_HOST} chmod +x /opt/monorepo/deploy-commands.sh
+    - ssh ${SSH_USER}@${SSH_HOST} /opt/monorepo/deploy-commands.sh
+    - ssh ${SSH_USER}@${SSH_HOST} rm /opt/monorepo/deploy-commands.sh
   only:
     - master
   resource_group: single

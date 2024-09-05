@@ -459,7 +459,7 @@ services:
       - WG_HOST=${SERVER_ADDRESS}
       - WG_DEFAULT_DNS=${DNS_IP}
       - PORT=${VPN_PORT}
-      - PASSWORD=${VPN_PASSWORD}
+      - PASSWORD_HASH=${VPN_PASSWORD_HASH}
       - UI_TRAFFIC_STATS=true
     image: ghcr.io/wg-easy/wg-easy
     ports:

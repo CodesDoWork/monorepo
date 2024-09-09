@@ -1,6 +1,28 @@
 {
-    "name": "secrets-manager",
+    "name": "@codesdowork/nx-secrets-manager",
     "version": "0.0.1",
+    "description": ".env variables manager for secrets in NX monorepos",
+    "keywords": [
+        "nx",
+        ".env",
+        "dotenv",
+        "secrets"
+    ],
+    "homepage": "https://github.com/CodesDoWork/monorepo/tree/master/tools/secrets-manager",
+    "bugs": {
+        "url": "https://github.com/CodesDoWork/monorepo/issues",
+        "email": "codesdowork@gmail.com"
+    },
+    "license": "MIT",
+    "author": {
+        "name": "Justin Konratt",
+        "email": "codesdowork@gmail.com",
+        "url": "https://github.com/CodesDoWork"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/CodesDoWork/monorepo.git"
+    },
     "dependencies": {
         "@nx/devkit": "19.6.0",
         "tslib": "^2.3.0"
@@ -8,6 +30,5 @@
     "type": "commonjs",
     "main": "./src/index.js",
     "typings": "./src/index.d.ts",
-    "private": true,
     "generators": "./generators.json"
 }

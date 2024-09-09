@@ -1,11 +1,19 @@
 import { logger, Tree } from "@nx/devkit";
 import { execSync } from "node:child_process";
 import path from "node:path";
+import { parse as parseYaml } from "yaml";
 import { z, ZodSchema } from "zod";
-import { Credentials, SecretConfig, zProjectSecretsConfig, zRootSecretConfig } from "./types";
+import {
+    Credentials,
+    SecretCollectionConfig,
+    SecretEnvConfig,
+    zProjectSecretsConfig,
+    zRootSecretConfig,
+} from "./types";
 import { CipherData } from "./types/bitwarden";
 
-export const CONFIG_FILE = ".secrets.config.json";
+const ROOT_CONFIG_FILE = ".secrets.config.json";
+const PROJECT_CONFIG_FILE = ".env.secure.yaml";
 
 const cipherDataCache = new Map<string, CipherData>();
 
@@ -21,8 +29,8 @@ function syncBw() {
 }
 
 function setupWithRootConfig(tree: Tree) {
-    if (tree.exists(CONFIG_FILE)) {
-        const { server } = readConfigFile(zRootSecretConfig, tree);
+    if (tree.exists(ROOT_CONFIG_FILE)) {
+        const { server } = readConfigFile(tree, ROOT_CONFIG_FILE, zRootSecretConfig);
         if (server) {
             setBwServer(server);
         }
@@ -55,40 +63,50 @@ function login({ username, password }: Credentials) {
     logger.info("Set BW_SESSION");
 }
 
-export function projectConfigExists(tree: Tree, root: string): boolean {
-    return tree.exists(configFilePath(root));
+export function projectConfigExists(tree: Tree, root = ""): boolean {
+    return tree.exists(projectConfigFilePath(root));
 }
 
-function configFilePath(root: string): string {
-    return path.join(root, CONFIG_FILE);
+function projectConfigFilePath(root: string): string {
+    return path.join(root, PROJECT_CONFIG_FILE);
 }
 
 export function getEnvContent(tree: Tree, root: string, stage: string): string {
-    const config = readConfigFile(zProjectSecretsConfig, tree, root);
-    return Object.entries(config)
-        .flatMap(([collectionId, secretConfigs]) =>
-            secretConfigs.map(
-                secretConfig =>
-                    `${getSecretName(secretConfig)}=${getSecret(collectionId, getSecretField(secretConfig), stage)}`,
-            ),
-        )
-        .join("\n");
+    const config = readConfigFile(tree, projectConfigFilePath(root), zProjectSecretsConfig);
+    const envs = Object.entries(config.env).map(([key, value]) => `${key}=${value}`);
+    const secrets = Object.entries(config.secrets).flatMap(([collection, collectionConfig]) =>
+        Object.entries(getSecrets(collection, collectionConfig, stage)).map(
+            ([key, value]) => `${key}=${value}`,
+        ),
+    );
+    return envs.concat(secrets).join("\n");
 }
 
-function getSecretName(config: SecretConfig): string {
-    if (typeof config === "string") {
-        return config;
-    }
+function getSecrets(
+    collectionName: string,
+    collectionConfig: SecretCollectionConfig,
+    stage: string,
+): Record<string, string> {
+    const secrets: Record<string, string> = {};
+    collectionConfig.vars.forEach(envConfig => {
+        const envName = typeof envConfig === "string" ? envConfig : envConfig.name;
+        const secretName = collectionConfig.prefix ? `${collectionName}_${envName}` : envName;
+        secrets[secretName] = getSecret(
+            collectionConfig.collectionId,
+            getFieldName(envConfig),
+            stage,
+        );
+    });
 
-    return config.name;
+    return secrets;
 }
 
-function getSecretField(config: SecretConfig): string {
-    if (typeof config === "string") {
-        return config.toLowerCase().replace(/_/g, "");
+function getFieldName(envConfig: SecretEnvConfig): string {
+    if (typeof envConfig === "string") {
+        return envConfig.toLowerCase().replace(/_/g, "");
     }
 
-    return config.field || getSecretField(config.name);
+    return envConfig.field || getFieldName(envConfig.name);
 }
 
 function getSecret(collectionId: string, field: string, stage: string): string {
@@ -133,11 +151,11 @@ function getCustomItemField(item: CipherData, field: string): string {
     return itemField.value;
 }
 
-function readConfigFile<T extends ZodSchema>(schema: T, tree: Tree, root = ""): z.infer<T> {
-    const content = tree.read(configFilePath(root))?.toString();
+function readConfigFile<T extends ZodSchema>(tree: Tree, path: string, schema: T): z.infer<T> {
+    const content = tree.read(path)?.toString();
     if (!content) {
         throw new Error("Config file not found");
     }
 
-    return schema.parse(JSON.parse(content));
+    return schema.parse(parseYaml(content));
 }

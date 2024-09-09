@@ -20,7 +20,7 @@
         "strictNullChecks": true,
         "paths": {
             "branding-assets/*": ["libs/branding/assets/*"],
-            "secrets-manager": ["tools/secrets-manager/src/index.ts"],
+            "@codesdowork/nx-secrets-manager": ["tools/secrets-manager/src/index.ts"],
             "server/directus": ["libs/server/directus/src/index.ts"],
             "shared/fastify": ["libs/shared/fastify/src/index.ts"],
             "shared/health": ["libs/shared/health/src/index.ts"],

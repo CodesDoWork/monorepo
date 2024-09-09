@@ -25,11 +25,11 @@
         "password": {
             "type": "string",
             "description": "Password for BW",
+            "default": "",
             "$default": {
                 "$source": "argv",
                 "index": 2
-            },
-            "x-prompt": "What is your password?"
+            }
         }
     },
     "required": []

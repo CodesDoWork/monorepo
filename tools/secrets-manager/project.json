@@ -44,20 +44,5 @@
                 "jestConfig": "tools/secrets-manager/jest.config.ts"
             }
         }
-    },
-    "release": {
-        "version": {
-            "generatorOptions": {
-                "packageRoot": "dist/tools/secrets-manager",
-                "currentVersionResolver": "registry"
-            }
-        }
-    },
-    "targetDefaults": {
-        "nx-release-publish": {
-            "options": {
-                "packageRoot": "dist/tools/secrets-manager"
-            }
-        }
     }
 }

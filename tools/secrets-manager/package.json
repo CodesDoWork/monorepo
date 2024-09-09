@@ -1,6 +1,6 @@
 {
     "name": "@codesdowork/nx-secrets-manager",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": ".env variables manager for secrets in NX monorepos",
     "keywords": [
         "nx",
@@ -24,6 +24,7 @@
         "url": "https://github.com/CodesDoWork/monorepo.git"
     },
     "dependencies": {
+        "@bitwarden/cli": "2024.8.1",
         "@nx/devkit": "19.6.0",
         "inquirer": "10.2.2",
         "tslib": "2.6.3",

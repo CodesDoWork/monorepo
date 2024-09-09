@@ -1,28 +1,55 @@
 {
-    "extends": ["../../.eslintrc.json"],
-    "ignorePatterns": ["!**/*"],
+    "extends": [
+        "../../.eslintrc.json"
+    ],
+    "ignorePatterns": [
+        "!**/*"
+    ],
     "overrides": [
         {
-            "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
+            "files": [
+                "*.ts",
+                "*.tsx",
+                "*.js",
+                "*.jsx"
+            ],
             "rules": {}
         },
         {
-            "files": ["*.ts", "*.tsx"],
+            "files": [
+                "*.ts",
+                "*.tsx"
+            ],
             "rules": {}
         },
         {
-            "files": ["*.js", "*.jsx"],
+            "files": [
+                "*.js",
+                "*.jsx"
+            ],
             "rules": {}
         },
         {
-            "files": ["*.json"],
+            "files": [
+                "*.json"
+            ],
             "parser": "jsonc-eslint-parser",
             "rules": {
-                "@nx/dependency-checks": "error"
+                "@nx/dependency-checks": [
+                    "error",
+                    {
+                        "ignoredDependencies": [
+                            "@bitwarden/cli"
+                        ]
+                    }
+                ]
             }
         },
         {
-            "files": ["./package.json", "./generators.json"],
+            "files": [
+                "./package.json",
+                "./generators.json"
+            ],
             "parser": "jsonc-eslint-parser",
             "rules": {
                 "@nx/nx-plugin-checks": "error"

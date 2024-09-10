@@ -1,6 +1,6 @@
 {
     "name": "@codesdowork/nx-secrets-manager",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": ".env variables manager for secrets in NX monorepos",
     "keywords": [
         "nx",

@@ -6,9 +6,7 @@ export interface Credentials {
 }
 
 export const zEnvValueTypes = z.union([z.string(), z.number(), z.boolean()]);
-export const zEnvConfig = z
-    .object({ env: z.record(zEnvValueTypes).optional().default({}) })
-    .strict();
+export const zEnvConfig = z.object({ env: z.record(zEnvValueTypes).optional().default({}) });
 
 export const zSecretEnvConfig = z.union([
     z.string(),
@@ -21,11 +19,9 @@ export const zSecretCollectionConfig = z
         vars: z.array(zSecretEnvConfig),
     })
     .strict();
-export const zSecretsConfig = z
-    .object({
-        secrets: z.record(zSecretCollectionConfig).optional().default({}),
-    })
-    .strict();
+export const zSecretsConfig = z.object({
+    secrets: z.record(zSecretCollectionConfig).optional().default({}),
+});
 
 export const zProjectSecretsConfig = z.intersection(zEnvConfig, zSecretsConfig);
 export const zRootSecretConfig = z.object({ server: z.string().optional() }).strict();

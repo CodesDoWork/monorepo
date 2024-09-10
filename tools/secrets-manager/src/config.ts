@@ -1,4 +1,5 @@
 import { logger, Tree } from "@nx/devkit";
+import inquirer from "inquirer";
 import { execSync } from "node:child_process";
 import path from "node:path";
 import { parse as parseYaml } from "yaml";
@@ -17,9 +18,9 @@ const PROJECT_CONFIG_FILE = ".env.secure.yaml";
 
 const cipherDataCache = new Map<string, CipherData>();
 
-export function setupBwCli(tree: Tree, credentials: Credentials) {
+export async function setupBwCli(tree: Tree, credentials: Credentials) {
     setupWithRootConfig(tree);
-    login(credentials);
+    await login(credentials);
     syncBw();
 }
 
@@ -48,7 +49,7 @@ function setBwServer(server: string) {
     execSync(`bw config server ${server}`);
 }
 
-function login({ username, password }: Credentials) {
+async function login({ username, password }: Credentials) {
     let loginResult: string;
     try {
         execSync(`bw login --check`);
@@ -56,11 +57,27 @@ function login({ username, password }: Credentials) {
         loginResult = execSync(`bw unlock ${password}`).toString();
     } catch (e) {
         logger.info("Logging in");
+        username = await ensureUsername(username);
         loginResult = execSync(`bw login ${username} ${password}`).toString();
     }
 
     process.env.BW_SESSION = /SESSION="(.+?)"/.exec(loginResult)?.[1] ?? "";
     logger.info("Set BW_SESSION");
+}
+
+async function ensureUsername(username: string): Promise<string> {
+    return username || process.env.BW_USERNAME || (await inquireUsername());
+}
+
+async function inquireUsername(): Promise<string> {
+    const res = await inquirer.prompt([
+        {
+            name: "username",
+            type: "input",
+            message: "Enter BW username",
+        },
+    ]);
+    return res.username;
 }
 
 export function projectConfigExists(tree: Tree, root = ""): boolean {
@@ -91,11 +108,16 @@ function getSecrets(
     collectionConfig.vars.forEach(envConfig => {
         const envName = typeof envConfig === "string" ? envConfig : envConfig.name;
         const secretName = collectionConfig.prefix ? `${collectionName}_${envName}` : envName;
-        secrets[secretName] = getSecret(
-            collectionConfig.collectionId,
-            getFieldName(envConfig),
-            stage,
-        );
+
+        try {
+            secrets[secretName] = getSecret(
+                collectionConfig.collectionId,
+                getFieldName(envConfig),
+                stage,
+            );
+        } catch (e) {
+            logger.warn(e);
+        }
     });
 
     return secrets;

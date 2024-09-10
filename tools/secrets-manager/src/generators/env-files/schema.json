@@ -16,11 +16,11 @@
         "username": {
             "type": "string",
             "description": "Username/Email for BW",
+            "default": "",
             "$default": {
                 "$source": "argv",
                 "index": 1
-            },
-            "x-prompt": "What is your username?"
+            }
         },
         "password": {
             "type": "string",

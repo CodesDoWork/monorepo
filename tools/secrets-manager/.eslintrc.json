@@ -35,14 +35,7 @@
             ],
             "parser": "jsonc-eslint-parser",
             "rules": {
-                "@nx/dependency-checks": [
-                    "error",
-                    {
-                        "ignoredDependencies": [
-                            "@bitwarden/cli"
-                        ]
-                    }
-                ]
+                "@nx/dependency-checks": "error"
             }
         },
         {

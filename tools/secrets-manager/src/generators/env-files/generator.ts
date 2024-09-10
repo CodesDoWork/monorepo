@@ -6,7 +6,7 @@ import { EnvFilesGeneratorSchema } from "./schema";
 
 export async function envFilesGenerator(tree: Tree, options: EnvFilesGeneratorSchema) {
     await ensurePassword(options);
-    setupBwCli(tree, options);
+    await setupBwCli(tree, options);
     getProjects(tree).forEach(project => {
         if (projectConfigExists(tree, project.root)) {
             createEnvFile(tree, project.name || project.root, project.root, options);
@@ -25,22 +25,21 @@ function createEnvFile(tree: Tree, name: string, root: string, options: EnvFiles
     generateFiles(tree, path.join(__dirname, "files"), root, fileOptions);
 }
 
-async function ensurePassword(options: EnvFilesGeneratorSchema): Promise<void> {
+async function ensurePassword(options: EnvFilesGeneratorSchema) {
     if (!options.password) {
         options.password = process.env.BW_PASSWORD || (await inquirePassword());
     }
 }
 
-function inquirePassword(): Promise<string> {
-    return inquirer
-        .prompt([
-            {
-                name: "password",
-                type: "password",
-                message: "Enter BW password",
-            },
-        ])
-        .then(res => res.password);
+async function inquirePassword(): Promise<string> {
+    const res = await inquirer.prompt([
+        {
+            name: "password",
+            type: "password",
+            message: "Enter BW password",
+        },
+    ]);
+    return res.password;
 }
 
 export default envFilesGenerator;

@@ -63,6 +63,7 @@ export default {
                 mono: "Jetbrains Mono",
             },
             animation: {
+                "spin-slow": "spin 3s linear infinite",
                 blink: "blink 1.25s steps(1) infinite",
                 fadeIn: "fadeIn 0.5s ease-in-out forwards",
                 fadeInSubtle: "fadeInSubtle 0.5s ease-in-out forwards",

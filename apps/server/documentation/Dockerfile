@@ -1,12 +1,10 @@
-ARG DOCKER_REGISTRY
-ARG ORGANIZATION
-ARG PROJECT
+ARG IMAGE_BASE
 
 ARG APP_NAME=server-documentation
 ARG APP_DIR=server/documentation
 
-FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/base AS base
-FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/workspace AS workspace
+FROM $IMAGE_BASE/base AS base
+FROM $IMAGE_BASE/workspace AS workspace
 
 
 FROM workspace AS builder
@@ -18,4 +16,4 @@ RUN npx nx build $APP_NAME
 
 FROM nginx:1-alpine-slim
 ARG APP_DIR
-COPY --from=builder /app/dist/apps/$APP_DIR /usr/share/nginx/html
+COPY --from=builder /workspace/dist/apps/$APP_DIR /usr/share/nginx/html

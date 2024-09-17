@@ -3,7 +3,7 @@
     "compilerOptions": {
         "jsx": "react-jsx",
         "rootDir": ".",
-        "sourceMap": true,
+        "sourceMap": false,
         "declaration": false,
         "moduleResolution": "Bundler",
         "emitDecoratorMetadata": true,
@@ -20,6 +20,7 @@
         "strictNullChecks": true,
         "paths": {
             "branding-assets/*": ["libs/branding/assets/*"],
+            "@codesdowork/nx-secrets-manager": ["tools/secrets-manager/src/index.ts"],
             "server/directus": ["libs/server/directus/src/index.ts"],
             "shared/fastify": ["libs/shared/fastify/src/index.ts"],
             "shared/health": ["libs/shared/health/src/index.ts"],

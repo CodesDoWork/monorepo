@@ -1,12 +1,10 @@
-ARG DOCKER_REGISTRY
-ARG ORGANIZATION
-ARG PROJECT
+ARG IMAGE_BASE
 
 ARG APP_NAME=server-dashboard
 ARG APP_DIR=server/dashboard
 
-FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/base AS base
-FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/workspace AS workspace
+FROM $IMAGE_BASE/base AS base
+FROM $IMAGE_BASE/workspace AS workspace
 
 
 FROM workspace AS builder
@@ -21,5 +19,5 @@ FROM lissy93/dashy:2.1.2
 ENV NODE_ENV=production
 ARG APP_DIR
 
-COPY --from=builder /app/dist/apps/$APP_DIR/public /app/public
+COPY --from=builder /workspace/dist/apps/$APP_DIR/public /app/public
 RUN yarn build

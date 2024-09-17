@@ -1,0 +1,11 @@
+name = "maintenance"
+main = "worker.js"
+compatibility_date = "2023-08-23"
+
+minify = true
+
+[build]
+command = "nx build maintenance"
+
+[site]
+bucket = "./dist"

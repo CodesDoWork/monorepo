@@ -1,0 +1,9 @@
+{
+    "generators": {
+        "env-files": {
+            "factory": "./src/generators/env-files/generator",
+            "schema": "./src/generators/env-files/schema.json",
+            "description": "env-files generator"
+        }
+    }
+}

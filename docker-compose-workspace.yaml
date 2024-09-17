@@ -1,0 +1,18 @@
+services:
+  base:
+    build:
+      dockerfile: base.Dockerfile
+    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/base
+
+  workspace:
+    build:
+      args:
+        - IMAGE_BASE
+      dockerfile: workspace.Dockerfile
+    image: ${IMAGE_BASE}/workspace
+    network_mode: host
+    tty: true
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - //var/run/docker.sock:/var/run/docker.sock

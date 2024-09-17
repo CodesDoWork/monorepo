@@ -1,5 +1,5 @@
-local domain = os.getenv("AUTH_DOMAIN")
-local realm = os.getenv("AUTH_REALM")
+local domain = os.getenv("KEYCLOAK_DOMAIN")
+local realm = os.getenv("KEYCLOAK_REALM")
 
 local client_id = os.getenv("NGINX_AUTH_CLIENT_ID")
 local client_secret = os.getenv("NGINX_AUTH_CLIENT_SECRET")

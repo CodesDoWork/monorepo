@@ -1,73 +1,22 @@
+name: ${ORGANIZATION}_${PROJECT}
+
 x-build-args:
   build: &build-args
     args:
-      - DOCKER_REGISTRY
-      - ORGANIZATION
-      - PROJECT
+      - IMAGE_BASE
+
+x-common: &common
+  cap_drop:
+    - ALL
+  restart: always
 
 services:
   adminer:
+    <<: *common
     image: adminer
-    restart: unless-stopped
-
-  auth:
-    command:
-      - start
-      - --db=postgres
-      - --db-url-host=db
-      - --db-username=${DB_USER}
-      - --db-password=${DB_PASSWORD}
-      - --hostname-strict=false
-      - --http-enabled=true
-      - --health-enabled=true
-      - --metrics-enabled=true
-      - --features=docker,token-exchange
-      - --proxy=edge
-    depends_on:
-      db:
-        condition: service_healthy
-    environment:
-      - KEYCLOAK_ADMIN=${AUTH_USER}
-      - KEYCLOAK_ADMIN_PASSWORD=${AUTH_PASSWORD}
-    image: quay.io/keycloak/keycloak:25.0.2
-    restart: unless-stopped
-
-  backup-service:
-    environment:
-      - PUID=0
-      - GUID=0
-      - TZ=${TZ}
-    image: lscr.io/linuxserver/rsnapshot
-    profiles:
-      - backup
-    volumes:
-      - ${BACKUP_VOLUME_PATH}/.snapshots:/.snapshots
-      - ${BACKUP_DOCUMENTS_PATH:-./documents}:/data/personal/documents:ro
-      - ${BACKUP_PICTURES_PATH:-./pictures}:/data/personal/pictures:ro
-      - bitwarden-data:/data/services/bitwarden/data:ro
-      - directus-uploads:/data/services/directus/uploads:ro
-      - gitlab-config:/data/services/gitlab/config:ro
-      - gitlab-data:/data/services/gitlab/data:ro
-      - grafana-storage:/data/services/grafana/storage:ro
-      - grafana-config:/data/services/grafana/config:ro
-      - linkwarden-data:/data/services/linkwarden/data:ro
-      - navidrome-data:/data/services/navidrome/data:ro
-      - netdata-config:/data/services/netdata/config:ro
-      - netdata-lib:/data/services/netdata/lib:ro
-      - netdata-cache:/data/services/netdata/cache:ro
-      - pihole-etc:/data/services/pihole/etc:ro
-      - pihole-dnsmasq:/data/services/pihole/dnsmasq:ro
-      - portainer-data:/data/services/portainer/data:ro
-      - postgres-data:/data/services/db/data:ro
-      - prometheus-data:/data/services/prometheus/data:ro
-      - sonarqube-config:/data/services/sonarqube/config:roocjer
-      - sonarqube-data:/data/services/sonarqube/data:ro
-      - sonarqube-extensions:/data/services/sonarqube/extensions:ro
-      - vpn-data:/data/services/vpn/data:ro
-      - wandb-data:/data/services/wandb/data:ro
-      - ./backup-service/rsnapshot.conf:/config/rsnapshot.conf:ro
 
   bitwarden:
+    <<: *common
     environment:
       - TZ=${TZ}
       - PUID=1000
@@ -78,79 +27,73 @@ services:
       - ADMIN_TOKEN=${BITWARDEN_ADMIN_TOKEN}
       - INVITATION_ORG_NAME=Bitwarden
       - SMTP_HOST=${SMTP_HOST}
-      - SMTP_FROM=no-reply@${BITWARDEN_DOMAIN}
+      - SMTP_FROM=no-reply.bw@${DOMAIN}
       - SMTP_FROM_NAME=Bitwarden
       - SMTP_PORT=${SMTP_PORT}
       - SMTP_SECURITY=starttls
-      - SMTP_USERNAME=${SMTP_USER}
+      - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
     image: vaultwarden/server:alpine
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
     volumes:
       - bitwarden-data:/data
+    ports:
+      - 8082:80
 
-  certbot:
-    build:
-      context: ./certbot
-    image: ${IMAGE_BASE}/server-certbot
-    command: >-
-      certonly --reinstall --dns-cloudflare --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini --dns-cloudflare-propagation-seconds 20
-      --email ${EMAIL} --agree-tos --no-eff-email
-      -d ${DOMAIN} -d *.${DOMAIN}
-    profiles:
-      - certbot
-    volumes:
-      - ./letsencrypt:/etc/letsencrypt
+#  certbot:
+#    <<: *common
+#    build:
+#      dockerfile: ./apps/server/certbot/Dockerfile
+#    environment:
+#      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
+#    image: ${IMAGE_BASE}/certbot
+#    command: >-
+#      certonly --reinstall
+#      --dns-cloudflare --dns-cloudflare-credentials /app/cloudflare.ini --dns-cloudflare-propagation-seconds 20
+#      --email ${CLOUDFLARE_EMAIL} --agree-tos --no-eff-email
+#      -d ${DOMAIN} -d *.${DOMAIN}
+#    volumes:
+#      - ./letsencrypt:/etc/letsencrypt
 
   cms:
+    <<: *common
     environment:
       - SECRET=${CMS_SECRET}
-      - ADMIN_EMAIL=${EMAIL}
-      - ADMIN_PASSWORD=${CMS_ADMIN_PASSWORD}
-      - PUBLIC_URL=https://cms.${DOMAIN}
+      - ADMIN_EMAIL=${CMS_USERNAME}
+      - ADMIN_PASSWORD=${CMS_PASSWORD}
+      - PUBLIC_URL=https://${CMS_DOMAIN}
       - DB_CLIENT=pg
-      - DB_HOST=db
+      - DB_HOST=postgres
       - DB_PORT=5432
       - DB_DATABASE=directus
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_USER=${POSTGRES_USERNAME}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
       - AUTH_PROVIDERS=keycloak
       - AUTH_KEYCLOAK_ALLOW_PUBLIC_REGISTRATION=true
       - AUTH_KEYCLOAK_DEFAULT_ROLE_ID=2c1d9be2-93c2-4693-8200-6351976a034e
       - AUTH_KEYCLOAK_DRIVER=openid
       - AUTH_KEYCLOAK_CLIENT_ID=${CMS_AUTH_CLIENT_ID}
       - AUTH_KEYCLOAK_CLIENT_SECRET=${CMS_AUTH_CLIENT_SECRET}
-      - AUTH_KEYCLOAK_ISSUER_URL=https://${AUTH_DOMAIN}/realms/${AUTH_REALM}/.well-known/openid-configuration
+      - AUTH_KEYCLOAK_ISSUER_URL=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/.well-known/openid-configuration
       - AUTH_KEYCLOAK_IDENTIFIER_KEY=email
     image: directus/directus:10.13
-    restart: unless-stopped
     volumes:
+      - directus-extensions:/directus/extensions
       - directus-uploads:/directus/uploads
-      - ./cms/extensions:/directus/extensions
 
   dashboard:
+    <<: *common
     build:
       <<: *build-args
-      context: ../..
       dockerfile: apps/server/dashboard/Dockerfile
-    image: ${IMAGE_BASE}/server-dashboard
-    restart: unless-stopped
-
-  db:
-    environment:
-      - POSTGRES_DB=${DB_DEFAULT_DB_NAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_USER=${DB_USER}
-    healthcheck:
-      test: pg_isready -U $DB_USER
-    image: postgres:15-alpine
-    restart: unless-stopped
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
+    image: ${IMAGE_BASE}/dashboard
 
   dns:
+    <<: *common
+    cap_add:
+      - CAP_CHOWN
+      - CAP_FOWNER
+      - CAP_SETGID
+      - CAP_SETUID
     image: pihole/pihole
     environment:
       - TZ=${TZ}
@@ -161,34 +104,32 @@ services:
         ipv4_address: ${DNS_IP}
     ports:
       - 53:53/udp
-    restart: unless-stopped
     volumes:
       - pihole-etc:/etc/pihole
       - pihole-dnsmasq:/etc/dnsmasq.d
 
   docker-registry:
+    <<: *common
     environment:
-      - REGISTRY_AUTH_TOKEN_REALM=https://${AUTH_DOMAIN}/realms/${AUTH_REALM}/protocol/docker-v2/auth
+      - REGISTRY_AUTH_TOKEN_REALM=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/docker-v2/auth
       - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
-      - REGISTRY_AUTH_TOKEN_ISSUER=https://${AUTH_DOMAIN}/realms/${AUTH_REALM}
+      - REGISTRY_AUTH_TOKEN_ISSUER=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}
       - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/opt/certs/trust_chain.pem # exported from keycloak
     healthcheck:
       test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
     image: registry:2
-    restart: unless-stopped
     volumes:
       - docker-registry:/var/lib/registry
       - ./docker-registry/certs:/opt/certs:ro # exported from keycloak
 
   documentation:
+    <<: *common
     build:
       <<: *build-args
-      context: ../..
       dockerfile: apps/server/documentation/Dockerfile
     healthcheck:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
-    image: ${IMAGE_BASE}/server-documentation
-    restart: unless-stopped
+    image: ${IMAGE_BASE}/documentation
 
   gitlab:
     environment:
@@ -202,7 +143,7 @@ services:
         gitlab_rails['smtp_enable'] = true
         gitlab_rails['smtp_address'] = "${SMTP_HOST}"
         gitlab_rails['smtp_port'] = ${SMTP_PORT}
-        gitlab_rails['smtp_user_name'] = "${SMTP_USER}"
+        gitlab_rails['smtp_user_name'] = "${SMTP_USERNAME}"
         gitlab_rails['smtp_password'] = "${SMTP_PASSWORD}"
         gitlab_rails['smtp_domain'] = "${SMTP_HOST}"
         gitlab_rails['smtp_authentication'] = "login"
@@ -222,7 +163,7 @@ services:
               "scope" => ["openid", "profile", "email"],
               "uid_field" => "email",
               "response_type" => "code",
-              "issuer" => "https://${AUTH_DOMAIN}/realms/${AUTH_REALM}",
+              "issuer" => "https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}",
               "discovery" => true,
               "client_auth_method" => "query",
               "client_options" => {
@@ -254,102 +195,129 @@ services:
         }
         prometheus_monitoring['enable'] = true
     image: gitlab/gitlab-ee
-    restart: unless-stopped
-    shm_size: "256m"
+    restart: always
     volumes:
       - gitlab-config:/etc/gitlab
       - gitlab-data:/var/opt/gitlab
 
   gitlab-runner:
+    <<: *common
     dns: ${DNS_IP}
     image: gitlab/gitlab-runner
-    restart: unless-stopped
     volumes:
       - ./gitlab-runner:/etc/gitlab-runner
-      - /var/run/docker.sock:/var/run/docker.sock
+      - //var/run/docker.sock:/var/run/docker.sock
 
   grafana:
+    <<: *common
     environment:
       - GF_SMTP_ENABLED=true
       - GF_SMTP_HOST=${SMTP_HOST}:${SMTP_PORT}
-      - GF_SMTP_USER=${SMTP_USER}
+      - GF_SMTP_USER=${SMTP_USERNAME}
       - GF_SMTP_PASSWORD=${SMTP_PASSWORD}
     healthcheck:
       test: curl -fs http://localhost:${GRAFANA_PORT}/api/health | grep "ok" || exit 1
     image: grafana/grafana
-    restart: unless-stopped
     volumes:
       - grafana-storage:/var/lib/grafana
       - grafana-config:/usr/share/grafana/conf
 
   just-site:
+    <<: *common
     build:
       <<: *build-args
-      context: ../..
       dockerfile: apps/server/just-site/Dockerfile
-    dns: ${DNS_IP}
     environment:
+      - GITHUB_TOKEN=${JUST_SITE_GITHUB_TOKEN}
+      - DOMAIN=${DOMAIN}
+      - GRAVATAR_EMAIL=${JUST_SITE_GRAVATAR_EMAIL}
+      - CMS_URL=${CMS_DOMAIN}
+      - CMS_USER=${JUST_SITE_CMS_USER}
+      - CMS_PASSWORD=${JUST_SITE_CMS_PASSWORD}
       - PORT=${JUST_SITE_PORT}
-    env_file:
-      - ./just-site/.env
-    image: ${IMAGE_BASE}/server-just-site
-    restart: unless-stopped
+    image: ${IMAGE_BASE}/just-site
+
+  keycloak:
+    <<: *common
+    command:
+      - start
+      - --db=postgres
+      - --db-url-host=postgres
+      - --db-username=${POSTGRES_USERNAME}
+      - --db-password=${POSTGRES_PASSWORD}
+      - --hostname-strict=false
+      - --http-enabled=true
+      - --health-enabled=true
+      - --metrics-enabled=true
+      - --features=docker,token-exchange
+      - --proxy=edge
+    environment:
+      - KEYCLOAK_ADMIN=${KEYCLOAK_USERNAME}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_PASSWORD}
+    image: quay.io/keycloak/keycloak:25.0.2
 
   linkwarden:
-    depends_on:
-      - db
+    <<: *common
     environment:
       - NEXTAUTH_SECRET=${LINKWARDEN_SECRET}
       - NEXTAUTH_URL=https://${LINKWARDEN_DOMAIN}
-      - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@db:5432/linkwarden
+      - DATABASE_URL=postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@postgres:5432/linkwarden
       - NEXT_PUBLIC_DISABLE_REGISTRATION=true
       - NEXT_PUBLIC_KEYCLOAK_ENABLED=true
-      - KEYCLOAK_ISSUER=https://${AUTH_DOMAIN}/realms/${AUTH_REALM}
+      - KEYCLOAK_ISSUER=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}
       - KEYCLOAK_CLIENT_ID=${LINKWARDEN_CLIENT_ID}
       - KEYCLOAK_CLIENT_SECRET=${LINKWARDEN_CLIENT_SECRET}
     image: ghcr.io/linkwarden/linkwarden
-    restart: unless-stopped
     volumes:
       - linkwarden-data:/data/data
 
   music:
+    <<: *common
     build:
-      context: ./music # healthcheck implemented
-    env_file:
-      - ./music/.env
+      dockerfile: ./apps/server/music/Dockerfile
+    cap_drop:
+      - ALL
     environment:
       - ND_PORT=${MUSIC_PORT}
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
-      - ND_REVERSEPROXYWHITELIST=${MUSIC_PROXY_WHITELIST}
-    image: ${IMAGE_BASE}/server-music
-    restart: unless-stopped
+      - ND_REVERSEPROXYWHITELIST=0.0.0.0/0
+      - ND_DEFAULTTHEME=spotify-ish
+        ND_ENABLECOVERANIMATION=false
+        ND_ENABLESTARRATING=false
+        ND_LASTFM_ENABLED=false
+        ND_PASSWORDENCRYPTIONKEY=${MUSIC_PASSWORD_ENCRYPTION_KEY}
+        ND_SCANSCHEDULE=1h
+        ND_SESSIONTIMEOUT=30d
+        ND_UILOGINBACKGROUNDURL=https://images.pexels.com/photos/2111015/pexels-photo-2111015.jpeg?cs=srgb&dl=pexels-francesco-paggiaro-2111015.jpg&fm=jpg&w=1920&h=1280
+        ND_UIWELCOMEMESSAGE="Listen to the best"
+    image: ${IMAGE_BASE}/music
     volumes:
       - navidrome-data:/data
-      - ${MUSIC_VOLUME:-./music}:/music:ro
+      - ${MUSIC_VOLUME}:/music:ro
 
   music-downloader:
+    <<: *common
     build:
       <<: *build-args
-      context: ../..
       dockerfile: apps/server/music-downloader/Dockerfile
+    cap_drop:
+      - ALL
     environment:
       - DOWNLOAD_DIR=/music/downloads
       - PORT=${MUSIC_DOWNLOADER_PORT}
     healthcheck:
       test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
-    image: ${IMAGE_BASE}/server-music-downloader
-    restart: unless-stopped
+    image: ${IMAGE_BASE}/music-downloader
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
 
   netdata:
+    <<: *common
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
     image: netdata/netdata
     network_mode: host
-    pid: host
-    restart: unless-stopped
     security_opt:
       - apparmor:unconfined
     volumes:
@@ -364,79 +332,82 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
   nginx:
+    <<: *common
     build:
-      context: ./nginx
+      dockerfile: apps/server/nginx/Dockerfile
+    cap_add:
+      - CAP_CHOWN
+      - CAP_SETGID
+      - CAP_SETUID
     env_file:
       - .env
     healthcheck:
       test: curl -f http://localhost || exit 1
-    image: ${IMAGE_BASE}/server-nginx
+    image: ${IMAGE_BASE}/nginx
     networks:
       default:
         ipv4_address: ${NGINX_IP}
-    restart: unless-stopped
     volumes:
       - ./letsencrypt:/etc/letsencrypt:ro
 
   portainer:
-    image: portainer/portainer-ce:latest
-    restart: unless-stopped
+    <<: *common
+    image: portainer/portainer-ce
     volumes:
       - portainer-data:/data
-      - /var/run/docker.sock:/var/run/docker.sock
+      - //var/run/docker.sock:/var/run/docker.sock
+
+  postgres:
+    <<: *common
+    cap_add:
+      - CAP_FOWNER
+      - CAP_DAC_READ_SEARCH
+      - CAP_SETGID
+      - CAP_SETUID
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: pg_isready -U $POSTGRES_USERNAME
+    image: postgres:15-alpine
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
   prometheus:
+    <<: *common
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
     image: prom/prometheus
-    restart: unless-stopped
     volumes:
       - ./prometheus:/etc/prometheus/
       - prometheus-data:/prometheus
 
-  renovate:
-    dns: ${DNS_IP}
-    environment:
-      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
-      - GIT_URL=https://${GITLAB_DOMAIN}
-      - GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}
-    image: renovate/renovate
-    profiles:
-      - renovate
-    volumes:
-      - ./renovate/config.js:/usr/src/app/config.js
-
-  scoreboard:
-    build:
-      <<: *build-args
-      context: ../..
-      dockerfile: apps/server/scoreboard/Dockerfile
-    environment:
-      - PORT=${SCOREBOARD_PORT}
-    env_file:
-      - scoreboard/.env.local
-    healthcheck:
-      test: wget -qO- http://localhost:${SCOREBOARD_PORT}/api/trpc/health?input={} || exit 1
-    image: ${IMAGE_BASE}/server-scoreboard
-    profiles:
-      - deprecated
-    restart: unless-stopped
+#  renovate:
+#    <<: *common
+#    environment:
+#      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
+#      - GIT_URL=http://gitlab
+#      - GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}
+#    image: renovate/renovate
+#    volumes:
+#      - ./renovate/config.js:/usr/src/app/config.js
 
   sonarqube:
+    <<: *common
     environment:
-      - SONAR_JDBC_USERNAME=${DB_USER}
-      - SONAR_JDBC_PASSWORD=${DB_PASSWORD}
-      - SONAR_JDBC_URL=jdbc:postgresql://db:5432/sonarqube
+      - SONAR_JDBC_USERNAME=${POSTGRES_USERNAME}
+      - SONAR_JDBC_PASSWORD=${POSTGRES_PASSWORD}
+      - SONAR_JDBC_URL=jdbc:postgresql://postgres:5432/sonarqube
     healthcheck:
       test: wget -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
     image: sonarqube:10-community
-    restart: unless-stopped
     volumes:
       - sonarqube-config:/opt/sonarqube/conf
       - sonarqube-data:/opt/sonarqube/data
       - sonarqube-extensions:/opt/sonarqube/extensions
 
   tunnel:
+    <<: *common
     command:
       - tunnel
       - --no-autoupdate
@@ -447,24 +418,22 @@ services:
     networks:
       default:
         ipv4_address: ${TUNNEL_IP}
-    restart: unless-stopped
 
   vpn:
+    <<: *common
     cap_add:
       - NET_ADMIN
+      - NET_RAW
       - SYS_MODULE
-    depends_on:
-      - dns
     environment:
       - WG_HOST=${SERVER_ADDRESS}
       - WG_DEFAULT_DNS=${DNS_IP}
       - PORT=${VPN_PORT}
-      - PASSWORD=${VPN_PASSWORD}
+      - PASSWORD_HASH=${VPN_PASSWORD_HASH}
       - UI_TRAFFIC_STATS=true
     image: ghcr.io/wg-easy/wg-easy
     ports:
       - 51820:51820/udp
-    restart: unless-stopped
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
       - net.ipv4.ip_forward=1
@@ -472,14 +441,15 @@ services:
       - vpn-data:/etc/wireguard
 
   wandb:
+    <<: *common
     image: wandb/local
-    restart: unless-stopped
     volumes:
       - wandb-data:/vol
 
 volumes:
   bitwarden-data:
 
+  directus-extensions:
   directus-uploads:
 
   docker-registry:

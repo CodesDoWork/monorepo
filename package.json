@@ -25,14 +25,18 @@
     },
     "scripts": {
         "build": "nx run-many -t build",
-        "docker:build-workspace": "docker compose build base && docker compose build workspace",
+        "docker:build-workspace": "docker compose -f docker-compose-workspace.yaml build",
         "docker:build": "npm run docker:build-workspace && nx affected -t build-image",
         "lint": "nx run-many -t lint",
         "test": "nx run-many -t test",
         "format": "nx format",
         "format:check": "nx format:check",
         "check": "pnpm run format:check && pnpm run lint && pnpm run test && pnpm run build",
-        "secretlint": "secretlint --secretlintignore .gitignore \"**/*\""
+        "secretlint": "secretlint --secretlintignore .gitignore \"**/*\"",
+        "docker:conf": "dotenv -- docker stack config -c docker-compose.yaml",
+        "docker:deploy": "dotenv -- cross-env-shell \"docker stack deploy -c docker-compose.yaml --prune ${ORGANIZATION}_${PROJECT}\"",
+        "docker:down": "dotenv -- cross-env-shell \"docker stack down ${ORGANIZATION}_${PROJECT}\"",
+        "swarm:init": "docker swarm init && docker swarm update --task-history-limit 2"
     },
     "devDependencies": {
         "@astrojs/tailwind": "^5.1.0",

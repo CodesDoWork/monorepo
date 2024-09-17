@@ -1,12 +1,10 @@
-ARG DOCKER_REGISTRY
-ARG ORGANIZATION
-ARG PROJECT
+ARG IMAGE_BASE
 
 ARG APP_NAME=server-just-site
 ARG APP_DIR=server/just-site
 
-FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/base AS base
-FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/workspace AS workspace
+FROM $IMAGE_BASE/base AS base
+FROM $IMAGE_BASE/workspace AS workspace
 
 
 FROM workspace AS builder
@@ -20,8 +18,8 @@ FROM base
 ARG APP_DIR
 
 WORKDIR /app
-COPY --from=builder /app/apps/$APP_DIR/build .
-COPY --from=builder /app/apps/$APP_DIR/package.json .
+COPY --from=builder /workspace/apps/$APP_DIR/build .
+COPY --from=builder /workspace/apps/$APP_DIR/package.json .
 
 ENV PORT=80
 EXPOSE ${PORT}

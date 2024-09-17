@@ -1,9 +1,8 @@
-ARG DOCKER_REGISTRY
-ARG ORGANIZATION
-ARG PROJECT
+ARG IMAGE_BASE
 
-FROM $DOCKER_REGISTRY/$ORGANIZATION/$PROJECT/base
-ENV PATH=/app/node_modules/.bin:$PATH
+FROM $IMAGE_BASE/base
+WORKDIR /workspace
+ENV PATH=/workspace/node_modules/.bin:$PATH
 
 RUN apk add git docker docker-cli-compose
 RUN npm i -g @antfu/ni pnpm

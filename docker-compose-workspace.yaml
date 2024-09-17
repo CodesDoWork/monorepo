@@ -1,18 +1,15 @@
 services:
   base:
     build:
-      dockerfile: Dockerfile.base
+      dockerfile: base.Dockerfile
     image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/base
 
   workspace:
     build:
       args:
-        - DOCKER_REGISTRY
-        - ORGANIZATION
-        - PROJECT
-      dockerfile: Dockerfile.workspace
-    entrypoint: sh
-    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/workspace
+        - IMAGE_BASE
+      dockerfile: workspace.Dockerfile
+    image: ${IMAGE_BASE}/workspace
     network_mode: host
     tty: true
     volumes:

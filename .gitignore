@@ -49,10 +49,8 @@ Thumbs.db
 /deploy
 /deploy-commands.sh
 
-# envs
-/apps/server/.env
-/apps/server/just-site/.env
-/apps/server/renovate/.env
+# env
+.env
 
 # svelte
 /apps/server/just-site/.svelte-kit

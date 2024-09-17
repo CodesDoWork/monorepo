@@ -8,9 +8,9 @@ RUN apk add --no-cache gcc
 RUN luarocks install lua-resty-openidc
 
 WORKDIR /etc/nginx
-COPY ./conf conf.d
-COPY ./lua lua
+COPY ./apps/server/nginx/conf conf.d
+COPY ./apps/server/nginx/lua lua
 
 WORKDIR /usr/local/openresty/nginx/conf
-COPY ./envs.conf .
+COPY ./apps/server/nginx/envs.conf .
 RUN echo "include envs.conf;" | cat - nginx.conf > nginx_new.conf && mv nginx_new.conf nginx.conf

@@ -275,8 +275,6 @@ services:
     <<: *common
     build:
       dockerfile: ./apps/server/music/Dockerfile
-    cap_drop:
-      - ALL
     environment:
       - ND_PORT=${MUSIC_PORT}
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
@@ -300,8 +298,6 @@ services:
     build:
       <<: *build-args
       dockerfile: apps/server/music-downloader/Dockerfile
-    cap_drop:
-      - ALL
     environment:
       - DOWNLOAD_DIR=/music/downloads
       - PORT=${MUSIC_DOWNLOADER_PORT}

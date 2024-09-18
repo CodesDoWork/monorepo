@@ -5,9 +5,12 @@ x-build-args:
     args:
       - IMAGE_BASE
 
-x-common: &common
+x-cap-drop: &cap-drop
   cap_drop:
     - ALL
+
+x-common: &common
+  <<: *cap-drop
   restart: always
 
 services:
@@ -37,20 +40,12 @@ services:
     volumes:
       - bitwarden-data:/data
 
-#  certbot:
-#    <<: *common
-#    build:
-#      dockerfile: ./apps/server/certbot/Dockerfile
-#    environment:
-#      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
-#    image: ${IMAGE_BASE}/certbot
-#    command: >-
-#      certonly --reinstall
-#      --dns-cloudflare --dns-cloudflare-credentials /app/cloudflare.ini --dns-cloudflare-propagation-seconds 20
-#      --email ${CLOUDFLARE_EMAIL} --agree-tos --no-eff-email
-#      -d ${DOMAIN} -d *.${DOMAIN}
-#    volumes:
-#      - ./letsencrypt:/etc/letsencrypt
+  certbot:
+    build:
+      dockerfile: ./apps/server/certbot/Dockerfile
+    image: ${IMAGE_BASE}/certbot
+    profiles:
+      - certbot
 
   cms:
     <<: *common
@@ -77,6 +72,28 @@ services:
     volumes:
       - directus-extensions:/directus/extensions
       - directus-uploads:/directus/uploads
+
+  cron:
+    <<: *common
+    command: daemon --docker
+    image: mcuadros/ofelia
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-run.renew-certs.schedule: "0 0 3 1 * *"
+      ofelia.job-run.renew-certs.command: "certonly --reinstall \
+      --dns-cloudflare --dns-cloudflare-credentials /app/cloudflare.ini --dns-cloudflare-propagation-seconds 20 \
+      --email ${CLOUDFLARE_EMAIL} --agree-tos --no-eff-email \
+      -d ${DOMAIN} -d *.${DOMAIN}"
+      ofelia.job-run.renew-certs.environment: CLOUDFLARE_API_TOKEN
+      ofelia.job-run.renew-certs.image: ${IMAGE_BASE}/certbot
+      ofelia.job-run.renew-certs.volume: ./letsencrypt:/etc/letsencrypt
+
+      ofelia.job-run.renovate.schedule: "@every 30m"
+      ofelia.job-run.renovate.environment: "[\"RENOVATE_TOKEN=${RENOVATE_TOKEN}\", \"GIT_URL=http://gitlab\", \"GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}\"]"
+      ofelia.job-run.renovate.image: "renovate/renovate"
+      ofelia.job-run.renovate.volume: "./renovate/config.js:/usr/src/app/config.js"
+    volumes:
+      - //var/run/docker.sock:/var/run/docker.sock:ro
 
   dashboard:
     <<: *common
@@ -379,16 +396,6 @@ services:
     volumes:
       - ./prometheus:/etc/prometheus/
       - prometheus-data:/prometheus
-
-#  renovate:
-#    <<: *common
-#    environment:
-#      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
-#      - GIT_URL=http://gitlab
-#      - GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}
-#    image: renovate/renovate
-#    volumes:
-#      - ./renovate/config.js:/usr/src/app/config.js
 
   sonarqube:
     <<: *common

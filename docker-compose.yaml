@@ -1,13 +1,16 @@
-name: ${ORGANIZATION}_${PROJECT}
+name: ${STACK_NAME}
 
 x-build-args:
   build: &build-args
     args:
       - IMAGE_BASE
 
-x-common: &common
+x-cap-drop: &cap-drop
   cap_drop:
     - ALL
+
+x-common: &common
+  <<: *cap-drop
   restart: always
 
 services:
@@ -37,20 +40,12 @@ services:
     volumes:
       - bitwarden-data:/data
 
-#  certbot:
-#    <<: *common
-#    build:
-#      dockerfile: ./apps/server/certbot/Dockerfile
-#    environment:
-#      - CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}
-#    image: ${IMAGE_BASE}/certbot
-#    command: >-
-#      certonly --reinstall
-#      --dns-cloudflare --dns-cloudflare-credentials /app/cloudflare.ini --dns-cloudflare-propagation-seconds 20
-#      --email ${CLOUDFLARE_EMAIL} --agree-tos --no-eff-email
-#      -d ${DOMAIN} -d *.${DOMAIN}
-#    volumes:
-#      - ./letsencrypt:/etc/letsencrypt
+  certbot:
+    build:
+      dockerfile: ./apps/server/certbot/Dockerfile
+    image: ${IMAGE_BASE}/certbot
+    profiles:
+      - oneshot
 
   cms:
     <<: *common
@@ -77,6 +72,75 @@ services:
     volumes:
       - directus-extensions:/directus/extensions
       - directus-uploads:/directus/uploads
+
+  cron:
+    <<: *common
+    command: daemon --docker
+    environment:
+      - TZ=${TZ}
+    image: mcuadros/ofelia
+    labels:
+      ofelia.enabled: "true"
+
+      ofelia.job-run.backup.command: --verbose backup /data
+      ofelia.job-run.backup.environment: "[
+        \"AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}\",
+        \"AWS_SECRET_ACCESS_KEY=${BACKBLAZE_APPLICATION_KEY}\",
+        \"RESTIC_REPOSITORY=s3:s3.eu-central-003.backblazeb2.com/${BACKBLAZE_BUCKET_NAME}\",
+        \"RESTIC_PASSWORD=${RESTIC_PASSWORD}\"
+      ]"
+      ofelia.job-run.backup.image: restic/restic
+      ofelia.job-run.backup.schedule: 0 0 3 * * *
+      ofelia.job-run.backup.volume: "[
+        \"/home:/data/home:ro\",
+        \"${STACK_NAME}_bitwarden-data:/data/services/bitwarden/data:ro\",
+        \"${STACK_NAME}_directus-extensions:/data/services/directus/extensions:ro\",
+        \"${STACK_NAME}_directus-uploads:/data/services/directus/uploads:ro\",
+        \"${STACK_NAME}_gitlab-config:/data/services/gitlab/config:ro\",
+        \"${STACK_NAME}_gitlab-data:/data/services/gitlab/data:ro\",
+        \"${STACK_NAME}_grafana-storage:/data/services/grafana/storage:ro\",
+        \"${STACK_NAME}_grafana-config:/data/services/grafana/config:ro\",
+        \"${STACK_NAME}_linkwarden-data:/data/services/linkwarden/data:ro\",
+        \"${STACK_NAME}_navidrome-data:/data/services/navidrome/data:ro\",
+        \"${STACK_NAME}_netdata-config:/data/services/netdata/config:ro\",
+        \"${STACK_NAME}_netdata-lib:/data/services/netdata/lib:ro\",
+        \"${STACK_NAME}_netdata-cache:/data/services/netdata/cache:ro\",
+        \"${STACK_NAME}_pihole-etc:/data/services/pihole/etc:ro\",
+        \"${STACK_NAME}_pihole-dnsmasq:/data/services/pihole/dnsmasq:ro\",
+        \"${STACK_NAME}_portainer-data:/data/services/portainer/data:ro\",
+        \"${STACK_NAME}_postgres-data:/data/services/postgres/data:ro\",
+        \"${STACK_NAME}_prometheus-data:/data/services/prometheus/data:ro\",
+        \"${STACK_NAME}_sonarqube-config:/data/services/sonarqube/config:ro\",
+        \"${STACK_NAME}_sonarqube-data:/data/services/sonarqube/data:ro\",
+        \"${STACK_NAME}_sonarqube-extensions:/data/services/sonarqube/extensions:ro\",
+        \"${STACK_NAME}_vpn-data:/data/services/vpn/data:ro\",
+        \"${STACK_NAME}_wandb-data:/data/services/wandb/data:ro\"
+      ]"
+
+      ofelia.job-run.create-playlists.image: ${IMAGE_BASE}/music-playlist-creator
+      ofelia.job-run.create-playlists.schedule: 0 30 2 * * *
+      ofelia.job-run.create-playlists.volume: ${MUSIC_VOLUME}:/music
+
+      ofelia.job-run.renew-certs.command: "certonly --reinstall \
+      --dns-cloudflare --dns-cloudflare-credentials /app/cloudflare.ini --dns-cloudflare-propagation-seconds 20 \
+      --email ${CLOUDFLARE_EMAIL} --agree-tos --no-eff-email \
+      -d ${DOMAIN} -d *.${DOMAIN}"
+      ofelia.job-run.renew-certs.environment: CLOUDFLARE_API_TOKEN
+      ofelia.job-run.renew-certs.image: ${IMAGE_BASE}/certbot
+      ofelia.job-run.renew-certs.schedule: 0 30 2 1 * *
+      ofelia.job-run.renew-certs.volume: /opt/monorepo/server/letsencrypt:/etc/letsencrypt
+
+      ofelia.job-run.renovate.environment: "[
+        \"RENOVATE_TOKEN=${RENOVATE_TOKEN}\",
+        \"GIT_URL=http://gitlab\",
+        \"GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}\"
+      ]"
+      ofelia.job-run.renovate.image: renovate/renovate
+      ofelia.job-run.renovate.network: ${STACK_NAME}_default
+      ofelia.job-run.renovate.schedule: "@every 30m"
+      ofelia.job-run.renovate.volume: /opt/monorepo/server/renovate/config.js:/usr/src/app/config.js
+    volumes:
+      - //var/run/docker.sock:/var/run/docker.sock:ro
 
   dashboard:
     <<: *common
@@ -108,6 +172,8 @@ services:
 
   docker-registry:
     <<: *common
+    depends_on:
+      - cron
     environment:
       - REGISTRY_AUTH_TOKEN_REALM=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/docker-v2/auth
       - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
@@ -116,6 +182,10 @@ services:
     healthcheck:
       test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
     image: registry:2
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.registry-garbage-collection.command: "registry garbage-collect /etc/docker/registry/config.yml --delete-untagged=true"
+      ofelia.job-exec.registry-garbage-collection.schedule: "0 0 2 * * *"
     volumes:
       - docker-registry:/var/lib/registry
       - ./docker-registry/certs:/opt/certs:ro # exported from keycloak
@@ -125,6 +195,10 @@ services:
     build:
       <<: *build-args
       dockerfile: apps/server/documentation/Dockerfile
+    cap_add:
+      - CAP_CHOWN
+      - SETUID
+      - SETGID
     healthcheck:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
     image: ${IMAGE_BASE}/documentation
@@ -309,6 +383,13 @@ services:
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
 
+  music-playlist-creator:
+    build:
+      dockerfile: ./apps/music/playlist-creator/Dockerfile
+    image: ${IMAGE_BASE}/music-playlist-creator
+    profiles:
+      - oneshot
+
   netdata:
     cap_add:
       - SYS_PTRACE
@@ -379,16 +460,6 @@ services:
     volumes:
       - ./prometheus:/etc/prometheus/
       - prometheus-data:/prometheus
-
-#  renovate:
-#    <<: *common
-#    environment:
-#      - RENOVATE_TOKEN=${RENOVATE_TOKEN}
-#      - GIT_URL=http://gitlab
-#      - GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}
-#    image: renovate/renovate
-#    volumes:
-#      - ./renovate/config.js:/usr/src/app/config.js
 
   sonarqube:
     <<: *common

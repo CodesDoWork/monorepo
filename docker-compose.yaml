@@ -80,9 +80,9 @@ services:
     labels:
       ofelia.enabled: "true"
 
-      ofelia.job-run.create-playlists.image: "${IMAGE_BASE}/music-playlist-creator"
-      ofelia.job-run.create-playlists.schedule: "0 30 3 * * *"
-      ofelia.job-run.create-playlists.volume: "${MUSIC_VOLUME}:/music"
+      ofelia.job-run.create-playlists.image: ${IMAGE_BASE}/music-playlist-creator
+      ofelia.job-run.create-playlists.schedule: 0 30 3 * * *
+      ofelia.job-run.create-playlists.volume: ${MUSIC_VOLUME}:/music
 
       ofelia.job-run.renew-certs.command: "certonly --reinstall \
       --dns-cloudflare --dns-cloudflare-credentials /app/cloudflare.ini --dns-cloudflare-propagation-seconds 20 \
@@ -90,13 +90,13 @@ services:
       -d ${DOMAIN} -d *.${DOMAIN}"
       ofelia.job-run.renew-certs.environment: CLOUDFLARE_API_TOKEN
       ofelia.job-run.renew-certs.image: ${IMAGE_BASE}/certbot
-      ofelia.job-run.renew-certs.schedule: "0 0 3 1 * *"
-      ofelia.job-run.renew-certs.volume: ./letsencrypt:/etc/letsencrypt
+      ofelia.job-run.renew-certs.schedule: 0 0 3 1 * *
+      ofelia.job-run.renew-certs.volume: /opt/monorepo/server/letsencrypt:/etc/letsencrypt
 
       ofelia.job-run.renovate.environment: "[\"RENOVATE_TOKEN=${RENOVATE_TOKEN}\", \"GIT_URL=http://gitlab\", \"GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}\"]"
-      ofelia.job-run.renovate.image: "renovate/renovate"
+      ofelia.job-run.renovate.image: renovate/renovate
       ofelia.job-run.renovate.schedule: "@every 30m"
-      ofelia.job-run.renovate.volume: "./renovate/config.js:/usr/src/app/config.js"
+      ofelia.job-run.renovate.volume: /opt/monorepo/server/renovate/config.js:/usr/src/app/config.js
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock:ro
 

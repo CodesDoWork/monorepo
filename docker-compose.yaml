@@ -1,4 +1,4 @@
-name: ${ORGANIZATION}_${PROJECT}
+name: ${STACK_NAME}
 
 x-build-args:
   build: &build-args
@@ -76,12 +76,49 @@ services:
   cron:
     <<: *common
     command: daemon --docker
+    environment:
+      - TZ=${TZ}
     image: mcuadros/ofelia
     labels:
       ofelia.enabled: "true"
 
+      ofelia.job-run.backup.command: --verbose backup /data
+      ofelia.job-run.backup.environment: "[
+        \"AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}\",
+        \"AWS_SECRET_ACCESS_KEY=${BACKBLAZE_APPLICATION_KEY}\",
+        \"RESTIC_REPOSITORY=s3:s3.eu-central-003.backblazeb2.com/${BACKBLAZE_BUCKET_NAME}\",
+        \"RESTIC_PASSWORD=${RESTIC_PASSWORD}\"
+      ]"
+      ofelia.job-run.backup.image: restic/restic
+      ofelia.job-run.backup.schedule: 0 0 3 * * *
+      ofelia.job-run.backup.volume: "[
+        \"/home:/data/home:ro\",
+        \"${STACK_NAME}_bitwarden-data:/data/services/bitwarden/data:ro\",
+        \"${STACK_NAME}_directus-extensions:/data/services/directus/extensions:ro\",
+        \"${STACK_NAME}_directus-uploads:/data/services/directus/uploads:ro\",
+        \"${STACK_NAME}_gitlab-config:/data/services/gitlab/config:ro\",
+        \"${STACK_NAME}_gitlab-data:/data/services/gitlab/data:ro\",
+        \"${STACK_NAME}_grafana-storage:/data/services/grafana/storage:ro\",
+        \"${STACK_NAME}_grafana-config:/data/services/grafana/config:ro\",
+        \"${STACK_NAME}_linkwarden-data:/data/services/linkwarden/data:ro\",
+        \"${STACK_NAME}_navidrome-data:/data/services/navidrome/data:ro\",
+        \"${STACK_NAME}_netdata-config:/data/services/netdata/config:ro\",
+        \"${STACK_NAME}_netdata-lib:/data/services/netdata/lib:ro\",
+        \"${STACK_NAME}_netdata-cache:/data/services/netdata/cache:ro\",
+        \"${STACK_NAME}_pihole-etc:/data/services/pihole/etc:ro\",
+        \"${STACK_NAME}_pihole-dnsmasq:/data/services/pihole/dnsmasq:ro\",
+        \"${STACK_NAME}_portainer-data:/data/services/portainer/data:ro\",
+        \"${STACK_NAME}_postgres-data:/data/services/postgres/data:ro\",
+        \"${STACK_NAME}_prometheus-data:/data/services/prometheus/data:ro\",
+        \"${STACK_NAME}_sonarqube-config:/data/services/sonarqube/config:ro\",
+        \"${STACK_NAME}_sonarqube-data:/data/services/sonarqube/data:ro\",
+        \"${STACK_NAME}_sonarqube-extensions:/data/services/sonarqube/extensions:ro\",
+        \"${STACK_NAME}_vpn-data:/data/services/vpn/data:ro\",
+        \"${STACK_NAME}_wandb-data:/data/services/wandb/data:ro\"
+      ]"
+
       ofelia.job-run.create-playlists.image: ${IMAGE_BASE}/music-playlist-creator
-      ofelia.job-run.create-playlists.schedule: 0 30 3 * * *
+      ofelia.job-run.create-playlists.schedule: 0 30 2 * * *
       ofelia.job-run.create-playlists.volume: ${MUSIC_VOLUME}:/music
 
       ofelia.job-run.renew-certs.command: "certonly --reinstall \
@@ -90,11 +127,16 @@ services:
       -d ${DOMAIN} -d *.${DOMAIN}"
       ofelia.job-run.renew-certs.environment: CLOUDFLARE_API_TOKEN
       ofelia.job-run.renew-certs.image: ${IMAGE_BASE}/certbot
-      ofelia.job-run.renew-certs.schedule: 0 0 3 1 * *
+      ofelia.job-run.renew-certs.schedule: 0 30 2 1 * *
       ofelia.job-run.renew-certs.volume: /opt/monorepo/server/letsencrypt:/etc/letsencrypt
 
-      ofelia.job-run.renovate.environment: "[\"RENOVATE_TOKEN=${RENOVATE_TOKEN}\", \"GIT_URL=http://gitlab\", \"GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}\"]"
+      ofelia.job-run.renovate.environment: "[
+        \"RENOVATE_TOKEN=${RENOVATE_TOKEN}\",
+        \"GIT_URL=http://gitlab\",
+        \"GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}\"
+      ]"
       ofelia.job-run.renovate.image: renovate/renovate
+      ofelia.job-run.renovate.network: ${STACK_NAME}_default
       ofelia.job-run.renovate.schedule: "@every 30m"
       ofelia.job-run.renovate.volume: /opt/monorepo/server/renovate/config.js:/usr/src/app/config.js
     volumes:
@@ -153,6 +195,10 @@ services:
     build:
       <<: *build-args
       dockerfile: apps/server/documentation/Dockerfile
+    cap_add:
+      - CAP_CHOWN
+      - SETUID
+      - SETGID
     healthcheck:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
     image: ${IMAGE_BASE}/documentation

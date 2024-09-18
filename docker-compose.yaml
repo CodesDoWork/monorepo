@@ -87,7 +87,8 @@ services:
         \"AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}\",
         \"AWS_SECRET_ACCESS_KEY=${BACKBLAZE_APPLICATION_KEY}\",
         \"RESTIC_REPOSITORY=s3:s3.eu-central-003.backblazeb2.com/${BACKBLAZE_BUCKET_NAME}\",
-        \"RESTIC_PASSWORD=${RESTIC_PASSWORD}\"
+        \"RESTIC_PASSWORD=${RESTIC_PASSWORD}\",
+        \"TZ=${TZ}\"
       ]"
       ofelia.job-run.backup.image: restic/restic
       ofelia.job-run.backup.schedule: 0 0 3 * * *
@@ -116,6 +117,17 @@ services:
         \"${STACK_NAME}_vpn-data:/data/services/vpn/data:ro\",
         \"${STACK_NAME}_wandb-data:/data/services/wandb/data:ro\"
       ]"
+
+      ofelia.job-run.forget-backup.command: --verbose forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6
+      ofelia.job-run.forget-backup.environment: "[
+        \"AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}\",
+        \"AWS_SECRET_ACCESS_KEY=${BACKBLAZE_APPLICATION_KEY}\",
+        \"RESTIC_REPOSITORY=s3:s3.eu-central-003.backblazeb2.com/${BACKBLAZE_BUCKET_NAME}\",
+        \"RESTIC_PASSWORD=${RESTIC_PASSWORD}\",
+        \"TZ=${TZ}\"
+      ]"
+      ofelia.job-run.forget-backup.image: restic/restic
+      ofelia.job-run.forget-backup.schedule: 0 0 5 * * *
 
       ofelia.job-run.create-playlists.image: ${IMAGE_BASE}/music-playlist-creator
       ofelia.job-run.create-playlists.schedule: 0 30 2 * * *

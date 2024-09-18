@@ -45,7 +45,7 @@ services:
       dockerfile: ./apps/server/certbot/Dockerfile
     image: ${IMAGE_BASE}/certbot
     profiles:
-      - certbot
+      - oneshot
 
   cms:
     <<: *common
@@ -79,18 +79,23 @@ services:
     image: mcuadros/ofelia
     labels:
       ofelia.enabled: "true"
-      ofelia.job-run.renew-certs.schedule: "0 0 3 1 * *"
+
+      ofelia.job-run.create-playlists.image: "${IMAGE_BASE}/music-playlist-creator"
+      ofelia.job-run.create-playlists.schedule: "0 30 3 * * *"
+      ofelia.job-run.create-playlists.volume: "${MUSIC_VOLUME}:/music"
+
       ofelia.job-run.renew-certs.command: "certonly --reinstall \
       --dns-cloudflare --dns-cloudflare-credentials /app/cloudflare.ini --dns-cloudflare-propagation-seconds 20 \
       --email ${CLOUDFLARE_EMAIL} --agree-tos --no-eff-email \
       -d ${DOMAIN} -d *.${DOMAIN}"
       ofelia.job-run.renew-certs.environment: CLOUDFLARE_API_TOKEN
       ofelia.job-run.renew-certs.image: ${IMAGE_BASE}/certbot
+      ofelia.job-run.renew-certs.schedule: "0 0 3 1 * *"
       ofelia.job-run.renew-certs.volume: ./letsencrypt:/etc/letsencrypt
 
-      ofelia.job-run.renovate.schedule: "@every 30m"
       ofelia.job-run.renovate.environment: "[\"RENOVATE_TOKEN=${RENOVATE_TOKEN}\", \"GIT_URL=http://gitlab\", \"GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}\"]"
       ofelia.job-run.renovate.image: "renovate/renovate"
+      ofelia.job-run.renovate.schedule: "@every 30m"
       ofelia.job-run.renovate.volume: "./renovate/config.js:/usr/src/app/config.js"
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock:ro
@@ -125,6 +130,8 @@ services:
 
   docker-registry:
     <<: *common
+    depends_on:
+      - cron
     environment:
       - REGISTRY_AUTH_TOKEN_REALM=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/docker-v2/auth
       - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
@@ -133,6 +140,10 @@ services:
     healthcheck:
       test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
     image: registry:2
+    labels:
+      ofelia.enabled: "true"
+      ofelia.job-exec.registry-garbage-collection.command: "registry garbage-collect /etc/docker/registry/config.yml --delete-untagged=true"
+      ofelia.job-exec.registry-garbage-collection.schedule: "0 0 2 * * *"
     volumes:
       - docker-registry:/var/lib/registry
       - ./docker-registry/certs:/opt/certs:ro # exported from keycloak
@@ -325,6 +336,13 @@ services:
     image: ${IMAGE_BASE}/music-downloader
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
+
+  music-playlist-creator:
+    build:
+      dockerfile: ./apps/music/playlist-creator/Dockerfile
+    image: ${IMAGE_BASE}/music-playlist-creator
+    profiles:
+      - oneshot
 
   netdata:
     cap_add:

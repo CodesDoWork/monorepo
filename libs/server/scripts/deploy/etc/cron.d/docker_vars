@@ -1,2 +1,0 @@
-@reboot sysctl -w vm.max_map_count=262144
-@reboot sysctl -w vm.overcommit_memory=1

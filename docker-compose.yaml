@@ -36,8 +36,6 @@ services:
     image: vaultwarden/server:alpine
     volumes:
       - bitwarden-data:/data
-    ports:
-      - 8082:80
 
 #  certbot:
 #    <<: *common
@@ -62,8 +60,8 @@ services:
       - ADMIN_PASSWORD=${CMS_PASSWORD}
       - PUBLIC_URL=https://${CMS_DOMAIN}
       - DB_CLIENT=pg
-      - DB_HOST=postgres
-      - DB_PORT=5432
+      - DB_HOST=${DB_NAME}
+      - DB_PORT=${DB_PORT}
       - DB_DATABASE=directus
       - DB_USER=${POSTGRES_USERNAME}
       - DB_PASSWORD=${POSTGRES_PASSWORD}
@@ -229,12 +227,16 @@ services:
       dockerfile: apps/server/just-site/Dockerfile
     environment:
       - GITHUB_TOKEN=${JUST_SITE_GITHUB_TOKEN}
-      - DOMAIN=${DOMAIN}
+      - DOMAIN=https://${DOMAIN}
       - GRAVATAR_EMAIL=${JUST_SITE_GRAVATAR_EMAIL}
-      - CMS_URL=${CMS_DOMAIN}
+      - CMS_URL=https://${CMS_DOMAIN}
       - CMS_USER=${JUST_SITE_CMS_USER}
       - CMS_PASSWORD=${JUST_SITE_CMS_PASSWORD}
       - PORT=${JUST_SITE_PORT}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
     image: ${IMAGE_BASE}/just-site
 
   keycloak:
@@ -242,7 +244,7 @@ services:
     command:
       - start
       - --db=postgres
-      - --db-url-host=postgres
+      - --db-url-host=${DB_NAME}
       - --db-username=${POSTGRES_USERNAME}
       - --db-password=${POSTGRES_PASSWORD}
       - --hostname-strict=false
@@ -261,12 +263,12 @@ services:
     environment:
       - NEXTAUTH_SECRET=${LINKWARDEN_SECRET}
       - NEXTAUTH_URL=https://${LINKWARDEN_DOMAIN}
-      - DATABASE_URL=postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@postgres:5432/linkwarden
+      - DATABASE_URL=postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${DB_NAME}:${DB_PORT}/linkwarden
       - NEXT_PUBLIC_DISABLE_REGISTRATION=true
       - NEXT_PUBLIC_KEYCLOAK_ENABLED=true
       - KEYCLOAK_ISSUER=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}
-      - KEYCLOAK_CLIENT_ID=${LINKWARDEN_CLIENT_ID}
-      - KEYCLOAK_CLIENT_SECRET=${LINKWARDEN_CLIENT_SECRET}
+      - KEYCLOAK_CLIENT_ID=${LINKWARDEN_AUTH_CLIENT_ID}
+      - KEYCLOAK_CLIENT_SECRET=${LINKWARDEN_AUTH_CLIENT_SECRET}
     image: ghcr.io/linkwarden/linkwarden
     volumes:
       - linkwarden-data:/data/data
@@ -308,12 +310,12 @@ services:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
 
   netdata:
-    <<: *common
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
     image: netdata/netdata
     network_mode: host
+    restart: always
     security_opt:
       - apparmor:unconfined
     volumes:
@@ -393,7 +395,7 @@ services:
     environment:
       - SONAR_JDBC_USERNAME=${POSTGRES_USERNAME}
       - SONAR_JDBC_PASSWORD=${POSTGRES_PASSWORD}
-      - SONAR_JDBC_URL=jdbc:postgresql://postgres:5432/sonarqube
+      - SONAR_JDBC_URL=jdbc:postgresql://${DB_NAME}:${DB_PORT}/sonarqube
     healthcheck:
       test: wget -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
     image: sonarqube:10-community

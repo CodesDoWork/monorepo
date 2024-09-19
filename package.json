@@ -129,7 +129,7 @@
         "yaml": "^2.5.1"
     },
     "dependencies": {
-        "@directus/sdk": "^16.1.2",
+        "@directus/sdk": "^17.0.1",
         "@fastify/swagger": "^8.15.0",
         "@fastify/swagger-ui": "^4.1.0",
         "@fastify/websocket": "^10.0.1",

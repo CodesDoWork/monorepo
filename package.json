@@ -57,7 +57,7 @@
         "@nx/workspace": "19.6.0",
         "@octokit/types": "^13.5.0",
         "@secretlint/secretlint-rule-preset-recommend": "^8.2.4",
-        "@sveltejs/adapter-node": "^5.2.2",
+        "@sveltejs/adapter-node": "^5.2.3",
         "@sveltejs/kit": "^2.5.22",
         "@sveltejs/vite-plugin-svelte": "^3.1.1",
         "@swc-node/register": "1.10.9",

@@ -39,7 +39,7 @@
         "swarm:init": "docker swarm init && docker swarm update --task-history-limit 2"
     },
     "devDependencies": {
-        "@astrojs/tailwind": "^5.1.0",
+        "@astrojs/tailwind": "^5.1.1",
         "@bitwarden/cli": "^2024.8.1",
         "@cloudflare/kv-asset-handler": "^0.3.4",
         "@iconify/svelte": "^4.0.2",
@@ -74,7 +74,7 @@
         "@typescript-eslint/eslint-plugin": "7.18.0",
         "@typescript-eslint/parser": "7.18.0",
         "@vitest/ui": "^2.0.5",
-        "astro": "^4.15.4",
+        "astro": "^4.15.7",
         "autoprefixer": "^10.4.20",
         "babel-jest": "^29.7.0",
         "copy-file": "^11.0.0",

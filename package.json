@@ -40,7 +40,7 @@
     },
     "devDependencies": {
         "@astrojs/tailwind": "^5.1.1",
-        "@bitwarden/cli": "^2024.8.1",
+        "@bitwarden/cli": "^2024.9.0",
         "@cloudflare/kv-asset-handler": "^0.3.4",
         "@iconify/svelte": "^4.0.2",
         "@nx/esbuild": "19.6.0",

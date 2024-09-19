@@ -14,6 +14,6 @@ COPY . .
 RUN npx nx build $APP_NAME
 
 
-FROM nginx:1-alpine-slim
+FROM nginx:1.27.1-alpine-slim
 ARG APP_DIR
 COPY --from=builder /workspace/dist/apps/$APP_DIR /usr/share/nginx/html

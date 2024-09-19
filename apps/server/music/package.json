@@ -1,8 +1,0 @@
-{
-    "name": "music",
-    "version": "1.0.0",
-    "scripts": {
-        "build-image": "docker compose -f ../docker-compose.yml build music --push",
-        "run-image": "docker compose -f ../docker-compose.yml up -d music"
-    }
-}

@@ -1,4 +1,4 @@
-FROM deluan/navidrome:latest
+FROM deluan/navidrome:0.53.1
 
 RUN adduser --disabled-password navidrome
 

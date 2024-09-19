@@ -16,7 +16,7 @@ x-common: &common
 services:
   adminer:
     <<: *common
-    image: adminer
+    image: adminer:4.8.1
 
   bitwarden:
     <<: *common
@@ -36,13 +36,13 @@ services:
       - SMTP_SECURITY=starttls
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
-    image: vaultwarden/server:alpine
+    image: vaultwarden/server:1.32.0-alpine
     volumes:
       - bitwarden-data:/data
 
   certbot:
     build:
-      dockerfile: ./apps/server/certbot/Dockerfile
+      dockerfile: src/certbot/Dockerfile
     image: ${IMAGE_BASE}/certbot
     profiles:
       - oneshot
@@ -68,7 +68,7 @@ services:
       - AUTH_KEYCLOAK_CLIENT_SECRET=${CMS_AUTH_CLIENT_SECRET}
       - AUTH_KEYCLOAK_ISSUER_URL=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/.well-known/openid-configuration
       - AUTH_KEYCLOAK_IDENTIFIER_KEY=email
-    image: directus/directus:10.13
+    image: directus/directus:11.1.0
     volumes:
       - directus-extensions:/directus/extensions
       - directus-uploads:/directus/uploads
@@ -78,9 +78,9 @@ services:
     command: daemon --docker
     environment:
       - TZ=${TZ}
-    image: mcuadros/ofelia
+    image: mcuadros/ofelia:0.3.13
     labels:
-      ofelia.enabled: "true"
+      ofelia.enabled: true
 
       ofelia.job-run.backup.command: --verbose backup /data
       ofelia.job-run.backup.environment: "[
@@ -168,7 +168,7 @@ services:
       - CAP_FOWNER
       - CAP_SETGID
       - CAP_SETUID
-    image: pihole/pihole
+    image: pihole/pihole:2024.07.0
     environment:
       - TZ=${TZ}
       - WEBPASSWORD=${DNS_PASSWORD}
@@ -193,7 +193,7 @@ services:
       - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/opt/certs/trust_chain.pem # exported from keycloak
     healthcheck:
       test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
-    image: registry:2
+    image: registry:2.8.3
     labels:
       ofelia.enabled: "true"
       ofelia.job-exec.registry-garbage-collection.command: "registry garbage-collect /etc/docker/registry/config.yml --delete-untagged=true"
@@ -278,7 +278,7 @@ services:
           'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
         }
         prometheus_monitoring['enable'] = true
-    image: gitlab/gitlab-ee
+    image: gitlab/gitlab-ee:17.3.3-ee.0
     restart: always
     volumes:
       - gitlab-config:/etc/gitlab
@@ -287,7 +287,7 @@ services:
   gitlab-runner:
     <<: *common
     dns: ${DNS_IP}
-    image: gitlab/gitlab-runner
+    image: gitlab/gitlab-runner:v17.3.1
     volumes:
       - ./gitlab-runner:/etc/gitlab-runner
       - //var/run/docker.sock:/var/run/docker.sock
@@ -301,7 +301,7 @@ services:
       - GF_SMTP_PASSWORD=${SMTP_PASSWORD}
     healthcheck:
       test: curl -fs http://localhost:${GRAFANA_PORT}/api/health | grep "ok" || exit 1
-    image: grafana/grafana
+    image: grafana/grafana:11.2.0
     volumes:
       - grafana-storage:/var/lib/grafana
       - grafana-config:/usr/share/grafana/conf
@@ -355,14 +355,14 @@ services:
       - KEYCLOAK_ISSUER=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}
       - KEYCLOAK_CLIENT_ID=${LINKWARDEN_AUTH_CLIENT_ID}
       - KEYCLOAK_CLIENT_SECRET=${LINKWARDEN_AUTH_CLIENT_SECRET}
-    image: ghcr.io/linkwarden/linkwarden
+    image: ghcr.io/linkwarden/linkwarden:2.7.1
     volumes:
       - linkwarden-data:/data/data
 
   music:
     <<: *common
     build:
-      dockerfile: ./apps/server/music/Dockerfile
+      dockerfile: src/music/platform/Dockerfile
     environment:
       - ND_PORT=${MUSIC_PORT}
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
@@ -397,7 +397,7 @@ services:
 
   music-playlist-creator:
     build:
-      dockerfile: ./apps/music/playlist-creator/Dockerfile
+      dockerfile: src/music/playlist-creator/Dockerfile
     image: ${IMAGE_BASE}/music-playlist-creator
     profiles:
       - oneshot
@@ -406,7 +406,7 @@ services:
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
-    image: netdata/netdata
+    image: netdata/netdata:v1.47.1
     network_mode: host
     restart: always
     security_opt:
@@ -443,7 +443,7 @@ services:
 
   portainer:
     <<: *common
-    image: portainer/portainer-ce
+    image: portainer/portainer-ce:2.21.1-alpine
     volumes:
       - portainer-data:/data
       - //var/run/docker.sock:/var/run/docker.sock
@@ -468,7 +468,7 @@ services:
     <<: *common
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
-    image: prom/prometheus
+    image: prom/prometheus:v2.54.1
     volumes:
       - ./prometheus:/etc/prometheus/
       - prometheus-data:/prometheus
@@ -495,7 +495,7 @@ services:
       - run
       - --token
       - ${TUNNEL_TOKEN}
-    image: cloudflare/cloudflared
+    image: cloudflare/cloudflared:2024.9.1
     networks:
       default:
         ipv4_address: ${TUNNEL_IP}
@@ -512,7 +512,7 @@ services:
       - PORT=${VPN_PORT}
       - PASSWORD_HASH=${VPN_PASSWORD_HASH}
       - UI_TRAFFIC_STATS=true
-    image: ghcr.io/wg-easy/wg-easy
+    image: ghcr.io/wg-easy/wg-easy:14
     ports:
       - 51820:51820/udp
     sysctls:
@@ -523,7 +523,7 @@ services:
 
   wandb:
     <<: *common
-    image: wandb/local
+    image: wandb/local:0.59.2
     volumes:
       - wandb-data:/vol
 

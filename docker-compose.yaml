@@ -302,6 +302,7 @@ services:
       - CI_SERVER_URL=http://gitlab
       - CI_SERVER_TOKEN=${GITLAB_RUNNER_TOKEN}
     image: gitlab/gitlab-runner:v17.3.1
+    volumes:
       - //var/run/docker.sock:/var/run/docker.sock
 
   grafana:

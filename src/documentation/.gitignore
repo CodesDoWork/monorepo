@@ -1,0 +1,8 @@
+docs/.vitepress/*
+!/docs/.vitepress/theme
+!docs/.vitepress/config.js
+
+docs/public/*
+!docs/public/.gitkeep
+
+docs/projects/

@@ -45,7 +45,7 @@ services:
       dockerfile: src/certbot/Dockerfile
     image: ${IMAGE_BASE}/certbot
     profiles:
-      - oneshot
+      - build-only
 
   cms:
     <<: *common
@@ -140,17 +140,16 @@ services:
       ofelia.job-run.renew-certs.environment: CLOUDFLARE_API_TOKEN
       ofelia.job-run.renew-certs.image: ${IMAGE_BASE}/certbot
       ofelia.job-run.renew-certs.schedule: 0 30 2 1 * *
-      ofelia.job-run.renew-certs.volume: /opt/monorepo/server/letsencrypt:/etc/letsencrypt
+      ofelia.job-run.renew-certs.volume: letsencrypt:/etc/letsencrypt
 
       ofelia.job-run.renovate.environment: "[
         \"RENOVATE_TOKEN=${RENOVATE_TOKEN}\",
         \"GIT_URL=http://gitlab\",
         \"GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}\"
       ]"
-      ofelia.job-run.renovate.image: renovate/renovate
+      ofelia.job-run.renovate.image: ${IMAGE_BASE}/renovate
       ofelia.job-run.renovate.network: ${STACK_NAME}_default
       ofelia.job-run.renovate.schedule: "@every 30m"
-      ofelia.job-run.renovate.volume: /opt/monorepo/server/renovate/config.js:/usr/src/app/config.js
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock:ro
 
@@ -158,7 +157,7 @@ services:
     <<: *common
     build:
       <<: *build-args
-      dockerfile: apps/server/dashboard/Dockerfile
+      dockerfile: src/dashboard/Dockerfile
     image: ${IMAGE_BASE}/dashboard
 
   dns:
@@ -184,23 +183,23 @@ services:
 
   docker-registry:
     <<: *common
+    build:
+      dockerfile: /src/docker-registry/Dockerfile
     depends_on:
       - cron
     environment:
       - REGISTRY_AUTH_TOKEN_REALM=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/docker-v2/auth
       - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
       - REGISTRY_AUTH_TOKEN_ISSUER=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}
-      - REGISTRY_AUTH_TOKEN_ROOTCERTBUNDLE=/opt/certs/trust_chain.pem # exported from keycloak
     healthcheck:
       test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
-    image: registry:2.8.3
+    image: ${IMAGE_BASE}/docker-registry
     labels:
-      ofelia.enabled: "true"
-      ofelia.job-exec.registry-garbage-collection.command: "registry garbage-collect /etc/docker/registry/config.yml --delete-untagged=true"
-      ofelia.job-exec.registry-garbage-collection.schedule: "0 0 2 * * *"
+      ofelia.enabled: true
+      ofelia.job-exec.registry-garbage-collection.command: registry garbage-collect /etc/docker/registry/config.yml --delete-untagged=true
+      ofelia.job-exec.registry-garbage-collection.schedule: 0 0 2 * * *
     volumes:
       - docker-registry:/var/lib/registry
-      - ./docker-registry/certs:/opt/certs:ro # exported from keycloak
 
   documentation:
     <<: *common
@@ -287,9 +286,17 @@ services:
   gitlab-runner:
     <<: *common
     dns: ${DNS_IP}
+    environment:
+      - RUNNER_NAME=gitlab-runner
+      - RUNNER_EXECUTOR=docker
+      - DOCKER_DNS=${DNS_IP}
+      - DOCKER_VOLUMES=/cache
+      - DOCKER_NETWORK_MODE=${STACK_NAME}_default
+      - DOCKER_TLS_VERIFY=false
+      - DOCKER_IMAGE=docker:27.3.0
+      - CI_SERVER_URL=http://gitlab
+      - CI_SERVER_TOKEN=${GITLAB_RUNNER_TOKEN}
     image: gitlab/gitlab-runner:v17.3.1
-    volumes:
-      - ./gitlab-runner:/etc/gitlab-runner
       - //var/run/docker.sock:/var/run/docker.sock
 
   grafana:
@@ -321,7 +328,7 @@ services:
       - PORT=${JUST_SITE_PORT}
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_PORT=${SMTP_PORT}
-      - SMTP_USER=${SMTP_USERNAME}
+      - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
     image: ${IMAGE_BASE}/just-site
 
@@ -355,7 +362,7 @@ services:
       - KEYCLOAK_ISSUER=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}
       - KEYCLOAK_CLIENT_ID=${LINKWARDEN_AUTH_CLIENT_ID}
       - KEYCLOAK_CLIENT_SECRET=${LINKWARDEN_AUTH_CLIENT_SECRET}
-    image: ghcr.io/linkwarden/linkwarden:2.7.1
+    image: ghcr.io/linkwarden/linkwarden:v2.7.1
     volumes:
       - linkwarden-data:/data/data
 
@@ -368,14 +375,14 @@ services:
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
       - ND_REVERSEPROXYWHITELIST=0.0.0.0/0
       - ND_DEFAULTTHEME=spotify-ish
-        ND_ENABLECOVERANIMATION=false
-        ND_ENABLESTARRATING=false
-        ND_LASTFM_ENABLED=false
-        ND_PASSWORDENCRYPTIONKEY=${MUSIC_PASSWORD_ENCRYPTION_KEY}
-        ND_SCANSCHEDULE=1h
-        ND_SESSIONTIMEOUT=30d
-        ND_UILOGINBACKGROUNDURL=https://images.pexels.com/photos/2111015/pexels-photo-2111015.jpeg?cs=srgb&dl=pexels-francesco-paggiaro-2111015.jpg&fm=jpg&w=1920&h=1280
-        ND_UIWELCOMEMESSAGE="Listen to the best"
+      - ND_ENABLECOVERANIMATION=false
+      - ND_ENABLESTARRATING=false
+      - ND_LASTFM_ENABLED=false
+      - ND_PASSWORDENCRYPTIONKEY=${MUSIC_PASSWORD_ENCRYPTION_KEY}
+      - ND_SCANSCHEDULE=1h
+      - ND_SESSIONTIMEOUT=720h
+      - ND_UILOGINBACKGROUNDURL=https://images.pexels.com/photos/2111015/pexels-photo-2111015.jpeg?cs=srgb&dl=pexels-francesco-paggiaro-2111015.jpg&fm=jpg&w=1920&h=1280
+      - ND_UIWELCOMEMESSAGE="Listen to the best"
     image: ${IMAGE_BASE}/music
     volumes:
       - navidrome-data:/data
@@ -400,7 +407,7 @@ services:
       dockerfile: src/music/playlist-creator/Dockerfile
     image: ${IMAGE_BASE}/music-playlist-creator
     profiles:
-      - oneshot
+      - build-only
 
   netdata:
     cap_add:
@@ -425,7 +432,7 @@ services:
   nginx:
     <<: *common
     build:
-      dockerfile: apps/server/nginx/Dockerfile
+      dockerfile: src/nginx/Dockerfile
     cap_add:
       - CAP_CHOWN
       - CAP_SETGID
@@ -439,7 +446,7 @@ services:
       default:
         ipv4_address: ${NGINX_IP}
     volumes:
-      - ./letsencrypt:/etc/letsencrypt:ro
+      - letsencrypt:/etc/letsencrypt:ro
 
   portainer:
     <<: *common
@@ -466,12 +473,20 @@ services:
 
   prometheus:
     <<: *common
+    build:
+      dockerfile: src/prometheus/Dockerfile
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
-    image: prom/prometheus:v2.54.1
+    image: ${IMAGE_BASE}/prometheus
     volumes:
-      - ./prometheus:/etc/prometheus/
       - prometheus-data:/prometheus
+
+  renovate:
+    build:
+      dockerfile: src/renovate/Dockerfile
+    image: ${IMAGE_BASE}/renovate
+    profiles:
+      - build-only
 
   sonarqube:
     <<: *common
@@ -540,6 +555,8 @@ volumes:
 
   grafana-storage:
   grafana-config:
+
+  letsencrypt:
 
   linkwarden-data:
 

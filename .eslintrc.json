@@ -25,16 +25,12 @@
                                 "onlyDependOnLibsWithTags": ["shared"]
                             },
                             {
-                                "sourceTag": "server/music-downloader",
-                                "onlyDependOnLibsWithTags": ["shared", "server/music-downloader"]
+                                "sourceTag": "music-downloader",
+                                "onlyDependOnLibsWithTags": ["shared", "music-downloader"]
                             },
                             {
-                                "sourceTag": "server/scoreboard",
-                                "onlyDependOnLibsWithTags": ["shared", "server/scoreboard"]
-                            },
-                            {
-                                "sourceTag": "server/just-site",
-                                "onlyDependOnLibsWithTags": ["shared", "server/just-site"]
+                                "sourceTag": "just-site",
+                                "onlyDependOnLibsWithTags": ["shared", "just-site"]
                             }
                         ]
                     }

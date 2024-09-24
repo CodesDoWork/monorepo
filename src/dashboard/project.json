@@ -1,0 +1,24 @@
+{
+    "name": "dashboard",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "rimraf -g dist/src/dashboard/**/*",
+                    "copyfiles \"src/dashboard/public/**/*\" dist",
+                    "copyfiles -u 3 \"libs/branding/assets/img/**/*\" dist/src/dashboard/public"
+                ]
+            }
+        },
+        "lint": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "echo no linting"
+            }
+        }
+    },
+    "tags": []
+}

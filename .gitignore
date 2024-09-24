@@ -53,4 +53,4 @@ Thumbs.db
 .env
 
 # svelte
-/apps/server/just-site/.svelte-kit
+/src/just-site/.svelte-kit

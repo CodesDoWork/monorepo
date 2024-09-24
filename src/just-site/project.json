@@ -1,0 +1,51 @@
+{
+    "name": "just-site",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "src/just-site/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "vite build --config vite-config.ts",
+                "cwd": "src/just-site"
+            }
+        },
+        "serve": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "vite dev --config vite-config.ts",
+                "cwd": "src/just-site"
+            }
+        },
+        "preview": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "vite preview --config vite-config.ts",
+                "cwd": "src/just-site"
+            }
+        },
+        "pre-build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "node copy-env.js",
+                "cwd": "src/just-site"
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["src/just-site/**/*.{ts,svelte,spec.ts}"]
+            }
+        },
+        "check": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "svelte-check",
+                "cwd": "src/just-site"
+            }
+        }
+    },
+    "tags": ["just-site"]
+}

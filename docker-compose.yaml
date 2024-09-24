@@ -53,7 +53,7 @@ services:
       - SECRET=${CMS_SECRET}
       - ADMIN_EMAIL=${CMS_USERNAME}
       - ADMIN_PASSWORD=${CMS_PASSWORD}
-      - PUBLIC_URL=https://${CMS_DOMAIN}
+      - PUBLIC_URL=${CMS_URL}
       - DB_CLIENT=pg
       - DB_HOST=${DB_NAME}
       - DB_PORT=${DB_PORT}
@@ -320,9 +320,9 @@ services:
       dockerfile: apps/server/just-site/Dockerfile
     environment:
       - GITHUB_TOKEN=${JUST_SITE_GITHUB_TOKEN}
-      - DOMAIN=https://${DOMAIN}
+      - DOMAIN=${URL}
       - GRAVATAR_EMAIL=${JUST_SITE_GRAVATAR_EMAIL}
-      - CMS_URL=https://${CMS_DOMAIN}
+      - CMS_URL=${CMS_URL}
       - CMS_USER=${JUST_SITE_CMS_USER}
       - CMS_PASSWORD=${JUST_SITE_CMS_PASSWORD}
       - PORT=${JUST_SITE_PORT}

@@ -1,3 +1,3 @@
 address=/${DOMAIN}/${NGINX_IP}
-server=/agrarservicenordost-test.${DOMAIN}/
-server=/cms-agrarservicenordost-test.${DOMAIN}/
+server=/agrarservicenordost-test.${DOMAIN}/1.1.1.1
+server=/cms-agrarservicenordost-test.${DOMAIN}/1.1.1.1

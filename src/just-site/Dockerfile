@@ -18,7 +18,7 @@ FROM base
 ARG APP_DIR
 
 WORKDIR /app
-COPY --from=builder /workspace/src/$APP_DIR/build .
+COPY --from=builder /workspace/dist/src/$APP_DIR .
 COPY --from=builder /workspace/src/$APP_DIR/package.json .
 
 ENV PORT=80

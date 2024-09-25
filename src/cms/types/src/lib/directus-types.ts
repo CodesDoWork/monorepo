@@ -59,6 +59,7 @@ export type DashboardPagesDashboardSections = {
     dashboard_pages_id?: string | DashboardPages | null;
     dashboard_sections_id?: string | DashboardSections | null;
     id: number;
+    sort?: number | null;
 };
 
 export type DashboardSections = {
@@ -78,12 +79,14 @@ export type DashboardSectionsDashboardItems = {
     dashboard_items_id?: string | DashboardItems | null;
     dashboard_sections_id?: string | DashboardSections | null;
     id: number;
+    sort?: number | null;
 };
 
 export type DashboardSectionsDashboardWidgets = {
     dashboard_sections_id?: string | DashboardSections | null;
     dashboard_widgets_id?: string | DashboardWidgets | null;
     id: number;
+    sort?: number | null;
 };
 
 export type DashboardWidgets = {

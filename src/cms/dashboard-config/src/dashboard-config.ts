@@ -2,13 +2,19 @@ export type DashyConfig = Record<string, PageConfig>;
 
 export interface PageConfig {
     pageInfo: PageInfo;
+    pages?: LinkedPage[];
     appConfig?: AppConfig;
     sections: Section[];
 }
 
 export interface PageInfo {
-    logo: string;
     title: string;
+    logo?: string;
+}
+
+export interface LinkedPage {
+    name: string;
+    path: string;
 }
 
 export interface AppConfig {

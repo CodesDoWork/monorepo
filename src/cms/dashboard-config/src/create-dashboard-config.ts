@@ -67,7 +67,7 @@ async function buildConfig(
     const pages = await getDashboardPages(itemsServiceConstructor, serviceOptions);
     const config: DashyConfig = {};
     for (const page of pages) {
-        config[page.name] = await createPageConfig(page, appConfig, env);
+        config[page.name] = await createPageConfig(page, appConfig, pages, env);
         logger.info(`Built config for page ${page.name}`);
     }
 
@@ -131,13 +131,18 @@ function getDashboardPages(
 async function createPageConfig(
     page: DashboardPagesResult,
     config: AppConfig,
+    pages: DashboardPagesResult[],
     env: AnyObject,
 ): Promise<PageConfig> {
     return {
         pageInfo: {
             title: page.title,
-            logo: assetUrl(env[PUBLIC_URL], page.logo.id),
+            logo: page.logo ? assetUrl(env[PUBLIC_URL], page.logo.id) : undefined,
         },
+        pages: pages?.map(dashyPage => ({
+            name: dashyPage.title,
+            path: `${dashyPage.name}.yml`,
+        })),
         appConfig: page.name === "conf" ? config : undefined,
         sections:
             page.sections?.map(({ dashboard_sections_id: section }) => ({
@@ -177,7 +182,7 @@ function assetUrl(cmsUrl: string, id: string) {
 }
 
 interface DashboardPagesResult extends DashboardPages {
-    logo: DirectusFiles;
+    logo: DirectusFiles | null;
     sections: DashboardPagesDashboardSectionsResult[];
 }
 

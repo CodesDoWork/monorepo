@@ -8,4 +8,4 @@ minify = true
 command = "nx build maintenance"
 
 [site]
-bucket = "./dist"
+bucket = "../../dist/src/maintenance"

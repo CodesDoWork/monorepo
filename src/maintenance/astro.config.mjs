@@ -3,6 +3,7 @@ import { defineConfig } from "astro/config";
 
 export default defineConfig({
     srcDir: "./src",
+    outDir: "../../dist/src/maintenance",
     vite: {
         server: {
             host: "0.0.0.0",

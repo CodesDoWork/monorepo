@@ -1,5 +1,5 @@
 import { afterNavigate } from "$app/navigation";
-import type { JustSiteRoutes } from "@codesdowork/directus";
+import type { JustSiteRoutes } from "@codesdowork/cms/types";
 import { onMount } from "svelte";
 import { readable } from "svelte/store";
 

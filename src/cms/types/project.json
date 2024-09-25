@@ -1,7 +1,7 @@
 {
     "name": "directus",
-    "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "src/directus/src",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "src/cms/types/src",
     "projectType": "library",
     "tags": ["shared"],
     "targets": {
@@ -9,7 +9,7 @@
             "executor": "@nx/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
-                "jestConfig": "src/directus/jest.config.ts"
+                "jestConfig": "src/cms/types/jest.config.ts"
             }
         }
     }

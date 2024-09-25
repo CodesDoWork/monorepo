@@ -6,7 +6,7 @@ import type {
     SocialNetworks,
     Socials,
     Technologies,
-} from "@codesdowork/directus";
+} from "@codesdowork/cms/types";
 
 export interface PageInfoDto extends JustSiteInfo {
     socials: PageInfoSocialsDto[];

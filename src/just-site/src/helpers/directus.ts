@@ -1,4 +1,4 @@
-import type { CustomDirectusTypes } from "@codesdowork/directus";
+import type { CustomDirectusTypes } from "@codesdowork/cms/types";
 import { authentication, createDirectus, readItems, readSingleton, rest } from "@directus/sdk";
 import { env } from "../env";
 import type {

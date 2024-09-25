@@ -1,4 +1,4 @@
-import { JustSiteProjectData } from "@codesdowork/directus";
+import { JustSiteProjectData } from "@codesdowork/cms/types";
 import type { Endpoints } from "@octokit/types";
 import { env } from "../../../env";
 import { getDirectus, getProjectData, getSiteInfo } from "../../../helpers/directus";

@@ -11,7 +11,7 @@ FROM workspace AS builder
 ARG APP_NAME
 
 COPY . .
-RUN npx nx build $APP_NAME
+RUN nx build $APP_NAME
 
 
 FROM nginx:1.27.1-alpine-slim

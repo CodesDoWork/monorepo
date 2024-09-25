@@ -9,6 +9,101 @@ export type Companies = {
     user_updated?: string | DirectusUsers | null;
 };
 
+export type DashboardConfig = {
+    custom_css: string;
+    date_created?: string | null;
+    date_updated?: string | null;
+    default_opening_method: string;
+    disable_configuration_for_non_admin: boolean;
+    hide_footer: boolean;
+    hide_settings: boolean;
+    icon_size: string;
+    id: string;
+    layout: string;
+    prevent_local_save: boolean;
+    prevent_write_to_disk: boolean;
+    theme: string;
+    user_created?: string | DirectusUsers | null;
+    user_updated?: string | DirectusUsers | null;
+    websearch_opening_method: string;
+    websearch_search_engine: string;
+};
+
+export type DashboardItems = {
+    date_created?: string | null;
+    date_updated?: string | null;
+    icon?: string | null;
+    icon_img?: string | DirectusFiles | null;
+    id: string;
+    tags?: unknown | null;
+    title: string;
+    url: string;
+    user_created?: string | DirectusUsers | null;
+    user_updated?: string | DirectusUsers | null;
+};
+
+export type DashboardPages = {
+    date_created?: string | null;
+    date_updated?: string | null;
+    id: string;
+    logo?: string | DirectusFiles | null;
+    name: string;
+    sections: any[] | DashboardPagesDashboardSections[];
+    sort?: number | null;
+    title: string;
+    user_created?: string | DirectusUsers | null;
+    user_updated?: string | DirectusUsers | null;
+};
+
+export type DashboardPagesDashboardSections = {
+    dashboard_pages_id?: string | DashboardPages | null;
+    dashboard_sections_id?: string | DashboardSections | null;
+    id: number;
+};
+
+export type DashboardSections = {
+    cut_to_height: boolean;
+    date_created?: string | null;
+    date_updated?: string | null;
+    icon: string;
+    id: string;
+    items: any[] | DashboardSectionsDashboardItems[];
+    name: string;
+    user_created?: string | DirectusUsers | null;
+    user_updated?: string | DirectusUsers | null;
+    widgets: any[] | DashboardSectionsDashboardWidgets[];
+};
+
+export type DashboardSectionsDashboardItems = {
+    dashboard_items_id?: string | DashboardItems | null;
+    dashboard_sections_id?: string | DashboardSections | null;
+    id: number;
+};
+
+export type DashboardSectionsDashboardWidgets = {
+    dashboard_sections_id?: string | DashboardSections | null;
+    dashboard_widgets_id?: string | DashboardWidgets | null;
+    id: number;
+};
+
+export type DashboardWidgets = {
+    date_created?: string | null;
+    date_updated?: string | null;
+    id: string;
+    options: unknown;
+    type: string;
+    user_created?: string | DirectusUsers | null;
+    user_updated?: string | DirectusUsers | null;
+};
+
+export type DirectusAccess = {
+    id: string;
+    policy: string | DirectusPolicies;
+    role?: string | DirectusRoles | null;
+    sort?: number | null;
+    user?: string | DirectusUsers | null;
+};
+
 export type DirectusActivity = {
     action: string;
     collection: string;
@@ -89,6 +184,7 @@ export type DirectusFields = {
 
 export type DirectusFiles = {
     charset?: string | null;
+    created_on: string;
     description?: string | null;
     duration?: number | null;
     embed?: string | null;
@@ -111,7 +207,7 @@ export type DirectusFiles = {
     tus_id?: string | null;
     type?: string | null;
     uploaded_by?: string | DirectusUsers | null;
-    uploaded_on: string;
+    uploaded_on?: string | null;
     width?: number | null;
 };
 
@@ -194,9 +290,23 @@ export type DirectusPermissions = {
     fields?: unknown | null;
     id: number;
     permissions?: unknown | null;
+    policy: string | DirectusPolicies;
     presets?: unknown | null;
-    role?: string | DirectusRoles | null;
     validation?: unknown | null;
+};
+
+export type DirectusPolicies = {
+    admin_access: boolean;
+    app_access: boolean;
+    description?: string | null;
+    enforce_tfa: boolean;
+    icon: string;
+    id: string;
+    ip_access?: unknown | null;
+    name: string;
+    permissions: any[] | DirectusPermissions[];
+    roles: any[] | DirectusAccess[];
+    users: any[] | DirectusAccess[];
 };
 
 export type DirectusPresets = {
@@ -240,15 +350,15 @@ export type DirectusRevisions = {
 };
 
 export type DirectusRoles = {
-    admin_access: boolean;
-    app_access: boolean;
+    children: any[] | DirectusRoles[];
     description?: string | null;
-    enforce_tfa: boolean;
     icon: string;
     id: string;
-    ip_access?: unknown | null;
     name: string;
+    parent?: string | DirectusRoles | null;
+    policies: any[] | DirectusAccess[];
     users: any[] | DirectusUsers[];
+    users_group: string;
 };
 
 export type DirectusSessions = {
@@ -337,6 +447,7 @@ export type DirectusUsers = {
     last_page?: string | null;
     location?: string | null;
     password?: string | null;
+    policies: any[] | DirectusAccess[];
     provider: string;
     role?: string | DirectusRoles | null;
     status: string;
@@ -637,6 +748,15 @@ export type Technologies = {
 
 export type CustomDirectusTypes = {
     companies: Companies[];
+    dashboard_config: DashboardConfig;
+    dashboard_items: DashboardItems[];
+    dashboard_pages: DashboardPages[];
+    dashboard_pages_dashboard_sections: DashboardPagesDashboardSections[];
+    dashboard_sections: DashboardSections[];
+    dashboard_sections_dashboard_items: DashboardSectionsDashboardItems[];
+    dashboard_sections_dashboard_widgets: DashboardSectionsDashboardWidgets[];
+    dashboard_widgets: DashboardWidgets[];
+    directus_access: DirectusAccess[];
     directus_activity: DirectusActivity[];
     directus_collections: DirectusCollections[];
     directus_dashboards: DirectusDashboards[];
@@ -650,6 +770,7 @@ export type CustomDirectusTypes = {
     directus_operations: DirectusOperations[];
     directus_panels: DirectusPanels[];
     directus_permissions: DirectusPermissions[];
+    directus_policies: DirectusPolicies[];
     directus_presets: DirectusPresets[];
     directus_relations: DirectusRelations[];
     directus_revisions: DirectusRevisions[];

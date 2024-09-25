@@ -1,0 +1,12 @@
+{
+	"name": "cms-dashboard-config",
+    "version": "1.0.0",
+    "icon": "dashboard_customize",
+	"type": "module",
+	"directus:extension": {
+		"type": "hook",
+		"path": "../../../dist/src/cms/dashboard-config/index.js",
+		"source": "src/index.ts",
+		"host": "^11.1.0"
+	}
+}

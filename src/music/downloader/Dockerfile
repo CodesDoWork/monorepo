@@ -11,9 +11,9 @@ FROM workspace AS builder
 ARG APP_NAME
 
 COPY . .
-RUN npx nx lint $APP_NAME -c production
-RUN npx nx test $APP_NAME -c production
-RUN npx nx build $APP_NAME -c production
+RUN nx lint $APP_NAME -c production
+RUN nx test $APP_NAME -c production
+RUN nx build $APP_NAME -c production
 
 
 FROM base AS deps

@@ -20,7 +20,7 @@
         "strictNullChecks": true,
         "paths": {
             "@codesdowork/nx-secrets-manager": ["src/secrets-manager/src/index.ts"],
-            "@codesdowork/directus": ["src/directus/src/index.ts"],
+            "@codesdowork/cms/types": ["src/cms/types/src/index.ts"],
             "@codesdowork/health": ["src/health/src/index.ts"],
             "@codesdowork/logging": ["src/logging/src/index.ts"],
             "@codesdowork/trpc": ["src/trpc/src/index.ts"],

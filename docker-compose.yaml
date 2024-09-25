@@ -49,6 +49,9 @@ services:
 
   cms:
     <<: *common
+    build:
+      <<: *build-args
+      dockerfile: src/cms/Dockerfile
     environment:
       - SECRET=${CMS_SECRET}
       - ADMIN_EMAIL=${CMS_USERNAME}
@@ -68,10 +71,11 @@ services:
       - AUTH_KEYCLOAK_CLIENT_SECRET=${CMS_AUTH_CLIENT_SECRET}
       - AUTH_KEYCLOAK_ISSUER_URL=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/.well-known/openid-configuration
       - AUTH_KEYCLOAK_IDENTIFIER_KEY=email
-    image: directus/directus:11.1.0
+    image: ${IMAGE_BASE}/cms
     volumes:
-      - directus-extensions:/directus/extensions
+      - directus-extension-registry:/directus/extensions/.registry
       - directus-uploads:/directus/uploads
+      - dashy-config:/dashy/config
 
   cron:
     <<: *common
@@ -95,7 +99,7 @@ services:
       ofelia.job-run.backup.volume: "[
         \"/home:/data/home:ro\",
         \"${STACK_NAME}_bitwarden-data:/data/services/bitwarden/data:ro\",
-        \"${STACK_NAME}_directus-extensions:/data/services/directus/extensions:ro\",
+        \"${STACK_NAME}_directus-extension-registry:/data/services/directus/extension-registry:ro\",
         \"${STACK_NAME}_directus-uploads:/data/services/directus/uploads:ro\",
         \"${STACK_NAME}_gitlab-config:/data/services/gitlab/config:ro\",
         \"${STACK_NAME}_gitlab-data:/data/services/gitlab/data:ro\",
@@ -155,10 +159,13 @@ services:
 
   dashboard:
     <<: *common
-    build:
-      <<: *build-args
-      dockerfile: src/dashboard/Dockerfile
-    image: ${IMAGE_BASE}/dashboard
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: node /app/services/healthcheck
+    image: lissy93/dashy:release-3.1.1
+    volumes:
+      - dashy-config:/app/user-data:ro
 
   dns:
     <<: *common
@@ -551,9 +558,13 @@ services:
 volumes:
   bitwarden-data:
 
-  directus-extensions:
+  # don't backup
+  dashy-config:
+
+  directus-extension-registry:
   directus-uploads:
 
+  # don't backup
   docker-registry:
 
   gitlab-config:

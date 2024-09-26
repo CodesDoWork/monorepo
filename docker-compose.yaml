@@ -333,7 +333,7 @@ services:
       dockerfile: src/just-site/Dockerfile
     environment:
       - GITHUB_TOKEN=${JUST_SITE_GITHUB_TOKEN}
-      - DOMAIN=${URL}
+      - URL=${URL}
       - GRAVATAR_EMAIL=${JUST_SITE_GRAVATAR_EMAIL}
       - CMS_URL=${CMS_URL}
       - CMS_USER=${JUST_SITE_CMS_USER}

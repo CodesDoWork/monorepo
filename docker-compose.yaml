@@ -297,9 +297,10 @@ services:
 
   gitlab-runner:
     <<: *common
+    command:
+      - run-single
     dns: ${DNS_IP}
     environment:
-      - RUNNER_NAME=gitlab-runner
       - RUNNER_EXECUTOR=docker
       - DOCKER_DNS=${DNS_IP}
       - DOCKER_VOLUMES=/cache

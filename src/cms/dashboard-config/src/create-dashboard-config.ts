@@ -11,7 +11,7 @@ import {
     DirectusFiles,
 } from "@codesdowork/cms/types";
 import { ItemsService } from "@directus/api/dist/services/items";
-import type { AbstractServiceOptions } from "@directus/api/dist/types";
+import { AbstractServiceOptions } from "@directus/api/dist/types";
 import { ActionHandler, Item as AnyItem } from "@directus/types";
 import { readdirSync, rmSync, writeFileSync } from "node:fs";
 import { Logger } from "pino";

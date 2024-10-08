@@ -1,5 +1,5 @@
 {
-    "name": "directus",
+    "name": "cms-types",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "src/cms/types/src",
     "projectType": "library",

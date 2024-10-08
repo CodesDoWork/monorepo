@@ -10,8 +10,7 @@
                     "copyfiles -u 4 libs/branding/assets/img/logo.svg src/documentation/docs/public",
                     "copyfiles -u 4 libs/branding/assets/img/icon.svg src/documentation/docs/public",
                     "copyfiles -u 4 libs/branding/assets/favicon/favicon.ico src/documentation/docs/public",
-                    "rimraf ./src/documentation/docs/projects",
-                    "node ./src/documentation/create-project-docs.mjs && vitepress build src/documentation/docs"
+                    "vitepress build src/documentation/docs"
                 ]
             }
         },

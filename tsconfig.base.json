@@ -23,7 +23,7 @@
             "@codesdowork/cms/types": ["src/cms/types/src/index.ts"],
             "@codesdowork/health": ["src/health/src/index.ts"],
             "@codesdowork/logging": ["src/logging/src/index.ts"],
-            "@codesdowork/trpc": ["src/trpc/src/index.ts"],
+            "@codesdowork/trpc": ["src/trpc/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp", "src/just-site"]

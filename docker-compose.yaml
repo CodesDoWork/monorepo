@@ -94,6 +94,7 @@ services:
         \"RESTIC_PASSWORD=${RESTIC_PASSWORD}\",
         \"TZ=${TZ}\"
       ]"
+      ofelia.job-run.backup.hostname: server
       ofelia.job-run.backup.image: restic/restic
       ofelia.job-run.backup.schedule: 0 0 3 * * *
       ofelia.job-run.backup.volume: "[
@@ -144,7 +145,7 @@ services:
       ofelia.job-run.renew-certs.environment: CLOUDFLARE_API_TOKEN
       ofelia.job-run.renew-certs.image: ${IMAGE_BASE}/certbot
       ofelia.job-run.renew-certs.schedule: 0 30 2 1 * *
-      ofelia.job-run.renew-certs.volume: letsencrypt:/etc/letsencrypt
+      ofelia.job-run.renew-certs.volume: ${STACK_NAME}_letsencrypt:/etc/letsencrypt
 
       ofelia.job-run.renovate.environment: "[
         \"RENOVATE_TOKEN=${RENOVATE_TOKEN}\",
@@ -156,6 +157,7 @@ services:
       ofelia.job-run.renovate.schedule: "@every 30m"
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock:ro
+      - /root/.docker/config.json:/root/.docker/config.json:ro
 
   dashboard:
     <<: *common

@@ -1,8 +1,6 @@
-FROM ubuntu:24.04
+FROM certbot/dns-cloudflare
 
-RUN apt-get update
-RUN apt-get install -y certbot python3-certbot-nginx python3-certbot-dns-cloudflare
+COPY ./src/certbot/entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
-WORKDIR /app
-
-ENTRYPOINT ["echo", "dns_cloudflare_api_token=${CLOUDFLARE_API_TOKEN}", "> /app/cloudflare.ini", "&&", "certbot"]
+ENTRYPOINT ["entrypoint.sh"]

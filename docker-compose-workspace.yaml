@@ -2,14 +2,14 @@ services:
   base:
     build:
       dockerfile: base.Dockerfile
-    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/base
+    image: ${IMAGE_BASE}/base
 
   workspace:
     build:
       args:
         - IMAGE_BASE
       dockerfile: workspace.Dockerfile
-    image: ${IMAGE_BASE}/workspace
+    image: ${IMAGE_BASE}/workspace:${WORKSPACE_VERSION:latest}
     network_mode: host
     tty: true
     volumes:

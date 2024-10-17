@@ -1,0 +1,23 @@
+stages:
+  - workspace
+  - env
+  - check
+  - build
+  - test
+  - deploy
+
+build workspace image:
+  stage: workspace
+  image: docker:27.1.2
+  services:
+    - name: docker:27.1.2-dind
+      alias: docker-service
+  variables:
+    DOCKER_HOST: tcp://docker-service:2375/
+    DOCKER_TLS_CERTDIR: ""
+    WORKSPACE_VERSION: ${CI_COMMIT_SHA}
+    IMAGE_BASE: docker.justinkonratt.com/codesdowork/monorepo
+  script:
+    - docker info
+    - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+    - docker compose -f docker-compose-workspace.yaml build

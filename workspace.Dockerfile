@@ -4,7 +4,7 @@ FROM $IMAGE_BASE/base
 WORKDIR /workspace
 ENV PATH=/workspace/node_modules/.bin:$PATH
 
-RUN apk add git docker docker-cli-compose python3
+RUN apk add git docker docker-cli-compose libc++ python3 make
 RUN npm i -g @antfu/ni pnpm
 RUN pnpm config set store-dir /tmp/.pnpm-store
 

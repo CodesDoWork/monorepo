@@ -9,7 +9,7 @@ services:
       args:
         - IMAGE_BASE
       dockerfile: workspace.Dockerfile
-    image: ${IMAGE_BASE}/workspace:${WORKSPACE_VERSION:latest}
+    image: ${IMAGE_BASE}/workspace:${WORKSPACE_VERSION:-latest}
     network_mode: host
     tty: true
     volumes:

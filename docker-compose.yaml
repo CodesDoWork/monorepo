@@ -309,6 +309,7 @@ services:
       - DOCKER_NETWORK_MODE=${STACK_NAME}_default
       - DOCKER_TLS_VERIFY=false
       - DOCKER_IMAGE=docker:27.3.0
+      - DOCKER_PRIVILEGED=true
       - CI_SERVER_URL=http://gitlab
       - CI_SERVER_TOKEN=${GITLAB_RUNNER_TOKEN}
     image: gitlab/gitlab-runner:v17.3.1

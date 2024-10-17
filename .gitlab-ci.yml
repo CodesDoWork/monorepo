@@ -20,4 +20,5 @@ build workspace image:
   script:
     - docker info
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
-    - docker compose -f docker-compose-workspace.yaml build base workspace
+    - docker compose -f docker-compose-workspace.yaml build base
+    - docker compose -f docker-compose-workspace.yaml build workspace

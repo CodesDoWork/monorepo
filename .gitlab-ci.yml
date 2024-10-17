@@ -11,9 +11,9 @@ build workspace image:
   image: docker:27.1.2
   services:
     - name: docker:27.1.2-dind
-      alias: docker-service
+      alias: docker
   variables:
-    DOCKER_HOST: tcp://docker-service:2375/
+    DOCKER_HOST: tcp://docker:2375/
     DOCKER_TLS_CERTDIR: ""
     WORKSPACE_VERSION: ${CI_COMMIT_SHA}
     IMAGE_BASE: docker.justinkonratt.com/codesdowork/monorepo

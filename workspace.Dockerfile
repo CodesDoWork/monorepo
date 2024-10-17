@@ -1,9 +1,11 @@
-FROM debian:stable-slim
+ARG IMAGE_BASE
+
+FROM ${IMAGE_BASE}/base
 WORKDIR /workspace
 ENV PATH=/workspace/node_modules/.bin:$PATH
 
-RUN apt-get update
-RUN apt-get install -y node git docker docker-cli-compose libc++ python3 make g++
+RUN apk update
+RUN apk add docker docker-cli-compose git
 RUN npm i -g @antfu/ni pnpm
 RUN pnpm config set store-dir /tmp/.pnpm-store
 

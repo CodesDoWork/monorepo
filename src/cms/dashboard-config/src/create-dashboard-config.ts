@@ -10,9 +10,7 @@ import {
     DashboardWidgets,
     DirectusFiles,
 } from "@codesdowork/cms/types";
-import { ItemsService } from "@directus/api/dist/services/items";
-import { AbstractServiceOptions } from "@directus/api/dist/types";
-import { ActionHandler, Item as AnyItem } from "@directus/types";
+import { ActionHandler } from "@directus/types";
 import { readdirSync, rmSync, writeFileSync } from "node:fs";
 import { Logger } from "pino";
 import { stringify as stringifyYaml } from "yaml";
@@ -21,13 +19,10 @@ import { AnyObject, AppConfig, DashyConfig, Item, PageConfig, Widget } from "./d
 const DASHBOARD_CONFIG_DIR = "/dashy/config";
 const PUBLIC_URL = "PUBLIC_URL";
 
-type ItemsServiceConstructor = new <
-    Item extends AnyItem,
-    Collection extends keyof CustomDirectusTypes,
->(
+type ItemsServiceConstructor = new <Collection extends keyof CustomDirectusTypes>(
     collection: Collection,
-    options: AbstractServiceOptions,
-) => ItemsService<Item, Collection>;
+    options: any,
+) => any;
 
 export function createDashboardConfig(
     logger: Logger,
@@ -59,7 +54,7 @@ function cleanConfigDir() {
 async function buildConfig(
     logger: Logger,
     itemsServiceConstructor: ItemsServiceConstructor,
-    serviceOptions: AbstractServiceOptions,
+    serviceOptions: any,
     env: AnyObject,
 ): Promise<DashyConfig> {
     logger.info("Building dashboard config");
@@ -76,17 +71,14 @@ async function buildConfig(
 
 function getAppConfig(
     itemsServiceConstructor: ItemsServiceConstructor,
-    serviceOptions: AbstractServiceOptions,
+    serviceOptions: any,
 ): Promise<AppConfig> {
-    const configService = new itemsServiceConstructor<DashboardConfig, "dashboard_config">(
-        "dashboard_config",
-        serviceOptions,
-    );
+    const configService = new itemsServiceConstructor("dashboard_config", serviceOptions);
 
     return configService
         .readSingleton({})
-        .then(res => res as DashboardConfig)
-        .then(res => ({
+        .then((res: any) => res as DashboardConfig)
+        .then((res: any) => ({
             customCss: res.custom_css,
             defaultOpeningMethod: res.default_opening_method,
             disableConfigurationForNonAdmin: res.disable_configuration_for_non_admin,
@@ -108,12 +100,9 @@ function getAppConfig(
 
 function getDashboardPages(
     itemsServiceConstructor: ItemsServiceConstructor,
-    serviceOptions: AbstractServiceOptions,
+    serviceOptions: any,
 ): Promise<DashboardPagesResult[]> {
-    const pageService = new itemsServiceConstructor<DashboardPages, "dashboard_pages">(
-        "dashboard_pages",
-        serviceOptions,
-    );
+    const pageService = new itemsServiceConstructor("dashboard_pages", serviceOptions);
     return pageService
         .readByQuery({
             fields: [
@@ -125,7 +114,7 @@ function getDashboardPages(
                 "sections.dashboard_sections_id.widgets.dashboard_widgets_id.*",
             ],
         })
-        .then(res => res as DashboardPagesResult[]);
+        .then((res: any) => res as DashboardPagesResult[]);
 }
 
 async function createPageConfig(

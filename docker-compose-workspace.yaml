@@ -3,6 +3,8 @@ name: ${STACK_NAME}_workspace
 x-build-args:
   build: &build-args
     args:
+      - ORGNAIZATION
+      - PROJECT
       - IMAGE_BASE
 
 services:

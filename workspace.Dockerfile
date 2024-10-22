@@ -1,8 +1,10 @@
+ARG ORGNANIZATION
+ARG PROJECT
 ARG IMAGE_BASE
 
 FROM ${IMAGE_BASE}/base
 WORKDIR /workspace
-ENV PATH=/workspace/node_modules/.bin:$PATH
+ENV PATH=/workspace/node_modules/.bin:/builds/$ORGNANIZATION/$PROJECT/node_modules/.bin:$PATH
 
 RUN apk update
 RUN apk add docker docker-cli-compose git

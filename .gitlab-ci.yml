@@ -23,11 +23,6 @@ default:
     - name: docker:${DOCKER_VERSION}-dind
       alias: docker
   cache:
-    - key:
-        files:
-          - pnpm-lock.yaml
-      paths:
-        - node_modules
     - key: cache-${CI_COMMIT_SHA}
       paths:
         - ./**/*.env

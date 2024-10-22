@@ -23,6 +23,11 @@ default:
     - name: docker:${DOCKER_VERSION}-dind
       alias: docker
   cache:
+    - key:
+        files:
+          - pnpm-lock.yaml
+      paths:
+        - node_modules
     - key: cache-${CI_COMMIT_SHA}
       paths:
         - ./**/*.env
@@ -37,6 +42,11 @@ build workspace image:
     - docker info
     - docker compose -f docker-compose-workspace.yaml build base
     - docker compose -f docker-compose-workspace.yaml build --push workspace
+
+install deps:
+  stage: workspace
+  script:
+    - nci
 
 generate env files:
   stage: env

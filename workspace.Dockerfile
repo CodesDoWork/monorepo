@@ -10,4 +10,3 @@ RUN npm i -g @antfu/ni@0.23.0 pnpm@9.12.2
 RUN pnpm config set store-dir /tmp/.pnpm-store
 
 COPY package.json pnpm-lock.yaml ./
-RUN --mount=type=cache,target=/tmp/.pnpm-store nci

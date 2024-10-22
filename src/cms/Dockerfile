@@ -1,10 +1,10 @@
 ARG IMAGE_BASE
 
 FROM $IMAGE_BASE/base AS base
-FROM $IMAGE_BASE/workspace AS workspace
+FROM $IMAGE_BASE/workspace-deps AS workspace-deps
 
 
-FROM workspace AS builder
+FROM workspace-deps AS builder
 
 COPY . .
 RUN nx build cms-dashboard-config

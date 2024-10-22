@@ -25,3 +25,9 @@ services:
       - /workspace/node_modules
       - ${PNPM_STORE_PATH:-/tmp/.pnpm-store}:/tmp/.pnpm-store
       - //var/run/docker.sock:/var/run/docker.sock
+
+  workspace-deps:
+    build:
+      <<: *build-args
+      dockerfile: workspace-deps.Dockerfile
+    image: ${IMAGE_BASE}/workspace-deps

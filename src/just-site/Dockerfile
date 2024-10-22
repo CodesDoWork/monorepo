@@ -4,10 +4,10 @@ ARG APP_NAME=just-site
 ARG APP_DIR=just-site
 
 FROM $IMAGE_BASE/base AS base
-FROM $IMAGE_BASE/workspace AS workspace
+FROM $IMAGE_BASE/workspace-deps AS workspace-deps
 
 
-FROM workspace AS builder
+FROM workspace-deps AS builder
 ARG APP_NAME
 
 COPY . .

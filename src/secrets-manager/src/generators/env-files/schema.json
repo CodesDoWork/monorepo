@@ -4,9 +4,9 @@
     "title": "",
     "type": "object",
     "properties": {
-        "stage": {
-            "type": "string",
-            "description": "Stage to use",
+        "stages": {
+            "type": "array",
+            "description": "Stages to use",
             "$default": {
                 "$source": "argv",
                 "index": 0

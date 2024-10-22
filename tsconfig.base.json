@@ -19,11 +19,14 @@
         "strict": true,
         "strictNullChecks": true,
         "paths": {
-            "@codesdowork/nx-secrets-manager": ["src/secrets-manager/src/index.ts"],
             "@codesdowork/cms/types": ["src/cms/types/src/index.ts"],
             "@codesdowork/health": ["src/health/src/index.ts"],
             "@codesdowork/logging": ["src/logging/src/index.ts"],
-            "@codesdowork/trpc": ["src/trpc/src/index.ts"]
+            "@codesdowork/nx-secrets-manager": ["src/secrets-manager/src/index.ts"],
+            "@codesdowork/trivy": ["src/trivy/src/index.ts"],
+            "@codesdowork/trpc": ["src/trpc/src/index.ts"],
+            "@codesdowork/utils": ["src/utils/src/index.ts"],
+            "@codesdowork/workspace-plugin": ["src/workspace-plugin/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp", "src/just-site"]

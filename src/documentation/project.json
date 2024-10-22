@@ -42,6 +42,21 @@
             "options": {
                 "command": "echo no tests yet"
             }
+        },
+        "build-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose build documentation"
+            }
+        },
+        "push-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose push documentation"
+            }
+        },
+        "trivy": {
+            "executor": "@codesdowork/workspace-plugin:trivy"
         }
     },
     "tags": []

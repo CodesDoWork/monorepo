@@ -1,0 +1,24 @@
+{
+    "name": "cms",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "src/cms",
+    "projectType": "application",
+    "targets": {
+        "build-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose build cms"
+            }
+        },
+        "push-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose push cms"
+            }
+        },
+        "trivy": {
+            "executor": "@codesdowork/workspace-plugin:trivy"
+        }
+    },
+    "tags": ["shared"]
+}

@@ -1,0 +1,11 @@
+{
+    "name": "@codesdowork/workspace-plugin-lighthouse",
+    "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "library",
+    "tags": [],
+    "targets": {
+        "trivy": {
+            "executor": "@codesdowork/workspace-plugin:trivy"
+        }
+    }
+}

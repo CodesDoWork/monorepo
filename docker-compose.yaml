@@ -368,6 +368,20 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_PASSWORD}
     image: quay.io/keycloak/keycloak:25.0.2
 
+  lighthouse:
+    build:
+      <<: *build-args
+      dockerfile: src/workspace-plugin/src/executors/lighthouse/Dockerfile
+    command: ${LIGHTHOUSE_TARGET_URL}
+    <<: *cap-drop
+    cap_add:
+      - SYS_ADMIN
+    image: ${IMAGE_BASE}/lighthouse
+    volumes:
+      - ./.lighthouse-reports:/lighthouse-reports
+    profiles:
+      - lighthouse
+
   linkwarden:
     <<: *common
     environment:
@@ -383,7 +397,21 @@ services:
     volumes:
       - linkwarden-data:/data/data
 
-  music:
+  music-downloader:
+    <<: *common
+    build:
+      <<: *build-args
+      dockerfile: src/music/downloader/Dockerfile
+    environment:
+      - DOWNLOAD_DIR=/music/downloads
+      - PORT=${MUSIC_DOWNLOADER_PORT}
+    healthcheck:
+      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
+    image: ${IMAGE_BASE}/music-downloader
+    volumes:
+      - ${MUSIC_VOLUME}/downloads:/music/downloads
+
+  music-platform:
     <<: *common
     build:
       dockerfile: src/music/platform/Dockerfile
@@ -404,20 +432,6 @@ services:
     volumes:
       - navidrome-data:/data
       - ${MUSIC_VOLUME}:/music:ro
-
-  music-downloader:
-    <<: *common
-    build:
-      <<: *build-args
-      dockerfile: src/music/downloader/Dockerfile
-    environment:
-      - DOWNLOAD_DIR=/music/downloads
-      - PORT=${MUSIC_DOWNLOADER_PORT}
-    healthcheck:
-      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
-    image: ${IMAGE_BASE}/music-downloader
-    volumes:
-      - ${MUSIC_VOLUME}/downloads:/music/downloads
 
   music-playlist-creator:
     build:

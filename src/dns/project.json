@@ -11,6 +11,21 @@
                 ],
                 "cwd": "src/dns"
             }
+        },
+        "build-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose build dns"
+            }
+        },
+        "push-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose push dns"
+            }
+        },
+        "trivy": {
+            "executor": "@codesdowork/workspace-plugin:trivy"
         }
     },
     "tags": []

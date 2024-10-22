@@ -1,5 +1,4 @@
 import tailwindForms from "@tailwindcss/forms";
-import deepcopy from "deepcopy";
 import colors from "tailwindcss/colors";
 import plugin from "tailwindcss/plugin";
 
@@ -34,9 +33,16 @@ const fadeIn = {
     },
 };
 
-const fadeInSubtle = deepcopy(fadeIn);
+function cloneAnimation(animation) {
+    return Object.entries(animation).reduce(
+        (all, [key, value]) => ({ ...all, [key]: { ...value } }),
+        {},
+    );
+}
+
+const fadeInSubtle = cloneAnimation(fadeIn);
 fadeInSubtle["0%"].transform = "translateY(1rem)";
-const fadeInTopSubtle = deepcopy(fadeInSubtle);
+const fadeInTopSubtle = cloneAnimation(fadeInSubtle);
 fadeInTopSubtle["0%"].transform = "translateY(-1rem)";
 
 /** @type {import("tailwindcss").Config} */

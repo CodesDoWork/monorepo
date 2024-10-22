@@ -92,11 +92,11 @@ function projectConfigFilePath(root: string): string {
     return path.join(root, PROJECT_CONFIG_FILE);
 }
 
-export function getEnvContent(tree: Tree, root: string, stage: string): string {
+export function getEnvContent(tree: Tree, root: string, stages: string[]): string {
     const config = readConfigFile(tree, projectConfigFilePath(root), zProjectSecretsConfig);
     const envs = Object.entries(config.env).map(([key, value]) => `${key}=${value}`);
     const secrets = Object.entries(config.secrets).flatMap(([collection, collectionConfig]) =>
-        Object.entries(getSecrets(tree, root, collection, collectionConfig, stage)).map(
+        Object.entries(getSecrets(tree, root, collection, collectionConfig, stages)).map(
             ([key, value]) => `${key}=${value}`,
         ),
     );
@@ -108,7 +108,7 @@ function getSecrets(
     root: string,
     collectionName: string,
     collectionConfig: SecretCollectionConfig,
-    stage: string,
+    stages: string[],
 ): Record<string, string> {
     const secrets: Record<string, string> = {};
     collectionConfig.vars.forEach(envConfig => {
@@ -119,7 +119,7 @@ function getSecrets(
             const secretValue = getSecret(
                 collectionConfig.collectionId,
                 getFieldName(envConfig),
-                stage,
+                stages,
             );
 
             if (typeof envConfig !== "string" && envConfig.file) {
@@ -143,46 +143,49 @@ function getFieldName(envConfig: SecretEnvConfig): string {
     return envConfig.field || getFieldName(envConfig.name);
 }
 
-function getSecret(collectionId: string, field: string, stage: string): string {
-    return getSecretContent(getCipherData(collectionId, stage), field);
+function getSecret(collectionId: string, field: string, stages: string[]): string {
+    return getSecretContent(getCipherData(collectionId, stages), field);
 }
 
-function getCipherData(collectionId: string, item: string): CipherData {
-    const cacheKey = `${collectionId}-${item}`;
-    if (cipherDataCache.has(cacheKey)) {
-        return cipherDataCache.get(cacheKey) as CipherData;
-    }
+function getCipherData(collectionId: string, stages: string[]): CipherData[] {
+    return stages
+        .map(stage => {
+            const cacheKey = `${collectionId}-${stage}`;
+            if (cipherDataCache.has(cacheKey)) {
+                return cipherDataCache.get(cacheKey) as CipherData;
+            }
 
-    const result: CipherData[] = JSON.parse(
-        execSync(`bw list items --collectionid ${collectionId} --search "${item}"`).toString(),
-    );
-    if (!result.length) {
-        throw Error(`Secret ${item} not found in collection ${collectionId}`);
-    }
+            const result = JSON.parse(
+                execSync(
+                    `bw list items --collectionid ${collectionId} --search "${stage}"`,
+                ).toString(),
+            );
 
-    const cipherData = result[0];
-    cipherDataCache.set(cacheKey, cipherData);
-
-    return cipherData;
+            const cipherData: CipherData = result[0];
+            cipherDataCache.set(cacheKey, cipherData);
+            return cipherData;
+        })
+        .filter(data => !!data);
 }
 
-function getSecretContent(item: CipherData, field: string): string {
-    return item.login && isLoginField(field) ? item.login[field] : getCustomItemField(item, field);
+function getSecretContent(items: CipherData[], field: string): string {
+    for (const item of items) {
+        const result =
+            item.login && isLoginField(field) ? item.login[field] : getCustomItemField(item, field);
+        if (result) {
+            return result;
+        }
+    }
+
+    throw new Error(`No secret found for field ${field}`);
 }
 
 function isLoginField(field: string): field is "username" | "password" | "totp" {
     return ["username", "password", "totp"].includes(field);
 }
 
-function getCustomItemField(item: CipherData, field: string): string {
-    const itemField = item.fields?.find(f => f.name.toLowerCase() === field);
-    if (!itemField) {
-        throw Error(
-            `Field ${field} not found in secret ${item.name} of collection ${item.collectionIds?.[0]}`,
-        );
-    }
-
-    return itemField.value;
+function getCustomItemField(item: CipherData, field: string): string | undefined {
+    return item.fields?.find(f => f.name.toLowerCase() === field)?.value;
 }
 
 function readConfigFile<T extends ZodSchema>(tree: Tree, path: string, schema: T): z.infer<T> {

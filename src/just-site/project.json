@@ -39,12 +39,34 @@
                 "lintFilePatterns": ["src/just-site/**/*.{ts,svelte,spec.ts}"]
             }
         },
-        "check": {
+        "svelte-check": {
             "executor": "nx:run-commands",
             "options": {
                 "command": "svelte-check",
                 "cwd": "src/just-site"
             }
+        },
+        "build-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose build just-site"
+            }
+        },
+        "push-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose push just-site"
+            }
+        },
+        "lighthouse": {
+            "executor": "@codesdowork/workspace-plugin:lighthouse",
+            "options": {
+                "project": "just-site",
+                "urls": ["http://just-site:4500", "https://justinkonratt.com"]
+            }
+        },
+        "trivy": {
+            "executor": "@codesdowork/workspace-plugin:trivy"
         }
     },
     "tags": ["just-site"]

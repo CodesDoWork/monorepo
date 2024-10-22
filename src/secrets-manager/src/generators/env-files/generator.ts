@@ -20,7 +20,7 @@ export async function envFilesGenerator(tree: Tree, options: EnvFilesGeneratorSc
 
 function createEnvFile(tree: Tree, name: string, root: string, options: EnvFilesGeneratorSchema) {
     logger.info(`Generating env file for ${name}`);
-    const content = getEnvContent(tree, root, options.stage);
+    const content = getEnvContent(tree, root, options.stages);
     const fileOptions = { content };
     generateFiles(tree, path.join(__dirname, "files"), root, fileOptions);
 }

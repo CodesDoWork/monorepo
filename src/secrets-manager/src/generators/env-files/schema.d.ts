@@ -1,5 +1,5 @@
 export interface EnvFilesGeneratorSchema {
-    stage: string;
+    stages: string[];
     username: string;
     password: string;
 }

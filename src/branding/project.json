@@ -1,7 +1,7 @@
 {
     "name": "branding",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "libs/branding",
+    "sourceRoot": "src/branding",
     "projectType": "library",
     "targets": {},
     "tags": ["shared"]

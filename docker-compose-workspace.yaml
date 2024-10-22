@@ -1,3 +1,10 @@
+name: ${STACK_NAME}_workspace
+
+x-build-args:
+  build: &build-args
+    args:
+      - IMAGE_BASE
+
 services:
   base:
     build:
@@ -6,13 +13,15 @@ services:
 
   workspace:
     build:
-      args:
-        - IMAGE_BASE
+      <<: *build-args
       dockerfile: workspace.Dockerfile
+    environment:
+      - TERM=xterm-256color
     image: ${IMAGE_BASE}/workspace:${WORKSPACE_VERSION:-latest}
     network_mode: host
     tty: true
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/workspace
+      - /workspace/node_modules
+      - ${PNPM_STORE_PATH}:/tmp/.pnpm-store
       - //var/run/docker.sock:/var/run/docker.sock

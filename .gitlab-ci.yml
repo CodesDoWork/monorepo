@@ -1,24 +1,137 @@
 stages:
   - workspace
   - env
-  - check
-  - build
+  - lint
   - test
+  - build
+  - analyze
   - deploy
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_TLS_CERTDIR: ""
+  WORKSPACE_VERSION: ${CI_COMMIT_SHA}
+  DOCKER_REGISTRY: docker.justinkonratt.com
+  ORGANIZATION: codesdowork
+  PROJECT: monorepo
+  IMAGE_BASE: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}
+  DOCKER_VERSION: 27.1.2
+
+default:
+  image: ${IMAGE_BASE}/workspace:${WORKSPACE_VERSION}
+  services:
+    - name: docker:${DOCKER_VERSION}-dind
+      alias: docker
+  cache:
+    - key: cache-${CI_COMMIT_SHA}
+      paths:
+        - ./**/*.env
+        - ./**/*.pem
+  before_script:
+    - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+
+x-on-merge-and-master-rules: &on-merge-and-master-rules
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 build workspace image:
   stage: workspace
-  image: docker:27.1.2
-  services:
-    - name: docker:27.1.2-dind
-      alias: docker
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_TLS_CERTDIR: ""
-    WORKSPACE_VERSION: ${CI_COMMIT_SHA}
-    IMAGE_BASE: docker.justinkonratt.com/codesdowork/monorepo
+  image: docker:${DOCKER_VERSION}
   script:
     - docker info
-    - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
     - docker compose -f docker-compose-workspace.yaml build base
     - docker compose -f docker-compose-workspace.yaml build workspace
+
+generate env files:
+  stage: env
+  script:
+    - nx g env-files TEST,PROD ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
+
+check formatting:
+  stage: lint
+  script:
+    - nx format:check
+
+svelte check:
+  stage: lint
+  script:
+    - nx affected -t svelte-check
+
+lint with eslint:
+  stage: lint
+  script:
+    - nx affected -t lint
+
+secretlint:
+  stage: lint
+  script:
+    - secretlint --secretlintignore .gitignore "**/*"
+
+lint with sonar:
+  stage: lint
+  image:
+    name: sonarsource/sonar-scanner-cli:11.1
+    entrypoint: [""]
+  script:
+    - sonar-scanner
+  allow_failure: true
+  only:
+    - $CI_DEFAULT_BRANCH
+
+audit:
+  stage: lint
+  script:
+    - na audit --audit-level=high
+  allow_failure: true
+
+test:
+  stage: test
+  script:
+    - nx affected -t test
+
+build:
+  stage: build
+  script:
+    - nx affected -t build
+
+build images:
+  stage: build
+  script:
+    - nx affected -t build-image
+    - nx affected -t push-image
+  <<: *on-merge-and-master-rules
+
+trivy:
+  stage: analyze
+  script:
+    - nx affected -t trivy
+    - nr trivy
+  <<: *on-merge-and-master-rules
+  allow_failure: true
+
+lighthouse:
+  stage: analyze
+  script:
+    - nx affected -t lighthouse
+  <<: *on-merge-and-master-rules
+  artifacts:
+    paths:
+      - ./.lighthouse-reports/
+
+deploy:
+  stage: deploy
+  script:
+    # init ssh
+    - apk add openssh-client
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - grep "${KNOWN_HOST_PUB}" ~/.ssh/known_hosts || echo "${KNOWN_HOST_PUB}" > ~/.ssh/known_hosts
+    - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+    - chmod 400 ~/.ssh/id_rsa
+    # deploy
+    - scp .env ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/.env
+    - scp docker-compose.yaml ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml
+    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f /opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml up -d --pull always
+  only:
+    - $CI_DEFAULT_BRANCH

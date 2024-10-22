@@ -16,6 +16,7 @@ variables:
   PROJECT: monorepo
   IMAGE_BASE: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}
   DOCKER_VERSION: 27.1.2
+  PATH: $CI_PROJECT_DIR/node_modules/.bin:$PATH
 
 default:
   image: ${IMAGE_BASE}/workspace:${WORKSPACE_VERSION}

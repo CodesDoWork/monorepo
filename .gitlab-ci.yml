@@ -33,6 +33,7 @@ default:
         - ./**/*.env
         - ./**/*.pem
   before_script:
+    - export PATH="./node_modules/.bin:$PATH"
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
 
 build workspace image:

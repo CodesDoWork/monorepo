@@ -16,6 +16,8 @@ variables:
   PROJECT: monorepo
   IMAGE_BASE: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}
   DOCKER_VERSION: 27.1.2
+  DEPS_CACHE_POLICY: pull
+  ENV_CACHE_POLICY: pull
 
 default:
   image: ${IMAGE_BASE}/workspace:${PROJECT_VERSION}
@@ -30,14 +32,14 @@ default:
         - .nx
         - dist
         - node_modules
-      policy: ${DEPS_CACHE_POLICY:-pull}
+      policy: $DEPS_CACHE_POLICY
     - key: cache-${CI_COMMIT_SHA}
       paths:
         - ./.env
         - ./packages/**/.env
         - ./*.pem
         - ./packages/**/*.pem
-      policy: ${ENV_CACHE_POLICY:-pull}
+      policy: $ENV_CACHE_POLICY
   before_script:
     - export PATH="./node_modules/.bin:$PATH"
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}

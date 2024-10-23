@@ -62,6 +62,7 @@ tag workspace image:
   image: docker:${DOCKER_VERSION}
   cache: []
   script:
+    - docker pull ${IMAGE_BASE}/workspace:latest
     - docker tag ${IMAGE_BASE}/workspace:latest ${IMAGE_BASE}/workspace:${PROJECT_VERSION}
     - docker push ${IMAGE_BASE}/workspace:${PROJECT_VERSION}
   except:

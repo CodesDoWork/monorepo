@@ -32,8 +32,10 @@ default:
         - node_modules
     - key: cache-${CI_COMMIT_SHA}
       paths:
-        - ./**/*.env
-        - ./**/*.pem
+        - ./.env
+        - ./packages/**/.env
+        - ./*.pem
+        - ./packages/**/*.pem
   before_script:
     - export PATH="./node_modules/.bin:$PATH"
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}

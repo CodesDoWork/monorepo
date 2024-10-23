@@ -6,9 +6,7 @@
         "build": {
             "executor": "nx:run-commands",
             "options": {
-                "commands": [
-                    "envsub dnsmasq.d/custom.conf.template dnsmasq.d/custom.conf"
-                ],
+                "commands": ["envsub dnsmasq.d/custom.conf.template dnsmasq.d/custom.conf"],
                 "cwd": "src/dns"
             }
         },

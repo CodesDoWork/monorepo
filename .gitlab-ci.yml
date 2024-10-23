@@ -10,7 +10,7 @@ stages:
 variables:
   DOCKER_HOST: tcp://docker:2375/
   DOCKER_TLS_CERTDIR: ""
-  WORKSPACE_VERSION: ${CI_COMMIT_SHA}
+  PROJECT_VERSION: ${CI_COMMIT_SHA}
   DOCKER_REGISTRY: docker.justinkonratt.com
   ORGANIZATION: codesdowork
   PROJECT: monorepo
@@ -18,7 +18,7 @@ variables:
   DOCKER_VERSION: 27.1.2
 
 default:
-  image: ${IMAGE_BASE}/workspace:${WORKSPACE_VERSION}
+  image: ${IMAGE_BASE}/workspace:${PROJECT_VERSION}
   services:
     - name: docker:${DOCKER_VERSION}-dind
       alias: docker
@@ -39,6 +39,7 @@ default:
 build workspace image:
   stage: workspace
   image: docker:${DOCKER_VERSION}
+  cache: []
   script:
     - docker info
     - docker compose -f docker-compose-workspace.yaml build base
@@ -76,6 +77,7 @@ secretlint:
 
 lint with sonar:
   stage: lint
+  cache: []
   image:
     name: sonarsource/sonar-scanner-cli:11.1
     entrypoint: [""]
@@ -106,27 +108,27 @@ build images:
   script:
     - nx affected -t build-image
     - nx affected -t push-image
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+build latest images:
+  stage: build
+  script:
+    - export PROJECT_VERSION=latest
+    - nx affected -t build-image
+    - nx affected -t push-image
+  only:
+    - $CI_DEFAULT_BRANCH
 
 trivy:
   stage: analyze
   script:
     - nx affected -t trivy
     - nr trivy
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   allow_failure: true
 
 lighthouse:
   stage: analyze
   script:
     - nx affected -t lighthouse
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
   artifacts:
     paths:
       - ./.lighthouse-reports/

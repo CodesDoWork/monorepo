@@ -2,7 +2,7 @@
     "extends": "./tsconfig.base.json",
     "ts-node": {
         "compilerOptions": {
-            "module": "commonjs",
+            "module": "commonjs"
         }
     }
 }

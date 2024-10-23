@@ -110,24 +110,21 @@ test:
   script:
     - nx affected -t test
 
-build:
-  stage: build
-  script:
-    - nx affected -t build
-
 build images:
   stage: build
   script:
     - docker compose -f docker-compose-workspace.yaml build workspace-deps
-    - nx affected -t build-image
+    - nx affected -t build-image --parallel=1
     - nx affected -t push-image
+  except:
+    - $CI_DEFAULT_BRANCH
 
 build latest images:
   stage: build
   script:
     - export PROJECT_VERSION=latest
     - docker compose -f docker-compose-workspace.yaml build workspace-deps
-    - nx affected -t build-image
+    - nx affected -t build-image --parallel=1
     - nx affected -t push-image
   only:
     - $CI_DEFAULT_BRANCH

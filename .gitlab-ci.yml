@@ -118,6 +118,7 @@ build latest images:
   stage: build
   script:
     - export PROJECT_VERSION=latest
+    - docker compose -f docker-compose-workspace.yaml build workspace-deps
     - nx affected -t build-image
     - nx affected -t push-image
   only:

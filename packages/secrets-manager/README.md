@@ -4,9 +4,9 @@ Generates `.env` files from with Bitwarden secrets in nx monorepos.
 
 # Install
 
-````bash
+```bash
 npm i -D @codesdowork/nx-secrets-manager @bitwarden/cli
-````
+```
 
 # Usage
 
@@ -14,15 +14,15 @@ npm i -D @codesdowork/nx-secrets-manager @bitwarden/cli
 
 `.secrets.config.json`
 
-````json
+```json
 {
   "sever": "https://your-bitwarden-server.url"
 }
-````
+```
 
 ## 2. Create .env.secure.yaml files where necessary (in monorepo root or nx projects)
 
-````yaml
+```yaml
 env?:
   NORMAL: variables
   GO: here
@@ -36,19 +36,19 @@ secrets?:
       - OTHER_FIELD
       - name: OTHER_NAMED_FIELD
         field: secret_is_stored_in_field_with_this_name
-````
+```
 
 ## 3. Create .env files
 
-````bash
+```bash
 nx g env-files [stage] [bw-username] [bw-password]
-````
+```
 
 or
 
-````bash
+```bash
 nx g @codesdowork/nx-secrets-manager:env-files [stage] [bw-username] [bw-password]
-````
+```
 
 All input parameters can be omitted. They will be asked for when running the command.
 When you are already logged in, the username is not needed.

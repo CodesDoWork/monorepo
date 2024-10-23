@@ -1,7 +1,7 @@
-import { HealthStatus } from "./HealthStatus";
-import { hostname } from "os";
 import { existsSync, readFileSync } from "fs";
+import { hostname } from "os";
 import { z } from "zod";
+import { HealthStatus } from "./HealthStatus";
 
 const MILLIS_PER_SEC = 1000;
 const DEFAULT_DECIMALS = 2;

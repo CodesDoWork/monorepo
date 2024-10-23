@@ -1,6 +1,6 @@
+import { execAsync } from "@codesdowork/utils";
 import { PromiseExecutor } from "@nx/devkit";
 import { configDotenv } from "dotenv";
-import { execAsync } from "../../utils/exec-async";
 import { LighthouseExecutorSchema } from "./schema";
 
 const runExecutor: PromiseExecutor<LighthouseExecutorSchema> = async options => {

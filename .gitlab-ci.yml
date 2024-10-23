@@ -10,7 +10,7 @@ stages:
 variables:
   DOCKER_HOST: tcp://docker:2375/
   DOCKER_TLS_CERTDIR: ""
-  PROJECT_VERSION: ${CI_COMMIT_SHA}
+  PROJECT_VERSION: ${CI_COMMIT_BRANCH}
   DOCKER_REGISTRY: docker.justinkonratt.com
   ORGANIZATION: codesdowork
   PROJECT: monorepo
@@ -42,6 +42,7 @@ default:
       policy: $ENV_CACHE_POLICY
   before_script:
     - export PATH="./node_modules/.bin:$PATH"
+    - docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
 
 build workspace image:
@@ -49,16 +50,34 @@ build workspace image:
   image: docker:${DOCKER_VERSION}
   cache: []
   script:
-    - docker info
     - docker compose -f docker-compose-workspace.yaml build --push base
     - docker compose -f docker-compose-workspace.yaml build --push workspace
+  only:
+    changes:
+      - base.Dockerfile
+      - workspace.Dockerfile
+
+tag workspace image:
+  stage: workspace
+  image: docker:${DOCKER_VERSION}
+  cache: []
+  script:
+    - docker tag ${IMAGE_BASE}/workspace:latest ${IMAGE_BASE}/workspace:${PROJECT_VERSION}
+    - docker push ${IMAGE_BASE}/workspace:${PROJECT_VERSION}
+  except:
+    changes:
+      - base.Dockerfile
+      - workspace.Dockerfile
 
 install deps:
   stage: workspace
   variables:
-    DEPS_CACHE_POLICY: push
+    DEPS_CACHE_POLICY: pull-push
   script:
     - nci
+  only:
+    changes:
+      - pnpm-lock.yaml
 
 generate env files:
   stage: env

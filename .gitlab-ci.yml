@@ -28,6 +28,7 @@ default:
           - pnpm-lock.yaml
       paths:
         - node_modules
+        - .nx
     - key: cache-${CI_COMMIT_SHA}
       paths:
         - ./**/*.env
@@ -60,11 +61,6 @@ check formatting:
   script:
     - nx format:check
 
-svelte check:
-  stage: lint
-  script:
-    - nx affected -t svelte-check
-
 lint with eslint:
   stage: lint
   script:
@@ -74,6 +70,11 @@ secretlint:
   stage: lint
   script:
     - secretlint --secretlintignore .gitignore "**/*"
+
+svelte check:
+  stage: lint
+  script:
+    - nx affected -t svelte-check
 
 lint with sonar:
   stage: lint

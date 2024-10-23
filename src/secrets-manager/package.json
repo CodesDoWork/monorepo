@@ -24,7 +24,7 @@
         "url": "https://github.com/CodesDoWork/monorepo.git"
     },
     "dependencies": {
-        "@nx/devkit": "19.6.0",
+        "@nx/devkit": "20.0.3",
         "inquirer": "10.2.2",
         "tslib": "2.6.3",
         "yaml": "2.5.1",

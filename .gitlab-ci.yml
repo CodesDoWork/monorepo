@@ -46,7 +46,7 @@ build workspace image:
   cache: []
   script:
     - docker info
-    - docker compose -f docker-compose-workspace.yaml build base
+    - docker compose -f docker-compose-workspace.yaml build --push base
     - docker compose -f docker-compose-workspace.yaml build --push workspace
 
 install deps:
@@ -110,6 +110,7 @@ build:
 build images:
   stage: build
   script:
+    - docker compose -f docker-compose-workspace.yaml build workspace-deps
     - nx affected -t build-image
     - nx affected -t push-image
 

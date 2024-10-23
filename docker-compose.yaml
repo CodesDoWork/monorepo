@@ -4,6 +4,7 @@ x-build-args:
   build: &build-args
     args:
       - IMAGE_BASE
+      - PROJECT_VERSION
 
 x-cap-drop: &cap-drop
   cap_drop:

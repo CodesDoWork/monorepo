@@ -1,7 +1,8 @@
 ARG IMAGE_BASE
+ARG PROJECT_VERSION="latest"
 
-FROM $IMAGE_BASE/base AS base
-FROM $IMAGE_BASE/workspace-deps AS workspace-deps
+FROM $IMAGE_BASE/base:$PROJECT_VERSION AS base
+FROM $IMAGE_BASE/workspace-deps:$PROJECT_VERSION AS workspace-deps
 
 
 FROM workspace-deps AS builder

@@ -6,12 +6,13 @@ x-build-args:
       - ORGNAIZATION
       - PROJECT
       - IMAGE_BASE
+      - PROJECT_VERSION
 
 services:
   base:
     build:
       dockerfile: base.Dockerfile
-    image: ${IMAGE_BASE}/base
+    image: ${IMAGE_BASE}/base:${PROJECT_VERSION:-latest}
 
   workspace:
     build:
@@ -32,4 +33,4 @@ services:
     build:
       <<: *build-args
       dockerfile: workspace-deps.Dockerfile
-    image: ${IMAGE_BASE}/workspace-deps
+    image: ${IMAGE_BASE}/workspace-deps:${PROJECT_VERSION:-latest}

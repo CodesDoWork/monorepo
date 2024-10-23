@@ -1,6 +1,7 @@
 ARG IMAGE_BASE
+ARG PROJECT_VERSION="latest"
 
-FROM $IMAGE_BASE/base AS base
+FROM $IMAGE_BASE/base:$PROJECT_VERSION AS base
 
 RUN apk add chromium
 RUN npm i -g lighthouse@12.2.1

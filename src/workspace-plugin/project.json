@@ -1,8 +1,0 @@
-{
-    "name": "@codesdowork/workspace-plugin",
-    "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "src/workspace-plugin/src",
-    "projectType": "library",
-    "tags": ["workspace"],
-    "targets": {}
-}

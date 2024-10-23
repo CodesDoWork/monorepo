@@ -1,0 +1,24 @@
+{
+    "name": "renovate",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/renovate",
+    "projectType": "application",
+    "targets": {
+        "build-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose build renovate"
+            }
+        },
+        "push-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose push renovate"
+            }
+        },
+        "trivy": {
+            "executor": "@codesdowork/workspace-plugin:trivy"
+        }
+    },
+    "tags": ["shared"]
+}

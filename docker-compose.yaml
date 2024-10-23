@@ -42,7 +42,7 @@ services:
 
   certbot:
     build:
-      dockerfile: src/certbot/Dockerfile
+      dockerfile: packages/certbot/Dockerfile
     image: ${IMAGE_BASE}/certbot:${PROJECT_VERSION:-latest}
     profiles:
       - build-only
@@ -51,7 +51,7 @@ services:
     <<: *common
     build:
       <<: *build-args
-      dockerfile: src/cms/Dockerfile
+      dockerfile: packages/cms/Dockerfile
     environment:
       - SECRET=${CMS_SECRET}
       - ADMIN_EMAIL=${CMS_USERNAME}
@@ -178,7 +178,7 @@ services:
     <<: *common
     build:
       <<: *build-args
-      dockerfile: src/dns/Dockerfile
+      dockerfile: packages/dns/Dockerfile
     cap_add:
       - CAP_CHOWN
       - CAP_DAC_OVERRIDE
@@ -203,7 +203,7 @@ services:
   docker-registry:
     <<: *common
     build:
-      dockerfile: /src/docker-registry/Dockerfile
+      dockerfile: packages/docker-registry/Dockerfile
     depends_on:
       - cron
     environment:
@@ -224,7 +224,7 @@ services:
     <<: *common
     build:
       <<: *build-args
-      dockerfile: src/documentation/Dockerfile
+      dockerfile: packages/documentation/Dockerfile
     cap_add:
       - CAP_CHOWN
       - SETUID
@@ -340,7 +340,7 @@ services:
     <<: *common
     build:
       <<: *build-args
-      dockerfile: src/just-site/Dockerfile
+      dockerfile: packages/just-site/Dockerfile
     environment:
       - GITHUB_TOKEN=${JUST_SITE_GITHUB_TOKEN}
       - URL=${URL}
@@ -377,7 +377,7 @@ services:
   lighthouse:
     build:
       <<: *build-args
-      dockerfile: src/workspace-plugin/src/executors/lighthouse/Dockerfile
+      dockerfile: packages/workspace-plugin/src/executors/lighthouse/Dockerfile
     command: ${LIGHTHOUSE_TARGET_URL}
     <<: *cap-drop
     cap_add:
@@ -407,7 +407,7 @@ services:
     <<: *common
     build:
       <<: *build-args
-      dockerfile: src/music/downloader/Dockerfile
+      dockerfile: packages/music/downloader/Dockerfile
     environment:
       - DOWNLOAD_DIR=/music/downloads
       - PORT=${MUSIC_DOWNLOADER_PORT}
@@ -420,7 +420,7 @@ services:
   music-platform:
     <<: *common
     build:
-      dockerfile: src/music/platform/Dockerfile
+      dockerfile: packages/music/platform/Dockerfile
     environment:
       - ND_PORT=${MUSIC_PORT}
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
@@ -441,7 +441,7 @@ services:
 
   music-playlist-creator:
     build:
-      dockerfile: src/music/playlist-creator/Dockerfile
+      dockerfile: packages/music/playlist-creator/Dockerfile
     image: ${IMAGE_BASE}/music-playlist-creator:${PROJECT_VERSION:-latest}
     profiles:
       - build-only
@@ -469,7 +469,7 @@ services:
   nginx:
     <<: *common
     build:
-      dockerfile: src/nginx/Dockerfile
+      dockerfile: packages/nginx/Dockerfile
     cap_add:
       - CAP_CHOWN
       - CAP_SETGID
@@ -511,7 +511,7 @@ services:
   prometheus:
     <<: *common
     build:
-      dockerfile: src/prometheus/Dockerfile
+      dockerfile: packages/prometheus/Dockerfile
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
     image: ${IMAGE_BASE}/prometheus:${PROJECT_VERSION:-latest}
@@ -520,7 +520,7 @@ services:
 
   renovate:
     build:
-      dockerfile: src/renovate/Dockerfile
+      dockerfile: packages/renovate/Dockerfile
     image: ${IMAGE_BASE}/renovate:${PROJECT_VERSION:-latest}
     profiles:
       - build-only

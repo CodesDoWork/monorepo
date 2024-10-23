@@ -27,8 +27,9 @@ default:
         files:
           - pnpm-lock.yaml
       paths:
-        - node_modules
         - .nx
+        - dist
+        - node_modules
     - key: cache-${CI_COMMIT_SHA}
       paths:
         - ./**/*.env

@@ -1,0 +1,24 @@
+{
+    "name": "certbot",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/branding",
+    "projectType": "application",
+    "targets": {
+        "build-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose build certbot"
+            }
+        },
+        "push-image": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose push certbot"
+            }
+        },
+        "trivy": {
+            "executor": "@codesdowork/workspace-plugin:trivy"
+        }
+    },
+    "tags": ["shared"]
+}

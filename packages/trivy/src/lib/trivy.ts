@@ -37,15 +37,14 @@ async function runTrivy(options: string[], target: string) {
             "--java-db-repository ghcr.io/aquasecurity/trivy-java-db:1,public.ecr.aws/aquasecurity/trivy-java-db:1",
         ];
 
-        const allOptions: string[] = [];
-        trivyBaseOptions
-            .concat(options)
-            .concat(repoOptions)
-            .concat(severityOptions)
-            .concat(target)
-            .forEach(option => allOptions.push(...option.split(" ")));
-
-        await execAsync("docker", allOptions);
+        await execAsync(
+            "docker",
+            trivyBaseOptions
+                .concat(options)
+                .concat(repoOptions)
+                .concat(severityOptions)
+                .concat(target),
+        );
     }
 }
 

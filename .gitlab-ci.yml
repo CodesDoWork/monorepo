@@ -10,7 +10,7 @@ stages:
 variables:
   DOCKER_HOST: tcp://docker:2375/
   DOCKER_TLS_CERTDIR: ""
-  PROJECT_VERSION: ${CI_COMMIT_BRANCH}
+  PROJECT_VERSION: ${CI_COMMIT_REF_SLUG}
   DOCKER_REGISTRY: docker.justinkonratt.com
   ORGANIZATION: codesdowork
   PROJECT: monorepo

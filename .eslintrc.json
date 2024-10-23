@@ -35,6 +35,10 @@
                             {
                                 "sourceTag": "workspace",
                                 "onlyDependOnLibsWithTags": ["shared", "workspace"]
+                            },
+                            {
+                                "sourceTag": "documentation",
+                                "onlyDependOnLibsWithTags": ["shared", "documentation"]
                             }
                         ]
                     }

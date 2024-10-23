@@ -1,3 +1,4 @@
+import os from "node:os";
 import { getSidebar } from "vitepress-plugin-auto-sidebar";
 import { withMermaid } from "vitepress-plugin-mermaid";
 
@@ -7,8 +8,23 @@ let sidebar = getSidebar({
     collapsible: true,
     collapsed: true,
 });
+
+function convertLinks(inputString) {
+    if (os.platform() === "win32") {
+        return inputString.replace(
+            /"link":"\\\\([^"]*?)"/gm,
+            (_, p1) => `"link":"/${p1.replace(/\\\\/g, "/")}"`,
+        );
+    }
+
+    return inputString;
+}
+
 sidebar = JSON.parse(
-    JSON.stringify(sidebar).replace(/"link":"(\/\w+)?\/src\/documentation\/docs/g, '"link":"'),
+    convertLinks(JSON.stringify(sidebar)).replace(
+        /"link":"(\/\w+)?\/packages\/documentation\/docs/g,
+        '"link":"',
+    ),
 );
 sidebar = sidebar[0].items.filter(item => !/About|Index/.test(item.text));
 

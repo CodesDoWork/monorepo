@@ -10,7 +10,8 @@
                     "copyfiles -u 4 libs/branding/assets/img/logo.svg packages/documentation/docs/public",
                     "copyfiles -u 4 libs/branding/assets/img/icon.svg packages/documentation/docs/public",
                     "copyfiles -u 4 libs/branding/assets/favicon/favicon.ico packages/documentation/docs/public",
-                    "vitepress build packages/documentation/docs"
+                    "rimraf ./packages/documentation/docs/projects",
+                    "ts-node -r tsconfig-paths/register ./packages/documentation/create-project-docs.ts && vitepress build packages/documentation/docs"
                 ]
             }
         },
@@ -59,5 +60,5 @@
             "executor": "@codesdowork/workspace-plugin:trivy"
         }
     },
-    "tags": []
+    "tags": ["documentation"]
 }

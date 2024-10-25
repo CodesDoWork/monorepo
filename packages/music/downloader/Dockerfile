@@ -19,7 +19,7 @@ FROM base AS deps
 ARG APP_DIR
 
 COPY --from=builder /workspace/dist/packages/$APP_DIR/package.json ./
-RUN npm i
+RUN yarn install
 
 
 FROM base AS runner

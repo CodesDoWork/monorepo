@@ -4,6 +4,12 @@
     "projectType": "library",
     "tags": ["workspace"],
     "targets": {
+        "build-image": {
+            "executor": "docker compose build lighthouse"
+        },
+        "push-image": {
+            "executor": "docker compose push lighthouse"
+        },
         "trivy": {
             "executor": "@codesdowork/workspace-plugin:trivy"
         }

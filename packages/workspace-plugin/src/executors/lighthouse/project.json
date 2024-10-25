@@ -5,10 +5,16 @@
     "tags": ["workspace"],
     "targets": {
         "build-image": {
-            "executor": "docker compose build lighthouse"
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose build lighthouse"
+            }
         },
         "push-image": {
-            "executor": "docker compose push lighthouse"
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "docker compose push lighthouse"
+            }
         },
         "trivy": {
             "executor": "@codesdowork/workspace-plugin:trivy"

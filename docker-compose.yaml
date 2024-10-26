@@ -181,6 +181,7 @@ services:
       <<: *build-args
       dockerfile: packages/dns/Dockerfile
     cap_add:
+      - CAP_AUDIT_WRITE
       - CAP_CHOWN
       - CAP_DAC_OVERRIDE
       - CAP_FOWNER
@@ -378,7 +379,7 @@ services:
   lighthouse:
     build:
       <<: *build-args
-      dockerfile: packages/plugins/test/src/executors/lighthouse/Dockerfile
+      dockerfile: packages/nx-plugins/test/src/executors/lighthouse/Dockerfile
     command: ${LIGHTHOUSE_TARGET_URL}
     <<: *cap-drop
     cap_add:

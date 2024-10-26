@@ -136,6 +136,7 @@ build latest images:
 trivy:
   stage: analyze
   script:
+    - nx affected pull-image
     - nx affected -t trivy
     - nr trivy
   allow_failure: true
@@ -143,7 +144,7 @@ trivy:
 lighthouse:
   stage: analyze
   script:
-    - nx affected -t lighthouse
+    - nx affected -t lighthouse --parallel=1
   artifacts:
     paths:
       - ./.lighthouse-reports/

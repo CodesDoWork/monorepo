@@ -1,0 +1,16 @@
+{
+    "name": "@codesdowork/nx-plugins-test",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/nx-plugins/test/src",
+    "projectType": "library",
+    "tags": ["nx-plugin"],
+    "targets": {
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "packages/nx-plugins/test/jest.config.ts"
+            }
+        }
+    }
+}

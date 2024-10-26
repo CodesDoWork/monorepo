@@ -1,0 +1,19 @@
+{
+    "executors": {
+        "build": {
+            "implementation": "./src/executors/build/executor",
+            "schema": "./src/executors/build/schema.json",
+            "description": "build executor"
+        },
+        "push": {
+            "implementation": "./src/executors/push/executor",
+            "schema": "./src/executors/push/schema.json",
+            "description": "push executor"
+        },
+        "pull": {
+            "implementation": "./src/executors/pull/executor",
+            "schema": "./src/executors/pull/schema.json",
+            "description": "pull executor"
+        }
+    }
+}

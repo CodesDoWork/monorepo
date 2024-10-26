@@ -51,16 +51,13 @@
             }
         },
         "build-image": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "docker compose build music-downloader"
-            }
+            "executor": "@codesdowork/nx-plugins-docker-compose:build"
         },
         "push-image": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "docker compose push music-downloader"
-            }
+            "executor": "@codesdowork/nx-plugins-docker-compose:push"
+        },
+        "pull-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:pull"
         },
         "lighthouse": {
             "executor": "@codesdowork/workspace-plugin:lighthouse",

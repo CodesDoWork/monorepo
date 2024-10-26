@@ -1,8 +1,0 @@
-{
-    "name": "trivy",
-    "$schema": "../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "src/trivy/src",
-    "projectType": "library",
-    "tags": ["shared"],
-    "targets": {}
-}

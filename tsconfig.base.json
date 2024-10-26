@@ -22,11 +22,16 @@
             "@codesdowork/cms/types": ["packages/cms/types/src/index.ts"],
             "@codesdowork/health": ["packages/health/src/index.ts"],
             "@codesdowork/logging": ["packages/logging/src/index.ts"],
-            "@codesdowork/nx-secrets-manager": ["packages/secrets-manager/src/index.ts"],
+            "@codesdowork/nx-plugins-docker-compose": [
+                "packages/nx-plugins/docker-compose/src/index.ts"
+            ],
+            "@codesdowork/nx-plugins-secrets-manager": [
+                "packages/nx-plugins/secrets-manager/src/index.ts"
+            ],
+            "@codesdowork/nx-plugins-test": ["packages/nx-plugins/test/src/index.ts"],
             "@codesdowork/trivy": ["packages/trivy/src/index.ts"],
             "@codesdowork/trpc": ["packages/trpc/src/index.ts"],
-            "@codesdowork/utils": ["packages/utils/src/index.ts"],
-            "@codesdowork/workspace-plugin": ["packages/workspace-plugin/src/index.ts"]
+            "@codesdowork/utils": ["packages/utils/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp", "packages/just-site"]

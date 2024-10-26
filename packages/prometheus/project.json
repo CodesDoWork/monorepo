@@ -5,16 +5,13 @@
     "projectType": "application",
     "targets": {
         "build-image": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "docker compose build prometheus"
-            }
+            "executor": "@codesdowork/nx-plugins-docker-compose:build"
         },
         "push-image": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "docker compose push prometheus"
-            }
+            "executor": "@codesdowork/nx-plugins-docker-compose:push"
+        },
+        "pull-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:pull"
         },
         "trivy": {
             "executor": "@codesdowork/workspace-plugin:trivy"

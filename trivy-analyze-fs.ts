@@ -1,5 +1,5 @@
-import { analyzeFs } from "@codesdowork/trivy";
+import { trivyAnalyzeFs } from "@codesdowork/nx-plugins/test";
 
-analyzeFs()
+trivyAnalyzeFs()
     .then(() => process.exit(0))
     .catch(() => process.exit(1));

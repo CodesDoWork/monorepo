@@ -11,16 +11,13 @@
             }
         },
         "build-image": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "docker compose build dns"
-            }
+            "executor": "@codesdowork/nx-plugins-docker-compose:build"
         },
         "push-image": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "docker compose push dns"
-            }
+            "executor": "@codesdowork/nx-plugins-docker-compose:push"
+        },
+        "pull-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:pull"
         },
         "trivy": {
             "executor": "@codesdowork/workspace-plugin:trivy"

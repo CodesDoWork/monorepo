@@ -378,7 +378,7 @@ services:
   lighthouse:
     build:
       <<: *build-args
-      dockerfile: packages/workspace-plugin/src/executors/lighthouse/Dockerfile
+      dockerfile: packages/plugins/test/src/executors/lighthouse/Dockerfile
     command: ${LIGHTHOUSE_TARGET_URL}
     <<: *cap-drop
     cap_add:

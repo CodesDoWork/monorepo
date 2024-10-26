@@ -33,8 +33,8 @@
                                 "onlyDependOnLibsWithTags": ["shared", "just-site"]
                             },
                             {
-                                "sourceTag": "workspace",
-                                "onlyDependOnLibsWithTags": ["shared", "workspace"]
+                                "sourceTag": "nx-plugin",
+                                "onlyDependOnLibsWithTags": ["shared", "nx-plugin"]
                             },
                             {
                                 "sourceTag": "documentation",

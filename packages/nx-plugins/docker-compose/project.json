@@ -1,0 +1,16 @@
+{
+    "name": "@codesdowork/nx-plugins-docker-compose",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/nx-plugins/docker-compose/src",
+    "projectType": "library",
+    "tags": ["nx-plugin"],
+    "targets": {
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "packages/nx-plugins/docker-compose/jest.config.ts"
+            }
+        }
+    }
+}

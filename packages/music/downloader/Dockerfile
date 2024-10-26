@@ -12,7 +12,7 @@ FROM workspace-deps AS builder
 ARG APP_NAME
 
 COPY . .
-RUN nx run $APP_NAME:build
+RUN nx build $APP_NAME
 
 
 FROM base AS deps

@@ -436,7 +436,7 @@ services:
       - ND_SESSIONTIMEOUT=720h
       - ND_UILOGINBACKGROUNDURL=https://images.pexels.com/photos/2111015/pexels-photo-2111015.jpeg?cs=srgb&dl=pexels-francesco-paggiaro-2111015.jpg&fm=jpg&w=1920&h=1280
       - ND_UIWELCOMEMESSAGE="Listen to the best"
-    image: ${IMAGE_BASE}/music:${PROJECT_VERSION:-latest}
+    image: ${IMAGE_BASE}/music-platform:${PROJECT_VERSION:-latest}
     volumes:
       - navidrome-data:/data
       - ${MUSIC_VOLUME}:/music:ro

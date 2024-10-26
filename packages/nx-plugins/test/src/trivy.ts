@@ -7,7 +7,7 @@ export async function trivyAnalyzeImage(image: string) {
             "--scanners vuln,secret,misconfig",
             "--image-config-scanners secret,misconfig",
             "--dependency-tree",
-            "--image-src docker,remote",
+            "--image-src docker",
         ],
         image,
     );

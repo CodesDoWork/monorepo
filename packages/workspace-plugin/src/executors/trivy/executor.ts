@@ -10,7 +10,9 @@ const runExecutor: PromiseExecutor = async (_, context) => {
             return { success: false, error: "Not project specified" };
         }
 
-        await analyzeImage(`${process.env.IMAGE_BASE}/${project}`);
+        await analyzeImage(
+            `${process.env.IMAGE_BASE}/${project}:${process.env.PROJECT_VERSION || "latest"}`,
+        );
 
         return { success: true };
     } catch (e) {

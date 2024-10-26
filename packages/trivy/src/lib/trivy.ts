@@ -8,7 +8,7 @@ export async function analyzeImage(image: string) {
             "--scanners vuln,secret,misconfig",
             "--image-config-scanners secret,misconfig",
             "--dependency-tree",
-            "--image-src docker",
+            "--image-src docker,remote",
         ],
         image,
     );

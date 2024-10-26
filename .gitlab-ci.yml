@@ -52,6 +52,7 @@ build images:
   stage: build
   script:
     - docker compose -f docker-compose-workspace.yaml build workspace-deps
+    - nx build music-downloader
     - nx build-image music-downloader --verbose
 #    - nx affected -t build-image --parallel=1
   except:

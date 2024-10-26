@@ -52,6 +52,7 @@ const trivyBaseOptions = [
     "run --rm",
     "--pull always",
     "-v //var/run/docker.sock:/var/run/docker.sock:ro",
+    "-v /root/.docker/config.json:/root/.docker/config.json:ro",
     "-v .:/workspace:ro",
     "aquasec/trivy",
 ];

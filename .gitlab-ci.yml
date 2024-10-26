@@ -1,4 +1,5 @@
 stages:
+  - workspace
   - env
   - build
 
@@ -40,6 +41,14 @@ default:
     - export PATH="./node_modules/.bin:$PATH"
     - docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+
+build workspace image:
+  stage: workspace
+  image: docker:${DOCKER_VERSION}
+  cache: []
+  script:
+    - docker compose -f docker-compose-workspace.yaml build --push base
+    - docker compose -f docker-compose-workspace.yaml build --push workspace
 
 generate env files:
   stage: env

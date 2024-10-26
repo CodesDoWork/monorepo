@@ -23,7 +23,10 @@
             }
         },
         "trivy": {
-            "executor": "@codesdowork/nx-plugins-test:trivy"
+            "executor": "@codesdowork/nx-plugins-test:trivy",
+            "options": {
+                "service": "lighthouse"
+            }
         }
     }
 }

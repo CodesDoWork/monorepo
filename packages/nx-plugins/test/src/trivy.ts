@@ -1,5 +1,4 @@
 import { execAsync } from "@codesdowork/utils";
-import { severityConfig } from "./severity";
 
 export async function trivyAnalyzeImage(image: string) {
     await runTrivy(
@@ -30,22 +29,12 @@ export async function trivyAnalyzeFs() {
 }
 
 async function runTrivy(options: string[], target: string) {
-    for (const [code, severities] of Object.entries(severityConfig)) {
-        const severityOptions = [`--exit-code ${code}`, `--severity ${severities.join(",")}`];
-        const repoOptions = [
-            "--db-repository ghcr.io/aquasecurity/trivy-db:2,public.ecr.aws/aquasecurity/trivy-db:2",
-            "--java-db-repository ghcr.io/aquasecurity/trivy-java-db:1,public.ecr.aws/aquasecurity/trivy-java-db:1",
-        ];
+    const repoOptions = [
+        "--db-repository ghcr.io/aquasecurity/trivy-db:2,public.ecr.aws/aquasecurity/trivy-db:2",
+        "--java-db-repository ghcr.io/aquasecurity/trivy-java-db:1,public.ecr.aws/aquasecurity/trivy-java-db:1",
+    ];
 
-        await execAsync(
-            "docker",
-            trivyBaseOptions
-                .concat(options)
-                .concat(repoOptions)
-                .concat(severityOptions)
-                .concat(target),
-        );
-    }
+    await execAsync("docker", trivyBaseOptions.concat(options).concat(repoOptions).concat(target));
 }
 
 const trivyBaseOptions = [

@@ -1,4 +1,4 @@
-import { trivyAnalyzeFs } from "@codesdowork/nx-plugins/test";
+import { trivyAnalyzeFs } from "@codesdowork/nx-plugins-test";
 
 trivyAnalyzeFs()
     .then(() => process.exit(0))

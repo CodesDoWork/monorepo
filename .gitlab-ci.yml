@@ -13,6 +13,7 @@ variables:
   DOCKER_VERSION: 27.2.0
   DEPS_CACHE_POLICY: pull
   ENV_CACHE_POLICY: pull
+  DOCKER_BUILDKIT: 1
 
 default:
   image: ${IMAGE_BASE}/workspace:${PROJECT_VERSION}

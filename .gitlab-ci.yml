@@ -48,9 +48,6 @@ install deps:
     DEPS_CACHE_POLICY: pull-push
   script:
     - nci
-  only:
-    changes:
-      - pnpm-lock.yaml
 
 generate env files:
   stage: env

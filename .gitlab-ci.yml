@@ -52,6 +52,7 @@ build images:
   stage: build
   script:
     - docker compose -f docker-compose-workspace.yaml build workspace-deps
-    - docker compose build music-downloader
+    - docker info
+    - nx build-image music-downloader
   except:
     - $CI_DEFAULT_BRANCH

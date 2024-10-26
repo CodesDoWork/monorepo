@@ -20,7 +20,6 @@ services:
       dockerfile: workspace.Dockerfile
     environment:
       - TERM=xterm-256color
-      - DOCKER_HOST=tcp://localhost:2375/
     image: ${IMAGE_BASE}/workspace:${PROJECT_VERSION:-latest}
     network_mode: host
     tty: true

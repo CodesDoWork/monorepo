@@ -136,7 +136,7 @@ build latest images:
 trivy:
   stage: analyze
   script:
-    - nx affected pull-image
+    - nx affected -t pull-image
     - nx affected -t trivy
     - nr trivy
   allow_failure: true

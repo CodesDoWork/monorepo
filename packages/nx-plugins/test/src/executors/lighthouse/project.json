@@ -23,7 +23,7 @@
             }
         },
         "trivy": {
-            "executor": "@codesdowork/workspace-plugin:trivy"
+            "executor": "@codesdowork/nx-plugins-test:trivy"
         }
     }
 }

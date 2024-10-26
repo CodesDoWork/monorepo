@@ -13,7 +13,7 @@
             "executor": "@codesdowork/nx-plugins-docker-compose:pull"
         },
         "trivy": {
-            "executor": "@codesdowork/workspace-plugin:trivy"
+            "executor": "@codesdowork/nx-plugins-test:trivy"
         }
     },
     "tags": []

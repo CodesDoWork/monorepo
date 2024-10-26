@@ -60,14 +60,14 @@
             "executor": "@codesdowork/nx-plugins-docker-compose:pull"
         },
         "lighthouse": {
-            "executor": "@codesdowork/workspace-plugin:lighthouse",
+            "executor": "@codesdowork/nx-plugins-test:lighthouse",
             "options": {
                 "project": "music-downloader",
                 "urls": ["http://music-downloader:4200"]
             }
         },
         "trivy": {
-            "executor": "@codesdowork/workspace-plugin:trivy"
+            "executor": "@codesdowork/nx-plugins-test:trivy"
         }
     },
     "tags": ["music-downloader"]

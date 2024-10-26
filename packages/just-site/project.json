@@ -56,14 +56,14 @@
             "executor": "@codesdowork/nx-plugins-docker-compose:pull"
         },
         "lighthouse": {
-            "executor": "@codesdowork/workspace-plugin:lighthouse",
+            "executor": "@codesdowork/nx-plugins-test:lighthouse",
             "options": {
                 "project": "just-site",
                 "urls": ["http://just-site:4500", "https://justinkonratt.com"]
             }
         },
         "trivy": {
-            "executor": "@codesdowork/workspace-plugin:trivy"
+            "executor": "@codesdowork/nx-plugins-test:trivy"
         }
     },
     "tags": ["just-site"]

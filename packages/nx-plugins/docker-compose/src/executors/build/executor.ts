@@ -1,9 +1,14 @@
 import { execAsync } from "@codesdowork/utils";
 import { PromiseExecutor } from "@nx/devkit";
+import { BuildExecutorSchema } from "./schema";
 
-const runExecutor: PromiseExecutor = async (_, context) => {
+const runExecutor: PromiseExecutor<BuildExecutorSchema> = async (options, context) => {
     try {
-        await execAsync("docker", ["compose", "build", context.projectName || ""]);
+        await execAsync("docker", [
+            "compose",
+            "build",
+            options.service || context.projectName || "",
+        ]);
 
         return { success: true };
     } catch (e) {

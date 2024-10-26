@@ -5,13 +5,22 @@
     "tags": ["nx-plugin"],
     "targets": {
         "build-image": {
-            "executor": "@codesdowork/nx-plugins-docker-compose:build"
+            "executor": "@codesdowork/nx-plugins-docker-compose:build",
+            "options": {
+                "service": "lighthouse"
+            }
         },
         "push-image": {
-            "executor": "@codesdowork/nx-plugins-docker-compose:push"
+            "executor": "@codesdowork/nx-plugins-docker-compose:push",
+            "options": {
+                "service": "lighthouse"
+            }
         },
         "pull-image": {
-            "executor": "@codesdowork/nx-plugins-docker-compose:pull"
+            "executor": "@codesdowork/nx-plugins-docker-compose:pull",
+            "options": {
+                "service": "lighthouse"
+            }
         },
         "trivy": {
             "executor": "@codesdowork/workspace-plugin:trivy"

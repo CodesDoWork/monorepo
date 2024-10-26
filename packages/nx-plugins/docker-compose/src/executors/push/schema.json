@@ -4,6 +4,11 @@
     "title": "Push executor",
     "description": "",
     "type": "object",
-    "properties": {},
+    "properties": {
+        "service": {
+            "type": "string",
+            "description": "Service name"
+        }
+    },
     "required": []
 }

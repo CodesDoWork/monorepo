@@ -32,7 +32,7 @@
         "trivy": "ts-node -r tsconfig-paths/register trivy-analyze-fs.ts"
     },
     "devDependencies": {
-        "@astrojs/tailwind": "^5.1.1",
+        "@astrojs/tailwind": "^5.1.2",
         "@bitwarden/cli": "^2024.10.0",
         "@cloudflare/kv-asset-handler": "^0.3.4",
         "@directus/extensions-sdk": "^12.0.2",
@@ -69,7 +69,7 @@
         "@typescript-eslint/eslint-plugin": "7.18.0",
         "@typescript-eslint/parser": "7.18.0",
         "@vitest/ui": "^2.0.5",
-        "astro": "^4.15.7",
+        "astro": "^4.16.7",
         "autoprefixer": "^10.4.20",
         "babel-jest": "^29.7.0",
         "chalk": "4.1.2",

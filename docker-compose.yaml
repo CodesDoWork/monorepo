@@ -298,7 +298,7 @@ services:
           'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
         }
         prometheus_monitoring['enable'] = true
-    image: gitlab/gitlab-ee:17.3.3-ee.0
+    image: gitlab/gitlab-ee:17.5.1-ee.0
     restart: always
     volumes:
       - gitlab-config:/etc/gitlab

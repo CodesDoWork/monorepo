@@ -101,7 +101,7 @@ lint with sonar:
     - sonar-scanner
   allow_failure: true
   only:
-    - $CI_DEFAULT_BRANCH
+    - master
 
 audit:
   stage: lint
@@ -121,7 +121,7 @@ build images:
     - nx affected -t build-image --parallel=1
     - nx affected -t push-image
   except:
-    - $CI_DEFAULT_BRANCH
+    - master
 
 build latest images:
   stage: build
@@ -131,7 +131,7 @@ build latest images:
     - nx affected -t build-image --parallel=1
     - nx affected -t push-image
   only:
-    - $CI_DEFAULT_BRANCH
+    - master
 
 trivy:
   stage: analyze
@@ -164,4 +164,4 @@ deploy:
     - scp docker-compose.yaml ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml
     - ssh ${SSH_USER}@${SSH_HOST} docker compose -f /opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml up -d --pull always --remove-orphans
   only:
-    - $CI_DEFAULT_BRANCH
+    - master

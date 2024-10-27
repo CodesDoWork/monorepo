@@ -60,9 +60,6 @@ install deps:
     DEPS_CACHE_POLICY: pull-push
   script:
     - nci
-  only:
-    changes:
-      - pnpm-lock.yaml
 
 generate env files:
   stage: env
@@ -161,7 +158,8 @@ deploy:
     - chmod 400 ~/.ssh/id_rsa
     # deploy
     - scp .env ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/.env
-    - scp docker-compose.yaml ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml
+    - nx g prod-compose-file
+    - scp docker-compose-prod.yaml ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml
     - ssh ${SSH_USER}@${SSH_HOST} docker compose -f /opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml up -d --pull always --remove-orphans
   only:
     - master

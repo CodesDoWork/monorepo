@@ -1,0 +1,9 @@
+{
+    "generators": {
+        "prod-compose-file": {
+            "factory": "./src/generators/prod-compose-file/generator",
+            "schema": "./src/generators/prod-compose-file/schema.json",
+            "description": "prod-compose-file generator"
+        }
+    }
+}

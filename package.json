@@ -29,7 +29,7 @@
         "check": "nx format:check && nx run-many -t lint test build",
         "secretlint": "secretlint --secretlintignore .gitignore \"**/*\"",
         "env-files": "nx g env-files DEV,PROD",
-        "trivy": "ts-node -r tsconfig-paths/register trivy-analyze-fs.ts"
+        "trivy": "ts-node -r tsconfig-paths/register packages/workspace/scripts/src/trivy-analyze-fs.ts"
     },
     "devDependencies": {
         "@astrojs/tailwind": "^5.1.2",

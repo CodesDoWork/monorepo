@@ -1,0 +1,61 @@
+{
+    "name": "documentation",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "copyfiles -u 4 libs/branding/assets/img/logo.svg packages/documentation/docs/public",
+                    "copyfiles -u 4 libs/branding/assets/img/icon.svg packages/documentation/docs/public",
+                    "copyfiles -u 4 libs/branding/assets/favicon/favicon.ico packages/documentation/docs/public",
+                    "rimraf ./packages/documentation/docs/projects",
+                    "ts-node -r tsconfig-paths/register ./packages/documentation/create-project-docs.ts && vitepress build packages/documentation/docs"
+                ]
+            }
+        },
+        "dev": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "copyfiles -u 4 libs/branding/assets/img/logo.svg packages/documentation/docs/public",
+                    "copyfiles -u 4 libs/branding/assets/img/icon.svg packages/documentation/docs/public",
+                    "copyfiles -u 4 libs/branding/assets/favicon/favicon.ico packages/documentation/docs/public",
+                    "vitepress dev packages/documentation/docs"
+                ]
+            }
+        },
+        "preview": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "vitepress preview packages/documentation/docs"
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "options": {
+                "lintFilePatterns": ["{projectRoot}/**/*.js"]
+            }
+        },
+        "test": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "echo no tests yet"
+            }
+        },
+        "build-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:build"
+        },
+        "push-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:push"
+        },
+        "pull-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:pull"
+        },
+        "trivy": {
+            "executor": "@codesdowork/nx-plugins-test:trivy"
+        }
+    },
+    "tags": ["documentation"]
+}

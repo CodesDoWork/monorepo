@@ -1,0 +1,167 @@
+stages:
+  - workspace
+  - env
+  - lint
+  - test
+  - build
+  - analyze
+  - deploy
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_TLS_CERTDIR: ""
+  PROJECT_VERSION: ${CI_COMMIT_REF_SLUG}
+  DOCKER_REGISTRY: docker.justinkonratt.com
+  ORGANIZATION: codesdowork
+  PROJECT: monorepo
+  IMAGE_BASE: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}
+  DOCKER_VERSION: 27.2.0
+  DEPS_CACHE_POLICY: pull
+  ENV_CACHE_POLICY: pull
+
+default:
+  image: ${IMAGE_BASE}/workspace:${PROJECT_VERSION}
+  services:
+    - name: docker:${DOCKER_VERSION}-dind
+      alias: docker
+  cache:
+    - key:
+        files:
+          - pnpm-lock.yaml
+      paths:
+        - node_modules
+      policy: $DEPS_CACHE_POLICY
+    - key: nx-cache
+      paths:
+        - .nx
+    - key: cache-${CI_COMMIT_SHA}
+      paths:
+        - ./.env
+        - ./packages/**/.env
+        - ./*.pem
+        - ./packages/**/*.pem
+      policy: $ENV_CACHE_POLICY
+  before_script:
+    - export PATH="./node_modules/.bin:$PATH"
+    - docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
+    - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+
+build workspace image:
+  stage: workspace
+  image: docker:${DOCKER_VERSION}
+  cache: []
+  script:
+    - docker compose -f docker-compose-workspace.yaml build --push base
+    - docker compose -f docker-compose-workspace.yaml build --push workspace
+
+install deps:
+  stage: workspace
+  variables:
+    DEPS_CACHE_POLICY: pull-push
+  script:
+    - nci
+  only:
+    changes:
+      - pnpm-lock.yaml
+
+generate env files:
+  stage: env
+  variables:
+    ENV_CACHE_POLICY: push
+  script:
+    - nx g env-files TEST,PROD ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
+
+check formatting:
+  stage: lint
+  script:
+    - nx format:check
+
+lint with eslint:
+  stage: lint
+  script:
+    - nx affected -t lint
+
+secretlint:
+  stage: lint
+  script:
+    - secretlint --secretlintignore .gitignore "**/*"
+
+svelte check:
+  stage: lint
+  script:
+    - nx affected -t svelte-check
+
+lint with sonar:
+  stage: lint
+  cache: []
+  image:
+    name: sonarsource/sonar-scanner-cli:11.1
+    entrypoint: [""]
+  script:
+    - sonar-scanner
+  allow_failure: true
+  only:
+    - $CI_DEFAULT_BRANCH
+
+audit:
+  stage: lint
+  script:
+    - na audit --audit-level=high
+  allow_failure: true
+
+test:
+  stage: test
+  script:
+    - nx affected -t test
+
+build images:
+  stage: build
+  script:
+    - docker compose -f docker-compose-workspace.yaml build workspace-deps
+    - nx affected -t build-image --parallel=1
+    - nx affected -t push-image
+  except:
+    - $CI_DEFAULT_BRANCH
+
+build latest images:
+  stage: build
+  script:
+    - export PROJECT_VERSION=latest
+    - docker compose -f docker-compose-workspace.yaml build workspace-deps
+    - nx affected -t build-image --parallel=1
+    - nx affected -t push-image
+  only:
+    - $CI_DEFAULT_BRANCH
+
+trivy:
+  stage: analyze
+  script:
+    - nx affected -t pull-image
+    - nx affected -t trivy
+    - nr trivy
+  allow_failure: true
+
+lighthouse:
+  stage: analyze
+  script:
+    - nx affected -t lighthouse --parallel=1
+  artifacts:
+    paths:
+      - ./.lighthouse-reports/
+
+deploy:
+  stage: deploy
+  script:
+    # init ssh
+    - apk add openssh-client
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - grep "${KNOWN_HOST_PUB}" ~/.ssh/known_hosts || echo "${KNOWN_HOST_PUB}" > ~/.ssh/known_hosts
+    - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
+    - chmod 400 ~/.ssh/id_rsa
+    # deploy
+    - scp .env ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/.env
+    - scp docker-compose.yaml ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml
+    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f /opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml up -d --pull always --remove-orphans
+  only:
+    - $CI_DEFAULT_BRANCH

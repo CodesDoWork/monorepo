@@ -1,0 +1,16 @@
+{
+    "name": "cms-types",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/cms/types/src",
+    "projectType": "library",
+    "tags": ["shared"],
+    "targets": {
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "packages/cms/types/jest.config.ts"
+            }
+        }
+    }
+}

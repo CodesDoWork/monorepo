@@ -1,18 +1,36 @@
+name: ${STACK_NAME}_workspace
+
+x-build-args:
+  build: &build-args
+    args:
+      - ORGNAIZATION
+      - PROJECT
+      - IMAGE_BASE
+      - PROJECT_VERSION
+
 services:
   base:
     build:
       dockerfile: base.Dockerfile
-    image: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}/base
+    image: ${IMAGE_BASE}/base:${PROJECT_VERSION:-latest}
 
   workspace:
     build:
-      args:
-        - IMAGE_BASE
+      <<: *build-args
       dockerfile: workspace.Dockerfile
-    image: ${IMAGE_BASE}/workspace
+    environment:
+      - TERM=xterm-256color
+    image: ${IMAGE_BASE}/workspace:${PROJECT_VERSION:-latest}
     network_mode: host
     tty: true
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/workspace
+      - /workspace/node_modules
+      - ${PNPM_STORE_PATH:-/tmp/.pnpm-store}:/tmp/.pnpm-store
       - //var/run/docker.sock:/var/run/docker.sock
+
+  workspace-deps:
+    build:
+      <<: *build-args
+      dockerfile: workspace-deps.Dockerfile
+    image: ${IMAGE_BASE}/workspace-deps:${PROJECT_VERSION:-latest}

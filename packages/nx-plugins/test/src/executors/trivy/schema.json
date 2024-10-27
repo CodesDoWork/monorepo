@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/schema",
+    "version": 2,
+    "title": "Trivy executor",
+    "description": "",
+    "type": "object",
+    "properties": {
+        "service": {
+            "type": "string",
+            "description": "Service name"
+        }
+    },
+    "required": []
+}

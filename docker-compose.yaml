@@ -212,6 +212,7 @@ services:
       - REGISTRY_AUTH_TOKEN_REALM=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/docker-v2/auth
       - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
       - REGISTRY_AUTH_TOKEN_ISSUER=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}
+      - REGISTRY_STORAGE_DELETE_ENABLED=true
     healthcheck:
       test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
     image: ${IMAGE_BASE}/docker-registry:${PROJECT_VERSION:-latest}

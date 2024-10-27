@@ -1,0 +1,70 @@
+{
+    "name": "just-site",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just-site/src",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "vite build --config vite-config.ts",
+                "cwd": "packages/just-site"
+            }
+        },
+        "serve": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "vite dev --config vite-config.ts",
+                "cwd": "packages/just-site"
+            }
+        },
+        "preview": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "vite preview --config vite-config.ts",
+                "cwd": "packages/just-site"
+            }
+        },
+        "pre-build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "node copy-env.js",
+                "cwd": "packages/just-site"
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "outputs": ["{options.outputFile}"],
+            "options": {
+                "lintFilePatterns": ["packages/just-site/**/*.{ts,svelte,spec.ts}"]
+            }
+        },
+        "svelte-check": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "svelte-check",
+                "cwd": "packages/just-site"
+            }
+        },
+        "build-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:build"
+        },
+        "push-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:push"
+        },
+        "pull-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:pull"
+        },
+        "lighthouse": {
+            "executor": "@codesdowork/nx-plugins-test:lighthouse",
+            "options": {
+                "project": "just-site",
+                "urls": ["http://just-site:4500", "https://justinkonratt.com"]
+            }
+        },
+        "trivy": {
+            "executor": "@codesdowork/nx-plugins-test:trivy"
+        }
+    },
+    "tags": ["just-site"]
+}

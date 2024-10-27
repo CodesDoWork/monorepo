@@ -31,6 +31,14 @@
                             {
                                 "sourceTag": "just-site",
                                 "onlyDependOnLibsWithTags": ["shared", "just-site"]
+                            },
+                            {
+                                "sourceTag": "nx-plugin",
+                                "onlyDependOnLibsWithTags": ["shared", "nx-plugin"]
+                            },
+                            {
+                                "sourceTag": "documentation",
+                                "onlyDependOnLibsWithTags": ["shared", "documentation"]
                             }
                         ]
                     }

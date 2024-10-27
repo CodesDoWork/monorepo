@@ -4,6 +4,7 @@ x-build-args:
   build: &build-args
     args:
       - IMAGE_BASE
+      - PROJECT_VERSION
 
 x-cap-drop: &cap-drop
   cap_drop:
@@ -42,8 +43,8 @@ services:
 
   certbot:
     build:
-      dockerfile: src/certbot/Dockerfile
-    image: ${IMAGE_BASE}/certbot
+      dockerfile: packages/certbot/Dockerfile
+    image: ${IMAGE_BASE}/certbot:${PROJECT_VERSION:-latest}
     profiles:
       - build-only
 
@@ -51,7 +52,7 @@ services:
     <<: *common
     build:
       <<: *build-args
-      dockerfile: src/cms/Dockerfile
+      dockerfile: packages/cms/Dockerfile
     environment:
       - SECRET=${CMS_SECRET}
       - ADMIN_EMAIL=${CMS_USERNAME}
@@ -71,7 +72,7 @@ services:
       - AUTH_KEYCLOAK_CLIENT_SECRET=${CMS_AUTH_CLIENT_SECRET}
       - AUTH_KEYCLOAK_ISSUER_URL=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/.well-known/openid-configuration
       - AUTH_KEYCLOAK_IDENTIFIER_KEY=email
-    image: ${IMAGE_BASE}/cms
+    image: ${IMAGE_BASE}/cms:${PROJECT_VERSION:-latest}
     volumes:
       - directus-extension-registry:/directus/extensions/.registry
       - directus-uploads:/directus/uploads
@@ -87,50 +88,53 @@ services:
       ofelia.enabled: true
 
       ofelia.job-run.backup.command: --verbose backup /data
-      ofelia.job-run.backup.environment: "[
-        \"AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}\",
-        \"AWS_SECRET_ACCESS_KEY=${BACKBLAZE_APPLICATION_KEY}\",
-        \"RESTIC_REPOSITORY=s3:s3.eu-central-003.backblazeb2.com/${BACKBLAZE_BUCKET_NAME}\",
-        \"RESTIC_PASSWORD=${RESTIC_PASSWORD}\",
-        \"TZ=${TZ}\"
-      ]"
+      ofelia.job-run.backup.environment: |-
+        [
+          "AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}",
+          "AWS_SECRET_ACCESS_KEY=${BACKBLAZE_APPLICATION_KEY}",
+          "RESTIC_REPOSITORY=s3:s3.eu-central-003.backblazeb2.com/${BACKBLAZE_BUCKET_NAME}",
+          "RESTIC_PASSWORD=${RESTIC_PASSWORD}",
+          "TZ=${TZ}"
+        ]
       ofelia.job-run.backup.hostname: server
       ofelia.job-run.backup.image: restic/restic
       ofelia.job-run.backup.schedule: 0 0 3 * * *
-      ofelia.job-run.backup.volume: "[
-        \"/home:/data/home:ro\",
-        \"${STACK_NAME}_bitwarden-data:/data/services/bitwarden/data:ro\",
-        \"${STACK_NAME}_directus-extension-registry:/data/services/directus/extension-registry:ro\",
-        \"${STACK_NAME}_directus-uploads:/data/services/directus/uploads:ro\",
-        \"${STACK_NAME}_gitlab-config:/data/services/gitlab/config:ro\",
-        \"${STACK_NAME}_gitlab-data:/data/services/gitlab/data:ro\",
-        \"${STACK_NAME}_grafana-storage:/data/services/grafana/storage:ro\",
-        \"${STACK_NAME}_grafana-config:/data/services/grafana/config:ro\",
-        \"${STACK_NAME}_linkwarden-data:/data/services/linkwarden/data:ro\",
-        \"${STACK_NAME}_navidrome-data:/data/services/navidrome/data:ro\",
-        \"${STACK_NAME}_netdata-config:/data/services/netdata/config:ro\",
-        \"${STACK_NAME}_netdata-lib:/data/services/netdata/lib:ro\",
-        \"${STACK_NAME}_netdata-cache:/data/services/netdata/cache:ro\",
-        \"${STACK_NAME}_pihole-etc:/data/services/pihole/etc:ro\",
-        \"${STACK_NAME}_pihole-dnsmasq:/data/services/pihole/dnsmasq:ro\",
-        \"${STACK_NAME}_portainer-data:/data/services/portainer/data:ro\",
-        \"${STACK_NAME}_postgres-data:/data/services/postgres/data:ro\",
-        \"${STACK_NAME}_prometheus-data:/data/services/prometheus/data:ro\",
-        \"${STACK_NAME}_sonarqube-config:/data/services/sonarqube/config:ro\",
-        \"${STACK_NAME}_sonarqube-data:/data/services/sonarqube/data:ro\",
-        \"${STACK_NAME}_sonarqube-extensions:/data/services/sonarqube/extensions:ro\",
-        \"${STACK_NAME}_vpn-data:/data/services/vpn/data:ro\",
-        \"${STACK_NAME}_wandb-data:/data/services/wandb/data:ro\"
-      ]"
+      ofelia.job-run.backup.volume: |-
+        [
+          "/home:/data/home:ro",
+          "${STACK_NAME}_bitwarden-data:/data/services/bitwarden/data:ro",
+          "${STACK_NAME}_directus-extension-registry:/data/services/directus/extension-registry:ro",
+          "${STACK_NAME}_directus-uploads:/data/services/directus/uploads:ro",
+          "${STACK_NAME}_gitlab-config:/data/services/gitlab/config:ro",
+          "${STACK_NAME}_gitlab-data:/data/services/gitlab/data:ro",
+          "${STACK_NAME}_grafana-storage:/data/services/grafana/storage:ro",
+          "${STACK_NAME}_grafana-config:/data/services/grafana/config:ro",
+          "${STACK_NAME}_linkwarden-data:/data/services/linkwarden/data:ro",
+          "${STACK_NAME}_navidrome-data:/data/services/navidrome/data:ro",
+          "${STACK_NAME}_netdata-config:/data/services/netdata/config:ro",
+          "${STACK_NAME}_netdata-lib:/data/services/netdata/lib:ro",
+          "${STACK_NAME}_netdata-cache:/data/services/netdata/cache:ro",
+          "${STACK_NAME}_pihole-etc:/data/services/pihole/etc:ro",
+          "${STACK_NAME}_pihole-dnsmasq:/data/services/pihole/dnsmasq:ro",
+          "${STACK_NAME}_portainer-data:/data/services/portainer/data:ro",
+          "${STACK_NAME}_postgres-data:/data/services/postgres/data:ro",
+          "${STACK_NAME}_prometheus-data:/data/services/prometheus/data:ro",
+          "${STACK_NAME}_sonarqube-config:/data/services/sonarqube/config:ro",
+          "${STACK_NAME}_sonarqube-data:/data/services/sonarqube/data:ro",
+          "${STACK_NAME}_sonarqube-extensions:/data/services/sonarqube/extensions:ro",
+          "${STACK_NAME}_vpn-data:/data/services/vpn/data:ro",
+          "${STACK_NAME}_wandb-data:/data/services/wandb/data:ro"
+        ]
 
       ofelia.job-run.forget-backup.command: --verbose forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6
-      ofelia.job-run.forget-backup.environment: "[
-        \"AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}\",
-        \"AWS_SECRET_ACCESS_KEY=${BACKBLAZE_APPLICATION_KEY}\",
-        \"RESTIC_REPOSITORY=s3:s3.eu-central-003.backblazeb2.com/${BACKBLAZE_BUCKET_NAME}\",
-        \"RESTIC_PASSWORD=${RESTIC_PASSWORD}\",
-        \"TZ=${TZ}\"
-      ]"
+      ofelia.job-run.forget-backup.environment: |-
+        [
+          "AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}",
+          "AWS_SECRET_ACCESS_KEY=${BACKBLAZE_APPLICATION_KEY}",
+          "RESTIC_REPOSITORY=s3:s3.eu-central-003.backblazeb2.com/${BACKBLAZE_BUCKET_NAME}",
+          "RESTIC_PASSWORD=${RESTIC_PASSWORD}",
+          "TZ=${TZ}"
+        ]
       ofelia.job-run.forget-backup.image: restic/restic
       ofelia.job-run.forget-backup.schedule: 0 0 5 * * *
 
@@ -138,20 +142,22 @@ services:
       ofelia.job-run.create-playlists.schedule: 0 30 2 * * *
       ofelia.job-run.create-playlists.volume: ${MUSIC_VOLUME}:/music
 
-      ofelia.job-run.renew-certs.environment: "[
-        \"CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}\",
-        \"CERTBOT_EMAIL=${CLOUDFLARE_EMAIL}\",
-        \"DOMAIN=${DOMAIN}\"
-      ]"
+      ofelia.job-run.renew-certs.environment: |-
+        [
+          "CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}",
+          "CERTBOT_EMAIL=${CLOUDFLARE_EMAIL}",
+          "DOMAIN=${DOMAIN}"
+        ]
       ofelia.job-run.renew-certs.image: ${IMAGE_BASE}/certbot
       ofelia.job-run.renew-certs.schedule: 0 30 2 1 * *
       ofelia.job-run.renew-certs.volume: ${STACK_NAME}_letsencrypt:/etc/letsencrypt
 
-      ofelia.job-run.renovate.environment: "[
-        \"RENOVATE_TOKEN=${RENOVATE_TOKEN}\",
-        \"GIT_URL=http://gitlab\",
-        \"GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}\"
-      ]"
+      ofelia.job-run.renovate.environment: |-
+        [
+          "RENOVATE_TOKEN=${RENOVATE_TOKEN}",
+          "GIT_URL=http://gitlab",
+          "GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}"
+        ]
       ofelia.job-run.renovate.image: ${IMAGE_BASE}/renovate
       ofelia.job-run.renovate.network: ${STACK_NAME}_default
       ofelia.job-run.renovate.schedule: "@every 30m"
@@ -173,15 +179,16 @@ services:
     <<: *common
     build:
       <<: *build-args
-      dockerfile: src/dns/Dockerfile
+      dockerfile: packages/dns/Dockerfile
     cap_add:
+      - CAP_AUDIT_WRITE
       - CAP_CHOWN
       - CAP_DAC_OVERRIDE
       - CAP_FOWNER
       - CAP_SETFCAP
       - CAP_SETGID
       - CAP_SETUID
-    image: ${IMAGE_BASE}/dns
+    image: ${IMAGE_BASE}/dns:${PROJECT_VERSION:-latest}
     environment:
       - TZ=${TZ}
       - WEBPASSWORD=${DNS_PASSWORD}
@@ -198,7 +205,7 @@ services:
   docker-registry:
     <<: *common
     build:
-      dockerfile: /src/docker-registry/Dockerfile
+      dockerfile: packages/docker-registry/Dockerfile
     depends_on:
       - cron
     environment:
@@ -207,7 +214,7 @@ services:
       - REGISTRY_AUTH_TOKEN_ISSUER=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}
     healthcheck:
       test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
-    image: ${IMAGE_BASE}/docker-registry
+    image: ${IMAGE_BASE}/docker-registry:${PROJECT_VERSION:-latest}
     labels:
       ofelia.enabled: true
       ofelia.job-exec.registry-garbage-collection.command: registry garbage-collect /etc/docker/registry/config.yml --delete-untagged=true
@@ -219,14 +226,14 @@ services:
     <<: *common
     build:
       <<: *build-args
-      dockerfile: src/documentation/Dockerfile
+      dockerfile: packages/documentation/Dockerfile
     cap_add:
       - CAP_CHOWN
       - SETUID
       - SETGID
     healthcheck:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
-    image: ${IMAGE_BASE}/documentation
+    image: ${IMAGE_BASE}/documentation:${PROJECT_VERSION:-latest}
 
   gitlab:
     environment:
@@ -309,11 +316,13 @@ services:
       - DOCKER_NETWORK_MODE=${STACK_NAME}_default
       - DOCKER_TLS_VERIFY=false
       - DOCKER_IMAGE=docker:27.3.0
+      - DOCKER_PRIVILEGED=true
       - CI_SERVER_URL=http://gitlab
       - CI_SERVER_TOKEN=${GITLAB_RUNNER_TOKEN}
     image: gitlab/gitlab-runner:v17.3.1
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/root/.docker/config.json:ro
 
   grafana:
     <<: *common
@@ -333,7 +342,7 @@ services:
     <<: *common
     build:
       <<: *build-args
-      dockerfile: src/just-site/Dockerfile
+      dockerfile: packages/just-site/Dockerfile
     environment:
       - GITHUB_TOKEN=${JUST_SITE_GITHUB_TOKEN}
       - URL=${URL}
@@ -346,7 +355,7 @@ services:
       - SMTP_PORT=${SMTP_PORT}
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
-    image: ${IMAGE_BASE}/just-site
+    image: ${IMAGE_BASE}/just-site:${PROJECT_VERSION:-latest}
 
   keycloak:
     <<: *common
@@ -367,6 +376,20 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_PASSWORD}
     image: quay.io/keycloak/keycloak:25.0.2
 
+  lighthouse:
+    build:
+      <<: *build-args
+      dockerfile: packages/nx-plugins/test/src/executors/lighthouse/Dockerfile
+    command: ${LIGHTHOUSE_TARGET_URL}
+    <<: *cap-drop
+    cap_add:
+      - SYS_ADMIN
+    image: ${IMAGE_BASE}/lighthouse:${PROJECT_VERSION:-latest}
+    volumes:
+      - ./.lighthouse-reports:/lighthouse-reports
+    profiles:
+      - lighthouse
+
   linkwarden:
     <<: *common
     environment:
@@ -382,10 +405,24 @@ services:
     volumes:
       - linkwarden-data:/data/data
 
-  music:
+  music-downloader:
     <<: *common
     build:
-      dockerfile: src/music/platform/Dockerfile
+      <<: *build-args
+      dockerfile: packages/music/downloader/Dockerfile
+    environment:
+      - DOWNLOAD_DIR=/music/downloads
+      - PORT=${MUSIC_DOWNLOADER_PORT}
+    healthcheck:
+      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
+    image: ${IMAGE_BASE}/music-downloader:${PROJECT_VERSION:-latest}
+    volumes:
+      - ${MUSIC_VOLUME}/downloads:/music/downloads
+
+  music-platform:
+    <<: *common
+    build:
+      dockerfile: packages/music/platform/Dockerfile
     environment:
       - ND_PORT=${MUSIC_PORT}
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
@@ -399,29 +436,15 @@ services:
       - ND_SESSIONTIMEOUT=720h
       - ND_UILOGINBACKGROUNDURL=https://images.pexels.com/photos/2111015/pexels-photo-2111015.jpeg?cs=srgb&dl=pexels-francesco-paggiaro-2111015.jpg&fm=jpg&w=1920&h=1280
       - ND_UIWELCOMEMESSAGE="Listen to the best"
-    image: ${IMAGE_BASE}/music
+    image: ${IMAGE_BASE}/music-platform:${PROJECT_VERSION:-latest}
     volumes:
       - navidrome-data:/data
       - ${MUSIC_VOLUME}:/music:ro
 
-  music-downloader:
-    <<: *common
-    build:
-      <<: *build-args
-      dockerfile: src/music/downloader/Dockerfile
-    environment:
-      - DOWNLOAD_DIR=/music/downloads
-      - PORT=${MUSIC_DOWNLOADER_PORT}
-    healthcheck:
-      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
-    image: ${IMAGE_BASE}/music-downloader
-    volumes:
-      - ${MUSIC_VOLUME}/downloads:/music/downloads
-
   music-playlist-creator:
     build:
-      dockerfile: src/music/playlist-creator/Dockerfile
-    image: ${IMAGE_BASE}/music-playlist-creator
+      dockerfile: packages/music/playlist-creator/Dockerfile
+    image: ${IMAGE_BASE}/music-playlist-creator:${PROJECT_VERSION:-latest}
     profiles:
       - build-only
 
@@ -448,7 +471,7 @@ services:
   nginx:
     <<: *common
     build:
-      dockerfile: src/nginx/Dockerfile
+      dockerfile: packages/nginx/Dockerfile
     cap_add:
       - CAP_CHOWN
       - CAP_SETGID
@@ -457,7 +480,7 @@ services:
       - .env
     healthcheck:
       test: curl -f http://localhost || exit 1
-    image: ${IMAGE_BASE}/nginx
+    image: ${IMAGE_BASE}/nginx:${PROJECT_VERSION:-latest}
     networks:
       default:
         ipv4_address: ${NGINX_IP}
@@ -490,17 +513,17 @@ services:
   prometheus:
     <<: *common
     build:
-      dockerfile: src/prometheus/Dockerfile
+      dockerfile: packages/prometheus/Dockerfile
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
-    image: ${IMAGE_BASE}/prometheus
+    image: ${IMAGE_BASE}/prometheus:${PROJECT_VERSION:-latest}
     volumes:
       - prometheus-data:/prometheus
 
   renovate:
     build:
-      dockerfile: src/renovate/Dockerfile
-    image: ${IMAGE_BASE}/renovate
+      dockerfile: packages/renovate/Dockerfile
+    image: ${IMAGE_BASE}/renovate:${PROJECT_VERSION:-latest}
     profiles:
       - build-only
 

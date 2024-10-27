@@ -39,6 +39,10 @@
                             {
                                 "sourceTag": "documentation",
                                 "onlyDependOnLibsWithTags": ["shared", "documentation"]
+                            },
+                            {
+                                "sourceTag": "workspace-scripts",
+                                "onlyDependOnLibsWithTags": ["shared", "workspace-scripts"]
                             }
                         ]
                     }

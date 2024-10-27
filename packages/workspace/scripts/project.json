@@ -1,0 +1,8 @@
+{
+    "name": "scripts",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/workspace/scripts/src",
+    "projectType": "library",
+    "tags": ["workspace-scripts"],
+    "targets": {}
+}

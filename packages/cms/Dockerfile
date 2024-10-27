@@ -11,7 +11,7 @@ COPY . .
 RUN nx build cms-dashboard-config
 
 
-FROM directus/directus:11.1.0
+FROM directus/directus:11.1.1
 
 USER root
 RUN mkdir -p /dashy/config

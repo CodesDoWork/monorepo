@@ -3,7 +3,7 @@
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/nx-plugins/test/src",
     "projectType": "library",
-    "tags": ["nx-plugin"],
+    "tags": ["nx-plugin", "shared"],
     "targets": {
         "test": {
             "executor": "@nx/jest:jest",

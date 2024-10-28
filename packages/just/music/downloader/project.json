@@ -1,0 +1,73 @@
+{
+    "name": "just-music-downloader",
+    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/music/downloader",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "@nx/next:build",
+            "outputs": ["{options.outputPath}"],
+            "defaultConfiguration": "production",
+            "options": {
+                "outputPath": "dist/packages/just/music/downloader",
+                "debug": true
+            }
+        },
+        "serve": {
+            "executor": "@nx/next:server",
+            "defaultConfiguration": "development",
+            "options": {
+                "buildTarget": "just-music-downloader:build",
+                "dev": true
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "just-music-downloader:build:development",
+                    "dev": true
+                },
+                "production": {
+                    "buildTarget": "just-music-downloader:build:production",
+                    "dev": false
+                }
+            }
+        },
+        "export": {
+            "executor": "@nx/next:export",
+            "options": {
+                "buildTarget": "music-downloader:build:production"
+            }
+        },
+        "test": {
+            "executor": "@nx/jest:jest",
+            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+            "options": {
+                "jestConfig": "packages/just/music/downloader/jest.config.ts"
+            }
+        },
+        "lint": {
+            "executor": "@nx/eslint:lint",
+            "options": {
+                "lintFilePatterns": ["{projectRoot}/**/*.{ts,tsx,js,jsx}"]
+            }
+        },
+        "build-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:build"
+        },
+        "push-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:push"
+        },
+        "pull-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:pull"
+        },
+        "lighthouse": {
+            "executor": "@codesdowork/nx-plugins-test:lighthouse",
+            "options": {
+                "urls": ["http://music-downloader:4200"]
+            }
+        },
+        "trivy": {
+            "executor": "@codesdowork/nx-plugins-test:trivy"
+        }
+    },
+    "tags": ["just-music-downloader"]
+}

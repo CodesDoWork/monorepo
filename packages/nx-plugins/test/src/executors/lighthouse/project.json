@@ -2,7 +2,7 @@
     "name": "@codesdowork/nx-plugins-test-lighthouse",
     "$schema": "../../../../../../node_modules/nx/schemas/project-schema.json",
     "projectType": "library",
-    "tags": ["nx-plugin"],
+    "tags": ["nx-plugins"],
     "targets": {
         "build-image": {
             "executor": "@codesdowork/nx-plugins-docker-compose:build",

@@ -18,6 +18,8 @@ variables:
   DOCKER_VERSION: 27.2.0
   DEPS_CACHE_POLICY: pull
   ENV_CACHE_POLICY: pull
+  MASTER_BRANCH: master
+  DEV_BRANCH: develop
 
 default:
   image: ${IMAGE_BASE}/workspace:${PROJECT_VERSION}
@@ -53,6 +55,7 @@ build workspace image:
   script:
     - docker compose -f docker-compose-workspace.yaml build --push base
     - docker compose -f docker-compose-workspace.yaml build --push workspace
+  resource_group: single
 
 install deps:
   stage: workspace
@@ -60,6 +63,7 @@ install deps:
     DEPS_CACHE_POLICY: pull-push
   script:
     - nci
+  resource_group: single
 
 generate env files:
   stage: env
@@ -67,26 +71,31 @@ generate env files:
     ENV_CACHE_POLICY: push
   script:
     - nx g env-files TEST,PROD ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
+  resource_group: single
 
 check formatting:
   stage: lint
   script:
     - nx format:check
+  resource_group: single
 
 lint with eslint:
   stage: lint
   script:
     - nx affected -t lint
+  resource_group: single
 
 secretlint:
   stage: lint
   script:
     - secretlint --secretlintignore .gitignore "**/*"
+  resource_group: single
 
 svelte check:
   stage: lint
   script:
     - nx affected -t svelte-check
+  resource_group: single
 
 lint with sonar:
   stage: lint
@@ -98,18 +107,21 @@ lint with sonar:
     - sonar-scanner
   allow_failure: true
   only:
-    - master
+    - $MASTER_BRANCH
+  resource_group: single
 
 audit:
   stage: lint
   script:
     - na audit --audit-level=high
   allow_failure: true
+  resource_group: single
 
 test:
   stage: test
   script:
     - nx affected -t test
+  resource_group: single
 
 build images:
   stage: build
@@ -118,7 +130,8 @@ build images:
     - nx affected -t build-image --parallel=1
     - nx affected -t push-image
   except:
-    - master
+    - $MASTER_BRANCH
+  resource_group: single
 
 build latest images:
   stage: build
@@ -128,7 +141,8 @@ build latest images:
     - nx affected -t build-image --parallel=1
     - nx affected -t push-image
   only:
-    - master
+    - $MASTER_BRANCH
+  resource_group: single
 
 trivy:
   stage: analyze
@@ -137,6 +151,7 @@ trivy:
     - nx affected -t trivy
     - nr trivy
   allow_failure: true
+  resource_group: single
 
 lighthouse:
   stage: analyze
@@ -145,6 +160,7 @@ lighthouse:
   artifacts:
     paths:
       - ./.lighthouse-reports/
+    resource_group: single
 
 deploy:
   stage: deploy
@@ -165,4 +181,5 @@ deploy:
     # up
     - ssh ${SSH_USER}@${SSH_HOST} docker compose -f /opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml up -d --pull always --remove-orphans
   only:
-    - master
+    - $MASTER_BRANCH
+  resource_group: single

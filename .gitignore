@@ -1,22 +1,3 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# output
-/.lighthouse-reports
-/dist
-/tmp
-/out-tsc
-
-# dependencies
-/node_modules
-
-# IDEs and editors
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json
@@ -24,25 +5,24 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# misc
-/.sass-cache
-/connect.lock
-/coverage
-/libpeerconnection.log
-npm-debug.log
-yarn-error.log
-testem.log
-/typings
-
 # System Files
 .DS_Store
 Thumbs.db
 
-.nx/cache
-.nx/workspace-data
+# dependencies
+/node_modules
 
-# env
+# output
+/.lighthouse-reports
+/dist
+/tmp
+/out-tsc
+/coverage
+
+# misc
+/.nx
+.astro
+.next
+.svelte-kit
+.wrangler
 .env
-
-# svelte
-/packages/just-site/.svelte-kit

@@ -6,8 +6,8 @@
       <excludeFolder url="file://$MODULE_DIR$/.lighthouse-reports" />
       <excludeFolder url="file://$MODULE_DIR$/.nx" />
       <excludeFolder url="file://$MODULE_DIR$/dist" />
-      <excludeFolder url="file://$MODULE_DIR$/packages/just-site/.svelte-kit" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/just/website/.svelte-kit" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

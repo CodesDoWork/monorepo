@@ -1,4 +1,4 @@
-import { execAsync } from "@codesdowork/utils";
+import { execAsync } from "@codesdowork/shared-utils";
 
 export async function trivyAnalyzeImage(image: string) {
     await runTrivy(

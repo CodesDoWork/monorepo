@@ -65,8 +65,11 @@ async function login({ username, password }: Credentials) {
         loginResult = execSync(`bw login ${username} ${password}`).toString();
     }
 
-    process.env.BW_SESSION = /SESSION="(.+?)"/.exec(loginResult)?.[1] ?? "";
     logger.info("Set BW_SESSION");
+    process.env.BW_SESSION = /SESSION="(.+?)"/.exec(loginResult)?.[1] ?? "";
+    if (!process.env.BW_SESSION) {
+        throw new Error("Failed to login");
+    }
 }
 
 async function ensureUsername(username: string): Promise<string> {

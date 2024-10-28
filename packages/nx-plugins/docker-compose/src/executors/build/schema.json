@@ -8,6 +8,10 @@
         "service": {
             "type": "string",
             "description": "Service name"
+        },
+        "config": {
+            "type": "string",
+            "description": "Where to find the docker compose config (dir or file path)"
         }
     },
     "required": []

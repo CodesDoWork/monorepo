@@ -1,0 +1,28 @@
+{
+    "name": "just-dns",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/dns",
+    "projectType": "application",
+    "targets": {
+        "build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": ["envsub dnsmasq.d/custom.conf.template dnsmasq.d/custom.conf"],
+                "cwd": "packages/just/dns"
+            }
+        },
+        "build-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:build"
+        },
+        "push-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:push"
+        },
+        "pull-image": {
+            "executor": "@codesdowork/nx-plugins-docker-compose:pull"
+        },
+        "trivy": {
+            "executor": "@codesdowork/nx-plugins-test:trivy"
+        }
+    },
+    "tags": []
+}

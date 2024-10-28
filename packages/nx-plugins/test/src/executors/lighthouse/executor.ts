@@ -1,4 +1,4 @@
-import { execAsync } from "@codesdowork/utils";
+import { execAsync } from "@codesdowork/shared-utils";
 import { PromiseExecutor } from "@nx/devkit";
 import { configDotenv } from "dotenv";
 import { LighthouseExecutorSchema } from "./schema";

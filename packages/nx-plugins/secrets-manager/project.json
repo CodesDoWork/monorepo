@@ -1,5 +1,5 @@
 {
-    "name": "@codesdowork/nx-plugins-secrets-manager",
+    "name": "nx-plugins-secrets-manager",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/nx-plugins/secrets-manager/src",
     "projectType": "library",

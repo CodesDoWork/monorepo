@@ -1,5 +1,5 @@
 {
-    "name": "@codesdowork/nx-plugins-test-lighthouse",
+    "name": "nx-plugins-test-lighthouse",
     "$schema": "../../../../../../node_modules/nx/schemas/project-schema.json",
     "projectType": "library",
     "tags": ["nx-plugins"],

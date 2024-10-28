@@ -5,14 +5,10 @@
     "description": "",
     "type": "object",
     "properties": {
-        "project": {
-            "type": "string",
-            "description": "Project name"
-        },
         "urls": {
             "type": "array",
             "description": "URLs to analyze"
         }
     },
-    "required": ["project", "urls"]
+    "required": ["urls"]
 }

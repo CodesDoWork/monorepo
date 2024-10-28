@@ -27,6 +27,7 @@
                 "packages/nx-plugins/secrets-manager/src/index.ts"
             ],
             "@codesdowork/nx-plugins-test": ["packages/nx-plugins/test/src/index.ts"],
+            "@codesdowork/nx-plugins-utils": ["packages/nx-plugins/utils/src/index.ts"],
             "@codesdowork/shared-health": ["packages/shared/health/src/index.ts"],
             "@codesdowork/shared-logging": ["packages/shared/logging/src/index.ts"],
             "@codesdowork/shared-trpc": ["packages/shared/trpc/src/index.ts"],

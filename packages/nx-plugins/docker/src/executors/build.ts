@@ -1,14 +1,14 @@
+import { projectRoot } from "@codesdowork/nx-plugins-utils";
 import { PromiseExecutor } from "@nx/devkit";
-import { runDockerCommand } from "../run-command";
-import { getBaseVars } from "./docker-base";
+import { dockerImage, getBaseDockerVars, runDockerCommand } from "../utils";
 
-const runExecutor: PromiseExecutor = async (_, context) => {
+export const dockerBuildExecutor: PromiseExecutor = async (_, context) => {
     try {
-        const { IMAGE_BASE, PROJECT_VERSION, projectRoot } = getBaseVars(context);
+        const { IMAGE_BASE, PROJECT_VERSION } = getBaseDockerVars();
         await runDockerCommand([
             "build",
-            `-t ${IMAGE_BASE}/${context.projectName}:${PROJECT_VERSION}`,
-            `-f ${projectRoot}/Dockerfile`,
+            `-t ${dockerImage(context.projectName ?? "")}`,
+            `-f ${projectRoot(context)}/Dockerfile`,
             `--build-arg IMAGE_BASE=${IMAGE_BASE}`,
             `--build-arg PROJECT_VERSION=${PROJECT_VERSION}`,
             ".",
@@ -19,4 +19,4 @@ const runExecutor: PromiseExecutor = async (_, context) => {
     }
 };
 
-export default runExecutor;
+export default dockerBuildExecutor;

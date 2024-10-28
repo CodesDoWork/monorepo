@@ -1,4 +1,4 @@
-name: ${JUST_STACK_NAME}
+name: ${STACK_NAME}
 
 x-cap-drop: &cap-drop
   cap_drop:
@@ -9,11 +9,11 @@ x-common: &common
   restart: always
 
 services:
-  just-adminer:
+  adminer:
     <<: *common
     image: adminer:4.8.1
 
-  just-bitwarden:
+  bitwarden:
     <<: *common
     environment:
       - TZ=${TZ}
@@ -35,7 +35,7 @@ services:
     volumes:
       - bitwarden-data:/data
 
-  just-cms:
+  cms:
     <<: *common
     environment:
       - SECRET=${CMS_SECRET}
@@ -62,7 +62,7 @@ services:
       - directus-uploads:/directus/uploads
       - dashy-config:/dashy/config
 
-  just-cron:
+  cron:
     <<: *common
     command: daemon --docker
     environment:
@@ -149,7 +149,7 @@ services:
       - //var/run/docker.sock:/var/run/docker.sock:ro
       - /root/.docker/config.json:/root/.docker/config.json:ro
 
-  just-dashboard:
+  dashboard:
     <<: *common
     environment:
       - NODE_ENV=production
@@ -159,7 +159,7 @@ services:
     volumes:
       - dashy-config:/app/user-data:ro
 
-  just-dns:
+  dns:
     <<: *common
     cap_add:
       - CAP_AUDIT_WRITE
@@ -183,10 +183,10 @@ services:
       - pihole-etc:/etc/pihole
       - pihole-dnsmasq:/etc/dnsmasq.d
 
-  just-docker-registry:
+  docker-registry:
     <<: *common
     depends_on:
-      - just-cron
+      - cron
     environment:
       - REGISTRY_AUTH_TOKEN_REALM=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/docker-v2/auth
       - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
@@ -202,7 +202,7 @@ services:
     volumes:
       - docker-registry:/var/lib/registry
 
-  just-documentation:
+  documentation:
     <<: *common
     cap_add:
       - CAP_CHOWN
@@ -212,7 +212,7 @@ services:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
     image: ${IMAGE_BASE}/just-documentation:${PROJECT_VERSION:-latest}
 
-  just-gitlab:
+  gitlab:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'https://${GITLAB_DOMAIN}'
@@ -281,7 +281,7 @@ services:
       - gitlab-config:/etc/gitlab
       - gitlab-data:/var/opt/gitlab
 
-  just-gitlab-runner:
+  gitlab-runner:
     <<: *common
     command:
       - run-single
@@ -301,7 +301,7 @@ services:
       - //var/run/docker.sock:/var/run/docker.sock
       - /root/.docker/config.json:/root/.docker/config.json:ro
 
-  just-grafana:
+  grafana:
     <<: *common
     environment:
       - GF_SMTP_ENABLED=true
@@ -315,7 +315,7 @@ services:
       - grafana-storage:/var/lib/grafana
       - grafana-config:/usr/share/grafana/conf
 
-  just-keycloak:
+  keycloak:
     <<: *common
     command:
       - start
@@ -334,18 +334,7 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_PASSWORD}
     image: quay.io/keycloak/keycloak:25.0.2
 
-  just-lighthouse:
-    command: ${LIGHTHOUSE_TARGET_URL}
-    <<: *cap-drop
-    cap_add:
-      - SYS_ADMIN
-    image: ${IMAGE_BASE}/nx-plugins-test-lighthouse:${PROJECT_VERSION:-latest}
-    volumes:
-      - ./.lighthouse-reports:/lighthouse-reports
-    profiles:
-      - lighthouse
-
-  just-linkwarden:
+  linkwarden:
     <<: *common
     environment:
       - NEXTAUTH_SECRET=${LINKWARDEN_SECRET}
@@ -360,7 +349,7 @@ services:
     volumes:
       - linkwarden-data:/data/data
 
-  just-music-downloader:
+  music-downloader:
     <<: *common
     environment:
       - DOWNLOAD_DIR=/music/downloads
@@ -371,7 +360,7 @@ services:
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
 
-  just-music-platform:
+  music-platform:
     <<: *common
     environment:
       - ND_PORT=${MUSIC_PORT}
@@ -391,7 +380,7 @@ services:
       - navidrome-data:/data
       - ${MUSIC_VOLUME}:/music:ro
 
-  just-netdata:
+  netdata:
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
@@ -411,7 +400,7 @@ services:
       - /etc/os-release:/host/etc/os-release:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
-  just-nginx:
+  nginx:
     <<: *common
     cap_add:
       - CAP_CHOWN
@@ -428,14 +417,14 @@ services:
     volumes:
       - letsencrypt:/etc/letsencrypt:ro
 
-  just-portainer:
+  portainer:
     <<: *common
     image: portainer/portainer-ce:2.21.1-alpine
     volumes:
       - portainer-data:/data
       - //var/run/docker.sock:/var/run/docker.sock
 
-  just-postgres:
+  postgres:
     <<: *common
     cap_add:
       - CAP_FOWNER
@@ -451,7 +440,7 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
-  just-prometheus:
+  prometheus:
     <<: *common
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
@@ -459,7 +448,7 @@ services:
     volumes:
       - prometheus-data:/prometheus
 
-  just-sonarqube:
+  sonarqube:
     <<: *common
     environment:
       - SONAR_JDBC_USERNAME=${POSTGRES_USERNAME}
@@ -473,7 +462,7 @@ services:
       - sonarqube-data:/opt/sonarqube/data
       - sonarqube-extensions:/opt/sonarqube/extensions
 
-  just-tunnel:
+  tunnel:
     <<: *common
     command:
       - tunnel
@@ -486,7 +475,7 @@ services:
       default:
         ipv4_address: ${TUNNEL_IP}
 
-  just-vpn:
+  vpn:
     <<: *common
     cap_add:
       - NET_ADMIN
@@ -507,13 +496,13 @@ services:
     volumes:
       - vpn-data:/etc/wireguard
 
-  just-wandb:
+  wandb:
     <<: *common
     image: wandb/local:0.59.2
     volumes:
       - wandb-data:/vol
 
-  just-website:
+  website:
     <<: *common
     environment:
       - GITHUB_TOKEN=${JUST_SITE_GITHUB_TOKEN}
@@ -527,7 +516,7 @@ services:
       - SMTP_PORT=${SMTP_PORT}
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
-    image: ${IMAGE_BASE}/just/website:${PROJECT_VERSION:-latest}
+    image: ${IMAGE_BASE}/just-website:${PROJECT_VERSION:-latest}
 
 volumes:
   bitwarden-data:

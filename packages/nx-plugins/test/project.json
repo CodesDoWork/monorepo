@@ -1,5 +1,5 @@
 {
-    "name": "@codesdowork/nx-plugins-test",
+    "name": "nx-plugins-test",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/nx-plugins/test/src",
     "projectType": "library",

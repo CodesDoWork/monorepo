@@ -58,7 +58,7 @@
         "lighthouse": {
             "executor": "@codesdowork/nx-plugins-test:lighthouse",
             "options": {
-                "urls": ["http://just-website:4500", "https://justinkonratt.com"]
+                "urls": ["http://website:4500", "https://justinkonratt.com"]
             }
         },
         "trivy": {

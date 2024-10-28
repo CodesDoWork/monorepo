@@ -34,6 +34,16 @@
             "implementation": "./src/executors/compose/pull",
             "schema": "./src/executors/schema.json",
             "description": "compose pull executor"
+        },
+        "compose-up": {
+            "implementation": "./src/executors/compose/up",
+            "schema": "./src/executors/schema.json",
+            "description": "compose up executor"
+        },
+        "compose-down": {
+            "implementation": "./src/executors/compose/down",
+            "schema": "./src/executors/schema.json",
+            "description": "compose down executor"
         }
     }
 }

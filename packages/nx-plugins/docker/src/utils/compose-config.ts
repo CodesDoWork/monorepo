@@ -1,8 +1,7 @@
-import { projectRoot } from "@codesdowork/nx-plugins-utils";
+import { loadEnv, projectRoot } from "@codesdowork/nx-plugins-utils";
 import { ExecutorContext } from "@nx/devkit";
 import { existsSync } from "fs";
 import path from "node:path";
-import { loadAndExpandDotEnvFile } from "nx/src/tasks-runner/task-env";
 
 export interface ServiceInfo {
     composeDir: string;
@@ -27,10 +26,8 @@ export function getComposeDirForContext(context: ExecutorContext): string {
 
 export function getServiceNetwork(context: ExecutorContext, network = "default"): string {
     const { stack_suffix } = getServiceInfo(context);
-    const loadedEnv: Record<string, string> = {};
-    loadAndExpandDotEnvFile(".env", loadedEnv);
-
-    return `${loadedEnv.STACK_NAME}_${stack_suffix}_${network}`;
+    const { STACK_NAME } = loadEnv();
+    return `${STACK_NAME}_${stack_suffix}_${network}`;
 }
 
 export function searchNextComposeDir(startDir: string): string {

@@ -160,7 +160,7 @@ lighthouse:
   artifacts:
     paths:
       - ./.lighthouse-reports/
-    resource_group: single
+  resource_group: single
 
 deploy:
   stage: deploy

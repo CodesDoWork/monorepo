@@ -1,5 +1,5 @@
 {
-    "name": "documentation",
+    "name": "just-documentation",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "projectType": "application",
     "targets": {

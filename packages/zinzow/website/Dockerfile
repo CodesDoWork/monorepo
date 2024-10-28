@@ -21,8 +21,8 @@ ARG APP_DIR
 ENV NODE_ENV=production
 
 WORKDIR /app
-COPY --from=builder /workspace/dist/$APP_DIR .
-COPY --from=builder /workspace/src/$APP_DIR/package.json .
+COPY --from=builder /workspace/dist/packages/$APP_DIR .
+COPY --from=builder /workspace/packages/$APP_DIR/package.json .
 
 USER node
 CMD ["node", "index.js"]

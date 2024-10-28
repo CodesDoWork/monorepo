@@ -176,8 +176,7 @@ deploy:
     - nx g env-files PROD ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
     - scp .env ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/.env
     # deploy docker-compose
-    - nx g prod-compose-file
-    - scp docker-compose-prod.yaml ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml
+    - scp docker-compose.yaml ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml
     # up
     - ssh ${SSH_USER}@${SSH_HOST} docker compose -f /opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml up -d --pull always --remove-orphans
   only:

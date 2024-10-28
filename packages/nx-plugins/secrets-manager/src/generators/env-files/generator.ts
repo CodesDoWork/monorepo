@@ -1,25 +1,43 @@
-import { generateFiles, getProjects, logger, Tree } from "@nx/devkit";
+import { generateFiles, logger, Tree } from "@nx/devkit";
 import inquirer from "inquirer";
+import { readdirSync } from "node:fs";
 import path from "node:path";
+import { simpleGit } from "simple-git";
 import { getEnvContent, projectConfigExists, setupBwCli } from "../../config";
 import { EnvFilesGeneratorSchema } from "./schema";
+
+const git = simpleGit();
 
 export async function envFilesGenerator(tree: Tree, options: EnvFilesGeneratorSchema) {
     await ensurePassword(options);
     await setupBwCli(tree, options);
-    getProjects(tree).forEach(project => {
-        if (projectConfigExists(tree, project.root)) {
-            createEnvFile(tree, project.name || project.root, project.root, options);
-        }
-    });
+    await generateEnvFiles(tree, ".", options);
+}
 
-    if (projectConfigExists(tree)) {
-        createEnvFile(tree, "root", "", options);
+async function generateEnvFiles(tree: Tree, root: string, options: EnvFilesGeneratorSchema) {
+    if (projectConfigExists(tree, root)) {
+        createEnvFile(tree, root, options);
+    }
+
+    const dirs = readdirSync(root, { withFileTypes: true })
+        .filter(child => child.isDirectory() && child.name !== ".git")
+        .map(dir => path.join(root, dir.name));
+    if (!dirs.length) {
+        return;
+    }
+
+    const ignoredDirs = await git
+        .checkIgnore(dirs)
+        .then(ignoredDirs =>
+            ignoredDirs.map(path.normalize).map(dirPath => dirPath.replace(/"/g, "")),
+        );
+    for (const dir of dirs.filter(dir => !ignoredDirs.includes(dir))) {
+        await generateEnvFiles(tree, dir, options);
     }
 }
 
-function createEnvFile(tree: Tree, name: string, root: string, options: EnvFilesGeneratorSchema) {
-    logger.info(`Generating env file for ${name}`);
+function createEnvFile(tree: Tree, root: string, options: EnvFilesGeneratorSchema) {
+    logger.info(`Generating env file for ${path.relative(tree.root, root) || "root"}`);
     const content = getEnvContent(tree, root, options.stages);
     const fileOptions = { content };
     generateFiles(tree, path.join(__dirname, "files"), root, fileOptions);

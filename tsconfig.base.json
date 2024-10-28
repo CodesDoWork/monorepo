@@ -20,8 +20,8 @@
         "strictNullChecks": true,
         "paths": {
             "@codesdowork/just-cms-types": ["packages/just/cms/types/src/index.ts"],
-            "@codesdowork/nx-plugins-docker-compose": [
-                "packages/nx-plugins/docker-compose/src/index.ts"
+            "@codesdowork/nx-plugins-docker": [
+                "packages/nx-plugins/docker/src/index.ts"
             ],
             "@codesdowork/nx-plugins-secrets-manager": [
                 "packages/nx-plugins/secrets-manager/src/index.ts"

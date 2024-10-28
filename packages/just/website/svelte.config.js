@@ -5,7 +5,7 @@ import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 export default {
     kit: {
         adapter: adapter({
-            out: "../../../../dist/packages/just/website",
+            out: "../../../dist/packages/just/website",
         }),
         prerender: {
             handleHttpError: "warn",

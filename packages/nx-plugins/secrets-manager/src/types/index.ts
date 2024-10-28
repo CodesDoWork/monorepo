@@ -5,6 +5,8 @@ export interface Credentials {
     password: string;
 }
 
+export const zExtendsConfig = z.object({ extends: z.string().optional() });
+
 export const zEnvValueTypes = z.union([z.string(), z.number(), z.boolean()]);
 export const zEnvConfig = z.object({ env: z.record(zEnvValueTypes).optional().default({}) });
 
@@ -25,7 +27,10 @@ export const zSecretsConfig = z.object({
     secrets: z.record(zSecretCollectionConfig).optional().default({}),
 });
 
-export const zProjectSecretsConfig = z.intersection(zEnvConfig, zSecretsConfig);
+export const zProjectSecretsConfig = z.intersection(
+    zExtendsConfig,
+    z.intersection(zEnvConfig, zSecretsConfig),
+);
 export const zRootSecretConfig = z.object({ server: z.string().optional() }).strict();
 
 export type SecretEnvConfig = z.infer<typeof zSecretEnvConfig>;

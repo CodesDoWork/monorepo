@@ -1,0 +1,6 @@
+services:
+  shared-certbot:
+    build:
+      context: ../../..
+      dockerfile: packages/shared/certbot/Dockerfile
+    image: ${IMAGE_BASE}/shared-certbot:${PROJECT_VERSION:-latest}

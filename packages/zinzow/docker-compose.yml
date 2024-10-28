@@ -1,30 +1,6 @@
-x-build-args:
-  build: &build-args
-    args:
-      - IMAGE_BASE
+name: ${STACK_NAME}_zinzow
 
 services:
-  base:
-    build:
-      dockerfile: base.Dockerfile
-    image: ${IMAGE_BASE}/base
-    profiles:
-      - base
-
-  workspace:
-    build:
-      <<: *build-args
-      dockerfile: workspace.Dockerfile
-    image: ${IMAGE_BASE}/workspace
-    network_mode: host
-    profiles:
-      - worspace
-    tty: true
-    volumes:
-      - .:/workspace
-      - /workspace/node_modules
-      - //var/run/docker.sock:/var/run/docker.sock
-
   db:
     environment:
       - POSTGRES_PASSWORD=${DB_PASSWORD}
@@ -65,16 +41,10 @@ services:
     restart: unless-stopped
 
   website:
-    build:
-      <<: *build-args
-      context: .
-      dockerfile: ../monorepo/packages/zinzow/website/Dockerfile
     cap_drop:
       - ALL
     environment:
       - PORT=4300
-    env_file:
-      - ../monorepo/packages/zinzow/website/.env
     image: ${IMAGE_BASE}/website
     read_only: true
     restart: unless-stopped

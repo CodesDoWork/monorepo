@@ -3,9 +3,10 @@ import inquirer from "inquirer";
 import { execSync } from "node:child_process";
 import path from "node:path";
 import { parse as parseYaml } from "yaml";
-import { z, ZodSchema } from "zod";
 import {
     Credentials,
+    ProjectSecretsConfig,
+    RootSecretsConfig,
     SecretCollectionConfig,
     SecretEnvConfig,
     zProjectSecretsConfig,
@@ -35,7 +36,7 @@ function syncBw() {
 
 function setupWithRootConfig(tree: Tree) {
     if (tree.exists(ROOT_CONFIG_FILE)) {
-        const { server } = readConfigFile(tree, ROOT_CONFIG_FILE, zRootSecretConfig);
+        const { server } = readRootConfig(tree);
         if (server) {
             setBwServer(server);
         }
@@ -96,7 +97,7 @@ function projectConfigFilePath(root: string): string {
 }
 
 export function getEnvContent(tree: Tree, root: string, stages: string[]): string {
-    const config = readConfigFile(tree, projectConfigFilePath(root), zProjectSecretsConfig);
+    const config = readConfigFile(tree, projectConfigFilePath(root));
     const envs = Object.entries(config.env).map(([key, value]) => `${key}=${value}`);
     const secrets = Object.entries(config.secrets).flatMap(([collection, collectionConfig]) =>
         Object.entries(getSecrets(tree, root, collection, collectionConfig, stages)).map(
@@ -191,11 +192,29 @@ function getCustomItemField(item: CipherData, field: string): string | undefined
     return item.fields?.find(f => f.name.toLowerCase() === field)?.value;
 }
 
-function readConfigFile<T extends ZodSchema>(tree: Tree, path: string, schema: T): z.infer<T> {
+function readRootConfig(tree: Tree): RootSecretsConfig {
+    const content = tree.read(ROOT_CONFIG_FILE)?.toString();
+    if (!content) {
+        throw new Error("Config file not found");
+    }
+
+    return zRootSecretConfig.parse(parseYaml(content));
+}
+
+function readConfigFile(tree: Tree, path: string): ProjectSecretsConfig {
     const content = tree.read(path)?.toString();
     if (!content) {
         throw new Error("Config file not found");
     }
 
-    return schema.parse(parseYaml(content));
+    const config = zProjectSecretsConfig.parse(parseYaml(content));
+    if (config.extends) {
+        const parentConfig = readConfigFile(tree, projectConfigFilePath(config.extends));
+        return {
+            env: { ...parentConfig.env, ...config.env },
+            secrets: { ...parentConfig.secrets, ...config.secrets },
+        };
+    }
+
+    return config;
 }

@@ -12,13 +12,13 @@
             }
         },
         "build-image": {
-            "executor": "@codesdowork/nx-plugins-docker-compose:build"
+            "executor": "@codesdowork/nx-plugins-docker:build"
         },
         "push-image": {
-            "executor": "@codesdowork/nx-plugins-docker-compose:push"
+            "executor": "@codesdowork/nx-plugins-docker:push"
         },
         "pull-image": {
-            "executor": "@codesdowork/nx-plugins-docker-compose:pull"
+            "executor": "@codesdowork/nx-plugins-docker:pull"
         },
         "trivy": {
             "executor": "@codesdowork/nx-plugins-test:trivy"

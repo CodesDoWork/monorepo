@@ -1,10 +1,4 @@
-name: ${STACK_NAME}
-
-x-build-args:
-  build: &build-args
-    args:
-      - IMAGE_BASE
-      - PROJECT_VERSION
+name: ${JUST_STACK_NAME}
 
 x-cap-drop: &cap-drop
   cap_drop:
@@ -15,11 +9,11 @@ x-common: &common
   restart: always
 
 services:
-  adminer:
+  just-adminer:
     <<: *common
     image: adminer:4.8.1
 
-  bitwarden:
+  just-bitwarden:
     <<: *common
     environment:
       - TZ=${TZ}
@@ -41,18 +35,8 @@ services:
     volumes:
       - bitwarden-data:/data
 
-  certbot:
-    build:
-      dockerfile: packages/certbot/Dockerfile
-    image: ${IMAGE_BASE}/certbot:${PROJECT_VERSION:-latest}
-    profiles:
-      - build-only
-
-  cms:
+  just-cms:
     <<: *common
-    build:
-      <<: *build-args
-      dockerfile: packages/cms/Dockerfile
     environment:
       - SECRET=${CMS_SECRET}
       - ADMIN_EMAIL=${CMS_USERNAME}
@@ -72,13 +56,13 @@ services:
       - AUTH_KEYCLOAK_CLIENT_SECRET=${CMS_AUTH_CLIENT_SECRET}
       - AUTH_KEYCLOAK_ISSUER_URL=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/.well-known/openid-configuration
       - AUTH_KEYCLOAK_IDENTIFIER_KEY=email
-    image: ${IMAGE_BASE}/cms:${PROJECT_VERSION:-latest}
+    image: ${IMAGE_BASE}/just-cms:${PROJECT_VERSION:-latest}
     volumes:
       - directus-extension-registry:/directus/extensions/.registry
       - directus-uploads:/directus/uploads
       - dashy-config:/dashy/config
 
-  cron:
+  just-cron:
     <<: *common
     command: daemon --docker
     environment:
@@ -138,7 +122,7 @@ services:
       ofelia.job-run.forget-backup.image: restic/restic
       ofelia.job-run.forget-backup.schedule: 0 0 5 * * *
 
-      ofelia.job-run.create-playlists.image: ${IMAGE_BASE}/music-playlist-creator
+      ofelia.job-run.create-playlists.image: ${IMAGE_BASE}/just-music-playlist-creator
       ofelia.job-run.create-playlists.schedule: 0 30 2 * * *
       ofelia.job-run.create-playlists.volume: ${MUSIC_VOLUME}:/music
 
@@ -148,7 +132,7 @@ services:
           "CERTBOT_EMAIL=${CLOUDFLARE_EMAIL}",
           "DOMAIN=${DOMAIN}"
         ]
-      ofelia.job-run.renew-certs.image: ${IMAGE_BASE}/certbot
+      ofelia.job-run.renew-certs.image: ${IMAGE_BASE}/shared-certbot
       ofelia.job-run.renew-certs.schedule: 0 30 2 1 * *
       ofelia.job-run.renew-certs.volume: ${STACK_NAME}_letsencrypt:/etc/letsencrypt
 
@@ -158,14 +142,14 @@ services:
           "GIT_URL=http://gitlab",
           "GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}"
         ]
-      ofelia.job-run.renovate.image: ${IMAGE_BASE}/renovate
+      ofelia.job-run.renovate.image: ${IMAGE_BASE}/shared-renovate
       ofelia.job-run.renovate.network: ${STACK_NAME}_default
       ofelia.job-run.renovate.schedule: "@every 30m"
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock:ro
       - /root/.docker/config.json:/root/.docker/config.json:ro
 
-  dashboard:
+  just-dashboard:
     <<: *common
     environment:
       - NODE_ENV=production
@@ -175,11 +159,8 @@ services:
     volumes:
       - dashy-config:/app/user-data:ro
 
-  dns:
+  just-dns:
     <<: *common
-    build:
-      <<: *build-args
-      dockerfile: packages/dns/Dockerfile
     cap_add:
       - CAP_AUDIT_WRITE
       - CAP_CHOWN
@@ -188,7 +169,7 @@ services:
       - CAP_SETFCAP
       - CAP_SETGID
       - CAP_SETUID
-    image: ${IMAGE_BASE}/dns:${PROJECT_VERSION:-latest}
+    image: ${IMAGE_BASE}/just-dns:${PROJECT_VERSION:-latest}
     environment:
       - TZ=${TZ}
       - WEBPASSWORD=${DNS_PASSWORD}
@@ -202,12 +183,10 @@ services:
       - pihole-etc:/etc/pihole
       - pihole-dnsmasq:/etc/dnsmasq.d
 
-  docker-registry:
+  just-docker-registry:
     <<: *common
-    build:
-      dockerfile: packages/docker-registry/Dockerfile
     depends_on:
-      - cron
+      - just-cron
     environment:
       - REGISTRY_AUTH_TOKEN_REALM=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/docker-v2/auth
       - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
@@ -215,7 +194,7 @@ services:
       - REGISTRY_STORAGE_DELETE_ENABLED=true
     healthcheck:
       test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
-    image: ${IMAGE_BASE}/docker-registry:${PROJECT_VERSION:-latest}
+    image: ${IMAGE_BASE}/just-docker-registry:${PROJECT_VERSION:-latest}
     labels:
       ofelia.enabled: true
       ofelia.job-exec.registry-garbage-collection.command: registry garbage-collect /etc/docker/registry/config.yml --delete-untagged=true
@@ -223,20 +202,17 @@ services:
     volumes:
       - docker-registry:/var/lib/registry
 
-  documentation:
+  just-documentation:
     <<: *common
-    build:
-      <<: *build-args
-      dockerfile: packages/documentation/Dockerfile
     cap_add:
       - CAP_CHOWN
       - SETUID
       - SETGID
     healthcheck:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
-    image: ${IMAGE_BASE}/documentation:${PROJECT_VERSION:-latest}
+    image: ${IMAGE_BASE}/just-documentation:${PROJECT_VERSION:-latest}
 
-  gitlab:
+  just-gitlab:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'https://${GITLAB_DOMAIN}'
@@ -305,7 +281,7 @@ services:
       - gitlab-config:/etc/gitlab
       - gitlab-data:/var/opt/gitlab
 
-  gitlab-runner:
+  just-gitlab-runner:
     <<: *common
     command:
       - run-single
@@ -325,7 +301,7 @@ services:
       - //var/run/docker.sock:/var/run/docker.sock
       - /root/.docker/config.json:/root/.docker/config.json:ro
 
-  grafana:
+  just-grafana:
     <<: *common
     environment:
       - GF_SMTP_ENABLED=true
@@ -339,26 +315,7 @@ services:
       - grafana-storage:/var/lib/grafana
       - grafana-config:/usr/share/grafana/conf
 
-  just-site:
-    <<: *common
-    build:
-      <<: *build-args
-      dockerfile: packages/just-site/Dockerfile
-    environment:
-      - GITHUB_TOKEN=${JUST_SITE_GITHUB_TOKEN}
-      - URL=${URL}
-      - GRAVATAR_EMAIL=${JUST_SITE_GRAVATAR_EMAIL}
-      - CMS_URL=${CMS_URL}
-      - CMS_USER=${JUST_SITE_CMS_USER}
-      - CMS_PASSWORD=${JUST_SITE_CMS_PASSWORD}
-      - PORT=${JUST_SITE_PORT}
-      - SMTP_HOST=${SMTP_HOST}
-      - SMTP_PORT=${SMTP_PORT}
-      - SMTP_USERNAME=${SMTP_USERNAME}
-      - SMTP_PASSWORD=${SMTP_PASSWORD}
-    image: ${IMAGE_BASE}/just-site:${PROJECT_VERSION:-latest}
-
-  keycloak:
+  just-keycloak:
     <<: *common
     command:
       - start
@@ -377,21 +334,18 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_PASSWORD}
     image: quay.io/keycloak/keycloak:25.0.2
 
-  lighthouse:
-    build:
-      <<: *build-args
-      dockerfile: ../nx-plugins/test/src/executors/lighthouse/Dockerfile
+  just-lighthouse:
     command: ${LIGHTHOUSE_TARGET_URL}
     <<: *cap-drop
     cap_add:
       - SYS_ADMIN
-    image: ${IMAGE_BASE}/lighthouse:${PROJECT_VERSION:-latest}
+    image: ${IMAGE_BASE}/nx-plugins-test-lighthouse:${PROJECT_VERSION:-latest}
     volumes:
       - ./.lighthouse-reports:/lighthouse-reports
     profiles:
       - lighthouse
 
-  linkwarden:
+  just-linkwarden:
     <<: *common
     environment:
       - NEXTAUTH_SECRET=${LINKWARDEN_SECRET}
@@ -406,11 +360,8 @@ services:
     volumes:
       - linkwarden-data:/data/data
 
-  music-downloader:
+  just-music-downloader:
     <<: *common
-    build:
-      <<: *build-args
-      dockerfile: packages/music/downloader/Dockerfile
     environment:
       - DOWNLOAD_DIR=/music/downloads
       - PORT=${MUSIC_DOWNLOADER_PORT}
@@ -420,10 +371,8 @@ services:
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
 
-  music-platform:
+  just-music-platform:
     <<: *common
-    build:
-      dockerfile: packages/music/platform/Dockerfile
     environment:
       - ND_PORT=${MUSIC_PORT}
       - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
@@ -437,19 +386,12 @@ services:
       - ND_SESSIONTIMEOUT=720h
       - ND_UILOGINBACKGROUNDURL=https://images.pexels.com/photos/2111015/pexels-photo-2111015.jpeg?cs=srgb&dl=pexels-francesco-paggiaro-2111015.jpg&fm=jpg&w=1920&h=1280
       - ND_UIWELCOMEMESSAGE="Listen to the best"
-    image: ${IMAGE_BASE}/music-platform:${PROJECT_VERSION:-latest}
+    image: ${IMAGE_BASE}/just-music-platform:${PROJECT_VERSION:-latest}
     volumes:
       - navidrome-data:/data
       - ${MUSIC_VOLUME}:/music:ro
 
-  music-playlist-creator:
-    build:
-      dockerfile: packages/music/playlist-creator/Dockerfile
-    image: ${IMAGE_BASE}/music-playlist-creator:${PROJECT_VERSION:-latest}
-    profiles:
-      - build-only
-
-  netdata:
+  just-netdata:
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
@@ -469,10 +411,8 @@ services:
       - /etc/os-release:/host/etc/os-release:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
 
-  nginx:
+  just-nginx:
     <<: *common
-    build:
-      dockerfile: packages/nginx/Dockerfile
     cap_add:
       - CAP_CHOWN
       - CAP_SETGID
@@ -481,21 +421,21 @@ services:
       - .env
     healthcheck:
       test: curl -f http://localhost || exit 1
-    image: ${IMAGE_BASE}/nginx:${PROJECT_VERSION:-latest}
+    image: ${IMAGE_BASE}/just-nginx:${PROJECT_VERSION:-latest}
     networks:
       default:
         ipv4_address: ${NGINX_IP}
     volumes:
       - letsencrypt:/etc/letsencrypt:ro
 
-  portainer:
+  just-portainer:
     <<: *common
     image: portainer/portainer-ce:2.21.1-alpine
     volumes:
       - portainer-data:/data
       - //var/run/docker.sock:/var/run/docker.sock
 
-  postgres:
+  just-postgres:
     <<: *common
     cap_add:
       - CAP_FOWNER
@@ -511,24 +451,15 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
-  prometheus:
+  just-prometheus:
     <<: *common
-    build:
-      dockerfile: packages/prometheus/Dockerfile
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
-    image: ${IMAGE_BASE}/prometheus:${PROJECT_VERSION:-latest}
+    image: ${IMAGE_BASE}/shared-prometheus:${PROJECT_VERSION:-latest}
     volumes:
       - prometheus-data:/prometheus
 
-  renovate:
-    build:
-      dockerfile: packages/renovate/Dockerfile
-    image: ${IMAGE_BASE}/renovate:${PROJECT_VERSION:-latest}
-    profiles:
-      - build-only
-
-  sonarqube:
+  just-sonarqube:
     <<: *common
     environment:
       - SONAR_JDBC_USERNAME=${POSTGRES_USERNAME}
@@ -542,7 +473,7 @@ services:
       - sonarqube-data:/opt/sonarqube/data
       - sonarqube-extensions:/opt/sonarqube/extensions
 
-  tunnel:
+  just-tunnel:
     <<: *common
     command:
       - tunnel
@@ -555,7 +486,7 @@ services:
       default:
         ipv4_address: ${TUNNEL_IP}
 
-  vpn:
+  just-vpn:
     <<: *common
     cap_add:
       - NET_ADMIN
@@ -576,11 +507,27 @@ services:
     volumes:
       - vpn-data:/etc/wireguard
 
-  wandb:
+  just-wandb:
     <<: *common
     image: wandb/local:0.59.2
     volumes:
       - wandb-data:/vol
+
+  just-website:
+    <<: *common
+    environment:
+      - GITHUB_TOKEN=${JUST_SITE_GITHUB_TOKEN}
+      - URL=${URL}
+      - GRAVATAR_EMAIL=${JUST_SITE_GRAVATAR_EMAIL}
+      - CMS_URL=${CMS_URL}
+      - CMS_USER=${JUST_SITE_CMS_USER}
+      - CMS_PASSWORD=${JUST_SITE_CMS_PASSWORD}
+      - PORT=${JUST_SITE_PORT}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+    image: ${IMAGE_BASE}/just/website:${PROJECT_VERSION:-latest}
 
 volumes:
   bitwarden-data:

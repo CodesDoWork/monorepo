@@ -1,13 +1,12 @@
 {
     "$schema": "https://json-schema.org/schema",
     "version": 2,
-    "title": "Pull executor",
+    "title": "Docker executor",
     "description": "",
     "type": "object",
     "properties": {
-        "service": {
-            "type": "string",
-            "description": "Service name"
+        "args": {
+            "type": "array"
         }
     },
     "required": []

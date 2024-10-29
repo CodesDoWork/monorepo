@@ -1,4 +1,4 @@
-name: ${STACK_NAME}_zinzow
+name: ${STACK_NAME}
 
 services:
   db:

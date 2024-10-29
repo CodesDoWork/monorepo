@@ -20,9 +20,7 @@
         "strictNullChecks": true,
         "paths": {
             "@codesdowork/just-cms-types": ["packages/just/cms/types/src/index.ts"],
-            "@codesdowork/nx-plugins-docker": [
-                "packages/nx-plugins/docker/src/index.ts"
-            ],
+            "@codesdowork/nx-plugins-docker": ["packages/nx-plugins/docker/src/index.ts"],
             "@codesdowork/nx-plugins-secrets-manager": [
                 "packages/nx-plugins/secrets-manager/src/index.ts"
             ],
@@ -31,7 +29,8 @@
             "@codesdowork/shared-health": ["packages/shared/health/src/index.ts"],
             "@codesdowork/shared-logging": ["packages/shared/logging/src/index.ts"],
             "@codesdowork/shared-trpc": ["packages/shared/trpc/src/index.ts"],
-            "@codesdowork/shared-utils": ["packages/shared/utils/src/index.ts"]
+            "@codesdowork/shared-utils": ["packages/shared/utils/src/index.ts"],
+            "nx-plugins-secrets-manager": ["packages/nx-plugins/secrets-manager/src/index.ts"]
         }
     },
     "exclude": ["node_modules", "tmp", "packages/just/website", "packages/zinzow/website"]

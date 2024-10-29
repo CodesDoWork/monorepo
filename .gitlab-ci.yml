@@ -126,7 +126,7 @@ test:
 build images:
   stage: build
   script:
-    - docker compose -f docker-compose-workspace.yaml build workspace-deps
+    - docker compose build workspace-deps
     - nx affected -t build-image --parallel=1
     - nx affected -t push-image
   except:
@@ -137,7 +137,7 @@ build latest images:
   stage: build
   script:
     - export PROJECT_VERSION=latest
-    - docker compose -f docker-compose-workspace.yaml build workspace-deps
+    - docker compose build workspace-deps
     - nx affected -t build-image --parallel=1
     - nx affected -t push-image
   only:

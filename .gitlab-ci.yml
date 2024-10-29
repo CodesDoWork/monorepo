@@ -53,8 +53,8 @@ build workspace image:
   image: docker:${DOCKER_VERSION}
   cache: []
   script:
-    - docker compose -f docker-compose-workspace.yaml build --push base
-    - docker compose -f docker-compose-workspace.yaml build --push workspace
+    - docker compose build --push base
+    - docker compose build --push workspace
   resource_group: single
 
 install deps:

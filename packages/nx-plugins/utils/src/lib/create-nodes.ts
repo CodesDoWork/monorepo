@@ -6,6 +6,7 @@ import { CreateNodesContext, CreateNodesResult } from "nx/src/project-graph/plug
 export function createNodesForProjects<T = unknown>(
     projectFilePattern: string,
     createNodesFunction: CreateNodesFunction<T>,
+    detectProject = true,
 ): CreateNodes {
     return [
         projectFilePattern,
@@ -15,7 +16,7 @@ export function createNodesForProjects<T = unknown>(
             const isProject =
                 existsSync(path.join(root, "project.json")) ||
                 existsSync(path.join(root, "package.json"));
-            if (!isProject) {
+            if (!isProject && detectProject) {
                 return {};
             }
 
@@ -29,17 +30,18 @@ export function createNodesForProjects<T = unknown>(
     ];
 }
 
-export function getExecutors(
+export function getExecutors<T = unknown>(
     pluginName: string,
     executorPrefix: string,
     executors: string[],
+    options?: T,
 ): Record<string, TargetConfiguration> {
     return Object.fromEntries(
         executors.map(
             executorName =>
                 [
                     `${executorPrefix}${executorName}`,
-                    { executor: `${pluginName}:${executorName}` },
+                    { executor: `${pluginName}:${executorName}`, options },
                 ] satisfies [string, TargetConfiguration],
         ),
     );

@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/schema",
+    "version": 2,
+    "title": "Preview Vitepress executor",
+    "description": "",
+    "type": "object",
+    "properties": {
+        "docs": {
+            "type": "string",
+            "description": "Directory with docs"
+        }
+    },
+    "required": ["docs"]
+}

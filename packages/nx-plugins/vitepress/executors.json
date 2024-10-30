@@ -1,0 +1,19 @@
+{
+    "executors": {
+        "build": {
+            "implementation": "./src/executors/build",
+            "schema": "./src/executors/build-serve/schema.json",
+            "description": "Builds docs"
+        },
+        "serve": {
+            "implementation": "./src/executors/serve",
+            "schema": "./src/executors/build-serve/schema.json",
+            "description": "Serve docs"
+        },
+        "preview": {
+            "implementation": "./src/executors/preview/executor",
+            "schema": "./src/executors/preview/schema.json",
+            "description": "Preview docs"
+        }
+    }
+}

@@ -10,7 +10,7 @@
                 "commands": ["envsub dnsmasq.d/custom.conf.template dnsmasq.d/custom.conf"],
                 "cwd": "packages/just/dns"
             }
-        },
+        }
     },
     "tags": []
 }

@@ -2,8 +2,15 @@
     "root": true,
     "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
     "ignorePatterns": ["**/*"],
-    "plugins": ["@nx"],
+    "plugins": ["@nx", "svelte3", "@typescript-eslint"],
     "overrides": [
+        {
+            "files": ["*.svelte"],
+            "parser": "svelte-eslint-parser",
+            "parserOptions": {
+                "parser": "@typescript-eslint/parser"
+            }
+        },
         {
             "files": "*.json",
             "parser": "jsonc-eslint-parser",
@@ -29,6 +36,10 @@
                                 "onlyDependOnLibsWithTags": ["shared", "nx-plugins"]
                             },
                             {
+                                "sourceTag": "just-cms",
+                                "onlyDependOnLibsWithTags": ["shared", "just-cms"]
+                            },
+                            {
                                 "sourceTag": "just-website",
                                 "onlyDependOnLibsWithTags": ["shared", "just-cms", "just-website"]
                             },
@@ -50,16 +61,8 @@
             }
         },
         {
-            "files": ["*.ts", "*.tsx"],
+            "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
             "extends": ["plugin:@nx/typescript"],
-            "rules": {
-                "@typescript-eslint/no-extra-semi": "error",
-                "no-extra-semi": "off"
-            }
-        },
-        {
-            "files": ["*.js", "*.jsx"],
-            "extends": ["plugin:@nx/javascript"],
             "rules": {
                 "@typescript-eslint/no-extra-semi": "error",
                 "no-extra-semi": "off"

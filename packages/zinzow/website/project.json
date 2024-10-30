@@ -37,7 +37,7 @@
             "options": {
                 "urls": ["http://zinzow-website:4500"]
             }
-        },
+        }
     },
     "tags": []
 }

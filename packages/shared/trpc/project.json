@@ -4,12 +4,6 @@
     "sourceRoot": "packages/shared/trpc/src",
     "projectType": "library",
     "targets": {
-        "lint": {
-            "executor": "@nx/eslint:lint",
-            "options": {
-                "lintFilePatterns": ["{projectRoot}/**/*.ts"]
-            }
-        },
         "test": {
             "executor": "@nx/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

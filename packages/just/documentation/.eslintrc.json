@@ -1,18 +1,4 @@
 {
     "extends": ["../../../.eslintrc.json"],
-    "ignorePatterns": ["!**/*", "/docs/.vitepress/cache"],
-    "overrides": [
-        {
-            "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-            "rules": {}
-        },
-        {
-            "files": ["*.ts", "*.tsx"],
-            "rules": {}
-        },
-        {
-            "files": ["*.js", "*.jsx"],
-            "rules": {}
-        }
-    ]
+    "ignorePatterns": ["!**/*", "/docs/.vitepress/cache"]
 }

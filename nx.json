@@ -73,10 +73,22 @@
     },
     "plugins": [
         {
-            "plugin": "./packages/nx-plugins/docker"
+            "plugin": "nx-plugins-directus-extensions"
         },
         {
-            "plugin": "./packages/nx-plugins/lighthouse"
+            "plugin": "nx-plugins-docker"
+        },
+        {
+            "plugin": "nx-plugins-lighthouse"
+        },
+        {
+            "plugin": "nx-plugins-secrets-manager"
+        },
+        {
+            "plugin": "nx-plugins-tsc"
+        },
+        {
+            "plugin": "nx-plugins-vitepress"
         },
         {
             "plugin": "@nx/vite/plugin",

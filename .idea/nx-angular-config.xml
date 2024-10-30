@@ -16,10 +16,13 @@
       <project name="just-music-playlist-creator" file="file://$PROJECT_DIR$/packages/just/music/playlist-creator/project.json" />
       <project name="just-nginx" file="file://$PROJECT_DIR$/packages/just/nginx/project.json" />
       <project name="just-website" file="file://$PROJECT_DIR$/packages/just/website/project.json" />
+      <project name="nx-plugins-directus-extensions" file="file://$PROJECT_DIR$/packages/nx-plugins/directus-extensions/project.json" />
       <project name="nx-plugins-docker" file="file://$PROJECT_DIR$/packages/nx-plugins/docker/project.json" />
       <project name="nx-plugins-lighthouse" file="file://$PROJECT_DIR$/packages/nx-plugins/lighthouse/project.json" />
       <project name="nx-plugins-secrets-manager" file="file://$PROJECT_DIR$/packages/nx-plugins/secrets-manager/project.json" />
+      <project name="nx-plugins-tsc" file="file://$PROJECT_DIR$/packages/nx-plugins/tsc/project.json" />
       <project name="nx-plugins-utils" file="file://$PROJECT_DIR$/packages/nx-plugins/utils/project.json" />
+      <project name="nx-plugins-vitepress" file="file://$PROJECT_DIR$/packages/nx-plugins/vitepress/project.json" />
       <project name="scripts" file="file://$PROJECT_DIR$/packages/workspace/scripts/project.json" />
       <project name="shared-certbot" file="file://$PROJECT_DIR$/packages/shared/certbot/project.json" />
       <project name="shared-health" file="file://$PROJECT_DIR$/packages/shared/health/project.json" />

@@ -1,4 +1,4 @@
-import { trivyAnalyzeFs } from "packages/nx-plugins/lighthouse";
+import { trivyAnalyzeFs } from "@codesdowork/shared-trivy";
 
 trivyAnalyzeFs()
     .then(() => process.exit(0))

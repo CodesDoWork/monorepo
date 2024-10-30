@@ -1,0 +1,6 @@
+{
+    "urls": [
+        "http://website:${PORT}",
+        "${URL}"
+    ]
+}

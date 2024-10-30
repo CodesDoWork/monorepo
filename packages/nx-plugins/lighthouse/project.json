@@ -1,7 +1,7 @@
 {
-    "name": "nx-plugins-test",
+    "name": "nx-plugins-lighthouse",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/nx-plugins/test/src",
+    "sourceRoot": "packages/nx-plugins/lighthouse/src",
     "projectType": "library",
     "tags": ["nx-plugins"],
     "targets": {
@@ -9,7 +9,7 @@
             "executor": "@nx/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
             "options": {
-                "jestConfig": "packages/nx-plugins/test/jest.config.ts"
+                "jestConfig": "packages/nx-plugins/lighthouse/jest.config.ts"
             }
         }
     }

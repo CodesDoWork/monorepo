@@ -1,6 +1,0 @@
-services:
-  shared-renovate:
-    build:
-      context: ../../..
-      dockerfile: packages/shared/renovate/Dockerfile
-    image: ${IMAGE_BASE}/shared-renovate:${PROJECT_VERSION:-latest}

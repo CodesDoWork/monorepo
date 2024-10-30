@@ -5,16 +5,19 @@ import path from "node:path";
 
 export interface ServiceInfo {
     composeDir: string;
+    stackName?: string;
     stack_suffix: string;
     service: string;
 }
 
 export function getServiceInfo(context: ExecutorContext): ServiceInfo {
     const composeDir = getComposeDirForContext(context);
+    const composeEnv = loadEnv(composeDir);
     const composePath = composeDir.split("/");
     const service = projectRoot(context).split("/").slice(composePath.length).join("-");
     return {
         composeDir,
+        stackName: composeEnv.STACK_NAME,
         stack_suffix: composePath.slice(1).join("_"),
         service,
     };
@@ -25,9 +28,10 @@ export function getComposeDirForContext(context: ExecutorContext): string {
 }
 
 export function getServiceNetwork(context: ExecutorContext, network = "default"): string {
-    const { stack_suffix } = getServiceInfo(context);
+    const { stack_suffix, stackName } = getServiceInfo(context);
     const { STACK_NAME } = loadEnv();
-    return `${STACK_NAME}_${stack_suffix}_${network}`;
+    const stack = stackName ?? `${STACK_NAME}_${stack_suffix}`;
+    return `${stack}_${network}`;
 }
 
 export function searchNextComposeDir(startDir: string): string {

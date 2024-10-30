@@ -73,6 +73,12 @@
     },
     "plugins": [
         {
+            "plugin": "./packages/nx-plugins/docker"
+        },
+        {
+            "plugin": "./packages/nx-plugins/lighthouse"
+        },
+        {
             "plugin": "@nx/vite/plugin",
             "options": {
                 "buildTargetName": "build",

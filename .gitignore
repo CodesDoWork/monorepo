@@ -18,6 +18,7 @@ Thumbs.db
 /tmp
 /out-tsc
 /coverage
+/reports
 
 # misc
 /.nx
@@ -26,3 +27,4 @@ Thumbs.db
 .svelte-kit
 .wrangler
 .env
+.ssh

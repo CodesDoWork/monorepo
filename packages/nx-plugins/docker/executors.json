@@ -15,6 +15,16 @@
             "schema": "./src/executors/schema.json",
             "description": "push executor"
         },
+        "tag": {
+            "implementation": "./src/executors/tag",
+            "schema": "./src/executors/schema.json",
+            "description": "tag executor"
+        },
+        "trivy": {
+            "implementation": "./src/executors/trivy",
+            "schema": "./src/executors/schema.json",
+            "description": "Runs trivy"
+        },
         "compose": {
             "implementation": "./src/executors/compose/executor",
             "schema": "./src/executors/schema.json",

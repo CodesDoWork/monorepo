@@ -1,6 +1,6 @@
-import { dockerImage } from "@codesdowork/nx-plugins-docker";
+import { trivyAnalyzeImage } from "@codesdowork/shared-trivy";
 import { PromiseExecutor } from "@nx/devkit";
-import { trivyAnalyzeImage } from "../../trivy";
+import { dockerImage } from "../utils/docker-base";
 
 const runExecutor: PromiseExecutor = async (_, context) => {
     try {

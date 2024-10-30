@@ -1,0 +1,17 @@
+{
+    "name": "just",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just",
+    "projectType": "application",
+    "targets": {
+        "deploy": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "echo scp .env ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/.env"
+                ]
+            }
+        }
+    },
+    "tags": []
+}

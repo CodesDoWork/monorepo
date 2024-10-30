@@ -70,7 +70,8 @@ generate env files:
   variables:
     ENV_CACHE_POLICY: push
   script:
-    - nx g env-files TEST,PROD ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
+    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then export STAGE=PROD; elif [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export STAGE=TEST,PROD; else export STAGE=DEV,PROD; fi
+    - nx g env-files ${STAGE} ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
   resource_group: single
 
 check formatting:
@@ -127,19 +128,16 @@ build images:
   stage: build
   script:
     - docker compose build workspace-deps
-    - nx affected -t build-image --parallel=1
-    - nx affected -t push-image
-  except:
-    - $MASTER_BRANCH
+    - nx affected -t docker-build --parallel=1
+    - nx affected -t docker-push
   resource_group: single
 
-build latest images:
+tag latest images:
   stage: build
   script:
+    - nx affected -t docker-tag --args=latest
     - export PROJECT_VERSION=latest
-    - docker compose build workspace-deps
-    - nx affected -t build-image --parallel=1
-    - nx affected -t push-image
+    - nx affected -t docker-push
   only:
     - $MASTER_BRANCH
   resource_group: single
@@ -147,7 +145,7 @@ build latest images:
 trivy:
   stage: analyze
   script:
-    - nx affected -t pull-image
+    - nx affected -t docker-pull
     - nx affected -t trivy
     - nr trivy
   allow_failure: true
@@ -162,18 +160,11 @@ lighthouse:
       - ./.lighthouse-reports/
   resource_group: single
 
-deploy:
+deploy live:
   stage: deploy
   script:
-    # init ssh
-    - apk add openssh-client
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - grep "${KNOWN_HOST_PUB}" ~/.ssh/known_hosts || echo "${KNOWN_HOST_PUB}" > ~/.ssh/known_hosts
-    - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
-    - chmod 400 ~/.ssh/id_rsa
+    - nx affected -t deploy
     # deploy env
-    - nx g env-files PROD ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
     - scp .env ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/.env
     # deploy docker-compose
     - scp docker-compose.yaml ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml
@@ -181,4 +172,5 @@ deploy:
     - ssh ${SSH_USER}@${SSH_HOST} docker compose -f /opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml up -d --pull always --remove-orphans
   only:
     - $MASTER_BRANCH
+    - $DEV_BRANCH
   resource_group: single

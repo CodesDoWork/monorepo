@@ -25,13 +25,6 @@
                 "cwd": "packages/just/website"
             }
         },
-        "pre-build": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "node copy-env.js",
-                "cwd": "packages/just/website"
-            }
-        },
         "lint": {
             "executor": "@nx/eslint:lint",
             "outputs": ["{options.outputFile}"],
@@ -45,24 +38,6 @@
                 "command": "svelte-check",
                 "cwd": "packages/just/website"
             }
-        },
-        "build-image": {
-            "executor": "@codesdowork/nx-plugins-docker:build"
-        },
-        "push-image": {
-            "executor": "@codesdowork/nx-plugins-docker:push"
-        },
-        "pull-image": {
-            "executor": "@codesdowork/nx-plugins-docker:pull"
-        },
-        "lighthouse": {
-            "executor": "@codesdowork/nx-plugins-test:lighthouse",
-            "options": {
-                "urls": ["http://website:4500", "https://justinkonratt.com"]
-            }
-        },
-        "trivy": {
-            "executor": "@codesdowork/nx-plugins-test:trivy"
         }
     },
     "tags": ["just-website"]

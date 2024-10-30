@@ -32,24 +32,12 @@
                 "cwd": "packages/zinzow/website"
             }
         },
-        "build-image": {
-            "executor": "@codesdowork/nx-plugins-docker:build"
-        },
-        "push-image": {
-            "executor": "@codesdowork/nx-plugins-docker:push"
-        },
-        "pull-image": {
-            "executor": "@codesdowork/nx-plugins-docker:pull"
-        },
         "lighthouse": {
-            "executor": "@codesdowork/nx-plugins-test:lighthouse",
+            "executor": "@codesdowork/nx-plugins-ci:lighthouse",
             "options": {
                 "urls": ["http://zinzow-website:4500"]
             }
         },
-        "trivy": {
-            "executor": "@codesdowork/nx-plugins-test:trivy"
-        }
     },
     "tags": []
 }

@@ -49,24 +49,6 @@
             "options": {
                 "lintFilePatterns": ["{projectRoot}/**/*.{ts,tsx,js,jsx}"]
             }
-        },
-        "build-image": {
-            "executor": "@codesdowork/nx-plugins-docker:build"
-        },
-        "push-image": {
-            "executor": "@codesdowork/nx-plugins-docker:push"
-        },
-        "pull-image": {
-            "executor": "@codesdowork/nx-plugins-docker:pull"
-        },
-        "lighthouse": {
-            "executor": "@codesdowork/nx-plugins-test:lighthouse",
-            "options": {
-                "urls": ["http://music-downloader:4200"]
-            }
-        },
-        "trivy": {
-            "executor": "@codesdowork/nx-plugins-test:trivy"
         }
     },
     "tags": ["just-music-downloader"]

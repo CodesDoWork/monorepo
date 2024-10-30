@@ -10,5 +10,5 @@
             "description": "URLs to analyze"
         }
     },
-    "required": ["urls"]
+    "required": []
 }

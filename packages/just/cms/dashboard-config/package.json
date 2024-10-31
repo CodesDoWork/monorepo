@@ -14,6 +14,7 @@
         "@directus/extensions-sdk": "12.0.2",
         "@directus/types": "12.0.1",
         "pino": "9.4.0",
+        "tslib": "2.6.3",
         "yaml": "2.5.1"
     }
 }

@@ -2,7 +2,6 @@
     "name": "nx-plugins-directus-extensions",
     "dependencies": {
         "@nx/devkit": "20.0.3",
-        "dotenv": "16.4.5",
         "tslib": "^2.3.0"
     },
     "type": "commonjs",

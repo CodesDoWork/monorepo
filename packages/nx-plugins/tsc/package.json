@@ -1,7 +1,6 @@
 {
     "name": "nx-plugins-tsc",
     "dependencies": {
-        "@nx/devkit": "20.0.3",
         "tslib": "^2.3.0"
     },
     "type": "commonjs",

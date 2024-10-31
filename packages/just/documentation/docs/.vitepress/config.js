@@ -29,9 +29,7 @@ export default withMermaid({
         socialLinks: [
             { icon: "github", link: "https://github.com/CodesDoWork" },
             { icon: "instagram", link: "https://instagram.com/justinkonratt" },
-            {
-                link: "https://justinkonratt.com",
-            },
+            { link: "https://justinkonratt.com" },
         ],
         sidebar,
         outline: [2, 3],

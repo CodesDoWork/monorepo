@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/schema",
     "version": 2,
-    "title": "Preview Vitepress executor",
+    "title": "Vitepress executor",
     "description": "",
     "type": "object",
     "properties": {
@@ -12,6 +12,10 @@
         "assets": {
             "type": "object",
             "description": "Assets to copy into public directory"
+        },
+        "outDir": {
+            "type": "string",
+            "description": "Output directory"
         }
     },
     "required": ["docs"]

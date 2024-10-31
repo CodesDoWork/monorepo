@@ -13,7 +13,8 @@ export function execAsync(
         .flatMap(arg => arg.split(" "));
 
     const fullCommand = [command, ...allArgs].join(" ");
-    logger.info(`Executing ${chalk.bold(fullCommand)}`);
+    const cwdInfo = options?.cwd ? ` in ${chalk.bold(options.cwd)}` : "";
+    logger.info(`Executing ${chalk.bold(fullCommand)}${cwdInfo}`);
 
     return new Promise<void>((resolve, reject) => {
         const childProcess = spawn(command, allArgs, options);

@@ -2,6 +2,16 @@
     "name": "just-documentation",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "projectType": "application",
-    "targets": {},
+    "targets": {
+        "pre-build": {
+            "executor": "nx:run-commands",
+            "options": {
+                "commands": [
+                    "rimraf {projectRoot}/docs/projects",
+                    "ts-node -r tsconfig-paths/register {projectRoot}/create-project-docs.ts"
+                ]
+            }
+        }
+    },
     "tags": ["just-documentation"]
 }

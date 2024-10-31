@@ -14,14 +14,14 @@ export const createNodes = createNodesForProjects("**/.vitepressrc.json", ({ roo
     );
     const docsDir = path.join(root, docs);
 
-    return {
-        projects: {
-            [root]: {
-                targets: getExecutors("nx-plugins-vitepress", "", ["build", "serve", "preview"], {
-                    docs: docsDir,
-                    assets,
-                }),
-            },
-        },
-    };
+    const targets = getExecutors("nx-plugins-vitepress", "", ["build", "serve", "preview"], {
+        docs: docsDir,
+        assets,
+    });
+
+    targets.build.dependsOn = ["pre-build"];
+    targets.serve.dependsOn = ["pre-build"];
+    targets.preview.dependsOn = ["build"];
+
+    return { projects: { [root]: { targets } } };
 });

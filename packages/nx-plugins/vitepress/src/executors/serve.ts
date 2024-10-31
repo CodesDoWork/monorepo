@@ -1,5 +1,5 @@
-import { buildServeVitepressExecutor } from "./build-serve/executor";
+import { runVitepressExecutor } from "./executor";
 
-export const buildVitepressExecutor = buildServeVitepressExecutor("dev");
+export const buildVitepressExecutor = runVitepressExecutor("dev");
 
 export default buildVitepressExecutor;

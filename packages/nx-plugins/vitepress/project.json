@@ -3,6 +3,6 @@
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/nx-plugins/vitepresss/src",
     "projectType": "library",
-    "tags": ["nx-plugins"],
+    "tags": ["nx-plugins", "vitepress-plugin"],
     "targets": {}
 }

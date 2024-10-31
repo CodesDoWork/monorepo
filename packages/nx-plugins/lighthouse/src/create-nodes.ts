@@ -1,5 +1,5 @@
-import { createNodesForProjects } from "@codesdowork/nx-plugins-utils";
 import { readFileSync } from "node:fs";
+import { createNodesForProjects } from "nx-plugins-utils";
 import { zLighthouseExecutorSchema } from "./schema";
 
 export const createNodes = createNodesForProjects(

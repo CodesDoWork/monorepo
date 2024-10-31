@@ -48,6 +48,10 @@
                                 "onlyDependOnLibsWithTags": ["shared", "just-music-downloader"]
                             },
                             {
+                                "sourceTag": "vitepress",
+                                "onlyDependOnLibsWithTags": ["shared", "vitepress", "vitepress-plugin"]
+                            },
+                            {
                                 "sourceTag": "workspace-scripts",
                                 "onlyDependOnLibsWithTags": [
                                     "shared",

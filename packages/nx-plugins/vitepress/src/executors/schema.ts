@@ -1,5 +1,7 @@
 export interface VitepressExecutorSchema {
     docs: string;
-    assets?: Record<string, string[]>;
+    assets?: VitepressAssets;
     outDir?: string;
 }
+
+export type VitepressAssets = Record<string, string[]>;

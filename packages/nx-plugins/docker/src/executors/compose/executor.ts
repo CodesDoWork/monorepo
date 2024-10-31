@@ -1,5 +1,5 @@
-import { loadEnv } from "@codesdowork/nx-plugins-utils";
 import { PromiseExecutor } from "@nx/devkit";
+import { loadEnv } from "nx-plugins-utils";
 import { getServiceInfo, runDockerCommand } from "../../utils";
 import { ExecutorSchema } from "../schema";
 

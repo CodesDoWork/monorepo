@@ -1,8 +1,8 @@
-import { projectRoot } from "@codesdowork/nx-plugins-utils";
 import { execAsync } from "@codesdowork/shared-utils";
 import { logger, PromiseExecutor } from "@nx/devkit";
 import { readFileSync, writeFileSync } from "node:fs";
 import * as path from "node:path";
+import { projectRoot } from "nx-plugins-utils";
 
 export const buildDirectusExtensionExecutor: PromiseExecutor = async (_, context) => {
     try {

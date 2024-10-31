@@ -1,5 +1,5 @@
-import { createNodesForProjects, getExecutors } from "@codesdowork/nx-plugins-utils";
 import { readFileSync } from "node:fs";
+import { createNodesForProjects, getExecutors } from "nx-plugins-utils";
 
 export const createNodes = createNodesForProjects(
     "**/package.json",

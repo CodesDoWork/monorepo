@@ -1,4 +1,4 @@
-import { createNodesForProjects, getExecutors } from "@codesdowork/nx-plugins-utils";
+import { createNodesForProjects, getExecutors } from "nx-plugins-utils";
 
 export const createNodes = createNodesForProjects("**/Dockerfile", ({ root }) => ({
     projects: {

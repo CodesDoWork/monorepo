@@ -29,7 +29,7 @@
         "check": "nx format:check && nx run-many -t lint test build",
         "secretlint": "secretlint --secretlintignore .gitignore \"**/*\"",
         "env-files": "nx g env-files DEV,PROD",
-        "trivy": "ts-node -r tsconfig-paths/register packages/workspace/scripts/src/trivy-analyze-fs.ts"
+        "trivy": "tsx packages/workspace/scripts/src/trivy-analyze-fs.ts"
     },
     "devDependencies": {
         "@astrojs/tailwind": "^5.1.2",
@@ -115,8 +115,8 @@
         "svelte-infinite-scroll": "^2.0.1",
         "tailwindcss": "3.4.10",
         "ts-jest": "29.2.4",
-        "ts-node": "10.9.2",
         "tsconfig-paths": "^4.2.0",
+        "tsx": "^4.19.2",
         "typedoc": "^0.26.10",
         "typedoc-plugin-markdown": "^4.2.9",
         "typescript": "5.5.4",

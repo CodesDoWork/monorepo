@@ -1,6 +1,6 @@
-import { createNodesForProjects, getExecutors } from "@codesdowork/nx-plugins-utils";
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import { createNodesForProjects, getExecutors } from "nx-plugins-utils";
 import { z } from "zod";
 
 const zVitepressRcJson = z.object({
@@ -12,10 +12,9 @@ export const createNodes = createNodesForProjects("**/.vitepressrc.json", ({ roo
     const { docs, assets } = zVitepressRcJson.parse(
         JSON.parse(readFileSync(path.join(root, ".vitepressrc.json")).toString()),
     );
-    const docsDir = path.join(root, docs);
 
     const targets = getExecutors("nx-plugins-vitepress", "", ["build", "serve", "preview"], {
-        docs: docsDir,
+        docs,
         assets,
     });
 

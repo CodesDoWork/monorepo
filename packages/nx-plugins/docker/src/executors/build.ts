@@ -1,5 +1,5 @@
-import { projectRoot } from "@codesdowork/nx-plugins-utils";
 import { PromiseExecutor } from "@nx/devkit";
+import { projectRoot } from "nx-plugins-utils";
 import { dockerImage, getBaseDockerVars, runDockerCommand } from "../utils";
 import { ExecutorSchema } from "./schema";
 

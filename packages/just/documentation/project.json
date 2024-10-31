@@ -8,10 +8,10 @@
             "options": {
                 "commands": [
                     "rimraf {projectRoot}/docs/projects",
-                    "ts-node -r tsconfig-paths/register {projectRoot}/create-project-docs.ts"
+                    "tsx {projectRoot}/create-project-docs.ts"
                 ]
             }
         }
     },
-    "tags": ["just-documentation"]
+    "tags": ["just-documentation", "vitepress"]
 }

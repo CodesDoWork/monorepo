@@ -1,4 +1,4 @@
-import { loadEnv } from "@codesdowork/nx-plugins-utils";
+import { loadEnv } from "nx-plugins-utils";
 
 export function getBaseDockerVars() {
     const { IMAGE_BASE, PROJECT_VERSION } = loadEnv();

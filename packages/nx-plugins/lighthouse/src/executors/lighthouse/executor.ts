@@ -1,14 +1,14 @@
+import { execAsync } from "@codesdowork/shared-utils";
+import { ExecutorContext, logger, PromiseExecutor } from "@nx/devkit";
+import { existsSync, mkdirSync } from "fs";
+import path from "node:path";
 import {
     dockerComposeDownExecutor,
     dockerComposeUpExecutor,
     dockerImage,
     getServiceNetwork,
-} from "@codesdowork/nx-plugins-docker";
-import { loadEnv, projectRoot } from "@codesdowork/nx-plugins-utils";
-import { execAsync } from "@codesdowork/shared-utils";
-import { ExecutorContext, logger, PromiseExecutor } from "@nx/devkit";
-import { existsSync, mkdirSync } from "fs";
-import path from "node:path";
+} from "nx-plugins-docker";
+import { loadEnv, projectRoot } from "nx-plugins-utils";
 import { LighthouseExecutorSchema } from "../../schema";
 
 const REPORTS_DIR = "reports/lighthouse";

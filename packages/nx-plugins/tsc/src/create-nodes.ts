@@ -1,4 +1,4 @@
-import { createNodesForProjects } from "@codesdowork/nx-plugins-utils";
+import { createNodesForProjects } from "nx-plugins-utils";
 
 export const createNodes = createNodesForProjects("**/tsconfig.json", ({ root }) => ({
     projects: {

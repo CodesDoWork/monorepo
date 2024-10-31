@@ -3,6 +3,7 @@ import { logger, PromiseExecutor } from "@nx/devkit";
 import { SpawnOptionsWithoutStdio } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync } from "node:fs";
 import path from "node:path";
+import { projectRoot } from "nx-plugins-utils";
 import { ExecutorContext } from "nx/src/config/misc-interfaces";
 import { VitepressExecutorSchema } from "./schema";
 
@@ -16,7 +17,7 @@ export const runVitepressExecutor =
                 copyAssets(options);
             }
 
-            await execAsync("vitepress", [target], getShellOptions(options, context));
+            await execAsync("vitepress", [target, options.docs], getShellOptions(options, context));
 
             return { success: true };
         } catch (e) {
@@ -50,5 +51,5 @@ export function getShellOptions(
     const defaultDist = path.join(path.relative(absoluteDocsPath, absoluteDistPath), docs);
     env.VITEPRESS_OUT_DIR = outDir || defaultDist;
 
-    return { cwd: docs, shell: true, env };
+    return { cwd: projectRoot(context), shell: true, env };
 }

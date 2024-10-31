@@ -1,6 +1,6 @@
-import { projectRoot } from "@codesdowork/nx-plugins-utils";
 import { execAsync } from "@codesdowork/shared-utils";
 import { logger, PromiseExecutor } from "@nx/devkit";
+import { projectRoot } from "nx-plugins-utils";
 
 export const serveDirectusExtensionExecutor: PromiseExecutor = async (_, context) => {
     try {

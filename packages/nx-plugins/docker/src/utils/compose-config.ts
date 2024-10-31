@@ -1,7 +1,6 @@
-import { loadEnv, projectRoot } from "@codesdowork/nx-plugins-utils";
+import { searchNextDir } from "@codesdowork/shared-utils";
 import { ExecutorContext } from "@nx/devkit";
-import { existsSync } from "fs";
-import path from "node:path";
+import { loadEnv, projectRoot } from "nx-plugins-utils";
 
 export interface ServiceInfo {
     composeDir: string;
@@ -24,7 +23,7 @@ export function getServiceInfo(context: ExecutorContext): ServiceInfo {
 }
 
 export function getComposeDirForContext(context: ExecutorContext): string {
-    return searchNextComposeDir(projectRoot(context));
+    return searchNextDir(projectRoot(context), ["docker-compose.yml", "docker-compose.yaml"]);
 }
 
 export function getServiceNetwork(context: ExecutorContext, network = "default"): string {
@@ -32,20 +31,4 @@ export function getServiceNetwork(context: ExecutorContext, network = "default")
     const { STACK_NAME } = loadEnv();
     const stack = stackName ?? `${STACK_NAME}_${stack_suffix}`;
     return `${stack}_${network}`;
-}
-
-export function searchNextComposeDir(startDir: string): string {
-    const composeFiles = ["docker-compose.yml", "docker-compose.yaml"];
-    let currentDir = startDir;
-    while (currentDir !== path.parse(currentDir).root) {
-        for (const composeFile of composeFiles) {
-            const filePath = path.join(currentDir, composeFile);
-            if (existsSync(filePath)) {
-                return currentDir;
-            }
-        }
-        currentDir = path.dirname(currentDir);
-    }
-
-    return currentDir;
 }

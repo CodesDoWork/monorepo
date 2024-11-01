@@ -3,41 +3,6 @@
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/zinzow/website/src",
     "projectType": "application",
-    "targets": {
-        "build": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "vite build --config vite-config.ts",
-                "cwd": "packages/zinzow/website"
-            }
-        },
-        "serve": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "vite dev --config vite-config.ts",
-                "cwd": "packages/zinzow/website"
-            }
-        },
-        "preview": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "vite preview --config vite-config.ts",
-                "cwd": "packages/zinzow/website"
-            }
-        },
-        "check": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "svelte-check",
-                "cwd": "packages/zinzow/website"
-            }
-        },
-        "lighthouse": {
-            "executor": "@codesdowork/nx-plugins-ci:lighthouse",
-            "options": {
-                "urls": ["http://zinzow-website:4500"]
-            }
-        }
-    },
+    "targets": {},
     "tags": []
 }

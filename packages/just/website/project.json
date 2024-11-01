@@ -3,35 +3,6 @@
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/just/website/src",
     "projectType": "application",
-    "targets": {
-        "build": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "vite build --config vite-config.ts",
-                "cwd": "packages/just/website"
-            }
-        },
-        "serve": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "vite dev --config vite-config.ts",
-                "cwd": "packages/just/website"
-            }
-        },
-        "preview": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "vite preview --config vite-config.ts",
-                "cwd": "packages/just/website"
-            }
-        },
-        "svelte-check": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "svelte-check",
-                "cwd": "packages/just/website"
-            }
-        }
-    },
+    "targets": {},
     "tags": ["just-website"]
 }

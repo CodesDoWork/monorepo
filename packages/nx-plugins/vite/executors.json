@@ -3,17 +3,17 @@
         "build": {
             "implementation": "./src/executors/build",
             "schema": "./src/executors/schema.json",
-            "description": "Builds astro app"
+            "description": "Builds vite app"
         },
         "preview": {
             "implementation": "./src/executors/preview",
             "schema": "./src/executors/schema.json",
-            "description": "Preview astro app"
+            "description": "Preview vite app"
         },
         "serve": {
             "implementation": "./src/executors/serve",
             "schema": "./src/executors/schema.json",
-            "description": "Serve astro app"
+            "description": "Serve vite app"
         }
     }
 }

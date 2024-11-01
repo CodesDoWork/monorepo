@@ -32,7 +32,9 @@
             "nx-plugins-docker": ["packages/nx-plugins/docker/src/index.ts"],
             "nx-plugins-lighthouse": ["packages/nx-plugins/lighthouse/src/index.ts"],
             "nx-plugins-secrets-manager": ["packages/nx-plugins/secrets-manager/src/index.ts"],
+            "nx-plugins-svelte": ["packages/nx-plugins/svelte/src/index.ts"],
             "nx-plugins-tsc": ["packages/nx-plugins/tsc/src/index.ts"],
+            "nx-plugins-vite": ["packages/nx-plugins/vite/src/index.ts"],
             "nx-plugins-vitepress": ["packages/nx-plugins/vitepress/src/index.ts"],
             "nx-plugins-utils": ["packages/nx-plugins/utils/src/index.ts"]
         }

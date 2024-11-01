@@ -1,0 +1,9 @@
+{
+    "executors": {
+        "check": {
+            "implementation": "./src/executors/check/executor",
+            "schema": "./src/executors/check/schema.json",
+            "description": "Checks svelte app"
+        }
+    }
+}

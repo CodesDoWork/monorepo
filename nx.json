@@ -90,23 +90,19 @@
             "plugin": "nx-plugins-secrets-manager"
         },
         {
-            "plugin": "nx-plugins-vitepress"
+            "plugin": "nx-plugins-svelte"
         },
         {
-            "plugin": "@nx/vite/plugin",
-            "options": {
-                "buildTargetName": "build",
-                "previewTargetName": "preview",
-                "testTargetName": "test",
-                "serveTargetName": "serve",
-                "serveStaticTargetName": "serve-static"
-            }
+            "plugin": "nx-plugins-vite"
+        },
+        {
+            "plugin": "nx-plugins-vitepress"
         },
         {
             "plugin": "@nx/next/plugin",
             "options": {
                 "buildTargetName": "build",
-                "devTargetName": "dev",
+                "devTargetName": "serve",
                 "startTargetName": "start",
                 "serveStaticTargetName": "serve-static"
             }

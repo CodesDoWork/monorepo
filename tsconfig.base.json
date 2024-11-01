@@ -25,6 +25,7 @@
             "@codesdowork/shared-trivy": ["packages/shared/trivy/src/index.ts"],
             "@codesdowork/shared-trpc": ["packages/shared/trpc/src/index.ts"],
             "@codesdowork/shared-utils": ["packages/shared/utils/src/index.ts"],
+            "nx-plugins-astro": ["packages/nx-plugins/astro/src/index.ts"],
             "nx-plugins-directus-extensions": [
                 "packages/nx-plugins/directus-extensions/src/index.ts"
             ],

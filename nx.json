@@ -72,6 +72,12 @@
     },
     "plugins": [
         {
+            "plugin": "nx-plugins-tsc"
+        },
+        {
+            "plugin": "nx-plugins-astro"
+        },
+        {
             "plugin": "nx-plugins-directus-extensions"
         },
         {
@@ -82,9 +88,6 @@
         },
         {
             "plugin": "nx-plugins-secrets-manager"
-        },
-        {
-            "plugin": "nx-plugins-tsc"
         },
         {
             "plugin": "nx-plugins-vitepress"

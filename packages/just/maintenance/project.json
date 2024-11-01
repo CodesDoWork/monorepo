@@ -17,27 +17,6 @@
                 "command": "wrangler delete",
                 "cwd": "packages/just/maintenance"
             }
-        },
-        "serve": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "astro dev",
-                "cwd": "packages/just/maintenance"
-            }
-        },
-        "build": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "astro build",
-                "cwd": "packages/just/maintenance"
-            }
-        },
-        "preview": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "astro preview",
-                "cwd": "packages/just/maintenance"
-            }
         }
     },
     "tags": []

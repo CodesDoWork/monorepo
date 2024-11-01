@@ -1,0 +1,19 @@
+{
+    "executors": {
+        "build": {
+            "implementation": "./src/executors/build",
+            "schema": "./src/executors/schema.json",
+            "description": "Builds astro app"
+        },
+        "dev": {
+            "implementation": "./src/executors/dev",
+            "schema": "./src/executors/schema.json",
+            "description": "Dev astro app"
+        },
+        "serve": {
+            "implementation": "./src/executors/serve",
+            "schema": "./src/executors/schema.json",
+            "description": "Serve astro app"
+        }
+    }
+}

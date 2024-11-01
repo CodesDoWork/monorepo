@@ -16,6 +16,7 @@
       <project name="just-music-playlist-creator" file="file://$PROJECT_DIR$/packages/just/music/playlist-creator/project.json" />
       <project name="just-nginx" file="file://$PROJECT_DIR$/packages/just/nginx/project.json" />
       <project name="just-website" file="file://$PROJECT_DIR$/packages/just/website/project.json" />
+      <project name="nx-plugins-astro" file="file://$PROJECT_DIR$/packages/nx-plugins/astro/project.json" />
       <project name="nx-plugins-directus-extensions" file="file://$PROJECT_DIR$/packages/nx-plugins/directus-extensions/project.json" />
       <project name="nx-plugins-docker" file="file://$PROJECT_DIR$/packages/nx-plugins/docker/project.json" />
       <project name="nx-plugins-lighthouse" file="file://$PROJECT_DIR$/packages/nx-plugins/lighthouse/project.json" />

@@ -22,7 +22,6 @@
       <project name="nx-plugins-lighthouse" file="file://$PROJECT_DIR$/packages/nx-plugins/lighthouse/project.json" />
       <project name="nx-plugins-secrets-manager" file="file://$PROJECT_DIR$/packages/nx-plugins/secrets-manager/project.json" />
       <project name="nx-plugins-svelte" file="file://$PROJECT_DIR$/packages/nx-plugins/svelte/project.json" />
-      <project name="nx-plugins-tsc" file="file://$PROJECT_DIR$/packages/nx-plugins/tsc/project.json" />
       <project name="nx-plugins-utils" file="file://$PROJECT_DIR$/packages/nx-plugins/utils/project.json" />
       <project name="nx-plugins-vite" file="file://$PROJECT_DIR$/packages/nx-plugins/vite/project.json" />
       <project name="nx-plugins-vitepress" file="file://$PROJECT_DIR$/packages/nx-plugins/vitepress/project.json" />

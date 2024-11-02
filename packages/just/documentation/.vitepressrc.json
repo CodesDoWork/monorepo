@@ -2,9 +2,9 @@
     "docs": "./docs",
     "assets": {
         "public": [
-            "./packages/just/branding/assets/img/logo.svg",
-            "./packages/just/branding/assets/img/icon.svg",
-            "./packages/just/branding/assets/favicon/favicon.ico"
+            "../branding/assets/img/logo.svg",
+            "../branding/assets/img/icon.svg",
+            "../branding/assets/favicon/favicon.ico"
         ]
     }
 }

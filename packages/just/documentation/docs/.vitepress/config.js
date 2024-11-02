@@ -36,7 +36,7 @@ const logoSvg = `<svg viewBox="0 0 210 97" xmlns="http://www.w3.org/2000/svg">
 export default withMermaid({
     title: "Server Docs",
     lang: "en-US",
-    outDir: process.env.VITEPRESS_OUT_DIR,
+    outDir: "../../../../dist/packages/just/documentation",
     lastUpdated: true,
     ignoreDeadLinks: true,
     head: [["link", { rel: "shortcut icon", href: "/favicon.ico" }]],

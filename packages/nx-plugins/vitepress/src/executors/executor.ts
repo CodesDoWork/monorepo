@@ -1,10 +1,8 @@
 import { execAsync } from "@codesdowork/shared-utils";
 import { logger, PromiseExecutor } from "@nx/devkit";
-import { SpawnOptionsWithoutStdio } from "node:child_process";
 import { copyFileSync, existsSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import { projectRoot } from "nx-plugins-utils";
-import { ExecutorContext } from "nx/src/config/misc-interfaces";
 import { VitepressExecutorSchema } from "./schema";
 
 type VitepressTarget = "build" | "dev" | "preview";
@@ -12,12 +10,17 @@ type VitepressTarget = "build" | "dev" | "preview";
 export const runVitepressExecutor =
     (target: VitepressTarget): PromiseExecutor<VitepressExecutorSchema> =>
     async (options, context) => {
+        const projectDir = projectRoot(context);
+
         try {
             if (target !== "preview") {
-                copyAssets(options);
+                copyAssets(projectDir, options);
             }
 
-            await execAsync("vitepress", [target, options.docs], getShellOptions(options, context));
+            await execAsync("vitepress", [target, options.docs], {
+                cwd: projectDir,
+                shell: true,
+            });
 
             return { success: true };
         } catch (e) {
@@ -26,30 +29,20 @@ export const runVitepressExecutor =
         }
     };
 
-function copyAssets({ docs, assets }: VitepressExecutorSchema) {
+function copyAssets(projectDir: string, { docs, assets }: VitepressExecutorSchema) {
     if (assets) {
         Object.entries(assets).forEach(([outDir, assetPaths]) => {
-            const dst = path.join(docs, outDir);
+            const dst = path.join(projectDir, docs, outDir);
             if (!existsSync(dst)) {
                 mkdirSync(dst, { recursive: true });
             }
 
             assetPaths.forEach(assetPath =>
-                copyFileSync(assetPath, path.join(dst, path.basename(assetPath))),
+                copyFileSync(
+                    path.join(projectDir, assetPath),
+                    path.join(dst, path.basename(assetPath)),
+                ),
             );
         });
     }
-}
-
-export function getShellOptions(
-    { docs, outDir }: VitepressExecutorSchema,
-    context: ExecutorContext,
-): SpawnOptionsWithoutStdio {
-    const { env } = process;
-    const absoluteDocsPath = path.join(context.root, docs);
-    const absoluteDistPath = path.join(context.root, "dist");
-    const defaultDist = path.join(path.relative(absoluteDocsPath, absoluteDistPath), docs);
-    env.VITEPRESS_OUT_DIR = outDir || defaultDist;
-
-    return { cwd: projectRoot(context), shell: true, env };
 }

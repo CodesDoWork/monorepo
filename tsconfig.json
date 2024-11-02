@@ -1,8 +1,10 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
-        "jsx": "react-jsx",
+        "jsx": "preserve",
         "rootDir": ".",
+        "baseUrl": ".",
+        "outDir": "./dist",
         "sourceMap": false,
         "declaration": false,
         "moduleResolution": "bundler",
@@ -15,9 +17,24 @@
         "skipLibCheck": true,
         "skipDefaultLibCheck": true,
         "esModuleInterop": true,
-        "baseUrl": ".",
         "strict": true,
         "strictNullChecks": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedParameters": true,
+        "alwaysStrict": true,
+        "strictFunctionTypes": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "resolveJsonModule": true,
+        "forceConsistentCasingInFileNames": true,
+        "allowSyntheticDefaultImports": true,
+        "isolatedModules": true,
+        "allowJs": true,
         "paths": {
             "@codesdowork/just-cms-types": ["packages/just/cms/types/src/index.ts"],
             "@codesdowork/shared-health": ["packages/shared/health/src/index.ts"],
@@ -40,5 +57,5 @@
             "nx-plugins-utils": ["packages/nx-plugins/utils/src/index.ts"]
         }
     },
-    "exclude": ["node_modules", "tmp", "packages/just/website", "packages/zinzow/website"]
+    "exclude": ["node_modules", "tmp", "dist", "packages/just/website", "packages/zinzow/website"]
 }

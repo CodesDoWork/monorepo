@@ -40,9 +40,6 @@
     },
     "plugins": [
         {
-            "plugin": "nx-plugins-tsc"
-        },
-        {
             "plugin": "nx-plugins-astro"
         },
         {

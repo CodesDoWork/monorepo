@@ -18,9 +18,9 @@ export const createNodes = createNodesForProjects("**/.vitepressrc.json", ({ roo
         assets,
     });
 
-    targets.build.dependsOn = ["pre-build"];
-    targets.serve.dependsOn = ["pre-build"];
-    targets.preview.dependsOn = ["build"];
+    targets.build && (targets.build.dependsOn = ["pre-build"]);
+    targets.serve && (targets.serve.dependsOn = ["pre-build"]);
+    targets.preview && (targets.preview.dependsOn = ["build"]);
 
     return { projects: { [root]: { targets } } };
 });

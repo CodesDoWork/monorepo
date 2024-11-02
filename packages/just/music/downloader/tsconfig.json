@@ -1,41 +1,21 @@
 {
   "extends": "../../../../tsconfig.json",
   "compilerOptions": {
-    "jsx": "preserve",
-    "allowJs": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "incremental": true,
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "types": [
-      "node"
-    ]
+    "noEmit": true,
+    "incremental": true
   },
   "include": [
-    "**/*.js",
-    "**/*.jsx",
     "**/*.ts",
     "**/*.tsx",
     "../../../../dist/packages/just/music/downloader/.next/types/**/*.ts",
     "../../../../packages/just/music/downloader/.next/types/**/*.ts",
-    "../../../dist/packages/just/music/downloader/types/**/*.ts",
     ".next/types/**/*.ts",
     "next-env.d.ts",
     "../../../../dist/packages/just/music/downloader/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "vitest.config.ts",
-    "src/**/*.spec.ts",
-    "src/**/*.test.ts"
   ]
 }

@@ -1,8 +1,0 @@
-{
-    "name": "nx-plugins-tsc",
-    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/nx-plugins/tsc/src",
-    "projectType": "library",
-    "tags": ["nx-plugins"],
-    "targets": {}
-}

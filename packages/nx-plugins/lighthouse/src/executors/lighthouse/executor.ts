@@ -51,7 +51,15 @@ function createReportsDir() {
 
 function expandUrls(urls: string[], context: ExecutorContext): string[] {
     const env = loadEnv(projectRoot(context));
-    return urls.map(url => url.replace(/\$(\w+)|\${(\w+)}/g, (_, s1, s2) => env[s1 || s2]));
+    return urls.map(url =>
+        url.replace(
+            /\$(\w+)|\${(\w+)}/g,
+            (original: string, style1: string | undefined, style2: string | undefined) => {
+                const key = style1 || style2 || "";
+                return key in env ? env[key as string] || original : original;
+            },
+        ),
+    );
 }
 
 export default runLighthouseExecutor;

@@ -1,19 +1,7 @@
 {
     "compilerOptions": {
-        "allowJs": false,
-        "esModuleInterop": false,
-        "allowSyntheticDefaultImports": true,
-        "types": ["vite/client", "vitest"]
+        "types": ["svelte", "node", "vite/client"]
     },
-    "files": [],
-    "include": [],
-    "references": [
-        {
-            "path": "./tsconfig.app.json"
-        },
-        {
-            "path": "./tsconfig.spec.json"
-        }
-    ],
-    "extends": "./.svelte-kit/tsconfig.json"
+    "include": ["src/**/*.ts", "src/**/*.svelte"],
+    "extends": "../../../tsconfig.json"
 }

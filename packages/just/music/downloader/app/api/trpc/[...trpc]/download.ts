@@ -4,7 +4,6 @@ import { env } from "../../../env";
 
 export const download = (url: string): Promise<void> => {
     const downloadCommandParts = [
-        "yt-dlp",
         "--extract-audio",
         ["--audio-format", "mp3"],
         ["--audio-quality", "0"],
@@ -20,7 +19,7 @@ export const download = (url: string): Promise<void> => {
         url,
     ].flat();
 
-    return executeCmd(downloadCommandParts);
+    return executeCmd("yt-dlp", downloadCommandParts);
 };
 
 const stopWords = [
@@ -35,9 +34,9 @@ const stopWords = [
     "4K",
 ];
 
-function executeCmd(cmdParts: string[]): Promise<void> {
-    logger.info(`Executing command: ${cmdParts.join(" ")}`);
-    return spawnLoggingProcess(cmdParts[0], ...cmdParts.slice(1));
+function executeCmd(cmd: string, args: string[]): Promise<void> {
+    logger.info(`Executing command: ${cmd} ${args.join(" ")}`);
+    return spawnLoggingProcess(cmd, ...args.slice(1));
 }
 
 function spawnLoggingProcess(command: string, ...args: string[]): Promise<void> {

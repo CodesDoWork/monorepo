@@ -1,18 +1,27 @@
 import { createNodesForProjects } from "nx-plugins-utils";
 
-export const createNodes = createNodesForProjects("**/tsconfig.json", ({ root }) => ({
-    projects: {
-        [root]: {
-            targets: {
-                build: {
-                    executor: "@nx/js:tsc",
-                    options: {
-                        outputPath: "dist/{projectRoot}",
-                        main: "{projectRoot}/src/index.ts",
-                        tsConfig: "{projectRoot}/tsconfig.json",
+export const createNodes = createNodesForProjects(
+    "**/tsconfig.json",
+    ({ projectConfigurationFile, root }) => {
+        if (projectConfigurationFile === "tsconfig.json") {
+            return {};
+        }
+
+        return {
+            projects: {
+                [root]: {
+                    targets: {
+                        build: {
+                            executor: "@nx/js:tsc",
+                            options: {
+                                outputPath: "dist/{projectRoot}",
+                                main: "{projectRoot}/src/index.ts",
+                                tsConfig: "{projectRoot}/tsconfig.json",
+                            },
+                        },
                     },
                 },
             },
-        },
+        };
     },
-}));
+);

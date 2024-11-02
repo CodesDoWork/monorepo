@@ -9,21 +9,8 @@
             "cache": true
         },
         "test": {
-            "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+            "inputs": ["default", "^production"],
             "cache": true
-        },
-        "@nx/jest:jest": {
-            "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
-            "cache": true,
-            "options": {
-                "passWithNoTests": true
-            },
-            "configurations": {
-                "ci": {
-                    "ci": true,
-                    "codeCoverage": true
-                }
-            }
         },
         "@nx/eslint:lint": {
             "inputs": [
@@ -32,11 +19,6 @@
                 "{workspaceRoot}/.eslintignore"
             ],
             "cache": true
-        },
-        "@nx/esbuild:esbuild": {
-            "cache": true,
-            "dependsOn": ["^build"],
-            "inputs": ["production", "^production"]
         },
         "@nx/js:tsc": {
             "cache": true,
@@ -50,25 +32,11 @@
             "default",
             "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
             "!{projectRoot}/tsconfig.spec.json",
-            "!{projectRoot}/jest.config.[jt]s",
+            "!{projectRoot}/vitest.config.[jt]s",
             "!{projectRoot}/.eslintrc.json",
             "!{projectRoot}/src/test-setup.[jt]s"
         ],
         "sharedGlobals": []
-    },
-    "generators": {
-        "@nx/react": {
-            "application": {
-                "babel": true
-            },
-            "library": {}
-        },
-        "@nx/next": {
-            "application": {
-                "style": "none",
-                "linter": "eslint"
-            }
-        }
     },
     "plugins": [
         {
@@ -97,6 +65,9 @@
         },
         {
             "plugin": "nx-plugins-vitepress"
+        },
+        {
+            "plugin": "nx-plugins-vitest"
         },
         {
             "plugin": "@nx/next/plugin",

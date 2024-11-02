@@ -26,7 +26,7 @@
       <project name="nx-plugins-utils" file="file://$PROJECT_DIR$/packages/nx-plugins/utils/project.json" />
       <project name="nx-plugins-vite" file="file://$PROJECT_DIR$/packages/nx-plugins/vite/project.json" />
       <project name="nx-plugins-vitepress" file="file://$PROJECT_DIR$/packages/nx-plugins/vitepress/project.json" />
-      <project name="scripts" file="file://$PROJECT_DIR$/packages/workspace/scripts/project.json" />
+      <project name="nx-plugins-vitest" file="file://$PROJECT_DIR$/packages/nx-plugins/vitest/project.json" />
       <project name="shared-certbot" file="file://$PROJECT_DIR$/packages/shared/certbot/project.json" />
       <project name="shared-health" file="file://$PROJECT_DIR$/packages/shared/health/project.json" />
       <project name="shared-logging" file="file://$PROJECT_DIR$/packages/shared/logging/project.json" />
@@ -35,6 +35,7 @@
       <project name="shared-trivy" file="file://$PROJECT_DIR$/packages/shared/trivy/project.json" />
       <project name="shared-trpc" file="file://$PROJECT_DIR$/packages/shared/trpc/project.json" />
       <project name="shared-utils" file="file://$PROJECT_DIR$/packages/shared/utils/project.json" />
+      <project name="workspace-scripts" file="file://$PROJECT_DIR$/packages/workspace/scripts/project.json" />
       <project name="zinzow-website" file="file://$PROJECT_DIR$/packages/zinzow/website/project.json" />
     </projects>
   </component>

@@ -1,8 +1,8 @@
 {
-    "name": "nx-plugins-secrets-manager",
+    "name": "nx-plugins-vitest",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/nx-plugins/secrets-manager/src",
+    "sourceRoot": "packages/nx-plugins/vitest/src",
     "projectType": "library",
-    "tags": [],
+    "tags": ["nx-plugins"],
     "targets": {}
 }

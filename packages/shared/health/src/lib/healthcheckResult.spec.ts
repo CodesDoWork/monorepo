@@ -1,16 +1,17 @@
 import { rmSync, writeFileSync } from "fs";
+import { expect, suite, test } from "vitest";
 import { commitFile, createHealthcheckResult, formatBytes } from "./healthcheckResult";
 import { HealthStatus } from "./HealthStatus";
 
-describe("createHealthcheckResult", () => {
-    it("should create with status", () => {
+suite("createHealthcheckResult", () => {
+    test("should create with status", () => {
         Object.values<HealthStatus>(HealthStatus).forEach(status => {
             const result = createHealthcheckResult(status);
             expect(result.status).toStrictEqual(status);
         });
     });
 
-    it("should respect commit file in version", () => {
+    test("should respect commit file in version", () => {
         const testSha = "test-sha";
         writeFileSync(commitFile, testSha);
 
@@ -23,7 +24,7 @@ describe("createHealthcheckResult", () => {
         expect(devResult.version).toMatch(new RegExp("\\w+ \\(development\\)"));
     });
 
-    it("should use version from env", () => {
+    test("should use version from env", () => {
         const version = "1.0.0";
         process.env.VERSION = version;
         const result = createHealthcheckResult(HealthStatus.Up);
@@ -31,12 +32,12 @@ describe("createHealthcheckResult", () => {
     });
 });
 
-describe("formatBytes", () => {
-    it("should return '0 Bytes' for 0", () => {
+suite("formatBytes", () => {
+    test("should return '0 Bytes' for 0", () => {
         expect(formatBytes(0)).toBe("0 Bytes");
     });
 
-    it("should use correct units", () => {
+    test("should use correct units", () => {
         expect(formatBytes(1)).toBe("1 Bytes");
         expect(formatBytes(Math.pow(1024, 1))).toBe("1 KB");
         expect(formatBytes(Math.pow(1024, 2))).toBe("1 MB");
@@ -48,7 +49,7 @@ describe("formatBytes", () => {
         expect(formatBytes(Math.pow(1024, 8))).toBe("1 YB");
     });
 
-    it("should use decimals", () => {
+    test("should use decimals", () => {
         expect(formatBytes(1024 * 1.23456789)).toBe("1.23 KB");
         expect(formatBytes(1024 * 1.23456789, -1)).toBe("1 KB");
         expect(formatBytes(1024 * 1.23456789, 0)).toBe("1 KB");

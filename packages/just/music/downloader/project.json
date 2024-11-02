@@ -3,14 +3,6 @@
     "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/just/music/downloader",
     "projectType": "application",
-    "targets": {
-        "test": {
-            "executor": "@nx/jest:jest",
-            "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
-            "options": {
-                "jestConfig": "packages/just/music/downloader/jest.config.ts"
-            }
-        }
-    },
+    "targets": {},
     "tags": ["just-music-downloader"]
 }

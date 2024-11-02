@@ -36,6 +36,7 @@
             "nx-plugins-tsc": ["packages/nx-plugins/tsc/src/index.ts"],
             "nx-plugins-vite": ["packages/nx-plugins/vite/src/index.ts"],
             "nx-plugins-vitepress": ["packages/nx-plugins/vitepress/src/index.ts"],
+            "nx-plugins-vitest": ["packages/nx-plugins/vitest/src/index.ts"],
             "nx-plugins-utils": ["packages/nx-plugins/utils/src/index.ts"]
         }
     },

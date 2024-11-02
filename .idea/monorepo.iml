@@ -8,6 +8,9 @@
       <excludeFolder url="file://$MODULE_DIR$/dist" />
       <excludeFolder url="file://$MODULE_DIR$/tmp" />
       <excludeFolder url="file://$MODULE_DIR$/packages/just/website/.svelte-kit" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/just/documentation/docs/.vitepress/cache" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/just/documentation/docs/projects" />
+      <excludeFolder url="file://$MODULE_DIR$/packages/just/documentation/docs/public" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

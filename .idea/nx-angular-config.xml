@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="NxAngularConfigService" workspaceLocation="file://$PROJECT_DIR$/nx.json">
+    <projects>
+      <project name="just" file="file://$PROJECT_DIR$/packages/just/project.json" />
+      <project name="just-branding" file="file://$PROJECT_DIR$/packages/just/branding/project.json" />
+      <project name="just-cms" file="file://$PROJECT_DIR$/packages/just/cms/project.json" />
+      <project name="just-cms-dashboard-config" file="file://$PROJECT_DIR$/packages/just/cms/dashboard-config/project.json" />
+      <project name="just-cms-types" file="file://$PROJECT_DIR$/packages/just/cms/types/project.json" />
+      <project name="just-dns" file="file://$PROJECT_DIR$/packages/just/dns/project.json" />
+      <project name="just-docker-registry" file="file://$PROJECT_DIR$/packages/just/docker-registry/project.json" />
+      <project name="just-documentation" file="file://$PROJECT_DIR$/packages/just/documentation/project.json" />
+      <project name="just-maintenance" file="file://$PROJECT_DIR$/packages/just/maintenance/project.json" />
+      <project name="just-music-downloader" file="file://$PROJECT_DIR$/packages/just/music/downloader/project.json" />
+      <project name="just-music-platform" file="file://$PROJECT_DIR$/packages/just/music/platform/project.json" />
+      <project name="just-music-playlist-creator" file="file://$PROJECT_DIR$/packages/just/music/playlist-creator/project.json" />
+      <project name="just-nginx" file="file://$PROJECT_DIR$/packages/just/nginx/project.json" />
+      <project name="just-website" file="file://$PROJECT_DIR$/packages/just/website/project.json" />
+      <project name="nx-plugins-astro" file="file://$PROJECT_DIR$/packages/nx-plugins/astro/project.json" />
+      <project name="nx-plugins-directus-extensions" file="file://$PROJECT_DIR$/packages/nx-plugins/directus-extensions/project.json" />
+      <project name="nx-plugins-docker" file="file://$PROJECT_DIR$/packages/nx-plugins/docker/project.json" />
+      <project name="nx-plugins-lighthouse" file="file://$PROJECT_DIR$/packages/nx-plugins/lighthouse/project.json" />
+      <project name="nx-plugins-secrets-manager" file="file://$PROJECT_DIR$/packages/nx-plugins/secrets-manager/project.json" />
+      <project name="nx-plugins-svelte" file="file://$PROJECT_DIR$/packages/nx-plugins/svelte/project.json" />
+      <project name="nx-plugins-utils" file="file://$PROJECT_DIR$/packages/nx-plugins/utils/project.json" />
+      <project name="nx-plugins-vite" file="file://$PROJECT_DIR$/packages/nx-plugins/vite/project.json" />
+      <project name="nx-plugins-vitepress" file="file://$PROJECT_DIR$/packages/nx-plugins/vitepress/project.json" />
+      <project name="nx-plugins-vitest" file="file://$PROJECT_DIR$/packages/nx-plugins/vitest/project.json" />
+      <project name="shared-certbot" file="file://$PROJECT_DIR$/packages/shared/certbot/project.json" />
+      <project name="shared-health" file="file://$PROJECT_DIR$/packages/shared/health/project.json" />
+      <project name="shared-logging" file="file://$PROJECT_DIR$/packages/shared/logging/project.json" />
+      <project name="shared-prometheus" file="file://$PROJECT_DIR$/packages/shared/prometheus/project.json" />
+      <project name="shared-renovate" file="file://$PROJECT_DIR$/packages/shared/renovate/project.json" />
+      <project name="shared-trivy" file="file://$PROJECT_DIR$/packages/shared/trivy/project.json" />
+      <project name="shared-trpc" file="file://$PROJECT_DIR$/packages/shared/trpc/project.json" />
+      <project name="shared-utils" file="file://$PROJECT_DIR$/packages/shared/utils/project.json" />
+      <project name="workspace-scripts" file="file://$PROJECT_DIR$/packages/workspace/scripts/project.json" />
+      <project name="zinzow-website" file="file://$PROJECT_DIR$/packages/zinzow/website/project.json" />
+    </projects>
+  </component>
+</project>

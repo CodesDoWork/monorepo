@@ -6,6 +6,7 @@
     "targetDefaults": {
         "build": {
             "inputs": ["production", "^production"],
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
             "cache": true
         },
         "test": {
@@ -19,15 +20,10 @@
                 "{workspaceRoot}/.eslintignore"
             ],
             "cache": true
-        },
-        "@nx/js:tsc": {
-            "cache": true,
-            "dependsOn": ["^build"],
-            "inputs": ["production", "^production"]
         }
     },
     "namedInputs": {
-        "default": ["{projectRoot}/**/*", "sharedGlobals"],
+        "default": ["{projectRoot}/**/*", "sharedGlobals", "!{projectRoot}/Dockerfile", "!{projectRoot}/docker-compose.yaml"],
         "production": [
             "default",
             "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",

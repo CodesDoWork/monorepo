@@ -11,6 +11,7 @@
       <excludeFolder url="file://$MODULE_DIR$/packages/just/documentation/docs/.vitepress/cache" />
       <excludeFolder url="file://$MODULE_DIR$/packages/just/documentation/docs/projects" />
       <excludeFolder url="file://$MODULE_DIR$/packages/just/documentation/docs/public" />
+      <excludeFolder url="file://$MODULE_DIR$/reports" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

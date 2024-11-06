@@ -166,6 +166,7 @@ services:
       - CAP_CHOWN
       - CAP_DAC_OVERRIDE
       - CAP_FOWNER
+      - CAP_KILL
       - CAP_SETFCAP
       - CAP_SETGID
       - CAP_SETUID

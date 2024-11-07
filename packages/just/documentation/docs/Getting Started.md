@@ -2,7 +2,7 @@
 
 ## What problem do I want to solve?
 
-With my personal server I want to learn more about software development, administration and
+With my projects I want to learn more about software development, administration and
 security, documentation, testing, CI/CD, new technology and much more.
 
 I can do this in my own, personal environment, playing, testing out and, having fun.

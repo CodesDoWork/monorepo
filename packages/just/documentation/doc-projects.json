@@ -1,6 +1,7 @@
 [
     {
         "name": "monorepo",
-        "paths": ["./packages", "./docs"]
+        "root": ".",
+        "srcPath": "./packages"
     }
 ]

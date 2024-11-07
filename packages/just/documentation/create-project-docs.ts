@@ -14,37 +14,34 @@ run()
         process.exit(1);
     });
 
-async function createProjectDocs({ name, paths }: Project) {
+async function createProjectDocs({ name, root, srcPath }: Project) {
     console.log(`Creating docs for ${name}`);
-    const entryPoints = paths.join(" ");
     execSync(
         [
             "typedoc",
             "--plugin typedoc-plugin-markdown",
             `--name ${name}`,
-            `--exclude "**/node_modules/**"`,
             `--out ./packages/just/documentation/docs/projects/${name}/code-docs`,
-            `--entryPointStrategy expand ${entryPoints}`,
+            `--entryPointStrategy expand ${srcPath}`,
         ].join(" "),
     );
 
-    for (const path of paths) {
-        execSync(
-            [
-                "copyfiles",
-                "-a",
-                `-e "${path}/node_modules/**/*.md"`,
-                `-e "./packages/just/documentation/docs/**/*.md"`,
-                `"${path}/**/*.md"`,
-                `./packages/just/documentation/docs/projects/${name}`,
-            ].join(" "),
-        );
-    }
+    execSync(
+        [
+            "copyfiles",
+            "-a",
+            `-e "${root}/node_modules/**/*.md"`,
+            `-e "./packages/just/documentation/docs/**/*.md"`,
+            `"${root}/**/*.md"`,
+            `./packages/just/documentation/docs/projects/${name}`,
+        ].join(" "),
+    );
 
     console.log(`Created docs for ${name}`);
 }
 
 interface Project {
     name: string;
-    paths: string[];
+    root: string;
+    srcPath: string;
 }

@@ -11,7 +11,7 @@ import {
 
 const members = [
   {
-    avatar: 'https://avatars.githubusercontent.com/u/45438553?v=4',
+    avatar: 'https://gravatar.com/avatar/668744192e2a341b5253f99980181011?size=256',
     name: 'Justin Konratt',
     title: 'Software Developer 🚀',
     links: [
@@ -32,7 +32,6 @@ const members = [
         <br />
         <li>You never know where your limit is!</li>
         <li>Constantly learning and growing!</li>
-        <li>Work smarter not harder!</li>
         <li>For a creative and beautiful future!</li>
     </template>
   </VPTeamPageTitle>

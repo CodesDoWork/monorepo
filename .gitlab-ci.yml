@@ -130,6 +130,8 @@ build images:
     - docker compose build workspace-deps
     - nx affected -t docker-build --parallel=1
     - nx affected -t docker-push
+    - nx docker-build just-documentation
+    - nx docker-push just-documentation
   resource_group: single
 
 tag latest images:

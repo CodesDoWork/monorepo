@@ -1,3 +1,3 @@
-# trivy
+# shared-trivy
 
-This library was generated with [Nx](https://nx.dev).
+This library contains functions to run trivy commands.

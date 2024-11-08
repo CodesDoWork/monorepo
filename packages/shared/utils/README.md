@@ -1,3 +1,3 @@
 # utils
 
-This library was generated with [Nx](https://nx.dev).
+This library contains some utility functions.

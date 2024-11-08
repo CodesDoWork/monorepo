@@ -1,3 +1,3 @@
-# utils
+# nx-plugins-utils
 
-This library was generated with [Nx](https://nx.dev).
+This package provides utility functions used by nx-plugins.

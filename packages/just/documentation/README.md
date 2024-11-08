@@ -1,4 +1,4 @@
-# Documentation
+# just-documentation
 
 This service provides the documentation you are currently reading.
 It uses [VitePress](https://vitepress.vuejs.org).

@@ -29,7 +29,6 @@
       <project name="shared-certbot" file="file://$PROJECT_DIR$/packages/shared/certbot/project.json" />
       <project name="shared-health" file="file://$PROJECT_DIR$/packages/shared/health/project.json" />
       <project name="shared-logging" file="file://$PROJECT_DIR$/packages/shared/logging/project.json" />
-      <project name="shared-prometheus" file="file://$PROJECT_DIR$/packages/shared/prometheus/project.json" />
       <project name="shared-renovate" file="file://$PROJECT_DIR$/packages/shared/renovate/project.json" />
       <project name="shared-trivy" file="file://$PROJECT_DIR$/packages/shared/trivy/project.json" />
       <project name="shared-trpc" file="file://$PROJECT_DIR$/packages/shared/trpc/project.json" />

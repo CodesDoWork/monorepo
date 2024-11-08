@@ -1,7 +1,7 @@
 {
-    "name": "shared-prometheus",
+    "name": "just-prometheus",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/shared/prometheus",
+    "sourceRoot": "packages/just/prometheus",
     "projectType": "application",
     "targets": {},
     "tags": []

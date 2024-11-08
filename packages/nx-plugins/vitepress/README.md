@@ -1,11 +1,17 @@
-# test
+# nx-plugins-vitepress
 
-This library was generated with [Nx](https://nx.dev).
+A plugin to provide vitepress tasks and executors.
+It defines the targets by using a `.vitepressrc.json` file, containing the following options:
 
-## Building
+````json
+{
+    "docs": "./path/to/docs/relative-to-project-dir",
+    "assets": {
+        "public": [
+            "../list/of", "../../asset/paths"
+        ]
+    }
+}
+````
 
-Run `nx build test` to build the library.
-
-## Running unit tests
-
-Run `nx test test` to execute the unit tests via [Jest](https://jestjs.io).
+The assets key are the directories relative to the docs dir. The asset paths are relative to the project dir.

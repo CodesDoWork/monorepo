@@ -1,4 +1,4 @@
-# Music
+# just-music-platform
 
 The music service is provided by [Navidrome](https://www.navidrome.org).
 See its docs [here]("https://www.navidrome.org/docs).

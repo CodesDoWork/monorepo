@@ -1,11 +1,15 @@
-# test
+# nx-plugins-lighhthouse
 
-This library was generated with [Nx](https://nx.dev).
+A plugin to provide lighthouse tasks and executors to run performance tests.
+It starts the target service using `docker compose` and runs a lighthouse container in the same network to run the
+tests.
 
-## Building
+It defines the tasks by using a `.lighthouserc.json` file:
 
-Run `nx build test` to build the library.
+````json
+{
+    "urls": ["http://website:${PORT}", "${URL}"]
+}
+````
 
-## Running unit tests
-
-Run `nx test test` to execute the unit tests via [Jest](https://jestjs.io).
+It takes a list of urls, which support the use of env variables of a `.env` file located in the project dir.

@@ -445,7 +445,7 @@ services:
     <<: *common
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
-    image: ${IMAGE_BASE}/shared-prometheus:${PROJECT_VERSION:-latest}
+    image: ${IMAGE_BASE}/just-prometheus:${PROJECT_VERSION:-latest}
     volumes:
       - prometheus-data:/prometheus
 

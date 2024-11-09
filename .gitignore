@@ -31,5 +31,5 @@ Thumbs.db
 
 # vitepress
 .vitepress
+!.vitepress/*.ts
 !.vitepress/theme
-!.vitepress/config.js

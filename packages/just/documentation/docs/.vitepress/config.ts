@@ -1,47 +1,7 @@
-import { getSidebar } from "vitepress-plugin-auto-sidebar";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import { withMermaid } from "vitepress-plugin-mermaid";
-
-let sidebar = getSidebar({
-    contentRoot: "./docs",
-    contentDirs: ["."],
-    collapsible: true,
-    collapsed: true,
-});
-
-function flattenItems(item, path = "", level = 0) {
-    item.text = path ? `${path}-${item.text}` : item.text;
-    if (!item.items || item.items.every(subItem => !subItem.items)) {
-        return item;
-    }
-
-    const itemsToFlat = item.items.filter(
-        subItem => !!subItem.items && subItem.items.some(subSubItem => !!subSubItem.items),
-    );
-    item.items = item.items
-        .filter(subItem => !subItem.items || subItem.items.every(subSubItem => !subSubItem.items))
-        .map(subItem => flattenItems(subItem, level > 0 ? item.text : "", level + 1));
-
-    item.items.push(
-        ...itemsToFlat.flatMap(
-            subItem => flattenItems(subItem, level > 0 ? item.text : "", level + 1).items,
-        ),
-    );
-
-    return item;
-}
-
-sidebar = sidebar[0].items.filter(item => !/About|Index/.test(item.text));
-sidebar
-    .find(item => item.text === "Projects")
-    ?.items.forEach(project => project.items.forEach(subItem => flattenItems(subItem)));
-
-sidebar
-    .find(item => item.text === "Projects")
-    ?.items?.forEach(project => {
-        const codeDocs = project.items.find(subItem => subItem.text === "Code docs");
-        codeDocs.items = codeDocs.items.filter(subItem => subItem.text === "Modules");
-        project.items.forEach(subItem => flattenItems(subItem));
-    });
+import { generateSidebar } from "./sidebar";
 
 const logoSvg = `<svg viewBox="0 0 210 97" xmlns="http://www.w3.org/2000/svg">
     <defs id="SvgjsDefs2368">
@@ -87,7 +47,7 @@ export default withMermaid({
             { icon: "instagram", link: "https://instagram.com/justinkonratt" },
             { icon: { svg: logoSvg }, link: "https://justinkonratt.com" },
         ],
-        sidebar,
+        sidebar: generateSidebar("./docs"),
         outline: [2, 3],
         footer: {
             copyright: "Copyright © 2023-present Justin Konratt",

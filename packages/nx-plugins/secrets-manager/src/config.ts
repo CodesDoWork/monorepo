@@ -60,7 +60,7 @@ async function login({ username, password }: Credentials) {
         execSync(`bw login --check`);
         logger.info("Already logged in, unlocking vault");
         loginResult = execSync(`bw unlock ${password}`).toString();
-    } catch (e) {
+    } catch {
         logger.info("Logging in");
         username = await ensureUsername(username);
         loginResult = execSync(`bw login ${username} ${password}`).toString();

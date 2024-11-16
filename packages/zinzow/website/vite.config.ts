@@ -4,7 +4,7 @@ import { sveltekit } from "@sveltejs/kit/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
-    cacheDir: "../../../node_modules/.vite/src/website",
+    cacheDir: "../../../node_modules/.vite/packages/zinzow/website",
     server: {
         port: 4200,
         host: "0.0.0.0",

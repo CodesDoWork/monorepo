@@ -5,7 +5,7 @@
     import type { Book } from "../../types/frontend";
 
     export let book: Book;
-    export let style = undefined;
+    export let style: string | undefined = undefined;
 </script>
 
 <Card class="p-2 grid grid-cols-[auto_1fr] gap-4 items-start h-full" style={style}>

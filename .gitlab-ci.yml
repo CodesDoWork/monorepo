@@ -165,13 +165,7 @@ lighthouse:
 deploy live:
   stage: deploy
   script:
-    - nx affected -t deploy
-    # deploy env
-    - scp .env ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/.env
-    # deploy docker-compose
-    - scp docker-compose.yaml ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml
-    # up
-    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f /opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml up -d --pull always --remove-orphans
+    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then nx affected -t deploy; else nx affected -t deploy -c development; fi
   only:
     - $MASTER_BRANCH
     - $DEV_BRANCH

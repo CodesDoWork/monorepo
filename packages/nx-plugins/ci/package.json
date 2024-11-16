@@ -1,0 +1,13 @@
+{
+    "name": "nx-plugins-ci",
+    "version": "0.0.1",
+    "dependencies": {
+        "@nx/devkit": "20.0.3",
+        "tslib": "2.6.3"
+    },
+    "type": "commonjs",
+    "main": "./src/index.ts",
+    "typings": "./src/index.ts",
+    "private": true,
+    "executors": "./executors.json"
+}

@@ -7,11 +7,13 @@ running.**
 Use the following commands to control the worker after logging in to wrangler:
 
 **deploy**:
-````sh
+
+```sh
 nx deploy-maintenance just-maintenance
-````
+```
 
 **delete**:
-````sh
+
+```sh
 nx delete-maintenance just-maintenance
-````
+```

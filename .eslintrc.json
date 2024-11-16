@@ -49,7 +49,11 @@
                             },
                             {
                                 "sourceTag": "vitepress",
-                                "onlyDependOnLibsWithTags": ["shared", "vitepress", "vitepress-plugin"]
+                                "onlyDependOnLibsWithTags": [
+                                    "shared",
+                                    "vitepress",
+                                    "vitepress-plugin"
+                                ]
                             },
                             {
                                 "sourceTag": "workspace-scripts",

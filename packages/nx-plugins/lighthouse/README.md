@@ -6,10 +6,10 @@ tests.
 
 It defines the tasks by using a `.lighthouserc.json` file:
 
-````json
+```json
 {
-    "urls": ["http://website:${PORT}", "${URL}"]
+  "urls": ["http://website:${PORT}", "${URL}"]
 }
-````
+```
 
 It takes a list of urls, which support the use of env variables of a `.env` file located in the project dir.

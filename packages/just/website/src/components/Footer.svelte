@@ -2,7 +2,7 @@
     import { clsx } from "clsx";
     import Link from "./Link.svelte";
     import { useRoutes } from "../stores/useRoutes";
-    import type { JustSiteRoutes } from "@codesdowork/cms/types";
+    import type { JustSiteRoutes } from "@codesdowork/just-cms-types";
 
     let className = "";
     export { className as class };

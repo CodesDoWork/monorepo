@@ -14,5 +14,7 @@ export const env = createEnv({
         SMTP_USERNAME: z.string(),
         SMTP_PASSWORD: z.string(),
     },
+    clientPrefix: "PUBLIC_",
+    client: {},
     runtimeEnv: svelteEnv,
 });

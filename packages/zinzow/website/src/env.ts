@@ -6,5 +6,7 @@ export const env = createEnv({
     server: {
         DOMAIN: z.string(),
     },
+    clientPrefix: "PUBLIC_",
+    client: {},
     runtimeEnv: svelteEnv,
 });

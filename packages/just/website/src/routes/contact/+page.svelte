@@ -33,7 +33,6 @@
                           class="group border-l-4 hover:border-l-8 border-[var(--hover-color)] outline-0 hover:outline-0">
                         <Link
                             noStyle
-                            external
                             class="p-4 sm:p-5 md:p-6 md:h-20 w-full hover:pt-3 hover:pb-5 sm:hover:pb-7 md:hover:pt-4 lg:hover:pt-3 transition-all grid grid-cols-[auto_1fr]"
                             href={social.href}
                             title={social.title}>

@@ -1,6 +1,6 @@
 import { SMTPClient } from "emailjs";
 import { env } from "../../env";
-import type { Actions } from "./$types/Actions";
+import type { Actions } from "./$types";
 
 const client = new SMTPClient({
     user: env.SMTP_USERNAME,
@@ -18,9 +18,9 @@ interface Message {
 
 export const actions: Actions = {
     mail: async event => {
-        const data = {};
+        const data: Partial<Message> = {};
         const formData = await event.request.formData();
-        formData.forEach((value, key) => (data[key] = value));
+        formData.forEach((value, key) => (data[key as keyof Message] = value as string));
         const messageData = data as Message;
 
         try {

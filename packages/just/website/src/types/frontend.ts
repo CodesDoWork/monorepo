@@ -5,7 +5,8 @@ import type {
     WorkExperienceWorkProjectsIdDto,
 } from "./dtos";
 
-export type PageInfo = Omit<PageInfoDto, "socials" | "technologies"> & {
+export type PageInfo = Omit<PageInfoDto, "keywords" |"socials" | "technologies"> & {
+    keywords: string[];
     socials: PageInfoSocials[];
     technologies: PageInfoTechnologies;
 };
@@ -28,12 +29,21 @@ export type WorkExperience = Omit<WorkExperienceDto, "technologies" | "projects"
 
 export interface Book extends Omit<DirectusBook, "cover"> {
     url: string;
-    authors: string[];
+    authors: (string | OpenLibraryBookAuthor)[];
     cover:
         | string
         | {
               medium: string;
           };
     subtitle?: string;
-    subjects?: string[];
+    subjects?: OpenLibrarySubject[];
+}
+
+interface OpenLibraryBookAuthor {
+    url: string;
+    name: string;
+}
+
+interface OpenLibrarySubject {
+    name: string;
 }

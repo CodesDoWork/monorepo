@@ -1,4 +1,5 @@
 import type {
+    JustSiteBlogEntries,
     JustSiteBookCategories,
     JustSiteBooks,
     JustSiteInfo,
@@ -72,3 +73,7 @@ export interface JustSiteBookDto extends JustSiteBooks {
 export type DirectusBook = Omit<JustSiteBookDto, "book_categories"> & {
     categories: string[];
 };
+
+export type JustSiteBlogEntriesDto = Omit<JustSiteBlogEntries, "cover"> & {
+    cover: string;
+}

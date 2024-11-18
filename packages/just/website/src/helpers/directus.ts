@@ -1,8 +1,9 @@
-import type { CustomDirectusTypes } from "@codesdowork/just-cms-types";
+import type { CustomDirectusTypes, JustSiteRoutes } from "@codesdowork/just-cms-types";
 import { authentication, createDirectus, readItems, readSingleton, rest } from "@directus/sdk";
 import { env } from "../env";
 import type {
     DirectusBook,
+    JustSiteBlogEntriesDto,
     JustSiteBookDto,
     PageInfoDto,
     WorkExperienceDto,
@@ -114,16 +115,21 @@ export function getSiteInfo(directus: Directus): Promise<PageInfo> {
 
             pageInfo.about_bio = replaceLinks(pageInfo.about_bio);
 
-            return { ...pageInfo, socials, technologies } satisfies PageInfo;
+            return {
+                ...pageInfo,
+                keywords: pageInfo.keywords as string[],
+                socials,
+                technologies,
+            } satisfies PageInfo;
         });
 }
 
-export function getRoutes(directus: Directus) {
+export function getRoutes(directus: Directus): Promise<JustSiteRoutes[]> {
     return directus.request(
         readItems("just_site_routes", {
             fields: ["name", "route", "description", "color", "is_hero", "in_nav"],
         }),
-    );
+    ) as Promise<JustSiteRoutes[]>;
 }
 
 export function getWorkExperience(directus: Directus): Promise<WorkExperience[]> {
@@ -197,14 +203,17 @@ export function getBooks(directus: Directus): Promise<DirectusBook[]> {
         );
 }
 
-export function getBlogPosts(directus: Directus) {
+export function getBlogPosts(directus: Directus): Promise<JustSiteBlogEntriesDto[]> {
     return directus.request(readItems("just_site_blog_entries")).then(posts => {
         posts.forEach(p => (p.cover = assetUrl(p.cover as string)));
-        return posts;
+        return posts as JustSiteBlogEntriesDto[];
     });
 }
 
-export function getBlogPost(directus: Directus, slug: string) {
+export function getBlogPost(
+    directus: Directus,
+    slug: string,
+): Promise<JustSiteBlogEntriesDto | undefined> {
     return directus
         .request(
             readItems("just_site_blog_entries", {
@@ -218,6 +227,6 @@ export function getBlogPost(directus: Directus, slug: string) {
                 p.content = replaceLinks(p.content);
             }
 
-            return p;
+            return p as JustSiteBlogEntriesDto | undefined;
         });
 }

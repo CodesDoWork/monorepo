@@ -27,7 +27,7 @@ const githubRequest = {
 
 function filterReposByContribution(githubUser: string) {
     return async function (repos: Repo[]) {
-        const reposToRemove = [];
+        const reposToRemove: Repo[] = [];
         for (const repo of repos) {
             if (!(await hasContributedToRepo(githubUser, repo))) {
                 reposToRemove.push(repo);
@@ -57,9 +57,7 @@ function makeProjectList(projectData: JustSiteProjectData[]) {
 
 function repoToProject(projectData: JustSiteProjectData[]) {
     return function (repo: Repo): Project {
-        const projectComplimentaryData =
-            projectData.find(p => p.name.toLocaleLowerCase() === repo.name.toLocaleLowerCase()) ||
-            {};
+        const projectComplimentaryData = projectData.find(p => p.name.toLocaleLowerCase() === repo.name.toLocaleLowerCase());
 
         return {
             id: repo.id,
@@ -82,4 +80,24 @@ function repoToProject(projectData: JustSiteProjectData[]) {
             ...projectComplimentaryData, // Append and merge with any hard-coded data from config
         };
     };
+}
+
+interface Project extends Omit<JustSiteProjectData, "id"> {
+    id: number | string;
+    name: string;
+    user: string;
+    url: string;
+    description: string;
+    isFork: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    homepage: string;
+    language: string;
+    license: string;
+    size: number;
+    stars: number;
+    forks: number;
+    issues: number;
+    topics: string[];
+    archived: boolean;
 }

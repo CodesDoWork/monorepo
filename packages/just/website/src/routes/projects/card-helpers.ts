@@ -24,4 +24,6 @@ export function calculateTimeAgo(date: string | Date): string {
             return `${interval} ${unit}${interval > 1 ? "s" : ""} ago`;
         }
     }
+
+    return "just now";
 }

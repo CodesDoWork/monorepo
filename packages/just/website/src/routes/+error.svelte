@@ -4,7 +4,7 @@
     import Link from "../components/Link.svelte";
     import Page from "../components/Page.svelte";
 
-    const emojis = {
+    const emojis: Record<number, string> = {
         400: "❗",
         401: "🔒",
         403: "🚫",
@@ -26,6 +26,6 @@
     <div class="flex flex-col items-center">
         <p class="text-3xl md:text-4xl lg:text-5xl mb-16 font-mono">{$page.error.message}</p>
         <span class="text-7xl md:text-8xl lg:text-9xl mb-24">{emojis[$page.status] || ""}</span>
-        <Link button href="/">Back Home</Link>
+        <Link title="Back Home" button href="/">Back Home</Link>
     </div>
 </Page>

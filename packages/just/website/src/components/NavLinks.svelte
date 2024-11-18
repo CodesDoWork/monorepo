@@ -3,7 +3,7 @@
     import { useRoutes } from "../stores/useRoutes";
     import { animationDelay } from "../helpers/animationDelay";
     import Link from "./Link.svelte";
-    import type { JustSiteRoutes } from "@codesdowork/cms/types";
+    import type { JustSiteRoutes } from "@codesdowork/just-cms-types";
 
     let className = "";
     export { className as class };

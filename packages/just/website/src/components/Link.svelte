@@ -9,12 +9,14 @@
     export let noStyle = false;
     export let smoothScroll = false;
 
-    const scrollTo = ({ target }) => {
-        const el = document.querySelector(target.getAttribute("href"));
+    type ClickEvent = MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement };
+
+    const scrollTo = ({ currentTarget }: ClickEvent) => {
+        const el = document.querySelector(currentTarget.getAttribute("href"));
         el && el.scrollIntoView({ behavior: "smooth" });
     };
 
-    const handleClick = (event) => {
+    const handleClick = (event: ClickEvent) => {
         if (smoothScroll) {
             event.preventDefault();
             scrollTo(event);
@@ -30,20 +32,24 @@
             "shadow-md hover:shadow-lg",
             "origin-top-left",
         ],
-        !button && !noStyle && [
-            "p-1 hover:text-white dark:hover:text-black text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500",
-        ],
+        !button &&
+            !noStyle && [
+                "p-1 hover:text-white dark:hover:text-black text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500",
+            ],
         className,
     );
 
     const external = href.startsWith("http");
 </script>
 
-<a class={aClass}
-   href={href}
-   on:click={handleClick}
-   rel={external ? "noopener" : undefined}
-   target={external ? "_blank" : undefined}
-   title={title}>
+<svelte:element
+    this={href ? "a" : "span"}
+    class={aClass}
+    {href}
+    on:click={handleClick}
+    rel={external ? "noopener" : undefined}
+    target={external ? "_blank" : undefined}
+    role={href ? "link" : "none"}
+    {title}>
     <slot />
-</a>
+</svelte:element>

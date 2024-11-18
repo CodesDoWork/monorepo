@@ -4,16 +4,15 @@
 
     export let data: PageData;
     const { siteInfo, routes, post } = data;
-
-    let postContent;
-    $: console.log(postContent);
 </script>
 
-<Page backButton routes={routes} siteInfo={siteInfo} title={{title: post.title, small: true}}>
+<Page backButton {routes} {siteInfo} title={{ title: post.title, small: true }}>
     <span class="text-slate-400">{new Date(post.date_created).toLocaleDateString()}</span>
-    <section class="mt-8 grid gap-8 grid-rows-[min-content_min-content] md:grid-cols-[60%_40%]">
-        <img alt="Cover" class="md:col-start-2 animate-fadeIn" src={post.cover} />
+    <section class="mt-8 grid grid-rows-[min-content_min-content] gap-8 md:grid-cols-[60%_40%]">
+        <img alt="Cover" class="animate-fadeIn md:col-start-2" src={post.cover} />
         <article
-            class="md:col-start-1 md:row-start-1 *:mb-2 text-justify hyphens-auto animate-fadeInTopSubtle">{@html post.content}</article>
+            class="animate-fadeInTopSubtle hyphens-auto text-justify *:mb-2 md:col-start-1 md:row-start-1">
+            {@html post.content}
+        </article>
     </section>
 </Page>

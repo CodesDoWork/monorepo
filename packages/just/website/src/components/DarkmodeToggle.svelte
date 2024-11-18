@@ -11,7 +11,7 @@
     const animationDuration = 300;
     let icon = "";
     $: {
-        let iconName;
+        let iconName: string;
         if ($theme === "dark") {
             document.documentElement.classList.add("dark");
             iconName = "material-symbols:light-mode-outline";

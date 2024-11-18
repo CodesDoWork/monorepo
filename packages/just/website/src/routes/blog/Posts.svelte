@@ -1,14 +1,14 @@
 <script lang="ts">
-    import PostCard from "./PostCard.svelte";
     import { animationDelay } from "../../helpers/animationDelay";
-    import type { JustSiteBlogEntries } from "@codesdowork/cms/types";
+    import type { JustSiteBlogEntriesDto } from "../../types/dtos";
+    import PostCard from "./PostCard.svelte";
 
-    export let posts: JustSiteBlogEntries[];
+    export let posts: JustSiteBlogEntriesDto[];
     export let startWithIdx = 0;
 </script>
 
 <div class="grid gap-8 lg:grid-cols-2">
-    <ul class="hidden lg:grid gap-8">
+    <ul class="hidden gap-8 lg:grid">
         {#each posts as post, idx (idx)}
             {#if idx % 2 === 0}
                 <li>
@@ -17,7 +17,7 @@
             {/if}
         {/each}
     </ul>
-    <ul class="hidden lg:grid gap-8">
+    <ul class="hidden gap-8 lg:grid">
         {#each posts as post, idx (idx)}
             {#if idx % 2 === 1}
                 <li>

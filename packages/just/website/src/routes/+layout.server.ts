@@ -1,8 +1,9 @@
+import { JustSiteRoutes } from "@codesdowork/just-cms-types";
 import { getDirectus, getRoutes, getSiteInfo } from "../helpers/directus";
 import type { PageInfo } from "../types/frontend";
-import type { PageServerLoad } from "./$types";
+import type { LayoutServerLoad } from "./$types";
 
-export const load: PageServerLoad = async ({ url }): Promise<LayoutData> => {
+export const load: LayoutServerLoad = async ({ url }): Promise<LayoutData> => {
     const directus = await getDirectus();
     const siteInfo = await getSiteInfo(directus);
     const routes = await getRoutes(directus);
@@ -12,10 +13,8 @@ export const load: PageServerLoad = async ({ url }): Promise<LayoutData> => {
     return { siteInfo, routes, currentRoute };
 };
 
-type Route = ReturnType<typeof getRoutes> extends Promise<Array<infer T>> ? T : never;
-
 export type LayoutData = {
     siteInfo: PageInfo;
-    routes: Route[];
-    currentRoute: Route | undefined;
+    routes: JustSiteRoutes[];
+    currentRoute: JustSiteRoutes | undefined;
 };

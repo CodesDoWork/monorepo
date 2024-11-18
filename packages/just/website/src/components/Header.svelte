@@ -6,7 +6,7 @@
     import { sineInOut } from "svelte/easing";
     import NavLinks from "./NavLinks.svelte";
     import { useRoutes } from "../stores/useRoutes";
-    import type { JustSiteRoutes } from "@codesdowork/cms/types";
+    import type { JustSiteRoutes } from "@codesdowork/just-cms-types";
     import type { Writable } from "svelte/store";
     import Link from "./Link.svelte";
 
@@ -51,7 +51,7 @@
         x: "100%",
         duration: 500,
         easing: sineInOut,
-    };
+    } as any;
 </script>
 
 <header class={headerClass}>

@@ -5,6 +5,8 @@ import { projectRoot } from "nx-plugins-utils";
 export const runSvelteCheckExecutor: PromiseExecutor = async (_, context) => {
     try {
         const projectDir = projectRoot(context);
+        await execAsync("env");
+        await execAsync("svelte-check", ["--version"]);
         await execAsync(`svelte-check`, [], {
             cwd: projectDir,
             shell: true,

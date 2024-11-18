@@ -57,7 +57,9 @@ function makeProjectList(projectData: JustSiteProjectData[]) {
 
 function repoToProject(projectData: JustSiteProjectData[]) {
     return function (repo: Repo): Project {
-        const projectComplimentaryData = projectData.find(p => p.name.toLocaleLowerCase() === repo.name.toLocaleLowerCase());
+        const projectComplimentaryData = projectData.find(
+            p => p.name.toLocaleLowerCase() === repo.name.toLocaleLowerCase(),
+        );
 
         return {
             id: repo.id,

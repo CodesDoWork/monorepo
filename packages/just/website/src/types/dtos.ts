@@ -76,4 +76,4 @@ export type DirectusBook = Omit<JustSiteBookDto, "book_categories"> & {
 
 export type JustSiteBlogEntriesDto = Omit<JustSiteBlogEntries, "cover"> & {
     cover: string;
-}
+};

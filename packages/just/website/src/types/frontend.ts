@@ -5,7 +5,7 @@ import type {
     WorkExperienceWorkProjectsIdDto,
 } from "./dtos";
 
-export type PageInfo = Omit<PageInfoDto, "keywords" |"socials" | "technologies"> & {
+export type PageInfo = Omit<PageInfoDto, "keywords" | "socials" | "technologies"> & {
     keywords: string[];
     socials: PageInfoSocials[];
     technologies: PageInfoTechnologies;

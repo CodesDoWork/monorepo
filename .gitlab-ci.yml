@@ -44,7 +44,7 @@ default:
         - ./packages/**/*.pem
       policy: $ENV_CACHE_POLICY
   before_script:
-    - export PATH="./node_modules/.bin:$PATH"
+    - export PATH="$PWD/node_modules/.bin:$PATH"
     - docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
 
@@ -80,7 +80,7 @@ check formatting:
     - nx format:check
   resource_group: single
 
-lint with eslint:
+eslint:
   stage: lint
   script:
     - nx affected -t lint

@@ -100,7 +100,7 @@ svelte check:
     - nx affected -t svelte-check
   resource_group: single
 
-lint with sonar:
+sonarqube:
   stage: lint
   cache: []
   image:
@@ -110,7 +110,7 @@ lint with sonar:
     - sonar-scanner
   allow_failure: true
   only:
-    - $MASTER_BRANCH
+    - master
   resource_group: single
 
 audit:
@@ -143,7 +143,7 @@ tag latest images:
     - export PROJECT_VERSION=latest
     - nx affected -t docker-push
   only:
-    - $MASTER_BRANCH
+    - master
   resource_group: single
 
 trivy:
@@ -164,11 +164,11 @@ lighthouse:
       - ./.lighthouse-reports/
   resource_group: single
 
-deploy live:
+deploy:
   stage: deploy
   script:
     - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then nx affected -t deploy; else nx affected -t deploy -c development; fi
   only:
-    - $MASTER_BRANCH
-    - $DEV_BRANCH
+    - master
+    - develop
   resource_group: single

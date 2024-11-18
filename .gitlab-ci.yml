@@ -1,5 +1,6 @@
 stages:
   - workspace
+  - deps
   - env
   - lint
   - test
@@ -58,7 +59,7 @@ build workspace image:
   resource_group: single
 
 install deps:
-  stage: workspace
+  stage: deps
   variables:
     DEPS_CACHE_POLICY: pull-push
   script:

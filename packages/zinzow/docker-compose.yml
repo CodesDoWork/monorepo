@@ -45,7 +45,7 @@ services:
       - ALL
     environment:
       - PORT=4300
-    image: ${IMAGE_BASE}/website
+    image: ${IMAGE_BASE}/zinzow-website
     read_only: true
     restart: unless-stopped
 

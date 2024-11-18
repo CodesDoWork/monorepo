@@ -43,6 +43,7 @@ default:
         - ./packages/**/.env
         - ./*.pem
         - ./packages/**/*.pem
+        - ./**/.ssh/
       policy: $ENV_CACHE_POLICY
   before_script:
     - export PATH="$PWD/node_modules/.bin:$PATH"

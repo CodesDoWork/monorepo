@@ -17,7 +17,7 @@ export const runDeployExecutor: PromiseExecutor<DeployExecutorSchema> = async (
         const projectDir = projectRoot(context);
         const { ORGANIZATION, PROJECT } = loadEnv();
 
-        const user = getSSHVariableSafe("user");
+        const user = getSSHVariableSafe("username");
         const host = getSSHVariableSafe("host");
         const dest = getSSHVariable("dest") || `/opt/${ORGANIZATION}/${PROJECT}/${projectDir}`;
         const login = `${user}@${host}`;

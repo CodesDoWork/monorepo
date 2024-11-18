@@ -1,0 +1,12 @@
+{
+    "name": "nx-plugins-vitest",
+    "dependencies": {
+        "@nx/devkit": "20.0.3",
+        "tslib": "^2.3.0"
+    },
+    "type": "commonjs",
+    "main": "./src/index.ts",
+    "typings": "./src/index.ts",
+    "private": true,
+    "executors": "./executors.json"
+}

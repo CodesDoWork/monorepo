@@ -1,0 +1,8 @@
+{
+    "name": "nx-plugins-utils",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/nx-plugins/utils/src",
+    "projectType": "library",
+    "tags": ["nx-plugins"],
+    "targets": {}
+}

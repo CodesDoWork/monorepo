@@ -1,0 +1,8 @@
+{
+    "name": "just-cms-dashboard-config",
+    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/cms/dashboard-config/src",
+    "projectType": "library",
+    "targets": {},
+    "tags": ["just-cms"]
+}

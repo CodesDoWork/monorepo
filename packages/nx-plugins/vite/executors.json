@@ -1,0 +1,19 @@
+{
+    "executors": {
+        "build": {
+            "implementation": "./src/executors/build",
+            "schema": "./src/executors/schema.json",
+            "description": "Builds vite app"
+        },
+        "preview": {
+            "implementation": "./src/executors/preview",
+            "schema": "./src/executors/schema.json",
+            "description": "Preview vite app"
+        },
+        "serve": {
+            "implementation": "./src/executors/serve",
+            "schema": "./src/executors/schema.json",
+            "description": "Serve vite app"
+        }
+    }
+}

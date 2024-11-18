@@ -1,0 +1,21 @@
+{
+    "extends": "../../../../tsconfig.json",
+    "compilerOptions": {
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ],
+        "noEmit": true,
+        "incremental": true
+    },
+    "include": [
+        "**/*.ts",
+        "**/*.tsx",
+        "../../../../dist/packages/just/music/downloader/.next/types/**/*.ts",
+        "../../../../packages/just/music/downloader/.next/types/**/*.ts",
+        ".next/types/**/*.ts",
+        "next-env.d.ts",
+        "../../../../dist/packages/just/music/downloader/types/**/*.ts"
+    ]
+}

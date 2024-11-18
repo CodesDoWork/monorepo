@@ -1,0 +1,10 @@
+{
+    "docs": "./docs",
+    "assets": {
+        "public": [
+            "../branding/assets/img/logo.svg",
+            "../branding/assets/img/icon.svg",
+            "../branding/assets/favicon/favicon.ico"
+        ]
+    }
+}

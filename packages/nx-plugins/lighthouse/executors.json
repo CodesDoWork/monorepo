@@ -1,0 +1,9 @@
+{
+    "executors": {
+        "lighthouse": {
+            "implementation": "./src/executors/lighthouse/executor",
+            "schema": "./src/executors/lighthouse/schema.json",
+            "description": "Runs lighthouse"
+        }
+    }
+}

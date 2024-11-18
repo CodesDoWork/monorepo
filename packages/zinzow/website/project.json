@@ -1,0 +1,8 @@
+{
+    "name": "zinzow-website",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/zinzow/website/src",
+    "projectType": "application",
+    "targets": {},
+    "tags": []
+}

@@ -1,0 +1,23 @@
+{
+    "name": "just-maintenance",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/maintenance/src",
+    "projectType": "application",
+    "targets": {
+        "deploy-maintenance": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "dotenv -- cross-env-shell \"wrangler deploy --routes '$DOMAIN$SLASH*' --routes *.$DOMAIN$SLASH*\"",
+                "cwd": "packages/just/maintenance"
+            }
+        },
+        "delete-maintenance": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "wrangler delete",
+                "cwd": "packages/just/maintenance"
+            }
+        }
+    },
+    "tags": []
+}

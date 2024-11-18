@@ -2,8 +2,22 @@
     "root": true,
     "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
     "ignorePatterns": ["**/*"],
-    "plugins": ["@nx"],
+    "plugins": ["@nx", "svelte3", "@typescript-eslint", "@stylistic/eslint-plugin-ts"],
     "overrides": [
+        {
+            "files": ["*"],
+            "rules": {
+                "@typescript-eslint/no-explicit-any": "warn",
+                "@typescript-eslint/no-unused-expressions": "off"
+            }
+        },
+        {
+            "files": ["*.svelte"],
+            "parser": "svelte-eslint-parser",
+            "parserOptions": {
+                "parser": "@typescript-eslint/parser"
+            }
+        },
         {
             "files": "*.json",
             "parser": "jsonc-eslint-parser",
@@ -12,12 +26,17 @@
             }
         },
         {
+            "files": "*.js",
+            "rules": {
+                "@typescript-eslint/no-require-imports": "off"
+            }
+        },
+        {
             "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
             "rules": {
                 "@nx/enforce-module-boundaries": [
                     "error",
                     {
-                        "enforceBuildableLibDependency": true,
                         "allow": [],
                         "depConstraints": [
                             {
@@ -25,52 +44,41 @@
                                 "onlyDependOnLibsWithTags": ["shared"]
                             },
                             {
-                                "sourceTag": "music-downloader",
-                                "onlyDependOnLibsWithTags": ["shared", "music-downloader"]
+                                "sourceTag": "nx-plugins",
+                                "onlyDependOnLibsWithTags": ["shared", "nx-plugins"]
                             },
                             {
-                                "sourceTag": "just-site",
-                                "onlyDependOnLibsWithTags": ["shared", "just-site"]
+                                "sourceTag": "just-cms",
+                                "onlyDependOnLibsWithTags": ["shared", "just-cms"]
                             },
                             {
-                                "sourceTag": "nx-plugin",
-                                "onlyDependOnLibsWithTags": ["shared", "nx-plugin"]
+                                "sourceTag": "just-website",
+                                "onlyDependOnLibsWithTags": ["shared", "just-cms", "just-website"]
                             },
                             {
-                                "sourceTag": "documentation",
-                                "onlyDependOnLibsWithTags": ["shared", "documentation"]
+                                "sourceTag": "just-music-downloader",
+                                "onlyDependOnLibsWithTags": ["shared", "just-music-downloader"]
+                            },
+                            {
+                                "sourceTag": "vitepress",
+                                "onlyDependOnLibsWithTags": [
+                                    "shared",
+                                    "vitepress",
+                                    "vitepress-plugin"
+                                ]
                             },
                             {
                                 "sourceTag": "workspace-scripts",
-                                "onlyDependOnLibsWithTags": ["shared", "workspace-scripts"]
+                                "onlyDependOnLibsWithTags": [
+                                    "shared",
+                                    "workspace-scripts",
+                                    "nx-plugins"
+                                ]
                             }
                         ]
                     }
                 ]
             }
-        },
-        {
-            "files": ["*.ts", "*.tsx"],
-            "extends": ["plugin:@nx/typescript"],
-            "rules": {
-                "@typescript-eslint/no-extra-semi": "error",
-                "no-extra-semi": "off"
-            }
-        },
-        {
-            "files": ["*.js", "*.jsx"],
-            "extends": ["plugin:@nx/javascript"],
-            "rules": {
-                "@typescript-eslint/no-extra-semi": "error",
-                "no-extra-semi": "off"
-            }
-        },
-        {
-            "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
-            "env": {
-                "jest": true
-            },
-            "rules": {}
         }
     ]
 }

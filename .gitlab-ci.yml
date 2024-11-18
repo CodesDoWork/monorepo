@@ -1,5 +1,6 @@
 stages:
   - workspace
+  - deps
   - env
   - lint
   - test
@@ -18,6 +19,8 @@ variables:
   DOCKER_VERSION: 27.2.0
   DEPS_CACHE_POLICY: pull
   ENV_CACHE_POLICY: pull
+  MASTER_BRANCH: master
+  DEV_BRANCH: develop
 
 default:
   image: ${IMAGE_BASE}/workspace:${PROJECT_VERSION}
@@ -40,9 +43,10 @@ default:
         - ./packages/**/.env
         - ./*.pem
         - ./packages/**/*.pem
+        - ./**/.ssh/
       policy: $ENV_CACHE_POLICY
   before_script:
-    - export PATH="./node_modules/.bin:$PATH"
+    - export PATH="$PWD/node_modules/.bin:$PATH"
     - docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
 
@@ -51,42 +55,50 @@ build workspace image:
   image: docker:${DOCKER_VERSION}
   cache: []
   script:
-    - docker compose -f docker-compose-workspace.yaml build --push base
-    - docker compose -f docker-compose-workspace.yaml build --push workspace
+    - docker compose build --push base
+    - docker compose build --push workspace
+  resource_group: single
 
 install deps:
-  stage: workspace
+  stage: deps
   variables:
     DEPS_CACHE_POLICY: pull-push
   script:
     - nci
+  resource_group: single
 
 generate env files:
   stage: env
   variables:
     ENV_CACHE_POLICY: push
   script:
-    - nx g env-files TEST,PROD ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
+    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then export STAGE=PROD; elif [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export STAGE=TEST,PROD; else export STAGE=DEV,PROD; fi
+    - nx g env-files ${STAGE} ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
+  resource_group: single
 
 check formatting:
   stage: lint
   script:
     - nx format:check
+  resource_group: single
 
-lint with eslint:
+eslint:
   stage: lint
   script:
     - nx affected -t lint
+  resource_group: single
 
 secretlint:
   stage: lint
   script:
     - secretlint --secretlintignore .gitignore "**/*"
+  resource_group: single
 
 svelte check:
   stage: lint
   script:
     - nx affected -t svelte-check
+  resource_group: single
 
 lint with sonar:
   stage: lint
@@ -98,45 +110,50 @@ lint with sonar:
     - sonar-scanner
   allow_failure: true
   only:
-    - master
+    - $MASTER_BRANCH
+  resource_group: single
 
 audit:
   stage: lint
   script:
     - na audit --audit-level=high
   allow_failure: true
+  resource_group: single
 
 test:
   stage: test
   script:
     - nx affected -t test
+  resource_group: single
 
 build images:
   stage: build
   script:
-    - docker compose -f docker-compose-workspace.yaml build workspace-deps
-    - nx affected -t build-image --parallel=1
-    - nx affected -t push-image
-  except:
-    - master
+    - docker compose build workspace-deps
+    - nx affected -t docker-build --parallel=1
+    - nx affected -t docker-push
+    - nx docker-build just-documentation
+    - nx docker-push just-documentation
+  resource_group: single
 
-build latest images:
+tag latest images:
   stage: build
   script:
+    - nx affected -t docker-tag --args=latest
     - export PROJECT_VERSION=latest
-    - docker compose -f docker-compose-workspace.yaml build workspace-deps
-    - nx affected -t build-image --parallel=1
-    - nx affected -t push-image
+    - nx affected -t docker-push
   only:
-    - master
+    - $MASTER_BRANCH
+  resource_group: single
 
 trivy:
   stage: analyze
   script:
-    - nx affected -t pull-image
+    - nx affected -t docker-pull
     - nx affected -t trivy
     - nr trivy
   allow_failure: true
+  resource_group: single
 
 lighthouse:
   stage: analyze
@@ -145,24 +162,13 @@ lighthouse:
   artifacts:
     paths:
       - ./.lighthouse-reports/
+  resource_group: single
 
-deploy:
+deploy live:
   stage: deploy
   script:
-    # init ssh
-    - apk add openssh-client
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - grep "${KNOWN_HOST_PUB}" ~/.ssh/known_hosts || echo "${KNOWN_HOST_PUB}" > ~/.ssh/known_hosts
-    - echo "${SSH_PRIVATE_KEY}" > ~/.ssh/id_rsa
-    - chmod 400 ~/.ssh/id_rsa
-    # deploy env
-    - nx g env-files PROD ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
-    - scp .env ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/.env
-    # deploy docker-compose
-    - nx g prod-compose-file
-    - scp docker-compose-prod.yaml ${SSH_USER}@${SSH_HOST}:/opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml
-    # up
-    - ssh ${SSH_USER}@${SSH_HOST} docker compose -f /opt/${ORGANIZATION}/${PROJECT}/docker-compose.yaml up -d --pull always --remove-orphans
+    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then nx affected -t deploy; else nx affected -t deploy -c development; fi
   only:
-    - master
+    - $MASTER_BRANCH
+    - $DEV_BRANCH
+  resource_group: single

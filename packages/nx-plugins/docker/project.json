@@ -1,0 +1,8 @@
+{
+    "name": "nx-plugins-docker",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/nx-plugins/docker/src",
+    "projectType": "library",
+    "tags": ["nx-plugins"],
+    "targets": {}
+}

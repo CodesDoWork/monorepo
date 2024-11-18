@@ -1,0 +1,22 @@
+{
+    "$schema": "https://json-schema.org/schema",
+    "version": 2,
+    "title": "Deploy executor",
+    "description": "",
+    "type": "object",
+    "properties": {
+        "enabled": {
+            "type": "boolean",
+            "description": "Enable deployment"
+        },
+        "files": {
+            "type": "array",
+            "description": "Files to copy"
+        },
+        "commands": {
+            "type": "array",
+            "description": "Commands to run after copying files"
+        }
+    },
+    "required": []
+}

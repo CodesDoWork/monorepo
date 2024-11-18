@@ -1,0 +1,9 @@
+{
+    "executors": {
+        "test": {
+            "implementation": "./src/executors/test",
+            "schema": "./src/executors/schema.json",
+            "description": "Test app using vitest"
+        }
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "name": "shared-health",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/shared/health/src",
+    "projectType": "library",
+    "targets": {},
+    "tags": ["shared"]
+}

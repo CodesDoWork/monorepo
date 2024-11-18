@@ -33,9 +33,6 @@ default:
       paths:
         - node_modules
       policy: $DEPS_CACHE_POLICY
-    - key: nx-cache
-      paths:
-        - .nx
     - key: cache-${CI_COMMIT_SHA}
       paths:
         - ./.env

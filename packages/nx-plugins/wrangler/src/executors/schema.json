@@ -1,0 +1,13 @@
+{
+    "$schema": "https://json-schema.org/schema",
+    "version": 2,
+    "title": "Wrangler executor",
+    "description": "",
+    "type": "object",
+    "properties": {
+        "args": {
+            "type": "array"
+        }
+    },
+    "required": []
+}

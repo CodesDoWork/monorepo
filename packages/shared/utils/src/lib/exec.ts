@@ -2,18 +2,23 @@ import { logger } from "@nx/devkit";
 import chalk from "chalk";
 import { spawn, SpawnOptionsWithoutStdio } from "node:child_process";
 
+interface SecretOptions {
+    secrets?: string[];
+}
+
 export function execAsync(
     command: string,
     args?: (string | undefined)[],
-    options?: SpawnOptionsWithoutStdio,
+    { secrets, ...options }: SpawnOptionsWithoutStdio & SecretOptions = {},
 ) {
     const allArgs = (args ?? [])
         .filter(arg => !!arg)
         .map(arg => arg as string)
         .flatMap(arg => arg.split(" "));
 
-    const fullCommand = [command, ...allArgs].join(" ");
     const cwdInfo = options?.cwd ? ` in ${chalk.bold(options.cwd)}` : "";
+    let fullCommand = [command, ...allArgs].join(" ");
+    secrets?.forEach(secret => (fullCommand = fullCommand.replaceAll(secret, "[MASKED]")));
     logger.info(`Executing ${chalk.bold(fullCommand)}${cwdInfo}`);
 
     return new Promise<void>((resolve, reject) => {

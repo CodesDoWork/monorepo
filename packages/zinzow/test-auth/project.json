@@ -1,0 +1,21 @@
+{
+    "name": "zinzow-test-auth",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "targets": {
+        "deploy": {
+            "executor": "nx-plugins-wrangler:deploy",
+            "options": {
+                "args": [
+                    "--var USERNAME:${USERNAME}",
+                    "--var PASSWORD:${PASSWORD}",
+                    "--routes ${DOMAIN}/*"
+                ]
+            }
+        },
+        "delete-worker": {
+            "executor": "nx-plugins-wrangler:delete"
+        }
+    },
+    "tags": []
+}

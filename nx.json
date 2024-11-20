@@ -66,6 +66,9 @@
             "plugin": "nx-plugins-vitest"
         },
         {
+            "plugin": "nx-plugins-wrangler"
+        },
+        {
             "plugin": "@nx/next/plugin",
             "options": {
                 "buildTargetName": "build",

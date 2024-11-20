@@ -128,7 +128,7 @@ services:
 
       ofelia.job-run.renew-certs.environment: |-
         [
-          "CLOUDFLARE_API_TOKEN=${CLOUDFLARE_API_TOKEN}",
+          "CLOUDFLARE_API_TOKEN=${CLOUDFLARE_ZONE_API_TOKEN}",
           "CERTBOT_EMAIL=${CLOUDFLARE_EMAIL}",
           "DOMAIN=${DOMAIN}"
         ]

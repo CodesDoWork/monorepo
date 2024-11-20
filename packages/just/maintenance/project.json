@@ -8,7 +8,8 @@
             "executor": "nx-plugins-wrangler:deploy",
             "options": {
                 "args": ["--routes ${DOMAIN}/*", "--routes *.${DOMAIN}/*"]
-            }
+            },
+            "dependsOn": ["build"]
         },
         "delete-worker": {
             "executor": "nx-plugins-wrangler:delete"

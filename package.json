@@ -35,6 +35,7 @@
         "@astrojs/tailwind": "^5.1.2",
         "@bitwarden/cli": "^2024.10.0",
         "@cloudflare/kv-asset-handler": "^0.3.4",
+        "@cloudflare/workers-types": "^4.20241112.0",
         "@directus/extensions-sdk": "^12.0.2",
         "@directus/types": "^12.0.1",
         "@iconify/svelte": "^4.0.2",

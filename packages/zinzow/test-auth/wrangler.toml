@@ -1,5 +1,5 @@
 name = "zinzow-test-auth"
-main = "worker.js"
+main = "./src/worker.ts"
 compatibility_date = "2023-08-23"
 
 minify = true

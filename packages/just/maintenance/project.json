@@ -5,18 +5,13 @@
     "projectType": "application",
     "targets": {
         "deploy-maintenance": {
-            "executor": "nx:run-commands",
+            "executor": "nx-plugins-wrangler:deploy",
             "options": {
-                "command": "dotenv -- cross-env-shell \"wrangler deploy --routes '$DOMAIN$SLASH*' --routes *.$DOMAIN$SLASH*\"",
-                "cwd": "packages/just/maintenance"
+                "args": ["--routes ${DOMAIN}/*", "--routes *.${DOMAIN}/*"]
             }
         },
-        "delete-maintenance": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "wrangler delete",
-                "cwd": "packages/just/maintenance"
-            }
+        "delete-worker": {
+            "executor": "nx-plugins-wrangler:delete"
         }
     },
     "tags": []

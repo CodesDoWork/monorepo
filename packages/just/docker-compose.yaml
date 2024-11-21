@@ -110,7 +110,7 @@ services:
           "${STACK_NAME}_wandb-data:/data/services/wandb/data:ro"
         ]
 
-      ofelia.job-run.forget-backup.command: --verbose forget --keep-daily 7 --keep-weekly 4 --keep-monthly 6
+      ofelia.job-run.forget-backup.command: --verbose forget --prune --keep-daily 7 --keep-weekly 4 --keep-monthly 6
       ofelia.job-run.forget-backup.environment: |-
         [
           "AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}",
@@ -352,14 +352,18 @@ services:
 
   music-downloader:
     <<: *common
+    cap_add:
+      - CAP_FOWNER
     environment:
       - DOWNLOAD_DIR=/music/downloads
       - PORT=${MUSIC_DOWNLOADER_PORT}
     healthcheck:
       test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/just-music-downloader:${PROJECT_VERSION:-latest}
+    ports:
+      - 4200:4200
     volumes:
-      - ${MUSIC_VOLUME}/downloads:/music/downloads
+      - ./downloads:/music/downloads
 
   music-platform:
     <<: *common

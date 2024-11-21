@@ -34,4 +34,4 @@ COPY --from=deps /app/node_modules ./node_modules
 
 USER node
 
-ENTRYPOINT npm start
+ENTRYPOINT next start

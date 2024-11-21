@@ -5,6 +5,7 @@ stages:
   - lint
   - test
   - build
+  - tag
   - analyze
   - deploy
 
@@ -138,7 +139,7 @@ build images:
   resource_group: single
 
 tag latest images:
-  stage: build
+  stage: tag
   script:
     - nx affected -t docker-tag --args=latest
     - export PROJECT_VERSION=latest

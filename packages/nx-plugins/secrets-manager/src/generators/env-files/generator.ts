@@ -11,12 +11,18 @@ const git = simpleGit();
 export async function envFilesGenerator(tree: Tree, options: EnvFilesGeneratorSchema) {
     await ensurePassword(options);
     await setupBwCli(tree, options);
-    await generateEnvFiles(tree, ".", options);
+    for (const dir of options.dirs) {
+        await generateEnvFiles(tree, dir, options);
+    }
 }
 
 async function generateEnvFiles(tree: Tree, root: string, options: EnvFilesGeneratorSchema) {
-    if (projectConfigExists(tree, root)) {
+    if (projectConfigExists(tree, root) && options.dirs.includes(root)) {
         createEnvFile(tree, root, options);
+    }
+
+    if (!options.recursive) {
+        return;
     }
 
     const dirs = readdirSync(root, { withFileTypes: true })
@@ -31,7 +37,9 @@ async function generateEnvFiles(tree: Tree, root: string, options: EnvFilesGener
         .then(ignoredDirs =>
             ignoredDirs.map(path.normalize).map(dirPath => dirPath.replace(/"/g, "")),
         );
-    for (const dir of dirs.filter(dir => !ignoredDirs.includes(dir))) {
+    const dirsToProcess = dirs.filter(dir => !ignoredDirs.includes(dir));
+    options.dirs = options.dirs.concat(dirsToProcess);
+    for (const dir of dirsToProcess) {
         await generateEnvFiles(tree, dir, options);
     }
 }

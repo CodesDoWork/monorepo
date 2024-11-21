@@ -30,6 +30,17 @@
                 "$source": "argv",
                 "index": 2
             }
+        },
+        "dirs": {
+            "type": "array",
+            "description": "Relative dir pahts to generate .env files for",
+            "alias": "p",
+            "default": ["."]
+        },
+        "recursive": {
+            "type": "boolean",
+            "description": "Apply to children",
+            "default": true
         }
     },
     "required": []

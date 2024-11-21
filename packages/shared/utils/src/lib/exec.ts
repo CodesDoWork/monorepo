@@ -25,6 +25,8 @@ export function execAsync(
         const childProcess = spawn(command, allArgs, options);
         childProcess.stdout.on("data", msg => logger.info(msg.toString()));
         childProcess.stderr.on("data", msg => logger.info(msg.toString()));
-        childProcess.on("close", code => (code == 0 ? resolve() : reject()));
+        childProcess.on("close", code =>
+            code == 0 ? resolve() : reject(new Error(`Process exited with code ${code}`)),
+        );
     });
 }

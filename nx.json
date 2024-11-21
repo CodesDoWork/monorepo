@@ -4,7 +4,7 @@
     "targetDefaults": {
         "build": {
             "inputs": ["production", "^production"],
-            "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}", "{projectRoot}/.svelte-kit"],
             "cache": true
         },
         "test": {

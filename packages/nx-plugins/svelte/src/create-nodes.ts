@@ -5,7 +5,12 @@ export const createNodes = createNodesForProjects("**/svelte.config.js", ({ root
         projects: {
             [root]: {
                 targets: {
-                    "svelte-check": { executor: "nx-plugins-svelte:check", dependsOn: ["build"] },
+                    "svelte-check": {
+                        executor: "nx-plugins-svelte:check",
+                        dependsOn: ["build"],
+                        inputs: ["production", "^production"],
+                        cache: true,
+                    },
                 },
             },
         },

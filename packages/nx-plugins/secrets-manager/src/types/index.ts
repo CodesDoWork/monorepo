@@ -27,10 +27,10 @@ export const zSecretsConfig = z.object({
     secrets: z.record(zSecretCollectionConfig).optional().default({}),
 });
 
-export const zProjectSecretsConfig = z.intersection(
-    zExtendsConfig,
-    z.intersection(zEnvConfig, zSecretsConfig),
-);
+export const zProjectSecretsConfig = zExtendsConfig
+    .merge(zEnvConfig)
+    .merge(zSecretsConfig)
+    .strict();
 export const zRootSecretConfig = z.object({ server: z.string().optional() }).strict();
 
 export type SecretEnvConfig = z.infer<typeof zSecretEnvConfig>;

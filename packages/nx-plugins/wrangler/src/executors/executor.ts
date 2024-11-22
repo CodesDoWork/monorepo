@@ -7,7 +7,12 @@ type WranglerTarget = "deploy" | "delete";
 
 export const runWranglerExecutor =
     (target: WranglerTarget): PromiseExecutor =>
-    async ({ args = [] }: WranglerExecutorSchema, context) => {
+    async ({ args = [], enabled }: WranglerExecutorSchema, context) => {
+        if (!enabled) {
+            logger.info("Skipping wrangler executor since deployment is not enabled.");
+            return { success: true };
+        }
+
         try {
             const projectDir = projectRoot(context);
             const { expandedArgs, usedEnvs } = replaceEnvs(args, context);

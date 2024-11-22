@@ -10,7 +10,13 @@
                     "--var USERNAME:${USERNAME}",
                     "--var PASSWORD:${PASSWORD}",
                     "--routes ${DOMAIN}/*"
-                ]
+                ],
+                "enabled": false
+            },
+            "configurations": {
+                "development": {
+                    "enabled": true
+                }
             }
         }
     },

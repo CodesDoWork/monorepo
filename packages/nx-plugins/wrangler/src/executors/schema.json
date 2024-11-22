@@ -7,6 +7,10 @@
     "properties": {
         "args": {
             "type": "array"
+        },
+        "enabled": {
+            "type": "boolean",
+            "default": true
         }
     },
     "required": []

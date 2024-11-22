@@ -1,9 +1,6 @@
 /.husky
-/.idea
-/.lighthouse-reports
 /.nx
-/.vscode
-/coverage
 /dist
 /node_modules
+/reports
 /tmp

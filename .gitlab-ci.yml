@@ -148,11 +148,18 @@ tag latest images:
     - master
   resource_group: single
 
-trivy:
+image security:
   stage: analyze
   script:
     - nx affected -t docker-pull
-    - nx affected -t trivy
+    - nx affected -t docker-trivy
+    - nx affected -t docker-scout
+  allow_failure: true
+  resource_group: single
+
+worksapce security:
+  stage: analyze
+  script:
     - nr trivy
   allow_failure: true
   resource_group: single

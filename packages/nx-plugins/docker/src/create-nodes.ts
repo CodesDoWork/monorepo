@@ -9,6 +9,7 @@ export const createNodes = createNodesForProjects("**/Dockerfile", ({ root }) =>
                 "push",
                 "tag",
                 "trivy",
+                "scout",
             ]),
         },
     },

@@ -3,6 +3,6 @@
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/nx-plugins/secrets-manager/src",
     "projectType": "library",
-    "tags": [],
+    "tags": ["nx-plugins"],
     "targets": {}
 }

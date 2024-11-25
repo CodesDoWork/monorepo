@@ -37,6 +37,7 @@
         "allowJs": true,
         "paths": {
             "@codesdowork/just-cms-types": ["packages/just/cms/types/src/index.ts"],
+            "@codesdowork/shared-bitwarden": ["packages/shared/bitwarden/src/index.ts"],
             "@codesdowork/shared-health": ["packages/shared/health/src/index.ts"],
             "@codesdowork/shared-logging": ["packages/shared/logging/src/index.ts"],
             "@codesdowork/shared-trivy": ["packages/shared/trivy/src/index.ts"],

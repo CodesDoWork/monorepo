@@ -1,6 +1,6 @@
 export interface EnvFilesGeneratorSchema {
     stages: string[];
-    username: string;
+    email: string;
     password: string;
     dirs: string[];
     recursive: boolean;

@@ -57,8 +57,7 @@ build workspace image:
   image: docker:${DOCKER_VERSION}
   cache: []
   script:
-    - docker compose build --push base
-    - docker compose build --push workspace
+    - nx run-many -t docker-build -p workspace-base workspace --parallel 1 --nxBail
   resource_group: single
 
 install deps:
@@ -131,7 +130,7 @@ test:
 build images:
   stage: build
   script:
-    - docker compose build workspace-deps
+    - nx docker-build workspace-deps
     - nx affected -t docker-build --parallel=1
     - nx affected -t docker-push
     - nx docker-build just-documentation

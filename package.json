@@ -24,8 +24,8 @@
         "url": "https://github.com/CodesDoWork/monorepo.git"
     },
     "scripts": {
-        "docker:build-workspace": "docker compose build base && docker compose build workspace && docker compose build workspace-deps",
-        "docker:workspace": "docker compose up -d workspace",
+        "docker:build-workspace": "nx run-many -t docker-build -p workspace-base workspace workspace-deps --parallel 1 --nxBail --output-style stream",
+        "docker:workspace": "nx docker-compose-up workspace",
         "check": "nx format:check && nx run-many -t lint test build",
         "secretlint": "secretlint --secretlintignore .gitignore \"**/*\"",
         "env-files": "nx g env-files DEV,PROD",

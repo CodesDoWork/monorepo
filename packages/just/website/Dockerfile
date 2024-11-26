@@ -4,7 +4,7 @@ ARG PROJECT_VERSION="latest"
 ARG APP_NAME=just-website
 ARG APP_DIR=just/website
 
-FROM $IMAGE_BASE/base:$PROJECT_VERSION AS base
+FROM $IMAGE_BASE/workspace-base:$PROJECT_VERSION AS base
 FROM $IMAGE_BASE/workspace-deps:$PROJECT_VERSION AS workspace-deps
 
 

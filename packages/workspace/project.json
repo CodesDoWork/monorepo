@@ -1,0 +1,9 @@
+{
+    "name": "workspace",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/workspace",
+    "projectType": "library",
+    "targets": {},
+    "tags": [],
+    "implicitDependencies": ["workspace-base"]
+}

@@ -1,0 +1,29 @@
+{
+    "executors": {
+        "build": {
+            "implementation": "./src/executors/build",
+            "schema": "./src/executors/schema.json",
+            "description": "compose build executor"
+        },
+        "push": {
+            "implementation": "./src/executors/push",
+            "schema": "./src/executors/schema.json",
+            "description": "compose push executor"
+        },
+        "pull": {
+            "implementation": "./src/executors/pull",
+            "schema": "./src/executors/schema.json",
+            "description": "compose pull executor"
+        },
+        "up": {
+            "implementation": "./src/executors/up",
+            "schema": "./src/executors/schema.json",
+            "description": "compose up executor"
+        },
+        "down": {
+            "implementation": "./src/executors/down",
+            "schema": "./src/executors/schema.json",
+            "description": "compose down executor"
+        }
+    }
+}

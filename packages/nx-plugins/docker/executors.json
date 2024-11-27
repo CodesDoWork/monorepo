@@ -29,36 +29,6 @@
             "implementation": "./src/executors/trivy",
             "schema": "./src/executors/schema.json",
             "description": "Runs trivy"
-        },
-        "compose": {
-            "implementation": "./src/executors/compose/executor",
-            "schema": "./src/executors/schema.json",
-            "description": "compose executor"
-        },
-        "compose-build": {
-            "implementation": "./src/executors/compose/build",
-            "schema": "./src/executors/schema.json",
-            "description": "compose build executor"
-        },
-        "compose-push": {
-            "implementation": "./src/executors/compose/push",
-            "schema": "./src/executors/schema.json",
-            "description": "compose push executor"
-        },
-        "compose-pull": {
-            "implementation": "./src/executors/compose/pull",
-            "schema": "./src/executors/schema.json",
-            "description": "compose pull executor"
-        },
-        "compose-up": {
-            "implementation": "./src/executors/compose/up",
-            "schema": "./src/executors/schema.json",
-            "description": "compose up executor"
-        },
-        "compose-down": {
-            "implementation": "./src/executors/compose/down",
-            "schema": "./src/executors/schema.json",
-            "description": "compose down executor"
         }
     }
 }

@@ -1,6 +1,0 @@
-services:
-  just-music-playlist-creator:
-    build:
-      context: ../../../..
-      dockerfile: packages/just/music/playlist-creator/Dockerfile
-    image: ${IMAGE_BASE}/just-music-playlist-creator:${PROJECT_VERSION:-latest}

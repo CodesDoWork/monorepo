@@ -5,6 +5,7 @@ export function getBaseDockerVars() {
     return {
         IMAGE_BASE: process.env.IMAGE_BASE || IMAGE_BASE,
         PROJECT_VERSION: process.env.PROJECT_VERSION || PROJECT_VERSION || "latest",
+        CI: process.env.CI,
     };
 }
 

@@ -1,6 +1,6 @@
 import { PromiseExecutor } from "@nx/devkit";
-import { ExecutorSchema } from "../schema";
 import { runComposeExecutor } from "./executor";
+import { ExecutorSchema } from "./schema";
 
 export const dockerComposePushExecutor: PromiseExecutor<ExecutorSchema> = async (
     { args },

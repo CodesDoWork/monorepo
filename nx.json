@@ -48,6 +48,9 @@
             "plugin": "nx-plugins-docker"
         },
         {
+            "plugin": "nx-plugins-docker-compose"
+        },
+        {
             "plugin": "nx-plugins-lighthouse"
         },
         {

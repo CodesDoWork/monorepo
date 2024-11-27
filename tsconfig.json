@@ -49,6 +49,7 @@
                 "packages/nx-plugins/directus-extensions/src/index.ts"
             ],
             "nx-plugins-docker": ["packages/nx-plugins/docker/src/index.ts"],
+            "nx-plugins-docker-compose": ["packages/nx-plugins/docker-compose/src/index.ts"],
             "nx-plugins-lighthouse": ["packages/nx-plugins/lighthouse/src/index.ts"],
             "nx-plugins-secrets-manager": ["packages/nx-plugins/secrets-manager/src/index.ts"],
             "nx-plugins-svelte": ["packages/nx-plugins/svelte/src/index.ts"],

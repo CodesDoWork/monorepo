@@ -2,12 +2,12 @@ import { execAsync } from "@codesdowork/shared-utils";
 import { logger, PromiseExecutor } from "@nx/devkit";
 import { existsSync, mkdirSync } from "fs";
 import path from "node:path";
+import { dockerImage } from "nx-plugins-docker";
 import {
     dockerComposeDownExecutor,
     dockerComposeUpExecutor,
-    dockerImage,
     getServiceNetwork,
-} from "nx-plugins-docker";
+} from "nx-plugins-docker-compose";
 import { replaceEnvs } from "nx-plugins-utils";
 import { LighthouseExecutorSchema } from "../../schema";
 

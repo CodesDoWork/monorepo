@@ -125,7 +125,11 @@ export class BitwardenEnvGenerator {
         const envs: string[] = [];
         for (const [collectionKey, collectionConfig] of Object.entries(secretConfig)) {
             const prefix = collectionConfig.prefix
-                ? collectionKey.replaceAll("../", "").replaceAll("/", "_").toUpperCase() + "_"
+                ? collectionKey
+                      .replaceAll("../", "")
+                      .replaceAll("/", "_")
+                      .replaceAll("-", "_")
+                      .toUpperCase() + "_"
                 : "";
 
             const collection = this.getCollectionName(currentCollection, collectionKey);

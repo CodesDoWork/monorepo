@@ -38,7 +38,7 @@ export const runDeployExecutor: PromiseExecutor<DeployExecutorSchema> = async (
         );
 
         for (const command of commands || []) {
-            await execAsync("ssh", [...sshOptions, login, "cd", dest, "&&", command]);
+            await execAsync("ssh", [...sshOptions, login, `"cd ${dest} && ${command}"`]);
         }
 
         return { success: true };

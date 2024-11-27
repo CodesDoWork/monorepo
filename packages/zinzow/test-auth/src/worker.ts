@@ -21,9 +21,7 @@ export default {
 
 function parseCredentials(authorization: string) {
     const parts = authorization.split(" "); // Basic + base64
-    const credentials = Buffer.from(parts[1] as string, "base64")
-        .toString()
-        .split(":");
+    const credentials = atob(parts[1] as string).split(":");
     return { username: credentials[0], password: credentials[1] };
 }
 

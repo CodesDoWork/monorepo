@@ -1,7 +1,7 @@
 import { execAsync } from "@codesdowork/shared-utils";
 import { logger, PromiseExecutor } from "@nx/devkit";
 import path from "node:path";
-import { loadEnv, projectRoot } from "nx-plugins-utils";
+import { loadEnv, projectRoot, replaceEnvs } from "nx-plugins-utils";
 import { DeployExecutorSchema } from "./schema";
 
 export const runDeployExecutor: PromiseExecutor<DeployExecutorSchema> = async (
@@ -37,8 +37,9 @@ export const runDeployExecutor: PromiseExecutor<DeployExecutorSchema> = async (
             ),
         );
 
-        for (const command of commands || []) {
-            await execAsync("ssh", [...sshOptions, login, `"cd ${dest} && ${command}"`]);
+        const { expandedArgs: expandedCommands } = await replaceEnvs(commands || [], context);
+        for (const command of expandedCommands) {
+            await execAsync("ssh", [...sshOptions, login, `cd ${dest}`, "&&", command]);
         }
 
         return { success: true };

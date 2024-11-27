@@ -10,7 +10,7 @@
                 "enabled": false,
                 "files": [".env", "docker-compose.yaml"],
                 "commands": [
-                    "echo PROJECT_VERSION=${PROJECTVERSION} >> .env",
+                    "echo PROJECT_VERSION=${PROJECT_VERSION} >> .env",
                     "docker compose up -d --pull always --remove-orphans"
                 ]
             },

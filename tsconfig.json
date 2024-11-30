@@ -45,6 +45,7 @@
             "@codesdowork/shared-utils": ["packages/shared/utils/src/index.ts"],
             "nx-plugins-astro": ["packages/nx-plugins/astro/src/index.ts"],
             "nx-plugins-ci": ["packages/nx-plugins/ci/src/index.ts"],
+            "nx-plugins-codegen": ["packages/nx-plugins/codegen/src/index.ts"],
             "nx-plugins-directus-extensions": [
                 "packages/nx-plugins/directus-extensions/src/index.ts"
             ],

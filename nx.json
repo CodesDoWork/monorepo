@@ -42,6 +42,9 @@
             "plugin": "nx-plugins-astro"
         },
         {
+            "plugin": "nx-plugins-codegen"
+        },
+        {
             "plugin": "nx-plugins-directus-extensions"
         },
         {

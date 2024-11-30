@@ -1,0 +1,8 @@
+{
+    "name": "nx-plugins-codegen",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/nx-plugins/codegen/src",
+    "projectType": "library",
+    "tags": ["nx-plugins"],
+    "targets": {}
+}

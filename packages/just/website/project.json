@@ -4,5 +4,5 @@
     "sourceRoot": "packages/just/website/src",
     "projectType": "application",
     "targets": {},
-    "tags": ["app", "just-website"]
+    "tags": ["just-website"]
 }

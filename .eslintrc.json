@@ -57,7 +57,7 @@
                             },
                             {
                                 "sourceTag": "just-website",
-                                "onlyDependOnLibsWithTags": ["just-cms", "just-website"]
+                                "onlyDependOnLibsWithTags": ["shared", "just-cms", "just-website"]
                             },
                             {
                                 "sourceTag": "workspace-scripts",

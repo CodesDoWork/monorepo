@@ -5,6 +5,8 @@ query GetLayloutData {
         showInHeader
         icon
         shortDescription
+        isHero
+        welcomeText
     }
     socialMedias {
         name

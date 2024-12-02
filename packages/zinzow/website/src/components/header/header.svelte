@@ -40,7 +40,7 @@
                     <li
                         class={classNames(
                             "hover:text-accent group/nav-item relative transition-colors",
-                            currentRoute.path.startsWith(route.path)
+                            $currentRoute?.path.startsWith(route.path)
                                 ? "text-accent"
                                 : "text-gray-900 dark:text-white",
                         )}>

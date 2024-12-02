@@ -4,13 +4,13 @@
 
     const status = $page.status;
     const error = $page.error as Error & Record<string, string>;
-    const title = error[getErrorKey(status, "title")];
-    const message = error[getErrorKey(status, "message")];
-    const buttonText = error[getTranslationKey("button", "backHome")];
+    const title = error[getErrorKey(status, "title")] || "Error";
+    const message = error[getErrorKey(status, "message")] || "Something went wrong";
+    const buttonText = error[getTranslationKey("button", "backHome")] || "Back Home";
 </script>
 
 <div class="px-6 py-24 text-center sm:py-32 lg:px-8">
-    <p class="text-primary-600 text-base font-semibold">{status}</p>
+    <p class="text-primary-600 dark:text-primary-400 text-base font-semibold">{status}</p>
     <h1
         class="mt-4 text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl dark:text-white">
         {title}

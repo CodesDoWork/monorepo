@@ -44,6 +44,10 @@
                                 "onlyDependOnLibsWithTags": ["shared"]
                             },
                             {
+                                "sourceTag": "app",
+                                "onlyDependOnLibsWithTags": ["shared"]
+                            },
+                            {
                                 "sourceTag": "nx-plugins",
                                 "onlyDependOnLibsWithTags": ["shared", "nx-plugins"]
                             },
@@ -53,19 +57,7 @@
                             },
                             {
                                 "sourceTag": "just-website",
-                                "onlyDependOnLibsWithTags": ["shared", "just-cms", "just-website"]
-                            },
-                            {
-                                "sourceTag": "just-music-downloader",
-                                "onlyDependOnLibsWithTags": ["shared", "just-music-downloader"]
-                            },
-                            {
-                                "sourceTag": "vitepress",
-                                "onlyDependOnLibsWithTags": [
-                                    "shared",
-                                    "vitepress",
-                                    "vitepress-plugin"
-                                ]
+                                "onlyDependOnLibsWithTags": ["just-cms", "just-website"]
                             },
                             {
                                 "sourceTag": "workspace-scripts",

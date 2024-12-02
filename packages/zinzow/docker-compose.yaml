@@ -9,6 +9,25 @@ x-common: &common
   restart: always
 
 services:
+  cms:
+    <<: *common
+    environment:
+      - SECRET=${CMS_SECRET}
+      - ADMIN_EMAIL=${CMS_USERNAME}
+      - ADMIN_PASSWORD=${CMS_PASSWORD}
+      - PUBLIC_URL=${CMS_URL}
+      - DB_CLIENT=pg
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=directus
+      - DB_USER=${POSTGRES_USERNAME}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - WEBSOCKETS_ENABLED=true
+    image: directus/directus:11
+    volumes:
+      - directus-uploads:/directus/uploads
+      - directus-extensions:/directus/extensions
+
   postgres:
     <<: *common
     cap_add:
@@ -24,24 +43,6 @@ services:
     image: postgres:15-alpine
     volumes:
       - postgres-data:/var/lib/postgresql/data
-
-  cms:
-    <<: *common
-    environment:
-      - SECRET=${CMS_SECRET}
-      - ADMIN_EMAIL=${CMS_USERNAME}
-      - ADMIN_PASSWORD=${CMS_PASSWORD}
-      - PUBLIC_URL=https://cms.${DOMAIN}
-      - DB_CLIENT=pg
-      - DB_HOST=postgres
-      - DB_PORT=5432
-      - DB_DATABASE=directus
-      - DB_USER=${POSTGRES_USERNAME}
-      - DB_PASSWORD=${POSTGRES_PASSWORD}
-    image: directus/directus:11
-    volumes:
-      - directus-uploads:/directus/uploads
-      - directus-extensions:/directus/extensions
 
   tunnel:
     <<: *common

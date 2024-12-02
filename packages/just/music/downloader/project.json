@@ -4,5 +4,5 @@
     "sourceRoot": "packages/just/music/downloader",
     "projectType": "application",
     "targets": {},
-    "tags": ["just-music-downloader"]
+    "tags": ["app"]
 }

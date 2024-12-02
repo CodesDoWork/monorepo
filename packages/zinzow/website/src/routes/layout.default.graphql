@@ -1,0 +1,24 @@
+query GetLayloutData {
+    routes {
+        name
+        path
+        showInHeader
+        icon
+        shortDescription
+    }
+    socialMedias {
+        name
+        user
+        url
+        icon
+    }
+    footerSections {
+        name
+        routes {
+            routes_id {
+                name
+                path
+            }
+        }
+    }
+}

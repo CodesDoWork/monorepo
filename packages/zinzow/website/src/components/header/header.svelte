@@ -1,0 +1,61 @@
+<script lang="ts">
+    import Icon from "@iconify/svelte";
+    import classNames from "classnames";
+    import { writable } from "svelte/store";
+    import type { LayoutData } from "../../routes/$types";
+    import { Logo } from "../logo";
+    import MobileMenu from "./mobile-menu.svelte";
+    import PopupNav from "./popup-nav.svelte";
+
+    export let data: LayoutData;
+
+    const { routes, currentRoute } = data;
+    const routesInNav = routes.filter(r => r.showInHeader);
+
+    let mobileMenuOpen = writable(false);
+    const onMenuClick = () => mobileMenuOpen.update(value => !value);
+</script>
+
+<header>
+    <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+        <a href="/">
+            <Logo class="h-12" />
+        </a>
+        <div class="relative block md:hidden">
+            <button on:click={onMenuClick}>
+                <Icon icon="ic:round-menu" class="size-6" />
+            </button>
+            <MobileMenu
+                onClose={onMenuClick}
+                class={$mobileMenuOpen ? "block" : "hidden"}
+                {routes}
+                {currentRoute} />
+        </div>
+        <div class="hidden md:block">
+            <ol class="flex">
+                {#each routesInNav as route}
+                    {@const children = routes.filter(
+                        r => r.path.startsWith(route.path) && r.path !== route.path,
+                    )}
+                    <li
+                        class={classNames(
+                            "hover:text-accent group/nav-item relative transition-colors",
+                            currentRoute.path.startsWith(route.path)
+                                ? "text-accent"
+                                : "text-gray-900 dark:text-white",
+                        )}>
+                        <a href={route.path} class="px-3 text-sm/6 font-semibold"
+                            >{route.name}
+                            {#if children.length}
+                                <Icon icon="carbon:chevron-down" class="inline h-4 w-4" />
+                            {/if}
+                        </a>
+                        {#if children.length}
+                            <PopupNav class="hidden group-hover/nav-item:block" routes={children} />
+                        {/if}
+                    </li>
+                {/each}
+            </ol>
+        </div>
+    </nav>
+</header>

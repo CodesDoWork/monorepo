@@ -1,0 +1,6 @@
+query GetTranslations($keys: [String!]!, $language: String!) {
+    translations(filter: { key: { _in: $keys }, language: { _eq: $language } }) {
+        key
+        value
+    }
+}

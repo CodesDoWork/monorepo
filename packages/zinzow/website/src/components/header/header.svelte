@@ -3,6 +3,7 @@
     import classNames from "classnames";
     import { writable } from "svelte/store";
     import type { LayoutData } from "../../routes/$types";
+    import { ContentArea } from "../content-area";
     import { Logo } from "../logo";
     import MobileMenu from "./mobile-menu.svelte";
     import PopupNav from "./popup-nav.svelte";
@@ -17,7 +18,7 @@
 </script>
 
 <header>
-    <nav class="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
+    <ContentArea tag="nav" class="flex items-center justify-between">
         <a href="/">
             <Logo class="h-12" />
         </a>
@@ -51,11 +52,14 @@
                             {/if}
                         </a>
                         {#if children.length}
-                            <PopupNav class="hidden group-hover/nav-item:block" routes={children} />
+                            <PopupNav
+                                class="hidden group-hover/nav-item:block"
+                                routes={children}
+                                {currentRoute} />
                         {/if}
                     </li>
                 {/each}
             </ol>
         </div>
-    </nav>
+    </ContentArea>
 </header>

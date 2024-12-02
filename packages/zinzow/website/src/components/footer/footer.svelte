@@ -1,6 +1,7 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
     import type { LayoutData } from "../../routes/$types";
+    import { ContentArea } from "../content-area";
     import { Logo } from "../logo";
 
     export let data: LayoutData;
@@ -8,7 +9,7 @@
 </script>
 
 <footer class="dark:bg-primary-950 bg-white">
-    <div class="mx-auto max-w-7xl px-6 pb-8 lg:px-8">
+    <ContentArea>
         <div
             class="border-t border-gray-900/10 pt-12 xl:grid xl:grid-cols-3 xl:gap-8 dark:border-white/10">
             <div class="space-y-4 sm:space-y-7">
@@ -67,5 +68,5 @@
                     class="hover:text-gray-950 dark:hover:text-white">Justin Konratt</a>
             </p>
         </div>
-    </div>
+    </ContentArea>
 </footer>

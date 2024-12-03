@@ -10,7 +10,7 @@ interface Route {
 export function useRoutes<T extends Route>(routes: T[], path: string) {
     function getRouteForPath(path: string): T | undefined {
         return routes
-            .filter(r => path.startsWith(r.path))
+            .filter(r => path.startsWith(r.path) && (r.path !== "/" || path === "/"))
             .sort((a, b) => b.path.length - a.path.length)[0];
     }
 

@@ -64,12 +64,36 @@ export const config: Config = {
                         transform: "translateX(100%)",
                     },
                 },
+                fadeIn: {
+                    "0%": {
+                        opacity: "0",
+                        display: "none",
+                    },
+                    "100%": {
+                        opacity: "1",
+                        display: "block",
+                    },
+                },
+                fadeInBT: {
+                    "0%": {
+                        opacity: "0",
+                        transform: "translateY(1rem)",
+                        display: "none",
+                    },
+                    "100%": {
+                        opacity: "1",
+                        transform: "translateY(0)",
+                        display: "block",
+                    },
+                },
             },
             animation: {
                 backdrop: "backdrop 0.2s ease-in-out forwards",
                 backdropReverse: "backdropReverse 0.2s ease-in-out forwards",
                 flyInRight: "flyInRight 0.2s ease-in-out forwards",
                 flyOutRight: "flyOutRight 0.2s ease-in-out forwards",
+                fadeInBT: "fadeInBT 0.5s ease-in-out forwards",
+                fadeIn: "fadeIn 0.5s ease-in-out forwards",
             },
         },
     },

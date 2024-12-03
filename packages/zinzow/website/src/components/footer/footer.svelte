@@ -9,10 +9,10 @@
 </script>
 
 <footer class="dark:bg-primary-950 bg-white">
-    <ContentArea>
+    <ContentArea class="pt-0">
         <div
-            class="border-t border-gray-900/10 pt-12 xl:grid xl:grid-cols-3 xl:gap-8 dark:border-white/10">
-            <div class="space-y-4 sm:space-y-7">
+            class="border-t border-gray-900/10 pt-12 xl:grid xl:grid-cols-7 xl:gap-8 dark:border-white/10">
+            <div class="col-span-3 space-y-4 sm:space-y-7">
                 <a href="/" class="inline-block">
                     <Logo class="w-56" />
                 </a>
@@ -23,7 +23,7 @@
                     {#each socialMedias as socialMedia}
                         <a
                             href={socialMedia.url}
-                            class="text-gray-600 hover:text-gray-800 dark:hover:text-gray-300"
+                            class="text-gray-600 transition-colors hover:text-gray-800 dark:hover:text-gray-300"
                             target="_blank"
                             title={`${socialMedia.user} @ ${socialMedia.name}`}
                             rel="noopener noreferrer">
@@ -33,7 +33,7 @@
                     {/each}
                 </div>
             </div>
-            <div class="mt-16 grid grid-cols-2 gap-10 sm:grid-cols-3 xl:col-span-2 xl:mt-0">
+            <div class="mt-16 grid grid-cols-2 gap-10 sm:grid-cols-3 xl:col-span-4 xl:mt-0">
                 {#each footerSections as footerSection}
                     {@const sectionRoutes = footerSection.routes}
                     <div>
@@ -45,7 +45,7 @@
                                 <li>
                                     <a
                                         href={route.routes_id.path}
-                                        class="text-sm/6 text-gray-600 hover:text-gray-950 dark:text-gray-400 dark:hover:text-white"
+                                        class="text-sm/6 text-gray-600 transition-colors hover:text-gray-950 dark:text-gray-400 dark:hover:text-white"
                                         >{route.routes_id.name}</a>
                                 </li>
                             {/each}
@@ -65,7 +65,8 @@
                     href="https://justinkonratt.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="hover:text-gray-950 dark:hover:text-white">Justin Konratt</a>
+                    class="transition-colors hover:text-gray-950 dark:hover:text-white"
+                    >Justin Konratt</a>
             </p>
         </div>
     </ContentArea>

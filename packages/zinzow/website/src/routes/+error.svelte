@@ -4,9 +4,9 @@
 
     const status = $page.status;
     const error = $page.error as Error & Record<string, string>;
-    const title = error[getErrorKey(status, "title")] || "Error";
-    const message = error[getErrorKey(status, "message")] || "Something went wrong";
-    const buttonText = error[getTranslationKey("button", "backHome")] || "Back Home";
+    const title = error[getErrorKey(status, "title")] || "Fehler";
+    const message = error[getErrorKey(status, "message")] || "Etwas ist schief gelaufen.";
+    const buttonText = error[getTranslationKey("button", "backHome")] || "Zur Startseite";
 </script>
 
 <div class="px-6 py-24 text-center sm:py-32 lg:px-8">

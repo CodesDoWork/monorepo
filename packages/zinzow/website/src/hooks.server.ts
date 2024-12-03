@@ -9,6 +9,7 @@ interface SvelteKitError {
 }
 
 export const handleError: HandleServerError = async ({ error }) => {
+    console.log(error);
     const { status, text } = error as SvelteKitError;
 
     const { translations } = await toPromise(

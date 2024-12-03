@@ -53,7 +53,7 @@
                         </a>
                         {#if children.length}
                             <PopupNav
-                                class="hidden group-hover/nav-item:block"
+                                class="-z-40 translate-y-2 opacity-0 transition-all duration-300 group-hover/nav-item:z-50 group-hover/nav-item:block group-hover/nav-item:translate-y-0 group-hover/nav-item:opacity-100"
                                 routes={children}
                                 {currentRoute} />
                         {/if}

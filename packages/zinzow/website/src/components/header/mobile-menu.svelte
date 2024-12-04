@@ -47,7 +47,6 @@
         )}>
         <div class="mt-2 flex justify-end">
             <button on:click={triggerClose} type="button" class="-m-2.5 rounded-md p-2.5">
-                <span class="sr-only">Close menu</span>
                 <Icon icon="material-symbols:close" class="size-6" />
             </button>
         </div>

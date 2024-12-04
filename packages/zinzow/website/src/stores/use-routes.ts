@@ -1,4 +1,4 @@
-import { afterNavigate, onNavigate } from "$app/navigation";
+import { onNavigate } from "$app/navigation";
 import { onMount } from "svelte";
 import { readable } from "svelte/store";
 
@@ -20,9 +20,5 @@ export function useRoutes<T extends Route>(routes: T[], path: string) {
         onNavigate(update);
     });
 
-    const previousRoute = readable<T | undefined>(undefined, set => {
-        afterNavigate(({ from }) => set(from ? getRouteForPath(from.route.id) : undefined));
-    });
-
-    return { currentRoute, previousRoute };
+    return { currentRoute };
 }

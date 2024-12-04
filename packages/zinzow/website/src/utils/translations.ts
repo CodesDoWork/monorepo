@@ -1,7 +1,11 @@
-export function getErrorKey(status: number, key: string): string {
-    return getTranslationKey(`errors.${status}`, key);
-}
+type Translation = {
+    key: string;
+    value: string;
+};
 
-export function getTranslationKey(scope: string, key: string) {
-    return `${scope}.${key}`;
+export function getTextsFromTranslations(
+    translations: Translation[],
+    pageIdPrefix: string,
+): Record<string, string> {
+    return Object.fromEntries(translations.map(t => [t.key.replace(pageIdPrefix, ""), t.value]));
 }

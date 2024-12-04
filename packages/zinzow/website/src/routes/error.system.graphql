@@ -1,6 +1,9 @@
-query GetTranslations($keys: [String!]!, $language: String!) {
-    translations(filter: { key: { _in: $keys }, language: { _eq: $language } }) {
+query GetErrorSystemData($pageIdPrefix: String!) {
+    translations(filter: { key: { _istarts_with: $pageIdPrefix } }) {
         key
+        value
+    }
+    buttonText: translations(filter: { key: { _eq: "page.error.buttonText" } }) {
         value
     }
 }

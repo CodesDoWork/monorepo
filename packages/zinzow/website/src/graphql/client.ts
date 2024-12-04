@@ -7,6 +7,9 @@ export function createApolloClient(
     return new ApolloClient({
         uri,
         defaultOptions: {
+            query: {
+                fetchPolicy: "network-only",
+            },
             watchQuery: {
                 fetchPolicy: "network-only",
             },

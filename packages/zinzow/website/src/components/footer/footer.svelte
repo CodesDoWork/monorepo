@@ -27,7 +27,6 @@
                             target="_blank"
                             title={`${socialMedia.user} @ ${socialMedia.name}`}
                             rel="noopener noreferrer">
-                            <span class="sr-only">{socialMedia.name}</span>
                             <Icon icon={socialMedia.icon} class="size-6" />
                         </a>
                     {/each}

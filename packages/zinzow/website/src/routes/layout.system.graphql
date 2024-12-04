@@ -1,4 +1,4 @@
-query GetSystemLayoutData {
+query GetLayoutSystemData {
     settings {
         project_name
         project_descriptor

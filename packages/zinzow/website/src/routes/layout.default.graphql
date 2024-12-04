@@ -1,4 +1,4 @@
-query GetLayloutData {
+query GetLayoutData {
     routes {
         name
         path

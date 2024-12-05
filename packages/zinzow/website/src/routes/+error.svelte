@@ -3,7 +3,6 @@
 
     const status = $page.status;
     const error = $page.error as Error & Record<string, string>;
-    console.log(error);
 </script>
 
 <div class="px-6 py-24 text-center sm:py-32 lg:px-8">

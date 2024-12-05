@@ -8,10 +8,10 @@ export function createApolloClient(
         uri,
         defaultOptions: {
             query: {
-                fetchPolicy: "network-only",
+                fetchPolicy: "no-cache",
             },
             watchQuery: {
-                fetchPolicy: "network-only",
+                fetchPolicy: "no-cache",
             },
         },
         headers: { Authorization: `Bearer ${bearerToken}` },

@@ -9,52 +9,50 @@
 
 <ContentArea>
     <div class="grid grid-cols-1 py-16 lg:grid-cols-2 lg:py-24">
-        <div class="relative px-6 lg:static lg:px-8">
-            <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
-                <h2
-                    class="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl dark:text-white">
-                    {texts.title}
-                </h2>
-                <p class="mt-6 text-lg/8 text-gray-600 dark:text-gray-300">
-                    {$currentRoute.welcomeText}
-                </p>
-                <dl class="mt-10 space-y-4 text-base/7 text-gray-600 dark:text-gray-300">
-                    <div class="flex gap-x-4">
-                        <dt class="flex-none pt-1">
-                            <Icon icon="humbleicons:location" class="size-6 text-gray-400" />
-                        </dt>
-                        <dd>
-                            {contact.name}<br />{contact.addressLine1}<br />{contact.addressLine2}
-                        </dd>
-                    </div>
-                    <div class="group flex w-fit gap-x-4">
-                        <dt class="flex-none pt-1">
-                            <Icon
-                                icon="ri:phone-line"
-                                class="size-6 text-gray-400 transition-colors group-hover:text-gray-600 dark:group-hover:text-gray-300" />
-                        </dt>
-                        <dd>
-                            <a
-                                class="transition-colors group-hover:text-gray-900 dark:group-hover:text-white"
-                                href={`tel:${contact.tel}`}>{contact.tel}</a>
-                        </dd>
-                    </div>
-                    <div class="group flex w-fit gap-x-4">
-                        <dt class="flex-none pt-1">
-                            <Icon
-                                icon="material-symbols:mail-outline"
-                                class="size-6 text-gray-400 transition-colors group-hover:text-gray-600 dark:group-hover:text-gray-300" />
-                        </dt>
-                        <dd>
-                            <a
-                                class="transition-colors group-hover:text-gray-900 dark:group-hover:text-white"
-                                href={`mailto:${contact.email}`}>{contact.email}</a>
-                        </dd>
-                    </div>
-                </dl>
-            </div>
+        <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
+            <h1
+                class="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl dark:text-white">
+                {texts.title}
+            </h1>
+            <p class="mt-6 text-lg/8 text-gray-600 dark:text-gray-300">
+                {$currentRoute.welcomeText}
+            </p>
+            <dl class="mt-10 space-y-4 text-base/7 text-gray-600 dark:text-gray-300">
+                <div class="flex gap-x-4">
+                    <dt class="flex-none pt-1">
+                        <Icon icon="humbleicons:location" class="size-6 text-gray-400" />
+                    </dt>
+                    <dd>
+                        {contact.name}<br />{contact.addressLine1}<br />{contact.addressLine2}
+                    </dd>
+                </div>
+                <div class="group flex w-fit gap-x-4">
+                    <dt class="flex-none pt-1">
+                        <Icon
+                            icon="ri:phone-line"
+                            class="size-6 text-gray-400 transition-colors group-hover:text-gray-600 dark:group-hover:text-gray-300" />
+                    </dt>
+                    <dd>
+                        <a
+                            class="transition-colors group-hover:text-gray-900 dark:group-hover:text-white"
+                            href={`tel:${contact.tel}`}>{contact.tel}</a>
+                    </dd>
+                </div>
+                <div class="group flex w-fit gap-x-4">
+                    <dt class="flex-none pt-1">
+                        <Icon
+                            icon="material-symbols:mail-outline"
+                            class="size-6 text-gray-400 transition-colors group-hover:text-gray-600 dark:group-hover:text-gray-300" />
+                    </dt>
+                    <dd>
+                        <a
+                            class="transition-colors group-hover:text-gray-900 dark:group-hover:text-white"
+                            href={`mailto:${contact.email}`}>{contact.email}</a>
+                    </dd>
+                </div>
+            </dl>
         </div>
-        <form action="#" method="POST" class="self-center px-6 pt-20 lg:px-8">
+        <form action="#" method="POST" class="self-center pt-20">
             <div class="mx-auto max-w-2xl lg:mr-0 lg:max-w-lg">
                 <div class="grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2 lg:gap-y-6">
                     <div>
@@ -122,11 +120,11 @@
                 </div>
             </div>
         </form>
-        <div class="mt-20 px-6 lg:col-span-2 lg:px-8">
-            <h3
+        <div class="mt-20 lg:col-span-2">
+            <h2
                 class="text-pretty text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl dark:text-white">
-                Find us
-            </h3>
+                {texts.findUs}
+            </h2>
             <div class="mt-6 w-full border">
                 <p class="py-48 text-center">Map</p>
             </div>

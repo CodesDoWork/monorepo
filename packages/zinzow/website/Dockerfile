@@ -12,8 +12,7 @@ FROM workspace-deps AS builder
 ARG APP_NAME
 
 COPY . .
-RUN nx codegen $APP_NAME
-RUN nx build $APP_NAME --verbose
+RUN nx build $APP_NAME
 
 
 FROM base

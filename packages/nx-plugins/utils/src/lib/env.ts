@@ -6,7 +6,7 @@ import { projectRoot } from "./nx-project";
 export type Env = NodeJS.ProcessEnv & Record<string, string>;
 
 export function loadEnv(dir = "."): Env {
-    const loadedEnv: Env = { NODE_ENV: "development", ...process.env };
+    const loadedEnv: Env = { ...process.env, NODE_ENV: process.env.NODE_ENV || "development" };
     loadAndExpandDotEnvFile(path.join(dir, ".env"), loadedEnv, true);
 
     return loadedEnv;

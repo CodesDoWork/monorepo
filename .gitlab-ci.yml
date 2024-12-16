@@ -167,7 +167,7 @@ image security:
   allow_failure: true
   resource_group: single
 
-worksapce security:
+workspace security:
   stage: analyze
   script:
     - nr trivy
@@ -180,7 +180,7 @@ lighthouse:
     - nx affected -t lighthouse --parallel=1
   artifacts:
     paths:
-      - ./.lighthouse-reports/
+      - ./reports/lighthouse
   resource_group: single
 
 deploy:

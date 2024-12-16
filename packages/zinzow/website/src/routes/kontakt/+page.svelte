@@ -1,6 +1,7 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
     import { ContentArea } from "../../components/content-area";
+    import { H1, H2 } from "../../components/heading";
     import type { PageData } from "./$types";
 
     export let data: PageData;
@@ -10,10 +11,7 @@
 <ContentArea>
     <div class="grid grid-cols-1 py-16 lg:grid-cols-2 lg:py-24">
         <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
-            <h1
-                class="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl dark:text-white">
-                {texts.title}
-            </h1>
+            <H1>{texts.title}</H1>
             <p class="mt-6 text-lg/8 text-gray-600 dark:text-gray-300">
                 {$currentRoute.welcomeText}
             </p>
@@ -121,10 +119,7 @@
             </div>
         </form>
         <div class="mt-20 lg:col-span-2">
-            <h2
-                class="text-pretty text-3xl font-semibold tracking-tight text-gray-900 sm:text-4xl dark:text-white">
-                {texts.findUs}
-            </h2>
+            <H2>{texts.findUs}</H2>
             <div class="mt-6 w-full border">
                 <p class="py-48 text-center">Map</p>
             </div>

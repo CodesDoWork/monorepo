@@ -2,6 +2,7 @@
     import Icon from "@iconify/svelte";
     import type { LayoutData } from "../../routes/$types";
     import { ContentArea } from "../content-area";
+    import { H5 } from "../heading";
     import { Logo } from "../logo";
 
     export let data: LayoutData;
@@ -36,9 +37,7 @@
                 {#each footerSections as footerSection}
                     {@const sectionRoutes = footerSection.routes}
                     <div>
-                        <h3 class="text-sm/6 font-semibold text-gray-950 dark:text-white">
-                            {footerSection.name}
-                        </h3>
+                        <H5>{footerSection.name}</H5>
                         <ul role="list" class="mt-5 space-y-3 sm:mt-6 sm:space-y-4">
                             {#each sectionRoutes as route}
                                 <li>

@@ -1,0 +1,17 @@
+query GetAboutData {
+    about {
+        title
+        aboutText
+        images {
+            directus_files_id {
+                id
+            }
+        }
+        missionText
+        bannerImage {
+            id
+        }
+        valuesText
+        teamText
+    }
+}

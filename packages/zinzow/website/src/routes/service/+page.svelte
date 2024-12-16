@@ -1,5 +1,6 @@
 <script lang="ts">
     import { ContentArea } from "../../components/content-area";
+    import { H1 } from "../../components/heading";
     import { ServiceCol } from "../../components/services/col";
     import type { PageData } from "./$types";
 
@@ -11,10 +12,7 @@
 
 <ContentArea>
     <div class="py-16 lg:py-24">
-        <h1
-            class="text-pretty text-4xl font-semibold tracking-tight text-gray-900 sm:text-5xl dark:text-white">
-            {$currentRoute.name}
-        </h1>
+        <H1>{$currentRoute.name}</H1>
         <p class="mt-6 max-w-prose text-lg/8 text-gray-600 dark:text-gray-300">
             {$currentRoute.welcomeText}
         </p>

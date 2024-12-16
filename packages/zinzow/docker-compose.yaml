@@ -57,7 +57,11 @@ services:
   website:
     <<: *common
     environment:
-      - PORT=4300
+      - DOMAIN=${DOMAIN}
+      - URL=${WEBSITE_URL}
+      - PORT=${WEBSITE_PORT}
+      - CMS_URL=${CMS_URL}
+      - CMS_TOKEN=${WEBSITE_CMS_TOKEN}
     image: ${IMAGE_BASE}/zinzow-website:${PROJECT_VERSION:-latest}
 
 volumes:

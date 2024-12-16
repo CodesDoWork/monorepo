@@ -1,0 +1,9 @@
+query GetContactData {
+    contact {
+        name
+        addressLine1
+        addressLine2
+        tel
+        email
+    }
+}

@@ -2,6 +2,7 @@ stages:
   - workspace
   - deps
   - env
+  - codegen
   - lint
   - test
   - build
@@ -20,6 +21,7 @@ variables:
   DOCKER_VERSION: 27.2.0
   DEPS_CACHE_POLICY: pull
   ENV_CACHE_POLICY: pull
+  CODEGEN_CACHE_POLICY: pull
   MASTER_BRANCH: master
   DEV_BRANCH: develop
 
@@ -38,14 +40,16 @@ default:
     - key: nx-cache
       paths:
         - .nx
-    - key: cache-${CI_COMMIT_SHA}
+    - key: env-${CI_COMMIT_SHA}
       paths:
-        - ./.env
-        - ./packages/**/.env
-        - ./*.pem
-        - ./packages/**/*.pem
-        - ./**/.ssh/
+        - ./**/.env
+        - ./**/*.pem
+        - ./**/.ssh
       policy: $ENV_CACHE_POLICY
+    - key: codegen-${CI_COMMIT_SHA}
+      paths:
+        - ./packages/**/generated
+      policy: $CODEGEN_CACHE_POLICY
   before_script:
     - export PATH="$PWD/node_modules/.bin:$PATH"
     - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ] || [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export NX_BASE=$(git log --merges -1 --format=%H); fi
@@ -74,8 +78,16 @@ generate env files:
   variables:
     ENV_CACHE_POLICY: push
   script:
-    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then export STAGE=PROD; elif [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export STAGE=TEST,PROD; else export STAGE=DEV,PROD; fi
+    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then export STAGE=PROD; elif [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export STAGE=TEST,PROD; else export STAGE=DEV,TEST,PROD; fi
     - nx g env-files ${STAGE} ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
+  resource_group: single
+
+codegen:
+  stage: codegen
+  variables:
+    CODEGEN_CACHE_POLICY: push
+  script:
+    - nx affected -t codegen
   resource_group: single
 
 check formatting:
@@ -132,7 +144,7 @@ build images:
   stage: build
   script:
     - nx docker-build workspace-deps
-    - nx affected -t docker-build --parallel=1
+    - nx affected -t docker-build --exclude="workspace*" --parallel=1
     - nx docker-build just-documentation
   resource_group: single
 
@@ -155,7 +167,7 @@ image security:
   allow_failure: true
   resource_group: single
 
-worksapce security:
+workspace security:
   stage: analyze
   script:
     - nr trivy
@@ -168,7 +180,7 @@ lighthouse:
     - nx affected -t lighthouse --parallel=1
   artifacts:
     paths:
-      - ./.lighthouse-reports/
+      - ./reports/lighthouse
   resource_group: single
 
 deploy:

@@ -137,21 +137,21 @@ export class BitwardenEnvGenerator {
             for (const secretConfig of collectionConfig.vars) {
                 const field = getSecretFieldName(secretConfig);
                 const secretValue = await this.getSecret(ciphers, field);
-                if (!secretValue) {
-                    throw new Error(
+                if (secretValue) {
+                    if (typeof secretConfig === "string") {
+                        envs.push(`${prefix}${secretConfig}=${secretValue}`);
+                    } else if (secretConfig.file) {
+                        this.tree.write(
+                            path.join(root, secretConfig.file),
+                            secretValue.replace(/\\n/g, "\n"),
+                        );
+                    } else {
+                        envs.push(`${prefix}${secretConfig.name}=${secretValue}`);
+                    }
+                } else {
+                    logger.warn(
                         `No secret found for field '${field}' in collection '${collection}' with stages ${this.stages}`,
                     );
-                }
-
-                if (typeof secretConfig === "string") {
-                    envs.push(`${prefix}${secretConfig}=${secretValue}`);
-                } else if (secretConfig.file) {
-                    this.tree.write(
-                        path.join(root, secretConfig.file),
-                        secretValue.replace(/\\n/g, "\n"),
-                    );
-                } else {
-                    envs.push(`${prefix}${secretConfig.name}=${secretValue}`);
                 }
             }
         }

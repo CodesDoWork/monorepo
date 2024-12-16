@@ -5,6 +5,9 @@ import { z } from "zod";
 export const env = createEnv({
     server: {
         DOMAIN: z.string(),
+        URL: z.string().url(),
+        CMS_TOKEN: z.string(),
+        CMS_URL: z.string().url(),
     },
     clientPrefix: "PUBLIC_",
     client: {},

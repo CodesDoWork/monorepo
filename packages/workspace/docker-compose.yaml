@@ -6,7 +6,7 @@ services:
     network_mode: host
     tty: true
     volumes:
-      - ..:/workspace
+      - ../..:/workspace
       - /workspace/node_modules
       - ${PNPM_STORE_PATH:-/tmp/.pnpm-store}:/tmp/.pnpm-store
       - //var/run/docker.sock:/var/run/docker.sock

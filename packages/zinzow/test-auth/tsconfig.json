@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "types": ["node", "@cloudflare/workers-types"]
+        "types": ["@cloudflare/workers-types"]
     },
     "extends": "../../../tsconfig.json",
     "include": ["./*.ts", "src/worker.ts"]

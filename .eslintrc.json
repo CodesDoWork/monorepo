@@ -3,6 +3,11 @@
     "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
     "ignorePatterns": ["**/*"],
     "plugins": ["@nx", "svelte3", "@typescript-eslint", "@stylistic/eslint-plugin-ts"],
+    "env": {
+        "browser": true,
+        "es2017": true,
+        "node": true
+    },
     "overrides": [
         {
             "files": ["*"],
@@ -15,7 +20,11 @@
             "files": ["*.svelte"],
             "parser": "svelte-eslint-parser",
             "parserOptions": {
-                "parser": "@typescript-eslint/parser"
+                "parser": "@typescript-eslint/parser",
+                "sourceType": "module",
+                "ecmaVersion": "latest",
+                "extraFileExtensions": [".svelte"],
+                "lib": ["esnext", "dom"]
             }
         },
         {
@@ -44,6 +53,10 @@
                                 "onlyDependOnLibsWithTags": ["shared"]
                             },
                             {
+                                "sourceTag": "app",
+                                "onlyDependOnLibsWithTags": ["shared"]
+                            },
+                            {
                                 "sourceTag": "nx-plugins",
                                 "onlyDependOnLibsWithTags": ["shared", "nx-plugins"]
                             },
@@ -54,18 +67,6 @@
                             {
                                 "sourceTag": "just-website",
                                 "onlyDependOnLibsWithTags": ["shared", "just-cms", "just-website"]
-                            },
-                            {
-                                "sourceTag": "just-music-downloader",
-                                "onlyDependOnLibsWithTags": ["shared", "just-music-downloader"]
-                            },
-                            {
-                                "sourceTag": "vitepress",
-                                "onlyDependOnLibsWithTags": [
-                                    "shared",
-                                    "vitepress",
-                                    "vitepress-plugin"
-                                ]
                             },
                             {
                                 "sourceTag": "workspace-scripts",

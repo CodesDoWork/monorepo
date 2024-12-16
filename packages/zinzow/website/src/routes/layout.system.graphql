@@ -1,0 +1,10 @@
+query GetLayoutSystemData {
+    settings {
+        project_name
+        project_descriptor
+        project_color
+        secondaryColor
+        accentColor
+        copyright
+    }
+}

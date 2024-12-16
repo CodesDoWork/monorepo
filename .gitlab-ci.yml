@@ -40,17 +40,15 @@ default:
     - key: nx-cache
       paths:
         - .nx
-    - key: cache-${CI_COMMIT_SHA}
+    - key: env-${CI_COMMIT_SHA}
       paths:
-        - ./.env
-        - ./packages/**/.env
-        - ./*.pem
-        - ./packages/**/*.pem
-        - ./**/.ssh/
+        - ./**/.env
+        - ./**/*.pem
+        - ./**/.ssh
       policy: $ENV_CACHE_POLICY
-    - key: cache-${CI_COMMIT_SHA}
+    - key: codegen-${CI_COMMIT_SHA}
       paths:
-        - ./packages/**/generated/*
+        - ./packages/**/generated
       policy: $CODEGEN_CACHE_POLICY
   before_script:
     - export PATH="$PWD/node_modules/.bin:$PATH"

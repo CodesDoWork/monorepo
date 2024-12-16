@@ -144,7 +144,7 @@ build images:
   stage: build
   script:
     - nx docker-build workspace-deps
-    - nx affected -t docker-build --parallel=1
+    - nx affected -t docker-build --exclude="workspace*" --parallel=1
     - nx docker-build just-documentation
   resource_group: single
 

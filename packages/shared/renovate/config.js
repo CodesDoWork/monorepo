@@ -1,4 +1,4 @@
-const { GIT_URL } = process.env;
+const { GIT_URL, DOCKERHUB_USERNAME, DOCKERHUB_PASSWORD } = process.env;
 
 module.exports = {
     platform: "gitlab",
@@ -18,6 +18,14 @@ module.exports = {
         {
             matchDepTypes: ["devDependencies"],
             automerge: true,
+        },
+    ],
+    hostRules: [
+        {
+            hostType: "docker",
+            matchHost: "docker.io",
+            username: DOCKERHUB_USERNAME,
+            password: DOCKERHUB_PASSWORD,
         },
     ],
 };

@@ -139,8 +139,10 @@ services:
       ofelia.job-run.renovate.environment: |-
         [
           "RENOVATE_TOKEN=${RENOVATE_TOKEN}",
-          "GIT_URL=http://gitlab",
-          "GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}"
+          "GIT_URL=https://${GITLAB_DOMAIN}",
+          "GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}",
+          "DOCKERHUB_USERNAME=${DOCKERHUB_USERNAME}",
+          "DOCKERHUB_PASSWORD=${DOCKERHUB_PASSWORD}"
         ]
       ofelia.job-run.renovate.image: ${IMAGE_BASE}/shared-renovate
       ofelia.job-run.renovate.network: ${STACK_NAME}_default

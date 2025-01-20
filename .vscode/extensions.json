@@ -35,6 +35,7 @@
         "gruntfuggly.todo-tree",
         "vue.volar",
         "ms-vscode-remote.remote-wsl",
-        "redhat.vscode-yaml"
+        "redhat.vscode-yaml",
+        "valentjn.vscode-ltex"
     ]
 }

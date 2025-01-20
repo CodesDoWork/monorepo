@@ -33,3 +33,6 @@ Thumbs.db
 .vitepress
 !.vitepress/*.ts
 !.vitepress/theme
+
+# python
+/.venv

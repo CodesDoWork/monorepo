@@ -1,0 +1,20 @@
+Button {
+    Props {
+        className: String (optional)
+        loaderClassName: String (optional)
+        onClick: async on click callback (optional)
+    }
+
+    States {
+        isLoading: true when onClick is running
+    }
+
+    Constraints {
+        Renders a button with className and with onClick callback.
+        The button is disabled when loading.
+        When loading, the loader component is shown as button content {
+            Style: mx-auto h-2/3
+        }
+        Otherwise, the button content is provided as chilren.
+    }    
+}

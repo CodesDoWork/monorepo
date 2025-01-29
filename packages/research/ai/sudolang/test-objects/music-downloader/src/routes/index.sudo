@@ -1,7 +1,0 @@
-HomePage {
-    Contraints {
-        Display "Music Downloader" headline and DownloadForm below.
-        Create a good looking homepage.
-        If possible with the selected framework, also create a layout file.
-    }
-}

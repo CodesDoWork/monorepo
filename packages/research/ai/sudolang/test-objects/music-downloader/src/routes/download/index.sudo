@@ -1,7 +1,0 @@
-DownloadEndpoint {
-    Contraints {
-        Create a server side function, which takes an url as parameter and executes a command asynchronously on the host machine and returns immediately.
-        The command uses `yt-dlp` to download the url as mp3 file in the best quality possible.
-        The outputs of the command are logged in realtime.
-    }
-}

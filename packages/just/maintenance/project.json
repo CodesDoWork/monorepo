@@ -1,0 +1,16 @@
+{
+    "name": "just-maintenance",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/maintenance/src",
+    "projectType": "application",
+    "targets": {
+        "deploy-maintenance": {
+            "executor": "nx-plugins-wrangler:deploy",
+            "options": {
+                "args": ["--routes ${DOMAIN}/*", "--routes *.${DOMAIN}/*"]
+            },
+            "dependsOn": ["build"]
+        }
+    },
+    "tags": []
+}

@@ -13,10 +13,9 @@
             },
             "x-prompt": "Which stage do you want to use?"
         },
-        "username": {
+        "email": {
             "type": "string",
-            "description": "Username/Email for BW",
-            "default": "",
+            "description": "Email for Bitwarden",
             "$default": {
                 "$source": "argv",
                 "index": 1
@@ -24,12 +23,23 @@
         },
         "password": {
             "type": "string",
-            "description": "Password for BW",
+            "description": "Password for Bitwarden",
             "default": "",
             "$default": {
                 "$source": "argv",
                 "index": 2
             }
+        },
+        "dirs": {
+            "type": "array",
+            "description": "Relative dir pahts to generate .env files for",
+            "alias": "d",
+            "default": ["."]
+        },
+        "recursive": {
+            "type": "boolean",
+            "description": "Apply to children",
+            "default": true
         }
     },
     "required": []

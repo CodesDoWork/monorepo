@@ -1,0 +1,9 @@
+query GetErrorSystemData($pageIdPrefix: String!) {
+    translations(filter: { key: { _istarts_with: $pageIdPrefix } }) {
+        key
+        value
+    }
+    buttonText: translations(filter: { key: { _eq: "page.error.buttonText" } }) {
+        value
+    }
+}

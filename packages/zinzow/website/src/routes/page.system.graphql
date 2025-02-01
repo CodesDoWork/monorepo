@@ -1,0 +1,5 @@
+query GetHomeSystemData {
+    files(filter: { folder: { name: { _eq: "hero" } } }) {
+        id
+    }
+}

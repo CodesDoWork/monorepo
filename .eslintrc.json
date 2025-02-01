@@ -2,8 +2,31 @@
     "root": true,
     "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"],
     "ignorePatterns": ["**/*"],
-    "plugins": ["@nx"],
+    "plugins": ["@nx", "svelte3", "@typescript-eslint", "@stylistic/eslint-plugin-ts"],
+    "env": {
+        "browser": true,
+        "es2017": true,
+        "node": true
+    },
     "overrides": [
+        {
+            "files": ["*"],
+            "rules": {
+                "@typescript-eslint/no-explicit-any": "warn",
+                "@typescript-eslint/no-unused-expressions": "off"
+            }
+        },
+        {
+            "files": ["*.svelte"],
+            "parser": "svelte-eslint-parser",
+            "parserOptions": {
+                "parser": "@typescript-eslint/parser",
+                "sourceType": "module",
+                "ecmaVersion": "latest",
+                "extraFileExtensions": [".svelte"],
+                "lib": ["esnext", "dom"]
+            }
+        },
         {
             "files": "*.json",
             "parser": "jsonc-eslint-parser",
@@ -12,12 +35,17 @@
             }
         },
         {
+            "files": "*.js",
+            "rules": {
+                "@typescript-eslint/no-require-imports": "off"
+            }
+        },
+        {
             "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
             "rules": {
                 "@nx/enforce-module-boundaries": [
                     "error",
                     {
-                        "enforceBuildableLibDependency": true,
                         "allow": [],
                         "depConstraints": [
                             {
@@ -25,52 +53,33 @@
                                 "onlyDependOnLibsWithTags": ["shared"]
                             },
                             {
-                                "sourceTag": "music-downloader",
-                                "onlyDependOnLibsWithTags": ["shared", "music-downloader"]
+                                "sourceTag": "app",
+                                "onlyDependOnLibsWithTags": ["shared"]
                             },
                             {
-                                "sourceTag": "just-site",
-                                "onlyDependOnLibsWithTags": ["shared", "just-site"]
+                                "sourceTag": "nx-plugins",
+                                "onlyDependOnLibsWithTags": ["shared", "nx-plugins"]
                             },
                             {
-                                "sourceTag": "nx-plugin",
-                                "onlyDependOnLibsWithTags": ["shared", "nx-plugin"]
+                                "sourceTag": "just-cms",
+                                "onlyDependOnLibsWithTags": ["shared", "just-cms"]
                             },
                             {
-                                "sourceTag": "documentation",
-                                "onlyDependOnLibsWithTags": ["shared", "documentation"]
+                                "sourceTag": "just-website",
+                                "onlyDependOnLibsWithTags": ["shared", "just-cms", "just-website"]
                             },
                             {
                                 "sourceTag": "workspace-scripts",
-                                "onlyDependOnLibsWithTags": ["shared", "workspace-scripts"]
+                                "onlyDependOnLibsWithTags": [
+                                    "shared",
+                                    "workspace-scripts",
+                                    "nx-plugins"
+                                ]
                             }
                         ]
                     }
                 ]
             }
-        },
-        {
-            "files": ["*.ts", "*.tsx"],
-            "extends": ["plugin:@nx/typescript"],
-            "rules": {
-                "@typescript-eslint/no-extra-semi": "error",
-                "no-extra-semi": "off"
-            }
-        },
-        {
-            "files": ["*.js", "*.jsx"],
-            "extends": ["plugin:@nx/javascript"],
-            "rules": {
-                "@typescript-eslint/no-extra-semi": "error",
-                "no-extra-semi": "off"
-            }
-        },
-        {
-            "files": ["*.spec.ts", "*.spec.tsx", "*.spec.js", "*.spec.jsx"],
-            "env": {
-                "jest": true
-            },
-            "rules": {}
         }
     ]
 }

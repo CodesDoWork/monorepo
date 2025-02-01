@@ -1,3 +1,6 @@
 {
-    "eslint.validate": ["json"]
+    "sonarlint.connectedMode.project": {
+        "connectionId": "https-sonar-justinkonratt-com",
+        "projectKey": "codesdowork_monorepo"
+    }
 }

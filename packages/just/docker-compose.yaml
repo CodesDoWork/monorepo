@@ -1,0 +1,559 @@
+name: ${STACK_NAME}
+
+x-cap-drop: &cap-drop
+  cap_drop:
+    - ALL
+
+x-common: &common
+  <<: *cap-drop
+  restart: always
+
+services:
+  adminer:
+    <<: *common
+    image: adminer:4.8.1
+
+  bitwarden:
+    <<: *common
+    environment:
+      - TZ=${TZ}
+      - PUID=1000
+      - PGID=1000
+      - DOMAIN=https://${BITWARDEN_DOMAIN}
+      - IP_HEADER=X-Forwarded-For
+      - SIGNUPS_ALLOWED=false
+      - ADMIN_TOKEN=${BITWARDEN_ADMIN_TOKEN}
+      - INVITATION_ORG_NAME=Bitwarden
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_FROM=no-reply.bw@${DOMAIN}
+      - SMTP_FROM_NAME=Bitwarden
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_SECURITY=starttls
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+    image: vaultwarden/server:1.32.0-alpine
+    volumes:
+      - bitwarden-data:/data
+
+  cms:
+    <<: *common
+    environment:
+      - SECRET=${CMS_SECRET}
+      - ADMIN_EMAIL=${CMS_USERNAME}
+      - ADMIN_PASSWORD=${CMS_PASSWORD}
+      - PUBLIC_URL=${CMS_URL}
+      - DB_CLIENT=pg
+      - DB_HOST=${DB_NAME}
+      - DB_PORT=${DB_PORT}
+      - DB_DATABASE=directus
+      - DB_USER=${POSTGRES_USERNAME}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - AUTH_PROVIDERS=keycloak
+      - AUTH_KEYCLOAK_ALLOW_PUBLIC_REGISTRATION=true
+      - AUTH_KEYCLOAK_DEFAULT_ROLE_ID=2c1d9be2-93c2-4693-8200-6351976a034e
+      - AUTH_KEYCLOAK_DRIVER=openid
+      - AUTH_KEYCLOAK_CLIENT_ID=${CMS_AUTH_CLIENT_ID}
+      - AUTH_KEYCLOAK_CLIENT_SECRET=${CMS_AUTH_CLIENT_SECRET}
+      - AUTH_KEYCLOAK_ISSUER_URL=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/.well-known/openid-configuration
+      - AUTH_KEYCLOAK_IDENTIFIER_KEY=email
+    image: ${IMAGE_BASE}/just-cms:${PROJECT_VERSION:-latest}
+    volumes:
+      - directus-extension-registry:/directus/extensions/.registry
+      - directus-uploads:/directus/uploads
+      - dashy-config:/dashy/config
+
+  cron:
+    <<: *common
+    command: daemon --docker
+    environment:
+      - TZ=${TZ}
+    image: mcuadros/ofelia:0.3.13
+    labels:
+      ofelia.enabled: true
+
+      ofelia.job-run.backup.command: --verbose backup /data
+      ofelia.job-run.backup.environment: |-
+        [
+          "AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}",
+          "AWS_SECRET_ACCESS_KEY=${BACKBLAZE_APPLICATION_KEY}",
+          "RESTIC_REPOSITORY=s3:s3.eu-central-003.backblazeb2.com/${BACKBLAZE_BUCKET_NAME}",
+          "RESTIC_PASSWORD=${RESTIC_PASSWORD}",
+          "TZ=${TZ}"
+        ]
+      ofelia.job-run.backup.hostname: server
+      ofelia.job-run.backup.image: restic/restic
+      ofelia.job-run.backup.schedule: 0 0 3 * * *
+      ofelia.job-run.backup.volume: |-
+        [
+          "/home:/data/home:ro",
+          "${STACK_NAME}_bitwarden-data:/data/services/bitwarden/data:ro",
+          "${STACK_NAME}_directus-extension-registry:/data/services/directus/extension-registry:ro",
+          "${STACK_NAME}_directus-uploads:/data/services/directus/uploads:ro",
+          "${STACK_NAME}_gitlab-config:/data/services/gitlab/config:ro",
+          "${STACK_NAME}_gitlab-data:/data/services/gitlab/data:ro",
+          "${STACK_NAME}_grafana-storage:/data/services/grafana/storage:ro",
+          "${STACK_NAME}_grafana-config:/data/services/grafana/config:ro",
+          "${STACK_NAME}_navidrome-data:/data/services/navidrome/data:ro",
+          "${STACK_NAME}_netdata-config:/data/services/netdata/config:ro",
+          "${STACK_NAME}_netdata-lib:/data/services/netdata/lib:ro",
+          "${STACK_NAME}_netdata-cache:/data/services/netdata/cache:ro",
+          "${STACK_NAME}_pihole-etc:/data/services/pihole/etc:ro",
+          "${STACK_NAME}_pihole-dnsmasq:/data/services/pihole/dnsmasq:ro",
+          "${STACK_NAME}_portainer-data:/data/services/portainer/data:ro",
+          "${STACK_NAME}_postgres-data:/data/services/postgres/data:ro",
+          "${STACK_NAME}_prometheus-data:/data/services/prometheus/data:ro",
+          "${STACK_NAME}_sonarqube-config:/data/services/sonarqube/config:ro",
+          "${STACK_NAME}_sonarqube-data:/data/services/sonarqube/data:ro",
+          "${STACK_NAME}_sonarqube-extensions:/data/services/sonarqube/extensions:ro",
+          "${STACK_NAME}_vpn-data:/data/services/vpn/data:ro",
+          "${STACK_NAME}_wandb-data:/data/services/wandb/data:ro"
+        ]
+
+      ofelia.job-run.forget-backup.command: --verbose forget --prune --keep-daily 7 --keep-weekly 4 --keep-monthly 6
+      ofelia.job-run.forget-backup.environment: |-
+        [
+          "AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}",
+          "AWS_SECRET_ACCESS_KEY=${BACKBLAZE_APPLICATION_KEY}",
+          "RESTIC_REPOSITORY=s3:s3.eu-central-003.backblazeb2.com/${BACKBLAZE_BUCKET_NAME}",
+          "RESTIC_PASSWORD=${RESTIC_PASSWORD}",
+          "TZ=${TZ}"
+        ]
+      ofelia.job-run.forget-backup.image: restic/restic
+      ofelia.job-run.forget-backup.schedule: 0 0 5 * * *
+
+      ofelia.job-run.create-playlists.image: ${IMAGE_BASE}/just-music-playlist-creator
+      ofelia.job-run.create-playlists.schedule: 0 30 2 * * *
+      ofelia.job-run.create-playlists.volume: ${MUSIC_VOLUME}:/music
+
+      ofelia.job-run.renew-certs.environment: |-
+        [
+          "CLOUDFLARE_API_TOKEN=${CLOUDFLARE_ZONE_API_TOKEN}",
+          "CERTBOT_EMAIL=${CLOUDFLARE_EMAIL}",
+          "DOMAIN=${DOMAIN}"
+        ]
+      ofelia.job-run.renew-certs.image: ${IMAGE_BASE}/shared-certbot
+      ofelia.job-run.renew-certs.schedule: 0 30 2 1 * *
+      ofelia.job-run.renew-certs.volume: ${STACK_NAME}_letsencrypt:/etc/letsencrypt
+
+      ofelia.job-run.renovate.environment: |-
+        [
+          "RENOVATE_TOKEN=${RENOVATE_TOKEN}",
+          "GIT_URL=https://${GITLAB_DOMAIN}",
+          "GITHUB_COM_TOKEN=${RENOVATE_GITHUB_COM_TOKEN}",
+          "DOCKERHUB_USERNAME=${DOCKERHUB_USERNAME}",
+          "DOCKERHUB_PASSWORD=${DOCKERHUB_PASSWORD}"
+        ]
+      ofelia.job-run.renovate.image: ${IMAGE_BASE}/shared-renovate
+      ofelia.job-run.renovate.network: ${STACK_NAME}_default
+      ofelia.job-run.renovate.schedule: "@every 30m"
+    volumes:
+      - //var/run/docker.sock:/var/run/docker.sock:ro
+      - /root/.docker/config.json:/root/.docker/config.json:ro
+
+  dashboard:
+    <<: *common
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: node /app/services/healthcheck
+    image: lissy93/dashy:release-3.1.1
+    volumes:
+      - dashy-config:/app/user-data:ro
+
+  dns:
+    <<: *common
+    cap_add:
+      - CAP_AUDIT_WRITE
+      - CAP_CHOWN
+      - CAP_DAC_OVERRIDE
+      - CAP_FOWNER
+      - CAP_KILL
+      - CAP_SETFCAP
+      - CAP_SETGID
+      - CAP_SETUID
+    image: ${IMAGE_BASE}/just-dns:${PROJECT_VERSION:-latest}
+    environment:
+      - TZ=${TZ}
+      - WEBPASSWORD=${DNS_PASSWORD}
+      - FTLCONF_LOCAL_IPV4=${DNS_IP}
+    networks:
+      default:
+        ipv4_address: ${DNS_IP}
+    ports:
+      - 53:53/udp
+    volumes:
+      - pihole-etc:/etc/pihole
+      - pihole-dnsmasq:/etc/dnsmasq.d
+
+  docker-registry:
+    <<: *common
+    depends_on:
+      - cron
+    environment:
+      - REGISTRY_AUTH_TOKEN_REALM=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/docker-v2/auth
+      - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
+      - REGISTRY_AUTH_TOKEN_ISSUER=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}
+      - REGISTRY_STORAGE_DELETE_ENABLED=true
+    healthcheck:
+      test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
+    image: ${IMAGE_BASE}/just-docker-registry:${PROJECT_VERSION:-latest}
+    labels:
+      ofelia.enabled: true
+      ofelia.job-exec.registry-garbage-collection.command: registry garbage-collect /etc/docker/registry/config.yml --delete-untagged=true
+      ofelia.job-exec.registry-garbage-collection.schedule: 0 0 2 * * *
+    volumes:
+      - docker-registry:/var/lib/registry
+
+  documentation:
+    <<: *common
+    cap_add:
+      - CAP_CHOWN
+      - SETUID
+      - SETGID
+    healthcheck:
+      test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
+    image: ${IMAGE_BASE}/just-documentation:${PROJECT_VERSION:-latest}
+
+  gitlab:
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://${GITLAB_DOMAIN}'
+        letsencrypt['enabled'] = false
+        nginx['enable'] = true
+        nginx['listen_https'] = false
+        nginx['listen_port'] = ${GITLAB_PORT}
+        gitlab_rails['monitoring_whitelist'] = ['${DEFAULT_NETWORK_MASK}']
+        gitlab_rails['smtp_enable'] = true
+        gitlab_rails['smtp_address'] = "${SMTP_HOST}"
+        gitlab_rails['smtp_port'] = ${SMTP_PORT}
+        gitlab_rails['smtp_user_name'] = "${SMTP_USERNAME}"
+        gitlab_rails['smtp_password'] = "${SMTP_PASSWORD}"
+        gitlab_rails['smtp_domain'] = "${SMTP_HOST}"
+        gitlab_rails['smtp_authentication'] = "login"
+        gitlab_rails['smtp_enable_starttls_auto'] = true
+        gitlab_rails['smtp_tls'] = false
+        gitlab_rails['smtp_openssl_verify_mode'] = 'peer'
+        gitlab_rails['omniauth_enabled'] = true
+        gitlab_rails['omniauth_allow_single_sign_on'] = ['openid_connect']
+        gitlab_rails['omniauth_block_auto_created_users'] = false
+        gitlab_rails['omniauth_auto_link_ldap_user'] = true
+        gitlab_rails['omniauth_providers'] = [
+          {
+            "name" => "openid_connect",
+            "label" => "Keycloak",
+            "args" => {
+              "name" => "openid_connect",
+              "scope" => ["openid", "profile", "email"],
+              "uid_field" => "email",
+              "response_type" => "code",
+              "issuer" => "https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}",
+              "discovery" => true,
+              "client_auth_method" => "query",
+              "client_options" => {
+                "identifier" => "${GITLAB_AUTH_CLIENT_ID}",
+                "secret" => "${GITLAB_AUTH_CLIENT_SECRET}",
+                "redirect_uri" => "https://${GITLAB_DOMAIN}/users/auth/openid_connect/callback"
+              }
+            }
+          }
+        ]
+        puma['worker_processes'] = 1
+        gitaly['configuration'] = {
+          concurrency: [
+            {
+              'rpc' => "/gitaly.SmartHTTPService/PostReceivePack",
+              'max_per_repo' => 3,
+            }, {
+              'rpc' => "/gitaly.SSHService/SSHUploadPack",
+              'max_per_repo' => 3,
+            },
+          ]
+        }
+        gitaly['env'] = {
+          'GITALY_COMMAND_SPAWN_MAX_PARALLEL' => '2',
+          'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
+        }
+        gitlab_rails['env'] = {
+          'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
+        }
+        prometheus_monitoring['enable'] = true
+    image: gitlab/gitlab-ee:17.5.1-ee.0
+    restart: always
+    volumes:
+      - gitlab-config:/etc/gitlab
+      - gitlab-data:/var/opt/gitlab
+
+  gitlab-runner:
+    <<: *common
+    command:
+      - run-single
+    dns: ${DNS_IP}
+    environment:
+      - RUNNER_EXECUTOR=docker
+      - DOCKER_DNS=${DNS_IP}
+      - DOCKER_VOLUMES=/cache
+      - DOCKER_NETWORK_MODE=${STACK_NAME}_default
+      - DOCKER_TLS_VERIFY=false
+      - DOCKER_IMAGE=docker:27.3.0
+      - DOCKER_PRIVILEGED=true
+      - CI_SERVER_URL=http://gitlab
+      - CI_SERVER_TOKEN=${GITLAB_RUNNER_TOKEN}
+    image: gitlab/gitlab-runner:v17.3.1
+    volumes:
+      - //var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/root/.docker/config.json:ro
+
+  grafana:
+    <<: *common
+    environment:
+      - GF_SMTP_ENABLED=true
+      - GF_SMTP_HOST=${SMTP_HOST}:${SMTP_PORT}
+      - GF_SMTP_USER=${SMTP_USERNAME}
+      - GF_SMTP_PASSWORD=${SMTP_PASSWORD}
+    healthcheck:
+      test: curl -fs http://localhost:${GRAFANA_PORT}/api/health | grep "ok" || exit 1
+    image: grafana/grafana:11.2.0
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - grafana-config:/usr/share/grafana/conf
+
+  keycloak:
+    <<: *common
+    command:
+      - start
+      - --db=postgres
+      - --db-url-host=${DB_NAME}
+      - --db-username=${POSTGRES_USERNAME}
+      - --db-password=${POSTGRES_PASSWORD}
+      - --hostname-strict=false
+      - --http-enabled=true
+      - --health-enabled=true
+      - --metrics-enabled=true
+      - --features=docker,token-exchange
+      - --proxy=edge
+    environment:
+      - KEYCLOAK_ADMIN=${KEYCLOAK_USERNAME}
+      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_PASSWORD}
+    image: quay.io/keycloak/keycloak:25.0.2
+
+  music-downloader:
+    <<: *common
+    cap_add:
+      - CAP_FOWNER
+    environment:
+      - DOWNLOAD_DIR=/music/downloads
+      - PORT=${MUSIC_DOWNLOADER_PORT}
+    healthcheck:
+      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
+    image: ${IMAGE_BASE}/just-music-downloader:${PROJECT_VERSION:-latest}
+    ports:
+      - 4200:4200
+    volumes:
+      - ./downloads:/music/downloads
+
+  music-platform:
+    <<: *common
+    environment:
+      - ND_PORT=${MUSIC_PLATFORM_PORT}
+      - ND_REVERSEPROXYUSERHEADER=${NGINX_AUTH_USERNAME_HEADER}
+      - ND_REVERSEPROXYWHITELIST=0.0.0.0/0
+      - ND_DEFAULTTHEME=spotify-ish
+      - ND_ENABLECOVERANIMATION=false
+      - ND_ENABLESTARRATING=false
+      - ND_LASTFM_ENABLED=false
+      - ND_PASSWORDENCRYPTIONKEY=${MUSIC_PLATFORM_PASSWORD_ENCRYPTION_KEY}
+      - ND_SCANSCHEDULE=1h
+      - ND_SESSIONTIMEOUT=720h
+      - ND_UILOGINBACKGROUNDURL=https://images.pexels.com/photos/2111015/pexels-photo-2111015.jpeg?cs=srgb&dl=pexels-francesco-paggiaro-2111015.jpg&fm=jpg&w=1920&h=1280
+      - ND_UIWELCOMEMESSAGE="Listen to the best"
+    image: ${IMAGE_BASE}/just-music-platform:${PROJECT_VERSION:-latest}
+    volumes:
+      - navidrome-data:/data
+      - ${MUSIC_VOLUME}:/music:ro
+
+  netdata:
+    cap_add:
+      - SYS_PTRACE
+      - SYS_ADMIN
+    image: netdata/netdata:v1.47.1
+    network_mode: host
+    restart: always
+    security_opt:
+      - apparmor:unconfined
+    volumes:
+      - netdata-config:/etc/netdata
+      - netdata-lib:/var/lib/netdata
+      - netdata-cache:/var/cache/netdata
+      - /etc/passwd:/host/etc/passwd:ro
+      - /etc/group:/host/etc/group:ro
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /etc/os-release:/host/etc/os-release:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  nginx:
+    <<: *common
+    cap_add:
+      - CAP_CHOWN
+      - CAP_SETGID
+      - CAP_SETUID
+    env_file:
+      - .env
+    healthcheck:
+      test: curl -f http://localhost || exit 1
+    image: ${IMAGE_BASE}/just-nginx:${PROJECT_VERSION:-latest}
+    networks:
+      default:
+        ipv4_address: ${NGINX_IP}
+    volumes:
+      - letsencrypt:/etc/letsencrypt:ro
+
+  portainer:
+    <<: *common
+    image: portainer/portainer-ce:2.21.1-alpine
+    volumes:
+      - portainer-data:/data
+      - //var/run/docker.sock:/var/run/docker.sock
+
+  postgres:
+    <<: *common
+    cap_add:
+      - CAP_FOWNER
+      - CAP_DAC_READ_SEARCH
+      - CAP_SETGID
+      - CAP_SETUID
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    healthcheck:
+      test: pg_isready -U $POSTGRES_USERNAME
+    image: postgres:15-alpine
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  prometheus:
+    <<: *common
+    healthcheck:
+      test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
+    image: ${IMAGE_BASE}/just-prometheus:${PROJECT_VERSION:-latest}
+    volumes:
+      - prometheus-data:/prometheus
+
+  sonarqube:
+    <<: *common
+    environment:
+      - SONAR_JDBC_USERNAME=${POSTGRES_USERNAME}
+      - SONAR_JDBC_PASSWORD=${POSTGRES_PASSWORD}
+      - SONAR_JDBC_URL=jdbc:postgresql://${DB_NAME}:${DB_PORT}/sonarqube
+    healthcheck:
+      test: wget -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
+    image: sonarqube:10-community
+    volumes:
+      - sonarqube-config:/opt/sonarqube/conf
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-extensions:/opt/sonarqube/extensions
+
+  tunnel:
+    <<: *common
+    command:
+      - tunnel
+      - --no-autoupdate
+      - run
+      - --token
+      - ${TUNNEL_TOKEN}
+    image: cloudflare/cloudflared:2024.9.1
+    networks:
+      default:
+        ipv4_address: ${TUNNEL_IP}
+
+  vpn:
+    <<: *common
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+      - SYS_MODULE
+    environment:
+      - WG_HOST=${SERVER_ADDRESS}
+      - WG_DEFAULT_DNS=${DNS_IP}
+      - PORT=${VPN_PORT}
+      - PASSWORD_HASH=${VPN_PASSWORD_HASH}
+      - UI_TRAFFIC_STATS=true
+    image: ghcr.io/wg-easy/wg-easy:14
+    ports:
+      - 51820:51820/udp
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv4.ip_forward=1
+    volumes:
+      - vpn-data:/etc/wireguard
+
+  wandb:
+    <<: *common
+    image: wandb/local:0.59.2
+    volumes:
+      - wandb-data:/vol
+
+  website:
+    <<: *common
+    environment:
+      - GITHUB_TOKEN=${WEBSITE_GITHUB_TOKEN}
+      - URL=${URL}
+      - GRAVATAR_EMAIL=${WEBSITE_GRAVATAR_EMAIL}
+      - CMS_URL=${CMS_URL}
+      - CMS_USER=${WEBSITE_CMS_USER}
+      - CMS_PASSWORD=${WEBSITE_CMS_PASSWORD}
+      - PORT=${WEBSITE_PORT}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+    image: ${IMAGE_BASE}/just-website:${PROJECT_VERSION:-latest}
+
+volumes:
+  bitwarden-data:
+
+  # don't backup
+  dashy-config:
+
+  directus-extension-registry:
+  directus-uploads:
+
+  # don't backup
+  docker-registry:
+
+  gitlab-config:
+  gitlab-data:
+
+  grafana-storage:
+  grafana-config:
+
+  letsencrypt:
+
+  navidrome-data:
+
+  netdata-config:
+  netdata-lib:
+  netdata-cache:
+
+  pihole-etc:
+  pihole-dnsmasq:
+
+  portainer-data:
+
+  postgres-data:
+
+  prometheus-data:
+
+  sonarqube-config:
+  sonarqube-data:
+  sonarqube-extensions:
+
+  vpn-data:
+
+  wandb-data:
+
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: ${DEFAULT_NETWORK_MASK}

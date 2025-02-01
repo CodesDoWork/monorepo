@@ -1,0 +1,8 @@
+{
+    "name": "just-website",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/website/src",
+    "projectType": "application",
+    "targets": {},
+    "tags": ["just-website"]
+}

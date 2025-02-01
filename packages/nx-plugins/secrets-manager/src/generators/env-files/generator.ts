@@ -1,28 +1,75 @@
-import { generateFiles, getProjects, logger, Tree } from "@nx/devkit";
+import { BitwardenClient, BitwardenData } from "@codesdowork/shared-bitwarden";
+import { Tree } from "@nx/devkit";
 import inquirer from "inquirer";
+import { readdirSync } from "node:fs";
 import path from "node:path";
-import { getEnvContent, projectConfigExists, setupBwCli } from "../../config";
+import { simpleGit } from "simple-git";
+import { BitwardenEnvGenerator } from "./bitwarden-env-generator";
+import { getRootConfig, projectConfigExists } from "./config";
 import { EnvFilesGeneratorSchema } from "./schema";
+import { RootSecretsConfig } from "./types";
+
+const git = simpleGit();
 
 export async function envFilesGenerator(tree: Tree, options: EnvFilesGeneratorSchema) {
-    await ensurePassword(options);
-    await setupBwCli(tree, options);
-    getProjects(tree).forEach(project => {
-        if (projectConfigExists(tree, project.root)) {
-            createEnvFile(tree, project.name || project.root, project.root, options);
-        }
-    });
+    const rootConfig = getRootConfig(tree);
+    const generator = new BitwardenEnvGenerator(tree, rootConfig, options.stages);
+    const bitwardenData = await getBitwardenData(rootConfig, options);
+    await generator.prepare(bitwardenData);
 
-    if (projectConfigExists(tree)) {
-        createEnvFile(tree, "root", "", options);
+    for (const dir of options.dirs) {
+        await generateEnvFiles(tree, dir, options, generator);
     }
 }
 
-function createEnvFile(tree: Tree, name: string, root: string, options: EnvFilesGeneratorSchema) {
-    logger.info(`Generating env file for ${name}`);
-    const content = getEnvContent(tree, root, options.stages);
-    const fileOptions = { content };
-    generateFiles(tree, path.join(__dirname, "files"), root, fileOptions);
+async function getBitwardenData(
+    rootConfig: RootSecretsConfig,
+    options: EnvFilesGeneratorSchema,
+): Promise<BitwardenData> {
+    await ensurePassword(options);
+    const client = new BitwardenClient(rootConfig.server, options.email, options.password);
+    await client.login();
+    return client.sync();
+}
+
+async function generateEnvFiles(
+    tree: Tree,
+    root: string,
+    options: EnvFilesGeneratorSchema,
+    generator: BitwardenEnvGenerator,
+) {
+    if (projectConfigExists(tree, root) && options.dirs.includes(root)) {
+        await generator.createEnvFile(root);
+    }
+
+    if (!options.recursive) {
+        return;
+    }
+
+    const dirsToProcess = await getGitIncludedDirs(getChildDirs(root));
+    options.dirs = options.dirs.concat(dirsToProcess);
+    for (const dir of dirsToProcess) {
+        await generateEnvFiles(tree, dir, options, generator);
+    }
+}
+
+function getChildDirs(root: string): string[] {
+    return readdirSync(root, { withFileTypes: true })
+        .filter(child => child.isDirectory() && child.name !== ".git")
+        .map(dir => path.join(root, dir.name));
+}
+
+async function getGitIncludedDirs(dirs: string[]): Promise<string[]> {
+    if (!dirs.length) {
+        return [];
+    }
+
+    const ignoredDirs = await git
+        .checkIgnore(dirs)
+        .then(ignoredDirs =>
+            ignoredDirs.map(path.normalize).map(dirPath => dirPath.replace(/"/g, "")),
+        );
+    return dirs.filter(dir => !ignoredDirs.includes(dir));
 }
 
 async function ensurePassword(options: EnvFilesGeneratorSchema) {
@@ -36,7 +83,7 @@ async function inquirePassword(): Promise<string> {
         {
             name: "password",
             type: "password",
-            message: "Enter BW password",
+            message: "Enter Bitwarden password",
         },
     ]);
     return res.password;

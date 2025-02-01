@@ -1,0 +1,14 @@
+{
+    "executors": {
+        "build": {
+            "implementation": "./src/executors/build",
+            "schema": "./src/executors/schema.json",
+            "description": "Builds directus extension"
+        },
+        "serve": {
+            "implementation": "./src/executors/serve",
+            "schema": "./src/executors/schema.json",
+            "description": "Dev directus extension"
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "$schema": "https://json-schema.org/schema",
+    "version": 2,
+    "title": "Lighthouse executor",
+    "description": "",
+    "type": "object",
+    "properties": {
+        "urls": {
+            "type": "array",
+            "description": "URLs to analyze"
+        }
+    },
+    "required": []
+}

@@ -1,0 +1,8 @@
+{
+    "name": "shared-bitwarden",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/shared/bitwarden/src",
+    "projectType": "library",
+    "tags": ["shared"],
+    "targets": {}
+}

@@ -1,11 +1,3 @@
-# docker-compose
+# nx-plugins-docker-compose
 
-This library was generated with [Nx](https://nx.dev).
-
-## Building
-
-Run `nx build docker-compose` to build the library.
-
-## Running unit tests
-
-Run `nx test docker-compose` to execute the unit tests via [Jest](https://jestjs.io).
+A plugin to provide docke-compose tasks and executors for each project containing a `docker-compose.yaml`.

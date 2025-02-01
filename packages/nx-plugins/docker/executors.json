@@ -1,0 +1,34 @@
+{
+    "executors": {
+        "build": {
+            "implementation": "./src/executors/build",
+            "schema": "./src/executors/schema.json",
+            "description": "build executor"
+        },
+        "pull": {
+            "implementation": "./src/executors/pull",
+            "schema": "./src/executors/schema.json",
+            "description": "pull executor"
+        },
+        "push": {
+            "implementation": "./src/executors/push",
+            "schema": "./src/executors/schema.json",
+            "description": "push executor"
+        },
+        "scout": {
+            "implementation": "./src/executors/scout",
+            "schema": "./src/executors/schema.json",
+            "description": "Runs docker scout"
+        },
+        "tag": {
+            "implementation": "./src/executors/tag",
+            "schema": "./src/executors/schema.json",
+            "description": "tag executor"
+        },
+        "trivy": {
+            "implementation": "./src/executors/trivy",
+            "schema": "./src/executors/schema.json",
+            "description": "Runs trivy"
+        }
+    }
+}

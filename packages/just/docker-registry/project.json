@@ -1,0 +1,8 @@
+{
+    "name": "just-docker-registry",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/docker-registry",
+    "projectType": "application",
+    "targets": {},
+    "tags": []
+}

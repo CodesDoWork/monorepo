@@ -1,0 +1,8 @@
+{
+    "name": "just-music-platform",
+    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/music/platform",
+    "projectType": "application",
+    "targets": {},
+    "tags": []
+}

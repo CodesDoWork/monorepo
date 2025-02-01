@@ -1,0 +1,14 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "extends": ["../../../.eslintrc.json"],
+    "ignorePatterns": ["!**/*", "src/**/generated", "vite.config.ts", ".svelte-kit"],
+    "overrides": [
+        {
+            "files": ["*.svelte"],
+            "parser": "svelte-eslint-parser",
+            "parserOptions": {
+                "parser": "@typescript-eslint/parser"
+            }
+        }
+    ]
+}

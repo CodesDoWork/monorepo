@@ -1,0 +1,13 @@
+query GetServiceData {
+    services {
+        route {
+            name
+            path
+        }
+        shortDescription
+        thumbnail {
+            id
+            route: id # placeholder for route, which is calculated by id
+        }
+    }
+}

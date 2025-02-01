@@ -1,4 +1,4 @@
-# @codesdowork/nx-secrets-manager
+# nx-plugins-secrets-manager
 
 Generates `.env` files from with Bitwarden secrets in nx monorepos.
 
@@ -23,6 +23,7 @@ npm i -D @codesdowork/nx-secrets-manager @bitwarden/cli
 ## 2. Create .env.secure.yaml files where necessary (in monorepo root or nx projects)
 
 ```yaml
+extends?: ../.env.secure.yaml # optionally extend another config
 env?:
   NORMAL: variables
   GO: here
@@ -41,16 +42,19 @@ secrets?:
 ## 3. Create .env files
 
 ```bash
-nx g env-files [stage] [bw-username] [bw-password]
+nx g env-files [stages] [bw-username] [bw-password]
 ```
 
 or
 
 ```bash
-nx g @codesdowork/nx-secrets-manager:env-files [stage] [bw-username] [bw-password]
+nx g @codesdowork/nx-secrets-manager:env-files [stages] [bw-username] [bw-password]
 ```
 
 All input parameters can be omitted. They will be asked for when running the command.
 When you are already logged in, the username is not needed.
 The password input is hidden and can also read from the `BW_PASSWORD` environment variable.
 In Bitwarden, have a collection, e.g. `DB`, with credentials named like the stage (e.g. `DEV`, `TEST`, `PROD`).
+
+Stages are comma separated and prioritized by their order, e.g., `DEV,PROD` uses the `DEV` stage primarily and `PROD` as
+fallback.

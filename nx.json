@@ -1,30 +1,15 @@
 {
     "$schema": "./node_modules/nx/schemas/nx-schema.json",
-    "affected": {
-        "defaultBase": "remotes/origin/master"
-    },
+    "defaultBase": "remotes/origin/develop",
     "targetDefaults": {
         "build": {
-            "dependsOn": ["^build"],
             "inputs": ["production", "^production"],
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}", "{projectRoot}/.svelte-kit"],
             "cache": true
         },
         "test": {
-            "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
+            "inputs": ["default", "^production"],
             "cache": true
-        },
-        "@nx/jest:jest": {
-            "inputs": ["default", "^production", "{workspaceRoot}/jest.preset.js"],
-            "cache": true,
-            "options": {
-                "passWithNoTests": true
-            },
-            "configurations": {
-                "ci": {
-                    "ci": true,
-                    "codeCoverage": true
-                }
-            }
         },
         "@nx/eslint:lint": {
             "inputs": [
@@ -33,52 +18,68 @@
                 "{workspaceRoot}/.eslintignore"
             ],
             "cache": true
-        },
-        "@nx/esbuild:esbuild": {
-            "cache": true,
-            "dependsOn": ["^build"],
-            "inputs": ["production", "^production"]
-        },
-        "@nx/js:tsc": {
-            "cache": true,
-            "dependsOn": ["^build"],
-            "inputs": ["production", "^production"]
         }
     },
     "namedInputs": {
-        "default": ["{projectRoot}/**/*", "sharedGlobals"],
+        "default": [
+            "{projectRoot}/**/*",
+            "sharedGlobals",
+            "!{projectRoot}/Dockerfile",
+            "!{projectRoot}/docker-compose.yaml"
+        ],
         "production": [
             "default",
             "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
             "!{projectRoot}/tsconfig.spec.json",
-            "!{projectRoot}/jest.config.[jt]s",
+            "!{projectRoot}/vitest.config.[jt]s",
             "!{projectRoot}/.eslintrc.json",
             "!{projectRoot}/src/test-setup.[jt]s"
         ],
         "sharedGlobals": []
     },
-    "generators": {
-        "@nx/react": {
-            "application": {
-                "babel": true
-            },
-            "library": {}
-        },
-        "@nx/next": {
-            "application": {
-                "style": "none",
-                "linter": "eslint"
-            }
-        }
-    },
     "plugins": [
         {
-            "plugin": "@nx/vite/plugin",
+            "plugin": "nx-plugins-astro"
+        },
+        {
+            "plugin": "nx-plugins-codegen"
+        },
+        {
+            "plugin": "nx-plugins-directus-extensions"
+        },
+        {
+            "plugin": "nx-plugins-docker"
+        },
+        {
+            "plugin": "nx-plugins-docker-compose"
+        },
+        {
+            "plugin": "nx-plugins-lighthouse"
+        },
+        {
+            "plugin": "nx-plugins-secrets-manager"
+        },
+        {
+            "plugin": "nx-plugins-svelte"
+        },
+        {
+            "plugin": "nx-plugins-vite"
+        },
+        {
+            "plugin": "nx-plugins-vitepress"
+        },
+        {
+            "plugin": "nx-plugins-vitest"
+        },
+        {
+            "plugin": "nx-plugins-wrangler"
+        },
+        {
+            "plugin": "@nx/next/plugin",
             "options": {
                 "buildTargetName": "build",
-                "previewTargetName": "preview",
-                "testTargetName": "test",
-                "serveTargetName": "serve",
+                "devTargetName": "serve",
+                "startTargetName": "start",
                 "serveStaticTargetName": "serve-static"
             }
         },

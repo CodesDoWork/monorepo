@@ -1,3 +1,3 @@
-# scripts
+# workspace-scripts
 
-This library was generated with [Nx](https://nx.dev).
+Scripts to use to in the workspace for different purposes.

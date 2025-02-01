@@ -1,0 +1,71 @@
+name: ${STACK_NAME}
+
+x-cap-drop: &cap-drop
+  cap_drop:
+    - ALL
+
+x-common: &common
+  <<: *cap-drop
+  restart: always
+
+services:
+  cms:
+    <<: *common
+    environment:
+      - SECRET=${CMS_SECRET}
+      - ADMIN_EMAIL=${CMS_USERNAME}
+      - ADMIN_PASSWORD=${CMS_PASSWORD}
+      - PUBLIC_URL=${CMS_URL}
+      - DB_CLIENT=pg
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_DATABASE=directus
+      - DB_USER=${POSTGRES_USERNAME}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - WEBSOCKETS_ENABLED=true
+    image: directus/directus:11
+    volumes:
+      - directus-uploads:/directus/uploads
+      - directus-extensions:/directus/extensions
+
+  postgres:
+    <<: *common
+    cap_add:
+      - CAP_FOWNER
+      - CAP_DAC_READ_SEARCH
+      - CAP_SETGID
+      - CAP_SETUID
+    environment:
+      - POSTGRES_USER=${POSTGRES_USERNAME}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: pg_isready -U $POSTGRES_USERNAME
+    image: postgres:15-alpine
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  tunnel:
+    <<: *common
+    command:
+      - tunnel
+      - --no-autoupdate
+      - run
+      - --token
+      - ${TUNNEL_TOKEN}
+    image: cloudflare/cloudflared
+
+  website:
+    <<: *common
+    environment:
+      - DOMAIN=${DOMAIN}
+      - URL=${WEBSITE_URL}
+      - PORT=${WEBSITE_PORT}
+      - CMS_URL=${CMS_URL}
+      - CMS_TOKEN=${WEBSITE_CMS_TOKEN}
+    image: ${IMAGE_BASE}/zinzow-website:${PROJECT_VERSION:-latest}
+
+volumes:
+  postgres-data:
+
+  directus-uploads:
+  directus-extensions:

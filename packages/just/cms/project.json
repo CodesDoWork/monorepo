@@ -1,0 +1,8 @@
+{
+    "name": "just-cms",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/cms",
+    "projectType": "application",
+    "targets": {},
+    "tags": ["just-cms"]
+}

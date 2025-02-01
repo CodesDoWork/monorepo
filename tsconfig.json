@@ -1,8 +1,66 @@
 {
-    "extends": "./tsconfig.base.json",
-    "ts-node": {
-        "compilerOptions": {
-            "module": "commonjs"
+    "compileOnSave": false,
+    "compilerOptions": {
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "lib": ["esnext", "dom"],
+        "jsx": "preserve",
+        "rootDir": ".",
+        "baseUrl": ".",
+        "outDir": "./dist",
+        "sourceMap": false,
+        "declaration": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "importHelpers": true,
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "esModuleInterop": true,
+        "strict": true,
+        "strictNullChecks": true,
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "noUncheckedIndexedAccess": true,
+        "noUnusedParameters": true,
+        "alwaysStrict": true,
+        "strictFunctionTypes": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "resolveJsonModule": true,
+        "forceConsistentCasingInFileNames": true,
+        "allowSyntheticDefaultImports": true,
+        "isolatedModules": true,
+        "allowJs": true,
+        "paths": {
+            "@codesdowork/just-cms-types": ["packages/just/cms/types/src/index.ts"],
+            "@codesdowork/shared-bitwarden": ["packages/shared/bitwarden/src/index.ts"],
+            "@codesdowork/shared-health": ["packages/shared/health/src/index.ts"],
+            "@codesdowork/shared-logging": ["packages/shared/logging/src/index.ts"],
+            "@codesdowork/shared-trivy": ["packages/shared/trivy/src/index.ts"],
+            "@codesdowork/shared-trpc": ["packages/shared/trpc/src/index.ts"],
+            "@codesdowork/shared-utils": ["packages/shared/utils/src/index.ts"],
+            "nx-plugins-astro": ["packages/nx-plugins/astro/src/index.ts"],
+            "nx-plugins-ci": ["packages/nx-plugins/ci/src/index.ts"],
+            "nx-plugins-codegen": ["packages/nx-plugins/codegen/src/index.ts"],
+            "nx-plugins-directus-extensions": [
+                "packages/nx-plugins/directus-extensions/src/index.ts"
+            ],
+            "nx-plugins-docker": ["packages/nx-plugins/docker/src/index.ts"],
+            "nx-plugins-docker-compose": ["packages/nx-plugins/docker-compose/src/index.ts"],
+            "nx-plugins-lighthouse": ["packages/nx-plugins/lighthouse/src/index.ts"],
+            "nx-plugins-secrets-manager": ["packages/nx-plugins/secrets-manager/src/index.ts"],
+            "nx-plugins-svelte": ["packages/nx-plugins/svelte/src/index.ts"],
+            "nx-plugins-tsc": ["packages/nx-plugins/tsc/src/index.ts"],
+            "nx-plugins-utils": ["packages/nx-plugins/utils/src/index.ts"],
+            "nx-plugins-vite": ["packages/nx-plugins/vite/src/index.ts"],
+            "nx-plugins-vitepress": ["packages/nx-plugins/vitepress/src/index.ts"],
+            "nx-plugins-vitest": ["packages/nx-plugins/vitest/src/index.ts"],
+            "nx-plugins-wrangler": ["packages/nx-plugins/wrangler/src/index.ts"]
         }
-    }
+    },
+    "exclude": ["node_modules", "tmp", "dist", "packages/just/website", "packages/zinzow/website"]
 }

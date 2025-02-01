@@ -1,0 +1,9 @@
+{
+    "executors": {
+        "codegen": {
+            "implementation": "./src/executors/codegen",
+            "schema": "./src/executors/schema.json",
+            "description": "Runs codegen"
+        }
+    }
+}

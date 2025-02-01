@@ -1,0 +1,8 @@
+{
+    "name": "just-branding",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/branding",
+    "projectType": "library",
+    "targets": {},
+    "tags": ["just-branding"]
+}

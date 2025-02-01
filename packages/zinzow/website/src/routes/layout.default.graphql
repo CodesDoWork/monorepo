@@ -1,0 +1,26 @@
+query GetLayoutData {
+    routes {
+        name
+        path
+        showInHeader
+        icon
+        shortDescription
+        isHero
+        welcomeText
+    }
+    socialMedias {
+        name
+        user
+        url
+        icon
+    }
+    footerSections {
+        name
+        routes {
+            routes_id {
+                name
+                path
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "executors": {
+        "deploy": {
+            "implementation": "./src/executors/deploy",
+            "schema": "./src/executors/schema.json",
+            "description": "Deploys the worker"
+        },
+        "delete": {
+            "implementation": "./src/executors/delete",
+            "schema": "./src/executors/schema.json",
+            "description": "Deletes the worker"
+        }
+    }
+}

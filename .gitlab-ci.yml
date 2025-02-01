@@ -52,8 +52,7 @@ default:
       policy: $CODEGEN_CACHE_POLICY
   before_script:
     - export PATH="$PWD/node_modules/.bin:$PATH"
-    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ] || [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export NX_BASE=$(git log --merges -1 --format=%H); fi
-    - echo "NX_BASE=${NX_BASE}"
+    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ] || [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export NX_BASE=$(git log --merges -1 --skip 1 --format=%H); fi
     - docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
     - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
 

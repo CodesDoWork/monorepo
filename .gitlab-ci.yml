@@ -151,6 +151,7 @@ build images:
 tag latest images:
   stage: tag
   script:
+    - nx affected -t docker-pull
     - nx affected -t docker-tag --args=latest
     - export PROJECT_VERSION=latest
     - nx affected -t docker-push

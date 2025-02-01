@@ -163,7 +163,6 @@ image security:
   script:
     - nx affected -t docker-pull
     - nx affected -t docker-trivy
-    - nx affected -t docker-scout
   allow_failure: true
   resource_group: single
 

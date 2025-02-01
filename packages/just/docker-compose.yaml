@@ -180,7 +180,7 @@ services:
       default:
         ipv4_address: ${DNS_IP}
     ports:
-      - 53:53/udp
+      - 127.0.0.1:53:53/udp
     volumes:
       - pihole-etc:/etc/pihole
       - pihole-dnsmasq:/etc/dnsmasq.d
@@ -346,8 +346,6 @@ services:
     healthcheck:
       test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/just-music-downloader:${PROJECT_VERSION:-latest}
-    ports:
-      - 4200:4200
     volumes:
       - ./downloads:/music/downloads
 

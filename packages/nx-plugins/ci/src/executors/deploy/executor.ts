@@ -37,7 +37,7 @@ export const runDeployExecutor: PromiseExecutor<DeployExecutorSchema> = async (
             ),
         );
 
-        const { expandedArgs: expandedCommands } = await replaceEnvs(commands || [], context);
+        const { expandedArgs: expandedCommands } = replaceEnvs(commands || [], context);
         for (const command of expandedCommands) {
             await execAsync("ssh", [...sshOptions, login, `cd ${dest}`, "&&", command]);
         }

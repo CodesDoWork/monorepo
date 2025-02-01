@@ -19,7 +19,7 @@ export const runDeployExecutor: PromiseExecutor<DeployExecutorSchema> = async (
 
         const user = getSSHVariableSafe("username");
         const host = getSSHVariableSafe("host");
-        const dest = getSSHVariable("dest") || `/opt/${ORGANIZATION}/${PROJECT}/${projectDir}`;
+        const dest = getSSHVariable("dest") || `/var/lib/${ORGANIZATION}/${PROJECT}/${projectDir}`;
         const login = `${user}@${host}`;
 
         const { idRsaFile, knownHostsFile } = await setupSSHDir(projectDir);

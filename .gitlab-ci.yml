@@ -18,7 +18,7 @@ variables:
   ORGANIZATION: codesdowork
   PROJECT: monorepo
   IMAGE_BASE: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}
-  DOCKER_VERSION: 27.2.0
+  DOCKER_VERSION: 27.5.1
   DEPS_CACHE_POLICY: pull
   ENV_CACHE_POLICY: pull
   CODEGEN_CACHE_POLICY: pull
@@ -31,7 +31,7 @@ default:
     - name: docker:${DOCKER_VERSION}-dind
       alias: docker
       command:
-        - "--feature"
+        - "--features"
         - "containerd-snapshotter=true"
   cache:
     - key:

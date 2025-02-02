@@ -61,7 +61,7 @@ function getSSHVariableSafe(name: string): string {
 }
 
 function getSSHVariable(name: string): string | undefined {
-    return process.env[`SSH_${name.toUpperCase()}`];
+    return process.env[`SSH_${name.replace(/[A-Z]/g, "_$&").toUpperCase()}`];
 }
 
 async function setupSSHDir(projectDir: string) {

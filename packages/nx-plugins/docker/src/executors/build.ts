@@ -10,9 +10,15 @@ export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ arg
         const cacheImage = dockerImage(`${context.projectName}-cache`);
         const platform = CI ? "linux/amd64,linux/arm64" : "";
 
+        const latestImageIfNeeded =
+            CI &&
+            PROJECT_VERSION === "master" &&
+            `-t ${dockerImage(context.projectName ?? "", "latest")}`;
+
         await runDockerCommand([
             "build",
             `-t ${image}`,
+            latestImageIfNeeded,
             `-f ${projectRoot(context)}/Dockerfile`,
             `--build-arg IMAGE_BASE=${IMAGE_BASE}`,
             `--build-arg PROJECT_VERSION=${PROJECT_VERSION}`,

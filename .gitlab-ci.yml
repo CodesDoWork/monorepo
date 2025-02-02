@@ -61,8 +61,14 @@ build workspace image:
   image: docker:${DOCKER_VERSION}
   cache: []
   script:
-    - docker build -t ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} -f packages/workspace/base/Dockerfile --push .
-    - docker build -t ${IMAGE_BASE}/workspace:${PROJECT_VERSION} -f packages/workspace/Dockerfile --build-arg IMAGE_BASE=${IMAGE_BASE} --build-arg PROJECT_VERSION=${PROJECT_VERSION} --push .
+    - docker build --push -t ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION}_linux-amd64 -f packages/workspace/base/Dockerfile --platform=linux/amd64 .
+    - docker build --push -t ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION}_linux-arm64 -f packages/workspace/base/Dockerfile --platform=linux/arm64 .
+    - docker manifest create ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} --amend ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION}_linux-amd64 --amend ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION}_linux-arm64
+    - docker manifest push ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION}
+    - docker build --push -t ${IMAGE_BASE}/workspace:${PROJECT_VERSION}_linux-amd64 -f packages/workspace/Dockerfile --build-arg IMAGE_BASE=${IMAGE_BASE} --build-arg PROJECT_VERSION=${PROJECT_VERSION} --platform=linux/amd64 .
+    - docker build --push -t ${IMAGE_BASE}/workspace:${PROJECT_VERSION}_linux-arm64 -f packages/workspace/Dockerfile --build-arg IMAGE_BASE=${IMAGE_BASE} --build-arg PROJECT_VERSION=${PROJECT_VERSION} --platform=linux/arm64 .
+    - docker manifest create ${IMAGE_BASE}/workspace:${PROJECT_VERSION} --amend ${IMAGE_BASE}/workspace:${PROJECT_VERSION}_linux-amd64 --amend ${IMAGE_BASE}/workspace:${PROJECT_VERSION}_linux-arm64
+    - docker manifest push ${IMAGE_BASE}/workspace:${PROJECT_VERSION}
   resource_group: single
 
 install deps:
@@ -146,17 +152,6 @@ build images:
     - nx docker-build workspace-deps
     - nx affected -t docker-build --exclude="workspace*" --parallel=1
     - nx docker-build just-documentation
-  resource_group: single
-
-tag latest images:
-  stage: tag
-  script:
-    - nx affected -t docker-pull
-    - nx affected -t docker-tag --args=latest
-    - export PROJECT_VERSION=latest
-    - nx affected -t docker-push
-  only:
-    - master
   resource_group: single
 
 image security:

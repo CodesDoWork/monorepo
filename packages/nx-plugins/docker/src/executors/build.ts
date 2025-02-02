@@ -54,6 +54,17 @@ export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ arg
                 ...imageTags.map(t => `--amend ${t}`),
             ]);
             await runDockerCommand(["manifest", "push", image]);
+            if (PROJECT_VERSION === "master") {
+                const latestImage = dockerImage(context.projectName ?? "", "latest");
+                await runDockerCommand([
+                    "manifest",
+                    "create",
+                    latestImage,
+                    ...imageTags.map(t => `--amend ${t}`),
+                ]);
+                await runDockerCommand(["manifest", "push", latestImage]);
+            }
+
             await removeBuilder();
         }
 

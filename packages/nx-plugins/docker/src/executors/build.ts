@@ -28,11 +28,15 @@ export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ arg
             platforms.push("");
         }
 
+        const imageTags = [];
         for (const platform of platforms) {
+            const tag = `${image}${platform ? "_" : ""}${platform.replace("/", "-")}`;
+            imageTags.push(tag);
+
             await runDockerCommand([
                 "build",
                 ...builderBuildArgs,
-                `-t ${image}`,
+                `-t ${tag}`,
                 `-f ${projectRoot(context)}/Dockerfile`,
                 `--build-arg IMAGE_BASE=${IMAGE_BASE}`,
                 `--build-arg PROJECT_VERSION=${PROJECT_VERSION}`,
@@ -43,7 +47,13 @@ export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ arg
         }
 
         if (CI) {
-            await runDockerCommand(["push", image]);
+            await runDockerCommand([
+                "manifest",
+                "create",
+                image,
+                ...imageTags.map(t => `--amend ${t}`),
+            ]);
+            await runDockerCommand(["manifest", "push", image]);
             await removeBuilder();
         }
 

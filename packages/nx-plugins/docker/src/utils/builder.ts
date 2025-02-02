@@ -14,7 +14,7 @@ const builder = {
 export async function useBuilder(): Promise<string[]> {
     await createBuilderNetworkIfNotExists();
     await createBuilderIfNotExists();
-    return [`--builder=${builder.name}`, "--load", `--network=host`];
+    return [`--builder=${builder.name}`, "--push", `--network=host`];
 }
 
 async function createBuilderNetworkIfNotExists() {

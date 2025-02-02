@@ -66,6 +66,13 @@
     };
   };
 
+  security.wrappers.docker-rootlesskit = {
+    source = "${pkgs.rootlesskit.out}/bin/rootlesskit";
+    capabilities = "cap_net_bind_service+ep";
+    owner = "root";
+    group = "root";
+  };
+
   services.openssh = {
     enable = true;
     settings = {

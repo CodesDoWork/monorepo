@@ -65,3 +65,9 @@ async function createBuilder() {
         `--driver-opt network=${builder.network.name}`,
     ]);
 }
+
+export async function removeBuilder() {
+    logger.info(`Removing builder '${builder.name}' and network '${builder.network.name}'`);
+    await runDockerCommand(["buildx", "rm", builder.name]);
+    await runDockerCommand(["network", "rm", builder.network.name]);
+}

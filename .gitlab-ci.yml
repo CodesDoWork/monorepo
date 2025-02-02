@@ -31,8 +31,8 @@ default:
     - name: docker:${DOCKER_VERSION}-dind
       alias: docker
       command:
-        - "--features"
-        - "containerd-snapshotter=true"
+        - "--feature"
+        - "containerd-snapshotter"
   cache:
     - key:
         files:

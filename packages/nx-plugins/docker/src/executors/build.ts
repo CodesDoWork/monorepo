@@ -1,12 +1,6 @@
 import { PromiseExecutor } from "@nx/devkit";
 import { projectRoot } from "nx-plugins-utils";
-import {
-    dockerImage,
-    getBaseDockerVars,
-    removeBuilder,
-    runDockerCommand,
-    useBuilder,
-} from "../utils";
+import { dockerImage, getBaseDockerVars, runDockerCommand } from "../utils";
 import { ExecutorSchema } from "./schema";
 
 export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ args }, context) => {
@@ -14,59 +8,21 @@ export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ arg
         const { IMAGE_BASE, PROJECT_VERSION, CI } = getBaseDockerVars();
         const image = dockerImage(context.projectName ?? "");
         const cacheImage = dockerImage(`${context.projectName}-cache`);
+        const platform = CI ? "linux/amd64,linux/arm64" : "";
 
-        const builderBuildArgs = [];
-        const platforms = [];
-        if (CI) {
-            builderBuildArgs.push(
-                ...(await useBuilder()),
-                `--cache-to type=registry,ref=${cacheImage},mode=max`,
-                `--cache-from type=registry,ref=${cacheImage}`,
-            );
-            platforms.push("linux/amd64", "linux/arm64");
-        } else {
-            platforms.push("");
-        }
-
-        const imageTags = [];
-        for (const platform of platforms) {
-            const tag = `${image}${platform ? "_" : ""}${platform.replace("/", "-")}`;
-            imageTags.push(tag);
-
-            await runDockerCommand([
-                "build",
-                ...builderBuildArgs,
-                `-t ${tag}`,
-                `-f ${projectRoot(context)}/Dockerfile`,
-                `--build-arg IMAGE_BASE=${IMAGE_BASE}`,
-                `--build-arg PROJECT_VERSION=${PROJECT_VERSION}`,
-                platform && `--platform=${platform}`,
-                ...(args ?? []),
-                ".",
-            ]);
-        }
-
-        if (CI) {
-            await runDockerCommand([
-                "manifest",
-                "create",
-                image,
-                ...imageTags.map(t => `--amend ${t}`),
-            ]);
-            await runDockerCommand(["manifest", "push", image]);
-            if (PROJECT_VERSION === "master") {
-                const latestImage = dockerImage(context.projectName ?? "", "latest");
-                await runDockerCommand([
-                    "manifest",
-                    "create",
-                    latestImage,
-                    ...imageTags.map(t => `--amend ${t}`),
-                ]);
-                await runDockerCommand(["manifest", "push", latestImage]);
-            }
-
-            await removeBuilder();
-        }
+        await runDockerCommand([
+            "build",
+            `-t ${image}`,
+            `-f ${projectRoot(context)}/Dockerfile`,
+            `--build-arg IMAGE_BASE=${IMAGE_BASE}`,
+            `--build-arg PROJECT_VERSION=${PROJECT_VERSION}`,
+            `--cache-to type=registry,ref=${cacheImage},mode=max`,
+            `--cache-from type=registry,ref=${cacheImage}`,
+            platform && `--platform=${platform}`,
+            CI && "--push",
+            ...(args ?? []),
+            ".",
+        ]);
 
         return { success: true };
     } catch (e) {

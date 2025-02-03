@@ -57,6 +57,8 @@ default:
     - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ] || [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export NX_BASE=$(git log origin/$CI_COMMIT_BRANCH --first-parent --merges -n 1 --skip 1 --format=%H); fi
     - docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker buildx create --use
+    - docker buildx inspect --bootstrap
 
 build workspace image:
   stage: workspace
@@ -64,10 +66,8 @@ build workspace image:
   cache: []
   script:
     - docker info
-    - docker buildx create --use
-    - docker buildx inspect --bootstrap
-    - docker buildx build --push -t ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} -f packages/workspace/base/Dockerfile --platform=linux/amd64,linux/arm64 .
-    - docker buildx build --push -t ${IMAGE_BASE}/workspace:${PROJECT_VERSION} -f packages/workspace/Dockerfile --build-arg IMAGE_BASE=${IMAGE_BASE} --build-arg PROJECT_VERSION=${PROJECT_VERSION} --platform=linux/amd64,linux/arm64 .
+    - docker build --push -t ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} -f packages/workspace/base/Dockerfile --platform=linux/amd64,linux/arm64 .
+    - docker build --push -t ${IMAGE_BASE}/workspace:${PROJECT_VERSION} -f packages/workspace/Dockerfile --build-arg IMAGE_BASE=${IMAGE_BASE} --build-arg PROJECT_VERSION=${PROJECT_VERSION} --platform=linux/amd64,linux/arm64 .
   resource_group: single
 
 install deps:

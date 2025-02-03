@@ -222,6 +222,13 @@ services:
         nginx['enable'] = true
         nginx['listen_https'] = false
         nginx['listen_port'] = ${GITLAB_PORT}
+        registry_external_url 'https://${DOCKER_REGISTRY}'
+        registry_nginx['listen_port'] = 5005
+        registry_nginx['listen_https'] = false
+        registry_nginx['proxy_set_headers'] = {
+          "X-Forwarded-Proto" => "https",
+          "X-Forwarded-Ssl" => "on"
+        }
         gitlab_rails['monitoring_whitelist'] = ['${DEFAULT_NETWORK_MASK}']
         gitlab_rails['smtp_enable'] = true
         gitlab_rails['smtp_address'] = "${SMTP_HOST}"

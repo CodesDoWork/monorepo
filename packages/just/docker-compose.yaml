@@ -185,25 +185,6 @@ services:
       - pihole-etc:/etc/pihole
       - pihole-dnsmasq:/etc/dnsmasq.d
 
-  docker-registry:
-    <<: *common
-    depends_on:
-      - cron
-    environment:
-      - REGISTRY_AUTH_TOKEN_REALM=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/docker-v2/auth
-      - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
-      - REGISTRY_AUTH_TOKEN_ISSUER=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}
-      - REGISTRY_STORAGE_DELETE_ENABLED=true
-    healthcheck:
-      test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
-    image: ${IMAGE_BASE}/just-docker-registry:${PROJECT_VERSION:-latest}
-    labels:
-      ofelia.enabled: true
-      ofelia.job-exec.registry-garbage-collection.command: registry garbage-collect /etc/docker/registry/config.yml --delete-untagged=true
-      ofelia.job-exec.registry-garbage-collection.schedule: 0 0 2 * * *
-    volumes:
-      - docker-registry:/var/lib/registry
-
   documentation:
     <<: *common
     cap_add:
@@ -223,11 +204,20 @@ services:
         nginx['listen_https'] = false
         nginx['listen_port'] = ${GITLAB_PORT}
         registry_external_url 'https://${DOCKER_REGISTRY}'
-        registry_nginx['listen_port'] = 5005
+        registry_nginx['listen_port'] = ${DOCKER_REGISTRY_PORT}
         registry_nginx['listen_https'] = false
         registry_nginx['proxy_set_headers'] = {
           "X-Forwarded-Proto" => "https",
           "X-Forwarded-Ssl" => "on"
+        }
+        registry['database'] = {
+          'enabled' => true,
+          'host' => '${DB_NAME}',
+          'port' => ${DB_PORT},
+          'user' => '${POSTGRES_USERNAME}',
+          'password' => '${POSTGRES_PASSWORD}',
+          'dbname' => 'gitlab-container-registry',
+          'sslmode' => 'disable'
         }
         gitlab_rails['monitoring_whitelist'] = ['${DEFAULT_NETWORK_MASK}']
         gitlab_rails['smtp_enable'] = true
@@ -308,7 +298,6 @@ services:
     image: gitlab/gitlab-runner:v17.3.1
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock
-      - /root/.docker/config.json:/root/.docker/config.json:ro
 
   grafana:
     <<: *common
@@ -522,9 +511,6 @@ volumes:
 
   directus-extension-registry:
   directus-uploads:
-
-  # don't backup
-  docker-registry:
 
   gitlab-config:
   gitlab-data:

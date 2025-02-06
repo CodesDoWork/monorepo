@@ -93,6 +93,7 @@ services:
           "${STACK_NAME}_gitlab-data:/data/services/gitlab/data:ro",
           "${STACK_NAME}_grafana-storage:/data/services/grafana/storage:ro",
           "${STACK_NAME}_grafana-config:/data/services/grafana/config:ro",
+          "${STACK_NAME}_letsencrypt:/data/services/letsencrypt:ro",
           "${STACK_NAME}_navidrome-data:/data/services/navidrome/data:ro",
           "${STACK_NAME}_netdata-config:/data/services/netdata/config:ro",
           "${STACK_NAME}_netdata-lib:/data/services/netdata/lib:ro",
@@ -156,7 +157,7 @@ services:
       - NODE_ENV=production
     healthcheck:
       test: node /app/services/healthcheck
-    image: lissy93/dashy:release-3.1.1
+    image: lissy93/dashy:3.1.0
     volumes:
       - dashy-config:/app/user-data:ro
 
@@ -180,29 +181,10 @@ services:
       default:
         ipv4_address: ${DNS_IP}
     ports:
-      - 53:53/udp
+      - 127.0.0.1:53:53/udp
     volumes:
       - pihole-etc:/etc/pihole
       - pihole-dnsmasq:/etc/dnsmasq.d
-
-  docker-registry:
-    <<: *common
-    depends_on:
-      - cron
-    environment:
-      - REGISTRY_AUTH_TOKEN_REALM=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/docker-v2/auth
-      - REGISTRY_AUTH_TOKEN_SERVICE=docker-registry
-      - REGISTRY_AUTH_TOKEN_ISSUER=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}
-      - REGISTRY_STORAGE_DELETE_ENABLED=true
-    healthcheck:
-      test: wget -S http://localhost:${DOCKER_REGISTRY_PORT}/v2/ 2>&1 | grep "401 Unauthorized" || exit 1
-    image: ${IMAGE_BASE}/just-docker-registry:${PROJECT_VERSION:-latest}
-    labels:
-      ofelia.enabled: true
-      ofelia.job-exec.registry-garbage-collection.command: registry garbage-collect /etc/docker/registry/config.yml --delete-untagged=true
-      ofelia.job-exec.registry-garbage-collection.schedule: 0 0 2 * * *
-    volumes:
-      - docker-registry:/var/lib/registry
 
   documentation:
     <<: *common
@@ -222,6 +204,23 @@ services:
         nginx['enable'] = true
         nginx['listen_https'] = false
         nginx['listen_port'] = ${GITLAB_PORT}
+        registry_external_url 'https://${DOCKER_REGISTRY}'
+        registry_nginx['listen_port'] = ${DOCKER_REGISTRY_PORT}
+        registry_nginx['listen_https'] = false
+        registry_nginx['proxy_set_headers'] = {
+          "X-Forwarded-Proto" => "https",
+          "X-Forwarded-Ssl" => "on"
+        }
+        registry['database'] = {
+          'enabled' => true,
+          'host' => '${DB_NAME}',
+          'port' => ${DB_PORT},
+          'user' => '${POSTGRES_USERNAME}',
+          'password' => '${POSTGRES_PASSWORD}',
+          'dbname' => 'gitlab-container-registry',
+          'sslmode' => 'disable'
+        }
+        prometheus_monitoring['enable'] = true
         gitlab_rails['monitoring_whitelist'] = ['${DEFAULT_NETWORK_MASK}']
         gitlab_rails['smtp_enable'] = true
         gitlab_rails['smtp_address'] = "${SMTP_HOST}"
@@ -257,27 +256,7 @@ services:
             }
           }
         ]
-        puma['worker_processes'] = 1
-        gitaly['configuration'] = {
-          concurrency: [
-            {
-              'rpc' => "/gitaly.SmartHTTPService/PostReceivePack",
-              'max_per_repo' => 3,
-            }, {
-              'rpc' => "/gitaly.SSHService/SSHUploadPack",
-              'max_per_repo' => 3,
-            },
-          ]
-        }
-        gitaly['env'] = {
-          'GITALY_COMMAND_SPAWN_MAX_PARALLEL' => '2',
-          'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
-        }
-        gitlab_rails['env'] = {
-          'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
-        }
-        prometheus_monitoring['enable'] = true
-    image: gitlab/gitlab-ee:17.5.1-ee.0
+    image: zengxs/gitlab:17.5.1-ee
     restart: always
     volumes:
       - gitlab-config:/etc/gitlab
@@ -301,7 +280,6 @@ services:
     image: gitlab/gitlab-runner:v17.3.1
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock
-      - /root/.docker/config.json:/root/.docker/config.json:ro
 
   grafana:
     <<: *common
@@ -346,10 +324,8 @@ services:
     healthcheck:
       test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/just-music-downloader:${PROJECT_VERSION:-latest}
-    ports:
-      - 4200:4200
     volumes:
-      - ./downloads:/music/downloads
+      - ${MUSIC_VOLUME}/downloads:/music/downloads
 
   music-platform:
     <<: *common
@@ -433,6 +409,8 @@ services:
 
   prometheus:
     <<: *common
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
     image: ${IMAGE_BASE}/just-prometheus:${PROJECT_VERSION:-latest}
@@ -487,11 +465,12 @@ services:
     volumes:
       - vpn-data:/etc/wireguard
 
-  wandb:
-    <<: *common
-    image: wandb/local:0.59.2
-    volumes:
-      - wandb-data:/vol
+  # TODO: switch to MLFlow
+  # wandb:
+  #   <<: *common
+  #   image: wandb/local:0.59.2
+  #   volumes:
+  #     - wandb-data:/vol
 
   website:
     <<: *common
@@ -517,9 +496,6 @@ volumes:
 
   directus-extension-registry:
   directus-uploads:
-
-  # don't backup
-  docker-registry:
 
   gitlab-config:
   gitlab-data:

@@ -8,7 +8,7 @@ interface SecretOptions {
 
 export function execAsync(
     command: string,
-    args?: (string | undefined)[],
+    args?: (string | false | undefined)[],
     { secrets, ...options }: SpawnOptionsWithoutStdio & SecretOptions = {},
 ) {
     const allArgs = (args ?? [])

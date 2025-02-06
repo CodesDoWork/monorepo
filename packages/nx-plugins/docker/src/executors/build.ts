@@ -1,6 +1,6 @@
 import { PromiseExecutor } from "@nx/devkit";
 import { projectRoot } from "nx-plugins-utils";
-import { dockerImage, getBaseDockerVars, runDockerCommand, useBuilder } from "../utils";
+import { dockerImage, getBaseDockerVars, runDockerCommand } from "../utils";
 import { ExecutorSchema } from "./schema";
 
 export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ args }, context) => {
@@ -8,30 +8,29 @@ export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ arg
         const { IMAGE_BASE, PROJECT_VERSION, CI } = getBaseDockerVars();
         const image = dockerImage(context.projectName ?? "");
         const cacheImage = dockerImage(`${context.projectName}-cache`);
+        const platform = CI ? "linux/arm64" : "";
+        const ciOptions = CI ? ["--push", "--network=host"] : [];
 
-        const builderBuildArgs = [];
-        if (CI) {
-            builderBuildArgs.push(
-                ...(await useBuilder()),
-                `--cache-to type=registry,ref=${cacheImage},mode=max`,
-                `--cache-from type=registry,ref=${cacheImage}`,
-            );
-        }
+        const latestImageIfNeeded =
+            CI &&
+            PROJECT_VERSION === "master" &&
+            `-t ${dockerImage(context.projectName ?? "", "latest")}`;
 
         await runDockerCommand([
+            "buildx",
             "build",
-            ...builderBuildArgs,
             `-t ${image}`,
+            latestImageIfNeeded,
             `-f ${projectRoot(context)}/Dockerfile`,
             `--build-arg IMAGE_BASE=${IMAGE_BASE}`,
             `--build-arg PROJECT_VERSION=${PROJECT_VERSION}`,
+            `--cache-to type=registry,ref=${cacheImage},mode=max`,
+            `--cache-from type=registry,ref=${cacheImage}`,
+            platform && `--platform=${platform}`,
+            ...ciOptions,
             ...(args ?? []),
             ".",
         ]);
-
-        if (CI) {
-            await runDockerCommand(["push", image]);
-        }
 
         return { success: true };
     } catch (e) {

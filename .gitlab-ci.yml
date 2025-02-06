@@ -14,11 +14,10 @@ variables:
   DOCKER_HOST: tcp://docker:2375/
   DOCKER_TLS_CERTDIR: ""
   PROJECT_VERSION: ${CI_COMMIT_REF_SLUG}
-  DOCKER_REGISTRY: docker.justinkonratt.com
   ORGANIZATION: codesdowork
   PROJECT: monorepo
-  IMAGE_BASE: ${DOCKER_REGISTRY}/${ORGANIZATION}/${PROJECT}
-  DOCKER_VERSION: 27.2.0
+  IMAGE_BASE: ${CI_REGISTRY}/${ORGANIZATION}/${PROJECT}
+  DOCKER_VERSION: 27.5.1
   DEPS_CACHE_POLICY: pull
   ENV_CACHE_POLICY: pull
   CODEGEN_CACHE_POLICY: pull
@@ -30,6 +29,9 @@ default:
   services:
     - name: docker:${DOCKER_VERSION}-dind
       alias: docker
+      command:
+        - "--feature"
+        - "containerd-snapshotter"
   cache:
     - key:
         files:
@@ -52,17 +54,21 @@ default:
       policy: $CODEGEN_CACHE_POLICY
   before_script:
     - export PATH="$PWD/node_modules/.bin:$PATH"
-    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ] || [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export NX_BASE=$(git log --merges -1 --format=%H); fi
+    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ] || [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export NX_BASE=$(git log origin/$CI_COMMIT_BRANCH --first-parent --merges -n 1 --skip 1 --format=%H); fi
     - docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
-    - docker login -u ${DOCKER_REGISTRY_USER} -p ${DOCKER_REGISTRY_PASSWORD} ${DOCKER_REGISTRY}
+    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - docker network create --driver=bridge builder-network
+    - docker buildx create --use --driver-opt network=builder-network
+    - docker buildx inspect --bootstrap
 
 build workspace image:
   stage: workspace
   image: docker:${DOCKER_VERSION}
   cache: []
   script:
-    - docker build -t ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} -f packages/workspace/base/Dockerfile --push .
-    - docker build -t ${IMAGE_BASE}/workspace:${PROJECT_VERSION} -f packages/workspace/Dockerfile --build-arg IMAGE_BASE=${IMAGE_BASE} --build-arg PROJECT_VERSION=${PROJECT_VERSION} --push .
+    - docker info
+    - docker buildx build --network=host --push -t ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} -f packages/workspace/base/Dockerfile --platform=linux/amd64,linux/arm64 .
+    - docker buildx build --network=host --push -t ${IMAGE_BASE}/workspace:${PROJECT_VERSION} -f packages/workspace/Dockerfile --build-arg IMAGE_BASE=${IMAGE_BASE} --build-arg PROJECT_VERSION=${PROJECT_VERSION} --platform=linux/amd64,linux/arm64 .
   resource_group: single
 
 install deps:
@@ -146,16 +152,6 @@ build images:
     - nx docker-build workspace-deps
     - nx affected -t docker-build --exclude="workspace*" --parallel=1
     - nx docker-build just-documentation
-  resource_group: single
-
-tag latest images:
-  stage: tag
-  script:
-    - nx affected -t docker-tag --args=latest
-    - export PROJECT_VERSION=latest
-    - nx affected -t docker-push
-  only:
-    - master
   resource_group: single
 
 image security:

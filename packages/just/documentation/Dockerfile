@@ -1,5 +1,5 @@
 ARG IMAGE_BASE
-ARG PROJECT_VERSION="latest"
+ARG PROJECT_VERSION
 
 ARG APP_NAME=just-documentation
 ARG APP_DIR=just/documentation
@@ -11,7 +11,11 @@ FROM $IMAGE_BASE/workspace-deps:$PROJECT_VERSION AS workspace-deps
 FROM workspace-deps AS builder
 ARG APP_NAME
 
-COPY . .
+COPY .eslintrc.json nx.json README.md tsconfig.json ./
+COPY docs ./docs
+COPY packages/nx-plugins ./packages/nx-plugins
+COPY packages/shared ./packages/shared
+COPY packages/just ./packages/just
 RUN nx build $APP_NAME
 
 

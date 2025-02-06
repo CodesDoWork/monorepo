@@ -93,6 +93,7 @@ services:
           "${STACK_NAME}_gitlab-data:/data/services/gitlab/data:ro",
           "${STACK_NAME}_grafana-storage:/data/services/grafana/storage:ro",
           "${STACK_NAME}_grafana-config:/data/services/grafana/config:ro",
+          "${STACK_NAME}_letsencrypt:/data/services/letsencrypt:ro",
           "${STACK_NAME}_navidrome-data:/data/services/navidrome/data:ro",
           "${STACK_NAME}_netdata-config:/data/services/netdata/config:ro",
           "${STACK_NAME}_netdata-lib:/data/services/netdata/lib:ro",
@@ -156,7 +157,7 @@ services:
       - NODE_ENV=production
     healthcheck:
       test: node /app/services/healthcheck
-    image: lissy93/dashy:release-3.1.1
+    image: lissy93/dashy:3.1.0
     volumes:
       - dashy-config:/app/user-data:ro
 
@@ -219,6 +220,7 @@ services:
           'dbname' => 'gitlab-container-registry',
           'sslmode' => 'disable'
         }
+        prometheus_monitoring['enable'] = true
         gitlab_rails['monitoring_whitelist'] = ['${DEFAULT_NETWORK_MASK}']
         gitlab_rails['smtp_enable'] = true
         gitlab_rails['smtp_address'] = "${SMTP_HOST}"
@@ -254,27 +256,7 @@ services:
             }
           }
         ]
-        puma['worker_processes'] = 1
-        gitaly['configuration'] = {
-          concurrency: [
-            {
-              'rpc' => "/gitaly.SmartHTTPService/PostReceivePack",
-              'max_per_repo' => 3,
-            }, {
-              'rpc' => "/gitaly.SSHService/SSHUploadPack",
-              'max_per_repo' => 3,
-            },
-          ]
-        }
-        gitaly['env'] = {
-          'GITALY_COMMAND_SPAWN_MAX_PARALLEL' => '2',
-          'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
-        }
-        gitlab_rails['env'] = {
-          'MALLOC_CONF' => 'dirty_decay_ms:1000,muzzy_decay_ms:1000'
-        }
-        prometheus_monitoring['enable'] = true
-    image: gitlab/gitlab-ee:17.5.1-ee.0
+    image: zengxs/gitlab:17.5.1-ee
     restart: always
     volumes:
       - gitlab-config:/etc/gitlab
@@ -343,7 +325,7 @@ services:
       test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/just-music-downloader:${PROJECT_VERSION:-latest}
     volumes:
-      - ./downloads:/music/downloads
+      - ${MUSIC_VOLUME}/downloads:/music/downloads
 
   music-platform:
     <<: *common
@@ -427,6 +409,8 @@ services:
 
   prometheus:
     <<: *common
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
     image: ${IMAGE_BASE}/just-prometheus:${PROJECT_VERSION:-latest}
@@ -481,11 +465,12 @@ services:
     volumes:
       - vpn-data:/etc/wireguard
 
-  wandb:
-    <<: *common
-    image: wandb/local:0.59.2
-    volumes:
-      - wandb-data:/vol
+  # TODO: switch to MLFlow
+  # wandb:
+  #   <<: *common
+  #   image: wandb/local:0.59.2
+  #   volumes:
+  #     - wandb-data:/vol
 
   website:
     <<: *common

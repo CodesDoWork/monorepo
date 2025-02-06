@@ -8,8 +8,8 @@ export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ arg
         const { IMAGE_BASE, PROJECT_VERSION, CI } = getBaseDockerVars();
         const image = dockerImage(context.projectName ?? "");
         const cacheImage = dockerImage(`${context.projectName}-cache`);
-        const platform = CI ? "linux/amd64,linux/arm64" : "";
-        const ciOptions = CI ? ["--push", "--network=host", "--load"] : [];
+        const platform = CI ? "linux/arm64" : "";
+        const ciOptions = CI ? ["--push", "--network=host"] : [];
 
         const latestImageIfNeeded =
             CI &&
@@ -17,7 +17,7 @@ export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ arg
             `-t ${dockerImage(context.projectName ?? "", "latest")}`;
 
         await runDockerCommand([
-            CI && "buildx",
+            "buildx",
             "build",
             `-t ${image}`,
             latestImageIfNeeded,

@@ -1,5 +1,5 @@
 ARG IMAGE_BASE
-ARG PROJECT_VERSION="latest"
+ARG PROJECT_VERSION
 
 ARG APP_NAME=just-cms
 ARG APP_DIR=just/cms
@@ -10,7 +10,10 @@ FROM $IMAGE_BASE/workspace-deps:$PROJECT_VERSION AS workspace-deps
 
 FROM workspace-deps AS builder
 
-COPY . .
+COPY .eslintrc.json nx.json tsconfig.json ./
+COPY packages/nx-plugins ./packages/nx-plugins
+COPY packages/shared ./packages/shared
+COPY packages/just ./packages/just
 RUN nx build just-cms-dashboard-config
 
 

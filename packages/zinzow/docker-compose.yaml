@@ -63,6 +63,8 @@ services:
       - CMS_URL=${CMS_URL}
       - CMS_TOKEN=${WEBSITE_CMS_TOKEN}
     image: ${IMAGE_BASE}/zinzow-website:${PROJECT_VERSION:-latest}
+    ports:
+      - 4300:4300
 
 volumes:
   postgres-data:

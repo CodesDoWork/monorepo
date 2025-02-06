@@ -1,5 +1,5 @@
 ARG IMAGE_BASE
-ARG PROJECT_VERSION="latest"
+ARG PROJECT_VERSION
 
 ARG APP_NAME=just-music-downloader
 ARG APP_DIR=just/music/downloader
@@ -11,7 +11,10 @@ FROM $IMAGE_BASE/workspace-deps:$PROJECT_VERSION AS workspace-deps
 FROM workspace-deps AS builder
 ARG APP_NAME
 
-COPY . .
+COPY .eslintrc.json nx.json tsconfig.json ./
+COPY packages/nx-plugins ./packages/nx-plugins
+COPY packages/shared ./packages/shared
+COPY packages/just ./packages/just
 RUN nx build $APP_NAME
 
 

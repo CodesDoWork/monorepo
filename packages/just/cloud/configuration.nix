@@ -20,11 +20,19 @@
   console.keyMap = "de";
 
   # networking
-  networking.hostName = "justCloud";
-  networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 22 ];
-  networking.firewall.allowedUDPPorts = [ 51820 ];
-  networking.resolvconf.enable = false;
+  networking = {
+    hostName = "justCloud";
+    firewall = {
+      enable = true;
+      allowedTCPPorts = [ 22 ];
+      allowedUDPPorts = [ 51820 ];
+      extraCommands = ''
+        iptables -A INPUT -i lo -s 192.168.192.0/24 -j ACCEPT
+        ip6tables -A INPUT -i lo -s 192.168.192.0/24 -j ACCEPT
+      '';
+    };
+    resolvconf.enable = false;
+  };
   environment.etc."resolv.conf".text = ''
     nameserver 127.0.0.1
     nameserver 1.1.1.1
@@ -61,7 +69,8 @@
   virtualisation.docker = {
     enable = true;
     rootless = {
-      enable = true;
+      # enable = true;
+      enable = false;
       setSocketVariable = true;
     };
   };

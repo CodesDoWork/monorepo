@@ -67,8 +67,8 @@ build workspace image:
   cache: []
   script:
     - docker info
-    - docker buildx build --network=host --push -t ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} -f packages/workspace/base/Dockerfile --platform=linux/amd64,linux/arm64 .
-    - docker buildx build --network=host --push -t ${IMAGE_BASE}/workspace:${PROJECT_VERSION} -f packages/workspace/Dockerfile --build-arg IMAGE_BASE=${IMAGE_BASE} --build-arg PROJECT_VERSION=${PROJECT_VERSION} --platform=linux/amd64,linux/arm64 .
+    - docker buildx build --network=host --push -t ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} -f packages/workspace/base/Dockerfile --platform=linux/arm64 .
+    - docker buildx build --network=host --push -t ${IMAGE_BASE}/workspace:${PROJECT_VERSION} -f packages/workspace/Dockerfile --build-arg IMAGE_BASE=${IMAGE_BASE} --build-arg PROJECT_VERSION=${PROJECT_VERSION} --platform=linux/arm64 .
   resource_group: single
 
 install deps:

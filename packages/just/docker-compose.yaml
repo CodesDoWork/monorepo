@@ -322,7 +322,7 @@ services:
       - DOWNLOAD_DIR=/music/downloads
       - PORT=${MUSIC_DOWNLOADER_PORT}
     healthcheck:
-      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
+      test: wget -qO- http://$(hostname):${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/just-music-downloader:${PROJECT_VERSION:-latest}
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads

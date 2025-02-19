@@ -1,5 +1,6 @@
 ARG IMAGE_BASE
 ARG PROJECT_VERSION
+ARG DOCKER_PROXY
 
 ARG APP_NAME=just-documentation
 ARG APP_DIR=just/documentation
@@ -19,6 +20,6 @@ COPY packages/just ./packages/just
 RUN nx build $APP_NAME
 
 
-FROM nginx:1.27.1-alpine-slim
+FROM $DOCKER_PROXY/nginx:1.27.1-alpine-slim
 ARG APP_DIR
 COPY --from=builder /workspace/dist/packages/$APP_DIR /usr/share/nginx/html

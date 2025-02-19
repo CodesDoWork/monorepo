@@ -17,6 +17,7 @@ variables:
   ORGANIZATION: codesdowork
   PROJECT: monorepo
   IMAGE_BASE: ${CI_REGISTRY}/${ORGANIZATION}/${PROJECT}
+  DOCKER_PROXY: gitlab.justinkonratt.com/docker/dependency_proxy/containers
   DOCKER_VERSION: 27.5.1
   DEPS_CACHE_POLICY: pull
   ENV_CACHE_POLICY: pull
@@ -55,7 +56,7 @@ default:
   before_script:
     - export PATH="$PWD/node_modules/.bin:$PATH"
     - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ] || [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export NX_BASE=$(git log origin/$CI_COMMIT_BRANCH --first-parent --merges -n 1 --skip 1 --format=%H); fi
-    - docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
+    - echo "$CI_DEPENDENCY_PROXY_PASSWORD" | docker login $CI_DEPENDENCY_PROXY_SERVER -u $CI_DEPENDENCY_PROXY_USER --password-stdin
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
     - docker network create --driver=bridge builder-network
     - docker buildx create --use --driver-opt network=builder-network
@@ -67,7 +68,7 @@ build workspace image:
   cache: []
   script:
     - docker info
-    - docker buildx build --network=host --push -t ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} -f packages/workspace/base/Dockerfile --platform=linux/arm64 .
+    - docker buildx build --network=host --push -t ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} -f packages/workspace/base/Dockerfile --build-arg DOCKER_PROXY=${DOCKER_PROXY} --platform=linux/arm64 .
     - docker buildx build --network=host --push -t ${IMAGE_BASE}/workspace:${PROJECT_VERSION} -f packages/workspace/Dockerfile --build-arg IMAGE_BASE=${IMAGE_BASE} --build-arg PROJECT_VERSION=${PROJECT_VERSION} --platform=linux/arm64 .
   resource_group: single
 

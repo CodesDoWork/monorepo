@@ -1,5 +1,6 @@
 ARG IMAGE_BASE
 ARG PROJECT_VERSION
+ARG DOCKER_PROXY
 
 ARG APP_NAME=just-cms
 ARG APP_DIR=just/cms
@@ -17,7 +18,7 @@ COPY packages/just ./packages/just
 RUN nx build just-cms-dashboard-config
 
 
-FROM directus/directus:11.1.1
+FROM $DOCKER_PROXY/directus/directus:11.1.1
 ARG APP_DIR
 
 USER root

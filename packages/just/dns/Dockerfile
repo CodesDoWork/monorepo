@@ -1,5 +1,6 @@
 ARG IMAGE_BASE
 ARG PROJECT_VERSION
+ARG DOCKER_PROXY
 
 ARG APP_NAME=just-dns
 ARG APP_DIR=just/dns
@@ -18,7 +19,7 @@ COPY packages/just ./packages/just
 RUN nx build $APP_NAME
 
 
-FROM pihole/pihole:2024.07.0
+FROM $DOCKER_PROXY/pihole/pihole:2024.07.0
 ARG APP_DIR
 
 COPY --from=builder /workspace/packages/$APP_DIR/dnsmasq.d/custom.conf /etc/extra/dnsmasq.d/custom.conf

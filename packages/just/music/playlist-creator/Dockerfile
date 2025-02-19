@@ -1,4 +1,6 @@
-FROM alpine:3.20.3
+ARG DOCKER_PROXY
+
+FROM $DOCKER_PROXY/alpine:3.20.3
 ARG APP_DIR=just/music/playlist-creator
 
 RUN apk add --no-cache bash

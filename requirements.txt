@@ -6,7 +6,7 @@
 #
 accelerate==1.2.1
     # via transformers
-aiohappyeyeballs==2.4.4
+aiohappyeyeballs==2.4.6
     # via aiohttp
 aiohttp==3.11.10
     # via

@@ -68,7 +68,7 @@
         "@types/color": "^4.2.0",
         "@types/d3": "^7.4.3",
         "@types/graphql": "^14.5.0",
-        "@types/node": "20.17.18",
+        "@types/node": "20.17.19",
         "@types/node-cron": "^3.0.11",
         "@types/pg": "^8.11.10",
         "@types/react": "18.3.3",

@@ -20,7 +20,7 @@
                     class="rounded-xl px-8 py-12 transition group-hover:bg-white/75 dark:group-hover:bg-black/75">
                     <div class="-mt-9 pb-16 transition-all group-hover:mt-0 group-hover:pb-3">
                         <H2
-                            class="w-fit rounded-full bg-white/75 px-3 py-1 text-sm transition-all group-hover:bg-transparent group-hover:text-3xl sm:text-base sm:group-hover:text-4xl dark:bg-black/75">
+                            class="dark:text-primary-200 w-fit rounded-full bg-white/75 px-3 py-1 text-sm transition-all group-hover:bg-transparent group-hover:text-3xl sm:text-base sm:group-hover:text-4xl dark:bg-black/75">
                             {service.route.name}
                         </H2>
                     </div>

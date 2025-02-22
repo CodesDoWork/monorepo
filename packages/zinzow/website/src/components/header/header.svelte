@@ -20,7 +20,7 @@
 <header>
     <ContentArea tag="nav" class="flex items-center justify-between">
         <a href="/">
-            <Logo class="h-12" />
+            <Logo class="h-16" />
         </a>
         <div class="relative block md:hidden">
             <button on:click={onMenuClick}>

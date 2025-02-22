@@ -5,7 +5,7 @@
     import type { LayoutData } from "../../routes/$types";
     import { ContentArea } from "../content-area";
     import { Logo } from "../logo";
-    import MobileMenu from "./mobile-menu.svelte";
+    import { MobileMenu } from "../mobile-menu";
     import PopupNav from "./popup-nav.svelte";
 
     export let data: LayoutData;

@@ -59,7 +59,7 @@ cffi==1.17.1
     #   numpy-minmax
     #   numpy-rms
     #   soundfile
-charset-normalizer==3.4.0
+charset-normalizer==3.4.1
     # via requests
 click==8.1.7
     # via

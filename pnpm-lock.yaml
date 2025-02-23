@@ -217,8 +217,8 @@ importers:
         specifier: ^3.0.11
         version: 3.0.11
       '@types/pg':
-        specifier: ^8.11.10
-        version: 8.11.10
+        specifier: ^8.11.11
+        version: 8.11.11
       '@types/react':
         specifier: 18.3.3
         version: 18.3.3
@@ -4163,8 +4163,8 @@ packages:
   '@types/parse-json@4.0.0':
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
 
-  '@types/pg@8.11.10':
-    resolution: {integrity: sha512-LczQUW4dbOQzsH2RQ5qoeJ6qJPdrcM/DcMLoqWQkMLMsq83J5lAX3LXjdkWdpscFy67JSOWDnh7Ny/sPFykmkg==}
+  '@types/pg@8.11.11':
+    resolution: {integrity: sha512-kGT1qKM8wJQ5qlawUrEkXgvMSXoV213KfMGXcwfDwUIfUHXqXYXOfS1nE1LINRJVVVx5wCm70XnFlMHaIcQAfw==}
 
   '@types/prop-types@15.7.8':
     resolution: {integrity: sha512-kMpQpfZKSCBqltAJwskgePRaYRFukDkm1oItcAbC3gNELR20XIBcN9VRgg4+m8DKsTfkWeA4m4Imp4DDuWy7FQ==}
@@ -17035,7 +17035,7 @@ snapshots:
 
   '@types/parse-json@4.0.0': {}
 
-  '@types/pg@8.11.10':
+  '@types/pg@8.11.11':
     dependencies:
       '@types/node': 20.17.19
       pg-protocol: 1.6.1

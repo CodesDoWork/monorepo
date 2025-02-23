@@ -45,7 +45,9 @@
                                 ? "text-accent"
                                 : "text-gray-900 dark:text-white",
                         )}>
-                        <a href={route.path} class="px-3 py-1 text-sm/6 font-semibold"
+                        <a
+                            href={route.path}
+                            class="block px-3 py-1 text-sm/6 font-semibold transition group-hover/nav-item:scale-110"
                             >{route.name}
                             {#if children.length}
                                 <Icon icon="carbon:chevron-down" class="inline size-4" />

@@ -8,7 +8,7 @@ accelerate==1.2.1
     # via transformers
 aiohappyeyeballs==2.4.6
     # via aiohttp
-aiohttp==3.11.10
+aiohttp==3.11.12
     # via
     #   datasets
     #   fsspec

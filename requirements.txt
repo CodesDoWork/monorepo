@@ -270,7 +270,7 @@ multiprocess==0.70.16
     #   evaluate
 nbclient==0.10.1
     # via nbconvert
-nbconvert==7.16.4
+nbconvert==7.16.6
     # via
     #   jupyter
     #   jupyter-server

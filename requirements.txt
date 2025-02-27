@@ -268,7 +268,7 @@ multiprocess==0.70.17
     # via
     #   datasets
     #   evaluate
-nbclient==0.10.1
+nbclient==0.10.2
     # via nbconvert
 nbconvert==7.16.4
     # via

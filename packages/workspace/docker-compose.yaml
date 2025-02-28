@@ -8,5 +8,6 @@ services:
     volumes:
       - ../..:/workspace
       - /workspace/node_modules
+      - /workspace/.nx
       - ${PNPM_STORE_PATH:-/tmp/.pnpm-store}:/tmp/.pnpm-store
       - //var/run/docker.sock:/var/run/docker.sock

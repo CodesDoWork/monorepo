@@ -11,7 +11,7 @@ FROM $IMAGE_BASE/workspace-deps:$PROJECT_VERSION AS workspace-deps
 
 FROM workspace-deps AS builder
 
-COPY .eslintrc.json nx.json tsconfig.json ./
+COPY eslint.config.js nx.json tsconfig.json ./
 COPY packages/nx-plugins ./packages/nx-plugins
 COPY packages/shared ./packages/shared
 COPY packages/just ./packages/just

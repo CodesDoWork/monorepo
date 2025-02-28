@@ -14,7 +14,7 @@
         "@nx/eslint:lint": {
             "inputs": [
                 "default",
-                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/eslint.config.js",
                 "{workspaceRoot}/.eslintignore"
             ],
             "cache": true
@@ -32,7 +32,7 @@
             "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
             "!{projectRoot}/tsconfig.spec.json",
             "!{projectRoot}/vitest.config.[jt]s",
-            "!{projectRoot}/.eslintrc.json",
+            "!{projectRoot}/eslint.config.js",
             "!{projectRoot}/src/test-setup.[jt]s"
         ],
         "sharedGlobals": []

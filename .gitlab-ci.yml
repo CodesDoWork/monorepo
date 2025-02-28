@@ -178,6 +178,7 @@ lighthouse:
     paths:
       - ./reports/lighthouse
   resource_group: single
+  retry: 1
 
 deploy:
   stage: deploy

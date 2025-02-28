@@ -7,8 +7,8 @@
             "executor": "nx:run-commands",
             "options": {
                 "commands": [
-                    "rimraf {projectRoot}/docs/projects",
-                    "tsx {projectRoot}/create-project-docs.ts"
+                    "typedoc --plugin typedoc-plugin-markdown --cleanOutputDir --name monorepo --out ./packages/just/documentation/docs/project/code-docs --exclude **/eslint.config.js --entryPointStrategy expand packages",
+                    "copyfiles -a -e \"./node_modules/**/*.md\" -e \"./packages/just/documentation/docs/**/*.md\" \"./**/*.md\" ./packages/just/documentation/docs/project/"
                 ]
             }
         }

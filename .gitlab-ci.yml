@@ -87,7 +87,7 @@ generate env files:
     ENV_CACHE_POLICY: push
   script:
     - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then export STAGE=PROD; elif [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export STAGE=TEST,PROD; else export STAGE=DEV,TEST,PROD; fi
-    - nx g env-files ${STAGE} ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
+    - nx g env-files ${STAGE} ${BITWARDEN_USER} ${BITWARDEN_PASSWORD} --verbose
   resource_group: single
 
 codegen:

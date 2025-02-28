@@ -23,6 +23,7 @@
         "type": "git",
         "url": "https://github.com/CodesDoWork/monorepo.git"
     },
+    "type": "module",
     "scripts": {
         "docker:build-workspace": "nx run-many -t docker-build -p workspace-base workspace workspace-deps --parallel 1 --nxBail --output-style stream",
         "docker:workspace": "nx docker-compose-up workspace",

@@ -19,25 +19,14 @@ RUN nx reset
 RUN nx build $APP_NAME
 
 
-FROM base AS runner
+FROM base
 ARG APP_DIR
+
 ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
 
-RUN apk update
-RUN apk add yt-dlp
+WORKDIR /app
+COPY --from=builder /workspace/dist/packages/$APP_DIR .
+COPY --from=builder /workspace/packages/$APP_DIR/package.json .
 
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-COPY --from=builder --chown=nextjs:nodejs /workspace/dist/packages/${APP_DIR}/standalone/dist ./dist
-COPY --from=builder --chown=nextjs:nodejs /workspace/dist/packages/${APP_DIR}/static ./dist/packages/${APP_DIR}/static
-COPY --from=builder --chown=nextjs:nodejs /workspace/dist/packages/${APP_DIR}/standalone/node_modules ./node_modules
-COPY --from=builder --chown=nextjs:nodejs /workspace/dist/packages/${APP_DIR}/standalone/packages ./packages
-
-WORKDIR /app/packages/${APP_DIR}
-COPY --from=builder --chown=nextjs:nodejs /workspace/packages/${APP_DIR}/public ./public
-
-USER nextjs
-
-CMD ["node", "server.js"]
+USER node
+CMD ["node", "index.js"]

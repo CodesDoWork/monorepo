@@ -1,7 +1,7 @@
 import type { SpawnOptionsWithoutStdio } from "node:child_process";
 import { spawn } from "node:child_process";
 import { logger } from "@cdw/monorepo/shared-logging";
-import { env } from "../../../env";
+import { env } from "../env";
 
 export function download(url: string): Promise<void> {
     const downloadCommandParts = [
@@ -20,7 +20,7 @@ export function download(url: string): Promise<void> {
     return execAsync("yt-dlp", downloadCommandParts);
 }
 
-export function execAsync(command: string, args: string[], options?: SpawnOptionsWithoutStdio) {
+function execAsync(command: string, args: string[], options?: SpawnOptionsWithoutStdio) {
     const cwdInfo = options?.cwd ? ` in "${options.cwd}"` : "";
     const fullCommand = [command, ...args].join(" ");
     logger.info(`Executing "${fullCommand}"${cwdInfo}`);

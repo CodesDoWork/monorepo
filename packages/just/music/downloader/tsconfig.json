@@ -1,21 +1,20 @@
 {
     "extends": "../../../../tsconfig.json",
     "compilerOptions": {
-        "plugins": [
-            {
-                "name": "next"
-            }
-        ],
-        "incremental": true,
-        "noEmit": true
+        "rootDirs": [".", ".svelte-kit/types"],
+        "types": ["svelte", "node", "vite/client"],
+        "strict": false,
+        "strictNullChecks": false,
+        "strictPropertyInitialization": false
     },
     "include": [
-        "**/*.ts",
-        "**/*.tsx",
-        "../../../../dist/packages/just/music/downloader/.next/types/**/*.ts",
-        "../../../../packages/just/music/downloader/.next/types/**/*.ts",
-        ".next/types/**/*.ts",
-        "next-env.d.ts",
-        "../../../../dist/packages/just/music/downloader/types/**/*.ts"
-    ]
+        "vite.config.ts",
+        "tailwind.config.ts",
+        "src/**/*.ts",
+        "src/**/*.svelte",
+        ".svelte-kit/ambient.d.ts",
+        ".svelte-kit/non-ambient.d.ts",
+        ".svelte-kit/types/**/$types.d.ts"
+    ],
+    "exclude": []
 }

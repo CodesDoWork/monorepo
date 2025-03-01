@@ -37,6 +37,8 @@
         "redhat.vscode-yaml",
         "valentjn.vscode-ltex",
         "bbenoist.nix",
-        "astro-build.astro-vscode"
+        "astro-build.astro-vscode",
+        "dotjoshjohnson.xml",
+        "esbenp.prettier-vscode"
     ]
 }

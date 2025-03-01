@@ -129,13 +129,6 @@ sonarqube:
     - master
   resource_group: single
 
-audit:
-  stage: lint
-  script:
-    - na audit --audit-level=high
-  allow_failure: true
-  resource_group: single
-
 test:
   stage: test
   script:

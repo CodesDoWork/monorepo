@@ -36,3 +36,6 @@ Thumbs.db
 
 # python
 /.venv
+
+vite.config.*.timestamp*
+vitest.config.*.timestamp*

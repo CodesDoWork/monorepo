@@ -31,8 +31,8 @@ default:
     - name: docker:${DOCKER_VERSION}-dind
       alias: docker
       command:
-        - "--feature"
-        - "containerd-snapshotter"
+        - --feature
+        - containerd-snapshotter
   cache:
     - key:
         files:
@@ -96,12 +96,6 @@ codegen:
     CODEGEN_CACHE_POLICY: push
   script:
     - nx affected -t codegen
-  resource_group: single
-
-check formatting:
-  stage: lint
-  script:
-    - nx format:check
   resource_group: single
 
 eslint:

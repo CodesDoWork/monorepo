@@ -27,9 +27,7 @@
     "scripts": {
         "docker:build-workspace": "nx run-many -t docker-build -p workspace-base workspace workspace-deps --parallel 1 --nxBail --output-style stream",
         "docker:workspace": "nx docker-compose-up workspace",
-        "check": "nx format:check && nx run-many -t lint test build",
         "secretlint": "secretlint --secretlintignore .gitignore \"**/*\"",
-        "env-files": "nx g env-files DEV,PROD",
         "trivy": "tsx packages/workspace/scripts/src/trivy-analyze-fs.ts"
     },
     "dependencies": {

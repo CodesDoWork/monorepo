@@ -502,8 +502,8 @@ volumes:
   # don't backup
   gitlab-shared:
 
-  grafana-storage:
   grafana-config:
+  grafana-storage:
 
   letsencrypt:
 

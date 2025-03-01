@@ -1,10 +1,11 @@
 "use client";
 
+import type { ChangeEventHandler } from "react";
+import type { PropsWithClassName } from "./types/className";
 import clsx from "clsx";
-import { ChangeEventHandler, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { trpc } from "../app/trpc";
 import { Button } from "./buttons/Button";
-import { PropsWithClassName } from "./types/className";
 
 export function DownloadForm({ className }: PropsWithClassName<object>) {
     const [url, setURL] = useState("");
@@ -14,7 +15,7 @@ export function DownloadForm({ className }: PropsWithClassName<object>) {
     );
 
     const download = useCallback(() => {
-        trpc.download.query({ url }).catch(e => alert(JSON.parse(e.message)[0].message));
+        trpc.download.query({ url }).catch();
     }, [url]);
 
     const containerClassName = clsx("flex w-1/2", className);

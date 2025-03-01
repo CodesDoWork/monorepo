@@ -1,8 +1,9 @@
-import { logger } from "@codesdowork/shared-logging";
-import { spawn, SpawnOptionsWithoutStdio } from "node:child_process";
+import type { SpawnOptionsWithoutStdio } from "node:child_process";
+import { spawn } from "node:child_process";
+import { logger } from "@cdw/monorepo/shared-logging";
 import { env } from "../../../env";
 
-export const download = (url: string): Promise<void> => {
+export function download(url: string): Promise<void> {
     const downloadCommandParts = [
         "--extract-audio",
         ["-f", "bestaudio"],
@@ -17,7 +18,7 @@ export const download = (url: string): Promise<void> => {
     ].flat();
 
     return execAsync("yt-dlp", downloadCommandParts);
-};
+}
 
 export function execAsync(command: string, args: string[], options?: SpawnOptionsWithoutStdio) {
     const cwdInfo = options?.cwd ? ` in "${options.cwd}"` : "";
@@ -29,7 +30,6 @@ export function execAsync(command: string, args: string[], options?: SpawnOption
         childProcess.stdout.on("data", msg => logger.info(msg.toString()));
         childProcess.stderr.on("data", msg => logger.info(msg.toString()));
         childProcess.on("close", code =>
-            code == 0 ? resolve() : reject(new Error(`Process exited with code ${code}`)),
-        );
+            code === 0 ? resolve() : reject(new Error(`Process exited with code ${code}`)));
     });
 }

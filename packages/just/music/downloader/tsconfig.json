@@ -6,8 +6,8 @@
                 "name": "next"
             }
         ],
-        "noEmit": true,
-        "incremental": true
+        "incremental": true,
+        "noEmit": true
     },
     "include": [
         "**/*.ts",

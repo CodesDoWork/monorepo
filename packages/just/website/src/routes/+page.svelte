@@ -1,11 +1,11 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     import Icon from "@iconify/svelte";
+    import { clsx } from "clsx";
+    import Card from "../components/Card.svelte";
     import Heading from "../components/Heading.svelte";
     import Link from "../components/Link.svelte";
-    import Card from "../components/Card.svelte";
     import Page from "../components/Page.svelte";
-    import { clsx } from "clsx";
     import { animationDelay } from "../helpers/animationDelay";
 
     export let data: PageData;
@@ -26,7 +26,7 @@
 
 <Page routes={routes}
       siteInfo={siteInfo}
-      title={{title: siteInfo.title, class: "dark:text-primary-500"}}>
+      title={{ title: siteInfo.title, class: "dark:text-primary-500" }}>
     <div class="flex gap-1.5 justify-center mb-12 sm:mb-16 md:mb-24 lg:mb-32 xl:mb-40">
         {#each siteInfo.socials as social, idx (idx)}
             <Link href={social.href} title={social.title} noStyle class="hover:scale-110 transition-transform">

@@ -1,12 +1,8 @@
 {
     "name": "nx-plugins-codegen",
-    "dependencies": {
-        "@nx/devkit": "20.0.3",
-        "tslib": "^2.3.0"
-    },
     "type": "commonjs",
+    "private": true,
     "main": "./src/index.ts",
     "typings": "./src/index.ts",
-    "private": true,
     "executors": "./executors.json"
 }

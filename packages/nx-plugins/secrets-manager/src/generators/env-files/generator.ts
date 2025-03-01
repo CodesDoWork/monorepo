@@ -1,13 +1,14 @@
-import { BitwardenClient, BitwardenData } from "@codesdowork/shared-bitwarden";
-import { Tree } from "@nx/devkit";
-import inquirer from "inquirer";
+import type { BitwardenData } from "@cdw/monorepo/shared-bitwarden";
+import type { Tree } from "@nx/devkit";
+import type { EnvFilesGeneratorSchema } from "./schema";
+import type { RootSecretsConfig } from "./types";
 import { readdirSync } from "node:fs";
 import path from "node:path";
+import { BitwardenClient } from "@cdw/monorepo/shared-bitwarden";
+import inquirer from "inquirer";
 import { simpleGit } from "simple-git";
 import { BitwardenEnvGenerator } from "./bitwarden-env-generator";
 import { getRootConfig, projectConfigExists } from "./config";
-import { EnvFilesGeneratorSchema } from "./schema";
-import { RootSecretsConfig } from "./types";
 
 const git = simpleGit();
 

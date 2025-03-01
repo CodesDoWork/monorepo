@@ -4,7 +4,7 @@
 
     let className = "";
     export { className as class };
-    export let id: string | undefined = undefined;
+    export let id: string | null = null;
     export let level: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" = "h1";
     export let commandStyle = true;
     export let blinkCursor = false;

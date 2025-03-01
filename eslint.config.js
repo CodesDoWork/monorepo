@@ -1,106 +1,90 @@
-import { FlatCompat } from "@eslint/eslintrc";
-import js from "@eslint/js";
+import antfu from "@antfu/eslint-config";
 import nx from "@nx/eslint-plugin";
-import stylisticEslintPluginTs from "@stylistic/eslint-plugin-ts";
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
-import globals from "globals";
-import jsonParser from "jsonc-eslint-parser";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import svelteParser from "svelte-eslint-parser";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all,
+export default antfu({
+    typescript: true,
+    react: true,
+    svelte: true,
+    astro: true,
+    jsonc: true,
+    yaml: {
+        overrides: {
+            "style/indent": 2,
+            "yaml/indent": 2,
+        },
+    },
+    markdown: {
+        overrides: {
+            "style/indent": 2,
+        },
+    },
+    stylistic: {
+        indent: 4,
+        quotes: "double",
+        semi: true,
+        jsx: true,
+        overrides: {
+            "style/arrow-parens": ["error", "as-needed"],
+            "style/quote-props": ["error", "as-needed"],
+            "style/brace-style": ["error", "1tbs"],
+            "style/max-len": ["warn", { code: 100, ignoreStrings: true }],
+        },
+    },
+    ignores: ["**/generated"],
+}, {
+    files: ["**/*.ts", "**/*.js"],
+    rules: {
+        "node/prefer-global/process": ["error", "always"],
+        "node/prefer-global/buffer": ["error", "always"],
+    },
+}, {
+    files: ["**/*.svelte"],
+    rules: {
+        "svelte/no-at-html-tags": "off",
+    },
+}, {
+    files: ["**/+layout.ts"],
+    rules: {
+        "react-hooks/rules-of-hooks": "off",
+    },
+}, {
+    plugins: { nx },
+    rules: {
+        "nx/enforce-module-boundaries": [
+            "error",
+            {
+                allow: [],
+                depConstraints: [
+                    {
+                        sourceTag: "shared",
+                        onlyDependOnLibsWithTags: ["shared"],
+                    },
+                    {
+                        sourceTag: "app",
+                        onlyDependOnLibsWithTags: ["shared"],
+                    },
+                    {
+                        sourceTag: "nx-plugins",
+                        onlyDependOnLibsWithTags: ["shared", "nx-plugins"],
+                    },
+                    {
+                        sourceTag: "just-cms",
+                        onlyDependOnLibsWithTags: ["shared", "just-cms"],
+                    },
+                    {
+                        sourceTag: "just-maintenance",
+                        onlyDependOnLibsWithTags: ["shared", "just-maintenance", "just-branding"],
+                    },
+                    {
+                        sourceTag: "just-website",
+                        onlyDependOnLibsWithTags: ["shared", "just-cms", "just-website", "just-branding"],
+                    },
+                    {
+                        sourceTag: "workspace-scripts",
+                        onlyDependOnLibsWithTags: ["shared", "workspace-scripts", "nx-plugins"],
+                    },
+                ],
+            },
+        ],
+    },
 });
-
-export default [
-    {
-        ignores: ["**/*"],
-    },
-    ...compat.extends("eslint:recommended", "plugin:@typescript-eslint/recommended", "prettier"),
-    {
-        plugins: {
-            "@nx": nx,
-            "@typescript-eslint": typescriptEslint,
-            "@stylistic/ts": stylisticEslintPluginTs,
-        },
-
-        languageOptions: {
-            globals: {
-                ...globals.browser,
-                ...globals.node,
-            },
-        },
-    },
-    {
-        files: ["**/*"],
-        rules: {
-            "@typescript-eslint/no-explicit-any": "warn",
-            "@typescript-eslint/no-unused-expressions": "off",
-        },
-    },
-    {
-        files: ["**/*.svelte"],
-        languageOptions: {
-            parser: svelteParser,
-            ecmaVersion: "latest",
-            sourceType: "module",
-            parserOptions: {
-                parser: "@typescript-eslint/parser",
-                extraFileExtensions: [".svelte"],
-                lib: ["esnext", "dom"],
-            },
-        },
-    },
-    {
-        files: ["**/*.json"],
-        languageOptions: { parser: jsonParser },
-    },
-    {
-        files: ["**/*.js"],
-        rules: {
-            "@typescript-eslint/no-require-imports": "off",
-        },
-    },
-    {
-        files: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
-        rules: {
-            "@nx/enforce-module-boundaries": [
-                "error",
-                {
-                    allow: [],
-                    depConstraints: [
-                        {
-                            sourceTag: "shared",
-                            onlyDependOnLibsWithTags: ["shared"],
-                        },
-                        {
-                            sourceTag: "app",
-                            onlyDependOnLibsWithTags: ["shared"],
-                        },
-                        {
-                            sourceTag: "nx-plugins",
-                            onlyDependOnLibsWithTags: ["shared", "nx-plugins"],
-                        },
-                        {
-                            sourceTag: "just-cms",
-                            onlyDependOnLibsWithTags: ["shared", "just-cms"],
-                        },
-                        {
-                            sourceTag: "just-website",
-                            onlyDependOnLibsWithTags: ["shared", "just-cms", "just-website"],
-                        },
-                        {
-                            sourceTag: "workspace-scripts",
-                            onlyDependOnLibsWithTags: ["shared", "workspace-scripts", "nx-plugins"],
-                        },
-                    ],
-                },
-            ],
-        },
-    },
-];

@@ -24,7 +24,6 @@
         "ms-toolsai.vscode-jupyter-slideshow",
         "james-yu.latex-workshop",
         "nrwl.angular-console",
-        "esbenp.prettier-vscode",
         "ms-python.vscode-pylance",
         "ms-python.python",
         "ms-python.debugpy",
@@ -37,6 +36,7 @@
         "ms-vscode-remote.remote-wsl",
         "redhat.vscode-yaml",
         "valentjn.vscode-ltex",
-        "bbenoist.nix"
+        "bbenoist.nix",
+        "astro-build.astro-vscode"
     ]
 }

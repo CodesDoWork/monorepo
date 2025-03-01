@@ -1,39 +1,31 @@
 {
     "name": "nx-plugins-secrets-manager",
     "description": ".env variables manager for secrets in NX monorepos",
+    "author": {
+        "name": "Justin Konratt",
+        "email": "codesdowork@gmail.com",
+        "url": "https://github.com/CodesDoWork"
+    },
+    "license": "MIT",
+    "homepage": "https://github.com/CodesDoWork/monorepo/tree/master/tools/secrets-manager",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/CodesDoWork/monorepo.git"
+    },
+    "bugs": {
+        "url": "https://github.com/CodesDoWork/monorepo/issues",
+        "email": "codesdowork@gmail.com"
+    },
     "keywords": [
         "nx",
         ".env",
         "dotenv",
         "secrets"
     ],
-    "homepage": "https://github.com/CodesDoWork/monorepo/tree/master/tools/secrets-manager",
-    "bugs": {
-        "url": "https://github.com/CodesDoWork/monorepo/issues",
-        "email": "codesdowork@gmail.com"
-    },
-    "license": "MIT",
-    "author": {
-        "name": "Justin Konratt",
-        "email": "codesdowork@gmail.com",
-        "url": "https://github.com/CodesDoWork"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/CodesDoWork/monorepo.git"
-    },
-    "dependencies": {
-        "@nx/devkit": "20.0.3",
-        "inquirer": "10.2.2",
-        "simple-git": "3.27.0",
-        "tslib": "2.6.3",
-        "yaml": "2.5.1",
-        "zod": "3.23.8"
-    },
+    "main": "./src/index.ts",
     "publishConfig": {
         "access": "public"
     },
-    "main": "./src/index.ts",
     "typings": "./src/index.ts",
     "generators": "./generators.json"
 }

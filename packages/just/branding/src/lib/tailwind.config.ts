@@ -1,3 +1,5 @@
+import type { Config } from "tailwindcss";
+import type { KeyValuePair } from "tailwindcss/types/config";
 import tailwindForms from "@tailwindcss/forms";
 import colors from "tailwindcss/colors";
 import plugin from "tailwindcss/plugin";
@@ -9,7 +11,7 @@ const brandRed = colors.red;
 const brandPink = colors.fuchsia;
 const brandPurple = colors.violet;
 
-const animationDelayPlugin = plugin(function ({ matchUtilities, theme }) {
+const animationDelayPlugin = plugin(({ matchUtilities, theme }) => {
     matchUtilities(
         {
             "animate-delay": value => ({
@@ -20,24 +22,26 @@ const animationDelayPlugin = plugin(function ({ matchUtilities, theme }) {
     );
 });
 
+type Keyframes = KeyValuePair<string, KeyValuePair<string, string>>;
+
 const fadeIn = {
     "0%": {
-        opacity: 0,
+        opacity: "0",
         transform: "translateY(4rem)",
         display: "none",
     },
     "100%": {
-        opacity: 1,
+        opacity: "1",
         transform: "translateY(0)",
         display: "block",
     },
-};
+} satisfies Keyframes;
 
-function cloneAnimation(animation) {
+function cloneAnimation<T extends Keyframes>(animation: T): T {
     return Object.entries(animation).reduce(
         (all, [key, value]) => ({ ...all, [key]: { ...value } }),
         {},
-    );
+    ) as T;
 }
 
 const fadeInSubtle = cloneAnimation(fadeIn);
@@ -45,8 +49,8 @@ fadeInSubtle["0%"].transform = "translateY(1rem)";
 const fadeInTopSubtle = cloneAnimation(fadeInSubtle);
 fadeInTopSubtle["0%"].transform = "translateY(-1rem)";
 
-/** @type {import("tailwindcss").Config} */
-export default {
+export const tailwindConfig = {
+    content: [],
     darkMode: "selector",
     theme: {
         extend: {
@@ -82,7 +86,7 @@ export default {
             keyframes: {
                 blink: {
                     "50%": {
-                        opacity: 0,
+                        opacity: "0",
                     },
                 },
                 fadeIn,
@@ -91,18 +95,18 @@ export default {
                 switch: {
                     "0%": {},
                     "50%": {
-                        opacity: 0,
+                        opacity: "0",
                         transform: "translateY(0.5rem)",
                     },
                     "100%": {},
                 },
                 grow: {
                     "0%": {
-                        opacity: 0,
+                        opacity: "0",
                         transform: "scaleY(0)",
                     },
                     "100%": {
-                        opacity: 1,
+                        opacity: "1",
                         transform: "scaleY(1)",
                     },
                 },
@@ -125,4 +129,4 @@ export default {
         },
     },
     plugins: [animationDelayPlugin, tailwindForms],
-};
+} satisfies Config;

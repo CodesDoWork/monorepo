@@ -5,7 +5,7 @@
     let className = "";
     export { className as class };
     export let name: string;
-    export let icon: string | undefined = undefined;
+    export let icon: string | null = null;
     export let tag: string = "div";
 
     const labelClass = clsx(

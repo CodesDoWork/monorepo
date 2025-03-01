@@ -1,8 +1,8 @@
 <script lang="ts">
+    import type { PageData } from "./$types";
     import Icon from "@iconify/svelte";
     import { ContentArea } from "../../components/content-area";
     import { H1, H2 } from "../../components/heading";
-    import type { PageData } from "./$types";
 
     export let data: PageData;
     const { currentRoute, texts, contact } = data;
@@ -57,7 +57,7 @@
                         <label
                             for="firstName"
                             class="block text-sm/6 font-semibold text-gray-900 dark:text-white"
-                            >{texts.firstName}</label>
+                        >{texts.firstName}</label>
                         <div class="mt-2.5">
                             <input
                                 type="text"
@@ -71,7 +71,7 @@
                         <label
                             for="lastName"
                             class="block text-sm/6 font-semibold text-gray-900 dark:text-white"
-                            >{texts.lastName}</label>
+                        >{texts.lastName}</label>
                         <div class="mt-2.5">
                             <input
                                 type="text"
@@ -85,7 +85,7 @@
                         <label
                             for="email"
                             class="block text-sm/6 font-semibold text-gray-900 dark:text-white"
-                            >{texts.email}</label>
+                        >{texts.email}</label>
                         <div class="mt-2.5">
                             <input
                                 type="email"
@@ -99,7 +99,7 @@
                         <label
                             for="message"
                             class="block text-sm/6 font-semibold text-gray-900 dark:text-white"
-                            >{texts.message}</label>
+                        >{texts.message}</label>
                         <div class="mt-2.5">
                             <textarea
                                 name="message"
@@ -114,7 +114,7 @@
                     <button
                         type="submit"
                         class="bg-primary-600 hover:bg-primary-500 focus-visible:outline-primary-600 rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
-                        >{texts.send}</button>
+                    >{texts.send}</button>
                 </div>
             </div>
         </form>

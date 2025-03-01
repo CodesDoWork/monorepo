@@ -1,16 +1,16 @@
 <script lang="ts">
-    import Page from "../../components/Page.svelte";
+    import type { PageData } from "./$types";
+    import Icon from "@iconify/svelte";
+    import { clsx } from "clsx";
+    import { onMount } from "svelte";
+    import { readable } from "svelte/store";
     import Card from "../../components/Card.svelte";
     import Heading from "../../components/Heading.svelte";
-    import Icon from "@iconify/svelte";
     import Link from "../../components/Link.svelte";
-    import { calculateTimeAgo, getMonthYear } from "./card-helpers";
-    import { clsx } from "clsx";
-    import type { PageData } from "./$types";
+    import Page from "../../components/Page.svelte";
     import Technology from "../../components/Technology.svelte";
     import { animationDelay } from "../../helpers/animationDelay";
-    import { readable } from "svelte/store";
-    import { onMount } from "svelte";
+    import { calculateTimeAgo, getMonthYear } from "./card-helpers";
 
     export let data: PageData;
     const { siteInfo, routes } = data;
@@ -22,7 +22,7 @@
     const sectionClass = "flex items-center gap-1.5";
 </script>
 
-<Page loading={!$projects.length} routes={routes} siteInfo={siteInfo} title={{title: "Projects", small: true}}>
+<Page loading={!$projects.length} routes={routes} siteInfo={siteInfo} title={{ title: "Projects", small: true }}>
     <div class="mt-12 md:w-4/5 lg:w-full mx-auto">
         {#each $projects as repo, idx (idx)}
             <Card style={animationDelay(idx)} class="mb-6 flex-col lg:flex-row">
@@ -34,7 +34,7 @@
                              level="h3">
                         {repo.name}
                     </Heading>
-                    <p class="mb-8">{repo.description || "\xa0"}</p>
+                    <p class="mb-8">{repo.description || "\xA0"}</p>
                     <div class="flex flex-1 lg:items-end justify-between flex-col lg:flex-row gap-8">
                         <div class="flex gap-3 2xl:gap-10 flex-col 2xl:flex-row items-start 2xl:items-center">
                             <Technology tag="div" technology={repo.language} />

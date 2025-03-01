@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
 
-export type UseButtonProps = {
+export interface UseButtonProps {
     onClick?: () => void | Promise<void>;
     disableLoading?: boolean;
 };
 
-export const useButton = ({ disableLoading, onClick: click }: UseButtonProps) => {
+export function useButton({ disableLoading, onClick: click }: UseButtonProps) {
     const [isLoading, setIsLoading] = useState(false);
 
     const onClick = useCallback(async () => {

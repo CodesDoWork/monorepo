@@ -1,4 +1,4 @@
-import { execAsync } from "@codesdowork/shared-utils";
+import { execAsync } from "@cdw/monorepo/shared-utils";
 
 interface TrivyOptions {
     DOCKER_PROXY: string;
@@ -24,10 +24,10 @@ export async function trivyAnalyzeFs(options: TrivyOptions) {
             "fs",
             "--scanners vuln,secret,misconfig",
             "--dependency-tree",
-            '--skip-files "/workspace/**/*.env"',
-            '--skip-dirs "/workspace/.nx"',
-            '--skip-dirs "/workspace/dist"',
-            '--skip-dirs "/workspace/node_modules"',
+            "--skip-files \"/workspace/**/*.env\"",
+            "--skip-dirs \"/workspace/.nx\"",
+            "--skip-dirs \"/workspace/dist\"",
+            "--skip-dirs \"/workspace/node_modules\"",
         ],
         "/workspace",
         options,

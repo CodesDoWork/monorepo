@@ -1,5 +1,5 @@
-import { trivyAnalyzeFs } from "@codesdowork/shared-trivy";
-import { getBaseDockerVars } from "nx-plugins-docker";
+import { getBaseDockerVars } from "@cdw/monorepo/nx-plugins-docker";
+import { trivyAnalyzeFs } from "@cdw/monorepo/shared-trivy";
 
 const { DOCKER_PROXY } = getBaseDockerVars();
 trivyAnalyzeFs({ DOCKER_PROXY })

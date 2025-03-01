@@ -1,9 +1,9 @@
+import type { PageServerLoad } from "./$types";
 import { GetAboutData } from "../../graphql/default/generated/gql";
 import { GetAboutSystemData } from "../../graphql/system/generated/gql";
 import { getAssetUrl } from "../../utils/assets";
 import { toPromise } from "../../utils/graphql";
 import { getTextsFromTranslations } from "../../utils/translations";
-import { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async () => {
     const pageIdPrefix = "page.about.";

@@ -1,12 +1,12 @@
 <script lang="ts">
-    import type { JustSiteRoutes, SocialNetworks } from "@codesdowork/just-cms-types";
+    import type { JustSiteRoutes, SocialNetworks } from "@cdw/monorepo/just-cms-types";
+    import type { ComponentProps } from "svelte";
+    import type { PageInfo } from "../types/frontend";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import type { ComponentProps } from "svelte";
     import tailwindConfig from "../../tailwind.config";
     import { useRoutes } from "../stores/useRoutes";
     import { useThemeStore } from "../stores/useThemeStore";
-    import type { PageInfo } from "../types/frontend";
     import BackToTop from "./BackToTop.svelte";
     import Footer from "./Footer.svelte";
     import Header from "./Header.svelte";

@@ -1,5 +1,5 @@
+import type { Config } from "tailwindcss";
 import tailwindForms from "@tailwindcss/forms";
-import { Config } from "tailwindcss";
 
 type Colors = Record<string, Record<string | number, string>>;
 

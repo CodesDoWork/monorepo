@@ -1,4 +1,4 @@
-import { createAppRouter, procedure, router } from "@codesdowork/shared-trpc";
+import { createAppRouter, procedure, router } from "@cdw/monorepo/shared-trpc";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { z } from "zod";
 import { download } from "./download";
@@ -17,11 +17,12 @@ const apiRouter = router({
 const appRouter = createAppRouter(apiRouter);
 export type AppRouter = typeof appRouter;
 
-const handler = (request: Request) =>
-    fetchRequestHandler({
+function handler(request: Request) {
+    return fetchRequestHandler({
         endpoint: "/api/trpc",
         req: request,
         router: appRouter,
         createContext: () => ({}),
     });
+}
 export { handler as GET, handler as POST };

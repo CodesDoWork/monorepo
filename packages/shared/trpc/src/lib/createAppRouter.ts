@@ -1,6 +1,7 @@
-import { AnyRouter } from "@trpc/server";
+import type { AnyRouter } from "@trpc/server";
 import { healthRouter } from "./procedures/health";
 import { mergeRouters } from "./trpc";
 
-export const createAppRouter = <TRouters extends AnyRouter[]>(...routers: TRouters) =>
-    mergeRouters(...routers, healthRouter);
+export function createAppRouter<TRouters extends AnyRouter[]>(...routers: TRouters) {
+    return mergeRouters(...routers, healthRouter);
+}

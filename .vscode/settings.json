@@ -1,4 +1,21 @@
 {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint",
+    "eslint.format.enable": true,
+    "eslint.useFlatConfig": true,
+    "eslint.validate": [
+        "javascript",
+        "typescript",
+        "markdown",
+        "yaml",
+        "svelte",
+        "astro"
+    ],
+    "files.watcherExclude": {
+        "**/.nx/**": true,
+        "**/.venv/**": true,
+        "**/dist/**": true,
+        "**/node_modules/**": true
+    },
     "sonarlint.connectedMode.project": {
         "connectionId": "https-sonar-justinkonratt-com",
         "projectKey": "codesdowork_monorepo"

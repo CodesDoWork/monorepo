@@ -4,7 +4,7 @@
     "projectType": "application",
     "targets": {
         "deploy": {
-            "executor": "nx-plugins-wrangler:deploy",
+            "executor": "@cdw/monorepo/nx-plugins-wrangler:deploy",
             "options": {
                 "args": [
                     "--var USERNAME:${USERNAME}",

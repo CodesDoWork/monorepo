@@ -1,9 +1,10 @@
 "use client";
 
+import type { PropsWithChildren } from "react";
+import type { UseButtonProps } from "./useButton";
 import { clsx } from "clsx";
-import { PropsWithChildren } from "react";
 import { Loader } from "../Loader";
-import { useButton, UseButtonProps } from "./useButton";
+import { useButton } from "./useButton";
 
 export type ButtonProps = PropsWithChildren<
     UseButtonProps & {
@@ -12,7 +13,7 @@ export type ButtonProps = PropsWithChildren<
     }
 >;
 
-export const Button = ({ className, loaderClass, children, ...props }: ButtonProps) => {
+export function Button({ className, loaderClass, children, ...props }: ButtonProps) {
     const { isLoading, onClick } = useButton(props);
 
     return (
@@ -20,4 +21,4 @@ export const Button = ({ className, loaderClass, children, ...props }: ButtonPro
             {isLoading ? <Loader className={clsx("mx-auto h-2/3", loaderClass)} /> : children}
         </button>
     );
-};
+}

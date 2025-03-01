@@ -1,4 +1,4 @@
-import { Secret } from "./crypto";
+import type { Secret } from "./crypto";
 
 export interface BitwardenData {
     ciphers: Cipher[];

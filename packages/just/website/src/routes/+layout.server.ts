@@ -1,7 +1,7 @@
-import { JustSiteRoutes } from "@codesdowork/just-cms-types";
-import { getDirectus, getRoutes, getSiteInfo } from "../helpers/directus";
+import type { JustSiteRoutes } from "@cdw/monorepo/just-cms-types";
 import type { PageInfo } from "../types/frontend";
 import type { LayoutServerLoad } from "./$types";
+import { getDirectus, getRoutes, getSiteInfo } from "../helpers/directus";
 
 export const load: LayoutServerLoad = async ({ url }): Promise<LayoutData> => {
     const directus = await getDirectus();
@@ -13,8 +13,8 @@ export const load: LayoutServerLoad = async ({ url }): Promise<LayoutData> => {
     return { siteInfo, routes, currentRoute };
 };
 
-export type LayoutData = {
+export interface LayoutData {
     siteInfo: PageInfo;
     routes: JustSiteRoutes[];
     currentRoute: JustSiteRoutes | undefined;
-};
+}

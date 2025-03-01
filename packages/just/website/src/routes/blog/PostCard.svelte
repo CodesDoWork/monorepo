@@ -1,4 +1,6 @@
 <script lang="ts">
+    import type { JustSiteBlogEntriesDto } from "../../types/dtos";
+    import type { Locale } from "../../types/locale";
     import { browser } from "$app/environment";
     import { format } from "date-fns";
     import * as locales from "date-fns/locale";
@@ -6,8 +8,6 @@
     import Heading from "../../components/Heading.svelte";
     import Label from "../../components/Label.svelte";
     import Link from "../../components/Link.svelte";
-    import type { JustSiteBlogEntriesDto } from "../../types/dtos";
-    import type { Locale } from "../../types/locale";
 
     export let style = "";
     export let post: JustSiteBlogEntriesDto;
@@ -29,7 +29,7 @@
         <div class="grid grid-cols-[auto_min-content] p-2 pr-2 sm:pr-4 lg:pr-2 xl:pr-4">
             <div class="flex items-start justify-between">
                 <Heading class="col-span-2 cursor-pointer" commandStyle={false} level="h3"
-                    >{post.title}</Heading>
+                >{post.title}</Heading>
                 {#if post.featured}
                     <Label
                         tag="span"
@@ -39,9 +39,9 @@
             </div>
             <p class="col-span-2">{post.excerpt}</p>
             <span class="text-slate-400 dark:text-slate-300"
-                >{format(new Date(post.date_created), "P", {
-                    locale: locales[lang],
-                })}</span>
+            >{format(new Date(post.date_created), "P", {
+                locale: locales[lang],
+            })}</span>
         </div>
     </Link>
 </Card>

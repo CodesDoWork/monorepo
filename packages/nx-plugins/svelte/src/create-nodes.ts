@@ -1,4 +1,4 @@
-import { createNodesForProjects } from "nx-plugins-utils";
+import { createNodesForProjects } from "@cdw/monorepo/nx-plugins-utils";
 
 export const createNodes = createNodesForProjects("**/svelte.config.js", ({ root }) => {
     return {
@@ -6,7 +6,7 @@ export const createNodes = createNodesForProjects("**/svelte.config.js", ({ root
             [root]: {
                 targets: {
                     "svelte-check": {
-                        executor: "nx-plugins-svelte:check",
+                        executor: "@cdw/monorepo/nx-plugins-svelte:check",
                         dependsOn: ["build"],
                         inputs: ["production", "^production"],
                         cache: true,

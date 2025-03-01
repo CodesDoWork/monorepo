@@ -3,7 +3,7 @@
 
     let className = "";
     export { className as class };
-    export let style = undefined;
+    export let style: string | undefined;
     export let padding = false;
     export let safeBg = false;
 

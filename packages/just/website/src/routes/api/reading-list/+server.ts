@@ -1,6 +1,6 @@
-import { getBooks, getDirectus } from "../../../helpers/directus";
 import type { DirectusBook } from "../../../types/dtos";
 import type { Book } from "../../../types/frontend";
+import { getBooks, getDirectus } from "../../../helpers/directus";
 
 export async function GET() {
     const directus = await getDirectus();
@@ -30,7 +30,7 @@ function fetchChunk(books: DirectusBook[]): Promise<Book[]> {
 }
 
 function sanitizeBook(book: Book) {
-    book.authors = book.authors.slice(0, 1);
+    book.authors = book.authors?.slice(0, 1);
 
     return book;
 }

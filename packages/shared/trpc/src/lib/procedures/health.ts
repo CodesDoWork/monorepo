@@ -2,7 +2,7 @@ import {
     createHealthcheckResult,
     healthcheckResultType,
     HealthStatus,
-} from "@codesdowork/shared-health";
+} from "@cdw/monorepo/shared-health";
 import { z } from "zod";
 import { procedure, router } from "../trpc";
 

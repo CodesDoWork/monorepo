@@ -1,5 +1,5 @@
-import { existsSync, readFileSync } from "fs";
-import { hostname } from "os";
+import { existsSync, readFileSync } from "node:fs";
+import { hostname } from "node:os";
 import { z } from "zod";
 import { HealthStatus } from "./HealthStatus";
 
@@ -24,7 +24,7 @@ export type HealthcheckResult = z.infer<typeof healthcheckResultType>;
 
 export const commitFile = "./commit.sha";
 
-export const createHealthcheckResult = (status: HealthcheckResult["status"]): HealthcheckResult => {
+export function createHealthcheckResult(status: HealthcheckResult["status"]): HealthcheckResult {
     const { rss: memoryUsed, heapUsed, heapTotal } = process.memoryUsage();
     const projectVersion = process.env.VERSION ?? "development";
     const lastCommit = existsSync(commitFile)
@@ -44,10 +44,10 @@ export const createHealthcheckResult = (status: HealthcheckResult["status"]): He
         heapTotalFormatted: formatBytes(heapTotal),
         timestamp: new Date(),
     };
-};
+}
 
-//https://stackoverflow.com/questions/15900485/correct-way-to-convert-size-in-bytes-to-kb-mb-gb-in-javascript
-export const formatBytes = (bytes: number, decimals = DEFAULT_DECIMALS) => {
+// https://stackoverflow.com/questions/15900485/correct-way-to-convert-size-in-bytes-to-kb-mb-gb-in-javascript
+export function formatBytes(bytes: number, decimals = DEFAULT_DECIMALS) {
     if (!bytes) {
         return "0 Bytes";
     }
@@ -58,5 +58,5 @@ export const formatBytes = (bytes: number, decimals = DEFAULT_DECIMALS) => {
 
     const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-    return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
-};
+    return `${Number.parseFloat((bytes / k ** i).toFixed(dm))} ${sizes[i]}`;
+}

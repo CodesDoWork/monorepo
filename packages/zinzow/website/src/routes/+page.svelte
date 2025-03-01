@@ -1,11 +1,11 @@
 <script lang="ts">
+    import type { PageData } from "./$types";
     import Icon from "@iconify/svelte";
     import classNames from "classnames";
     import { writable } from "svelte/store";
     import { Logo } from "../components/logo";
     import { MobileMenu } from "../components/mobile-menu";
     import { animationDelay } from "../utils/animation-delay";
-    import type { PageData } from "./$types";
 
     export let data: PageData;
     const { heroImage, routes, currentRoute } = data;
@@ -18,18 +18,17 @@
         { value: "Unlimited", info: "Paid time off" },
     ];
 
-    enum AnimationPriority {
-        LOGO,
-        WELCOME_TEXT,
-        NAV,
-        STATS,
-    }
+    const AnimationPriority = {
+        LOGO: 0,
+        WELCOME_TEXT: 1,
+        NAV: 2,
+        STATS: 3,
+    };
 
-    let mobileMenuOpen = writable(false);
+    const mobileMenuOpen = writable(false);
     const onMenuClick = () => mobileMenuOpen.update(value => !value);
 
-    const getClasses = (...classes: string[]) =>
-        classNames(...classes, "opacity-0 animate-fadeInBT");
+    const getClasses = (...classes: string[]) => classNames(...classes, "opacity-0 animate-fadeInBT");
 </script>
 
 <div

@@ -1,8 +1,9 @@
-import { execAsync } from "@codesdowork/shared-utils";
-import { logger, PromiseExecutor } from "@nx/devkit";
+import type { PromiseExecutor } from "@nx/devkit";
+import type { DeployExecutorSchema } from "./schema";
 import path from "node:path";
-import { loadEnv, projectRoot, replaceEnvs } from "nx-plugins-utils";
-import { DeployExecutorSchema } from "./schema";
+import { loadEnv, projectRoot, replaceEnvs } from "@cdw/monorepo/nx-plugins-utils";
+import { execAsync } from "@cdw/monorepo/shared-utils";
+import { logger } from "@nx/devkit";
 
 export const runDeployExecutor: PromiseExecutor<DeployExecutorSchema> = async (
     { enabled, files, commands },
@@ -20,8 +21,8 @@ export const runDeployExecutor: PromiseExecutor<DeployExecutorSchema> = async (
         const user = getSSHVariableSafe("username");
         const host = getSSHVariableSafe("host");
         const rootDestination = getSSHVariableSafe("rootDestination");
-        const dest =
-            getSSHVariable("dest") || `${rootDestination}/${ORGANIZATION}/${PROJECT}/${projectDir}`;
+        const dest
+            = getSSHVariable("dest") || `${rootDestination}/${ORGANIZATION}/${PROJECT}/${projectDir}`;
         const login = `${user}@${host}`;
 
         const { idRsaFile, knownHostsFile } = await setupSSHDir(projectDir);

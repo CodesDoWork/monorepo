@@ -1,8 +1,12 @@
-import axios, { Axios, AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
-import { BitwardenApi, GetRoutes, PostRoutes } from "./bitwarden-api";
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
+import type { BitwardenApi, GetRoutes, PostRoutes } from "./bitwarden-api";
+import type {
+    ByteData,
+} from "./crypto";
+import type { BitwardenData, Cipher, Collection, Organization } from "./data";
+import axios, { Axios } from "axios";
 import {
     aesEncryptionTypes,
-    ByteData,
     decryptAes,
     decryptRsa,
     EncryptionType,
@@ -12,7 +16,6 @@ import {
     stretchKey,
     SymmetricKey,
 } from "./crypto";
-import { BitwardenData, Cipher, Collection, Organization } from "./data";
 
 export class BitwardenClient {
     private readonly api: Axios;

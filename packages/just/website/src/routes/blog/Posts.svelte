@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { animationDelay } from "../../helpers/animationDelay";
     import type { JustSiteBlogEntriesDto } from "../../types/dtos";
+    import { animationDelay } from "../../helpers/animationDelay";
     import PostCard from "./PostCard.svelte";
 
     export let posts: JustSiteBlogEntriesDto[];

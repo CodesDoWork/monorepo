@@ -1,9 +1,9 @@
 <script lang="ts">
+    import type { LayoutData } from "./$types";
     import { Footer } from "../components/footer";
     import { Header } from "../components/header";
-    import "../tailwind.css";
     import { createColors, createCssVariables } from "../utils/css";
-    import type { LayoutData } from "./$types";
+    import "../tailwind.css";
 
     export let data: LayoutData;
     const { settings, currentRoute } = data;
@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-    <meta content={""} name="keywords" />
+    <meta content="" name="keywords" />
     <meta content="https://agrarservicenordost.de" property="og:url" />
 </svelte:head>
 

@@ -1,4 +1,4 @@
-import { loadEnv } from "nx-plugins-utils";
+import { loadEnv } from "@cdw/monorepo/nx-plugins-utils";
 
 export function getBaseDockerVars() {
     const { IMAGE_BASE, PROJECT_VERSION, DOCKER_PROXY } = loadEnv();

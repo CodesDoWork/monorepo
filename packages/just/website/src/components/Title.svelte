@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Heading from "./Heading.svelte";
     import { clsx } from "clsx";
+    import Heading from "./Heading.svelte";
 
     let className = "";
     export { className as class };

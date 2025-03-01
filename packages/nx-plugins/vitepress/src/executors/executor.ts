@@ -1,15 +1,15 @@
-import { execAsync } from "@codesdowork/shared-utils";
-import { logger, PromiseExecutor } from "@nx/devkit";
+import type { PromiseExecutor } from "@nx/devkit";
+import type { VitepressExecutorSchema } from "./schema";
 import { copyFileSync, existsSync, mkdirSync } from "node:fs";
 import path from "node:path";
-import { projectRoot } from "nx-plugins-utils";
-import { VitepressExecutorSchema } from "./schema";
+import { projectRoot } from "@cdw/monorepo/nx-plugins-utils";
+import { execAsync } from "@cdw/monorepo/shared-utils";
+import { logger } from "@nx/devkit";
 
 type VitepressTarget = "build" | "dev" | "preview";
 
-export const runVitepressExecutor =
-    (target: VitepressTarget): PromiseExecutor<VitepressExecutorSchema> =>
-    async (options, context) => {
+export function runVitepressExecutor(target: VitepressTarget): PromiseExecutor<VitepressExecutorSchema> {
+    return async (options, context) => {
         const projectDir = projectRoot(context);
 
         try {
@@ -28,6 +28,7 @@ export const runVitepressExecutor =
             return { success: false };
         }
     };
+}
 
 function copyAssets(projectDir: string, { docs, assets }: VitepressExecutorSchema) {
     if (assets) {

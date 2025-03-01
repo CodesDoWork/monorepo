@@ -1,4 +1,4 @@
-import { ExecutorContext } from "@nx/devkit";
+import type { ExecutorContext } from "@nx/devkit";
 import path from "node:path";
 import { loadAndExpandDotEnvFile } from "nx/src/tasks-runner/task-env";
 import { projectRoot } from "./nx-project";
@@ -22,7 +22,7 @@ export function replaceEnvs(args: string[], context: ExecutorContext): ReplaceEn
     const usedEnvs: string[] = [];
     const expandedArgs = args.map(arg =>
         arg.replace(
-            /\$(\w+)|\${(\w+)}/g,
+            /\$(\w+)|\$\{(\w+)\}/g,
             (original: string, style1: string | undefined, style2: string | undefined) => {
                 const key = style1 || style2 || "";
                 return key in env

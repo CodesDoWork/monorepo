@@ -15,8 +15,8 @@
         "after:content-['▌'] after:ml-2 after:opacity-50",
         animationDone && blinkCursor && "after:animate-blink",
         animationDone && !blinkCursor && "after:!content-none",
-        className
-    )
+        className,
+    );
 
     let typedText = "";
     $: words = text.split(" ");

@@ -5,7 +5,7 @@
     let className = "";
     export { className as class };
     export let technology: string;
-    export let tag: string | undefined = undefined;
+    export let tag: string | null = null;
 
     const techIcon = useTechIcon(technology);
 </script>

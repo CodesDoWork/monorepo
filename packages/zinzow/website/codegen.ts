@@ -1,5 +1,5 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
-import { Types } from "@graphql-codegen/plugin-helpers";
+import type { Types } from "@graphql-codegen/plugin-helpers";
 import { configDotenv } from "dotenv";
 
 configDotenv();

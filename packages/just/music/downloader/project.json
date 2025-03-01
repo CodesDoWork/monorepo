@@ -1,8 +1,8 @@
 {
     "name": "just-music-downloader",
     "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/just/music/downloader",
+    "sourceRoot": "packages/just/music/downloader/src",
     "projectType": "application",
     "targets": {},
-    "tags": ["app"]
+    "tags": ["just-music-downloader"]
 }

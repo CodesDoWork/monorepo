@@ -11,14 +11,14 @@ export type PageInfo = Omit<PageInfoDto, "keywords" | "socials" | "technologies"
     technologies: PageInfoTechnologies;
 };
 
-export type PageInfoSocials = {
+export interface PageInfoSocials {
     name: string;
     href: string;
     title: string;
     icon: string;
     tone: string;
     platform: string;
-};
+}
 
 export type PageInfoTechnologies = Record<string, string[]>;
 
@@ -30,11 +30,7 @@ export type WorkExperience = Omit<WorkExperienceDto, "technologies" | "projects"
 export interface Book extends Omit<DirectusBook, "cover"> {
     url: string;
     authors: (string | OpenLibraryBookAuthor)[];
-    cover:
-        | string
-        | {
-              medium: string;
-          };
+    cover: string | { medium: string };
     subtitle?: string;
     subjects?: OpenLibrarySubject[];
 }

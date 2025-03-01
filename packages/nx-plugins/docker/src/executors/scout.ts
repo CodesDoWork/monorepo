@@ -1,4 +1,4 @@
-import { PromiseExecutor } from "@nx/devkit";
+import type { PromiseExecutor } from "@nx/devkit";
 import { runDockerCommand } from "../utils";
 import { dockerImage } from "../utils/docker-base";
 

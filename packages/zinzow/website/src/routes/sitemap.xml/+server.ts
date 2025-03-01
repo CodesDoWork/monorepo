@@ -1,4 +1,4 @@
-import { type RequestHandler } from "@sveltejs/kit";
+import type { RequestHandler } from "@sveltejs/kit";
 import { create } from "xmlbuilder2";
 import { env } from "../../env";
 
@@ -41,11 +41,11 @@ function createSitemapEntry(route: Route): SitemapURL {
     };
 }
 
-type Route = {
+interface Route {
     loc: string;
     changefreq?: ChangeFreq;
     lastmod?: string;
-};
+}
 
 interface SitemapURL extends Route {
     changefreq: ChangeFreq;

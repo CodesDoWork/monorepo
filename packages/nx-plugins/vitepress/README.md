@@ -5,10 +5,10 @@ It defines the targets by using a `.vitepressrc.json` file, containing the follo
 
 ```json
 {
-  "docs": "./path/to/docs/relative-to-project-dir",
-  "assets": {
-    "public": ["../list/of", "../../asset/paths"]
-  }
+    "docs": "./path/to/docs/relative-to-project-dir",
+    "assets": {
+        "public": ["../list/of", "../../asset/paths"]
+    }
 }
 ```
 

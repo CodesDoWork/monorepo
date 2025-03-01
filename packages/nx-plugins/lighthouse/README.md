@@ -1,4 +1,4 @@
-# nx-plugins-lighhthouse
+# nx-plugins-lighthouse
 
 A plugin to provide lighthouse tasks and executors to run performance tests.
 It starts the target service using `docker compose` and runs a lighthouse container in the same network to run the
@@ -8,7 +8,7 @@ It defines the tasks by using a `.lighthouserc.json` file:
 
 ```json
 {
-  "urls": ["http://website:${PORT}", "${URL}"]
+    "urls": ["http://website:${PORT}", "${URL}"]
 }
 ```
 

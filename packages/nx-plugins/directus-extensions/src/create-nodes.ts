@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-import { createNodesForProjects, getExecutors } from "nx-plugins-utils";
+import { createNodesForProjects, getExecutors } from "@cdw/monorepo/nx-plugins-utils";
 
 export const createNodes = createNodesForProjects(
     "**/package.json",
@@ -12,7 +12,7 @@ export const createNodes = createNodesForProjects(
         return {
             projects: {
                 [root]: {
-                    targets: getExecutors("nx-plugins-directus-extensions", "", ["build", "serve"]),
+                    targets: getExecutors("@cdw/monorepo/nx-plugins-directus-extensions", "", ["build", "serve"]),
                 },
             },
         };

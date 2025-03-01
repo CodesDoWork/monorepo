@@ -1,7 +1,7 @@
-import { LayoutData } from "../+layout.server";
+import type { LayoutData } from "../+layout.server";
+import type { PageServerLoad } from "./$types";
 import { getDirectus, getWorkExperience } from "../../helpers/directus";
 import { hash } from "../../helpers/hash";
-import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const directus = await getDirectus();

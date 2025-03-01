@@ -1,6 +1,7 @@
+import type { SpawnOptionsWithoutStdio } from "node:child_process";
+import { spawn } from "node:child_process";
 import { logger } from "@nx/devkit";
 import chalk from "chalk";
-import { spawn, SpawnOptionsWithoutStdio } from "node:child_process";
 
 interface SecretOptions {
     secrets?: string[];
@@ -26,7 +27,6 @@ export function execAsync(
         childProcess.stdout.on("data", msg => logger.info(msg.toString()));
         childProcess.stderr.on("data", msg => logger.info(msg.toString()));
         childProcess.on("close", code =>
-            code == 0 ? resolve() : reject(new Error(`Process exited with code ${code}`)),
-        );
+            code === 0 ? resolve() : reject(new Error(`Process exited with code ${code}`)));
     });
 }

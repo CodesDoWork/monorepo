@@ -1,25 +1,24 @@
 <script lang="ts">
+    import type { Book } from "../../types/frontend";
     import type { PageData } from "./$types";
-    import Page from "../../components/Page.svelte";
-    import Heading from "../../components/Heading.svelte";
-    import Link from "../../components/Link.svelte";
-    import { toLinkFriendly } from "../../helpers/toLinkFriendly";
-    import { animationDelay } from "../../helpers/animationDelay";
-    import BookCategory from "./BookCategory.svelte";
     import { onMount } from "svelte";
     import { readable } from "svelte/store";
-    import type { Book } from "../../types/frontend";
+    import Heading from "../../components/Heading.svelte";
+    import Link from "../../components/Link.svelte";
+    import Page from "../../components/Page.svelte";
+    import { animationDelay } from "../../helpers/animationDelay";
+    import { toLinkFriendly } from "../../helpers/toLinkFriendly";
+    import BookCategory from "./BookCategory.svelte";
 
     export let data: PageData;
     const { siteInfo, routes } = data;
 
-    let books = readable<Book[]>([], set =>
+    const books = readable<Book[]>([], set =>
         onMount(() =>
             fetch("/api/reading-list")
                 .then(res => res.json())
                 .then(set),
-        ),
-    );
+        ));
     $: categories = new Set($books.flatMap(book => book.categories).sort());
 
     let animationIdx = 0;

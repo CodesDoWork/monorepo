@@ -1,6 +1,4 @@
-import type { CustomDirectusTypes, JustSiteRoutes } from "@codesdowork/just-cms-types";
-import { authentication, createDirectus, readItems, readSingleton, rest } from "@directus/sdk";
-import { env } from "../env";
+import type { CustomDirectusTypes, JustSiteRoutes } from "@cdw/monorepo/just-cms-types";
 import type {
     DirectusBook,
     JustSiteBlogEntriesDto,
@@ -15,6 +13,8 @@ import type {
     PageInfoTechnologies,
     WorkExperience,
 } from "../types/frontend";
+import { authentication, createDirectus, readItems, readSingleton, rest } from "@directus/sdk";
+import { env } from "../env";
 
 const directus = createDirectus<CustomDirectusTypes>(env.CMS_URL)
     .with(rest())
@@ -37,7 +37,7 @@ function assetUrl(id: string) {
 }
 
 function replaceLinks(text: string) {
-    return text.replace(/<a /g, '<a class="text-[var(--page-color)] hover:underline" ');
+    return text.replace(/<a /g, "<a class=\"text-[var(--page-color)] hover:underline\" ");
 }
 
 export function getSiteInfo(directus: Directus): Promise<PageInfo> {

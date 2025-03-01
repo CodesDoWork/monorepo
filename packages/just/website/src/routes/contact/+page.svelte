@@ -1,12 +1,12 @@
 <script lang="ts">
     import type { ActionData, PageData } from "./$types";
-    import Page from "../../components/Page.svelte";
-    import Heading from "../../components/Heading.svelte";
-    import Card from "../../components/Card.svelte";
-    import Link from "../../components/Link.svelte";
     import { enhance } from "$app/forms";
-    import { clsx } from "clsx";
     import Icon from "@iconify/svelte";
+    import { clsx } from "clsx";
+    import Card from "../../components/Card.svelte";
+    import Heading from "../../components/Heading.svelte";
+    import Link from "../../components/Link.svelte";
+    import Page from "../../components/Page.svelte";
     import { animationDelay } from "../../helpers/animationDelay";
 
     export let data: PageData;
@@ -23,7 +23,7 @@
     );
 </script>
 
-<Page routes={routes} siteInfo={siteInfo} title={{title: "Contact", small: true}}>
+<Page routes={routes} siteInfo={siteInfo} title={{ title: "Contact", small: true }}>
     <div class="grid grid-cols-1 2xl:grid-cols-2 gap-12 xl:gap-16">
         <div class="animate-fadeInSubtle opacity-0">
             <Heading level="h2">Let's Connect</Heading>
@@ -75,7 +75,7 @@
                     type="submit">Send
                 </button>
                 {#if form}
-                    <p class={clsx("col-span-2", form.success ? "text-green-500" : "text-error-500" )}>{form.msg}</p>
+                    <p class={clsx("col-span-2", form.success ? "text-green-500" : "text-error-500")}>{form.msg}</p>
                 {/if}
             </form>
         </div>

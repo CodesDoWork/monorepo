@@ -1,11 +1,11 @@
 <script lang="ts">
+    import type { LayoutData } from "../../routes/$types";
     import Icon from "@iconify/svelte";
     import classNames from "classnames";
     import { writable } from "svelte/store";
-    import type { LayoutData } from "../../routes/$types";
     import { ContentArea } from "../content-area";
     import { Logo } from "../logo";
-    import MobileMenu from "./mobile-menu.svelte";
+    import { MobileMenu } from "../mobile-menu";
     import PopupNav from "./popup-nav.svelte";
 
     export let data: LayoutData;
@@ -13,14 +13,14 @@
     const { routes, currentRoute } = data;
     const routesInNav = routes.filter(r => r.showInHeader);
 
-    let mobileMenuOpen = writable(false);
+    const mobileMenuOpen = writable(false);
     const onMenuClick = () => mobileMenuOpen.update(value => !value);
 </script>
 
 <header>
     <ContentArea tag="nav" class="flex items-center justify-between">
         <a href="/">
-            <Logo class="h-12" />
+            <Logo class="h-16" />
         </a>
         <div class="relative block md:hidden">
             <button on:click={onMenuClick}>
@@ -45,8 +45,10 @@
                                 ? "text-accent"
                                 : "text-gray-900 dark:text-white",
                         )}>
-                        <a href={route.path} class="px-3 py-1 text-sm/6 font-semibold"
-                            >{route.name}
+                        <a
+                            href={route.path}
+                            class="block px-3 py-1 text-sm/6 font-semibold transition group-hover/nav-item:scale-110"
+                        >{route.name}
                             {#if children.length}
                                 <Icon icon="carbon:chevron-down" class="inline size-4" />
                             {/if}

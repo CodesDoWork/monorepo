@@ -1,6 +1,6 @@
 <script lang="ts">
-    import "../../../branding/assets/css/tailwind.css";
     import type { PageData } from "./$types";
+    import "@cdw/monorepo/just-branding/assets/css/tailwind.css";
 
     export let data: PageData;
     const { siteInfo } = data;

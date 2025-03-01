@@ -12,11 +12,12 @@ FROM $IMAGE_BASE/workspace-deps:$PROJECT_VERSION AS workspace-deps
 FROM workspace-deps AS builder
 ARG APP_NAME
 
-COPY .eslintrc.json nx.json README.md tsconfig.json ./
+COPY eslint.config.js nx.json README.md tsconfig.json ./
 COPY docs ./docs
 COPY packages/nx-plugins ./packages/nx-plugins
 COPY packages/shared ./packages/shared
 COPY packages/just ./packages/just
+RUN nx reset
 RUN nx build $APP_NAME
 
 

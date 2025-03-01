@@ -1,9 +1,11 @@
-import { Tree } from "@nx/devkit";
+import type { Tree } from "@nx/devkit";
+import type {
+    ProjectSecretsConfig,
+    RootSecretsConfig,
+} from "./types";
 import path from "node:path";
 import { parse as parseYaml } from "yaml";
 import {
-    ProjectSecretsConfig,
-    RootSecretsConfig,
     zProjectSecretsConfig,
     zRootSecretConfig,
 } from "./types";

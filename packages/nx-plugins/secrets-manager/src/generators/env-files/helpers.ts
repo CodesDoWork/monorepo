@@ -1,5 +1,5 @@
-import { Cipher, Field, Secret } from "@codesdowork/shared-bitwarden";
-import { SecretEnvConfig } from "./types";
+import type { Cipher, Field, Secret } from "@cdw/monorepo/shared-bitwarden";
+import type { SecretEnvConfig } from "./types";
 
 export function getSecretFieldName(config: SecretEnvConfig): string {
     if (typeof config === "string") {

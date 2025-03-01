@@ -7,24 +7,24 @@ import type {
     SocialNetworks,
     Socials,
     Technologies,
-} from "@codesdowork/just-cms-types";
+} from "@cdw/monorepo/just-cms-types";
 
 export interface PageInfoDto extends JustSiteInfo {
     socials: PageInfoSocialsDto[];
     technologies: PageInfoTechnologiesDto[];
 }
 
-export type PageInfoSocialsDto = {
+export interface PageInfoSocialsDto {
     socials_id: PageInfoSocialsIdDTO;
-};
+}
 
 export interface PageInfoSocialsIdDTO extends Socials {
     platform: SocialNetworks;
 }
 
-export type PageInfoTechnologiesDto = {
+export interface PageInfoTechnologiesDto {
     technologies_id: PageInfoTechnologiesIDDto;
-};
+}
 
 interface PageInfoTechnologiesIDDto extends Technologies {
     tech_stacks: {
@@ -47,22 +47,22 @@ export type WorkExperienceDto = Omit<
     projects: WorkExperienceWorkProjectsDto[];
 };
 
-export type WorkExperienceTechnologiesDto = {
+export interface WorkExperienceTechnologiesDto {
     technologies_id: {
         name: string;
     };
-};
+}
 
-export type WorkExperienceWorkProjectsDto = {
+export interface WorkExperienceWorkProjectsDto {
     just_site_work_projects_id: WorkExperienceWorkProjectsIdDto;
-};
+}
 
-export type WorkExperienceWorkProjectsIdDto = {
+export interface WorkExperienceWorkProjectsIdDto {
     name: string;
     logo: string;
     description: string;
     link: string;
-};
+}
 
 export interface JustSiteBookDto extends JustSiteBooks {
     book_categories: {

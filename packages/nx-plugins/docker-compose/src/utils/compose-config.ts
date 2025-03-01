@@ -1,6 +1,6 @@
-import { searchNextDir } from "@codesdowork/shared-utils";
-import { ExecutorContext } from "@nx/devkit";
-import { loadEnv, projectRoot } from "nx-plugins-utils";
+import type { ExecutorContext } from "@nx/devkit";
+import { loadEnv, projectRoot } from "@cdw/monorepo/nx-plugins-utils";
+import { searchNextDir } from "@cdw/monorepo/shared-utils";
 
 export interface ServiceInfo {
     composeDir: string;

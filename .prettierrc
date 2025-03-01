@@ -11,11 +11,7 @@
     "printWidth": 100,
     "overrides": [
         {
-            "files": [
-                "*.yml",
-                "*.yaml",
-                "*.md"
-            ],
+            "files": ["*.yml", "*.yaml", "*.md"],
             "options": {
                 "tabWidth": 2
             }
@@ -27,9 +23,5 @@
             }
         }
     ],
-    "plugins": [
-        "prettier-plugin-svelte",
-        "prettier-plugin-organize-imports",
-        "prettier-plugin-tailwindcss"
-    ]
+    "plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"]
 }

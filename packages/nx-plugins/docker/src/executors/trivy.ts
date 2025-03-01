@@ -1,5 +1,5 @@
-import { trivyAnalyzeImage } from "@codesdowork/shared-trivy";
-import { PromiseExecutor } from "@nx/devkit";
+import type { PromiseExecutor } from "@nx/devkit";
+import { trivyAnalyzeImage } from "@cdw/monorepo/shared-trivy";
 import { dockerImage, getBaseDockerVars } from "../utils/docker-base";
 
 const runExecutor: PromiseExecutor = async (_, context) => {

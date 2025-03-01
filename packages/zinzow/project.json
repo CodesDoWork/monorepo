@@ -5,7 +5,7 @@
     "projectType": "application",
     "targets": {
         "deploy": {
-            "executor": "nx-plugins-ci:deploy",
+            "executor": "@cdw/monorepo/nx-plugins-ci:deploy",
             "options": {
                 "enabled": false,
                 "files": [".env", "docker-compose.yaml"],

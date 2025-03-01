@@ -1,8 +1,8 @@
 <script lang="ts">
+    import type { PageData } from "./$types";
     import { AboutImage } from "../../components/about/about-image";
     import { ContentArea } from "../../components/content-area";
     import { H1, H2, H4 } from "../../components/heading";
-    import type { PageData } from "./$types";
 
     export let data: PageData;
     const { texts, about } = data;

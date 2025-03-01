@@ -1,8 +1,8 @@
 <script lang="ts">
-    import Icon from "@iconify/svelte";
-    import classNames from "classnames";
     import type { Readable } from "svelte/store";
     import type { LayoutData } from "../../routes/$types";
+    import Icon from "@iconify/svelte";
+    import classNames from "classnames";
 
     let className = "";
     export { className as class };

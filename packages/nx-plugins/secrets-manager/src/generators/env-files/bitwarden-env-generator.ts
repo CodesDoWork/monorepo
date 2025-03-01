@@ -1,10 +1,12 @@
-import { BitwardenData, Cipher, Collection, Organization } from "@codesdowork/shared-bitwarden";
-import { by, findSafeById } from "@codesdowork/shared-utils";
-import { generateFiles, logger, Tree } from "@nx/devkit";
+import type { BitwardenData, Cipher, Collection, Organization } from "@cdw/monorepo/shared-bitwarden";
+import type { Tree } from "@nx/devkit";
+import type { BitwardenInfo, RootSecretsConfig, SecretsConfig } from "./types";
 import path from "node:path";
+import { by, findSafeById } from "@cdw/monorepo/shared-utils";
+import { generateFiles, logger } from "@nx/devkit";
 import { readConfigFile } from "./config";
 import { getCipherSecret, getSecretFieldName, mapToRecord } from "./helpers";
-import { BitwardenInfo, BitwardenInfoKey, RootSecretsConfig, SecretsConfig } from "./types";
+import { BitwardenInfoKey } from "./types";
 
 export class BitwardenEnvGenerator {
     private isPrepared = false;
@@ -125,11 +127,11 @@ export class BitwardenEnvGenerator {
         const envs: string[] = [];
         for (const [collectionKey, collectionConfig] of Object.entries(secretConfig)) {
             const prefix = collectionConfig.prefix
-                ? collectionKey
-                      .replaceAll("../", "")
-                      .replaceAll("/", "_")
-                      .replaceAll("-", "_")
-                      .toUpperCase() + "_"
+                ? `${collectionKey
+                    .replaceAll("../", "")
+                    .replaceAll("/", "_")
+                    .replaceAll("-", "_")
+                    .toUpperCase()}_`
                 : "";
 
             const collection = this.getCollectionName(currentCollection, collectionKey);

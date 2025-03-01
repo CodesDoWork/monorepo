@@ -1,4 +1,4 @@
-export type Companies = {
+export interface Companies {
     date_created?: string | null;
     date_updated?: string | null;
     id: string;
@@ -7,9 +7,9 @@ export type Companies = {
     url: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type DashboardConfig = {
+export interface DashboardConfig {
     custom_css: string;
     date_created?: string | null;
     date_updated?: string | null;
@@ -27,9 +27,9 @@ export type DashboardConfig = {
     user_updated?: string | DirectusUsers | null;
     websearch_opening_method: string;
     websearch_search_engine: string;
-};
+}
 
-export type DashboardItems = {
+export interface DashboardItems {
     date_created?: string | null;
     date_updated?: string | null;
     icon?: string | null;
@@ -40,9 +40,9 @@ export type DashboardItems = {
     url: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type DashboardPages = {
+export interface DashboardPages {
     date_created?: string | null;
     date_updated?: string | null;
     id: string;
@@ -53,16 +53,16 @@ export type DashboardPages = {
     title: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type DashboardPagesDashboardSections = {
+export interface DashboardPagesDashboardSections {
     dashboard_pages_id?: string | DashboardPages | null;
     dashboard_sections_id?: string | DashboardSections | null;
     id: number;
     sort?: number | null;
-};
+}
 
-export type DashboardSections = {
+export interface DashboardSections {
     cut_to_height: boolean;
     date_created?: string | null;
     date_updated?: string | null;
@@ -73,23 +73,23 @@ export type DashboardSections = {
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
     widgets: any[] | DashboardSectionsDashboardWidgets[];
-};
+}
 
-export type DashboardSectionsDashboardItems = {
+export interface DashboardSectionsDashboardItems {
     dashboard_items_id?: string | DashboardItems | null;
     dashboard_sections_id?: string | DashboardSections | null;
     id: number;
     sort?: number | null;
-};
+}
 
-export type DashboardSectionsDashboardWidgets = {
+export interface DashboardSectionsDashboardWidgets {
     dashboard_sections_id?: string | DashboardSections | null;
     dashboard_widgets_id?: string | DashboardWidgets | null;
     id: number;
     sort?: number | null;
-};
+}
 
-export type DashboardWidgets = {
+export interface DashboardWidgets {
     date_created?: string | null;
     date_updated?: string | null;
     id: string;
@@ -97,17 +97,17 @@ export type DashboardWidgets = {
     type: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type DirectusAccess = {
+export interface DirectusAccess {
     id: string;
     policy: string | DirectusPolicies;
     role?: string | DirectusRoles | null;
     sort?: number | null;
     user?: string | DirectusUsers | null;
-};
+}
 
-export type DirectusActivity = {
+export interface DirectusActivity {
     action: string;
     collection: string;
     comment?: string | null;
@@ -119,9 +119,9 @@ export type DirectusActivity = {
     timestamp: string;
     user?: string | DirectusUsers | null;
     user_agent?: string | null;
-};
+}
 
-export type DirectusCollections = {
+export interface DirectusCollections {
     accountability?: string | null;
     archive_app_filter: boolean;
     archive_field?: string | null;
@@ -142,9 +142,9 @@ export type DirectusCollections = {
     translations?: unknown | null;
     unarchive_value?: string | null;
     versioning: boolean;
-};
+}
 
-export type DirectusDashboards = {
+export interface DirectusDashboards {
     color?: string | null;
     date_created?: string | null;
     icon: string;
@@ -153,17 +153,17 @@ export type DirectusDashboards = {
     note?: string | null;
     panels: any[] | DirectusPanels[];
     user_created?: string | DirectusUsers | null;
-};
+}
 
-export type DirectusExtensions = {
+export interface DirectusExtensions {
     bundle?: string | null;
     enabled: boolean;
     folder: string;
     id: string;
     source: string;
-};
+}
 
-export type DirectusFields = {
+export interface DirectusFields {
     collection: string | DirectusCollections;
     conditions?: unknown | null;
     display?: string | null;
@@ -183,9 +183,9 @@ export type DirectusFields = {
     validation?: unknown | null;
     validation_message?: string | null;
     width?: string | null;
-};
+}
 
-export type DirectusFiles = {
+export interface DirectusFiles {
     charset?: string | null;
     created_on: string;
     description?: string | null;
@@ -212,9 +212,9 @@ export type DirectusFiles = {
     uploaded_by?: string | DirectusUsers | null;
     uploaded_on?: string | null;
     width?: number | null;
-};
+}
 
-export type DirectusFlows = {
+export interface DirectusFlows {
     accountability?: string | null;
     color?: string | null;
     date_created?: string | null;
@@ -228,21 +228,21 @@ export type DirectusFlows = {
     status: string;
     trigger?: string | null;
     user_created?: string | DirectusUsers | null;
-};
+}
 
-export type DirectusFolders = {
+export interface DirectusFolders {
     id: string;
     name: string;
     parent?: string | DirectusFolders | null;
-};
+}
 
-export type DirectusMigrations = {
+export interface DirectusMigrations {
     name: string;
     timestamp?: string | null;
     version: string;
-};
+}
 
-export type DirectusNotifications = {
+export interface DirectusNotifications {
     collection?: string | null;
     id: number;
     item?: string | null;
@@ -252,9 +252,9 @@ export type DirectusNotifications = {
     status?: string | null;
     subject: string;
     timestamp?: string | null;
-};
+}
 
-export type DirectusOperations = {
+export interface DirectusOperations {
     date_created?: string | null;
     flow: string | DirectusFlows;
     id: string;
@@ -267,9 +267,9 @@ export type DirectusOperations = {
     resolve?: string | DirectusOperations | null;
     type: string;
     user_created?: string | DirectusUsers | null;
-};
+}
 
-export type DirectusPanels = {
+export interface DirectusPanels {
     color?: string | null;
     dashboard: string | DirectusDashboards;
     date_created?: string | null;
@@ -285,9 +285,9 @@ export type DirectusPanels = {
     type: string;
     user_created?: string | DirectusUsers | null;
     width: number;
-};
+}
 
-export type DirectusPermissions = {
+export interface DirectusPermissions {
     action: string;
     collection: string;
     fields?: unknown | null;
@@ -296,9 +296,9 @@ export type DirectusPermissions = {
     policy: string | DirectusPolicies;
     presets?: unknown | null;
     validation?: unknown | null;
-};
+}
 
-export type DirectusPolicies = {
+export interface DirectusPolicies {
     admin_access: boolean;
     app_access: boolean;
     description?: string | null;
@@ -310,9 +310,9 @@ export type DirectusPolicies = {
     permissions: any[] | DirectusPermissions[];
     roles: any[] | DirectusAccess[];
     users: any[] | DirectusAccess[];
-};
+}
 
-export type DirectusPresets = {
+export interface DirectusPresets {
     bookmark?: string | null;
     collection?: string | null;
     color?: string | null;
@@ -326,9 +326,9 @@ export type DirectusPresets = {
     role?: string | DirectusRoles | null;
     search?: string | null;
     user?: string | DirectusUsers | null;
-};
+}
 
-export type DirectusRelations = {
+export interface DirectusRelations {
     id: number;
     junction_field?: string | null;
     many_collection: string;
@@ -339,9 +339,9 @@ export type DirectusRelations = {
     one_deselect_action: string;
     one_field?: string | null;
     sort_field?: string | null;
-};
+}
 
-export type DirectusRevisions = {
+export interface DirectusRevisions {
     activity: number | DirectusActivity;
     collection: string;
     data?: unknown | null;
@@ -350,9 +350,9 @@ export type DirectusRevisions = {
     item: string;
     parent?: number | DirectusRevisions | null;
     version?: string | DirectusVersions | null;
-};
+}
 
-export type DirectusRoles = {
+export interface DirectusRoles {
     children: any[] | DirectusRoles[];
     description?: string | null;
     icon: string;
@@ -362,9 +362,9 @@ export type DirectusRoles = {
     policies: any[] | DirectusAccess[];
     users: any[] | DirectusUsers[];
     users_group: string;
-};
+}
 
-export type DirectusSessions = {
+export interface DirectusSessions {
     expires: string;
     ip?: string | null;
     next_token?: string | null;
@@ -373,9 +373,9 @@ export type DirectusSessions = {
     token: string;
     user?: string | DirectusUsers | null;
     user_agent?: string | null;
-};
+}
 
-export type DirectusSettings = {
+export interface DirectusSettings {
     auth_login_attempts?: number | null;
     auth_password_policy?: string | null;
     basemaps?: unknown | null;
@@ -410,9 +410,9 @@ export type DirectusSettings = {
     theme_dark_overrides?: unknown | null;
     theme_light_overrides?: unknown | null;
     theming_group: string;
-};
+}
 
-export type DirectusShares = {
+export interface DirectusShares {
     collection: string | DirectusCollections;
     date_created?: string | null;
     date_end?: string | null;
@@ -425,16 +425,16 @@ export type DirectusShares = {
     role?: string | DirectusRoles | null;
     times_used?: number | null;
     user_created?: string | DirectusUsers | null;
-};
+}
 
-export type DirectusTranslations = {
+export interface DirectusTranslations {
     id: string;
     key: string;
     language: string;
     value: string;
-};
+}
 
-export type DirectusUsers = {
+export interface DirectusUsers {
     appearance?: string | null;
     auth_data?: unknown | null;
     avatar?: string | DirectusFiles | null;
@@ -462,9 +462,9 @@ export type DirectusUsers = {
     theme_light_overrides?: unknown | null;
     title?: string | null;
     token?: string | null;
-};
+}
 
-export type DirectusVersions = {
+export interface DirectusVersions {
     collection: string | DirectusCollections;
     date_created?: string | null;
     date_updated?: string | null;
@@ -475,9 +475,9 @@ export type DirectusVersions = {
     name?: string | null;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type DirectusWebhooks = {
+export interface DirectusWebhooks {
     actions: unknown;
     collections: unknown;
     data: boolean;
@@ -489,9 +489,9 @@ export type DirectusWebhooks = {
     status: string;
     url: string;
     was_active_before_deprecation: boolean;
-};
+}
 
-export type JustCashAccount = {
+export interface JustCashAccount {
     account_details: any[] | JustCashAccountDetails[];
     color?: string | null;
     date_created?: string | null;
@@ -504,9 +504,9 @@ export type JustCashAccount = {
     user: string | DirectusUsers;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type JustCashAccountDetails = {
+export interface JustCashAccountDetails {
     account: string | JustCashAccount;
     date_created?: string | null;
     date_updated?: string | null;
@@ -515,9 +515,9 @@ export type JustCashAccountDetails = {
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
     value: string;
-};
+}
 
-export type JustCashGroup = {
+export interface JustCashGroup {
     account: string | JustCashAccount;
     children: any[] | JustCashGroup[];
     color?: string | null;
@@ -530,9 +530,9 @@ export type JustCashGroup = {
     sort?: number | null;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type JustCashItem = {
+export interface JustCashItem {
     account?: string | JustCashAccount | null;
     asset_amount?: number | null;
     asset_identifier?: string | null;
@@ -548,9 +548,9 @@ export type JustCashItem = {
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
     value?: number | null;
-};
+}
 
-export type JustCashOutput = {
+export interface JustCashOutput {
     date_created?: string | null;
     date_updated?: string | null;
     from: string | JustCashItem;
@@ -559,9 +559,9 @@ export type JustCashOutput = {
     to: string | JustCashItem;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type JustSiteBlogEntries = {
+export interface JustSiteBlogEntries {
     content: string;
     cover: string | DirectusFiles;
     date_created?: string | null;
@@ -573,18 +573,18 @@ export type JustSiteBlogEntries = {
     title: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type JustSiteBookCategories = {
+export interface JustSiteBookCategories {
     date_created?: string | null;
     date_updated?: string | null;
     id: string;
     name: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type JustSiteBooks = {
+export interface JustSiteBooks {
     authors?: unknown | null;
     book_categories: any[] | JustSiteBooksJustSiteBookCategories[];
     cover?: string | DirectusFiles | null;
@@ -597,15 +597,15 @@ export type JustSiteBooks = {
     title: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type JustSiteBooksJustSiteBookCategories = {
+export interface JustSiteBooksJustSiteBookCategories {
     id: number;
     just_site_book_categories_id?: string | JustSiteBookCategories | null;
     just_site_books_id?: string | JustSiteBooks | null;
-};
+}
 
-export type JustSiteInfo = {
+export interface JustSiteInfo {
     about_bio: string;
     about_intro: string;
     date_created?: string | null;
@@ -622,21 +622,21 @@ export type JustSiteInfo = {
     title: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type JustSiteInfoSocials = {
+export interface JustSiteInfoSocials {
     id: number;
     just_site_info_id?: string | JustSiteInfo | null;
     socials_id?: string | Socials | null;
-};
+}
 
-export type JustSiteInfoTechnologies = {
+export interface JustSiteInfoTechnologies {
     id: number;
     just_site_info_id?: string | JustSiteInfo | null;
     technologies_id?: string | Technologies | null;
-};
+}
 
-export type JustSiteProjectData = {
+export interface JustSiteProjectData {
     date_created?: string | null;
     date_updated?: string | null;
     id: string;
@@ -644,9 +644,9 @@ export type JustSiteProjectData = {
     thumbnail: string | DirectusFiles;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type JustSiteRoutes = {
+export interface JustSiteRoutes {
     color: string;
     date_created?: string | null;
     date_updated?: string | null;
@@ -659,9 +659,9 @@ export type JustSiteRoutes = {
     sort?: number | null;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type JustSiteWorkExperience = {
+export interface JustSiteWorkExperience {
     company: string | Companies;
     date_created?: string | null;
     date_updated?: string | null;
@@ -674,21 +674,21 @@ export type JustSiteWorkExperience = {
     technologies: any[] | JustSiteWorkExperienceTechnologies[];
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type JustSiteWorkExperienceJustSiteWorkProjects = {
+export interface JustSiteWorkExperienceJustSiteWorkProjects {
     id: number;
     just_site_work_experience_id?: string | JustSiteWorkExperience | null;
     just_site_work_projects_id?: string | JustSiteWorkProjects | null;
-};
+}
 
-export type JustSiteWorkExperienceTechnologies = {
+export interface JustSiteWorkExperienceTechnologies {
     id: number;
     just_site_work_experience_id?: string | JustSiteWorkExperience | null;
     technologies_id?: string | Technologies | null;
-};
+}
 
-export type JustSiteWorkProjects = {
+export interface JustSiteWorkProjects {
     date_created?: string | null;
     date_updated?: string | null;
     description: string;
@@ -698,9 +698,9 @@ export type JustSiteWorkProjects = {
     name: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type SocialNetworks = {
+export interface SocialNetworks {
     base_user_link: string;
     date_created?: string | null;
     date_updated?: string | null;
@@ -711,9 +711,9 @@ export type SocialNetworks = {
     tone: string;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type Socials = {
+export interface Socials {
     date_created?: string | null;
     date_updated?: string | null;
     id: string;
@@ -721,9 +721,9 @@ export type Socials = {
     platform: string | SocialNetworks;
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type TechStack = {
+export interface TechStack {
     date_created?: string | null;
     date_updated?: string | null;
     id: string;
@@ -731,15 +731,15 @@ export type TechStack = {
     technologies: any[] | TechStackTechnologies[];
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type TechStackTechnologies = {
+export interface TechStackTechnologies {
     id: number;
     tech_stack_id?: string | TechStack | null;
     technologies_id?: string | Technologies | null;
-};
+}
 
-export type Technologies = {
+export interface Technologies {
     date_created?: string | null;
     date_updated?: string | null;
     id: string;
@@ -747,9 +747,9 @@ export type Technologies = {
     tech_stacks: any[] | TechStackTechnologies[];
     user_created?: string | DirectusUsers | null;
     user_updated?: string | DirectusUsers | null;
-};
+}
 
-export type CustomDirectusTypes = {
+export interface CustomDirectusTypes {
     companies: Companies[];
     dashboard_config: DashboardConfig;
     dashboard_items: DashboardItems[];
@@ -808,4 +808,4 @@ export type CustomDirectusTypes = {
     tech_stack: TechStack[];
     tech_stack_technologies: TechStackTechnologies[];
     technologies: Technologies[];
-};
+}

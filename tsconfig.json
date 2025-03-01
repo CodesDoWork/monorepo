@@ -17,15 +17,21 @@
             "@cdw/monorepo/nx-plugins-astro": ["packages/nx-plugins/astro/src/index.ts"],
             "@cdw/monorepo/nx-plugins-ci": ["packages/nx-plugins/ci/src/index.ts"],
             "@cdw/monorepo/nx-plugins-codegen": ["packages/nx-plugins/codegen/src/index.ts"],
-            "@cdw/monorepo/nx-plugins-directus-extensions": ["packages/nx-plugins/directus-extensions/src/index.ts"],
+            "@cdw/monorepo/nx-plugins-directus-extensions": [
+                "packages/nx-plugins/directus-extensions/src/index.ts"
+            ],
             "@cdw/monorepo/nx-plugins-docker": ["packages/nx-plugins/docker/src/index.ts"],
-            "@cdw/monorepo/nx-plugins-docker-compose": ["packages/nx-plugins/docker-compose/src/index.ts"],
+            "@cdw/monorepo/nx-plugins-docker-compose": [
+                "packages/nx-plugins/docker-compose/src/index.ts"
+            ],
             "@cdw/monorepo/shared-bitwarden": ["packages/shared/bitwarden/src/index.ts"],
             "@cdw/monorepo/shared-logging": ["packages/shared/logging/src/index.ts"],
             "@cdw/monorepo/shared-trivy": ["packages/shared/trivy/src/index.ts"],
             "@cdw/monorepo/shared-utils": ["packages/shared/utils/src/index.ts"],
             "@cdw/monorepo/nx-plugins-lighthouse": ["packages/nx-plugins/lighthouse/src/index.ts"],
-            "@cdw/monorepo/nx-plugins-secrets-manager": ["packages/nx-plugins/secrets-manager/src/index.ts"],
+            "@cdw/monorepo/nx-plugins-secrets-manager": [
+                "packages/nx-plugins/secrets-manager/src/index.ts"
+            ],
             "@cdw/monorepo/nx-plugins-svelte": ["packages/nx-plugins/svelte/src/index.ts"],
             "@cdw/monorepo/nx-plugins-utils": ["packages/nx-plugins/utils/src/index.ts"],
             "@cdw/monorepo/nx-plugins-vite": ["packages/nx-plugins/vite/src/index.ts"],
@@ -60,5 +66,12 @@
         "skipDefaultLibCheck": true,
         "skipLibCheck": true
     },
-    "exclude": ["node_modules", "tmp", "dist", "packages/just/website", "packages/zinzow/website"]
+    "exclude": [
+        "node_modules",
+        "tmp",
+        "dist",
+        "packages/just/music/downloader",
+        "packages/just/website",
+        "packages/zinzow/website"
+    ]
 }

@@ -1,5 +1,5 @@
 {
-    "name": "nx-plugins-secrets-manager",
+    "name": "@cdw/monorepo/nx-plugins-secrets-manager",
     "description": ".env variables manager for secrets in NX monorepos",
     "author": {
         "name": "Justin Konratt",

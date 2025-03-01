@@ -26,7 +26,6 @@
             "@cdw/monorepo/shared-trivy": ["packages/shared/trivy/src/index.ts"],
             "@cdw/monorepo/shared-trpc": ["packages/shared/trpc/src/index.ts"],
             "@cdw/monorepo/shared-utils": ["packages/shared/utils/src/index.ts"],
-            "@cdw/monorepo/*": ["*"],
             "@cdw/monorepo/nx-plugins-lighthouse": ["packages/nx-plugins/lighthouse/src/index.ts"],
             "@cdw/monorepo/nx-plugins-secrets-manager": ["packages/nx-plugins/secrets-manager/src/index.ts"],
             "@cdw/monorepo/nx-plugins-svelte": ["packages/nx-plugins/svelte/src/index.ts"],
@@ -34,7 +33,8 @@
             "@cdw/monorepo/nx-plugins-vite": ["packages/nx-plugins/vite/src/index.ts"],
             "@cdw/monorepo/nx-plugins-vitepress": ["packages/nx-plugins/vitepress/src/index.ts"],
             "@cdw/monorepo/nx-plugins-vitest": ["packages/nx-plugins/vitest/src/index.ts"],
-            "@cdw/monorepo/nx-plugins-wrangler": ["packages/nx-plugins/wrangler/src/index.ts"]
+            "@cdw/monorepo/nx-plugins-wrangler": ["packages/nx-plugins/wrangler/src/index.ts"],
+            "@cdw/monorepo/*": ["*"]
         },
         "resolveJsonModule": true,
         "allowJs": true,

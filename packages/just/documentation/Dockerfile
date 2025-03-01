@@ -17,6 +17,7 @@ COPY docs ./docs
 COPY packages/nx-plugins ./packages/nx-plugins
 COPY packages/shared ./packages/shared
 COPY packages/just ./packages/just
+RUN nx reset
 RUN nx build $APP_NAME
 
 

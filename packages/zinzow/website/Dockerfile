@@ -15,6 +15,7 @@ COPY eslint.config.js nx.json tsconfig.json ./
 COPY packages/nx-plugins ./packages/nx-plugins
 COPY packages/shared ./packages/shared
 COPY packages/zinzow ./packages/zinzow
+RUN nx reset
 RUN nx build $APP_NAME
 
 

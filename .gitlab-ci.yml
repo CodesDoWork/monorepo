@@ -36,7 +36,7 @@ default:
   cache:
     - key:
         files:
-          - pnpm-lock.yaml
+          - *lock*
       paths:
         - node_modules
       policy: $DEPS_CACHE_POLICY

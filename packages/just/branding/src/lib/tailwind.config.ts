@@ -49,7 +49,7 @@ fadeInSubtle["0%"].transform = "translateY(1rem)";
 const fadeInTopSubtle = cloneAnimation(fadeInSubtle);
 fadeInTopSubtle["0%"].transform = "translateY(-1rem)";
 
-export const tailwindConfig = {
+export const tailwindConfig: Config = {
     content: [],
     darkMode: "selector",
     theme: {
@@ -129,4 +129,4 @@ export const tailwindConfig = {
         },
     },
     plugins: [animationDelayPlugin, tailwindForms],
-} satisfies Config;
+};

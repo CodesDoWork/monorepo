@@ -1,11 +1,11 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { by } from "@cdw/monorepo/shared-utils/filters";
+    import Icon from "@iconify/svelte";
     import classNames from "classnames";
+    import { writable } from "svelte/store";
     import { PageContent } from "../../components/content-area";
     import { H1, H3 } from "../../components/heading";
-    import { by } from "@cdw/monorepo/shared-utils/filters";
-    import { writable } from "svelte/store";
-    import Icon from "@iconify/svelte";
 
     export let data: PageData;
     const { images, columns } = data.impressions;
@@ -16,7 +16,7 @@
     let selectedImage = images[0];
     let clickedSelectedImage = selectedImage;
     const showDialog = writable(false);
-    const columnsArray = new Array(columns);
+    const columnsArray = Array.from({ length: columns });
 
     function rotateImageBy(steps: number) {
         let idx = images.findIndex(by(selectedImage)) + steps;
@@ -51,6 +51,12 @@
     }
 
     let zoom = 1;
+    let dragDialogImage = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let translateDialogImageX = 0;
+    let translateDialogImageY = 0;
+
     function handleWheel(event: WheelEvent) {
         if ($showDialog) {
             event.preventDefault();
@@ -63,11 +69,6 @@
         }
     }
 
-    let dragDialogImage = false;
-    let dragStartX = 0;
-    let dragStartY = 0;
-    let translateDialogImageX = 0;
-    let translateDialogImageY = 0;
     function handleDragOver(event: MouseEvent) {
         if (dragDialogImage && zoom > 1) {
             event.preventDefault();

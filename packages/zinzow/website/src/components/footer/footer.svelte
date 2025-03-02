@@ -43,8 +43,9 @@
                                 <li>
                                     <a
                                         href={route.routes_id.path}
-                                        class="text-sm/6 text-gray-600 transition-colors hover:text-gray-950 dark:text-gray-400 dark:hover:text-white"
-                                        >{route.routes_id.name}</a>
+                                        class="text-sm/6 text-gray-600 transition-colors hover:text-gray-950 dark:text-gray-400 dark:hover:text-white">
+                                        {route.routes_id.name}
+                                    </a>
                                 </li>
                             {/each}
                         </ul>
@@ -63,8 +64,9 @@
                     href="https://justinkonratt.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="transition-colors hover:text-gray-950 dark:hover:text-white"
-                    >Justin Konratt</a>
+                    class="transition-colors hover:text-gray-950 dark:hover:text-white">
+                    Justin Konratt
+                </a>
             </p>
         </div>
     </WidthBox>

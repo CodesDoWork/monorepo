@@ -53,6 +53,7 @@ export default antfu(
         files: ["**/*.svelte"],
         rules: {
             "svelte/no-at-html-tags": "off",
+            "svelte/no-unused-svelte-ignore": "off",
         },
     },
     {

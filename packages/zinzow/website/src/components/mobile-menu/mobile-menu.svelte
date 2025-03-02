@@ -79,8 +79,9 @@
                                 {#each children as child}
                                     <li
                                         class={classNames(
-                                            $currentRoute?.path.startsWith(child.path) &&
-                                                "text-accent",
+                                            $currentRoute?.path.startsWith(child.path)
+                                                ? "text-accent"
+                                                : "",
                                             "hover:bg-primary-400 dark:hover:bg-primary-800 flex items-center justify-between rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold",
                                         )}>
                                         <a class="flex-1" href={child.path}>{child.name}</a>

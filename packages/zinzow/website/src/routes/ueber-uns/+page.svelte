@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     import { AboutImage } from "../../components/about/about-image";
-    import { PageContent, WidthBox } from "../../components/content-area";
+    import { PageContent } from "../../components/content-area";
     import { H1, H2, H4 } from "../../components/heading";
 
     export let data: PageData;

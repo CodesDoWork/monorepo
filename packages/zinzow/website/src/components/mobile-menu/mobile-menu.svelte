@@ -44,7 +44,7 @@
     <div
         class={classNames(
             $menuAnimation,
-            "bg-primary dark:bg-primary-900 text-onPrimary fixed inset-y-0 right-0 z-10 min-w-56 overflow-y-auto px-6 py-6 shadow-lg sm:max-w-sm sm:ring-1 sm:ring-gray-900/10",
+            "bg-primary-600 dark:bg-primary-900 text-onPrimary fixed inset-y-0 right-0 z-10 min-w-56 overflow-y-auto px-6 py-6 shadow-lg sm:max-w-sm sm:ring-1 sm:ring-gray-900/10",
         )}>
         <div class="mt-2 flex justify-end">
             <button on:click={triggerClose} type="button" class="-m-2.5 rounded-md p-2.5">
@@ -79,7 +79,8 @@
                                 {#each children as child}
                                     <li
                                         class={classNames(
-                                            $currentRoute?.path.startsWith(child.path) && "text-accent",
+                                            $currentRoute?.path.startsWith(child.path) &&
+                                                "text-accent",
                                             "hover:bg-primary-400 dark:hover:bg-primary-800 flex items-center justify-between rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold",
                                         )}>
                                         <a class="flex-1" href={child.path}>{child.name}</a>

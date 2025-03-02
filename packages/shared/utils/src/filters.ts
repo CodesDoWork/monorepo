@@ -14,7 +14,13 @@ export function oneOf<T>(itemsToFind: T[]) {
     };
 }
 
-export function by<T, IdField extends keyof T, Id = T[IdField]>(field: IdField, idToFind: Id) {
+export function by<T>(toFind: T) {
+    return function (entry: T) {
+        return entry === toFind;
+    };
+}
+
+export function byField<T, IdField extends keyof T, Id = T[IdField]>(field: IdField, idToFind: Id) {
     return function (idObjectEntry: T) {
         return idObjectEntry[field] === idToFind;
     };

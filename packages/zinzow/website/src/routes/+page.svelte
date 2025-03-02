@@ -28,7 +28,8 @@
     const mobileMenuOpen = writable(false);
     const onMenuClick = () => mobileMenuOpen.update(value => !value);
 
-    const getClasses = (...classes: string[]) => classNames(...classes, "opacity-0 animate-fadeInBT");
+    const getClasses = (...classes: string[]) =>
+        classNames(...classes, "opacity-0 animate-fadeInBT");
 </script>
 
 <div
@@ -83,12 +84,11 @@
                     <div
                         class={getClasses("flex flex-col-reverse gap-1")}
                         style={animationDelay(AnimationPriority.STATS + idx + firstRoutes.length)}>
-                        <dt
-                            class="text-center text-base/7 text-gray-800 md:text-left dark:text-gray-300">
+                        <dt class="text-center text-base/7 text-gray-800 dark:text-gray-300">
                             {stat.info}
                         </dt>
                         <dd
-                            class="text-primary-700 text-center text-4xl font-semibold tracking-tight md:text-left dark:text-white">
+                            class="text-primary-700 text-center text-4xl font-semibold tracking-tight dark:text-white">
                             {stat.value}
                         </dd>
                     </div>

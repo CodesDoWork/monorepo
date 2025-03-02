@@ -1,0 +1,14 @@
+query GetImpressionsData {
+    impressions {
+        images {
+            directus_files_id {
+                id
+                title
+                description
+                tags
+                location
+            }
+        }
+        columns
+    }
+}

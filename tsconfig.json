@@ -28,6 +28,7 @@
             "@cdw/monorepo/shared-logging": ["packages/shared/logging/src/index.ts"],
             "@cdw/monorepo/shared-trivy": ["packages/shared/trivy/src/index.ts"],
             "@cdw/monorepo/shared-utils": ["packages/shared/utils/src/index.ts"],
+            "@cdw/monorepo/shared-utils/*": ["packages/shared/utils/src/*.ts"],
             "@cdw/monorepo/nx-plugins-lighthouse": ["packages/nx-plugins/lighthouse/src/index.ts"],
             "@cdw/monorepo/nx-plugins-secrets-manager": [
                 "packages/nx-plugins/secrets-manager/src/index.ts"

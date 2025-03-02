@@ -31,7 +31,7 @@
         "trivy": "tsx packages/workspace/scripts/src/trivy-analyze-fs.ts"
     },
     "dependencies": {
-        "@directus/sdk": "^17.0.1",
+        "@directus/sdk": "^17.0.2",
         "@mermaid-js/mermaid-mindmap": "^9.3.0",
         "@nx/devkit": "20.4.6",
         "@parcel/watcher": "^2.5.0",

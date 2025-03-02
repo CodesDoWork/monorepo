@@ -372,7 +372,7 @@ pyarrow==18.1.0
     # via datasets
 pycparser==2.22
     # via cffi
-pydantic==2.10.5
+pydantic==2.10.6
     # via wandb
 pydantic-core==2.27.2
     # via pydantic

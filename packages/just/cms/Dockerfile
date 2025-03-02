@@ -1,5 +1,6 @@
 ARG IMAGE_BASE
 ARG PROJECT_VERSION
+ARG DOCKER_PROXY
 
 ARG APP_NAME=just-cms
 ARG APP_DIR=just/cms
@@ -10,14 +11,15 @@ FROM $IMAGE_BASE/workspace-deps:$PROJECT_VERSION AS workspace-deps
 
 FROM workspace-deps AS builder
 
-COPY .eslintrc.json nx.json tsconfig.json ./
+COPY eslint.config.js nx.json tsconfig.json ./
 COPY packages/nx-plugins ./packages/nx-plugins
 COPY packages/shared ./packages/shared
 COPY packages/just ./packages/just
+RUN nx reset
 RUN nx build just-cms-dashboard-config
 
 
-FROM directus/directus:11.1.1
+FROM $DOCKER_PROXY/directus/directus:11.1.1
 ARG APP_DIR
 
 USER root

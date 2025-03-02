@@ -1,6 +1,6 @@
-import { PromiseExecutor } from "@nx/devkit";
+import type { PromiseExecutor } from "@nx/devkit";
+import type { ExecutorSchema } from "./schema";
 import { dockerImage, runDockerCommand } from "../utils";
-import { ExecutorSchema } from "./schema";
 
 export const dockerPullExecutor: PromiseExecutor<ExecutorSchema> = async ({ args }, context) => {
     try {

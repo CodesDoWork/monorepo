@@ -1,2 +1,4 @@
-FROM node:22.10.0-alpine3.20
+ARG DOCKER_PROXY
+
+FROM $DOCKER_PROXY/node:22.13.1-alpine3.20
 WORKDIR /app

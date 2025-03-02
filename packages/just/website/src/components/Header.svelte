@@ -1,14 +1,14 @@
 <script lang="ts">
+    import type { JustSiteRoutes } from "@cdw/monorepo/just-cms-types";
+    import type { Writable } from "svelte/store";
+    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { Drawer, Sidebar, SidebarWrapper } from "flowbite-svelte";
-    import DarkmodeToggle from "./DarkmodeToggle.svelte";
-    import Icon from "@iconify/svelte";
     import { sineInOut } from "svelte/easing";
-    import NavLinks from "./NavLinks.svelte";
     import { useRoutes } from "../stores/useRoutes";
-    import type { JustSiteRoutes } from "@codesdowork/just-cms-types";
-    import type { Writable } from "svelte/store";
+    import DarkmodeToggle from "./DarkmodeToggle.svelte";
     import Link from "./Link.svelte";
+    import NavLinks from "./NavLinks.svelte";
 
     let className = "";
     export { className as class };
@@ -47,7 +47,7 @@
     );
 
     let navDrawerHidden = true;
-    let transitionParams = {
+    const transitionParams = {
         x: "100%",
         duration: 500,
         easing: sineInOut,
@@ -56,7 +56,7 @@
 
 <header class={headerClass}>
     <div class="flex items-center">
-        { #if backButton && $currentRoute !== undefined }
+        {#if backButton && $currentRoute !== undefined}
             <Link
                 class="p-1 mr-4 m-0 inline-block !text-white hover:!text-white hover:!bg-[var(--page-color)]"
                 href={$currentRoute?.route} title={$currentRoute?.name}>
@@ -75,7 +75,7 @@
         transitionParams={transitionParams}>
     <Sidebar>
         <SidebarWrapper class="dark:bg-primary-950 rounded-r-none rounded-l p-2">
-            <NavLinks aClass="block text-black dark:text-white" liClass={"mb-2 animate-fadeInTopSubtle opacity-0"}
+            <NavLinks aClass="block text-black dark:text-white" liClass="mb-2 animate-fadeInTopSubtle opacity-0"
                       routes={routes} />
         </SidebarWrapper>
     </Sidebar>

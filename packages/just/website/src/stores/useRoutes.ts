@@ -1,5 +1,5 @@
+import type { JustSiteRoutes } from "@cdw/monorepo/just-cms-types";
 import { afterNavigate } from "$app/navigation";
-import type { JustSiteRoutes } from "@codesdowork/just-cms-types";
 import { onMount } from "svelte";
 import { readable } from "svelte/store";
 

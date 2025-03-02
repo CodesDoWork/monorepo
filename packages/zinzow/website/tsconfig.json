@@ -1,10 +1,11 @@
 {
+    "extends": "../../../tsconfig.json",
     "compilerOptions": {
+        "rootDirs": [".", ".svelte-kit/types"],
         "types": ["svelte", "node", "vite/client"],
         "strict": false,
         "strictNullChecks": false,
-        "strictPropertyInitialization": false,
-        "rootDirs": [".", ".svelte-kit/types"]
+        "strictPropertyInitialization": false
     },
     "include": [
         "src/**/*.ts",
@@ -13,6 +14,5 @@
         ".svelte-kit/non-ambient.d.ts",
         ".svelte-kit/types/**/$types.d.ts"
     ],
-    "exclude": [],
-    "extends": "../../../tsconfig.json"
+    "exclude": []
 }

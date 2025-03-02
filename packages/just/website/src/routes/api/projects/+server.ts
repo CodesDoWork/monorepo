@@ -1,7 +1,11 @@
-import { JustSiteProjectData } from "@codesdowork/just-cms-types";
+import type { JustSiteProjectData } from "@cdw/monorepo/just-cms-types";
 import type { Endpoints } from "@octokit/types";
 import { env } from "../../../env";
 import { getDirectus, getProjectData, getSiteInfo } from "../../../helpers/directus";
+
+const githubRequest = {
+    headers: env.GITHUB_TOKEN ? { Authorization: `Bearer ${env.GITHUB_TOKEN}` } : {},
+};
 
 export async function GET() {
     const directus = await getDirectus();
@@ -20,10 +24,6 @@ export async function GET() {
 
 type Repo = Endpoints["GET /user/repos"]["response"]["data"][number];
 type Contributors = Endpoints["GET /repos/{owner}/{repo}/contributors"]["response"]["data"];
-
-const githubRequest = {
-    headers: env.GITHUB_TOKEN ? { Authorization: `Bearer ${env.GITHUB_TOKEN}` } : {},
-};
 
 function filterReposByContribution(githubUser: string) {
     return async function (repos: Repo[]) {

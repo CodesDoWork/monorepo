@@ -1,5 +1,5 @@
+import type { Config } from "tailwindcss";
 import tailwindForms from "@tailwindcss/forms";
-import { Config } from "tailwindcss";
 
 type Colors = Record<string, Record<string | number, string>>;
 
@@ -71,7 +71,6 @@ export const config: Config = {
                     },
                     "100%": {
                         opacity: "1",
-                        display: "block",
                     },
                 },
                 fadeInBT: {
@@ -83,7 +82,6 @@ export const config: Config = {
                     "100%": {
                         opacity: "1",
                         transform: "translateY(0)",
-                        display: "block",
                     },
                 },
             },

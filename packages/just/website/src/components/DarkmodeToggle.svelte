@@ -1,7 +1,7 @@
 <script lang="ts">
+    import type { Writable } from "svelte/store";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import type { Writable } from "svelte/store";
 
     let className = "";
     export { className as class };
@@ -43,5 +43,3 @@
 <button class={resultClass} disabled={isAnimating} on:click={toggleTheme}>
     <Icon class={iconClass} icon={icon} />
 </button>
-
-

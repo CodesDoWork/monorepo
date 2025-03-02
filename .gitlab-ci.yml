@@ -14,9 +14,10 @@ variables:
   DOCKER_HOST: tcp://docker:2375/
   DOCKER_TLS_CERTDIR: ""
   PROJECT_VERSION: ${CI_COMMIT_REF_SLUG}
-  ORGANIZATION: codesdowork
+  ORGANIZATION: cdw
   PROJECT: monorepo
   IMAGE_BASE: ${CI_REGISTRY}/${ORGANIZATION}/${PROJECT}
+  DOCKER_PROXY: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}
   DOCKER_VERSION: 27.5.1
   DEPS_CACHE_POLICY: pull
   ENV_CACHE_POLICY: pull
@@ -30,12 +31,12 @@ default:
     - name: docker:${DOCKER_VERSION}-dind
       alias: docker
       command:
-        - "--feature"
-        - "containerd-snapshotter"
+        - --feature
+        - containerd-snapshotter
   cache:
     - key:
         files:
-          - pnpm-lock.yaml
+          - bun.lock
       paths:
         - node_modules
       policy: $DEPS_CACHE_POLICY
@@ -55,11 +56,12 @@ default:
   before_script:
     - export PATH="$PWD/node_modules/.bin:$PATH"
     - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ] || [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export NX_BASE=$(git log origin/$CI_COMMIT_BRANCH --first-parent --merges -n 1 --skip 1 --format=%H); fi
-    - docker login -u ${DOCKER_HUB_USER} -p ${DOCKER_HUB_PASSWORD}
+    # registry logins
+    - echo "$CI_DEPENDENCY_PROXY_PASSWORD" | docker login $CI_DEPENDENCY_PROXY_SERVER -u $CI_DEPENDENCY_PROXY_USER --password-stdin
     - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    # buildx builder
     - docker network create --driver=bridge builder-network
-    - docker buildx create --use --driver-opt network=builder-network
-    - docker buildx inspect --bootstrap
+    - docker buildx create --use --driver-opt network=builder-network --driver-opt image=${DOCKER_PROXY}/moby/buildkit:buildx-stable-1 --bootstrap
 
 build workspace image:
   stage: workspace
@@ -67,8 +69,8 @@ build workspace image:
   cache: []
   script:
     - docker info
-    - docker buildx build --network=host --push -t ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} -f packages/workspace/base/Dockerfile --platform=linux/arm64 .
-    - docker buildx build --network=host --push -t ${IMAGE_BASE}/workspace:${PROJECT_VERSION} -f packages/workspace/Dockerfile --build-arg IMAGE_BASE=${IMAGE_BASE} --build-arg PROJECT_VERSION=${PROJECT_VERSION} --platform=linux/arm64 .
+    - docker buildx build --network=host --push -t ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} -f packages/workspace/base/Dockerfile --build-arg DOCKER_PROXY=${DOCKER_PROXY} --platform=linux/arm64 .
+    - docker buildx build --network=host --push -t ${IMAGE_BASE}/workspace:${PROJECT_VERSION} -f packages/workspace/Dockerfile --build-arg IMAGE_BASE=${IMAGE_BASE} --build-arg PROJECT_VERSION=${PROJECT_VERSION} --build-arg DOCKER_PROXY=${DOCKER_PROXY} --platform=linux/arm64 .
   resource_group: single
 
 install deps:
@@ -96,12 +98,6 @@ codegen:
     - nx affected -t codegen
   resource_group: single
 
-check formatting:
-  stage: lint
-  script:
-    - nx format:check
-  resource_group: single
-
 eslint:
   stage: lint
   script:
@@ -124,20 +120,13 @@ sonarqube:
   stage: lint
   cache: []
   image:
-    name: sonarsource/sonar-scanner-cli:11.1
+    name: ${DOCKER_PROXY}/sonarsource/sonar-scanner-cli:11.1
     entrypoint: [""]
   script:
     - sonar-scanner
   allow_failure: true
   only:
     - master
-  resource_group: single
-
-audit:
-  stage: lint
-  script:
-    - na audit --audit-level=high
-  allow_failure: true
   resource_group: single
 
 test:
@@ -177,6 +166,7 @@ lighthouse:
     paths:
       - ./reports/lighthouse
   resource_group: single
+  retry: 1
 
 deploy:
   stage: deploy

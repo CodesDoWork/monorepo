@@ -1,10 +1,10 @@
-/* Get date in month YYYY format*/
-export const getMonthYear = (date: string | Date): string => {
+/* Get date in month YYYY format */
+export function getMonthYear(date: string | Date): string {
     date = new Date(date);
     return `${date.toLocaleString("default", {
         month: "short",
     })}, ${date.getFullYear()}`;
-};
+}
 
 const TIME_INTERVALS = {
     year: 31_536_000,

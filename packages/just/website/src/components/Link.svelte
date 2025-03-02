@@ -32,10 +32,9 @@
             "shadow-md hover:shadow-lg",
             "origin-top-left",
         ],
-        !button &&
-            !noStyle && [
-                "p-1 hover:text-white dark:hover:text-black text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500",
-            ],
+        !button && !noStyle && [
+            "p-1 hover:text-white dark:hover:text-black text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500",
+        ],
         className,
     );
 

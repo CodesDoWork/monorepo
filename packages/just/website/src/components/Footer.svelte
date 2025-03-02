@@ -1,8 +1,8 @@
 <script lang="ts">
+    import type { JustSiteRoutes } from "@cdw/monorepo/just-cms-types";
     import { clsx } from "clsx";
-    import Link from "./Link.svelte";
     import { useRoutes } from "../stores/useRoutes";
-    import type { JustSiteRoutes } from "@codesdowork/just-cms-types";
+    import Link from "./Link.svelte";
 
     let className = "";
     export { className as class };

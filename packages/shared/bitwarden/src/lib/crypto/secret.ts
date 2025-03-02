@@ -1,6 +1,6 @@
-import { BitwardenClient } from "../client";
+import type { BitwardenClient } from "../client";
+import type { EncryptionType } from "./encryption-type";
 import { ByteData } from "./byte-data";
-import { EncryptionType } from "./encryption-type";
 
 export class Secret {
     public readonly encType: EncryptionType;
@@ -16,8 +16,8 @@ export class Secret {
         public readonly organizationId: string | null = null,
     ) {
         const [encType, key] = display.split(".");
-        const keyInfos =
-            key?.split("|").map(info => new ByteData(Buffer.from(info, "base64"))) || [];
+        const keyInfos
+            = key?.split("|").map(info => new ByteData(Buffer.from(info, "base64"))) || [];
 
         if (!encType || !key || !keyInfos.length) {
             throw new Error("Invalid secret");

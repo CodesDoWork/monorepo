@@ -1,13 +1,13 @@
-import { execAsync } from "@codesdowork/shared-utils";
-import { logger, PromiseExecutor } from "@nx/devkit";
-import { loadEnv, projectRoot, replaceEnvs } from "nx-plugins-utils";
-import { WranglerExecutorSchema } from "./schema";
+import type { PromiseExecutor } from "@nx/devkit";
+import type { WranglerExecutorSchema } from "./schema";
+import { loadEnv, projectRoot, replaceEnvs } from "@cdw/monorepo/nx-plugins-utils";
+import { execAsync } from "@cdw/monorepo/shared-utils";
+import { logger } from "@nx/devkit";
 
 type WranglerTarget = "deploy" | "delete";
 
-export const runWranglerExecutor =
-    (target: WranglerTarget): PromiseExecutor =>
-    async ({ args = [], enabled }: WranglerExecutorSchema, context) => {
+export function runWranglerExecutor(target: WranglerTarget): PromiseExecutor {
+    return async ({ args = [], enabled }: WranglerExecutorSchema, context) => {
         if (!enabled) {
             logger.info("Skipping wrangler executor since deployment is not enabled.");
             return { success: true };
@@ -34,3 +34,4 @@ export const runWranglerExecutor =
             return { success: false };
         }
     };
+}

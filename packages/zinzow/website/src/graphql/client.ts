@@ -1,4 +1,5 @@
-import { ApolloClient, InMemoryCache, type NormalizedCacheObject } from "@apollo/client/core";
+import type { NormalizedCacheObject } from "@apollo/client/core";
+import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 
 export function createApolloClient(
     uri: string,

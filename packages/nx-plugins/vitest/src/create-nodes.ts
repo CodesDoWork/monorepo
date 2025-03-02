@@ -1,4 +1,4 @@
-import { createNodesForProjects, getExecutors } from "nx-plugins-utils";
+import { createNodesForProjects, getExecutors } from "@cdw/monorepo/nx-plugins-utils";
 
 export const createNodes = createNodesForProjects(
     "**/tsconfig.json",
@@ -10,7 +10,7 @@ export const createNodes = createNodesForProjects(
         return {
             projects: {
                 [root]: {
-                    targets: getExecutors("nx-plugins-vitest", "", ["test"]),
+                    targets: getExecutors("@cdw/monorepo/nx-plugins-vitest", "", ["test"]),
                 },
             },
         };

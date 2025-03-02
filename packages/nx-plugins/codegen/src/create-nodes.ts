@@ -1,10 +1,10 @@
-import { createNodesForProjects, getExecutors } from "nx-plugins-utils";
+import { createNodesForProjects, getExecutors } from "@cdw/monorepo/nx-plugins-utils";
 
 export const createNodes = createNodesForProjects("**/codegen.ts", ({ root }) => {
     return {
         projects: {
             [root]: {
-                targets: getExecutors("nx-plugins-codegen", "", ["codegen"]),
+                targets: getExecutors("@cdw/monorepo/nx-plugins-codegen", "", ["codegen"]),
             },
         },
     };

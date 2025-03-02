@@ -7,7 +7,7 @@ addEventListener("fetch", (event: FetchEvent) => {
 async function handleRequest(event: FetchEvent) {
     try {
         return await getAssetFromKV(event);
-    } catch (e) {
+    } catch {
         const url = new URL(event.request.url);
         if (url.pathname === "/") {
             return new Response("Infinite Redirect", { status: 508 });

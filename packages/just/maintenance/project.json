@@ -5,12 +5,12 @@
     "projectType": "application",
     "targets": {
         "deploy-maintenance": {
-            "executor": "nx-plugins-wrangler:deploy",
+            "executor": "@cdw/monorepo/nx-plugins-wrangler:deploy",
             "options": {
                 "args": ["--routes ${DOMAIN}/*", "--routes *.${DOMAIN}/*"]
             },
             "dependsOn": ["build"]
         }
     },
-    "tags": []
+    "tags": ["just-maintenance"]
 }

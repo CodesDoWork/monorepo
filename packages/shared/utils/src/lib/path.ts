@@ -1,4 +1,4 @@
-import { existsSync } from "fs";
+import { existsSync } from "node:fs";
 import path from "node:path";
 
 export function searchNextDir(startDir: string, filenames: string[]): string {

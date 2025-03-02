@@ -11,10 +11,10 @@
             "inputs": ["default", "^production"],
             "cache": true
         },
-        "@nx/eslint:lint": {
+        "lint": {
             "inputs": [
                 "default",
-                "{workspaceRoot}/.eslintrc.json",
+                "{workspaceRoot}/eslint.config.js",
                 "{workspaceRoot}/.eslintignore"
             ],
             "cache": true
@@ -32,63 +32,50 @@
             "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
             "!{projectRoot}/tsconfig.spec.json",
             "!{projectRoot}/vitest.config.[jt]s",
-            "!{projectRoot}/.eslintrc.json",
+            "!{projectRoot}/eslint.config.js",
             "!{projectRoot}/src/test-setup.[jt]s"
         ],
         "sharedGlobals": []
     },
     "plugins": [
         {
-            "plugin": "nx-plugins-astro"
+            "plugin": "@cdw/monorepo/nx-plugins-astro"
         },
         {
-            "plugin": "nx-plugins-codegen"
+            "plugin": "@cdw/monorepo/nx-plugins-codegen"
         },
         {
-            "plugin": "nx-plugins-directus-extensions"
+            "plugin": "@cdw/monorepo/nx-plugins-directus-extensions"
         },
         {
-            "plugin": "nx-plugins-docker"
+            "plugin": "@cdw/monorepo/nx-plugins-docker"
         },
         {
-            "plugin": "nx-plugins-docker-compose"
+            "plugin": "@cdw/monorepo/nx-plugins-docker-compose"
         },
         {
-            "plugin": "nx-plugins-lighthouse"
+            "plugin": "@cdw/monorepo/nx-plugins-lighthouse"
         },
         {
-            "plugin": "nx-plugins-secrets-manager"
+            "plugin": "@cdw/monorepo/nx-plugins-secrets-manager"
         },
         {
-            "plugin": "nx-plugins-svelte"
+            "plugin": "@cdw/monorepo/nx-plugins-svelte"
         },
         {
-            "plugin": "nx-plugins-vite"
+            "plugin": "@cdw/monorepo/nx-plugins-vite"
         },
         {
-            "plugin": "nx-plugins-vitepress"
+            "plugin": "@cdw/monorepo/nx-plugins-vitepress"
         },
         {
-            "plugin": "nx-plugins-vitest"
+            "plugin": "@cdw/monorepo/nx-plugins-vitest"
         },
         {
-            "plugin": "nx-plugins-wrangler"
+            "plugin": "@cdw/monorepo/nx-plugins-wrangler"
         },
         {
-            "plugin": "@nx/next/plugin",
-            "options": {
-                "buildTargetName": "build",
-                "devTargetName": "serve",
-                "startTargetName": "start",
-                "serveStaticTargetName": "serve-static"
-            }
-        },
-        {
-            "plugin": "@nx/eslint/plugin",
-            "options": {
-                "targetName": "lint"
-            }
+            "plugin": "@nx/eslint/plugin"
         }
-    ],
-    "useLegacyCache": true
+    ]
 }

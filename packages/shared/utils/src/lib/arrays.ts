@@ -1,4 +1,5 @@
-import { byId, IdObject } from "./filters";
+import type { IdObject } from "./filters";
+import { byId } from "./filters";
 
 export function findSafeById<T, O extends IdObject<T>>(collection: O[], id: T): O {
     const item = collection.find(byId(id));

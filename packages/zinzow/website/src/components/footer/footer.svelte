@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Icon from "@iconify/svelte";
     import type { LayoutData } from "../../routes/$types";
+    import Icon from "@iconify/svelte";
     import { ContentArea } from "../content-area";
     import { H5 } from "../heading";
     import { Logo } from "../logo";
@@ -44,7 +44,7 @@
                                     <a
                                         href={route.routes_id.path}
                                         class="text-sm/6 text-gray-600 transition-colors hover:text-gray-950 dark:text-gray-400 dark:hover:text-white"
-                                        >{route.routes_id.name}</a>
+                                    >{route.routes_id.name}</a>
                                 </li>
                             {/each}
                         </ul>
@@ -64,7 +64,7 @@
                     target="_blank"
                     rel="noopener noreferrer"
                     class="transition-colors hover:text-gray-950 dark:hover:text-white"
-                    >Justin Konratt</a>
+                >Justin Konratt</a>
             </p>
         </div>
     </ContentArea>

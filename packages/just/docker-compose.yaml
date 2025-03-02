@@ -11,7 +11,7 @@ x-common: &common
 services:
   adminer:
     <<: *common
-    image: adminer:4.8.1
+    image: ${DOCKER_PROXY}/adminer:4.8.1
 
   bitwarden:
     <<: *common
@@ -31,7 +31,7 @@ services:
       - SMTP_SECURITY=starttls
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
-    image: vaultwarden/server:1.32.0-alpine
+    image: ${DOCKER_PROXY}/vaultwarden/server:1.32.0-alpine
     volumes:
       - bitwarden-data:/data
 
@@ -67,7 +67,7 @@ services:
     command: daemon --docker
     environment:
       - TZ=${TZ}
-    image: mcuadros/ofelia:0.3.13
+    image: ${DOCKER_PROXY}/mcuadros/ofelia:0.3.13
     labels:
       ofelia.enabled: true
 
@@ -81,7 +81,7 @@ services:
           "TZ=${TZ}"
         ]
       ofelia.job-run.backup.hostname: server
-      ofelia.job-run.backup.image: restic/restic
+      ofelia.job-run.backup.image: ${DOCKER_PROXY}/restic/restic
       ofelia.job-run.backup.schedule: 0 0 3 * * *
       ofelia.job-run.backup.volume: |-
         [
@@ -97,12 +97,10 @@ services:
           "${STACK_NAME}_navidrome-data:/data/services/navidrome/data:ro",
           "${STACK_NAME}_netdata-config:/data/services/netdata/config:ro",
           "${STACK_NAME}_netdata-lib:/data/services/netdata/lib:ro",
-          "${STACK_NAME}_netdata-cache:/data/services/netdata/cache:ro",
           "${STACK_NAME}_pihole-etc:/data/services/pihole/etc:ro",
           "${STACK_NAME}_pihole-dnsmasq:/data/services/pihole/dnsmasq:ro",
           "${STACK_NAME}_portainer-data:/data/services/portainer/data:ro",
           "${STACK_NAME}_postgres-data:/data/services/postgres/data:ro",
-          "${STACK_NAME}_prometheus-data:/data/services/prometheus/data:ro",
           "${STACK_NAME}_sonarqube-config:/data/services/sonarqube/config:ro",
           "${STACK_NAME}_sonarqube-data:/data/services/sonarqube/data:ro",
           "${STACK_NAME}_sonarqube-extensions:/data/services/sonarqube/extensions:ro",
@@ -110,7 +108,7 @@ services:
           "${STACK_NAME}_wandb-data:/data/services/wandb/data:ro"
         ]
 
-      ofelia.job-run.forget-backup.command: --verbose forget --prune --keep-daily 7 --keep-weekly 4 --keep-monthly 6
+      ofelia.job-run.forget-backup.command: --verbose forget --prune --keep-daily 7 --keep-weekly 4 --keep-monthly 3
       ofelia.job-run.forget-backup.environment: |-
         [
           "AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}",
@@ -119,7 +117,7 @@ services:
           "RESTIC_PASSWORD=${RESTIC_PASSWORD}",
           "TZ=${TZ}"
         ]
-      ofelia.job-run.forget-backup.image: restic/restic
+      ofelia.job-run.forget-backup.image: ${DOCKER_PROXY}/restic/restic
       ofelia.job-run.forget-backup.schedule: 0 0 5 * * *
 
       ofelia.job-run.create-playlists.image: ${IMAGE_BASE}/just-music-playlist-creator
@@ -157,7 +155,7 @@ services:
       - NODE_ENV=production
     healthcheck:
       test: node /app/services/healthcheck
-    image: lissy93/dashy:3.1.0
+    image: ${DOCKER_PROXY}/lissy93/dashy:3.1.0
     volumes:
       - dashy-config:/app/user-data:ro
 
@@ -256,11 +254,12 @@ services:
             }
           }
         ]
-    image: zengxs/gitlab:17.5.1-ee
+    image: ${DOCKER_PROXY}/zengxs/gitlab:17.5.1-ee
     restart: always
     volumes:
       - gitlab-config:/etc/gitlab
       - gitlab-data:/var/opt/gitlab
+      - gitlab-shared:/var/opt/gitlab/gitlab-rails/shared
 
   gitlab-runner:
     <<: *common
@@ -277,7 +276,7 @@ services:
       - DOCKER_PRIVILEGED=true
       - CI_SERVER_URL=http://gitlab
       - CI_SERVER_TOKEN=${GITLAB_RUNNER_TOKEN}
-    image: gitlab/gitlab-runner:v17.3.1
+    image: ${DOCKER_PROXY}/gitlab/gitlab-runner:v17.3.1
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock
 
@@ -290,7 +289,7 @@ services:
       - GF_SMTP_PASSWORD=${SMTP_PASSWORD}
     healthcheck:
       test: curl -fs http://localhost:${GRAFANA_PORT}/api/health | grep "ok" || exit 1
-    image: grafana/grafana:11.2.0
+    image: ${DOCKER_PROXY}/grafana/grafana:11.2.0
     volumes:
       - grafana-storage:/var/lib/grafana
       - grafana-config:/usr/share/grafana/conf
@@ -312,7 +311,7 @@ services:
     environment:
       - KEYCLOAK_ADMIN=${KEYCLOAK_USERNAME}
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_PASSWORD}
-    image: quay.io/keycloak/keycloak:25.0.2
+    image: ${DOCKER_PROXY}/quay.io/keycloak/keycloak:25.0.2
 
   music-downloader:
     <<: *common
@@ -322,7 +321,7 @@ services:
       - DOWNLOAD_DIR=/music/downloads
       - PORT=${MUSIC_DOWNLOADER_PORT}
     healthcheck:
-      test: wget -qO- http://localhost:${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
+      test: wget -qO- http://$(hostname):${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
     image: ${IMAGE_BASE}/just-music-downloader:${PROJECT_VERSION:-latest}
     volumes:
       - ${MUSIC_VOLUME}/downloads:/music/downloads
@@ -345,13 +344,14 @@ services:
     image: ${IMAGE_BASE}/just-music-platform:${PROJECT_VERSION:-latest}
     volumes:
       - navidrome-data:/data
+      - navidrome-cache:/data/cache
       - ${MUSIC_VOLUME}:/music:ro
 
   netdata:
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
-    image: netdata/netdata:v1.47.1
+    image: ${DOCKER_PROXY}/netdata/netdata:v1.47.1
     network_mode: host
     restart: always
     security_opt:
@@ -386,7 +386,7 @@ services:
 
   portainer:
     <<: *common
-    image: portainer/portainer-ce:2.21.1-alpine
+    image: ${DOCKER_PROXY}/portainer/portainer-ce:2.21.1-alpine
     volumes:
       - portainer-data:/data
       - //var/run/docker.sock:/var/run/docker.sock
@@ -403,7 +403,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     healthcheck:
       test: pg_isready -U $POSTGRES_USERNAME
-    image: postgres:15-alpine
+    image: ${DOCKER_PROXY}/postgres:15-alpine
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
@@ -425,7 +425,7 @@ services:
       - SONAR_JDBC_URL=jdbc:postgresql://${DB_NAME}:${DB_PORT}/sonarqube
     healthcheck:
       test: wget -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
-    image: sonarqube:10-community
+    image: ${DOCKER_PROXY}/sonarqube:10-community
     volumes:
       - sonarqube-config:/opt/sonarqube/conf
       - sonarqube-data:/opt/sonarqube/data
@@ -439,7 +439,7 @@ services:
       - run
       - --token
       - ${TUNNEL_TOKEN}
-    image: cloudflare/cloudflared:2024.9.1
+    image: ${DOCKER_PROXY}/cloudflare/cloudflared:2024.9.1
     networks:
       default:
         ipv4_address: ${TUNNEL_IP}
@@ -456,7 +456,7 @@ services:
       - PORT=${VPN_PORT}
       - PASSWORD_HASH=${VPN_PASSWORD_HASH}
       - UI_TRAFFIC_STATS=true
-    image: ghcr.io/wg-easy/wg-easy:14
+    image: ${DOCKER_PROXY}/ghcr.io/wg-easy/wg-easy:14
     ports:
       - 51820:51820/udp
     sysctls:
@@ -468,7 +468,7 @@ services:
   # TODO: switch to MLFlow
   # wandb:
   #   <<: *common
-  #   image: wandb/local:0.59.2
+  #   image: ${DOCKER_PROXY}/wandb/local:0.59.2
   #   volumes:
   #     - wandb-data:/vol
 
@@ -499,16 +499,21 @@ volumes:
 
   gitlab-config:
   gitlab-data:
+  # don't backup
+  gitlab-shared:
 
-  grafana-storage:
   grafana-config:
+  grafana-storage:
 
   letsencrypt:
 
+  # don't backup
+  navidrome-cache:
   navidrome-data:
 
   netdata-config:
   netdata-lib:
+  # don't backup
   netdata-cache:
 
   pihole-etc:
@@ -518,6 +523,7 @@ volumes:
 
   postgres-data:
 
+  # don't backup
   prometheus-data:
 
   sonarqube-config:
@@ -525,8 +531,6 @@ volumes:
   sonarqube-extensions:
 
   vpn-data:
-
-  wandb-data:
 
 networks:
   default:

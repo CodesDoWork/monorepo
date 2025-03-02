@@ -16,7 +16,7 @@ npm i -D @codesdowork/nx-secrets-manager @bitwarden/cli
 
 ```json
 {
-  "sever": "https://your-bitwarden-server.url"
+    "sever": "https://your-bitwarden-server.url"
 }
 ```
 
@@ -29,7 +29,7 @@ env?:
   GO: here
 secrets?:
   COLLECTION_NAME:
-    collectionId: "your-collection-id"
+    collectionId: your-collection-id
     prefix?: false # if the secret should be prefixed with the collection name (default: false)
     vars:
       - USERNAME

@@ -1,8 +1,8 @@
-import { PromiseExecutor } from "@nx/devkit";
-import { runDockerCommand } from "nx-plugins-docker";
-import { loadEnv } from "nx-plugins-utils";
+import type { PromiseExecutor } from "@nx/devkit";
+import type { ExecutorSchema } from "./schema";
+import { runDockerCommand } from "@cdw/monorepo/nx-plugins-docker";
+import { loadEnv } from "@cdw/monorepo/nx-plugins-utils";
 import { getServiceInfo } from "../utils";
-import { ExecutorSchema } from "./schema";
 
 export const runComposeExecutor: PromiseExecutor<ExecutorSchema> = async ({ args }, context) => {
     try {

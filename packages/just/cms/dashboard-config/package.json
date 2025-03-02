@@ -1,19 +1,13 @@
 {
     "name": "just-cms-dashboard-config",
-    "version": "1.0.0",
-    "icon": "dashboard_customize",
     "type": "module",
+    "version": "1.0.0",
     "private": true,
+    "icon": "dashboard_customize",
     "directus:extension": {
         "type": "hook",
         "path": "../../../../dist/packages/just/cms/dashboard-config/index.js",
         "source": "src/index.ts",
         "host": "^11.1.0"
-    },
-    "dependencies": {
-        "@directus/extensions-sdk": "12.0.2",
-        "@directus/types": "12.0.1",
-        "pino": "9.4.0",
-        "yaml": "2.5.1"
     }
 }

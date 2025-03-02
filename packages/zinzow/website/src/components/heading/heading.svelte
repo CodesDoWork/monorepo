@@ -9,6 +9,11 @@
     export { className as class };
 </script>
 
-<Text {tag} class={classNames("text-pretty font-semibold tracking-tight", className)}>
+<Text
+    {tag}
+    class={classNames(
+        "text-primary-600 dark:text-primary-600 text-pretty font-semibold tracking-tight",
+        className,
+    )}>
     <slot />
 </Text>

@@ -1,4 +1,10 @@
 {
+    "files.watcherExclude": {
+        "**/.nx/**": true,
+        "**/.venv/**": true,
+        "**/dist/**": true,
+        "**/node_modules/**": true
+    },
     "sonarlint.connectedMode.project": {
         "connectionId": "https-sonar-justinkonratt-com",
         "projectKey": "codesdowork_monorepo"

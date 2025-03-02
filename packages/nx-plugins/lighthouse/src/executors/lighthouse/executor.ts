@@ -1,15 +1,16 @@
-import { execAsync } from "@codesdowork/shared-utils";
-import { logger, PromiseExecutor } from "@nx/devkit";
-import { existsSync, mkdirSync } from "fs";
+import type { PromiseExecutor } from "@nx/devkit";
+import type { LighthouseExecutorSchema } from "../../schema";
+import { existsSync, mkdirSync } from "node:fs";
 import path from "node:path";
-import { dockerImage } from "nx-plugins-docker";
+import { dockerImage } from "@cdw/monorepo/nx-plugins-docker";
 import {
     dockerComposeDownExecutor,
     dockerComposeUpExecutor,
     getServiceNetwork,
-} from "nx-plugins-docker-compose";
-import { replaceEnvs } from "nx-plugins-utils";
-import { LighthouseExecutorSchema } from "../../schema";
+} from "@cdw/monorepo/nx-plugins-docker-compose";
+import { replaceEnvs } from "@cdw/monorepo/nx-plugins-utils";
+import { execAsync } from "@cdw/monorepo/shared-utils";
+import { logger } from "@nx/devkit";
 
 const REPORTS_DIR = "reports/lighthouse";
 

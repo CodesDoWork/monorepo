@@ -6,9 +6,9 @@
 #
 accelerate==1.2.1
     # via transformers
-aiohappyeyeballs==2.4.4
+aiohappyeyeballs==2.4.6
     # via aiohttp
-aiohttp==3.11.10
+aiohttp==3.11.13
     # via
     #   datasets
     #   fsspec
@@ -59,9 +59,9 @@ cffi==1.17.1
     #   numpy-minmax
     #   numpy-rms
     #   soundfile
-charset-normalizer==3.4.0
+charset-normalizer==3.4.1
     # via requests
-click==8.1.7
+click==8.1.8
     # via
     #   pip-tools
     #   wandb
@@ -83,7 +83,7 @@ datasets[audio]==3.2.0
     # via
     #   -r requirements.in
     #   evaluate
-debugpy==1.8.11
+debugpy==1.8.12
     # via ipykernel
 decorator==5.1.1
     # via
@@ -91,7 +91,7 @@ decorator==5.1.1
     #   librosa
 defusedxml==0.7.1
     # via nbconvert
-dill==0.3.8
+dill==0.3.9
     # via
     #   datasets
     #   evaluate
@@ -167,7 +167,7 @@ isoduration==20.11.0
     # via jsonschema
 jedi==0.19.2
     # via ipython
-jinja2==3.1.4
+jinja2==3.1.5
     # via
     #   jupyter-server
     #   jupyterlab
@@ -222,7 +222,7 @@ jupyter-server==2.14.2
     #   notebook-shim
 jupyter-server-terminals==0.5.3
     # via jupyter-server
-jupyterlab==4.3.4
+jupyterlab==4.3.5
     # via
     #   jupyter
     #   notebook
@@ -234,7 +234,7 @@ jupyterlab-server==2.27.3
     #   notebook
 jupyterlab-widgets==3.0.13
     # via ipywidgets
-kiwisolver==1.4.7
+kiwisolver==1.4.8
     # via matplotlib
 lazy-loader==0.4
     # via librosa
@@ -264,13 +264,13 @@ multidict==6.1.0
     # via
     #   aiohttp
     #   yarl
-multiprocess==0.70.16
+multiprocess==0.70.17
     # via
     #   datasets
     #   evaluate
-nbclient==0.10.1
+nbclient==0.10.2
     # via nbconvert
-nbconvert==7.16.4
+nbconvert==7.16.6
     # via
     #   jupyter
     #   jupyter-server

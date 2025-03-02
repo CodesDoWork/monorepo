@@ -1,7 +1,7 @@
-type Translation = {
+interface Translation {
     key: string;
     value: string;
-};
+}
 
 export function getTextsFromTranslations(
     translations: Translation[],

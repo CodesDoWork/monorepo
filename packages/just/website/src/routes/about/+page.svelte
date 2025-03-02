@@ -1,12 +1,12 @@
 <script lang="ts">
-    import Page from "../../components/Page.svelte";
     import type { PageData } from "./$types";
+    import { clsx } from "clsx";
     import Card from "../../components/Card.svelte";
     import Heading from "../../components/Heading.svelte";
-    import Technology from "../../components/Technology.svelte";
     import Link from "../../components/Link.svelte";
+    import Page from "../../components/Page.svelte";
+    import Technology from "../../components/Technology.svelte";
     import VerticalLine from "../../components/VerticalLine.svelte";
-    import { clsx } from "clsx";
     import { animationDelay } from "../../helpers/animationDelay";
 
     export let data: PageData;
@@ -19,7 +19,7 @@
     const labelClass = "block mt-4 font-bold text-slate-500 dark:text-slate-300 mb-2";
 </script>
 
-<Page routes={routes} siteInfo={siteInfo} title={{title: "About", small: true}}>
+<Page routes={routes} siteInfo={siteInfo} title={{ title: "About", small: true }}>
     <div class="flex gap-4 flex-col md:flex-row">
         <img alt="Portrait" class={clsx(cardClass, "block md:hidden rounded-full self-end mt-[-3rem] w-24 shadow-md")}
              src={portraitSrc} style={getCardStyle()} />

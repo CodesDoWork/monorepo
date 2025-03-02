@@ -37,7 +37,7 @@
         "@parcel/watcher": "^2.5.1",
         "@swc/helpers": "0.5.12",
         "@t3-oss/env-core": "^0.11.0",
-        "@tailwindcss/forms": "^0.5.7",
+        "@tailwindcss/forms": "^0.5.10",
         "axios": "^1.7.4",
         "classnames": "^2.5.1",
         "clsx": "^2.1.1",

@@ -412,7 +412,7 @@ pyyaml==6.0.2
     #   jupyter-events
     #   transformers
     #   wandb
-pyzmq==26.2.0
+pyzmq==26.2.1
     # via
     #   ipykernel
     #   jupyter-client

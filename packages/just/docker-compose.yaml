@@ -108,7 +108,7 @@ services:
           "${STACK_NAME}_wandb-data:/data/services/wandb/data:ro"
         ]
 
-      ofelia.job-run.forget-backup.command: --verbose forget --prune --keep-daily 7 --keep-weekly 4 --keep-monthly 6
+      ofelia.job-run.forget-backup.command: --verbose forget --prune --keep-daily 7 --keep-weekly 4 --keep-monthly 3
       ofelia.job-run.forget-backup.environment: |-
         [
           "AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}",

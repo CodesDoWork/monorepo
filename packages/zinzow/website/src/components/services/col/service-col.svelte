@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { PageData } from "../../../routes/service/$types";
+    import type { PageData } from "../../../routes/dienstleistungen/$types";
     import { H2 } from "../../heading";
 
     type Service = PageData["services"][number];
@@ -19,7 +19,7 @@
                 <div
                     class="group-hover:py-18 relative rounded-xl px-4 py-16 transition group-hover:bg-white/75 dark:group-hover:bg-black/75">
                     <H2
-                        class="dark:text-primary-200 absolute left-3 top-2 w-fit text-nowrap rounded-full bg-white/75 px-3 py-1 text-sm transition-all group-hover:left-1/2 group-hover:right-1/2 group-hover:top-12 group-hover:-translate-x-1/2 group-hover:bg-transparent group-hover:text-3xl sm:text-base sm:group-hover:text-4xl dark:bg-black/75">
+                        class="dark:text-primary-100 absolute left-3 top-2 w-fit text-nowrap rounded-full bg-white/75 px-3 py-1 text-sm transition-all group-hover:left-1/2 group-hover:right-1/2 group-hover:top-12 group-hover:-translate-x-1/2 group-hover:bg-transparent group-hover:text-3xl sm:text-base sm:group-hover:text-4xl dark:bg-black/75">
                         {service.route.name}
                     </H2>
                     <p

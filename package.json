@@ -89,7 +89,6 @@
         "@testing-library/react": "16.1.0",
         "@types/color": "^4.2.0",
         "@types/eslint-plugin-tailwindcss": "^3.17.0",
-        "@types/graphql": "^14.5.0",
         "@types/node": "20.17.19",
         "@types/node-cron": "^3.0.11",
         "@types/pg": "^8.11.11",

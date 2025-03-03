@@ -3,7 +3,7 @@
     import Icon from "@iconify/svelte";
     import classNames from "classnames";
     import { writable } from "svelte/store";
-    import { ContentArea } from "../content-area";
+    import { WidthBox } from "../content-area";
     import { Logo } from "../logo";
     import { MobileMenu } from "../mobile-menu";
     import PopupNav from "./popup-nav.svelte";
@@ -18,7 +18,7 @@
 </script>
 
 <header>
-    <ContentArea tag="nav" class="flex items-center justify-between">
+    <WidthBox tag="nav" class="flex items-center justify-between">
         <a href="/">
             <Logo class="h-16" />
         </a>
@@ -47,8 +47,8 @@
                         )}>
                         <a
                             href={route.path}
-                            class="block px-3 py-1 text-sm/6 font-semibold transition group-hover/nav-item:scale-110"
-                        >{route.name}
+                            class="block px-3 py-1 text-sm/6 font-semibold transition group-hover/nav-item:scale-110">
+                            {route.name}
                             {#if children.length}
                                 <Icon icon="carbon:chevron-down" class="inline size-4" />
                             {/if}
@@ -63,5 +63,5 @@
                 {/each}
             </ol>
         </div>
-    </ContentArea>
+    </WidthBox>
 </header>

@@ -47,6 +47,8 @@ export default antfu(
         rules: {
             "node/prefer-global/process": ["error", "always"],
             "node/prefer-global/buffer": ["error", "always"],
+            "antfu/consistent-list-newline": "off",
+            "style/indent": "off",
         },
     },
     {

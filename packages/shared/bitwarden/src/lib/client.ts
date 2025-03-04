@@ -1,8 +1,6 @@
 import type { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios";
 import type { BitwardenApi, GetRoutes, PostRoutes } from "./bitwarden-api";
-import type {
-    ByteData,
-} from "./crypto";
+import type { ByteData } from "./crypto";
 import type { BitwardenData, Cipher, Collection, Organization } from "./data";
 import axios, { Axios } from "axios";
 import {

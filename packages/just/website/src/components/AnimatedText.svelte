@@ -1,5 +1,4 @@
 <script lang="ts">
-
     import { clsx } from "clsx";
 
     let className = "";
@@ -26,7 +25,9 @@
     const typeText = () => {
         if (nextTypeIndex < length) {
             ++nextTypeIndex;
-            typedText = typeWords ? words.slice(0, nextTypeIndex).join(" ") : text.slice(0, nextTypeIndex);
+            typedText = typeWords
+                ? words.slice(0, nextTypeIndex).join(" ")
+                : text.slice(0, nextTypeIndex);
             setTimeout(typeText, typingMs);
         } else {
             typedText = typedText.trim();

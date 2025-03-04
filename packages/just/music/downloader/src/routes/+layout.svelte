@@ -3,6 +3,6 @@
 </script>
 
 <main
-    class="min-h-screen from-primary-400 to-secondary-400 dark:from-primary-950 dark:to-secondary-950 relative overflow-x-hidden bg-gradient-to-b from-5% to-95% transition-colors">
+    class="from-primary-400 to-secondary-400 dark:from-primary-950 dark:to-secondary-950 relative min-h-screen overflow-x-hidden bg-gradient-to-b from-5% to-95% transition-colors">
     <slot />
 </main>

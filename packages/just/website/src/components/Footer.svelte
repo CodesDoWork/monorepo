@@ -32,7 +32,8 @@
         className,
     );
 
-    const linkClass = "!text-black dark:!text-brandOrange-500 hover:!bg-brandOrange-500 hover:!text-black";
+    const linkClass =
+        "!text-black dark:!text-brandOrange-500 hover:!bg-brandOrange-500 hover:!text-black";
 </script>
 
 <footer class={footerClass}>

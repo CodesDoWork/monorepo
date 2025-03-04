@@ -6,7 +6,7 @@ import { logger } from "@nx/devkit";
 export const runVitestExecutor: PromiseExecutor = async (_, context) => {
     try {
         const projectDir = projectRoot(context);
-        await execAsync(`vitest`, ["--run", "--passWithNoTests"], {
+        await execAsync("vitest", ["--run", "--passWithNoTests"], {
             cwd: projectDir,
             shell: true,
         });

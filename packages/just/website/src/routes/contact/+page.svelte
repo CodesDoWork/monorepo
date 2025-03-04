@@ -23,59 +23,78 @@
     );
 </script>
 
-<Page routes={routes} siteInfo={siteInfo} title={{ title: "Contact", small: true }}>
-    <div class="grid grid-cols-1 2xl:grid-cols-2 gap-12 xl:gap-16">
+<Page {routes} {siteInfo} title={{ title: "Contact", small: true }}>
+    <div class="grid grid-cols-1 gap-12 xl:gap-16 2xl:grid-cols-2">
         <div class="animate-fadeInSubtle opacity-0">
             <Heading level="h2">Let's Connect</Heading>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 {#each socials as social, idx (idx)}
-                    <Card style={`--hover-color: ${social.tone}; ${animationDelay(idx)}`}
-                          class="group border-l-4 hover:border-l-8 border-[var(--hover-color)] outline-0 hover:outline-0">
+                    <Card
+                        style={`--hover-color: ${social.tone}; ${animationDelay(idx)}`}
+                        class="group border-l-4 border-[var(--hover-color)] outline-0 hover:border-l-8 hover:outline-0">
                         <Link
                             noStyle
-                            class="p-4 sm:p-5 md:p-6 md:h-20 w-full hover:pt-3 hover:pb-5 sm:hover:pb-7 md:hover:pt-4 lg:hover:pt-3 transition-all grid grid-cols-[auto_1fr]"
+                            class="grid w-full grid-cols-[auto_1fr] p-4 transition-all hover:pb-5 hover:pt-3 sm:p-5 sm:hover:pb-7 md:h-20 md:p-6 md:hover:pt-4 lg:hover:pt-3"
                             href={social.href}
                             title={social.title}>
                             <Icon
-                                class="w-8 h-8 sm:w-10 sm:h-10 row-span-2 mr-4 transition-colors group-hover:text-[var(--hover-color)]"
+                                class="row-span-2 mr-4 h-8 w-8 transition-colors group-hover:text-[var(--hover-color)] sm:h-10 sm:w-10"
                                 icon={social.icon} />
-                            <Heading commandStyle={false}
-                                     class="cursor-pointer !mb-0 !text-black dark:!text-white group-hover:!text-[var(--hover-color)]"
-                                     level="h5">{social.platform}</Heading>
-                            <p class="text-0 h-0 text-slate-600 dark:text-slate-300 sm:group-hover:text-sm xl:group-hover:text-base transition-fontSize">{social.name}</p>
+                            <Heading
+                                commandStyle={false}
+                                class="!mb-0 cursor-pointer !text-black group-hover:!text-[var(--hover-color)] dark:!text-white"
+                                level="h5">{social.platform}</Heading>
+                            <p
+                                class="text-0 transition-fontSize h-0 text-slate-600 sm:group-hover:text-sm xl:group-hover:text-base dark:text-slate-300">
+                                {social.name}
+                            </p>
                         </Link>
                     </Card>
                 {/each}
             </div>
         </div>
-        <div class="animate-fadeInSubtle opacity-0 flex flex-col" style={animationDelay(2)}>
+        <div class="animate-fadeInSubtle flex flex-col opacity-0" style={animationDelay(2)}>
             <Heading level="h2">Send Message</Heading>
-            <form action="?/mail"
-                  class="grid grid-cols-2 gap-4 grow grid-rows-[auto_1fr_auto]"
-                  method="post"
-                  use:enhance>
-                <input class={clsx(inputClass)}
-                       name="name"
-                       placeholder="Name"
-                       required
-                       type="text"
-                       value={form?.data?.name || ""} />
-                <input class={clsx(inputClass)}
-                       name="email"
-                       placeholder="Email"
-                       required
-                       type="email"
-                       value={form?.data?.email || ""} />
-                <textarea class={clsx(inputClass, "col-span-2 min-h-24")}
-                          name="message"
-                          placeholder="Message"
-                          required>{form?.data?.message || ""}</textarea>
+            <form
+                action="?/mail"
+                class="grid grow grid-cols-2 grid-rows-[auto_1fr_auto] gap-4"
+                method="post"
+                use:enhance>
+                <input
+                    class={clsx(inputClass)}
+                    name="name"
+                    placeholder="Name"
+                    required
+                    type="text"
+                    value={form?.data?.name || ""} />
+                <input
+                    class={clsx(inputClass)}
+                    name="email"
+                    placeholder="Email"
+                    required
+                    type="email"
+                    value={form?.data?.email || ""} />
+                <textarea
+                    class={clsx(inputClass, "col-span-2 min-h-24")}
+                    name="message"
+                    placeholder="Message"
+                    required>{form?.data?.message || ""}</textarea>
                 <button
-                    class={clsx(inputClass, "col-span-2 !bg-[var(--page-color)] !outline-0 text-white active:brightness-75")}
-                    type="submit">Send
+                    class={clsx(
+                        inputClass,
+                        "col-span-2 !bg-[var(--page-color)] text-white !outline-0 active:brightness-75",
+                    )}
+                    type="submit">
+                    Send
                 </button>
                 {#if form}
-                    <p class={clsx("col-span-2", form.success ? "text-green-500" : "text-error-500")}>{form.msg}</p>
+                    <p
+                        class={clsx(
+                            "col-span-2",
+                            form.success ? "text-green-500" : "text-error-500",
+                        )}>
+                        {form.msg}
+                    </p>
                 {/if}
             </form>
         </div>

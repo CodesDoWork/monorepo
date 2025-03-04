@@ -11,6 +11,7 @@
         "module": "esnext",
         "moduleResolution": "bundler",
         "paths": {
+            "@cdw/monorepo/*": ["*"],
             "@cdw/monorepo/just-branding": ["packages/just/branding/src/index.ts"],
             "@cdw/monorepo/just-branding/*": ["packages/just/branding/*"],
             "@cdw/monorepo/just-cms-types": ["packages/just/cms/types/src/index.ts"],
@@ -24,11 +25,6 @@
             "@cdw/monorepo/nx-plugins-docker-compose": [
                 "packages/nx-plugins/docker-compose/src/index.ts"
             ],
-            "@cdw/monorepo/shared-bitwarden": ["packages/shared/bitwarden/src/index.ts"],
-            "@cdw/monorepo/shared-logging": ["packages/shared/logging/src/index.ts"],
-            "@cdw/monorepo/shared-trivy": ["packages/shared/trivy/src/index.ts"],
-            "@cdw/monorepo/shared-utils": ["packages/shared/utils/src/index.ts"],
-            "@cdw/monorepo/shared-utils/*": ["packages/shared/utils/src/*.ts"],
             "@cdw/monorepo/nx-plugins-lighthouse": ["packages/nx-plugins/lighthouse/src/index.ts"],
             "@cdw/monorepo/nx-plugins-secrets-manager": [
                 "packages/nx-plugins/secrets-manager/src/index.ts"
@@ -39,7 +35,11 @@
             "@cdw/monorepo/nx-plugins-vitepress": ["packages/nx-plugins/vitepress/src/index.ts"],
             "@cdw/monorepo/nx-plugins-vitest": ["packages/nx-plugins/vitest/src/index.ts"],
             "@cdw/monorepo/nx-plugins-wrangler": ["packages/nx-plugins/wrangler/src/index.ts"],
-            "@cdw/monorepo/*": ["*"]
+            "@cdw/monorepo/shared-bitwarden": ["packages/shared/bitwarden/src/index.ts"],
+            "@cdw/monorepo/shared-logging": ["packages/shared/logging/src/index.ts"],
+            "@cdw/monorepo/shared-trivy": ["packages/shared/trivy/src/index.ts"],
+            "@cdw/monorepo/shared-utils": ["packages/shared/utils/src/index.ts"],
+            "@cdw/monorepo/shared-utils/*": ["packages/shared/utils/src/*.ts"]
         },
         "resolveJsonModule": true,
         "allowJs": true,

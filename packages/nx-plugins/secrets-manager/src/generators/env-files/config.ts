@@ -1,14 +1,8 @@
 import type { Tree } from "@nx/devkit";
-import type {
-    ProjectSecretsConfig,
-    RootSecretsConfig,
-} from "./types";
+import type { ProjectSecretsConfig, RootSecretsConfig } from "./types";
 import path from "node:path";
 import { parse as parseYaml } from "yaml";
-import {
-    zProjectSecretsConfig,
-    zRootSecretConfig,
-} from "./types";
+import { zProjectSecretsConfig, zRootSecretConfig } from "./types";
 
 const ROOT_CONFIG_FILE = ".secrets.config.json";
 const PROJECT_CONFIG_FILE = ".env.secure.yaml";

@@ -20,6 +20,6 @@
     );
 </script>
 
-<div class={cardClass} style={style}>
+<div class={cardClass} {style}>
     <slot />
 </div>

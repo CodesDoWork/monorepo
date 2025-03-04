@@ -6,9 +6,15 @@
 
     const goTop = () => document.body.scrollIntoView({ behavior: "smooth" });
     const scrollContainer = () => document.documentElement || document.body;
-    const handleOnScroll = () => scrollContainer() && (hidden = scrollContainer().scrollTop <= showOnPx);
+    const handleOnScroll = () =>
+        scrollContainer() && (hidden = scrollContainer().scrollTop <= showOnPx);
 
-    $: buttonClass = clsx("fixed right-4 bottom-4 z-20", "py-1 px-2 rounded font-bold text-sm bg-[var(--page-color)]", hidden && "opacity-0 invisible", "transition-all duration-500");
+    $: buttonClass = clsx(
+        "fixed right-4 bottom-4 z-20",
+        "py-1 px-2 rounded font-bold text-sm bg-[var(--page-color)]",
+        hidden && "opacity-0 invisible",
+        "transition-all duration-500",
+    );
 </script>
 
 <svelte:window on:scroll={handleOnScroll} />

@@ -6,7 +6,7 @@ import { logger } from "@nx/devkit";
 export const serveDirectusExtensionExecutor: PromiseExecutor = async (_, context) => {
     try {
         const projectDir = projectRoot(context);
-        await execAsync(`directus-extension`, ["build -w --no-minify"], {
+        await execAsync("directus-extension", ["build -w --no-minify"], {
             cwd: projectDir,
             shell: true,
         });

@@ -24,9 +24,9 @@
     );
 </script>
 
-<svelte:element class={computedClassName} id={id} this={level}>
+<svelte:element this={level} class={computedClassName} {id}>
     {#if animateText}
-        <AnimatedText blinkCursor={blinkCursor} text={animateText} />
+        <AnimatedText {blinkCursor} text={animateText} />
     {:else}
         <slot />
     {/if}

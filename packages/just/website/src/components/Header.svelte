@@ -58,26 +58,32 @@
     <div class="flex items-center">
         {#if backButton && $currentRoute !== undefined}
             <Link
-                class="p-1 mr-4 m-0 inline-block !text-white hover:!text-white hover:!bg-[var(--page-color)]"
-                href={$currentRoute?.route} title={$currentRoute?.name}>
+                class="m-0 mr-4 inline-block p-1 !text-white hover:!bg-[var(--page-color)] hover:!text-white"
+                href={$currentRoute?.route}
+                title={$currentRoute?.name}>
                 <Icon icon="carbon:chevron-left" />
             </Link>
         {/if}
         <a class={clsx("font-mono font-bold drop-shadow-md", itemVisibility)} href="/">{title}</a>
     </div>
-    <NavLinks class="hidden lg:flex" liClass={clsx("inline-block", itemVisibility)} routes={routes} />
-    <button class="block lg:hidden active:scale-90" on:click={() => navDrawerHidden = !navDrawerHidden}>
-        <Icon class="w-6 h-6" icon="material-symbols:menu" />
+    <NavLinks class="hidden lg:flex" liClass={clsx("inline-block", itemVisibility)} {routes} />
+    <button
+        class="block active:scale-90 lg:hidden"
+        on:click={() => (navDrawerHidden = !navDrawerHidden)}>
+        <Icon class="h-6 w-6" icon="material-symbols:menu" />
     </button>
 </header>
-<Drawer bind:hidden={navDrawerHidden}
-        class="absolute z-20 block lg:hidden p-0 rounded-r-none rounded-l shadow-md start-auto end-0 top-14 bg-gray-50 dark:bg-primary-950 border-gray-500 border-b-2 border-l-2"
-        transitionParams={transitionParams}>
+<Drawer
+    bind:hidden={navDrawerHidden}
+    class="dark:bg-primary-950 absolute end-0 start-auto top-14 z-20 block rounded-l rounded-r-none border-b-2 border-l-2 border-gray-500 bg-gray-50 p-0 shadow-md lg:hidden"
+    {transitionParams}>
     <Sidebar>
-        <SidebarWrapper class="dark:bg-primary-950 rounded-r-none rounded-l p-2">
-            <NavLinks aClass="block text-black dark:text-white" liClass="mb-2 animate-fadeInTopSubtle opacity-0"
-                      routes={routes} />
+        <SidebarWrapper class="dark:bg-primary-950 rounded-l rounded-r-none p-2">
+            <NavLinks
+                aClass="block text-black dark:text-white"
+                liClass="mb-2 animate-fadeInTopSubtle opacity-0"
+                {routes} />
         </SidebarWrapper>
     </Sidebar>
 </Drawer>
-<DarkmodeToggle class="absolute top-4 right-8 z-10" is_on_hero={$currentRoute?.is_hero} theme={theme} />
+<DarkmodeToggle class="absolute right-8 top-4 z-10" is_on_hero={$currentRoute?.is_hero} {theme} />

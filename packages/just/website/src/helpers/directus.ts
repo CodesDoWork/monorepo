@@ -37,7 +37,7 @@ function assetUrl(id: string) {
 }
 
 function replaceLinks(text: string) {
-    return text.replace(/<a /g, "<a class=\"text-[var(--page-color)] hover:underline\" ");
+    return text.replace(/<a /g, '<a class="text-[var(--page-color)] hover:underline" ');
 }
 
 export function getSiteInfo(directus: Directus): Promise<PageInfo> {

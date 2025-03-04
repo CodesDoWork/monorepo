@@ -14,9 +14,9 @@
     );
 </script>
 
-<svelte:element class={labelClass} this={tag}>
+<svelte:element this={tag} class={labelClass}>
     <span>{name}</span>
     {#if icon}
-        <Icon class="w-6 h-6" icon={icon} />
+        <Icon class="h-6 w-6" {icon} />
     {/if}
 </svelte:element>

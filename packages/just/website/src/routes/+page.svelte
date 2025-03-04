@@ -24,33 +24,38 @@
     );
 </script>
 
-<Page routes={routes}
-      siteInfo={siteInfo}
-      title={{ title: siteInfo.title, class: "dark:text-primary-500" }}>
-    <div class="flex gap-1.5 justify-center mb-12 sm:mb-16 md:mb-24 lg:mb-32 xl:mb-40">
+<Page {routes} {siteInfo} title={{ title: siteInfo.title, class: "dark:text-primary-500" }}>
+    <div class="mb-12 flex justify-center gap-1.5 sm:mb-16 md:mb-24 lg:mb-32 xl:mb-40">
         {#each siteInfo.socials as social, idx (idx)}
-            <Link href={social.href} title={social.title} noStyle class="hover:scale-110 transition-transform">
+            <Link
+                href={social.href}
+                title={social.title}
+                noStyle
+                class="transition-transform hover:scale-110">
                 <Icon
-                    class="w-7 h-7 md:w-9 md:h-9 transition drop-shadow hover:text-[var(--hover-color)] animate-fadeInSubtle opacity-0"
+                    class="animate-fadeInSubtle h-7 w-7 opacity-0 drop-shadow transition hover:text-[var(--hover-color)] md:h-9 md:w-9"
                     icon={social.icon}
-                    style={`--hover-color: ${social.tone}; ${animationDelay(idx)}`}
-                />
+                    style={`--hover-color: ${social.tone}; ${animationDelay(idx)}`} />
             </Link>
         {/each}
     </div>
-    <div class="flex flex-col md:grid md:grid-cols-2 gap-4 w-4/5 sm:w-3/4 md:w-11/12 lg:w-full xl:w-3/4 mx-auto">
+    <div
+        class="mx-auto flex w-4/5 flex-col gap-4 sm:w-3/4 md:grid md:w-11/12 md:grid-cols-2 lg:w-full xl:w-3/4">
         {#each homePageLinks as navLink, idx (idx)}
-            <Card style={`--hover-color: ${findRouteColor(navLink.route)}; ${animationDelay(idx)}`}
-                  safeBg
-                  class="flex h-16 md:h-20 group border-l-4 hover:border-l-8 border-[var(--hover-color)] !outline-0 !hover:outline-0">
+            <Card
+                style={`--hover-color: ${findRouteColor(navLink.route)}; ${animationDelay(idx)}`}
+                safeBg
+                class="!hover:outline-0 group flex h-16 border-l-4 border-[var(--hover-color)] !outline-0 hover:border-l-8 md:h-20">
                 <Link
                     title={navLink.name}
                     noStyle
-                    class="flex flex-col w-full h-full"
+                    class="flex h-full w-full flex-col"
                     href={navLink.route}>
-                    <Heading class={headingClass}
-                             level="h3">{navLink.name}</Heading>
-                    <p class="text-0 h-0 text-slate-600 dark:text-slate-300 sm:group-hover:text-sm lg:group-hover:text-base transition-fontSize ml-4 sm:ml-5 md:ml-6">{navLink.description}</p>
+                    <Heading class={headingClass} level="h3">{navLink.name}</Heading>
+                    <p
+                        class="text-0 transition-fontSize ml-4 h-0 text-slate-600 sm:ml-5 sm:group-hover:text-sm md:ml-6 lg:group-hover:text-base dark:text-slate-300">
+                        {navLink.description}
+                    </p>
                 </Link>
             </Card>
         {/each}

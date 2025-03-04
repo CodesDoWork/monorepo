@@ -18,7 +18,8 @@
             fetch("/api/reading-list")
                 .then(res => res.json())
                 .then(set),
-        ));
+        ),
+    );
     $: categories = new Set($books.flatMap(book => book.categories).sort());
 
     let animationIdx = 0;

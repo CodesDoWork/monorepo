@@ -9,7 +9,7 @@ export function runViteExecutor(target: ViteTarget): PromiseExecutor {
     return async (_, context) => {
         try {
             const projectDir = projectRoot(context);
-            await execAsync(`vite`, [target], {
+            await execAsync("vite", [target], {
                 cwd: projectDir,
                 shell: true,
                 env: {

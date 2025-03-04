@@ -6,7 +6,7 @@ import { logger } from "@nx/devkit";
 export const runCodegenExecutor: PromiseExecutor = async (_, context) => {
     try {
         const projectDir = projectRoot(context);
-        await execAsync(`graphql-codegen`, ["--config codegen.ts"], {
+        await execAsync("graphql-codegen", ["--config codegen.ts"], {
             cwd: projectDir,
             shell: true,
         });

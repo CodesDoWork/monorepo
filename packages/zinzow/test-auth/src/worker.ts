@@ -27,6 +27,6 @@ function parseCredentials(authorization: string) {
 
 function getUnauthorizedResponse(message: string) {
     const response = new Response(message, { status: 401 });
-    response.headers.set("WWW-Authenticate", `Basic realm="Test Website"`);
+    response.headers.set("WWW-Authenticate", 'Basic realm="Test Website"');
     return response;
 }

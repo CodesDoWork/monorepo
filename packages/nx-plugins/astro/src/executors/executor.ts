@@ -9,7 +9,7 @@ export function runAstroExecutor(target: AstroTarget): PromiseExecutor {
     return async (_, context) => {
         try {
             const projectDir = projectRoot(context);
-            await execAsync(`astro`, [target], {
+            await execAsync("astro", [target], {
                 cwd: projectDir,
                 shell: true,
                 env: {

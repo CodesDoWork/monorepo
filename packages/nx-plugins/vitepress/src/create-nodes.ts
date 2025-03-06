@@ -13,10 +13,15 @@ export const createNodes = createNodesForProjects("**/.vitepressrc.json", ({ roo
         JSON.parse(readFileSync(path.join(root, ".vitepressrc.json")).toString()),
     );
 
-    const targets = getExecutors("@cdw/monorepo/nx-plugins-vitepress", "", ["build", "serve", "preview"], {
-        docs,
-        assets,
-    });
+    const targets = getExecutors(
+        "@cdw/monorepo/nx-plugins-vitepress",
+        "",
+        ["build", "serve", "preview"],
+        {
+            docs,
+            assets,
+        },
+    );
 
     targets.build && (targets.build.dependsOn = ["pre-build"]);
     targets.serve && (targets.serve.dependsOn = ["pre-build"]);

@@ -51,10 +51,10 @@ or
 nx g @codesdowork/nx-secrets-manager:env-files [stages] [bw-username] [bw-password]
 ```
 
-All input parameters can be omitted. They will be asked for when running the command.
-When you are already logged in, the username is not needed.
-The password input is hidden and can also read from the `BW_PASSWORD` environment variable.
-In Bitwarden, have a collection, e.g. `DB`, with credentials named like the stage (e.g. `DEV`, `TEST`, `PROD`).
+All input parameters can be omitted. They will be asked for when running the command. When you are
+already logged in, the username is not needed. The password input is hidden and can also read from
+the `BW_PASSWORD` environment variable. In Bitwarden, have a collection, e.g. `DB`, with credentials
+named like the stage (e.g. `DEV`, `TEST`, `PROD`).
 
-Stages are comma separated and prioritized by their order, e.g., `DEV,PROD` uses the `DEV` stage primarily and `PROD` as
-fallback.
+Stages are comma separated and prioritized by their order, e.g., `DEV,PROD` uses the `DEV` stage
+primarily and `PROD` as fallback.

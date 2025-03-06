@@ -8,7 +8,7 @@ export const runSvelteCheckExecutor: PromiseExecutor = async (_, context) => {
     try {
         const projectDir = projectRoot(context);
         runViteBuildExecutor(undefined, context);
-        await execAsync(`svelte-check`, [], {
+        await execAsync("svelte-check", [], {
             cwd: projectDir,
             shell: true,
         });

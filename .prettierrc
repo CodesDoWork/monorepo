@@ -9,6 +9,7 @@
     "semi": true,
     "arrowParens": "avoid",
     "printWidth": 100,
+    "proseWrap": "always",
     "overrides": [
         {
             "files": ["*.yml", "*.yaml", "*.md"],
@@ -17,11 +18,17 @@
             }
         },
         {
-            "files": "*.svelte",
+            "files": "*.md",
             "options": {
-                "parser": "svelte"
+                "embeddedLanguageFormatting": "off"
+            }
+        },
+        {
+            "files": "*.astro",
+            "options": {
+                "parser": "astro"
             }
         }
     ],
-    "plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss"]
+    "plugins": ["prettier-plugin-svelte", "prettier-plugin-tailwindcss", "prettier-plugin-astro"]
 }

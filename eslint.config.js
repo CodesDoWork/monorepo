@@ -1,6 +1,10 @@
 import antfu from "@antfu/eslint-config";
 import nx from "@nx/eslint-plugin";
+import eslintPluginAstro from "eslint-plugin-astro";
+import eslintPluginHtml from "eslint-plugin-html";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import tailwind from "eslint-plugin-tailwindcss";
+import eslintPluginToml from "eslint-plugin-toml";
 
 export default antfu(
     {
@@ -29,26 +33,60 @@ export default antfu(
                 "style/quote-props": ["error", "as-needed"],
                 "style/brace-style": ["error", "1tbs"],
                 "style/max-len": ["warn", { code: 100, ignoreStrings: true }],
+                "style/type-generic-spacing": "off",
+                "style/operator-linebreak": "off",
+                "style/indent": "off",
+                "style/indent-binary-ops": "off",
+                "style/quotes": ["error", "double", { avoidEscape: true }],
+                "style/jsx-closing-bracket-location": ["error", { location: "after-props" }],
             },
         },
         formatters: {
             astro: true,
             css: true,
             html: true,
-            markdown: true,
+            markdown: "prettier",
             graphql: true,
             xml: true,
         },
         ignores: ["**/generated"],
     },
+    eslintPluginPrettierRecommended,
+    ...eslintPluginAstro.configs.recommended,
     ...tailwind.configs["flat/recommended"],
+    ...eslintPluginToml.configs["flat/recommended"],
+    {
+        rules: {
+            "antfu/consistent-list-newline": "off",
+        },
+    },
     {
         files: ["**/*.ts", "**/*.js"],
         rules: {
             "node/prefer-global/process": ["error", "always"],
             "node/prefer-global/buffer": ["error", "always"],
-            "antfu/consistent-list-newline": "off",
-            "style/indent": "off",
+        },
+    },
+    {
+        files: ["**/*.md"],
+        processor: "markdown/markdown",
+    },
+    {
+        files: ["**/*.html"],
+        plugins: { eslintPluginHtml },
+    },
+    {
+        files: ["**/*.astro"],
+        rules: {
+            "tailwindcss/no-custom-classname": "off",
+            "format/prettier": "off",
+            "prettier/prettier": "off",
+        },
+    },
+    {
+        files: ["**/*.toml"],
+        rules: {
+            "prettier/prettier": "off",
         },
     },
     {

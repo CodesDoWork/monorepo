@@ -1,7 +1,7 @@
 # nx-plugins-vitepress
 
-A plugin to provide vitepress tasks and executors.
-It defines the targets by using a `.vitepressrc.json` file, containing the following options:
+A plugin to provide vitepress tasks and executors. It defines the targets by using a
+`.vitepressrc.json` file, containing the following options:
 
 ```json
 {
@@ -12,4 +12,5 @@ It defines the targets by using a `.vitepressrc.json` file, containing the follo
 }
 ```
 
-The assets key are the directories relative to the docs dir. The asset paths are relative to the project dir.
+The assets key are the directories relative to the docs dir. The asset paths are relative to the
+project dir.

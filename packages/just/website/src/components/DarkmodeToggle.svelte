@@ -21,7 +21,7 @@
         }
 
         if (icon) {
-            setTimeout(() => icon = iconName, animationDuration / 2);
+            setTimeout(() => (icon = iconName), animationDuration / 2);
         } else {
             icon = iconName;
         }
@@ -41,5 +41,5 @@
 </script>
 
 <button class={resultClass} disabled={isAnimating} on:click={toggleTheme}>
-    <Icon class={iconClass} icon={icon} />
+    <Icon class={iconClass} {icon} />
 </button>

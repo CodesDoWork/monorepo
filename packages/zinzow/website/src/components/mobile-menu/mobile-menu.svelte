@@ -63,7 +63,9 @@
                                 $currentRoute?.path.startsWith(route.path) && "text-accent",
                                 "hover:bg-primary-400 dark:hover:bg-primary-800 -mx-3 flex items-center justify-between rounded-lg px-3 py-2 text-base/7 font-semibold",
                             )}>
-                            <a class="flex-1" href={route.path}>{route.name}</a>
+                            <a class="flex-1" on:click={triggerClose} href={route.path}>
+                                {route.name}
+                            </a>
                             {#if children.length}
                                 <button class="p-1" on:click={toggleRoute(idx)}>
                                     <Icon
@@ -84,7 +86,9 @@
                                                 : "",
                                             "hover:bg-primary-400 dark:hover:bg-primary-800 flex items-center justify-between rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold",
                                         )}>
-                                        <a class="flex-1" href={child.path}>{child.name}</a>
+                                        <a class="flex-1" on:click={triggerClose} href={child.path}>
+                                            {child.name}
+                                        </a>
                                     </li>
                                 {/each}
                             </ol>

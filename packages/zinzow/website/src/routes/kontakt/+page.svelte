@@ -1,12 +1,27 @@
 <script lang="ts">
+    import type { MapOptions, TileLayerOptions } from "leaflet";
     import type { PageData } from "./$types";
+    import { LeafletMap, Marker, Popup, TileLayer, Tooltip } from "svelte-leafletjs";
     import { PageContent } from "../../components/content-area";
     import { H1, H2 } from "../../components/heading";
-    import { Paragraphs, TextWithIcon } from "../../components/text";
     import { Icons } from "../../components/icons";
+    import { Paragraphs, TextWithIcon } from "../../components/text";
 
     export let data: PageData;
     const { texts, contact } = data;
+
+    const mapOptions: MapOptions = {
+        center: [13.5461344, 53.7128988],
+        zoom: 11,
+    };
+
+    const DEFAULT_TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+    const DEFAULT_TILE_LAYER_OPTIONS: TileLayerOptions = {
+        minZoom: 0,
+        maxZoom: 20,
+        maxNativeZoom: 19,
+        attribution: "© OpenStreetMap contributors",
+    };
 </script>
 
 <PageContent class="isolate">
@@ -14,7 +29,7 @@
         <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
             <H1>{texts.title}</H1>
             <Paragraphs text={texts.intro} />
-            <dl class="mt-10 space-y-4 text-base/7 text-gray-600 dark:text-gray-300">
+            <dl class="mt-10 space-y-4">
                 <TextWithIcon
                     href={`#${texts.findUs}`}
                     icon={Icons.Location}
@@ -110,9 +125,20 @@
         </form>
         <div class="mt-20 lg:col-span-2" id={texts.findUs}>
             <H2>{texts.findUs}</H2>
-            <div class="mt-6 w-full border">
+            <div class="w-full border">
                 <p class="py-48 text-center">Map</p>
             </div>
+            <LeafletMap options={mapOptions}>
+                <TileLayer url={DEFAULT_TILE_URL} options={DEFAULT_TILE_LAYER_OPTIONS} />
+                <Marker latLng={[1.282375, 103.864273]}>
+                    <Popup>Gardens by the Bay</Popup>
+                    <Tooltip>Gardens by the Bay</Tooltip>
+                </Marker>
+                <Marker latLng={[1.359167, 103.989441]}>
+                    <Popup><b>Changi Airport</b></Popup>
+                    <Tooltip><b>Changi Airport</b></Tooltip>
+                </Marker>
+            </LeafletMap>
         </div>
     </div>
 </PageContent>

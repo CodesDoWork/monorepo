@@ -1,7 +1,7 @@
 import type { PageServerLoad } from "./$types";
 import { GetContactData } from "../../graphql/default/generated/gql";
 import { GetContactSystemData } from "../../graphql/system/generated/gql";
-import { toPromise } from "../../utils/graphql";
+import { toPromise } from "../../utils/graphql/apollo";
 import { getTextsFromTranslations } from "../../utils/translations";
 
 export const load: PageServerLoad = async () => {

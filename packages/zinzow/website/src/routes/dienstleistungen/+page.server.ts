@@ -1,13 +1,20 @@
 import type { PageServerLoad } from "./$types";
 import { GetServiceData } from "../../graphql/default/generated/gql";
-import { getAssetUrl } from "../../utils/assets";
-import { toPromise } from "../../utils/graphql";
+import { GetServiceSystemData } from "../../graphql/system/generated/gql";
+import { toPromise } from "../../utils/graphql/apollo";
+import { addAssetUrl } from "../../utils/graphql/assets";
+import { getTextsFromTranslations } from "../../utils/translations";
 
 export const load: PageServerLoad = async () => {
-    const defaultData = await toPromise(GetServiceData({}));
-    defaultData.services.forEach(
-        service => (service.thumbnail.route = getAssetUrl(service.thumbnail.id)),
-    );
+    const pageIdPrefix = "page.services.";
+    const { translations } = await toPromise(GetServiceSystemData({ variables: { pageIdPrefix } }));
+    const { services } = await toPromise(GetServiceData({}));
 
-    return defaultData;
+    return {
+        services: services.map(service => ({
+            ...service,
+            thumbnail: addAssetUrl(service.thumbnail),
+        })),
+        texts: getTextsFromTranslations(translations, pageIdPrefix),
+    };
 };

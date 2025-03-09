@@ -1,6 +1,5 @@
 <script lang="ts">
     import classNames from "classnames";
-    import { Text } from "../text";
 
     type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
     export let tag: HeadingTag;
@@ -9,11 +8,11 @@
     export { className as class };
 </script>
 
-<Text
-    {tag}
+<svelte:element
+    this={tag}
     class={classNames(
-        "text-primary-600 dark:text-primary-600 text-pretty font-semibold tracking-tight",
+        "text-primary dark:text-primary text-pretty font-semibold tracking-tight",
         className,
     )}>
     <slot />
-</Text>
+</svelte:element>

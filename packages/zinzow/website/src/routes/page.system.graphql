@@ -1,5 +1,10 @@
-query GetHomeSystemData {
+query GetHomeSystemData($pageIdPrefix: String!) {
     files(filter: { folder: { name: { _eq: "hero" } } }) {
         id
+    }
+
+    translations(filter: { key: { _istarts_with: $pageIdPrefix } }) {
+        key
+        value
     }
 }

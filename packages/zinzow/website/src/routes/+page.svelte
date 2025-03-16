@@ -7,7 +7,11 @@
     import { MobileMenu } from "../components/mobile-menu";
     import { animationDelay } from "../utils/animation-delay";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    const { data }: Props = $props();
     const { heroImage, routes, currentRoute, texts } = data;
     const firstRoutes = routes.filter(r => r.showInHeader);
 
@@ -54,7 +58,7 @@
                 {/each}
             </ol>
             <div class="relative block md:hidden">
-                <button on:click={onMenuClick}>
+                <button onclick={onMenuClick}>
                     <Icon icon="ic:round-menu" class="size-6" />
                 </button>
                 <MobileMenu

@@ -12,7 +12,11 @@
     import { animationDelay } from "../../helpers/animationDelay";
     import { calculateTimeAgo, getMonthYear } from "./card-helpers";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    const { data }: Props = $props();
     const { siteInfo, routes } = data;
 
     const projects = readable([], set =>

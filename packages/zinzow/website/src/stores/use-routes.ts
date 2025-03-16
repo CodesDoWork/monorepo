@@ -16,7 +16,10 @@ export function useRoutes<T extends Route>(routes: T[], path: string) {
 
     const currentRoute = readable<T | undefined>(getRouteForPath(path), set => {
         const update = () => set(getRouteForPath(window.location.pathname));
-        onMount(update);
+        onMount(() => {
+            update();
+            currentRoute.subscribe(() => {});
+        });
         onNavigate(update);
     });
 

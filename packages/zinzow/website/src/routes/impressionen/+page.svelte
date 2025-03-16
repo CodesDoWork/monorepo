@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { by } from "@cdw/monorepo/shared-utils/filters";
+    import { byId } from "@cdw/monorepo/shared-utils/filters";
     import Icon from "@iconify/svelte";
     import classNames from "classnames";
     import { writable } from "svelte/store";
@@ -11,19 +11,20 @@
     import { ImagePopup } from "../../components/image-popup";
     import { Paragraphs, TextWithIcon } from "../../components/text";
 
-    export let data: PageData;
-    const { images, columns } = data.impressions;
-    while (images.length < 2 * columns) {
-        images.push(...images.map(image => ({ ...image })));
+    interface Props {
+        data: PageData;
     }
 
-    let selectedImage = images[0];
-    let clickedSelectedImage = selectedImage;
+    const { data }: Props = $props();
+    const { images, columns } = data.impressions;
+
+    let selectedImage = $state(images[0]);
+    let clickedSelectedImage = $state(selectedImage);
     const showDialog = writable(false);
     const columnsArray = Array.from({ length: columns });
 
     function rotateImageBy(steps: number) {
-        let idx = images.findIndex(by(selectedImage)) + steps;
+        let idx = images.findIndex(byId(selectedImage.id)) + steps;
         idx = idx % images.length;
         while (idx < 0) {
             idx += images.length;
@@ -55,14 +56,14 @@
     }
 </script>
 
-<svelte:window on:keydown={handleKey} />
+<svelte:window onkeydown={handleKey} />
 <ImagePopup isOpen={showDialog} {selectedImage} />
 <PageContent class="isolate">
     <H1>{data.texts.title}</H1>
     <div class="mt-8 grid grid-cols-1 lg:grid-cols-[60%_40%]">
         <div
             class="relative row-span-3 grid grid-cols-subgrid lg:col-span-2 lg:row-span-2 lg:mx-8 xl:mx-4 2xl:mx-0">
-            <button on:click={() => showDialog.set(true)} class="h-[24rem] w-full md:h-[32rem]">
+            <button onclick={() => showDialog.set(true)} class="h-[24rem] w-full md:h-[32rem]">
                 <img
                     alt={selectedImage.title}
                     src={selectedImage.url}
@@ -83,12 +84,12 @@
                 {/if}
             </div>
             <div class="row-start-2 mb-8 mt-4 flex items-center justify-center gap-12 lg:m-0">
-                <button on:click={() => rotateImageBy(-1)}>
+                <button onclick={() => rotateImageBy(-1)}>
                     <Icon
                         icon="mingcute:left-line"
                         class="size-10 text-gray-400 lg:absolute lg:-left-8 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2" />
                 </button>
-                <button on:click={() => rotateImageBy(1)}>
+                <button onclick={() => rotateImageBy(1)}>
                     <Icon
                         icon="mingcute:right-line"
                         class="size-10 text-gray-400 lg:absolute lg:-right-8 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-1/2" />
@@ -103,14 +104,14 @@
                             <li>
                                 <button
                                     class="group h-full w-full p-1 md:p-2"
-                                    on:click={() => (clickedSelectedImage = img)}
-                                    on:mousemove={() => (selectedImage = img)}
-                                    on:mouseleave={() => (selectedImage = clickedSelectedImage)}>
+                                    onclick={() => (clickedSelectedImage = img)}
+                                    onmousemove={() => (selectedImage = img)}
+                                    onmouseleave={() => (selectedImage = clickedSelectedImage)}>
                                     <img
                                         alt={img.title}
                                         src={img.url}
                                         class={classNames(
-                                            img === selectedImage && "ring-4",
+                                            img.id === selectedImage.id && "ring-4",
                                             "ring-primary w-full rounded shadow-md md:rounded-lg",
                                         )} />
                                 </button>

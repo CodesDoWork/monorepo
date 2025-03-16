@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { JustSiteRoutes } from "@cdw/monorepo/just-cms-types";
+
     import type { Writable } from "svelte/store";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
@@ -10,43 +11,50 @@
     import Link from "./Link.svelte";
     import NavLinks from "./NavLinks.svelte";
 
-    let className = "";
-    export { className as class };
-    export let title: string;
-    export let routes: JustSiteRoutes[];
-    export let theme: Writable<string>;
-    export let backButton = false;
+    interface Props {
+        class?: string;
+        title: string;
+        routes: JustSiteRoutes[];
+        theme: Writable<string>;
+        backButton?: boolean;
+    }
+
+    const { class: className = "", title, routes, theme, backButton = false }: Props = $props();
 
     const { currentRoute, previousRoute } = useRoutes(routes);
 
-    let itemVisibility = "";
-    let headerVisibility = "";
-    $: if ($previousRoute?.is_hero === false) {
-        if ($currentRoute?.is_hero === false) {
-            itemVisibility = "opacity-100";
-            headerVisibility = "scale-100";
+    let itemVisibility = $state("");
+    let headerVisibility = $state("");
+    $effect(() => {
+        if ($previousRoute?.is_hero === false) {
+            if ($currentRoute?.is_hero === false) {
+                itemVisibility = "opacity-100";
+                headerVisibility = "scale-100";
+            } else {
+                itemVisibility = "animate-fadeOutTopSubtle opacity-0";
+                headerVisibility = "animate-shrink opacity-100 scale-100";
+            }
+        } else if ($currentRoute?.is_hero === false) {
+            itemVisibility = "animate-fadeInTopSubtle opacity-0";
+            headerVisibility = "animate-grow opacity-100 scale-100";
         } else {
-            itemVisibility = "animate-fadeOutTopSubtle opacity-0";
-            headerVisibility = "animate-shrink opacity-100 scale-100";
+            itemVisibility = "opacity-0";
+            headerVisibility = "scale-0";
         }
-    } else if ($currentRoute?.is_hero === false) {
-        itemVisibility = "animate-fadeInTopSubtle opacity-0";
-        headerVisibility = "animate-grow opacity-100 scale-100";
-    } else {
-        itemVisibility = "opacity-0";
-        headerVisibility = "scale-0";
-    }
+    });
 
-    $: headerClass = clsx(
-        "flex justify-between items-center",
-        "py-4 pl-8 pr-18 lg:pr-24 shadow",
-        "bg-black dark:bg-primary-500 bg-opacity-20 dark:bg-opacity-20 text-white transition-colors",
-        "origin-top",
-        headerVisibility,
-        className,
+    const headerClass = $derived(
+        clsx(
+            "flex items-center justify-between",
+            "pr-18 py-4 pl-8 shadow lg:pr-24",
+            "dark:bg-primary-500 bg-black bg-opacity-20 text-white transition-colors dark:bg-opacity-20",
+            "origin-top",
+            headerVisibility,
+            className,
+        ),
     );
 
-    let navDrawerHidden = true;
+    let navDrawerHidden = $state(true);
     const transitionParams = {
         x: "100%",
         duration: 500,
@@ -69,7 +77,7 @@
     <NavLinks class="hidden lg:flex" liClass={clsx("inline-block", itemVisibility)} {routes} />
     <button
         class="block active:scale-90 lg:hidden"
-        on:click={() => (navDrawerHidden = !navDrawerHidden)}>
+        onclick={() => (navDrawerHidden = !navDrawerHidden)}>
         <Icon class="h-6 w-6" icon="material-symbols:menu" />
     </button>
 </header>

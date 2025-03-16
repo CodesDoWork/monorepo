@@ -9,7 +9,11 @@
     import VerticalLine from "../../components/VerticalLine.svelte";
     import { animationDelay } from "../../helpers/animationDelay";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    const { data }: Props = $props();
     const { siteInfo, routes, portraitSrc, workExperience } = data;
 
     let animationIdx = 0;
@@ -25,7 +29,7 @@
             alt="Portrait"
             class={clsx(
                 cardClass,
-                "mt-[-3rem] block w-24 self-end rounded-full shadow-md md:hidden",
+                "-mt-12 block w-24 self-end rounded-full shadow-md md:hidden",
             )}
             src={portraitSrc}
             style={getCardStyle()} />

@@ -2,11 +2,13 @@
     import classNames from "classnames";
     import { Text } from ".";
 
-    let className = "";
-    export { className as class };
-    export let text: string;
-    export let size: "base" | "lg" = "lg";
+    interface Props {
+        class?: string;
+        text: string;
+        size?: "base" | "lg";
+    }
 
+    const { class: className = "", text, size = "lg" }: Props = $props();
     const paragraphs = text.split("\n");
 </script>
 

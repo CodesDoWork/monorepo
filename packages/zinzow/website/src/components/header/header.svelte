@@ -8,7 +8,11 @@
     import { MobileMenu } from "../mobile-menu";
     import PopupNav from "./popup-nav.svelte";
 
-    export let data: LayoutData;
+    interface Props {
+        data: LayoutData;
+    }
+
+    const { data }: Props = $props();
 
     const { routes, currentRoute } = data;
     const routesInNav = routes.filter(r => r.showInHeader);
@@ -23,7 +27,7 @@
             <Logo class="h-16" />
         </a>
         <div class="relative block md:hidden">
-            <button on:click={onMenuClick}>
+            <button onclick={onMenuClick}>
                 <Icon icon="ic:round-menu" class="size-6" />
             </button>
             <MobileMenu

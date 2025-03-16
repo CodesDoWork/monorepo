@@ -3,7 +3,11 @@
     import { WidthBox } from "../../components/content-area";
     import { H1 } from "../../components/heading";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    const { data }: Props = $props();
     const { currentRoute } = data;
 </script>
 

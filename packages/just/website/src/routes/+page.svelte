@@ -8,7 +8,11 @@
     import Page from "../components/Page.svelte";
     import { animationDelay } from "../helpers/animationDelay";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    const { data }: Props = $props();
     const { siteInfo, routes } = data;
 
     const homePageLinks = routes.filter(r => r.route !== "/");
@@ -18,8 +22,8 @@
 
     const headingClass = clsx(
         "m-5 md:m-6",
-        "group-hover:mt-3 group-hover:mb-6 sm:group-hover:mb-8 sm:group-hover:mt-2 md:group-hover:mt-4 lg:group-hover:mt-3",
-        "cursor-pointer !mb-0 dark:!text-white group-hover:!text-[var(--hover-color)]",
+        "group-hover:mb-6 group-hover:mt-3 sm:group-hover:mb-8 sm:group-hover:mt-2 md:group-hover:mt-4 lg:group-hover:mt-3",
+        "!mb-0 cursor-pointer group-hover:!text-[var(--hover-color)] dark:!text-white",
         "!transition-all",
     );
 </script>

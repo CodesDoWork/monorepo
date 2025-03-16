@@ -9,17 +9,20 @@
     import Page from "../../components/Page.svelte";
     import { animationDelay } from "../../helpers/animationDelay";
 
-    export let data: PageData;
-    export let form: ActionData;
+    interface Props {
+        data: PageData;
+        form: ActionData;
+    }
 
+    const { data, form }: Props = $props();
     const { siteInfo, routes } = data;
     const { socials } = siteInfo;
 
     const inputClass = clsx(
-        "p-2 rounded shadow focus:shadow-md focus:outline-2",
-        "outline outline-1 outline-stone-200 dark:outline-slate-500 dark:outline-0 dark:focus:outline-1",
+        "rounded p-2 shadow focus:shadow-md focus:outline-2",
+        "outline outline-1 outline-stone-200 dark:outline-0 dark:outline-slate-500 dark:focus:outline-1",
         "placeholder:text-slate-400 dark:placeholder:text-slate-300",
-        "bg-white dark:bg-opacity-10 transition",
+        "bg-white transition dark:bg-opacity-10",
     );
 </script>
 

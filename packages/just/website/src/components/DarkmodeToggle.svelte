@@ -3,14 +3,17 @@
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
 
-    let className = "";
-    export { className as class };
-    export let is_on_hero: boolean;
-    export let theme: Writable<string>;
+    interface Props {
+        class?: string;
+        is_on_hero: boolean;
+        theme: Writable<string>;
+    }
+
+    const { class: className = "", is_on_hero, theme }: Props = $props();
 
     const animationDuration = 300;
-    let icon = "";
-    $: {
+    let icon = $state("");
+    $effect(() => {
         let iconName: string;
         if ($theme === "dark") {
             document.documentElement.classList.add("dark");
@@ -25,9 +28,9 @@
         } else {
             icon = iconName;
         }
-    }
+    });
 
-    let isAnimating = false;
+    let isAnimating = $state(false);
     const toggleTheme = () => {
         theme?.set($theme === "light" ? "dark" : "light");
         isAnimating = true;
@@ -36,10 +39,12 @@
         }, animationDuration);
     };
 
-    $: resultClass = clsx(isAnimating && "animate-switch", className);
-    $: iconClass = clsx(is_on_hero ? "text-black dark:text-white" : "text-white", "w-6 h-6");
+    const resultClass = $derived(clsx(isAnimating && "animate-switch", className));
+    const iconClass = $derived(
+        clsx(is_on_hero ? "text-black dark:text-white" : "text-white", "size-6"),
+    );
 </script>
 
-<button class={resultClass} disabled={isAnimating} on:click={toggleTheme}>
+<button class={resultClass} disabled={isAnimating} onclick={toggleTheme}>
     <Icon class={iconClass} {icon} />
 </button>

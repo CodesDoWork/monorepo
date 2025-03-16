@@ -4,7 +4,11 @@
     import { PageContent } from "../../components/content-area";
     import { H1, H2, H4 } from "../../components/heading";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    const { data }: Props = $props();
     const { texts, about } = data;
 
     const images1 = about.images.slice(0, about.images.length / 2);

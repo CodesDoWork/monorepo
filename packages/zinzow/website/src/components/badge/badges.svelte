@@ -2,9 +2,12 @@
     import classNames from "classnames";
     import { Badge } from ".";
 
-    let className = "";
-    export { className as class };
-    export let badges: string[];
+    interface Props {
+        class?: string;
+        badges: string[];
+    }
+
+    const { class: className = "", badges }: Props = $props();
 </script>
 
 <ul class={classNames(className, "flex gap-2")}>

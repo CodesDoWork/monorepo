@@ -25,6 +25,8 @@ ARG APP_DIR
 ENV NODE_ENV=production
 
 WORKDIR /app
+RUN apk update
+RUN apk add yt-dlp
 COPY --from=builder /workspace/dist/packages/$APP_DIR .
 COPY --from=builder /workspace/packages/$APP_DIR/package.json .
 

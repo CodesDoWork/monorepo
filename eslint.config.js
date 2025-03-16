@@ -94,6 +94,9 @@ export default antfu(
         rules: {
             "svelte/no-at-html-tags": "off",
             "svelte/no-unused-svelte-ignore": "off",
+            "prettier/prettier": "off",
+            "tailwindcss/no-custom-classname": "off",
+            "tailwindcss/migration-from-tailwind-2": "off",
         },
     },
     {

@@ -4,9 +4,13 @@
     import { toLinkFriendly } from "../../helpers/toLinkFriendly";
     import BookCard from "./BookCard.svelte";
 
-    export let category: string;
-    export let books: Book[];
-    export let getCardStyle: () => string;
+    interface Props {
+        category: string;
+        books: Book[];
+        getCardStyle: () => string;
+    }
+
+    const { category, books, getCardStyle }: Props = $props();
 
     function byCategory(category: string) {
         return function (book: Book) {

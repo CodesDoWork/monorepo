@@ -4,7 +4,11 @@
     import { H1 } from "../../components/heading";
     import Paragraphs from "../../components/text/paragraphs.svelte";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    const { data }: Props = $props();
     const { careerBenefits, vacancies, texts } = data;
 </script>
 

@@ -2,7 +2,11 @@
     import type { PageData } from "./$types";
     import Page from "../../../components/Page.svelte";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    const { data }: Props = $props();
     const { siteInfo, routes, post } = data;
 </script>
 

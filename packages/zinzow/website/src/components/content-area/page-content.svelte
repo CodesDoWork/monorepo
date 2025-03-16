@@ -1,12 +1,17 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
     import classNames from "classnames";
     import { WidthBox } from ".";
 
-    let className = "";
-    export { className as class };
-    export let tag: keyof HTMLElementTagNameMap = "div";
+    interface Props {
+        class?: string;
+        tag?: keyof HTMLElementTagNameMap;
+        children?: Snippet;
+    }
+
+    const { class: className = "", tag = "div", children }: Props = $props();
 </script>
 
 <WidthBox {tag} class={classNames("py-16 lg:py-24", className)}>
-    <slot />
+    {@render children?.()}
 </WidthBox>

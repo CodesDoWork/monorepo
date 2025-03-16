@@ -1,12 +1,17 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
     import classNames from "classnames";
 
-    export let tag: keyof HTMLElementTagNameMap;
+    interface Props {
+        tag: keyof HTMLElementTagNameMap;
+        class?: string;
+        children?: Snippet;
+    }
 
-    let className = "";
-    export { className as class };
+    const { tag, class: className = "", children }: Props = $props();
+
 </script>
 
 <svelte:element this={tag} class={classNames("text-gray-600 dark:text-gray-300", className)}>
-    <slot />
+    {@render children?.()}
 </svelte:element>

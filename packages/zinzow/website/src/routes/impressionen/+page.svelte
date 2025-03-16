@@ -4,8 +4,12 @@
     import Icon from "@iconify/svelte";
     import classNames from "classnames";
     import { writable } from "svelte/store";
+    import { Badges } from "../../components/badge";
     import { PageContent } from "../../components/content-area";
     import { H1, H3 } from "../../components/heading";
+    import { Icons } from "../../components/icons";
+    import { ImagePopup } from "../../components/image-popup";
+    import { Paragraphs, TextWithIcon } from "../../components/text";
 
     export let data: PageData;
     const { images, columns } = data.impressions;
@@ -49,86 +53,13 @@
             handle(() => rotateImageBy(columns));
         }
     }
-
-    let zoom = 1;
-    let dragDialogImage = false;
-    let dragStartX = 0;
-    let dragStartY = 0;
-    let translateDialogImageX = 0;
-    let translateDialogImageY = 0;
-
-    function handleWheel(event: WheelEvent) {
-        if ($showDialog) {
-            event.preventDefault();
-            zoom -= event.deltaY / 1_000;
-            zoom = Math.min(Math.max(1, zoom), 5);
-            if (zoom === 1) {
-                translateDialogImageX = 0;
-                translateDialogImageY = 0;
-            }
-        }
-    }
-
-    function handleDragOver(event: MouseEvent) {
-        if (dragDialogImage && zoom > 1) {
-            event.preventDefault();
-            translateDialogImageX = (event.clientX - dragStartX) / zoom;
-            translateDialogImageY = (event.clientY - dragStartY) / zoom;
-        }
-    }
-
-    function handleDragStart(event: MouseEvent) {
-        event.preventDefault();
-        dragDialogImage = true;
-        dragStartX = event.clientX - translateDialogImageX * zoom;
-        dragStartY = event.clientY - translateDialogImageY * zoom;
-    }
-
-    showDialog.subscribe(isShown => {
-        if (!isShown) {
-            dragDialogImage = false;
-            translateDialogImageX = 0;
-            translateDialogImageY = 0;
-            zoom = 1;
-        }
-    });
 </script>
 
-<svelte:window
-    on:wheel|nonpassive={handleWheel}
-    on:mousemove={handleDragOver}
-    on:mouseup={() => (dragDialogImage = false)}
-    on:keydown={handleKey} />
-{#if showDialog}
-    <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-    <dialog
-        open={$showDialog}
-        class="fixed inset-0 z-50 h-screen w-screen bg-black/80"
-        on:mouseup={() => !dragDialogImage && showDialog.set(false)}>
-        <div
-            id="image-container"
-            class="absolute left-1/2 top-1/2 max-h-[80vh] max-w-[80vw] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg"
-            style="width: 80vw; height: 80vh;">
-            <img
-                on:mousedown={handleDragStart}
-                alt={selectedImage.title}
-                src={selectedImage.url}
-                style="transform: scale({zoom}) translate({translateDialogImageX}px, {translateDialogImageY}px)"
-                class={classNames(
-                    zoom > 1
-                        ? dragDialogImage
-                            ? "cursor-grabbing"
-                            : "cursor-grab"
-                        : "cursor-default",
-                    "m-auto max-h-full max-w-full rounded-lg object-contain shadow-lg",
-                )} />
-        </div>
-    </dialog>
-{/if}
+<svelte:window on:keydown={handleKey} />
+<ImagePopup isOpen={showDialog} {selectedImage} />
 <PageContent class="isolate">
-    <H1 class="mb-8 placeholder:lg:mb-12">{data.texts.title}</H1>
-    <div class="grid grid-cols-1 lg:grid-cols-[60%_40%]">
+    <H1>{data.texts.title}</H1>
+    <div class="mt-8 grid grid-cols-1 lg:grid-cols-[60%_40%]">
         <div
             class="relative row-span-3 grid grid-cols-subgrid lg:col-span-2 lg:row-span-2 lg:mx-8 xl:mx-4 2xl:mx-0">
             <button on:click={() => showDialog.set(true)} class="h-[24rem] w-full md:h-[32rem]">
@@ -140,23 +71,16 @@
             <div class="p-0 lg:row-start-auto lg:h-auto lg:p-6">
                 <H3>{selectedImage.title}</H3>
                 {#if selectedImage.description}
-                    <p class="mt-4 text-base/7 text-gray-600 dark:text-gray-300">
-                        {selectedImage.description}
-                    </p>
+                    <Paragraphs text={selectedImage.description} size="base" class="mt-4" />
                 {/if}
                 {#if selectedImage.location}
-                    <div class="mt-8 flex gap-2">
-                        <Icon icon="humbleicons:location" class="size-6 text-gray-400" />
-                        <span class="text-gray-600 dark:text-gray-300">
-                            {selectedImage.location}
-                        </span>
-                    </div>
+                    <TextWithIcon icon={Icons.Location} class="mt-8">
+                        {selectedImage.location}
+                    </TextWithIcon>
                 {/if}
-                <ul class="mt-6 flex gap-2">
-                    {#each selectedImage.tags ?? [] as tag}
-                        <li class="bg-primary-600 rounded-md px-2 py-1 text-white shadow">{tag}</li>
-                    {/each}
-                </ul>
+                {#if selectedImage.tags}
+                    <Badges class="mt-6" badges={selectedImage.tags} />
+                {/if}
             </div>
             <div class="row-start-2 mb-8 mt-4 flex items-center justify-center gap-12 lg:m-0">
                 <button on:click={() => rotateImageBy(-1)}>
@@ -187,7 +111,7 @@
                                         src={img.url}
                                         class={classNames(
                                             img === selectedImage && "ring-4",
-                                            "ring-primary-600 w-full rounded shadow-md md:rounded-lg",
+                                            "ring-primary w-full rounded shadow-md md:rounded-lg",
                                         )} />
                                 </button>
                             </li>

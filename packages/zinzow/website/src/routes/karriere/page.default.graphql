@@ -1,0 +1,16 @@
+query GetCareerData {
+    vacancies {
+        title
+        description
+        responsibilities
+        profile
+        attachment {
+            id
+        }
+    }
+
+    careerBenefits {
+        title
+        description
+    }
+}

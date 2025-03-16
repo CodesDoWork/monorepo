@@ -1,0 +1,6 @@
+query GetCareerSystemData($pageIdPrefix: String!) {
+    translations(filter: { key: { _istarts_with: $pageIdPrefix } }) {
+        key
+        value
+    }
+}

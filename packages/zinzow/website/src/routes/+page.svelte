@@ -8,7 +8,7 @@
     import { animationDelay } from "../utils/animation-delay";
 
     export let data: PageData;
-    const { heroImage, routes, currentRoute } = data;
+    const { heroImage, routes, currentRoute, texts } = data;
     const firstRoutes = routes.filter(r => r.showInHeader);
 
     const stats = [
@@ -76,7 +76,7 @@
             class={getClasses(
                 "mt-8 max-w-2xl text-pretty text-center text-lg font-medium text-gray-800 sm:text-xl/8 md:mt-12 dark:text-gray-300",
             )}>
-            {$currentRoute.welcomeText}
+            {texts.intro}
         </p>
         <div class="mt-8 max-w-2xl md:mt-12 lg:max-w-none">
             <dl class="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
@@ -88,7 +88,7 @@
                             {stat.info}
                         </dt>
                         <dd
-                            class="text-primary-700 text-center text-4xl font-semibold tracking-tight dark:text-white">
+                            class="text-primary-600 dark:text-primary text-center text-4xl font-semibold tracking-tight">
                             {stat.value}
                         </dd>
                     </div>

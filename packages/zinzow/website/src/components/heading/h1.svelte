@@ -6,6 +6,6 @@
     export { className as class };
 </script>
 
-<Heading tag="h1" class={classNames("text-4xl sm:text-5xl", className)}>
+<Heading tag="h1" class={classNames("mb-6 text-4xl sm:text-5xl", className)}>
     <slot />
 </Heading>

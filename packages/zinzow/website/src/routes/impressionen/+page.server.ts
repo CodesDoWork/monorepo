@@ -2,7 +2,7 @@ import type { PageServerLoad } from "./$types";
 import { GetImpressionsData } from "../../graphql/default/generated/gql";
 import { GetImpressionsSystemData } from "../../graphql/system/generated/gql";
 import { getAssetUrl } from "../../utils/assets";
-import { toPromise } from "../../utils/graphql";
+import { toPromise } from "../../utils/graphql/apollo";
 import { getTextsFromTranslations } from "../../utils/translations";
 
 export const load: PageServerLoad = async () => {

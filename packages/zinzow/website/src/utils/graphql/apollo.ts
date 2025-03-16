@@ -11,12 +11,13 @@ export function toPromise<Q extends ApolloQueryResult<unknown>, T extends Readab
     return new Promise((resolve, reject) => {
         let unsubscriber: Unsubscriber | undefined;
         const handleData = (query: Q) => {
-            if (query.error || query.errors) {
+            if (!query.loading) {
                 unsubscriber?.();
-                reject(query.error || query.errors);
-            } else if (query.data && Object.keys(query.data).length) {
-                unsubscriber?.();
-                resolve(query.data);
+                if (query.error || query.errors) {
+                    reject(query.error || query.errors);
+                } else {
+                    resolve(query.data);
+                }
             }
         };
 

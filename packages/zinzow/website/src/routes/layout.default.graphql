@@ -6,7 +6,6 @@ query GetLayoutData {
         icon
         shortDescription
         isHero
-        welcomeText
     }
     socialMedias {
         name

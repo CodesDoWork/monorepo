@@ -8,7 +8,7 @@
         services: Service[];
     }
 
-    let { services }: Props = $props();
+    const { services }: Props = $props();
 </script>
 
 <div class="flex flex-col gap-6 lg:gap-10">

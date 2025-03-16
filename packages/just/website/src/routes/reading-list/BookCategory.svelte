@@ -10,7 +10,7 @@
         getCardStyle: () => string;
     }
 
-    let { category, books, getCardStyle }: Props = $props();
+    const { category, books, getCardStyle }: Props = $props();
 
     function byCategory(category: string) {
         return function (book: Book) {

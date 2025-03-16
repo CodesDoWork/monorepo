@@ -12,7 +12,7 @@
         data: LayoutData;
     }
 
-    let { data }: Props = $props();
+    const { data }: Props = $props();
 
     const { routes, currentRoute } = data;
     const routesInNav = routes.filter(r => r.showInHeader);

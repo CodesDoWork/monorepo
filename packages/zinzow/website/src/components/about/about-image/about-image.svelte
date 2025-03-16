@@ -3,7 +3,7 @@
         src: string;
     }
 
-    let { src }: Props = $props();
+    const { src }: Props = $props();
 </script>
 
 <div class="relative">

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
     import classNames from "classnames";
 
     type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
@@ -6,11 +7,10 @@
     interface Props {
         tag: HeadingTag;
         class?: string;
-        children?: import('svelte').Snippet;
+        children?: Snippet;
     }
 
-    let { tag, class: className = "", children }: Props = $props();
-    
+    const { tag, class: className = "", children }: Props = $props();
 </script>
 
 <svelte:element

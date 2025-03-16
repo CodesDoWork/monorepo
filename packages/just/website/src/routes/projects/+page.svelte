@@ -16,7 +16,7 @@
         data: PageData;
     }
 
-    let { data }: Props = $props();
+    const { data }: Props = $props();
     const { siteInfo, routes } = data;
 
     const projects = readable([], set =>

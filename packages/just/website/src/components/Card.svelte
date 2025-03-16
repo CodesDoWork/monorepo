@@ -1,24 +1,24 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
     import { clsx } from "clsx";
 
-    
     interface Props {
         class?: string;
         style: string | undefined;
         padding?: boolean;
         safeBg?: boolean;
-        children?: import('svelte').Snippet;
+        children?: Snippet;
     }
 
-    let {
+    const {
         class: className = "",
         style,
         padding = false,
         safeBg = false,
-        children
+        children,
     }: Props = $props();
 
-    let cardClass = $derived(clsx(
+    const cardClass = $derived(clsx(
         "flex",
         "bg-gray-50 bg-opacity-90 dark:bg-opacity-10 dark:hover:bg-opacity-15",
         safeBg ? "hover:bg-opacity-100" : "hover:bg-opacity-40",

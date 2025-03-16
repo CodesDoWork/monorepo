@@ -19,7 +19,7 @@
         backButton?: boolean;
     }
 
-    let { class: className = "", title, routes, theme, backButton = false }: Props = $props();
+    const { class: className = "", title, routes, theme, backButton = false }: Props = $props();
 
     const { currentRoute, previousRoute } = useRoutes(routes);
 
@@ -43,7 +43,7 @@
         }
     });
 
-    let headerClass = $derived(
+    const headerClass = $derived(
         clsx(
             "flex items-center justify-between",
             "pr-18 py-4 pl-8 shadow lg:pr-24",

@@ -1,7 +1,6 @@
 <script lang="ts">
     import { clsx } from "clsx";
 
-    
     interface Props {
         class?: string;
         text?: string;
@@ -10,26 +9,26 @@
         blinkCursor?: boolean;
     }
 
-    let {
+    const {
         class: className = "",
         text = "",
         typingMs = 67,
         typeWords = false,
-        blinkCursor = false
+        blinkCursor = false,
     }: Props = $props();
 
     let animationDone = $state(false);
 
-    let computedClass = $derived(clsx(
-        "after:content-['▌'] after:ml-2 after:opacity-50",
+    const computedClass = $derived(clsx(
+        "after:ml-2 after:opacity-50 after:content-['▌']",
         animationDone && blinkCursor && "after:animate-blink",
         animationDone && !blinkCursor && "after:!content-none",
         className,
     ));
 
     let typedText = $state("");
-    let words = $derived(text.split(" "));
-    let length = $derived(typeWords ? words.length : text.length);
+    const words = $derived(text.split(" "));
+    const length = $derived(typeWords ? words.length : text.length);
 
     let nextTypeIndex = 0;
     const typeText = () => {

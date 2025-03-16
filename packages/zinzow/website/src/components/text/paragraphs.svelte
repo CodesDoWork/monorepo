@@ -2,15 +2,13 @@
     import classNames from "classnames";
     import { Text } from ".";
 
-    
     interface Props {
         class?: string;
         text: string;
         size?: "base" | "lg";
     }
 
-    let { class: className = "", text, size = "lg" }: Props = $props();
-
+    const { class: className = "", text, size = "lg" }: Props = $props();
     const paragraphs = text.split("\n");
 </script>
 

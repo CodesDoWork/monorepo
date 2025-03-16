@@ -1,10 +1,12 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
     import "@cdw/monorepo/just-branding/assets/css/tailwind.css";
+
     interface Props {
-        children?: import('svelte').Snippet;
+        children?: Snippet;
     }
 
-    let { children }: Props = $props();
+    const { children }: Props = $props();
 </script>
 
 <main

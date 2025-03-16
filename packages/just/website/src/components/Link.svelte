@@ -1,6 +1,7 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
     import { clsx } from "clsx";
-    
+
     interface Props {
         class?: string;
         href: string;
@@ -8,17 +9,17 @@
         button?: boolean;
         noStyle?: boolean;
         smoothScroll?: boolean;
-        children?: import('svelte').Snippet;
+        children?: Snippet;
     }
 
-    let {
+    const {
         class: className = "",
         href,
         title,
         button = false,
         noStyle = false,
         smoothScroll = false,
-        children
+        children,
     }: Props = $props();
 
     type ClickEvent = MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement };
@@ -35,18 +36,18 @@
         }
     };
 
-    let aClass = $derived(clsx(
-        "font-mono transition rounded-md cursor-pointer",
+    const aClass = $derived(clsx(
+        "cursor-pointer rounded-md font-mono transition",
         button && [
-            "dark:text-white p-3",
+            "p-3 dark:text-white",
             "bg-white dark:bg-opacity-10",
-            "hover:bg-accent-500 dark:hover:bg-opacity-50 dark:hover:bg-secondary-500 hover:rotate-3",
+            "hover:bg-accent-500 dark:hover:bg-secondary-500/50 hover:rotate-3",
             "shadow-md hover:shadow-lg",
             "origin-top-left",
         ],
         !button &&
             !noStyle && [
-                "p-1 hover:text-white dark:hover:text-black text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500",
+                "text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500 p-1 hover:text-white dark:hover:text-black",
             ],
         className,
     ));

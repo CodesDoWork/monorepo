@@ -11,7 +11,7 @@
         };
     }
 
-    let { isOpen, selectedImage }: Props = $props();
+    const { isOpen, selectedImage }: Props = $props();
 
     let zoom = $state(1);
     let dragDialogImage = $state(false);
@@ -20,17 +20,18 @@
     let translateDialogImageX = $state(0);
     let translateDialogImageY = $state(0);
 
-    function handleWheel(event: WheelEvent) {
+    function handleWheel(event: Event) {
+        const { deltaY } = event as WheelEvent;
         if ($isOpen) {
             event.preventDefault();
-            zoom -= event.deltaY / 1_000;
+            zoom -= deltaY / 1_000;
             zoom = Math.min(Math.max(1, zoom), 5);
             if (zoom === 1) {
                 translateDialogImageX = 0;
                 translateDialogImageY = 0;
             }
         }
-    }
+    };
 
     function handleDragStart(event: MouseEvent) {
         event.preventDefault();

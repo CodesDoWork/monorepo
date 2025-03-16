@@ -6,7 +6,7 @@
         data: PageData;
     }
 
-    let { data }: Props = $props();
+    const { data }: Props = $props();
     const { siteInfo, routes, post } = data;
 </script>
 

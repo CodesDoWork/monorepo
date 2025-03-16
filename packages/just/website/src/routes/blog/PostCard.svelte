@@ -14,7 +14,7 @@
         post: JustSiteBlogEntriesDto;
     }
 
-    let { style = "", post }: Props = $props();
+    const { style = "", post }: Props = $props();
 
     let lang: Locale = $state("enUS");
     browser && (lang = (window?.navigator?.language?.replace("-", "") || lang) as Locale);

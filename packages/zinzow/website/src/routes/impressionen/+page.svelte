@@ -15,7 +15,7 @@
         data: PageData;
     }
 
-    let { data }: Props = $props();
+    const { data }: Props = $props();
     const { images, columns } = data.impressions;
 
     let selectedImage = $state(images[0]);

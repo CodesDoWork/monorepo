@@ -1,6 +1,6 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
     import type { LayoutData } from "./$types";
-    import type { Snippet }from "svelte";
     import { Footer } from "../components/footer";
     import { Header } from "../components/header";
     import { createColors, createCssVariables } from "../utils/css";
@@ -11,7 +11,7 @@
         children?: Snippet;
     }
 
-    let { data, children }: Props = $props();
+    const { data, children }: Props = $props();
     const { settings, currentRoute } = data;
     const colors = createColors({
         primary: settings.project_color,

@@ -9,7 +9,7 @@
         theme: Writable<string>;
     }
 
-    let { class: className = "", is_on_hero, theme }: Props = $props();
+    const { class: className = "", is_on_hero, theme }: Props = $props();
 
     const animationDuration = 300;
     let icon = $state("");
@@ -39,8 +39,8 @@
         }, animationDuration);
     };
 
-    let resultClass = $derived(clsx(isAnimating && "animate-switch", className));
-    let iconClass = $derived(
+    const resultClass = $derived(clsx(isAnimating && "animate-switch", className));
+    const iconClass = $derived(
         clsx(is_on_hero ? "text-black dark:text-white" : "text-white", "size-6"),
     );
 </script>

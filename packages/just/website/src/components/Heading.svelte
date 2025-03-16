@@ -1,8 +1,8 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
     import { clsx } from "clsx";
     import AnimatedText from "./AnimatedText.svelte";
 
-    
     interface Props {
         class?: string;
         id?: string | null;
@@ -10,28 +10,28 @@
         commandStyle?: boolean;
         blinkCursor?: boolean;
         animateText?: string;
-        children?: import('svelte').Snippet;
+        children?: Snippet;
     }
 
-    let {
+    const {
         class: className = "",
         id = null,
         level = "h1",
         commandStyle = true,
         blinkCursor = false,
         animateText = "",
-        children
+        children,
     }: Props = $props();
 
-    let computedClassName = $derived(clsx(
-        "font-mono font-bold transition-colors drop-shadow-sm cursor-default",
-        commandStyle && "before:content-['>'] before:mr-2 before:opacity-75",
-        level === "h1" && "text-2xl md:text-3xl xl:text-4xl mb-6 mt-4 md:mt-6 lg:mt-8",
-        level === "h2" && "text-xl md:text-2xl xl:text-3xl mb-5",
-        level === "h3" && "text-lg md:text-xl xl:text-2xl mb-4",
-        level === "h4" && "lg:text-lg xl:text-xl mb-3",
-        level === "h5" && "lg:text-lg mb-2",
-        level === "h6" && "italic mb-1",
+    const computedClassName = $derived(clsx(
+        "cursor-default font-mono font-bold drop-shadow-sm transition-colors",
+        commandStyle && "before:mr-2 before:opacity-75 before:content-['>']",
+        level === "h1" && "mb-6 mt-4 text-2xl md:mt-6 md:text-3xl lg:mt-8 xl:text-4xl",
+        level === "h2" && "mb-5 text-xl md:text-2xl xl:text-3xl",
+        level === "h3" && "mb-4 text-lg md:text-xl xl:text-2xl",
+        level === "h4" && "mb-3 lg:text-lg xl:text-xl",
+        level === "h5" && "mb-2 lg:text-lg",
+        level === "h6" && "mb-1 italic",
         "text-[var(--page-color)] dark:text-[var(--page-color)]",
         className,
     ));

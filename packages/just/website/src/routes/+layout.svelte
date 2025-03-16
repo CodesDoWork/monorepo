@@ -1,13 +1,14 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
     import type { PageData } from "./$types";
     import "@cdw/monorepo/just-branding/assets/css/tailwind.css";
 
     interface Props {
         data: PageData;
-        children?: import('svelte').Snippet;
+        children?: Snippet;
     }
 
-    let { data, children }: Props = $props();
+    const { data, children }: Props = $props();
     const { siteInfo } = data;
 </script>
 

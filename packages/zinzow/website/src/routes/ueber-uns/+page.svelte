@@ -8,7 +8,7 @@
         data: PageData;
     }
 
-    let { data }: Props = $props();
+    const { data }: Props = $props();
     const { texts, about } = data;
 
     const images1 = about.images.slice(0, about.images.length / 2);

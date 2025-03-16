@@ -8,7 +8,7 @@
         startWithIdx?: number;
     }
 
-    let { posts, startWithIdx = 0 }: Props = $props();
+    const { posts, startWithIdx = 0 }: Props = $props();
 </script>
 
 <div class="grid gap-8 lg:grid-cols-2">

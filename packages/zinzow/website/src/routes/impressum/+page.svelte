@@ -7,7 +7,7 @@
         data: PageData;
     }
 
-    let { data }: Props = $props();
+    const { data }: Props = $props();
     const { currentRoute } = data;
 </script>
 

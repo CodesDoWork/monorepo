@@ -5,14 +5,12 @@
     import { Icons } from "../../components/icons";
     import { Paragraphs, TextWithIcon } from "../../components/text";
 
-    
-
     interface Props {
         // const center = [13.5461344, 53.7128988];
         data: PageData;
     }
 
-    let { data }: Props = $props();
+    const { data }: Props = $props();
     const { texts, contact } = data;
 </script>
 

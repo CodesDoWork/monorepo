@@ -14,19 +14,19 @@
 
     const theme = useThemeStore();
     const colors = tailwindConfig.theme.extend.colors as Record<string, Record<number, string>>;
-    let themeColor = $derived($theme === "dark" ? colors.primary[950] : colors.primary[400]);
+    const themeColor = $derived($theme === "dark" ? colors.primary[950] : colors.primary[400]);
 
     interface Props {
         siteInfo: PageInfo;
         routes: JustSiteRoutes[];
         backButton?: boolean;
-        header?: ComponentProps<Header>;
-        title?: ComponentProps<Title>;
+        header?: ComponentProps<typeof Header>;
+        title?: ComponentProps<typeof Title>;
         loading?: boolean;
         children?: Snippet;
     }
 
-    let {
+    const {
         siteInfo,
         routes,
         backButton = false,
@@ -38,16 +38,16 @@
         },
         title = {},
         loading = false,
-        children
+        children,
     }: Props = $props();
 
     const { currentRoute, previousRoute } = useRoutes(routes);
-    let pageTitle = $derived($currentRoute ? `${$currentRoute.name} | ${siteInfo.title}` : siteInfo.title);
+    const pageTitle = $derived($currentRoute ? `${$currentRoute.name} | ${siteInfo.title}` : siteInfo.title);
 
-    let mainClass = $derived(clsx(
-        "text-black dark:text-white transition-colors",
+    const mainClass = $derived(clsx(
+        "text-black transition-colors dark:text-white",
         $currentRoute?.is_hero === false && "bg-white dark:bg-opacity-0",
-        "pt-4 pb-16 md:px-8 flex-1 w-full px-8 sm:px-1/20 lg:px-1/10",
+        "sm:px-1/20 lg:px-1/10 w-full flex-1 px-8 pb-16 pt-4 md:px-8",
         $currentRoute?.is_hero === false && $previousRoute?.is_hero && "animate-fadeInSubtle",
     ));
 

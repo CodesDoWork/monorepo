@@ -5,7 +5,7 @@
         showOnPx?: number;
     }
 
-    let { showOnPx = 300 }: Props = $props();
+    const { showOnPx = 300 }: Props = $props();
     let hidden = $state(true);
 
     const goTop = () => document.body.scrollIntoView({ behavior: "smooth" });
@@ -13,10 +13,10 @@
     const handleOnScroll = () =>
         scrollContainer() && (hidden = scrollContainer().scrollTop <= showOnPx);
 
-    let buttonClass = $derived(clsx(
-        "fixed right-4 bottom-4 z-20",
-        "py-1 px-2 rounded font-bold text-sm bg-[var(--page-color)]",
-        hidden && "opacity-0 invisible",
+    const buttonClass = $derived(clsx(
+        "fixed bottom-4 right-4 z-20",
+        "rounded bg-[var(--page-color)] px-2 py-1 text-sm font-bold",
+        hidden && "invisible opacity-0",
         "transition-all duration-500",
     ));
 </script>

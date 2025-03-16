@@ -9,7 +9,7 @@
         data: PageData;
     }
 
-    let { data }: Props = $props();
+    const { data }: Props = $props();
     const { services, currentRoute, texts } = data;
     const services1 = services.slice(0, services.length / 2);
     const services2 = services.slice(services.length / 2, services.length);

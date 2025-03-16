@@ -1,14 +1,14 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
     import classNames from "classnames";
 
-    
     interface Props {
         class?: string;
         tag: keyof HTMLElementTagNameMap;
-        children?: import('svelte').Snippet;
+        children?: Snippet;
     }
 
-    let { class: className = "", tag, children }: Props = $props();
+    const { class: className = "", tag, children }: Props = $props();
 </script>
 
 <svelte:element

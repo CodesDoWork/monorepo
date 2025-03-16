@@ -5,7 +5,6 @@
     import { useRoutes } from "../stores/useRoutes";
     import Link from "./Link.svelte";
 
-    
     interface Props {
         class?: string;
         liClass?: string;
@@ -13,12 +12,7 @@
         routes: JustSiteRoutes[];
     }
 
-    let {
-        class: className = "",
-        liClass = "",
-        aClass = "",
-        routes
-    }: Props = $props();
+    const { class: className = "", liClass = "", aClass = "", routes }: Props = $props();
 
     const { currentRoute } = useRoutes(routes);
 </script>

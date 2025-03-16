@@ -2,7 +2,6 @@
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
 
-    
     interface Props {
         class?: string;
         name: string;
@@ -10,15 +9,15 @@
         tag?: string;
     }
 
-    let {
+    const {
         class: className = "",
         name,
         icon = null,
-        tag = "div"
+        tag = "div",
     }: Props = $props();
 
     const labelClass = clsx(
-        "flex items-center gap-1 bg-black bg-opacity-10 p-2 rounded",
+        "flex items-center gap-1 rounded bg-black bg-opacity-10 p-2",
         className,
     );
 </script>

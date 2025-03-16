@@ -1,24 +1,24 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
     import Icon from "@iconify/svelte";
     import classNames from "classnames";
     import { Text } from ".";
     import { smoothScrollOnClick } from "../../utils/smoothScrollOnClick";
 
-    
     interface Props {
         class?: string;
         iconContainerClass?: string;
         icon: string;
         href?: string | null;
-        children?: import('svelte').Snippet;
+        children?: Snippet;
     }
 
-    let {
+    const {
         class: className = "",
         iconContainerClass = "",
         icon,
         href = null,
-        children
+        children,
     }: Props = $props();
 
     const hrefClass = {

@@ -13,7 +13,7 @@
         projectPlatform?: string;
     }
 
-    let {
+    const {
         class: className = "",
         routes,
         licenseType = "",
@@ -35,7 +35,7 @@
         }
     });
 
-    let footerClass = $derived(
+    const footerClass = $derived(
         clsx(
             "select-none px-8 py-4 shadow",
             "text-center font-mono",

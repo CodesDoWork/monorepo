@@ -5,8 +5,6 @@
     import classNames from "classnames";
     import { writable } from "svelte/store";
 
-    
-
     type Route = LayoutData["routes"][number];
     interface Props {
         class?: string;
@@ -15,15 +13,15 @@
         currentRoute: Readable<Route | undefined>;
     }
 
-    let {
+    const {
         class: className = "",
         onClose,
         routes = [],
-        currentRoute
+        currentRoute,
     }: Props = $props();
 
-    let routesInNav = $derived(routes.filter(r => r.showInHeader));
-    let routeStates = $derived(writable(routes.map(() => false)));
+    const routesInNav = $derived(routes.filter(r => r.showInHeader));
+    const routeStates = $derived(writable(routes.map(() => false)));
     const toggleRoute = (idx: number) => () => {
         routeStates.update(states => {
             states[idx] = !states[idx];

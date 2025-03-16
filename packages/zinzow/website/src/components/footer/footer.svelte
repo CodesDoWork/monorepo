@@ -9,7 +9,7 @@
         data: LayoutData;
     }
 
-    let { data }: Props = $props();
+    const { data }: Props = $props();
     const { settings, socialMedias, footerSections } = data;
 </script>
 

@@ -14,7 +14,7 @@
         data: PageData;
     }
 
-    let { data }: Props = $props();
+    const { data }: Props = $props();
     const { siteInfo, routes } = data;
 
     const books = readable<Book[]>([], set =>
@@ -24,7 +24,7 @@
                 .then(set),
         ),
     );
-    let categories = $derived(new Set($books.flatMap(book => book.categories).sort()));
+    const categories = $derived(new Set($books.flatMap(book => book.categories).sort()));
 
     let animationIdx = 0;
     const getCardStyle = () => animationDelay(animationIdx++);

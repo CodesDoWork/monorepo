@@ -4,8 +4,6 @@
     import Icon from "@iconify/svelte";
     import classNames from "classnames";
 
-    
-
     type Route = LayoutData["routes"][number];
     interface Props {
         class?: string;
@@ -13,7 +11,7 @@
         currentRoute: Readable<Route | undefined>;
     }
 
-    let { class: className = "", routes = [], currentRoute }: Props = $props();
+    const { class: className = "", routes = [], currentRoute }: Props = $props();
 </script>
 
 <div class={classNames("absolute -left-8 top-full z-10 w-screen max-w-md", className)}>

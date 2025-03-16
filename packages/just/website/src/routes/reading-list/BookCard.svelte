@@ -9,7 +9,7 @@
         style: string | undefined;
     }
 
-    let { book, style }: Props = $props();
+    const { book, style }: Props = $props();
 </script>
 
 <Card class="grid h-full grid-cols-[auto_1fr] items-start gap-4 p-2" {style}>

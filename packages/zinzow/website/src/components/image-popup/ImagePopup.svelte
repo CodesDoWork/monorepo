@@ -1,6 +1,6 @@
 <script lang="ts">
-    import classNames from "classnames";
     import type { Writable } from "svelte/store";
+    import classNames from "classnames";
 
     export let isOpen: Writable<boolean>;
     export let selectedImage: {

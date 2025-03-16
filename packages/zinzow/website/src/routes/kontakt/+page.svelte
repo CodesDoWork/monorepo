@@ -4,12 +4,11 @@
     import { H1, H2 } from "../../components/heading";
     import { Icons } from "../../components/icons";
     import { Paragraphs, TextWithIcon } from "../../components/text";
-    import "leaflet/dist/leaflet.css"; // Don't forget to declare leaflet css
+
+    // const center = [13.5461344, 53.7128988];
 
     export let data: PageData;
     const { texts, contact } = data;
-
-    // const center = [13.5461344, 53.7128988];
 </script>
 
 <PageContent class="isolate">

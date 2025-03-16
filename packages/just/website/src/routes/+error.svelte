@@ -16,7 +16,11 @@
         504: "⌛",
     };
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    let { data }: Props = $props();
     const { siteInfo, routes } = data;
 </script>
 

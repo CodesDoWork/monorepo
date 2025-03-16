@@ -4,8 +4,12 @@
     import Label from "../../components/Label.svelte";
     import Link from "../../components/Link.svelte";
 
-    export let book: Book;
-    export let style: string | undefined;
+    interface Props {
+        book: Book;
+        style: string | undefined;
+    }
+
+    let { book, style }: Props = $props();
 </script>
 
 <Card class="grid h-full grid-cols-[auto_1fr] items-start gap-4 p-2" {style}>

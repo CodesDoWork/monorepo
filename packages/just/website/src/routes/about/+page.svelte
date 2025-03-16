@@ -9,7 +9,11 @@
     import VerticalLine from "../../components/VerticalLine.svelte";
     import { animationDelay } from "../../helpers/animationDelay";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    let { data }: Props = $props();
     const { siteInfo, routes, portraitSrc, workExperience } = data;
 
     let animationIdx = 0;

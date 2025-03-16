@@ -4,12 +4,16 @@
     import Icon from "@iconify/svelte";
     import classNames from "classnames";
 
-    let className = "";
-    export { className as class };
+    
 
     type Route = LayoutData["routes"][number];
-    export let routes: Route[] = [];
-    export let currentRoute: Readable<Route | undefined>;
+    interface Props {
+        class?: string;
+        routes?: Route[];
+        currentRoute: Readable<Route | undefined>;
+    }
+
+    let { class: className = "", routes = [], currentRoute }: Props = $props();
 </script>
 
 <div class={classNames("absolute -left-8 top-full z-10 w-screen max-w-md", className)}>

@@ -5,11 +5,20 @@
     import { useRoutes } from "../stores/useRoutes";
     import Link from "./Link.svelte";
 
-    let className = "";
-    export { className as class };
-    export let liClass = "";
-    export let aClass = "";
-    export let routes: JustSiteRoutes[];
+    
+    interface Props {
+        class?: string;
+        liClass?: string;
+        aClass?: string;
+        routes: JustSiteRoutes[];
+    }
+
+    let {
+        class: className = "",
+        liClass = "",
+        aClass = "",
+        routes
+    }: Props = $props();
 
     const { currentRoute } = useRoutes(routes);
 </script>

@@ -5,7 +5,11 @@
     import { H5 } from "../heading";
     import { Logo } from "../logo";
 
-    export let data: LayoutData;
+    interface Props {
+        data: LayoutData;
+    }
+
+    let { data }: Props = $props();
     const { settings, socialMedias, footerSections } = data;
 </script>
 

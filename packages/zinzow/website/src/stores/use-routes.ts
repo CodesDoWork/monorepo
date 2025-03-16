@@ -20,5 +20,7 @@ export function useRoutes<T extends Route>(routes: T[], path: string) {
         onNavigate(update);
     });
 
+    currentRoute.subscribe(() => {});
+
     return { currentRoute };
 }

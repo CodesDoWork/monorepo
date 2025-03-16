@@ -8,7 +8,11 @@
     import Page from "../components/Page.svelte";
     import { animationDelay } from "../helpers/animationDelay";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    let { data }: Props = $props();
     const { siteInfo, routes } = data;
 
     const homePageLinks = routes.filter(r => r.route !== "/");

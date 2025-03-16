@@ -3,8 +3,12 @@
     import { animationDelay } from "../../helpers/animationDelay";
     import PostCard from "./PostCard.svelte";
 
-    export let posts: JustSiteBlogEntriesDto[];
-    export let startWithIdx = 0;
+    interface Props {
+        posts: JustSiteBlogEntriesDto[];
+        startWithIdx?: number;
+    }
+
+    let { posts, startWithIdx = 0 }: Props = $props();
 </script>
 
 <div class="grid gap-8 lg:grid-cols-2">

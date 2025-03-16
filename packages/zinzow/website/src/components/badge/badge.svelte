@@ -1,13 +1,18 @@
 <script lang="ts">
     import classNames from "classnames";
 
-    let className = "";
-    export { className as class };
-    export let tag: keyof HTMLElementTagNameMap;
+    
+    interface Props {
+        class?: string;
+        tag: keyof HTMLElementTagNameMap;
+        children?: import('svelte').Snippet;
+    }
+
+    let { class: className = "", tag, children }: Props = $props();
 </script>
 
 <svelte:element
     this={tag}
     class={classNames(className, "bg-primary rounded-md px-2 py-1 text-white shadow")}>
-    <slot />
+    {@render children?.()}
 </svelte:element>

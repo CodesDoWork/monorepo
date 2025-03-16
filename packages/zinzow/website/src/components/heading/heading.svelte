@@ -2,10 +2,15 @@
     import classNames from "classnames";
 
     type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-    export let tag: HeadingTag;
 
-    let className = "";
-    export { className as class };
+    interface Props {
+        tag: HeadingTag;
+        class?: string;
+        children?: import('svelte').Snippet;
+    }
+
+    let { tag, class: className = "", children }: Props = $props();
+    
 </script>
 
 <svelte:element
@@ -14,5 +19,5 @@
         "text-primary dark:text-primary text-pretty font-semibold tracking-tight",
         className,
     )}>
-    <slot />
+    {@render children?.()}
 </svelte:element>

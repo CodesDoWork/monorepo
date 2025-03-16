@@ -9,8 +9,12 @@
     import Page from "../../components/Page.svelte";
     import { animationDelay } from "../../helpers/animationDelay";
 
-    export let data: PageData;
-    export let form: ActionData;
+    interface Props {
+        data: PageData;
+        form: ActionData;
+    }
+
+    let { data, form }: Props = $props();
 
     const { siteInfo, routes } = data;
     const { socials } = siteInfo;

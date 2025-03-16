@@ -1,11 +1,17 @@
 <script lang="ts">
     import type { LayoutData } from "./$types";
+    import type { Snippet }from "svelte";
     import { Footer } from "../components/footer";
     import { Header } from "../components/header";
     import { createColors, createCssVariables } from "../utils/css";
     import "../tailwind.css";
 
-    export let data: LayoutData;
+    interface Props {
+        data: LayoutData;
+        children?: Snippet;
+    }
+
+    let { data, children }: Props = $props();
     const { settings, currentRoute } = data;
     const colors = createColors({
         primary: settings.project_color,
@@ -26,7 +32,7 @@
         <Header {data} />
     {/if}
     <main>
-        <slot />
+        {@render children?.()}
     </main>
     <Footer {data} />
 </div>

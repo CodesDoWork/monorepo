@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { JustSiteRoutes, SocialNetworks } from "@cdw/monorepo/just-cms-types";
-    import type { ComponentProps } from "svelte";
+    import type { ComponentProps, Snippet } from "svelte";
     import type { PageInfo } from "../types/frontend";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
@@ -14,29 +14,42 @@
 
     const theme = useThemeStore();
     const colors = tailwindConfig.theme.extend.colors as Record<string, Record<number, string>>;
-    $: themeColor = $theme === "dark" ? colors.primary[950] : colors.primary[400];
+    let themeColor = $derived($theme === "dark" ? colors.primary[950] : colors.primary[400]);
 
-    export let siteInfo: PageInfo;
-    export let routes: JustSiteRoutes[];
-    export let backButton = false;
-    export let header: ComponentProps<Header> = {
-        title: siteInfo.title,
+    interface Props {
+        siteInfo: PageInfo;
+        routes: JustSiteRoutes[];
+        backButton?: boolean;
+        header?: ComponentProps<Header>;
+        title?: ComponentProps<Title>;
+        loading?: boolean;
+        children?: Snippet;
+    }
+
+    let {
+        siteInfo,
         routes,
-        theme,
-        backButton,
-    };
-    export let title: ComponentProps<Title> = {};
-    export let loading = false;
+        backButton = false,
+        header = {
+            title: siteInfo.title,
+            routes,
+            theme,
+            backButton,
+        },
+        title = {},
+        loading = false,
+        children
+    }: Props = $props();
 
     const { currentRoute, previousRoute } = useRoutes(routes);
-    $: pageTitle = $currentRoute ? `${$currentRoute.name} | ${siteInfo.title}` : siteInfo.title;
+    let pageTitle = $derived($currentRoute ? `${$currentRoute.name} | ${siteInfo.title}` : siteInfo.title);
 
-    $: mainClass = clsx(
+    let mainClass = $derived(clsx(
         "text-black dark:text-white transition-colors",
         $currentRoute?.is_hero === false && "bg-white dark:bg-opacity-0",
         "pt-4 pb-16 md:px-8 flex-1 w-full px-8 sm:px-1/20 lg:px-1/10",
         $currentRoute?.is_hero === false && $previousRoute?.is_hero && "animate-fadeInSubtle",
-    );
+    ));
 
     const footerProps = {
         licenseType: siteInfo.project_license,
@@ -65,7 +78,7 @@
                 <span class="text-2xl font-bold">Loading</span>
             </div>
         {:else}
-            <slot />
+            {@render children?.()}
         {/if}
     </main>
     <Footer {...footerProps} />

@@ -3,7 +3,11 @@
     import { PageContent } from "../../../components/content-area";
     import { H1 } from "../../../components/heading";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    let { data }: Props = $props();
     const { currentRoute } = data;
 </script>
 

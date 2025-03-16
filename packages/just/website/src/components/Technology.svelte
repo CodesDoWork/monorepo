@@ -2,10 +2,14 @@
     import { useTechIcon } from "../stores/useTechIcon";
     import Label from "./Label.svelte";
 
-    let className = "";
-    export { className as class };
-    export let technology: string;
-    export let tag: string | null = null;
+    
+    interface Props {
+        class?: string;
+        technology: string;
+        tag?: string | null;
+    }
+
+    let { class: className = "", technology, tag = null }: Props = $props();
 
     const techIcon = useTechIcon(technology);
 </script>

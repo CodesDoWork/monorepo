@@ -1,25 +1,35 @@
 <script lang="ts">
     import { clsx } from "clsx";
 
-    let className = "";
-    export { className as class };
-    export let text = "";
-    export let typingMs = 67;
-    export let typeWords = false;
-    export let blinkCursor = false;
+    
+    interface Props {
+        class?: string;
+        text?: string;
+        typingMs?: number;
+        typeWords?: boolean;
+        blinkCursor?: boolean;
+    }
 
-    let animationDone = false;
+    let {
+        class: className = "",
+        text = "",
+        typingMs = 67,
+        typeWords = false,
+        blinkCursor = false
+    }: Props = $props();
 
-    $: computedClass = clsx(
+    let animationDone = $state(false);
+
+    let computedClass = $derived(clsx(
         "after:content-['▌'] after:ml-2 after:opacity-50",
         animationDone && blinkCursor && "after:animate-blink",
         animationDone && !blinkCursor && "after:!content-none",
         className,
-    );
+    ));
 
-    let typedText = "";
-    $: words = text.split(" ");
-    $: length = typeWords ? words.length : text.length;
+    let typedText = $state("");
+    let words = $derived(text.split(" "));
+    let length = $derived(typeWords ? words.length : text.length);
 
     let nextTypeIndex = 0;
     const typeText = () => {

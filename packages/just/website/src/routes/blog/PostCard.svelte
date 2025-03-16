@@ -9,10 +9,14 @@
     import Label from "../../components/Label.svelte";
     import Link from "../../components/Link.svelte";
 
-    export let style = "";
-    export let post: JustSiteBlogEntriesDto;
+    interface Props {
+        style?: string;
+        post: JustSiteBlogEntriesDto;
+    }
 
-    let lang: Locale = "enUS";
+    let { style = "", post }: Props = $props();
+
+    let lang: Locale = $state("enUS");
     browser && (lang = (window?.navigator?.language?.replace("-", "") || lang) as Locale);
 </script>
 

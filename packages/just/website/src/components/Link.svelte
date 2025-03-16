@@ -1,13 +1,25 @@
 <script lang="ts">
     import { clsx } from "clsx";
+    
+    interface Props {
+        class?: string;
+        href: string;
+        title: string;
+        button?: boolean;
+        noStyle?: boolean;
+        smoothScroll?: boolean;
+        children?: import('svelte').Snippet;
+    }
 
-    let className = "";
-    export { className as class };
-    export let href: string;
-    export let title: string;
-    export let button = false;
-    export let noStyle = false;
-    export let smoothScroll = false;
+    let {
+        class: className = "",
+        href,
+        title,
+        button = false,
+        noStyle = false,
+        smoothScroll = false,
+        children
+    }: Props = $props();
 
     type ClickEvent = MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement };
 
@@ -23,7 +35,7 @@
         }
     };
 
-    $: aClass = clsx(
+    let aClass = $derived(clsx(
         "font-mono transition rounded-md cursor-pointer",
         button && [
             "dark:text-white p-3",
@@ -37,7 +49,7 @@
                 "p-1 hover:text-white dark:hover:text-black text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500",
             ],
         className,
-    );
+    ));
 
     const external = href.startsWith("http");
 </script>
@@ -46,10 +58,10 @@
     this={href ? "a" : "span"}
     class={aClass}
     {href}
-    on:click={handleClick}
+    onclick={handleClick}
     rel={external ? "noopener" : undefined}
     target={external ? "_blank" : undefined}
     role={href ? "link" : "none"}
     {title}>
-    <slot />
+    {@render children?.()}
 </svelte:element>

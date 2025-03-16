@@ -10,7 +10,11 @@
     import { toLinkFriendly } from "../../helpers/toLinkFriendly";
     import BookCategory from "./BookCategory.svelte";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    let { data }: Props = $props();
     const { siteInfo, routes } = data;
 
     const books = readable<Book[]>([], set =>
@@ -20,7 +24,7 @@
                 .then(set),
         ),
     );
-    $: categories = new Set($books.flatMap(book => book.categories).sort());
+    let categories = $derived(new Set($books.flatMap(book => book.categories).sort()));
 
     let animationIdx = 0;
     const getCardStyle = () => animationDelay(animationIdx++);

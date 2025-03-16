@@ -4,7 +4,11 @@
 
     type Service = PageData["services"][number];
 
-    export let services: Service[];
+    interface Props {
+        services: Service[];
+    }
+
+    let { services }: Props = $props();
 </script>
 
 <div class="flex flex-col gap-6 lg:gap-10">

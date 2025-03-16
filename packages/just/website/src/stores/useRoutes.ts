@@ -14,6 +14,9 @@ export function useRoutes(routeLinks: JustSiteRoutes[]) {
         );
     });
 
+    currentRoute.subscribe(() => {});
+    previousRoute.subscribe(() => {});
+
     return { currentRoute, previousRoute };
 }
 

@@ -2,7 +2,12 @@
     import type { PageData } from "./$types";
     import "@cdw/monorepo/just-branding/assets/css/tailwind.css";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+        children?: import('svelte').Snippet;
+    }
+
+    let { data, children }: Props = $props();
     const { siteInfo } = data;
 </script>
 
@@ -17,5 +22,5 @@
 
 <div
     class="from-primary-400 to-secondary-400 dark:from-primary-950 dark:to-secondary-950 relative overflow-x-hidden bg-gradient-to-b from-5% to-95% transition-colors">
-    <slot />
+    {@render children?.()}
 </div>

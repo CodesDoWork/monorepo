@@ -4,7 +4,11 @@
     import Page from "../../components/Page.svelte";
     import Posts from "./Posts.svelte";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    let { data }: Props = $props();
     const { siteInfo, routes, posts } = data;
     const featuredPosts = posts.filter(post => post.featured);
 </script>

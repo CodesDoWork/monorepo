@@ -20,3 +20,6 @@
 *.7z binary
 *.ttf binary
 *.pyc binary
+
+# filter jupyter output
+*.ipynb filter=strip-notebook-output

@@ -1,3 +1,4 @@
-import ContentArea from "./content-area.svelte";
+import PageContent from "./page-content.svelte";
+import WidthBox from "./width-box.svelte";
 
-export { ContentArea };
+export { PageContent, WidthBox };

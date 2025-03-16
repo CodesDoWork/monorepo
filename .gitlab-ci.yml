@@ -98,6 +98,12 @@ codegen:
     - nx affected -t codegen
   resource_group: single
 
+check formatting:
+  stage: lint
+  script:
+    - nx format:check
+  resource_group: single
+
 eslint:
   stage: lint
   script:

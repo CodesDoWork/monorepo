@@ -4,12 +4,16 @@
     import Page from "../../components/Page.svelte";
     import Posts from "./Posts.svelte";
 
-    export let data: PageData;
+    interface Props {
+        data: PageData;
+    }
+
+    const { data }: Props = $props();
     const { siteInfo, routes, posts } = data;
     const featuredPosts = posts.filter(post => post.featured);
 </script>
 
-<Page routes={routes} siteInfo={siteInfo} title={{ title: "Blog", small: true }}>
+<Page {routes} {siteInfo} title={{ title: "Blog", small: true }}>
     <Heading class="mt-8" level="h3">Featured Posts</Heading>
     <Posts posts={featuredPosts} />
     <Heading class="mt-16" level="h3">All Posts</Heading>

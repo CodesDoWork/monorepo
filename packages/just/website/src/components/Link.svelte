@@ -1,13 +1,26 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
     import { clsx } from "clsx";
 
-    let className = "";
-    export { className as class };
-    export let href: string;
-    export let title: string;
-    export let button = false;
-    export let noStyle = false;
-    export let smoothScroll = false;
+    interface Props {
+        class?: string;
+        href: string;
+        title: string;
+        button?: boolean;
+        noStyle?: boolean;
+        smoothScroll?: boolean;
+        children?: Snippet;
+    }
+
+    const {
+        class: className = "",
+        href,
+        title,
+        button = false,
+        noStyle = false,
+        smoothScroll = false,
+        children,
+    }: Props = $props();
 
     type ClickEvent = MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement };
 
@@ -23,20 +36,21 @@
         }
     };
 
-    $: aClass = clsx(
-        "font-mono transition rounded-md cursor-pointer",
+    const aClass = $derived(clsx(
+        "cursor-pointer rounded-md font-mono transition",
         button && [
-            "dark:text-white p-3",
+            "p-3 dark:text-white",
             "bg-white dark:bg-opacity-10",
-            "hover:bg-accent-500 dark:hover:bg-opacity-50 dark:hover:bg-secondary-500 hover:rotate-3",
+            "hover:bg-accent-500 dark:hover:bg-secondary-500/50 hover:rotate-3",
             "shadow-md hover:shadow-lg",
             "origin-top-left",
         ],
-        !button && !noStyle && [
-            "p-1 hover:text-white dark:hover:text-black text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500",
-        ],
+        !button &&
+            !noStyle && [
+                "text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500 p-1 hover:text-white dark:hover:text-black",
+            ],
         className,
-    );
+    ));
 
     const external = href.startsWith("http");
 </script>
@@ -45,10 +59,10 @@
     this={href ? "a" : "span"}
     class={aClass}
     {href}
-    on:click={handleClick}
+    onclick={handleClick}
     rel={external ? "noopener" : undefined}
     target={external ? "_blank" : undefined}
     role={href ? "link" : "none"}
     {title}>
-    <slot />
+    {@render children?.()}
 </svelte:element>

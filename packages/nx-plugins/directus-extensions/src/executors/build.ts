@@ -8,7 +8,7 @@ import { logger } from "@nx/devkit";
 export const buildDirectusExtensionExecutor: PromiseExecutor = async (_, context) => {
     try {
         const projectDir = projectRoot(context);
-        await execAsync(`directus-extension`, ["build"], {
+        await execAsync("directus-extension", ["build"], {
             cwd: projectDir,
             shell: true,
         });

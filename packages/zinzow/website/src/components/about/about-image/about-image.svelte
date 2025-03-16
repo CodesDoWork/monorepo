@@ -1,5 +1,9 @@
 <script lang="ts">
-    export let src: string;
+    interface Props {
+        src: string;
+    }
+
+    const { src }: Props = $props();
 </script>
 
 <div class="relative">

@@ -1,15 +1,25 @@
 <script lang="ts">
     import { clsx } from "clsx";
 
-    export let showOnPx = 300;
-    let hidden = true;
+    interface Props {
+        showOnPx?: number;
+    }
+
+    const { showOnPx = 300 }: Props = $props();
+    let hidden = $state(true);
 
     const goTop = () => document.body.scrollIntoView({ behavior: "smooth" });
     const scrollContainer = () => document.documentElement || document.body;
-    const handleOnScroll = () => scrollContainer() && (hidden = scrollContainer().scrollTop <= showOnPx);
+    const handleOnScroll = () =>
+        scrollContainer() && (hidden = scrollContainer().scrollTop <= showOnPx);
 
-    $: buttonClass = clsx("fixed right-4 bottom-4 z-20", "py-1 px-2 rounded font-bold text-sm bg-[var(--page-color)]", hidden && "opacity-0 invisible", "transition-all duration-500");
+    const buttonClass = $derived(clsx(
+        "fixed bottom-4 right-4 z-20",
+        "rounded bg-[var(--page-color)] px-2 py-1 text-sm font-bold",
+        hidden && "invisible opacity-0",
+        "transition-all duration-500",
+    ));
 </script>
 
-<svelte:window on:scroll={handleOnScroll} />
-<button class={buttonClass} on:click={goTop} on:keypress={goTop}>↑ Back to top</button>
+<svelte:window onscroll={handleOnScroll} />
+<button class={buttonClass} onclick={goTop} onkeypress={goTop}>↑ Back to top</button>

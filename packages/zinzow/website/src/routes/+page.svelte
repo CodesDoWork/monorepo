@@ -7,8 +7,12 @@
     import { MobileMenu } from "../components/mobile-menu";
     import { animationDelay } from "../utils/animation-delay";
 
-    export let data: PageData;
-    const { heroImage, routes, currentRoute } = data;
+    interface Props {
+        data: PageData;
+    }
+
+    const { data }: Props = $props();
+    const { heroImage, routes, currentRoute, texts } = data;
     const firstRoutes = routes.filter(r => r.showInHeader);
 
     const stats = [
@@ -28,7 +32,8 @@
     const mobileMenuOpen = writable(false);
     const onMenuClick = () => mobileMenuOpen.update(value => !value);
 
-    const getClasses = (...classes: string[]) => classNames(...classes, "opacity-0 animate-fadeInBT");
+    const getClasses = (...classes: string[]) =>
+        classNames(...classes, "opacity-0 animate-fadeInBT");
 </script>
 
 <div
@@ -53,7 +58,7 @@
                 {/each}
             </ol>
             <div class="relative block md:hidden">
-                <button on:click={onMenuClick}>
+                <button onclick={onMenuClick}>
                     <Icon icon="ic:round-menu" class="size-6" />
                 </button>
                 <MobileMenu
@@ -75,7 +80,7 @@
             class={getClasses(
                 "mt-8 max-w-2xl text-pretty text-center text-lg font-medium text-gray-800 sm:text-xl/8 md:mt-12 dark:text-gray-300",
             )}>
-            {$currentRoute.welcomeText}
+            {texts.intro}
         </p>
         <div class="mt-8 max-w-2xl md:mt-12 lg:max-w-none">
             <dl class="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">
@@ -83,12 +88,11 @@
                     <div
                         class={getClasses("flex flex-col-reverse gap-1")}
                         style={animationDelay(AnimationPriority.STATS + idx + firstRoutes.length)}>
-                        <dt
-                            class="text-center text-base/7 text-gray-800 md:text-left dark:text-gray-300">
+                        <dt class="text-center text-base/7 text-gray-800 dark:text-gray-300">
                             {stat.info}
                         </dt>
                         <dd
-                            class="text-primary-700 text-center text-4xl font-semibold tracking-tight md:text-left dark:text-white">
+                            class="text-primary-600 dark:text-primary text-center text-4xl font-semibold tracking-tight">
                             {stat.value}
                         </dd>
                     </div>

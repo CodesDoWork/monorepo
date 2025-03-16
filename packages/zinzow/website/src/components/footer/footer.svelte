@@ -1,16 +1,20 @@
 <script lang="ts">
     import type { LayoutData } from "../../routes/$types";
     import Icon from "@iconify/svelte";
-    import { ContentArea } from "../content-area";
+    import { WidthBox } from "../content-area";
     import { H5 } from "../heading";
     import { Logo } from "../logo";
 
-    export let data: LayoutData;
+    interface Props {
+        data: LayoutData;
+    }
+
+    const { data }: Props = $props();
     const { settings, socialMedias, footerSections } = data;
 </script>
 
 <footer class="dark:bg-primary-950 bg-white">
-    <ContentArea class="pt-0">
+    <WidthBox class="pt-0">
         <div
             class="border-t border-gray-900/10 pt-12 xl:grid xl:grid-cols-7 xl:gap-8 dark:border-white/10">
             <div class="col-span-3 space-y-4 sm:space-y-7">
@@ -43,8 +47,9 @@
                                 <li>
                                     <a
                                         href={route.routes_id.path}
-                                        class="text-sm/6 text-gray-600 transition-colors hover:text-gray-950 dark:text-gray-400 dark:hover:text-white"
-                                    >{route.routes_id.name}</a>
+                                        class="text-sm/6 text-gray-600 transition-colors hover:text-gray-950 dark:text-gray-400 dark:hover:text-white">
+                                        {route.routes_id.name}
+                                    </a>
                                 </li>
                             {/each}
                         </ul>
@@ -63,9 +68,10 @@
                     href="https://justinkonratt.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="transition-colors hover:text-gray-950 dark:hover:text-white"
-                >Justin Konratt</a>
+                    class="transition-colors hover:text-gray-950 dark:hover:text-white">
+                    Justin Konratt
+                </a>
             </p>
         </div>
-    </ContentArea>
+    </WidthBox>
 </footer>

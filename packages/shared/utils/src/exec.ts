@@ -27,6 +27,7 @@ export function execAsync(
         childProcess.stdout.on("data", msg => logger.info(msg.toString()));
         childProcess.stderr.on("data", msg => logger.info(msg.toString()));
         childProcess.on("close", code =>
-            code === 0 ? resolve() : reject(new Error(`Process exited with code ${code}`)));
+            code === 0 ? resolve() : reject(new Error(`Process exited with code ${code}`)),
+        );
     });
 }

@@ -2,21 +2,29 @@
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
 
-    let className = "";
-    export { className as class };
-    export let name: string;
-    export let icon: string | null = null;
-    export let tag: string = "div";
+    interface Props {
+        class?: string;
+        name: string;
+        icon?: string | null;
+        tag?: string;
+    }
+
+    const {
+        class: className = "",
+        name,
+        icon = null,
+        tag = "div",
+    }: Props = $props();
 
     const labelClass = clsx(
-        "flex items-center gap-1 bg-black bg-opacity-10 p-2 rounded",
+        "flex items-center gap-1 rounded bg-black bg-opacity-10 p-2",
         className,
     );
 </script>
 
-<svelte:element class={labelClass} this={tag}>
+<svelte:element this={tag} class={labelClass}>
     <span>{name}</span>
     {#if icon}
-        <Icon class="w-6 h-6" icon={icon} />
+        <Icon class="h-6 w-6" {icon} />
     {/if}
 </svelte:element>

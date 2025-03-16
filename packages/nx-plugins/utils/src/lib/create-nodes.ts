@@ -1,5 +1,8 @@
 import type { CreateNodes, TargetConfiguration } from "@nx/devkit";
-import type { CreateNodesContext, CreateNodesResult } from "nx/src/project-graph/plugins/public-api";
+import type {
+    CreateNodesContext,
+    CreateNodesResult,
+} from "nx/src/project-graph/plugins/public-api";
 import { existsSync } from "node:fs";
 import path from "node:path";
 
@@ -13,9 +16,9 @@ export function createNodesForProjects<T = unknown>(
         (projectConfigurationFile, options, context): ReturnType<CreateNodesFunction<T>> => {
             const root = path.dirname(projectConfigurationFile);
 
-            const isProject
-                = existsSync(path.join(root, "project.json"))
-                    || existsSync(path.join(root, "package.json"));
+            const isProject =
+                existsSync(path.join(root, "project.json")) ||
+                existsSync(path.join(root, "package.json"));
             if (!isProject && detectProject) {
                 return {};
             }

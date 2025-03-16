@@ -12,7 +12,10 @@ export const createNodes = createNodesForProjects(
         return {
             projects: {
                 [root]: {
-                    targets: getExecutors("@cdw/monorepo/nx-plugins-directus-extensions", "", ["build", "serve"]),
+                    targets: getExecutors("@cdw/monorepo/nx-plugins-directus-extensions", "", [
+                        "build",
+                        "serve",
+                    ]),
                 },
             },
         };

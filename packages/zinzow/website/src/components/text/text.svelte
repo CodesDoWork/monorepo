@@ -1,25 +1,17 @@
 <script lang="ts">
+    import type { Snippet } from "svelte";
     import classNames from "classnames";
-    import { twMerge } from "tailwind-merge";
 
-    export let tag: keyof HTMLElementTagNameMap;
+    interface Props {
+        tag: keyof HTMLElementTagNameMap;
+        class?: string;
+        children?: Snippet;
+    }
 
-    let className = "";
-    export { className as class };
+    const { tag, class: className = "", children }: Props = $props();
 
-    export let isLight = false;
-    export let hasHover = false;
 </script>
 
-<svelte:element
-    this={tag}
-    class={twMerge(
-        classNames(
-            {
-                "text-gray-900 dark:text-white": !isLight && !hasHover,
-            },
-            className,
-        ),
-    )}>
-    <slot />
+<svelte:element this={tag} class={classNames("text-gray-600 dark:text-gray-300", className)}>
+    {@render children?.()}
 </svelte:element>

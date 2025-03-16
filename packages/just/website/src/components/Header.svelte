@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { JustSiteRoutes } from "@cdw/monorepo/just-cms-types";
+
     import type { Writable } from "svelte/store";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
@@ -10,43 +11,50 @@
     import Link from "./Link.svelte";
     import NavLinks from "./NavLinks.svelte";
 
-    let className = "";
-    export { className as class };
-    export let title: string;
-    export let routes: JustSiteRoutes[];
-    export let theme: Writable<string>;
-    export let backButton = false;
+    interface Props {
+        class?: string;
+        title: string;
+        routes: JustSiteRoutes[];
+        theme: Writable<string>;
+        backButton?: boolean;
+    }
+
+    const { class: className = "", title, routes, theme, backButton = false }: Props = $props();
 
     const { currentRoute, previousRoute } = useRoutes(routes);
 
-    let itemVisibility = "";
-    let headerVisibility = "";
-    $: if ($previousRoute?.is_hero === false) {
-        if ($currentRoute?.is_hero === false) {
-            itemVisibility = "opacity-100";
-            headerVisibility = "scale-100";
+    let itemVisibility = $state("");
+    let headerVisibility = $state("");
+    $effect(() => {
+        if ($previousRoute?.is_hero === false) {
+            if ($currentRoute?.is_hero === false) {
+                itemVisibility = "opacity-100";
+                headerVisibility = "scale-100";
+            } else {
+                itemVisibility = "animate-fadeOutTopSubtle opacity-0";
+                headerVisibility = "animate-shrink opacity-100 scale-100";
+            }
+        } else if ($currentRoute?.is_hero === false) {
+            itemVisibility = "animate-fadeInTopSubtle opacity-0";
+            headerVisibility = "animate-grow opacity-100 scale-100";
         } else {
-            itemVisibility = "animate-fadeOutTopSubtle opacity-0";
-            headerVisibility = "animate-shrink opacity-100 scale-100";
+            itemVisibility = "opacity-0";
+            headerVisibility = "scale-0";
         }
-    } else if ($currentRoute?.is_hero === false) {
-        itemVisibility = "animate-fadeInTopSubtle opacity-0";
-        headerVisibility = "animate-grow opacity-100 scale-100";
-    } else {
-        itemVisibility = "opacity-0";
-        headerVisibility = "scale-0";
-    }
+    });
 
-    $: headerClass = clsx(
-        "flex justify-between items-center",
-        "py-4 pl-8 pr-18 lg:pr-24 shadow",
-        "bg-black dark:bg-primary-500 bg-opacity-20 dark:bg-opacity-20 text-white transition-colors",
-        "origin-top",
-        headerVisibility,
-        className,
+    const headerClass = $derived(
+        clsx(
+            "flex items-center justify-between",
+            "pr-18 py-4 pl-8 shadow lg:pr-24",
+            "dark:bg-primary-500 bg-black bg-opacity-20 text-white transition-colors dark:bg-opacity-20",
+            "origin-top",
+            headerVisibility,
+            className,
+        ),
     );
 
-    let navDrawerHidden = true;
+    let navDrawerHidden = $state(true);
     const transitionParams = {
         x: "100%",
         duration: 500,
@@ -58,26 +66,32 @@
     <div class="flex items-center">
         {#if backButton && $currentRoute !== undefined}
             <Link
-                class="p-1 mr-4 m-0 inline-block !text-white hover:!text-white hover:!bg-[var(--page-color)]"
-                href={$currentRoute?.route} title={$currentRoute?.name}>
+                class="m-0 mr-4 inline-block p-1 !text-white hover:!bg-[var(--page-color)] hover:!text-white"
+                href={$currentRoute?.route}
+                title={$currentRoute?.name}>
                 <Icon icon="carbon:chevron-left" />
             </Link>
         {/if}
         <a class={clsx("font-mono font-bold drop-shadow-md", itemVisibility)} href="/">{title}</a>
     </div>
-    <NavLinks class="hidden lg:flex" liClass={clsx("inline-block", itemVisibility)} routes={routes} />
-    <button class="block lg:hidden active:scale-90" on:click={() => navDrawerHidden = !navDrawerHidden}>
-        <Icon class="w-6 h-6" icon="material-symbols:menu" />
+    <NavLinks class="hidden lg:flex" liClass={clsx("inline-block", itemVisibility)} {routes} />
+    <button
+        class="block active:scale-90 lg:hidden"
+        onclick={() => (navDrawerHidden = !navDrawerHidden)}>
+        <Icon class="h-6 w-6" icon="material-symbols:menu" />
     </button>
 </header>
-<Drawer bind:hidden={navDrawerHidden}
-        class="absolute z-20 block lg:hidden p-0 rounded-r-none rounded-l shadow-md start-auto end-0 top-14 bg-gray-50 dark:bg-primary-950 border-gray-500 border-b-2 border-l-2"
-        transitionParams={transitionParams}>
+<Drawer
+    bind:hidden={navDrawerHidden}
+    class="dark:bg-primary-950 absolute end-0 start-auto top-14 z-20 block rounded-l rounded-r-none border-b-2 border-l-2 border-gray-500 bg-gray-50 p-0 shadow-md lg:hidden"
+    {transitionParams}>
     <Sidebar>
-        <SidebarWrapper class="dark:bg-primary-950 rounded-r-none rounded-l p-2">
-            <NavLinks aClass="block text-black dark:text-white" liClass="mb-2 animate-fadeInTopSubtle opacity-0"
-                      routes={routes} />
+        <SidebarWrapper class="dark:bg-primary-950 rounded-l rounded-r-none p-2">
+            <NavLinks
+                aClass="block text-black dark:text-white"
+                liClass="mb-2 animate-fadeInTopSubtle opacity-0"
+                {routes} />
         </SidebarWrapper>
     </Sidebar>
 </Drawer>
-<DarkmodeToggle class="absolute top-4 right-8 z-10" is_on_hero={$currentRoute?.is_hero} theme={theme} />
+<DarkmodeToggle class="absolute right-8 top-4 z-10" is_on_hero={$currentRoute?.is_hero} {theme} />

@@ -17,7 +17,7 @@ export function runWranglerExecutor(target: WranglerTarget): PromiseExecutor {
             const projectDir = projectRoot(context);
             const { expandedArgs, usedEnvs } = replaceEnvs(args, context);
             const { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_WORKERS_API_TOKEN } = loadEnv();
-            await execAsync(`wrangler`, [target, ...expandedArgs], {
+            await execAsync("wrangler", [target, ...expandedArgs], {
                 cwd: projectDir,
                 shell: true,
                 secrets: usedEnvs,

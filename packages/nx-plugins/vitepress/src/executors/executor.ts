@@ -8,7 +8,9 @@ import { logger } from "@nx/devkit";
 
 type VitepressTarget = "build" | "dev" | "preview";
 
-export function runVitepressExecutor(target: VitepressTarget): PromiseExecutor<VitepressExecutorSchema> {
+export function runVitepressExecutor(
+    target: VitepressTarget,
+): PromiseExecutor<VitepressExecutorSchema> {
     return async (options, context) => {
         const projectDir = projectRoot(context);
 

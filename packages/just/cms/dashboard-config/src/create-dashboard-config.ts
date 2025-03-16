@@ -12,14 +12,21 @@ import type {
 } from "@cdw/monorepo/just-cms-types";
 import type { ActionHandler } from "@directus/types";
 import type { Logger } from "pino";
-import type { AnyObject, AppConfig, DashyConfig, Item, PageConfig, Widget } from "./dashboard-config";
+import type {
+    AnyObject,
+    AppConfig,
+    DashyConfig,
+    Item,
+    PageConfig,
+    Widget,
+} from "./dashboard-config";
 import { readdirSync, rmSync, writeFileSync } from "node:fs";
 import { stringify as stringifyYaml } from "yaml";
 
 const DASHBOARD_CONFIG_DIR = "/dashy/config";
 const PUBLIC_URL = "PUBLIC_URL";
 
-type ItemsServiceConstructor = new<Collection extends keyof CustomDirectusTypes>(
+type ItemsServiceConstructor = new <Collection extends keyof CustomDirectusTypes>(
     collection: Collection,
     options: any,
 ) => any;

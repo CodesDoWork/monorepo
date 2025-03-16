@@ -37,7 +37,7 @@ function assetUrl(id: string) {
 }
 
 function replaceLinks(text: string) {
-    return text.replace(/<a /g, "<a class=\"text-[var(--page-color)] hover:underline\" ");
+    return text.replace(/<a /g, '<a class="text-[var(--page-color)] hover:underline" ');
 }
 
 export function getSiteInfo(directus: Directus): Promise<PageInfo> {
@@ -198,7 +198,6 @@ export function getBooks(directus: Directus): Promise<DirectusBook[]> {
                 cover: book.cover ? assetUrl(book.cover as string) : undefined,
                 categories:
                     book.book_categories?.map(c => c.just_site_book_categories_id.name) || [],
-                book_categories: undefined,
             })),
         );
 }

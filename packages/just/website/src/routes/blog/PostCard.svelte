@@ -9,10 +9,14 @@
     import Label from "../../components/Label.svelte";
     import Link from "../../components/Link.svelte";
 
-    export let style = "";
-    export let post: JustSiteBlogEntriesDto;
+    interface Props {
+        style?: string;
+        post: JustSiteBlogEntriesDto;
+    }
 
-    let lang: Locale = "enUS";
+    const { style = "", post }: Props = $props();
+
+    let lang: Locale = $state("enUS");
     browser && (lang = (window?.navigator?.language?.replace("-", "") || lang) as Locale);
 </script>
 
@@ -28,8 +32,9 @@
             src={post.cover} />
         <div class="grid grid-cols-[auto_min-content] p-2 pr-2 sm:pr-4 lg:pr-2 xl:pr-4">
             <div class="flex items-start justify-between">
-                <Heading class="col-span-2 cursor-pointer" commandStyle={false} level="h3"
-                >{post.title}</Heading>
+                <Heading class="col-span-2 cursor-pointer" commandStyle={false} level="h3">
+                    {post.title}
+                </Heading>
                 {#if post.featured}
                     <Label
                         tag="span"
@@ -38,10 +43,11 @@
                 {/if}
             </div>
             <p class="col-span-2">{post.excerpt}</p>
-            <span class="text-slate-400 dark:text-slate-300"
-            >{format(new Date(post.date_created), "P", {
-                locale: locales[lang],
-            })}</span>
+            <span class="text-slate-400 dark:text-slate-300">
+                {format(new Date(post.date_created), "P", {
+                    locale: locales[lang],
+                })}
+            </span>
         </div>
     </Link>
 </Card>

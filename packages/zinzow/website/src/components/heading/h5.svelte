@@ -1,11 +1,16 @@
-<script>
+<script lang="ts">
+    import type { Snippet } from "svelte";
     import classNames from "classnames";
     import Heading from "./heading.svelte";
 
-    let className = "";
-    export { className as class };
+    interface Props {
+        class?: string;
+        children?: Snippet;
+    }
+
+    const { class: className = "", children }: Props = $props();
 </script>
 
 <Heading tag="h3" class={classNames("text-sm/6", className)}>
-    <slot />
+    {@render children?.()}
 </Heading>

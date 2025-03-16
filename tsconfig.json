@@ -50,7 +50,7 @@
         "strictPropertyInitialization": true,
         "alwaysStrict": true,
         "noFallthroughCasesInSwitch": true,
-        "noImplicitAny": false,
+        "noImplicitAny": true,
         "noImplicitReturns": true,
         "noImplicitThis": true,
         "noUncheckedIndexedAccess": true,

@@ -1,27 +1,15 @@
 <script lang="ts">
-    import type { MapOptions, TileLayerOptions } from "leaflet";
     import type { PageData } from "./$types";
-    import { LeafletMap, Marker, Popup, TileLayer, Tooltip } from "svelte-leafletjs";
     import { PageContent } from "../../components/content-area";
     import { H1, H2 } from "../../components/heading";
     import { Icons } from "../../components/icons";
     import { Paragraphs, TextWithIcon } from "../../components/text";
+    import "leaflet/dist/leaflet.css"; // Don't forget to declare leaflet css
 
     export let data: PageData;
     const { texts, contact } = data;
 
-    const mapOptions: MapOptions = {
-        center: [13.5461344, 53.7128988],
-        zoom: 11,
-    };
-
-    const DEFAULT_TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
-    const DEFAULT_TILE_LAYER_OPTIONS: TileLayerOptions = {
-        minZoom: 0,
-        maxZoom: 20,
-        maxNativeZoom: 19,
-        attribution: "© OpenStreetMap contributors",
-    };
+    // const center = [13.5461344, 53.7128988];
 </script>
 
 <PageContent class="isolate">
@@ -128,17 +116,5 @@
             <div class="w-full border">
                 <p class="py-48 text-center">Map</p>
             </div>
-            <LeafletMap options={mapOptions}>
-                <TileLayer url={DEFAULT_TILE_URL} options={DEFAULT_TILE_LAYER_OPTIONS} />
-                <Marker latLng={[1.282375, 103.864273]}>
-                    <Popup>Gardens by the Bay</Popup>
-                    <Tooltip>Gardens by the Bay</Tooltip>
-                </Marker>
-                <Marker latLng={[1.359167, 103.989441]}>
-                    <Popup><b>Changi Airport</b></Popup>
-                    <Tooltip><b>Changi Airport</b></Tooltip>
-                </Marker>
-            </LeafletMap>
         </div>
-    </div>
-</PageContent>
+    </div></PageContent>

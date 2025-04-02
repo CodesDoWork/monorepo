@@ -1,0 +1,58 @@
+query GetAboutServerData($language: String!) {
+    contact: just_site_contact {
+        socials(filter: { socials_id: { platform: { name: { _eq: "Email" } } } }) {
+            social: socials_id {
+                name
+            }
+        }
+    }
+
+    about: just_site_about {
+        technologies {
+            technology: technologies_id {
+                name
+                techStacks: tech_stacks {
+                    techStack: tech_stack_id {
+                        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+                            name
+                        }
+                    }
+                }
+            }
+        }
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            intro
+            bio
+        }
+    }
+
+    workExperience: just_site_work_experience {
+        startYear: start_year
+        endYear: end_year
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            jobTitle: job_title
+            responsibilities
+        }
+
+        company {
+            logo
+            name
+            url
+        }
+        technologies {
+            technology: technologies_id {
+                name
+            }
+        }
+        projects {
+            project: just_site_work_projects_id {
+                logo
+                translations(filter: { languages_code: { code: { _eq: $language } } }) {
+                    name
+                    description
+                    url
+                }
+            }
+        }
+    }
+}

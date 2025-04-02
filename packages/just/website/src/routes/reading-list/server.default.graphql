@@ -1,0 +1,18 @@
+query GetReadingListData($language: String!) {
+    books: just_site_books {
+        authors
+        featured
+        categories: book_categories {
+            category: just_site_book_categories_id {
+                translations(filter: { languages_code: { code: { _eq: $language } } }) {
+                    name
+                }
+            }
+        }
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            title
+            description
+            cover
+        }
+    }
+}

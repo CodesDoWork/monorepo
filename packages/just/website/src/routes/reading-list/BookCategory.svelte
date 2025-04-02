@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type { Book } from "../../types/frontend";
+    import type { Book } from "./types";
     import Heading from "../../components/Heading.svelte";
-    import { toLinkFriendly } from "../../helpers/toLinkFriendly";
+    import { toLinkFriendly } from "../../shared/toLinkFriendly";
     import BookCard from "./BookCard.svelte";
 
     interface Props {

@@ -4,7 +4,14 @@
     "sourceRoot": "packages/just/maintenance/src",
     "projectType": "application",
     "targets": {
-        "deploy-maintenance": {
+        "deploy-webite-maintenance": {
+            "executor": "@cdw/monorepo/nx-plugins-wrangler:deploy",
+            "options": {
+                "args": ["--routes ${DOMAIN}/*"]
+            },
+            "dependsOn": ["build"]
+        },
+        "deploy-global-maintenance": {
             "executor": "@cdw/monorepo/nx-plugins-wrangler:deploy",
             "options": {
                 "args": ["--routes ${DOMAIN}/*", "--routes *.${DOMAIN}/*"]

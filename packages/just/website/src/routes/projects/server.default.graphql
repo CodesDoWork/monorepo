@@ -1,0 +1,25 @@
+fragment Project on just_site_projects {
+    id
+    name
+    thumbnail
+    license
+    githubUrl: github_url
+    homepage
+    technologies {
+        technology: technologies_id {
+            name
+        }
+    }
+    translations(filter: { languages_code: { code: { _eq: $language } } }) {
+        description
+    }
+}
+
+query GetProjectsServerData($language: String!) {
+    projects: just_site_projects(filter: { parent: { id: { _null: true } } }) {
+        ...Project
+        children {
+            ...Project
+        }
+    }
+}

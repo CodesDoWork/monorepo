@@ -5,11 +5,11 @@
 
     interface Props {
         class?: string;
-        is_on_hero: boolean;
+        isOnHero: boolean;
         theme: Writable<string>;
     }
 
-    const { class: className = "", is_on_hero, theme }: Props = $props();
+    const { class: className = "", isOnHero, theme }: Props = $props();
 
     const animationDuration = 300;
     let icon = $state("");
@@ -41,7 +41,7 @@
 
     const resultClass = $derived(clsx(isAnimating && "animate-switch", className));
     const iconClass = $derived(
-        clsx(is_on_hero ? "text-black dark:text-white" : "text-white", "size-6"),
+        clsx(isOnHero ? "text-black dark:text-white" : "text-white", "size-6"),
     );
 </script>
 

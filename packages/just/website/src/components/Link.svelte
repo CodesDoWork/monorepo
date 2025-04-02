@@ -10,6 +10,7 @@
         noStyle?: boolean;
         smoothScroll?: boolean;
         children?: Snippet;
+        onclick?: (event: MouseEvent) => void;
     }
 
     const {
@@ -20,6 +21,7 @@
         noStyle = false,
         smoothScroll = false,
         children,
+        onclick,
     }: Props = $props();
 
     type ClickEvent = MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement };
@@ -34,23 +36,27 @@
             event.preventDefault();
             scrollTo(event);
         }
+
+        onclick?.(event);
     };
 
-    const aClass = $derived(clsx(
-        "cursor-pointer rounded-md font-mono transition",
-        button && [
-            "p-3 dark:text-white",
-            "bg-white dark:bg-opacity-10",
-            "hover:bg-accent-500 dark:hover:bg-secondary-500/50 hover:rotate-3",
-            "shadow-md hover:shadow-lg",
-            "origin-top-left",
-        ],
-        !button &&
-            !noStyle && [
-                "text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500 p-1 hover:text-white dark:hover:text-black",
+    const aClass = $derived(
+        clsx(
+            "cursor-pointer rounded-md font-mono transition",
+            button && [
+                "p-3 dark:text-white",
+                "bg-white dark:bg-opacity-10",
+                "hover:bg-accent-500 dark:hover:bg-secondary-500/50 hover:rotate-3",
+                "shadow-md hover:shadow-lg",
+                "origin-top-left",
             ],
-        className,
-    ));
+            !button &&
+                !noStyle && [
+                    "text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500 p-1 hover:text-white dark:hover:text-black",
+                ],
+            className,
+        ),
+    );
 
     const external = href.startsWith("http");
 </script>

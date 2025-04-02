@@ -5,7 +5,7 @@
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import tailwindConfig from "../../tailwind.config";
-    import { useRoutes } from "../stores/useRoutes";
+    import { useRoutes } from "../stores/routes";
     import { useThemeStore } from "../stores/useThemeStore";
     import BackToTop from "./BackToTop.svelte";
     import Footer from "./Footer.svelte";
@@ -42,14 +42,18 @@
     }: Props = $props();
 
     const { currentRoute, previousRoute } = useRoutes(routes);
-    const pageTitle = $derived($currentRoute ? `${$currentRoute.name} | ${siteInfo.title}` : siteInfo.title);
+    const pageTitle = $derived(
+        $currentRoute ? `${$currentRoute.name} | ${siteInfo.title}` : siteInfo.title,
+    );
 
-    const mainClass = $derived(clsx(
-        "text-black transition-colors dark:text-white",
-        $currentRoute?.is_hero === false && "bg-white dark:bg-opacity-0",
-        "sm:px-1/20 lg:px-1/10 w-full flex-1 px-8 pb-16 pt-4 md:px-8",
-        $currentRoute?.is_hero === false && $previousRoute?.is_hero && "animate-fadeInSubtle",
-    ));
+    const mainClass = $derived(
+        clsx(
+            "text-black transition-colors dark:text-white",
+            $currentRoute?.is_hero === false && "bg-white dark:bg-opacity-0",
+            "sm:px-1/20 lg:px-1/10 w-full flex-1 px-8 pb-16 pt-4 md:px-8",
+            $currentRoute?.is_hero === false && $previousRoute?.is_hero && "animate-fadeInSubtle",
+        ),
+    );
 
     const footerProps = {
         licenseType: siteInfo.project_license,

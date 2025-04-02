@@ -1,0 +1,32 @@
+fragment Route on just_site_routes {
+    color
+    isHero: is_hero
+    inNav: in_nav
+    translations(filter: { languages_code: { code: { _eq: $language } } }) {
+        name
+        description
+        route
+    }
+}
+
+fragment Social on socials {
+    name
+    platform {
+        name
+        baseUserLink: base_user_link
+        icon
+        tone
+        displayAt: display_at
+    }
+}
+
+fragment SiteInfo on just_site_info {
+    name
+    keywords
+    projectPlatform: project_platform {
+        name
+    }
+    projectUrl: project_url
+    projectLicense: project_license
+    projectLicenseUrl: project_license_url
+}

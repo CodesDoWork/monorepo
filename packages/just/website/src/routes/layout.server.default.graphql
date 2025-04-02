@@ -1,0 +1,9 @@
+query GetHomeLayoutServerData($language: String!) {
+    siteInfo: just_site_info {
+        ...SiteInfo
+    }
+
+    routes: just_site_routes {
+        ...Route
+    }
+}

@@ -1,31 +1,38 @@
 <script lang="ts">
-    import type { JustSiteRoutes } from "@cdw/monorepo/just-cms-types";
+    import type { Route } from "../routes/types";
     import { clsx } from "clsx";
-    import { animationDelay } from "../helpers/animationDelay";
-    import { useRoutes } from "../stores/useRoutes";
+    import { animationDelay } from "../shared/animationDelay";
     import Link from "./Link.svelte";
 
     interface Props {
         class?: string;
         liClass?: string;
         aClass?: string;
-        routes: JustSiteRoutes[];
+        routes: Route[];
+        currentRoute: Route;
+        onclick?: (route: Route, event: MouseEvent) => void;
     }
 
-    const { class: className = "", liClass = "", aClass = "", routes }: Props = $props();
-
-    const { currentRoute } = useRoutes(routes);
+    const {
+        class: className = "",
+        liClass = "",
+        aClass = "",
+        routes,
+        currentRoute,
+        onclick,
+    }: Props = $props();
 </script>
 
 <ol class={className}>
-    {#each routes.filter(r => r.in_nav) as routeLink, idx (idx)}
+    {#each routes.filter(r => r.inNav) as routeLink, idx (idx)}
         <li style={animationDelay(idx)} class={liClass}>
             <Link
+                onclick={e => onclick(routeLink, e)}
                 noStyle
                 title={routeLink.name}
                 href={routeLink.route}
                 class={clsx(
-                    routeLink === $currentRoute && "font-bold underline",
+                    routeLink === currentRoute && "font-bold underline",
                     "mx-1 rounded p-2 font-mono leading-none tracking-wide transition-colors hover:bg-[var(--page-color)] hover:text-black",
                     aClass,
                 )}>{routeLink.name}</Link>

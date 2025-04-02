@@ -1,26 +1,35 @@
 <script lang="ts">
+    import type { Readable } from "svelte/store";
+    import type { Route } from "../routes/types";
+    import { page } from "$app/state";
     import { clsx } from "clsx";
     import Heading from "./Heading.svelte";
 
     interface Props {
-        class?: string;
-        title?: string;
-        small?: boolean;
+        currentRoute: Readable<Route>;
     }
 
-    const { class: className = "", title = "", small = false }: Props = $props();
+    const { currentRoute }: Props = $props();
 
-    const headingClass = $derived(clsx(
-        "select-none !drop-shadow-lg",
-        !small &&
-            "mt-0 text-center !text-3xl sm:!text-4xl md:mt-6 md:!text-5xl lg:mt-12 xl:!text-6xl",
-        className,
-    ));
+    let isHero = $state(true);
+    let text = $state("");
+
+    currentRoute.subscribe(route => {
+        isHero = route.isHero;
+        text = route.name;
+    });
+
+    const isSmall = $derived(page.error ? false : !isHero);
+    const titleText = $derived(page.error ? page.status.toString() : text);
 </script>
 
 <Heading
-    animateText={title}
-    blinkCursor={!small}
-    class={headingClass}
-    commandStyle={small}
+    animateText={titleText}
+    blinkCursor={!isSmall}
+    class={clsx(
+        "select-none !drop-shadow-lg",
+        !isSmall && "!mt-16 text-center !text-3xl sm:!text-4xl md:!text-5xl lg:mt-20 xl:!text-6xl",
+        $currentRoute.route === "/" && "dark:text-primary-500",
+    )}
+    commandStyle={isSmall}
     level="h1" />

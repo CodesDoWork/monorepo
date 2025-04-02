@@ -1,8 +1,8 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import moment from "moment";
+import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { create } from "xmlbuilder2";
 import { env } from "../../env";
-import { getBlogPosts, getDirectus, getRoutes } from "../../helpers/directus";
+import { GetSitemapServerData } from "../../graphql/default/generated/gql";
 
 export const GET: RequestHandler = async () => {
     const sitemap = createSitemap(await getSitemapRoutes());
@@ -15,22 +15,13 @@ export const GET: RequestHandler = async () => {
 };
 
 async function getSitemapRoutes(): Promise<Route[]> {
-    const directus = await getDirectus();
-    const directusRoutes = await getRoutes(directus);
-    const blogPosts = await getBlogPosts(directus);
+    const { routes } = await toPromise(GetSitemapServerData({}));
+    const routeSet = new Set(routes.flatMap(r => r.translations).map(t => t.route));
+    const domainRoutes = Array.from(routeSet).filter(r => r.startsWith("/"));
 
-    const mainRoutes: Route[] = directusRoutes
-        .map(r => r.route)
-        .filter(r => r.startsWith("/"))
-        .map(r => ({ loc: r.replace(/\/$/, ""), changefreq: "weekly" }) satisfies Route);
-
-    const blogRoutes: Route[] = blogPosts.map(p => ({
-        loc: `/blog/${p.slug}`,
-        changefreq: "monthly",
-        lastmod: moment(p.date_updated || p.date_created).format("yyyy-MM-DD"),
-    }));
-
-    return mainRoutes.concat(blogRoutes);
+    return domainRoutes.map(
+        r => ({ loc: r.replace(/\/$/, ""), changefreq: "weekly" }) satisfies Route,
+    );
 }
 
 function createSitemap(routes: Route[]) {

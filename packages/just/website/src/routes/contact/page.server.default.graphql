@@ -1,0 +1,9 @@
+query GetContactServerData {
+    contact: just_site_contact {
+        socials {
+            socials_id {
+                ...Social
+            }
+        }
+    }
+}

@@ -7,9 +7,9 @@ import { GetAboutServerData } from "../../graphql/default/generated/gql";
 import { assetUrl } from "../../shared/assets";
 
 export const load: PageServerLoad = async ({ parent }) => {
-    const { language } = await parent();
+    const { currentLanguage } = await parent();
     const { contact, about, workExperience } = flattenTranslations(
-        await toPromise(GetAboutServerData({ variables: { language } })),
+        await toPromise(GetAboutServerData({ variables: { language: currentLanguage.code } })),
     );
 
     const portraitSrc = await getPortraitSrc(contact.socials[0].social.name);

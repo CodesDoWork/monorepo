@@ -17,9 +17,16 @@
     }
 
     const { data, children }: Props = $props();
-    const { siteInfo, routes, currentRoute: serverRoute } = data;
+    const {
+        siteInfo,
+        routes,
+        currentRoute: serverRoute,
+        currentLanguage,
+        serverRoutes,
+        languages,
+    } = data;
 
-    const { currentRoute, previousRoute } = useRoutes(routes, serverRoute);
+    const { currentRoute, previousRoute } = useRoutes(routes, serverRoutes, serverRoute);
 
     const pageTitle =
         $currentRoute.name === siteInfo.name
@@ -69,7 +76,7 @@
         "flex min-h-screen flex-col",
     )}
     style={`--page-color: ${$currentRoute?.color};`}>
-    <Header title={siteInfo.name} {routes} {theme} {currentRoute} />
+    <Header title={siteInfo.name} {routes} {theme} {currentRoute} {currentLanguage} {languages} />
     <main class={mainClass}>
         <Title {currentRoute} />
         {@render children?.()}

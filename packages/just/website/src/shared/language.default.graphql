@@ -1,0 +1,6 @@
+fragment Language on languages {
+    code
+    name
+    short
+    isFallback: is_fallback
+}

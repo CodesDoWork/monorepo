@@ -27,7 +27,8 @@
         </Heading>
         <p class="mb-8 max-w-prose">{project.description || "\xA0"}</p>
         <div class="flex flex-1 flex-col justify-between gap-8 lg:flex-row lg:items-end">
-            <div class="flex flex-col items-start gap-3 2xl:flex-row 2xl:items-center 2xl:gap-6">
+            <div
+                class="flex flex-col flex-wrap items-start gap-3 2xl:flex-row 2xl:items-center 2xl:gap-6">
                 <div class="flex items-center gap-1.5 text-sm">
                     <Icon icon="octicon:law-16" class="inline size-6" />
                     <span>{project.license || "No license specified"}</span>
@@ -40,9 +41,13 @@
                     {/each}
                 </ul>
             </div>
-            <div class="place-self-end">
+            <div
+                class="place-self-end flex flex-col xl:flex-row items-end xl:items-start min-w-fit">
                 {#if project.homepage}
-                    <Link class="mr-4" title="Project Homepage" href={project.homepage}>
+                    <Link
+                        class="mr-0 w-fit xl:mr-4"
+                        title="Project Homepage"
+                        href={project.homepage}>
                         Homepage
                     </Link>
                 {/if}

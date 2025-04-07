@@ -1,0 +1,9 @@
+fragment MinimalTranslatedRoute on just_site_routes {
+    id
+    translations {
+        language: languages_code {
+            code
+        }
+        route
+    }
+}

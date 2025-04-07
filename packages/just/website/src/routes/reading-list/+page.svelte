@@ -28,7 +28,7 @@
     Always apply your own truth and critical thinking.
 </p>
 <Heading level="h3">Categories</Heading>
-<ol class="list-inside list-disc">
+<ol class="list-inside list-disc sm:columns-2 xl:columns-3 2xl:columns-4">
     <li>
         <Link href="#featured" smoothScroll title="Featured">Featured</Link>
     </li>

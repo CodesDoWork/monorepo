@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { Readable, Writable } from "svelte/store";
+    import type { LanguageFragment } from "../graphql/default/generated/gql";
     import type { Route } from "../routes/types";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
@@ -9,6 +10,7 @@
     import DarkmodeToggle from "./DarkmodeToggle.svelte";
     import Link from "./Link.svelte";
     import NavLinks from "./NavLinks.svelte";
+    import LanguageToggle from "./LanguageToggle.svelte";
 
     interface Props {
         class?: string;
@@ -17,6 +19,8 @@
         theme: Writable<string>;
         backButton?: boolean;
         currentRoute: Readable<Route>;
+        currentLanguage: LanguageFragment;
+        languages: LanguageFragment[];
     }
 
     const {
@@ -26,6 +30,8 @@
         theme,
         backButton = false,
         currentRoute,
+        currentLanguage,
+        languages,
     }: Props = $props();
 
     let isVisible = $state(false);
@@ -35,7 +41,7 @@
 
     const headerClass = $derived(
         clsx(
-            "pr-18 py-4 pl-8 shadow lg:pr-24",
+            "py-4 pl-8 pr-8 shadow lg:pr-40",
             "dark:bg-primary-500 bg-black bg-opacity-20 text-white transition-colors dark:bg-opacity-20",
             className,
         ),
@@ -92,4 +98,7 @@
         </SidebarWrapper>
     </Sidebar>
 </Drawer>
-<DarkmodeToggle class="absolute right-8 top-4 z-10" isOnHero={$currentRoute.isHero} {theme} />
+<div class="absolute right-[4.5rem] sm:right-20 lg:right-8 top-4 z-10 flex gap-4 sm:gap-6">
+    <LanguageToggle currentRoute={$currentRoute} {currentLanguage} {languages} />
+    <DarkmodeToggle isOnHero={$currentRoute.isHero} {theme} />
+</div>

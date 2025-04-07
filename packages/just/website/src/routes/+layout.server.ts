@@ -1,36 +1,42 @@
 import type { FlatTrans } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import type { GetHomeLayoutServerDataQuery } from "../graphql/default/generated/gql";
+import type {
+    GetHomeLayoutServerDataQuery,
+    LanguageFragment,
+} from "../graphql/default/generated/gql";
 import type { LayoutServerLoad } from "./$types";
 import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import { GetHomeLayoutServerData } from "../graphql/default/generated/gql";
-
-const LANGUAGE_COOKIE = "lang";
-const FALLBACK_LANGUAGE = "en";
-
-const languageMap: Record<string, string> = {
-    de: "de-DE",
-    [FALLBACK_LANGUAGE]: "en-US",
-};
+import {
+    GetHomeLayoutServerData,
+    GetHomeLayoutServerLanguages,
+} from "../graphql/default/generated/gql";
+import { getLanguage } from "../shared/language";
 
 export const load: LayoutServerLoad = async ({ request, url, cookies }) => {
-    let language = cookies.get(LANGUAGE_COOKIE);
-    if (!language) {
-        language = getLanguageFromHeader(request.headers.get("accept-language"));
-        cookies.set(LANGUAGE_COOKIE, language, { path: "/", httpOnly: true, sameSite: "strict" });
-    }
-
-    const data = await toPromise(GetHomeLayoutServerData({ variables: { language } }));
-    const { siteInfo, routes } = flattenTranslations(data);
-    const currentRoute = routes.find(r => r.route === url.pathname);
-
-    return { siteInfo: joinKeywords(siteInfo), routes, currentRoute, language };
+    const { languages } = await toPromise(GetHomeLayoutServerLanguages({}));
+    const language = await getLanguage(request, cookies, languages);
+    return loadServerData(url, language, languages);
 };
 
-function getLanguageFromHeader(languageHeader: string | null): string {
-    const languageCode = languageHeader ? languageHeader.split(",")[0].trim() : FALLBACK_LANGUAGE;
-    const language = new Intl.Locale(languageCode).language;
-    return languageMap[language] || languageMap[FALLBACK_LANGUAGE];
+async function loadServerData(
+    url: URL,
+    currentLanguage: LanguageFragment,
+    languages: LanguageFragment[],
+) {
+    const data = await toPromise(
+        GetHomeLayoutServerData({ variables: { language: currentLanguage.code } }),
+    );
+    const { siteInfo, routes, serverRoutes } = flattenTranslations(data);
+    const currentRoute = routes.find(r => r.route === url.pathname);
+
+    return {
+        siteInfo: joinKeywords(siteInfo),
+        routes,
+        currentRoute,
+        currentLanguage,
+        serverRoutes,
+        languages,
+    };
 }
 
 function joinKeywords(siteInfo: FlatTrans<GetHomeLayoutServerDataQuery>["siteInfo"]) {

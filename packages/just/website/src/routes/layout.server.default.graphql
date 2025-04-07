@@ -1,3 +1,10 @@
+fragment ServerRoute on just_site_routes {
+    id
+    translations(filter: { languages_code: { is_fallback: { _eq: true } } }) {
+        route
+    }
+}
+
 query GetHomeLayoutServerData($language: String!) {
     siteInfo: just_site_info {
         ...SiteInfo
@@ -5,5 +12,15 @@ query GetHomeLayoutServerData($language: String!) {
 
     routes: just_site_routes {
         ...Route
+    }
+
+    serverRoutes: just_site_routes {
+        ...ServerRoute
+    }
+}
+
+query GetHomeLayoutServerLanguages {
+    languages {
+        ...Language
     }
 }

@@ -1,4 +1,5 @@
 fragment Route on just_site_routes {
+    id
     color
     isHero: is_hero
     inNav: in_nav

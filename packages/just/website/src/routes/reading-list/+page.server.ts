@@ -7,9 +7,9 @@ import { GetReadingListData } from "../../graphql/default/generated/gql";
 import { assetUrl } from "../../shared/assets";
 
 export const load: PageServerLoad = async ({ parent }) => {
-    const { language } = await parent();
+    const { currentLanguage } = await parent();
     const res = flattenTranslations(
-        await toPromise(GetReadingListData({ variables: { language } })),
+        await toPromise(GetReadingListData({ variables: { language: currentLanguage.code } })),
     );
 
     const books = transformBooks(res.books);

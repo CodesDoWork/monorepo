@@ -7,9 +7,9 @@ import { GetProjectsServerData } from "../../graphql/default/generated/gql";
 import { assetUrl } from "../../shared/assets";
 
 export const load: PageServerLoad = async ({ parent }) => {
-    const { language } = await parent();
+    const { currentLanguage } = await parent();
     const { projects } = flattenTranslations(
-        await toPromise(GetProjectsServerData({ variables: { language } })),
+        await toPromise(GetProjectsServerData({ variables: { language: currentLanguage.code } })),
     );
 
     transformProjects(projects);

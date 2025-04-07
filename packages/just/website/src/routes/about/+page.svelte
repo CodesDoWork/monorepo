@@ -34,14 +34,14 @@
             <div class="hyphens-auto text-justify *:mb-2">{@html about.bio}</div>
         </Card>
         <Card class={cardClass} padding style={getCardStyle()}>
-            <Heading level="h3">Experience</Heading>
+            <Heading level="h3">{about.experience}</Heading>
             {#each workExperience as experience, idx (idx)}
                 <div
                     class="grid grid-cols-[2.5rem_1fr] grid-rows-[1rem_auto_1fr] sm:grid-cols-[4rem_1fr]">
                     <VerticalLine />
                     <div class="row-span-3 ml-4 mt-2 pb-8">
                         <span class="text-sm italic text-slate-400">
-                            {experience.startYear} - {experience.endYear || "present"}
+                            {experience.startYear} - {experience.endYear || about.present}
                         </span>
                         <Heading
                             commandStyle={false}
@@ -56,7 +56,7 @@
                             {experience.responsibilities}
                         </p>
                         {#if experience.projects.length}
-                            <span class={labelClass}>Projects:</span>
+                            <span class={labelClass}>{about.projects}:</span>
                             <ul class="flex flex-wrap gap-4">
                                 {#each experience.projects as { project }}
                                     <Link
@@ -76,7 +76,7 @@
                                 {/each}
                             </ul>
                         {/if}
-                        <span class={labelClass}>Core Technologies:</span>
+                        <span class={labelClass}>{about.coreTechnologies}:</span>
                         <ul class="flex flex-wrap gap-2">
                             {#each experience.technologies as { technology }}
                                 <Technology tag="li" technology={technology.name} />
@@ -97,7 +97,7 @@
             <img alt="Portrait" class="rounded" src={portraitSrc} />
         </Card>
         <Card class={cardClass} padding style={getCardStyle()}>
-            <Heading level="h3">Tech Stack</Heading>
+            <Heading level="h3">{about.techStack}</Heading>
             {#each Object.entries(techStack) as [stackName, technologies]}
                 <Heading class="mt-4" level="h5">{stackName}</Heading>
                 <ul class="flex flex-wrap gap-2">

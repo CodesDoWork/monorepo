@@ -8,9 +8,9 @@
     import { sineInOut } from "svelte/easing";
     import { fade, slide } from "svelte/transition";
     import DarkmodeToggle from "./DarkmodeToggle.svelte";
+    import LanguageToggle from "./LanguageToggle.svelte";
     import Link from "./Link.svelte";
     import NavLinks from "./NavLinks.svelte";
-    import LanguageToggle from "./LanguageToggle.svelte";
 
     interface Props {
         class?: string;
@@ -41,7 +41,7 @@
 
     const headerClass = $derived(
         clsx(
-            "py-4 pl-8 pr-8 shadow lg:pr-40",
+            "px-8 py-4 shadow lg:pr-40",
             "dark:bg-primary-500 bg-black bg-opacity-20 text-white transition-colors dark:bg-opacity-20",
             className,
         ),

@@ -1,9 +1,19 @@
-query GetContactServerData {
+query GetContactServerData($language: String!) {
     contact: just_site_contact {
         socials {
             socials_id {
                 ...Social
             }
+        }
+
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            letsConnect: lets_connect
+            seeMore: see_more
+            sendMessage: send_message
+            name
+            email
+            message
+            send
         }
     }
 }

@@ -9,7 +9,7 @@
     }
 
     const { data }: Props = $props();
-    const { projects } = data;
+    const { projects, texts } = data;
 
     let currentCard = 0;
 </script>
@@ -19,11 +19,13 @@
         <ProjectCard
             style={animationDelay(++currentCard)}
             {project}
+            {texts}
             class={clsx(project.children?.length ? "mb-3" : "mb-6")} />
         {#each project.children as child, childIdx (childIdx)}
             <ProjectCard
                 style={animationDelay(++currentCard)}
                 project={child}
+                {texts}
                 class={clsx(childIdx < project.children.length - 1 ? "mb-3" : "mb-6", "ml-6")} />
         {/each}
     {/each}

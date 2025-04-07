@@ -1,13 +1,19 @@
 import type { Actions, PageServerLoad } from "./$types";
+import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
+import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { SMTPClient } from "emailjs";
 import { env } from "../../env";
-import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { GetContactServerData } from "../../graphql/default/generated/gql";
 import { mapSocials } from "../../shared/mapSocials";
 
-export const load: PageServerLoad = async () => {
-    const { contact } = await toPromise(GetContactServerData({}));
-    return { socials: mapSocials(contact.socials.map(s => s.socials_id)) };
+export const load: PageServerLoad = async ({ parent }) => {
+    const { currentLanguage } = await parent();
+    const { contact } = flattenTranslations(
+        await toPromise(GetContactServerData({ variables: { language: currentLanguage.code } })),
+    );
+    const { socials, ...texts } = contact;
+
+    return { texts, socials: mapSocials(socials.map(s => s.socials_id)) };
 };
 
 const client = new SMTPClient({

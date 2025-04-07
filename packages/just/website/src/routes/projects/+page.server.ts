@@ -8,13 +8,13 @@ import { assetUrl } from "../../shared/assets";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const { currentLanguage } = await parent();
-    const { projects } = flattenTranslations(
+    const { projects, texts } = flattenTranslations(
         await toPromise(GetProjectsServerData({ variables: { language: currentLanguage.code } })),
     );
 
     transformProjects(projects);
 
-    return { projects };
+    return { projects, texts };
 };
 
 function transformProjects(projects: FlatTrans<GetProjectsServerDataQuery["projects"]>) {

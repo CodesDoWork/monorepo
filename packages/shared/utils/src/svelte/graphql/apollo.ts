@@ -1,5 +1,6 @@
-import type { ApolloQueryResult } from "@apollo/client/core";
+import type { ApolloQueryResult, NormalizedCacheObject } from "@apollo/client/core";
 import type { Readable, Unsubscriber } from "svelte/store";
+import { ApolloClient, InMemoryCache } from "@apollo/client/core";
 
 type DataOf<T extends Readable<ApolloQueryResult<unknown>>> = Parameters<
     Parameters<T["subscribe"]>[0]
@@ -22,5 +23,22 @@ export function toPromise<Q extends ApolloQueryResult<unknown>, T extends Readab
         };
 
         unsubscriber = result.subscribe(handleData);
+    });
+}
+
+export function createApolloClient(
+    uri: string,
+    bearerToken: string,
+): ApolloClient<NormalizedCacheObject> {
+    return new ApolloClient({
+        uri,
+        defaultOptions: {
+            watchQuery: {
+                fetchPolicy: "cache-and-network",
+            },
+        },
+        headers: { Authorization: `Bearer ${bearerToken}` },
+        cache: new InMemoryCache(),
+        ssrMode: false,
     });
 }

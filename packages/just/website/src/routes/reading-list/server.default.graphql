@@ -1,3 +1,11 @@
+fragment BookTexts on just_site_books_info_translations {
+    categories
+    featured
+    intro
+    warning
+    warningContent: warning_content
+}
+
 query GetReadingListData($language: String!) {
     books: just_site_books {
         authors
@@ -13,6 +21,12 @@ query GetReadingListData($language: String!) {
             title
             description
             cover
+        }
+    }
+
+    texts: just_site_books_info {
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            ...BookTexts
         }
     }
 }

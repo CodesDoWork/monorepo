@@ -15,32 +15,53 @@
         blinkCursor = false,
     }: Props = $props();
 
-    let animationDone = $state(false);
+    let writingDone = $state(true);
+    let deletionDone = $state(true);
 
     const computedClass = $derived(
         clsx(
             "after:ml-2 after:opacity-50 after:content-['▌']",
-            animationDone && blinkCursor && "after:animate-blink",
-            animationDone && !blinkCursor && "after:!content-none",
+            writingDone && blinkCursor && "after:animate-blink",
+            writingDone && !blinkCursor && "after:!content-none",
             className,
         ),
     );
 
-    let typedLength = $state(0);
-    const typeText = $derived((text: string) => {
-        if (typedLength < text.length) {
-            ++typedLength;
-            setTimeout(() => typeText(text), typingMs);
+    let currentText = $state("");
+
+    const deleteText = $derived(() => {
+        if (currentText.length > 0) {
+            currentText = currentText.substring(0, currentText.length - 1);
+            setTimeout(() => deleteText(), typingMs / 2);
         } else {
-            animationDone = true;
+            deletionDone = true;
+        }
+    });
+
+    const typeText = $derived(() => {
+        if (!deletionDone) {
+            return;
+        }
+
+        if (currentText.length < text.length) {
+            currentText = text.substring(0, currentText.length + 1);
+            setTimeout(() => typeText(), typingMs);
+        } else {
+            writingDone = true;
         }
     });
 
     $effect(() => {
-        animationDone = false;
-        typedLength = 0;
-        text && setTimeout(() => typeText(text), typingMs);
+        text;
+        deletionDone = false;
+        setTimeout(() => deleteText(), typingMs / 2);
+    });
+
+    $effect(() => {
+        if (deletionDone) {
+            text && setTimeout(() => typeText(), typingMs);
+        }
     });
 </script>
 
-<span class={computedClass}>{text.substring(0, typedLength)}</span>
+<span class={computedClass}>{currentText}</span>

@@ -23,6 +23,11 @@ query GetAboutServerData($language: String!) {
         translations(filter: { languages_code: { code: { _eq: $language } } }) {
             intro
             bio
+            experience
+            present
+            projects
+            coreTechnologies: core_technologies
+            techStack: tech_stack
         }
     }
 

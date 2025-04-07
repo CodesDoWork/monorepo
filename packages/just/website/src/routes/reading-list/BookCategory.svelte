@@ -8,13 +8,14 @@
         category: string;
         books: Book[];
         getCardStyle: () => string;
+        featuredText: string;
     }
 
-    const { category, books, getCardStyle }: Props = $props();
+    const { category, books, getCardStyle, featuredText }: Props = $props();
 
     function byCategory(category: string) {
         return function (book: Book) {
-            return category === "Featured" ? book.featured : book.categories.includes(category);
+            return category === featuredText ? book.featured : book.categories.includes(category);
         };
     }
 </script>
@@ -23,7 +24,7 @@
 <ul class="grid grid-cols-1 content-stretch gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
     {#each books.filter(byCategory(category)) as book}
         <li>
-            <BookCard style={getCardStyle()} {book} />
+            <BookCard style={getCardStyle()} {book} {featuredText} />
         </li>
     {/each}
 </ul>

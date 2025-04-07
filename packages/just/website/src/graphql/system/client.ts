@@ -1,5 +1,5 @@
+import { createApolloClient } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { env } from "../../env";
-import { createApolloClient } from "../client";
 
 export const client = createApolloClient(`${env.CMS_URL}/graphql/system`, env.CMS_TOKEN);
 export default client;

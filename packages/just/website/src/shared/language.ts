@@ -1,6 +1,7 @@
 import type { Cookies } from "@sveltejs/kit";
 import type { LanguageFragment } from "../graphql/default/generated/gql";
 import { error } from "@sveltejs/kit";
+import { env } from "../env";
 
 const LANGUAGE_COOKIE = "lang";
 
@@ -27,6 +28,7 @@ export function setLanguageCookie(cookies: Cookies, languageCode: string) {
         path: "/",
         httpOnly: true,
         sameSite: "strict",
+        secure: env.NODE_ENV === "production",
     });
 }
 

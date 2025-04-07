@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { ProjectTextsFragment } from "../../graphql/default/generated/gql";
     import type { Project } from "./types";
     import Icon from "@iconify/svelte";
     import clsx from "clsx";
@@ -9,11 +10,12 @@
 
     interface Props {
         project: Project;
+        texts: ProjectTextsFragment;
         style?: string;
         class?: string;
     }
 
-    const { project, style, class: className }: Props = $props();
+    const { project, texts, style, class: className }: Props = $props();
 </script>
 
 <Card {style} class={clsx(className, "flex flex-col lg:flex-row")}>
@@ -31,7 +33,7 @@
                 class="flex flex-col flex-wrap items-start gap-3 2xl:flex-row 2xl:items-center 2xl:gap-6">
                 <div class="flex items-center gap-1.5 text-sm">
                     <Icon icon="octicon:law-16" class="inline size-6" />
-                    <span>{project.license || "No license specified"}</span>
+                    <span>{project.license || texts.noLicense}</span>
                 </div>
                 <ul class="flex gap-2 flex-wrap">
                     {#each project.technologies as { technology }}
@@ -48,10 +50,10 @@
                         class="mr-0 w-fit xl:mr-4"
                         title="Project Homepage"
                         href={project.homepage}>
-                        Homepage
+                        {texts.homepage}
                     </Link>
                 {/if}
-                <Link title="GitHub" href={project.githubUrl}>View on GitHub</Link>
+                <Link title="GitHub" href={project.githubUrl}>{texts.viewOnGitHub}</Link>
             </div>
         </div>
     </div>

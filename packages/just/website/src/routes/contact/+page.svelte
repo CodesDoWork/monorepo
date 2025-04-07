@@ -14,7 +14,7 @@
     }
 
     const { data, form }: Props = $props();
-    const { socials } = data;
+    const { socials, texts } = data;
 
     const inputClass = clsx(
         "rounded p-2 shadow focus:shadow-md focus:outline-2",
@@ -26,7 +26,7 @@
 
 <div class="grid grid-cols-1 gap-12 xl:gap-16 2xl:grid-cols-2">
     <div class="animate-fadeInSubtle opacity-0">
-        <Heading level="h2">Let's Connect</Heading>
+        <Heading level="h2">{texts.letsConnect}</Heading>
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {#each socials as social, idx (idx)}
                 <Card
@@ -54,7 +54,7 @@
         </div>
     </div>
     <div class="animate-fadeInSubtle flex flex-col opacity-0" style={animationDelay(2)}>
-        <Heading level="h2">Send Message</Heading>
+        <Heading level="h2">{texts.sendMessage}</Heading>
         <form
             action="?/mail"
             class="grid grow grid-cols-2 grid-rows-[auto_1fr_auto] gap-4"
@@ -63,21 +63,21 @@
             <input
                 class={clsx(inputClass)}
                 name="name"
-                placeholder="Name"
+                placeholder={texts.name}
                 required
                 type="text"
                 value={form?.data?.name || ""} />
             <input
                 class={clsx(inputClass)}
                 name="email"
-                placeholder="Email"
+                placeholder={texts.email}
                 required
                 type="email"
                 value={form?.data?.email || ""} />
             <textarea
                 class={clsx(inputClass, "col-span-2 min-h-24")}
                 name="message"
-                placeholder="Message"
+                placeholder={texts.message}
                 required>{form?.data?.message || ""}</textarea>
             <button
                 class={clsx(
@@ -85,7 +85,7 @@
                     "col-span-2 !bg-[var(--page-color)] text-white !outline-0 active:brightness-75",
                 )}
                 type="submit">
-                Send
+                {texts.send}
             </button>
             {#if form}
                 <p class={clsx("col-span-2", form.success ? "text-green-500" : "text-error-500")}>

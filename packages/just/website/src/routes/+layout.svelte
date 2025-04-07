@@ -4,6 +4,7 @@
     import { clsx } from "clsx";
     import tailwindConfig from "../../tailwind.config";
     import BackToTop from "../components/BackToTop.svelte";
+    import BlurContent from "../components/BlurContent.svelte";
     import Footer from "../components/Footer.svelte";
     import Header from "../components/Header.svelte";
     import Title from "../components/Title.svelte";
@@ -28,10 +29,11 @@
 
     const { currentRoute, previousRoute } = useRoutes(routes, serverRoutes, serverRoute);
 
-    const pageTitle =
-        $currentRoute.name === siteInfo.name
-            ? siteInfo.name
-            : `${$currentRoute.name} | ${siteInfo.name}`;
+    let pageTitle = $state("");
+    currentRoute.subscribe(route => {
+        pageTitle =
+            route.name === siteInfo.name ? siteInfo.name : `${route.name} | ${siteInfo.name}`;
+    });
 
     const theme = useThemeStore();
     const colors = tailwindConfig.theme.extend.colors as Record<string, Record<number, string>>;
@@ -45,15 +47,6 @@
             $currentRoute.isHero === false && $previousRoute?.isHero && "animate-fadeInSubtle",
         ),
     );
-
-    const footerProps = {
-        licenseType: siteInfo.projectLicense,
-        licenseUrl: siteInfo.projectLicenseUrl,
-        projectUrl: siteInfo.projectUrl,
-        projectPlatform: siteInfo.projectPlatform.name,
-        routes,
-        currentRoute,
-    };
 </script>
 
 <svelte:head>
@@ -79,8 +72,19 @@
     <Header title={siteInfo.name} {routes} {theme} {currentRoute} {currentLanguage} {languages} />
     <main class={mainClass}>
         <Title {currentRoute} />
-        {@render children?.()}
+        <BlurContent currentRoute={$currentRoute}>
+            {@render children?.()}
+        </BlurContent>
     </main>
-    <Footer {...footerProps} />
-    <BackToTop />
+    <BlurContent currentRoute={$currentRoute}>
+        <Footer
+            copyright={siteInfo.name}
+            licenseType={siteInfo.projectLicense}
+            licenseUrl={siteInfo.projectLicenseUrl}
+            projectPlatform={siteInfo.projectPlatform.name}
+            projectUrl={siteInfo.projectUrl}
+            texts={siteInfo}
+            {currentRoute} />
+    </BlurContent>
+    <BackToTop text={siteInfo.backToTop} />
 </div>

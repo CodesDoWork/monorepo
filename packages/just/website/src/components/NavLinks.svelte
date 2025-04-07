@@ -33,7 +33,7 @@
                 href={routeLink.route}
                 class={clsx(
                     routeLink === currentRoute && "font-bold underline",
-                    "mx-1 rounded p-2 font-mono leading-none tracking-wide transition-colors hover:bg-[var(--page-color)] hover:text-black",
+                    "mx-1 rounded p-2 font-mono leading-none tracking-wide transition-colors hover:bg-[var(--page-color)] hover:text-black duration-200",
                     aClass,
                 )}>{routeLink.name}</Link>
         </li>

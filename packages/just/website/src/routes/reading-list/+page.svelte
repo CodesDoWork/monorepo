@@ -11,26 +11,22 @@
     }
 
     const { data }: Props = $props();
-    const { books, categories } = data;
+    const { books, categories, texts } = data;
 
     let animationIdx = 0;
     const getCardStyle = () => animationDelay(animationIdx++);
 </script>
 
-<p class="mb-2 italic">
-    Here are some of the books I've read. I tagged my recommendation but every book on this list is
-    great and worth reading. I didn't include every book I've read in the list because not every
-    book is worth it. More books are about to come soon, since I just can't (and don't want to) stop
-    reading.
-</p>
+<p class="mb-2 italic">{texts.intro}</p>
 <p class="mb-4 text-red-500">
-    ⚠️<b>Warning</b>⚠️<br />
-    Always apply your own truth and critical thinking.
+    ⚠️<b>{texts.warning}</b>⚠️<br />{texts.warningContent}
 </p>
-<Heading level="h3">Categories</Heading>
+<Heading level="h3">{texts.categories}</Heading>
 <ol class="list-inside list-disc sm:columns-2 xl:columns-3 2xl:columns-4">
     <li>
-        <Link href="#featured" smoothScroll title="Featured">Featured</Link>
+        <Link href={`#${toLinkFriendly(texts.featured)}`} smoothScroll title={texts.featured}>
+            {texts.featured}
+        </Link>
     </li>
     {#each categories as category}
         <li>
@@ -41,7 +37,7 @@
     {/each}
 </ol>
 <hr class="opacity:50 my-8 dark:opacity-20" />
-<BookCategory {books} category="Featured" {getCardStyle} />
+<BookCategory {books} category={texts.featured} {getCardStyle} featuredText={texts.featured} />
 {#each categories as category}
-    <BookCategory {category} {books} {getCardStyle} />
+    <BookCategory {category} {books} {getCardStyle} featuredText={texts.featured} />
 {/each}

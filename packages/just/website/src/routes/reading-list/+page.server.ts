@@ -18,7 +18,7 @@ export const load: PageServerLoad = async ({ parent }) => {
         books.flatMap(book => book.categories).sort((s1, s2) => s1.localeCompare(s2)),
     );
 
-    return { books, categories };
+    return { books, categories, texts: res.texts };
 };
 
 function transformBooks(books: FlatTrans<GetReadingListDataQuery["books"]>) {

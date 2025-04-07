@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { Readable } from "svelte/store";
+    import type { FooterTextsFragment } from "../graphql/default/generated/gql";
     import type { Route } from "../routes/types";
     import { clsx } from "clsx";
     import { slide } from "svelte/transition";
@@ -7,20 +8,24 @@
 
     interface Props {
         class?: string;
-        licenseType?: string;
-        licenseUrl?: string;
-        projectUrl?: string;
-        projectPlatform?: string;
+        copyright: string;
+        licenseType: string;
+        licenseUrl: string;
+        projectUrl: string;
+        projectPlatform: string;
         currentRoute: Readable<Route>;
+        texts: FooterTextsFragment;
     }
 
     const {
         class: className = "",
-        licenseType = "",
-        licenseUrl = "",
-        projectUrl = "",
-        projectPlatform = "",
+        copyright,
+        licenseType,
+        licenseUrl,
+        projectUrl,
+        projectPlatform,
         currentRoute,
+        texts,
     }: Props = $props();
 
     let isVisible = $state(false);
@@ -42,10 +47,12 @@
 </script>
 
 {#if isVisible}
-    <footer transition:slide class={footerClass}>
-        &copy; Justin Konratt {new Date().getFullYear()} - Licensed under
+    <footer transition:slide|global class={footerClass}>
+        &copy; {copyright}
+        {new Date().getFullYear()} - {texts.licensedUnder}
         <Link class={linkClass} href={licenseUrl} title="License">{licenseType}</Link>
-        - View on
+        {texts.license} - {texts.viewOn}
         <Link class={linkClass} href={projectUrl} title="Project">{projectPlatform}</Link>
+        {texts.viewOnTail}
     </footer>
 {/if}

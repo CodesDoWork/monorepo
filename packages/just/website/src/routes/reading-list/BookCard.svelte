@@ -7,9 +7,10 @@
     interface Props {
         book: Book;
         style: string | undefined;
+        featuredText: string;
     }
 
-    const { book, style }: Props = $props();
+    const { book, style, featuredText }: Props = $props();
 </script>
 
 <Card class="grid h-full grid-cols-[auto_1fr] items-start gap-4 p-2" {style}>
@@ -25,7 +26,7 @@
     <p class="col-span-2">{book.description}</p>
     <ul class="col-span-2 flex flex-wrap gap-2">
         {#if book.featured}
-            <Label tag="li" class="!bg-red-500 !bg-opacity-70" name="Featured" />
+            <Label tag="li" class="!bg-red-500 !bg-opacity-70" name={featuredText} />
         {/if}
         {#each book.categories as category}
             <Label tag="li" name={category} />

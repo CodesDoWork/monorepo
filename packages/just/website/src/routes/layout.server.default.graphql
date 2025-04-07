@@ -5,9 +5,20 @@ fragment ServerRoute on just_site_routes {
     }
 }
 
+fragment FooterTexts on just_site_info_translations {
+    licensedUnder: licensed_under
+    license
+    viewOn: view_on
+    viewOnTail: view_on_tail
+}
+
 query GetHomeLayoutServerData($language: String!) {
     siteInfo: just_site_info {
         ...SiteInfo
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            ...FooterTexts
+            backToTop: back_to_top
+        }
     }
 
     routes: just_site_routes {

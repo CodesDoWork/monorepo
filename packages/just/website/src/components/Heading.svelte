@@ -26,7 +26,7 @@
     const computedClassName = $derived(
         clsx(
             className,
-            "cursor-default font-mono font-bold drop-shadow-sm transition-colors",
+            "cursor-default font-mono font-bold drop-shadow-sm transition-colors duration-1000",
             commandStyle && "before:mr-2 before:opacity-75 before:content-['>']",
             level === "h1" && "mb-6 mt-4 text-2xl md:mt-6 md:text-3xl lg:mt-8 xl:text-4xl",
             level === "h2" && "mb-5 text-xl md:text-2xl xl:text-3xl",

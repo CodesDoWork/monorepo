@@ -1,26 +1,27 @@
 <script lang="ts">
-    import type { Writable } from "svelte/store";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
+    import { Theme } from "../stores/theme.svelte";
 
     interface Props {
         class?: string;
         isOnHero: boolean;
-        theme: Writable<string>;
+        theme: Theme;
+        setTheme: (theme: Theme) => void;
     }
 
-    const { class: className = "", isOnHero, theme }: Props = $props();
+    const { class: className = "", isOnHero, theme, setTheme }: Props = $props();
 
     const animationDuration = 300;
     let icon = $state("");
     $effect(() => {
         let iconName: string;
-        if ($theme === "dark") {
-            document.documentElement.classList.add("dark");
-            iconName = "material-symbols:light-mode-outline";
-        } else if ($theme === "light") {
-            document.documentElement.classList.remove("dark");
+        if (theme === Theme.Light) {
             iconName = "material-symbols:dark-mode-outline";
+        } else if (theme === Theme.Dark) {
+            iconName = "material-symbols:desktop-windows-outline-rounded";
+        } else if (theme === Theme.OS) {
+            iconName = "material-symbols:light-mode-outline";
         }
 
         if (icon) {
@@ -32,7 +33,9 @@
 
     let isAnimating = $state(false);
     const toggleTheme = () => {
-        theme?.set($theme === "light" ? "dark" : "light");
+        setTheme(
+            theme === Theme.Light ? Theme.Dark : theme === Theme.Dark ? Theme.OS : Theme.Light,
+        );
         isAnimating = true;
         setTimeout(() => {
             isAnimating = false;

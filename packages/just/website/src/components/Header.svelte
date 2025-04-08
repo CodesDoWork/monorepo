@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type { Writable } from "svelte/store";
     import type { LanguageFragment } from "../graphql/default/generated/gql";
     import type { Route } from "../routes/types";
     import Icon from "@iconify/svelte";
@@ -9,14 +8,14 @@
     import LanguageToggle from "./LanguageToggle.svelte";
     import Link from "./Link.svelte";
     import NavLinks from "./NavLinks.svelte";
-    import { goto } from "$app/navigation";
-    import { tick } from "svelte";
+    import { Theme } from "../stores/theme.svelte";
 
     interface Props {
         class?: string;
         title: string;
         routes: Route[];
-        theme: Writable<string>;
+        theme: Theme;
+        setTheme: (theme: Theme) => void;
         backButton?: boolean;
         currentRoute: Route;
         currentLanguage: LanguageFragment;
@@ -28,6 +27,7 @@
         title,
         routes,
         theme,
+        setTheme,
         backButton = false,
         currentRoute,
         currentLanguage,
@@ -73,11 +73,12 @@
                 <Icon class="h-6 w-6" icon="material-symbols:menu" />
             </button>
             {#if isMobileNavVisible}
-                <div
+                <button
                     transition:fade
+                    aria-label="backdrop"
                     class="fixed w-screen h-screen bg-black/65 z-20 inset-0"
                     onclick={() => (isMobileNavVisible = false)}>
-                </div>
+                </button>
                 <NavLinks
                     class="absolute -right-4 z-30 top-12 text-right dark:bg-primary-800 rounded bg-white shadow-lg space-y-2 py-2"
                     onLinkClick={() => (isMobileNavVisible = false)}
@@ -92,5 +93,5 @@
 
 <div class="absolute right-[4.5rem] sm:right-20 lg:right-8 top-4 z-10 flex gap-4 sm:gap-6">
     <LanguageToggle {currentRoute} {currentLanguage} {languages} />
-    <DarkmodeToggle isOnHero={currentRoute.isHero} {theme} />
+    <DarkmodeToggle isOnHero={currentRoute.isHero} {theme} {setTheme} />
 </div>

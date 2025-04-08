@@ -9,7 +9,7 @@
     import Header from "../components/Header.svelte";
     import Title from "../components/Title.svelte";
     import { getRoutes } from "../stores/routes.svelte";
-    import { useThemeStore } from "../stores/useThemeStore";
+    import { getTheme, Theme } from "../stores/theme.svelte";
     import "@cdw/monorepo/just-branding/assets/css/tailwind.css";
 
     interface Props {
@@ -35,9 +35,11 @@
             : `${nav.currentRoute.name} | ${siteInfo.name}`,
     );
 
-    const theme = useThemeStore();
+    const theme = getTheme();
     const colors = tailwindConfig.theme.extend.colors as Record<string, Record<number, string>>;
-    const themeColor = $derived($theme === "dark" ? colors.primary[950] : colors.primary[400]);
+    const themeColor = $derived(
+        theme.theme === Theme.Dark ? colors.primary[950] : colors.primary[400],
+    );
 
     const mainClass = $derived(
         clsx(
@@ -52,6 +54,16 @@
 </script>
 
 <svelte:head>
+    <script>
+        (function () {
+            const theme = localStorage.getItem("theme");
+            const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+            if (theme === "dark" || (!theme && systemPrefersDark)) {
+                document.documentElement.classList.add("dark");
+            }
+        })();
+    </script>
+
     <title>{pageTitle}</title>
     <meta content="description" name={nav.currentRoute.description} />
     <meta content={pageTitle} property="og:title" />
@@ -74,7 +86,8 @@
     <Header
         title={siteInfo.name}
         {routes}
-        {theme}
+        theme={theme.theme}
+        setTheme={theme.setTheme}
         currentRoute={nav.currentRoute}
         {currentLanguage}
         {languages} />

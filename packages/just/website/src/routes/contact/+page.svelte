@@ -17,6 +17,7 @@
     const { socials, texts } = data;
 
     const inputClass = clsx(
+        "border-0",
         "rounded p-2 shadow focus:shadow-md focus:outline-2",
         "outline outline-1 outline-stone-200 dark:outline-0 dark:outline-slate-500 dark:focus:outline-1",
         "placeholder:text-slate-400 dark:placeholder:text-slate-300",

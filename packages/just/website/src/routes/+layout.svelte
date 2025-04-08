@@ -8,7 +8,7 @@
     import Footer from "../components/Footer.svelte";
     import Header from "../components/Header.svelte";
     import Title from "../components/Title.svelte";
-    import { useRoutes } from "../stores/routes";
+    import { getRoutes } from "../stores/routes.svelte";
     import { useThemeStore } from "../stores/useThemeStore";
     import "@cdw/monorepo/just-branding/assets/css/tailwind.css";
 
@@ -27,13 +27,13 @@
         languages,
     } = data;
 
-    const { currentRoute, previousRoute } = useRoutes(routes, serverRoutes, serverRoute);
+    const nav = getRoutes(routes, serverRoutes, serverRoute);
 
-    let pageTitle = $state("");
-    currentRoute.subscribe(route => {
-        pageTitle =
-            route.name === siteInfo.name ? siteInfo.name : `${route.name} | ${siteInfo.name}`;
-    });
+    const pageTitle = $derived(
+        nav.currentRoute.name === siteInfo.name
+            ? siteInfo.name
+            : `${nav.currentRoute.name} | ${siteInfo.name}`,
+    );
 
     const theme = useThemeStore();
     const colors = tailwindConfig.theme.extend.colors as Record<string, Record<number, string>>;
@@ -42,18 +42,20 @@
     const mainClass = $derived(
         clsx(
             "text-black transition-colors dark:text-white",
-            $currentRoute.isHero === false && "bg-white dark:bg-opacity-0",
+            nav.currentRoute.isHero === false && "bg-white dark:bg-opacity-0",
             "sm:px-1/20 lg:px-1/10 w-full flex-1 px-8 pb-16 pt-4 md:px-8",
-            $currentRoute.isHero === false && $previousRoute?.isHero && "animate-fadeInSubtle",
+            nav.currentRoute.isHero === false &&
+                nav.previousRoute?.isHero &&
+                "animate-fadeInSubtle",
         ),
     );
 </script>
 
 <svelte:head>
     <title>{pageTitle}</title>
-    <meta content="description" name={$currentRoute.description} />
+    <meta content="description" name={nav.currentRoute.description} />
     <meta content={pageTitle} property="og:title" />
-    <meta content={$currentRoute.description} property="og:description" />
+    <meta content={nav.currentRoute.description} property="og:description" />
     <meta content={pageTitle} property="og:site_name" />
     <meta content={themeColor} name="theme-color" />
     <meta content={siteInfo.keywords} name="keywords" />
@@ -68,15 +70,21 @@
         "relative overflow-x-hidden",
         "flex min-h-screen flex-col",
     )}
-    style={`--page-color: ${$currentRoute?.color};`}>
-    <Header title={siteInfo.name} {routes} {theme} {currentRoute} {currentLanguage} {languages} />
+    style={`--page-color: ${nav.currentRoute?.color};`}>
+    <Header
+        title={siteInfo.name}
+        {routes}
+        {theme}
+        currentRoute={nav.currentRoute}
+        {currentLanguage}
+        {languages} />
     <main class={mainClass}>
-        <Title {currentRoute} />
-        <BlurContent currentRoute={$currentRoute}>
+        <Title currentRoute={nav.currentRoute} />
+        <BlurContent currentRoute={nav.currentRoute}>
             {@render children?.()}
         </BlurContent>
     </main>
-    <BlurContent currentRoute={$currentRoute}>
+    <BlurContent currentRoute={nav.currentRoute}>
         <Footer
             copyright={siteInfo.name}
             licenseType={siteInfo.projectLicense}
@@ -84,7 +92,7 @@
             projectPlatform={siteInfo.projectPlatform.name}
             projectUrl={siteInfo.projectUrl}
             texts={siteInfo}
-            {currentRoute} />
+            currentRoute={nav.currentRoute} />
     </BlurContent>
     <BackToTop text={siteInfo.backToTop} />
 </div>

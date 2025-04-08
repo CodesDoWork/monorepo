@@ -3,6 +3,7 @@
     import { clsx } from "clsx";
     import { animationDelay } from "../shared/animationDelay";
     import Link from "./Link.svelte";
+    import { slide } from "svelte/transition";
 
     interface Props {
         class?: string;
@@ -10,7 +11,7 @@
         aClass?: string;
         routes: Route[];
         currentRoute: Route;
-        onclick?: (route: Route, event: MouseEvent) => void;
+        onLinkClick?: (route: Route, event: MouseEvent) => void;
     }
 
     const {
@@ -19,21 +20,21 @@
         aClass = "",
         routes,
         currentRoute,
-        onclick,
+        onLinkClick,
     }: Props = $props();
 </script>
 
-<ol class={className}>
+<ol transition:slide class={className}>
     {#each routes.filter(r => r.inNav) as routeLink, idx (idx)}
         <li style={animationDelay(idx)} class={liClass}>
             <Link
-                onclick={e => onclick(routeLink, e)}
+                onclick={e => onLinkClick(routeLink, e)}
                 noStyle
                 title={routeLink.name}
                 href={routeLink.route}
                 class={clsx(
                     routeLink === currentRoute && "font-bold underline",
-                    "mx-1 rounded p-2 font-mono leading-none tracking-wide transition-colors hover:bg-[var(--page-color)] hover:text-black duration-200",
+                    "rounded p-2 font-mono leading-none tracking-wide transition-colors duration-200 hover:bg-[var(--page-color)] hover:text-black",
                     aClass,
                 )}>{routeLink.name}</Link>
         </li>

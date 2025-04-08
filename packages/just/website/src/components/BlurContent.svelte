@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
+    import type { Route } from "../routes/types";
     import { onNavigate } from "$app/navigation";
     import { onDestroy, onMount } from "svelte";
     import { blur } from "svelte/transition";
-    import type { Route } from "../routes/types";
 
     const ANIMATION_TIME = 250;
 
@@ -19,8 +19,8 @@
         isVisible = true;
     });
 
-    onNavigate(() => {
-        if (!currentRoute?.isHero) {
+    onNavigate(({ from, to }) => {
+        if (!currentRoute?.isHero && from.route.id !== to.route.id) {
             isVisible = false;
             setTimeout(() => {
                 isVisible = true;

@@ -1,16 +1,16 @@
 <script lang="ts">
-    import type { Readable, Writable } from "svelte/store";
+    import type { Writable } from "svelte/store";
     import type { LanguageFragment } from "../graphql/default/generated/gql";
     import type { Route } from "../routes/types";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import { Drawer, Sidebar, SidebarWrapper } from "flowbite-svelte";
-    import { sineInOut } from "svelte/easing";
     import { fade, slide } from "svelte/transition";
     import DarkmodeToggle from "./DarkmodeToggle.svelte";
     import LanguageToggle from "./LanguageToggle.svelte";
     import Link from "./Link.svelte";
     import NavLinks from "./NavLinks.svelte";
+    import { goto } from "$app/navigation";
+    import { tick } from "svelte";
 
     interface Props {
         class?: string;
@@ -18,7 +18,7 @@
         routes: Route[];
         theme: Writable<string>;
         backButton?: boolean;
-        currentRoute: Readable<Route>;
+        currentRoute: Route;
         currentLanguage: LanguageFragment;
         languages: LanguageFragment[];
     }
@@ -34,10 +34,7 @@
         languages,
     }: Props = $props();
 
-    let isVisible = $state(false);
-    currentRoute.subscribe(route => {
-        isVisible = !route.isHero;
-    });
+    const isVisible = $derived(!currentRoute.isHero);
 
     const headerClass = $derived(
         clsx(
@@ -47,23 +44,18 @@
         ),
     );
 
-    let navDrawerHidden = $state(true);
-    const transitionParams = {
-        x: "100%",
-        duration: 500,
-        easing: sineInOut,
-    } as any;
+    let isMobileNavVisible = $state(false);
 </script>
 
 {#if isVisible}
     <header transition:slide class={headerClass}>
-        <div transition:fade class="flex items-center justify-between">
+        <div transition:fade class="flex items-center justify-between relative">
             <div class="flex items-center">
                 {#if backButton}
                     <Link
                         class="m-0 mr-4 inline-block p-1 !text-white hover:!bg-[var(--page-color)] hover:!text-white"
-                        href={$currentRoute.route}
-                        title={$currentRoute.name}>
+                        href={currentRoute.route}
+                        title={currentRoute.name}>
                         <Icon icon="carbon:chevron-left" />
                     </Link>
                 {/if}
@@ -72,33 +64,33 @@
             <NavLinks
                 class="hidden lg:flex"
                 liClass={clsx("animate-fadeInTopSubtle inline-block opacity-0")}
+                aClass="mx-1"
                 {routes}
-                currentRoute={$currentRoute} />
+                {currentRoute} />
             <button
                 class="block active:scale-90 lg:hidden"
-                onclick={() => (navDrawerHidden = !navDrawerHidden)}>
+                onclick={() => (isMobileNavVisible = !isMobileNavVisible)}>
                 <Icon class="h-6 w-6" icon="material-symbols:menu" />
             </button>
+            {#if isMobileNavVisible}
+                <div
+                    transition:fade
+                    class="fixed w-screen h-screen bg-black/65 z-20 inset-0"
+                    onclick={() => (isMobileNavVisible = false)}>
+                </div>
+                <NavLinks
+                    class="absolute -right-4 z-30 top-12 text-right dark:bg-primary-800 rounded bg-white shadow-lg space-y-2 py-2"
+                    onLinkClick={() => (isMobileNavVisible = false)}
+                    aClass="block text-black dark:text-white pr-4 pl-8"
+                    liClass="animate-fadeInTopSubtle opacity-0"
+                    {routes}
+                    {currentRoute} />
+            {/if}
         </div>
     </header>
 {/if}
 
-<Drawer
-    bind:hidden={navDrawerHidden}
-    class="dark:bg-primary-950 absolute end-0 start-auto top-14 z-20 block rounded-l rounded-r-none border-b-2 border-l-2 border-gray-500 bg-gray-50 p-0 shadow-md lg:hidden"
-    {transitionParams}>
-    <Sidebar>
-        <SidebarWrapper class="dark:bg-primary-950 rounded-l rounded-r-none p-2">
-            <NavLinks
-                onclick={() => (navDrawerHidden = true)}
-                aClass="block text-black dark:text-white"
-                liClass="mb-2 animate-fadeInTopSubtle opacity-0"
-                {routes}
-                currentRoute={$currentRoute} />
-        </SidebarWrapper>
-    </Sidebar>
-</Drawer>
 <div class="absolute right-[4.5rem] sm:right-20 lg:right-8 top-4 z-10 flex gap-4 sm:gap-6">
-    <LanguageToggle currentRoute={$currentRoute} {currentLanguage} {languages} />
-    <DarkmodeToggle isOnHero={$currentRoute.isHero} {theme} />
+    <LanguageToggle {currentRoute} {currentLanguage} {languages} />
+    <DarkmodeToggle isOnHero={currentRoute.isHero} {theme} />
 </div>

@@ -32,13 +32,8 @@ export function createApolloClient(
 ): ApolloClient<NormalizedCacheObject> {
     return new ApolloClient({
         uri,
-        defaultOptions: {
-            watchQuery: {
-                fetchPolicy: "cache-and-network",
-            },
-        },
         headers: { Authorization: `Bearer ${bearerToken}` },
         cache: new InMemoryCache(),
-        ssrMode: false,
+        ssrMode: true,
     });
 }

@@ -1,21 +1,24 @@
 import type { Route, ServerRoute } from "../routes/types";
 import { afterNavigate } from "$app/navigation";
-import { readonly, writable } from "svelte/store";
 
-export function useRoutes(routes: Route[], serverRoutes: ServerRoute[], initialRoute: Route) {
-    const currentRoute = writable(initialRoute);
-    const previousRoute = writable<Route | undefined>();
+export function getRoutes(routes: Route[], serverRoutes: ServerRoute[], initialRoute: Route) {
+    let currentRoute = $state(initialRoute);
+    let previousRoute = $state<Route | undefined>();
 
     afterNavigate(({ from, to }) => {
-        currentRoute.set(getRouteForPath(routes, serverRoutes, to.route.id));
+        currentRoute = getRouteForPath(routes, serverRoutes, to.route.id);
         if (from) {
-            previousRoute.set(getRouteForPath(routes, serverRoutes, from.route.id));
+            previousRoute = getRouteForPath(routes, serverRoutes, from.route.id);
         }
     });
 
     return {
-        currentRoute: readonly(currentRoute),
-        previousRoute: readonly(previousRoute),
+        get currentRoute() {
+            return currentRoute;
+        },
+        get previousRoute() {
+            return previousRoute;
+        },
     };
 }
 

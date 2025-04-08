@@ -13,7 +13,7 @@
         licenseUrl: string;
         projectUrl: string;
         projectPlatform: string;
-        currentRoute: Readable<Route>;
+        currentRoute: Route;
         texts: FooterTextsFragment;
     }
 
@@ -28,10 +28,7 @@
         texts,
     }: Props = $props();
 
-    let isVisible = $state(false);
-    currentRoute.subscribe(route => {
-        isVisible = !route.isHero;
-    });
+    const isVisible = $derived(!currentRoute.isHero);
 
     const footerClass = $derived(
         clsx(

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { ThemeState } from "../stores/theme.svelte";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { Theme } from "../stores/theme.svelte";
@@ -6,21 +7,20 @@
     interface Props {
         class?: string;
         isOnHero: boolean;
-        theme: Theme;
-        setTheme: (theme: Theme) => void;
+        theme: ThemeState;
     }
 
-    const { class: className = "", isOnHero, theme, setTheme }: Props = $props();
+    const { class: className = "", isOnHero, theme }: Props = $props();
 
     const animationDuration = 300;
     let icon = $state("");
     $effect(() => {
         let iconName: string;
-        if (theme === Theme.Light) {
+        if (theme.theme === Theme.Light) {
             iconName = "material-symbols:dark-mode-outline";
-        } else if (theme === Theme.Dark) {
+        } else if (theme.theme === Theme.Dark) {
             iconName = "material-symbols:desktop-windows-outline-rounded";
-        } else if (theme === Theme.OS) {
+        } else if (theme.theme === Theme.OS) {
             iconName = "material-symbols:light-mode-outline";
         }
 
@@ -33,9 +33,17 @@
 
     let isAnimating = $state(false);
     const toggleTheme = () => {
-        setTheme(
-            theme === Theme.Light ? Theme.Dark : theme === Theme.Dark ? Theme.OS : Theme.Light,
-        );
+        let nextTheme;
+        if (theme.theme === Theme.Light) {
+            nextTheme = Theme.Dark;
+        } else if (theme.theme === Theme.Dark) {
+            nextTheme = Theme.OS;
+        } else if (theme.theme === Theme.OS) {
+            nextTheme = Theme.Light;
+        }
+
+        theme.setTheme(nextTheme);
+
         isAnimating = true;
         setTimeout(() => {
             isAnimating = false;

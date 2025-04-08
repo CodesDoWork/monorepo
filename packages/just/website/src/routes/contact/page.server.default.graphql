@@ -1,9 +1,10 @@
 query GetContactServerData($language: String!) {
     contact: just_site_contact {
         socials {
-            socials_id {
+            socialItem: socials_id {
                 ...Social
             }
+            isSeeMore: is_see_more
         }
 
         translations(filter: { languages_code: { code: { _eq: $language } } }) {

@@ -38,7 +38,7 @@
     const theme = getTheme();
     const colors = tailwindConfig.theme.extend.colors as Record<string, Record<number, string>>;
     const themeColor = $derived(
-        theme.theme === Theme.Dark ? colors.primary[950] : colors.primary[400],
+        theme.displayedTheme === Theme.Dark ? colors.primary[950] : colors.primary[400],
     );
 
     const mainClass = $derived(
@@ -86,8 +86,7 @@
     <Header
         title={siteInfo.name}
         {routes}
-        theme={theme.theme}
-        setTheme={theme.setTheme}
+        {theme}
         currentRoute={nav.currentRoute}
         {currentLanguage}
         {languages} />

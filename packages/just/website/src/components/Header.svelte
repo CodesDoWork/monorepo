@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { LanguageFragment } from "../graphql/default/generated/gql";
     import type { Route } from "../routes/types";
+    import type { ThemeState } from "../stores/theme.svelte";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { fade, slide } from "svelte/transition";
@@ -8,14 +9,12 @@
     import LanguageToggle from "./LanguageToggle.svelte";
     import Link from "./Link.svelte";
     import NavLinks from "./NavLinks.svelte";
-    import { Theme } from "../stores/theme.svelte";
 
     interface Props {
         class?: string;
         title: string;
         routes: Route[];
-        theme: Theme;
-        setTheme: (theme: Theme) => void;
+        theme: ThemeState;
         backButton?: boolean;
         currentRoute: Route;
         currentLanguage: LanguageFragment;
@@ -27,7 +26,6 @@
         title,
         routes,
         theme,
-        setTheme,
         backButton = false,
         currentRoute,
         currentLanguage,
@@ -93,5 +91,5 @@
 
 <div class="absolute right-[4.5rem] sm:right-20 lg:right-8 top-4 z-10 flex gap-4 sm:gap-6">
     <LanguageToggle {currentRoute} {currentLanguage} {languages} />
-    <DarkmodeToggle isOnHero={currentRoute.isHero} {theme} {setTheme} />
+    <DarkmodeToggle isOnHero={currentRoute.isHero} {theme} />
 </div>

@@ -4,7 +4,7 @@ import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/t
 import { SMTPClient } from "emailjs";
 import { env } from "../../env";
 import { GetContactServerData } from "../../graphql/default/generated/gql";
-import { mapSocials } from "../../shared/mapSocials";
+import { mapSocial } from "../../shared/mapSocials";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const { currentLanguage } = await parent();
@@ -13,7 +13,10 @@ export const load: PageServerLoad = async ({ parent }) => {
     );
     const { socials, ...texts } = contact;
 
-    return { texts, socials: mapSocials(socials.map(s => s.socials_id)) };
+    return {
+        texts,
+        socials: socials.map(s => ({ ...mapSocial(s.socialItem), isSeeMore: s.isSeeMore })),
+    };
 };
 
 const client = new SMTPClient({

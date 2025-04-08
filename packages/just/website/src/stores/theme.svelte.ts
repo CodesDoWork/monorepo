@@ -6,15 +6,19 @@ export enum Theme {
 
 const LOCAL_STORAGE_KEY = "theme";
 
-interface ThemeState {
+export interface ThemeState {
     theme: Theme;
+    displayedTheme: Theme.Dark | Theme.Light;
     setTheme: (theme: Theme) => void;
 }
 
 export function getTheme(): ThemeState {
-    let theme = $state(Theme.Light);
+    let theme = $state<Theme>(Theme.Light);
     let mediaPrefersDark = $state(false);
     const mediaTheme = $derived(mediaPrefersDark ? Theme.Dark : Theme.Light);
+
+    const displayedTheme = $derived(theme === Theme.OS ? mediaTheme : theme);
+    $effect(() => setDocumentTheme(displayedTheme));
 
     function setDocumentTheme(value: Theme.Dark | Theme.Light) {
         if (value === Theme.Dark) {
@@ -44,8 +48,6 @@ export function getTheme(): ThemeState {
         };
     });
 
-    $effect(() => setDocumentTheme(theme === Theme.OS ? mediaTheme : theme));
-
     function setTheme(value: Theme) {
         theme = value;
         localStorage.setItem(LOCAL_STORAGE_KEY, value);
@@ -54,6 +56,9 @@ export function getTheme(): ThemeState {
     return {
         get theme() {
             return theme;
+        },
+        get displayedTheme() {
+            return displayedTheme;
         },
         setTheme,
     };

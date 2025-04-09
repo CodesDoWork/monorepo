@@ -15,10 +15,10 @@ export const load: PageServerLoad = async ({ parent }) => {
     const portraitSrc = await getPortraitSrc(contact.socials[0].social.name);
     const techStack = buildTechStack(about.technologies);
 
-    sanitzeWorkExperience(workExperience);
+    const transformedExperiences = transformWorkExperiences(workExperience);
     about.bio = replaceLinks(about.bio);
 
-    return { portraitSrc, about, workExperience, techStack };
+    return { portraitSrc, about, workExperiences: transformedExperiences, techStack };
 };
 
 async function getPortraitSrc(email: string) {
@@ -53,16 +53,19 @@ function buildTechStack(
     );
 }
 
-function sanitzeWorkExperience(
+function transformWorkExperiences(
     workExperience: FlatTrans<GetAboutServerDataQuery["workExperience"]>,
 ) {
     workExperience.sort(
         (e1, e2) => (e1.endYear || 1) - (e2.endYear || 1) || e2.startYear - e1.startYear,
     );
-    workExperience.forEach(e => {
-        e.company.logo = assetUrl(e.company.logo);
-        e.projects.forEach(p => (p.project.logo = assetUrl(p.project.logo)));
-    });
+
+    return workExperience.map(e => ({
+        ...e,
+        company: { ...e.company, logo: assetUrl(e.company.logo) },
+        projects: e.projects.map(({ project }) => ({ ...project, logo: assetUrl(project.logo) })),
+        technologies: e.technologies.map(({ technology }) => technology),
+    }));
 }
 
 function replaceLinks(text: string) {

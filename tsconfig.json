@@ -45,6 +45,7 @@
             ]
         },
         "resolveJsonModule": true,
+        "allowArbitraryExtensions": true,
         "allowJs": true,
         "strict": true,
         "strictBindCallApply": true,

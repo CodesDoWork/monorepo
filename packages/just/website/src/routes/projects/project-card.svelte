@@ -18,7 +18,7 @@
     const { project, texts, style, class: className }: Props = $props();
 </script>
 
-<Card {style} class={clsx(className, "flex flex-col lg:flex-row")}>
+<Card id={`_${project.id}`} {style} class={clsx(className, "flex flex-col lg:flex-row")}>
     <img
         src={project.thumbnail}
         alt="project thumbnail"

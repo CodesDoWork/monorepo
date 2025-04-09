@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
     import { clsx } from "clsx";
+    import { smoothScrollTo } from "../shared/smoothScroll";
 
     interface Props {
         class?: string;
@@ -26,15 +27,10 @@
 
     type ClickEvent = MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement };
 
-    const scrollTo = ({ currentTarget }: ClickEvent) => {
-        const el = document.querySelector(currentTarget.getAttribute("href"));
-        el && el.scrollIntoView({ behavior: "smooth" });
-    };
-
     const handleClick = (event: ClickEvent) => {
         if (smoothScroll) {
             event.preventDefault();
-            scrollTo(event);
+            smoothScrollTo(event.currentTarget.getAttribute("href"));
         }
 
         onclick?.(event);
@@ -52,7 +48,7 @@
             ],
             !button &&
                 !noStyle && [
-                    "text-accent-700 dark:text-accent-500 hover:bg-accent-700 dark:hover:bg-accent-500 p-1 hover:text-white dark:hover:text-black",
+                    "text-[var(--page-color)] dark:text-[var(--page-color)] hover:bg-[var(--page-color)] dark:hover:bg-[var(--page-color)] p-1 hover:text-white dark:hover:text-black",
                 ],
             className,
         ),

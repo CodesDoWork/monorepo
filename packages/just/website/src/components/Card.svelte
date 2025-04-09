@@ -3,6 +3,7 @@
     import { clsx } from "clsx";
 
     interface Props {
+        id?: string;
         class?: string;
         style: string | undefined;
         padding?: boolean;
@@ -11,6 +12,7 @@
     }
 
     const {
+        id,
         class: className = "",
         style,
         padding = false,
@@ -33,6 +35,6 @@
     );
 </script>
 
-<div class={cardClass} {style}>
+<div {id} class={cardClass} {style}>
     {@render children?.()}
 </div>

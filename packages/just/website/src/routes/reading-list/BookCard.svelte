@@ -14,9 +14,9 @@
 </script>
 
 <Card class="grid h-full grid-cols-[auto_1fr] items-start gap-4 p-2" {style}>
-    <img alt="no cover" class="max-w-20 rounded sm:max-w-32 md:max-w-48" src={book.cover} />
+    <img alt="no cover" class="max-w-20 rounded sm:max-w-32 md:max-w-1/2" src={book.cover} />
     <div>
-        <Heading level="h6" class="mt-1" commandStyle={false}>{book.title}</Heading>
+        <Heading level="h6" commandStyle={false}>{book.title}</Heading>
         <ul class="items-center text-sm">
             {#each book.authors as author}
                 <li>{author}</li>

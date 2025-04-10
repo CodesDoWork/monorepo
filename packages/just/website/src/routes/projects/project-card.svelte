@@ -6,7 +6,7 @@
     import Card from "../../components/Card.svelte";
     import Heading from "../../components/Heading.svelte";
     import Link from "../../components/Link.svelte";
-    import Technology from "../../components/Technology.svelte";
+    import Label from "../../components/Label.svelte";
 
     interface Props {
         project: Project;
@@ -38,7 +38,7 @@
                 <ul class="flex gap-2 flex-wrap">
                     {#each project.technologies as { technology }}
                         <li>
-                            <Technology tag="div" technology={technology.name} />
+                            <Label tag="div" name={technology.name} icon={technology.icon} />
                         </li>
                     {/each}
                 </ul>

@@ -7,17 +7,14 @@
         name: string;
         icon?: string | null;
         tag?: string;
+        highlighted?: boolean;
     }
 
-    const {
-        class: className = "",
-        name,
-        icon = null,
-        tag = "div",
-    }: Props = $props();
+    const { class: className = "", name, icon = null, tag = "div", highlighted }: Props = $props();
 
     const labelClass = clsx(
-        "flex items-center gap-1 rounded bg-black bg-opacity-10 p-2",
+        "flex items-center gap-1 rounded p-2",
+        highlighted ? "bg-amber-500/40" : "bg-black/10",
         className,
     );
 </script>

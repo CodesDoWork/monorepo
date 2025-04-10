@@ -11,6 +11,7 @@ query GetAboutServerData($language: String!) {
         technologies {
             technology: technologies_id {
                 name
+                icon
                 techStacks: tech_stacks {
                     techStack: tech_stack_id {
                         translations(filter: { languages_code: { code: { _eq: $language } } }) {
@@ -19,6 +20,7 @@ query GetAboutServerData($language: String!) {
                     }
                 }
             }
+            isMainTechnology: is_main_technology
         }
         translations(filter: { languages_code: { code: { _eq: $language } } }) {
             intro
@@ -28,6 +30,7 @@ query GetAboutServerData($language: String!) {
             projects
             coreTechnologies: core_technologies
             techStack: tech_stack
+            techStackInfo: tech_stack_info
         }
     }
 

@@ -1,11 +1,12 @@
 <script lang="ts">
+    import Label from "./Label.svelte";
     import ListWithHeading from "./ListWithHeading.svelte";
-    import Technology from "./Technology.svelte";
 
     interface Props {
         text: string;
         technologies: {
             name: string;
+            icon: string;
         }[];
     }
 
@@ -14,6 +15,6 @@
 
 <ListWithHeading {text} items={technologies}>
     {#snippet display(technology)}
-        <Technology tag="li" technology={technology.name} />
+        <Label tag="li" name={technology.name} icon={technology.icon} />
     {/snippet}
 </ListWithHeading>

@@ -6,10 +6,10 @@
     import Link from "../../components/Link.svelte";
     import { ProjectsList } from "../../components/projects-list";
     import TechnologiesList from "../../components/TechnologiesList.svelte";
-    import Technology from "../../components/Technology.svelte";
     import TimeLine from "../../components/TimeLine.svelte";
     import { animationDelay } from "../../shared/animationDelay";
     import Description from "../../components/Description.svelte";
+    import Label from "../../components/Label.svelte";
 
     interface Props {
         data: PageData;
@@ -64,14 +64,17 @@
         </Card>
         <Card class={cardClass} padding style={getCardStyle()}>
             <Heading level="h3">{about.techStack}</Heading>
+            <p class="text-slate-600 dark:text-slate-400"><i>{about.techStackInfo}</i></p>
             {#each Object.entries(techStack) as [stackName, technologies]}
                 <Heading class="mt-4" level="h5">{stackName}</Heading>
                 <ul class="flex flex-wrap gap-2">
-                    {#each technologies as { technology }}
-                        <Technology
+                    {#each technologies as { technology, isMainTechnology }}
+                        <Label
+                            highlighted={isMainTechnology}
                             class="text-sm lg:text-base"
                             tag="li"
-                            technology={technology.name} />
+                            icon={technology.icon}
+                            name={technology.name} />
                     {/each}
                 </ul>
             {/each}

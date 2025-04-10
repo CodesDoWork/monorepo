@@ -8,6 +8,7 @@ fragment Project on just_site_projects {
     technologies {
         technology: technologies_id {
             name
+            icon
         }
     }
     translations(filter: { languages_code: { code: { _eq: $language } } }) {

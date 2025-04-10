@@ -13,8 +13,8 @@
     const { text, links }: Props = $props();
 </script>
 
-<ListWithHeading {text} items={links} direction="column">
+<ListWithHeading listClass="gap-4" {text} items={links} direction="column">
     {#snippet display(link)}
-        <Link href={link.url} title={link.title}>> {link.title}</Link>
+        <Link class="text-nowrap" href={link.url} title={link.title}>> {link.title}</Link>
     {/snippet}
 </ListWithHeading>

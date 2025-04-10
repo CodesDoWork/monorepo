@@ -15,7 +15,7 @@
     }
 
     const { data }: Props = $props();
-    const { events, currentLanguage, projectRoute } = data;
+    const { events, currentLanguage, projectRoute, texts } = data;
 
     const formatter = new Intl.DateTimeFormat(currentLanguage.code);
 
@@ -36,8 +36,7 @@
         onmouseup={() => (clickedImage = "")}>
         <div
             id="image-container"
-            class="absolute left-1/2 top-1/2 max-h-[80vh] max-w-[80vw] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg"
-            style="width: 80vw; height: 80vh;">
+            class="absolute left-1/2 top-1/2 w-[90vw] md:w-[80vw] lg:w-auto max-h-[80vh] max-w-[80vw] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg">
             <img
                 alt=""
                 src={clickedImage}
@@ -55,20 +54,23 @@
     {/snippet}
     {#snippet content(event)}
         <Description>{event.description}</Description>
-        <div class="flex gap-12">
-            <ProjectsList text="Projects:" projects={event.projects} onclick={gotoProject} />
-            <LinksList text="Links:" links={event.links} />
-            <ListWithHeading text="Images:" items={event.images}>
+        <div class="flex gap-x-12 flex-wrap">
+            <ProjectsList
+                text={`${texts.projects}: `}
+                projects={event.projects}
+                onclick={gotoProject} />
+            <LinksList text={`${texts.links}: `} links={event.links} />
+            <TechnologiesList text={`${texts.technologies}: `} technologies={event.technologies} />
+            <ListWithHeading text={`${texts.images}: `} items={event.images} listClass="gap-4">
                 {#snippet display(img)}
                     <button onclick={() => (clickedImage = img)}>
                         <img
                             src={img}
                             alt=""
-                            class="w-40 rounded-lg object-cover shadow-lg hover:scale-[102%] hover:shadow-xl transition" />
+                            class="size-28 rounded-lg aspect-square object-cover shadow-lg hover:scale-[102%] hover:shadow-xl transition" />
                     </button>
                 {/snippet}
             </ListWithHeading>
         </div>
-        <TechnologiesList text="Technologies:" technologies={event.technologies} />
     {/snippet}
 </TimeLine>

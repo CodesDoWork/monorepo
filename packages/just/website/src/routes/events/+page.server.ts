@@ -8,7 +8,7 @@ import { assetUrl } from "../../shared/assets";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const { currentLanguage, serverRoutes, routes } = await parent();
-    const { events } = flattenTranslations(
+    const { events, texts } = flattenTranslations(
         await toPromise(GetEventsServerData({ variables: { language: currentLanguage.code } })),
     );
 
@@ -27,7 +27,7 @@ export const load: PageServerLoad = async ({ parent }) => {
     const projectRouteId = serverRoutes.find(r => r.route === "/projects")?.id;
     const projectRoute = routes.find(r => r.id === projectRouteId);
 
-    return { events: transformedEvents, projectRoute };
+    return { events: transformedEvents, projectRoute, texts };
 };
 
 function transformEvents(events: FlatTrans<GetEventsServerDataQuery["events"]>) {

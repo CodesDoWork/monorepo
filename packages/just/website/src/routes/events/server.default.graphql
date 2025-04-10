@@ -34,4 +34,13 @@ query GetEventsServerData($language: String!) {
             fileId: directus_files_id
         }
     }
+
+    texts: just_site_events_info {
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            projects
+            links
+            technologies
+            images
+        }
+    }
 }

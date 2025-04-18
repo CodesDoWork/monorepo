@@ -8,7 +8,7 @@ import { assetUrl } from "../../shared/assets";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const { currentLanguage } = await parent();
-    const { contact, about, workExperience } = flattenTranslations(
+    const { contact, about, workExperience, ...rest } = flattenTranslations(
         await toPromise(GetAboutServerData({ variables: { language: currentLanguage.code } })),
     );
 
@@ -18,7 +18,7 @@ export const load: PageServerLoad = async ({ parent }) => {
     const transformedExperiences = transformWorkExperiences(workExperience);
     about.bio = replaceLinks(about.bio);
 
-    return { portraitSrc, about, workExperiences: transformedExperiences, techStack };
+    return { portraitSrc, about, workExperiences: transformedExperiences, techStack, ...rest };
 };
 
 async function getPortraitSrc(email: string) {

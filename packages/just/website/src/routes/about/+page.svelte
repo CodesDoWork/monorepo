@@ -2,26 +2,28 @@
     import type { PageData } from "./$types";
     import { clsx } from "clsx";
     import Card from "../../components/Card.svelte";
+    import Description from "../../components/Description.svelte";
     import Heading from "../../components/Heading.svelte";
+    import Label from "../../components/Label.svelte";
     import Link from "../../components/Link.svelte";
     import { ProjectsList } from "../../components/projects-list";
     import TechnologiesList from "../../components/TechnologiesList.svelte";
     import TimeLine from "../../components/TimeLine.svelte";
     import { animationDelay } from "../../shared/animationDelay";
-    import Description from "../../components/Description.svelte";
-    import Label from "../../components/Label.svelte";
+    import Personalities from "./components/Personalities.svelte";
 
     interface Props {
         data: PageData;
     }
 
     const { data }: Props = $props();
-    const { portraitSrc, about, workExperiences, techStack } = data;
+    const { portraitSrc, about, workExperiences, techStack, disc, bigFive, mbti, currentLanguage } =
+        data;
 
     let animationIdx = 0;
     const getCardStyle = () => animationDelay(animationIdx++);
 
-    const cardClass = "flex-col mb-4";
+    const cardClass = "flex-col";
 </script>
 
 <div class="flex flex-col gap-4 md:flex-row">
@@ -30,7 +32,7 @@
         class={clsx(cardClass, "-mt-12 block w-24 self-end rounded-full shadow-md md:hidden")}
         src={portraitSrc}
         style={getCardStyle()} />
-    <div class="flex-1">
+    <div class="flex-1 space-y-4">
         <Card class={cardClass} padding style={getCardStyle()}>
             <span class="mb-4 font-mono italic text-slate-400">{about.intro}</span>
             <div class="hyphens-auto text-justify *:mb-2">{@html about.bio}</div>
@@ -58,9 +60,13 @@
             </TimeLine>
         </Card>
     </div>
-    <div class="w-full md:w-64 lg:w-96">
+    <div class="w-full md:w-64 lg:w-96 space-y-4 -mt-4">
         <Card class={clsx(cardClass, "hidden md:block")} padding style={getCardStyle()}>
             <img alt="Portrait" class="rounded" src={portraitSrc} />
+        </Card>
+        <Card class={clsx(cardClass, "overflow-hidden")} padding style={getCardStyle()}>
+            <Heading level="h3">{about.personality}</Heading>
+            <Personalities {disc} {bigFive} {mbti} {currentLanguage} />
         </Card>
         <Card class={cardClass} padding style={getCardStyle()}>
             <Heading level="h3">{about.techStack}</Heading>

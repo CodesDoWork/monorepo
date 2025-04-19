@@ -11,6 +11,7 @@ import {
     GetHomeLayoutServerLanguages,
 } from "../graphql/default/generated/gql";
 import { getLanguage } from "../shared/language";
+import { pathOrEmpty } from "../shared/routes";
 
 export const load: LayoutServerLoad = async ({ request, url, cookies }) => {
     const { languages } = await toPromise(GetHomeLayoutServerLanguages({}));
@@ -26,10 +27,11 @@ async function loadServerData(
     const data = await toPromise(
         GetHomeLayoutServerData({ variables: { language: currentLanguage.code } }),
     );
-    const { siteInfo, routes, serverRoutes } = flattenTranslations(data);
+    const { siteInfo, routes, serverRoutes, fallbackLanguage } = flattenTranslations(data);
+    transformRoutes(routes, currentLanguage, fallbackLanguage[0].code);
     const currentRoute = routes.find(r => r.route === url.pathname);
     const privacyPolicyRoute = routes.find(
-        r => r.id === serverRoutes.find(r => r.route === "/privacy-policy")?.id,
+        r => r.id === serverRoutes.find(sr => sr.route === "/privacy-policy")?.id,
     );
 
     return {
@@ -41,6 +43,20 @@ async function loadServerData(
         serverRoutes,
         languages,
     };
+}
+
+function transformRoutes(
+    routes: FlatTrans<GetHomeLayoutServerDataQuery>["routes"],
+    language: LanguageFragment,
+    fallbackLanguage: string,
+) {
+    if (language.code === fallbackLanguage) {
+        return;
+    }
+
+    routes.forEach(r => {
+        r.route = `/${language.short}${pathOrEmpty(r.route)}`;
+    });
 }
 
 function joinKeywords(siteInfo: FlatTrans<GetHomeLayoutServerDataQuery>["siteInfo"]) {

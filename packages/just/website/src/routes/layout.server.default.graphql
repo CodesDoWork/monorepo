@@ -18,6 +18,7 @@ query GetHomeLayoutServerData($language: String!) {
         translations(filter: { languages_code: { code: { _eq: $language } } }) {
             ...FooterTexts
             backToTop: back_to_top
+            keywords
         }
     }
 
@@ -27,6 +28,10 @@ query GetHomeLayoutServerData($language: String!) {
 
     serverRoutes: just_site_routes {
         ...ServerRoute
+    }
+
+    fallbackLanguage: languages(filter: { is_fallback: { _eq: true } }) {
+        code
     }
 }
 

@@ -4,7 +4,7 @@ import { redirect } from "@sveltejs/kit";
 import { GetHooksServerData } from "./graphql/default/generated/gql";
 import { API_ROUTE } from "./routes/api/constants";
 import { getLanguage } from "./shared/language";
-import { getRoute } from "./shared/routes";
+import { getRoute, transformRoutes } from "./shared/routes";
 
 export const handle: Handle = async ({ event, resolve }) => {
     const path = event.url.pathname;
@@ -15,7 +15,8 @@ export const handle: Handle = async ({ event, resolve }) => {
     const { languages, routes } = await toPromise(GetHooksServerData({}));
     const language = await getLanguage(event.request, event.cookies, languages);
 
-    const currentRoute = getRoute(routes, path);
+    const transformedRoutes = transformRoutes(routes);
+    const currentRoute = getRoute(transformedRoutes, path);
     const desiredRoute = currentRoute?.translations.find(
         t => t.language.code === language.code,
     ).route;

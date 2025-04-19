@@ -10,3 +10,17 @@ export function getRoute<T extends MinimalTranslatedRouteFragment>(
 
     return id ? routes.find(r => r.id === id) : undefined;
 }
+
+export function transformRoutes<T extends MinimalTranslatedRouteFragment>(routes: T[]) {
+    return routes.map(r => ({
+        ...r,
+        translations: r.translations.map(t => ({
+            ...t,
+            route: t.language.isFallback ? t.route : `/${t.language.short}${pathOrEmpty(t.route)}`,
+        })),
+    }));
+}
+
+export function pathOrEmpty(path: string) {
+    return path === "/" ? "" : path;
+}

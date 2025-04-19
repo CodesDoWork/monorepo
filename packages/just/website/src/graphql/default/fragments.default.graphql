@@ -23,7 +23,6 @@ fragment Social on socials {
 
 fragment SiteInfo on just_site_info {
     name
-    keywords
     projectPlatform: project_platform {
         name
     }

@@ -8,11 +8,13 @@ export const reroute: Reroute = async ({ url, fetch }) => {
         return path;
     }
 
-    const newPath = await fetch(`/api/getRoute?${ROUTE_PARAM}=${url.pathname}`)
+    const newPath = await fetch(`${API_ROUTE}/getRoute?${ROUTE_PARAM}=${url.pathname}`)
         .then(res => res.text())
         .then(route => (route === path ? undefined : route || undefined));
 
     if (newPath) {
         return `${newPath}${url.search}${url.hash}`;
     }
+
+    return path;
 };

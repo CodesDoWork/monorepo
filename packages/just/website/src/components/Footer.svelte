@@ -29,7 +29,7 @@
         texts,
     }: Props = $props();
 
-    const isVisible = $derived(!currentRoute.isHero);
+    const isVisible = $derived(!currentRoute?.isHero);
 
     const footerClass = $derived(
         clsx(

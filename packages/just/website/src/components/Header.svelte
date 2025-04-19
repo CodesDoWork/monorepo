@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { LanguageFragment } from "../graphql/default/generated/gql";
     import type { Route } from "../routes/types";
-    import type { ThemeState } from "../stores/theme.svelte";
+    import type { ThemeState } from "../states/theme.svelte";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { fade, slide } from "svelte/transition";
@@ -32,7 +32,7 @@
         languages,
     }: Props = $props();
 
-    const isVisible = $derived(!currentRoute.isHero);
+    const isVisible = $derived(!currentRoute?.isHero);
 
     const headerClass = $derived(
         clsx(
@@ -52,8 +52,8 @@
                 {#if backButton}
                     <Link
                         class="m-0 mr-4 inline-block p-1 !text-white hover:!bg-[var(--page-color)] hover:!text-white"
-                        href={currentRoute.route}
-                        title={currentRoute.name}>
+                        href={currentRoute?.route}
+                        title={currentRoute?.name}>
                         <Icon icon="carbon:chevron-left" />
                     </Link>
                 {/if}
@@ -91,5 +91,5 @@
 
 <div class="absolute right-[4.5rem] sm:right-20 lg:right-8 top-4 z-10 flex gap-4 sm:gap-6">
     <LanguageToggle {currentRoute} {currentLanguage} {languages} />
-    <DarkmodeToggle isOnHero={currentRoute.isHero} {theme} />
+    <DarkmodeToggle isOnHero={currentRoute?.isHero} {theme} />
 </div>

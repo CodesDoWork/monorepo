@@ -1,9 +1,9 @@
-import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import type { RequestHandler } from "@sveltejs/kit";
+import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { error, text } from "@sveltejs/kit";
 import { GetApiGetRouteServerData } from "../../../graphql/default/generated/gql";
-import { ROUTE_PARAM } from "./config";
 import { getRoute } from "../../../shared/routes";
+import { ROUTE_PARAM } from "./config";
 
 export const GET: RequestHandler = async ({ request }) => {
     const params = new URL(request.url).searchParams;
@@ -18,6 +18,6 @@ export const GET: RequestHandler = async ({ request }) => {
     return text(
         getRoute(routes, requestedRoute)?.translations.find(
             t => t.language.code === defaultLanguage.code,
-        )?.route ?? "",
+        )?.route ?? requestedRoute,
     );
 };

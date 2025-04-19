@@ -8,8 +8,8 @@
     import Footer from "../components/Footer.svelte";
     import Header from "../components/Header.svelte";
     import Title from "../components/Title.svelte";
-    import { getRoutes } from "../stores/routes.svelte";
-    import { getTheme, Theme } from "../stores/theme.svelte";
+    import { getRoutes } from "../states/routes.svelte";
+    import { getTheme, Theme } from "../states/theme.svelte";
     import "@cdw/monorepo/just-branding/assets/css/tailwind.css";
 
     interface Props {
@@ -31,7 +31,7 @@
     const nav = getRoutes(routes, serverRoutes, serverRoute);
 
     const pageTitle = $derived(
-        nav.currentRoute.name === siteInfo.name
+        !nav.currentRoute || nav.currentRoute.name === siteInfo.name
             ? siteInfo.name
             : `${nav.currentRoute.name} | ${siteInfo.name}`,
     );
@@ -45,9 +45,9 @@
     const mainClass = $derived(
         clsx(
             "text-black transition-colors dark:text-white",
-            nav.currentRoute.isHero === false && "bg-white dark:bg-opacity-0",
+            nav.currentRoute?.isHero === false && "bg-white dark:bg-opacity-0",
             "sm:px-1/20 lg:px-1/10 w-full flex-1 px-8 pb-16 pt-4 md:px-8",
-            nav.currentRoute.isHero === false &&
+            nav.currentRoute?.isHero === false &&
                 nav.previousRoute?.isHero &&
                 "animate-fadeInSubtle",
         ),
@@ -68,9 +68,9 @@
     <!-- eslint-enable svelte/indent -->
 
     <title>{pageTitle}</title>
-    <meta content="description" name={nav.currentRoute.description} />
+    <meta content="description" name={nav.currentRoute?.description ?? ""} />
     <meta content={pageTitle} property="og:title" />
-    <meta content={nav.currentRoute.description} property="og:description" />
+    <meta content={nav.currentRoute?.description ?? ""} property="og:description" />
     <meta content={pageTitle} property="og:site_name" />
     <meta content={themeColor} name="theme-color" />
     <meta content={siteInfo.keywords} name="keywords" />

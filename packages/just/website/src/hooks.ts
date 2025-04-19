@@ -13,6 +13,6 @@ export const reroute: Reroute = async ({ url, fetch }) => {
         .then(route => (route === path ? undefined : route || undefined));
 
     if (newPath) {
-        return newPath;
+        return `${newPath}${url.search}${url.hash}`;
     }
 };

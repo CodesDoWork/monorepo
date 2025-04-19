@@ -12,7 +12,7 @@
     }
 
     const { class: className, currentLanguage, languages, currentRoute }: Props = $props();
-    const useCustomColor = $derived(currentRoute.color === "#000000");
+    const useCustomColor = $derived(!currentRoute || currentRoute.color === "#000000");
     const textColor = $derived(useCustomColor ? "text-black dark:text-white" : "text-white");
     const displayHoverColor = $derived(useCustomColor ? "hover:text-white" : "hover:text-black");
     const liHoverColor = $derived(

@@ -34,7 +34,7 @@ const replacers: Replacer[] = [
     },
     {
         pattern: /<p.*?>/g,
-        replacement: "<p class='mb-2 text-justify text-slate-700 dark:text-slate-300'>",
+        replacement: "<p class='mb-2 md:text-justify text-slate-700 dark:text-slate-300'>",
     },
     {
         pattern: /<ul.*?>/g,
@@ -42,7 +42,7 @@ const replacers: Replacer[] = [
     },
     {
         pattern: /<li.*?>/g,
-        replacement: "<li class='text-justify text-slate-700 dark:text-slate-300'>",
+        replacement: "<li class='md:text-justify text-slate-700 dark:text-slate-300'>",
     },
     {
         pattern: /<a /g,

@@ -16,11 +16,11 @@ export const handle: Handle = async ({ event, resolve }) => {
     const language = await getLanguage(event.request, event.cookies, languages);
 
     const currentRoute = getRoute(routes, path);
-    const desiredRoute = currentRoute.translations.find(
+    const desiredRoute = currentRoute?.translations.find(
         t => t.language.code === language.code,
     ).route;
 
-    if (path !== desiredRoute) {
+    if (desiredRoute !== undefined && path !== desiredRoute) {
         return redirect(307, desiredRoute);
     }
 

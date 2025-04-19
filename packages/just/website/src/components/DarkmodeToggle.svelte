@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { ThemeState } from "../stores/theme.svelte";
+    import type { ThemeState } from "../states/theme.svelte";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import { Theme } from "../stores/theme.svelte";
+    import { Theme } from "../states/theme.svelte";
 
     interface Props {
         class?: string;

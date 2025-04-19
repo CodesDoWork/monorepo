@@ -51,7 +51,8 @@
     }
 
     const arcData = $derived.by(() => {
-        let angle = Math.PI;
+        // start left minus half of the overlap of dominance (1/4 = 25%, Math.PI = 180°)
+        let angle = Math.PI - ((disc.dominance - 25) / 100) * Math.PI;
         let currentSlice = 0;
         function getPath(dataPoint: ChartData) {
             currentSlice = (dataPoint.value.current / 100) * 2 * Math.PI;

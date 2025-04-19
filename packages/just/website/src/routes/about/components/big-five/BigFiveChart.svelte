@@ -60,11 +60,19 @@
             {@const progress =
                 point.value.current / (point.value.target || Number.POSITIVE_INFINITY)}
             {@const diamondSize = `${0.55 * progress}rem`}
+            {@const hoverBoxPadding = 15}
             <g
                 role="img"
                 class="group cursor-pointer"
                 onmouseenter={() => (hoveredItem = point)}
                 onmouseleave={() => (hoveredItem = null)}>
+                <rect
+                    x={cx - hoverBoxPadding / 2}
+                    y={getY(high) - hoverBoxPadding / 2}
+                    width={hoverBoxPadding}
+                    height={getY(low) - getY(high) + hoverBoxPadding}
+                    fill="transparent"
+                    pointer-events="all" />
                 <line
                     x1={cx}
                     x2={cx}

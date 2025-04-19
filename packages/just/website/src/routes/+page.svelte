@@ -14,7 +14,7 @@
     const { data }: Props = $props();
     const { routes, socials } = data;
 
-    const homePageLinks = routes.filter(r => r.route !== "/");
+    const homePageLinks = routes.filter(r => r.inNav);
     const findRouteColor = (route: string) => {
         return routes?.find(r => r.route === route)?.color || "var(--accent)";
     };

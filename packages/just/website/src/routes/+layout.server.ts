@@ -28,11 +28,15 @@ async function loadServerData(
     );
     const { siteInfo, routes, serverRoutes } = flattenTranslations(data);
     const currentRoute = routes.find(r => r.route === url.pathname);
+    const privacyPolicyRoute = routes.find(
+        r => r.id === serverRoutes.find(r => r.route === "/privacy-policy")?.id,
+    );
 
     return {
         siteInfo: joinKeywords(siteInfo),
         routes,
         currentRoute,
+        privacyPolicyRoute,
         currentLanguage,
         serverRoutes,
         languages,

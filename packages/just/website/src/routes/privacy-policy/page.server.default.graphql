@@ -1,0 +1,7 @@
+query GetPrivacyPolicyServerData($language: String!) {
+    privacyPolicy: just_site_privacy_policy {
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            html
+        }
+    }
+}

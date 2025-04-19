@@ -22,6 +22,7 @@
         siteInfo,
         routes,
         currentRoute: serverRoute,
+        privacyPolicyRoute,
         currentLanguage,
         serverRoutes,
         languages,
@@ -54,6 +55,7 @@
 </script>
 
 <svelte:head>
+    <!-- eslint-disable svelte/indent -->
     <script>
         (function () {
             const theme = localStorage.getItem("theme");
@@ -63,6 +65,7 @@
             }
         })();
     </script>
+    <!-- eslint-enable svelte/indent -->
 
     <title>{pageTitle}</title>
     <meta content="description" name={nav.currentRoute.description} />
@@ -104,7 +107,8 @@
             projectPlatform={siteInfo.projectPlatform.name}
             projectUrl={siteInfo.projectUrl}
             texts={siteInfo}
-            currentRoute={nav.currentRoute} />
+            currentRoute={nav.currentRoute}
+            {privacyPolicyRoute} />
     </BlurContent>
     <BackToTop text={siteInfo.backToTop} />
 </div>

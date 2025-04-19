@@ -60,7 +60,7 @@
             </TimeLine>
         </Card>
     </div>
-    <div class="w-full md:w-64 lg:w-96 space-y-4 -mt-4">
+    <div class="w-full md:w-64 lg:w-96 space-y-4 -mt-4 md:mt-0">
         <Card class={clsx(cardClass, "hidden md:block")} padding style={getCardStyle()}>
             <img alt="Portrait" class="rounded" src={portraitSrc} />
         </Card>

@@ -16,7 +16,7 @@ export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ arg
                   `--cache-to type=registry,ref=${cacheImage},mode=max`,
                   `--cache-from type=registry,ref=${cacheImage}`,
               ]
-            : [];
+            : ["--load"];
 
         const latestImageIfNeeded =
             CI &&

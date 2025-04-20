@@ -1,17 +1,23 @@
+import type { Thing } from "schema-dts";
+import type { LayoutServerData } from "../$types";
 import type { PageServerLoad } from "./$types";
 import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { GetPrivacyPolicyServerData } from "../../graphql/default/generated/gql";
+import { createBreadcrumbList, domainUrl } from "../../shared/urls";
 
 export const load: PageServerLoad = async ({ parent }) => {
-    const { currentLanguage } = await parent();
+    const parentData = await parent();
+    const { currentLanguage } = parentData;
     const { privacyPolicy } = flattenTranslations(
         await toPromise(
             GetPrivacyPolicyServerData({ variables: { language: currentLanguage.code } }),
         ),
     );
 
-    return { html: styleHtml(privacyPolicy.html) };
+    const jsonLdThings = createJsonLdThings(parentData);
+
+    return { html: styleHtml(privacyPolicy.html), jsonLdThings };
 };
 
 interface Replacer {
@@ -53,4 +59,23 @@ const replacers: Replacer[] = [
 function styleHtml(html: string): string {
     replacers.forEach(replacer => (html = html.replace(replacer.pattern, replacer.replacement)));
     return html;
+}
+
+function createJsonLdThings(parentData: LayoutServerData): Thing[] {
+    const { currentRoute, currentLanguage, homeRoute } = parentData;
+
+    return [
+        {
+            "@type": "WebPage",
+            name: currentRoute.name,
+            description: currentRoute.description,
+            url: domainUrl(currentRoute),
+            inLanguage: currentLanguage.short,
+            isPartOf: {
+                "@type": "WebSite",
+                url: domainUrl(homeRoute),
+            },
+        },
+        createBreadcrumbList(currentRoute, homeRoute),
+    ];
 }

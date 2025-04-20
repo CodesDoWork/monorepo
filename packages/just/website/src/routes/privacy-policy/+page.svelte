@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { addJsonLdThings } from "../../contexts/jsonld";
     import type { PageData } from "./$types";
 
     interface Props {
@@ -6,7 +7,8 @@
     }
 
     const { data }: Props = $props();
-    const { html } = data;
+    const { html, jsonLdThings } = data;
+    addJsonLdThings(jsonLdThings);
 </script>
 
 <section>

@@ -1,29 +1,23 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { goto } from "$app/navigation";
-    import TechnologiesList from "../../components/TechnologiesList.svelte";
-    import TimeLine from "../../components/TimeLine.svelte";
-    import { smoothScrollTo } from "../../shared/smoothScroll";
-    import { ProjectsList } from "../../components/projects-list";
+    import { blur } from "svelte/transition";
     import Description from "../../components/Description.svelte";
     import LinksList from "../../components/LinksList.svelte";
     import ListWithHeading from "../../components/ListWithHeading.svelte";
-    import { blur } from "svelte/transition";
+    import { ProjectsList } from "../../components/projects-list";
+    import TechnologiesList from "../../components/TechnologiesList.svelte";
+    import TimeLine from "../../components/TimeLine.svelte";
+    import { addJsonLdThings } from "../../contexts/jsonld";
 
     interface Props {
         data: PageData;
     }
 
     const { data }: Props = $props();
-    const { events, currentLanguage, projectRoute, texts } = data;
+    const { events, currentLanguage, texts, jsonLdThings } = data;
+    addJsonLdThings(jsonLdThings);
 
     const formatter = new Intl.DateTimeFormat(currentLanguage.code);
-
-    function gotoProject(project: (typeof events)[number]["projects"][number]) {
-        goto(projectRoute.route).then(() =>
-            setTimeout(() => smoothScrollTo(`#_${project.id}`), 900),
-        );
-    }
 
     let clickedImage = $state("");
 </script>
@@ -58,7 +52,7 @@
             <ProjectsList
                 text={`${texts.projects}: `}
                 projects={event.projects}
-                onclick={gotoProject} />
+                href={p => p.href} />
             <LinksList text={`${texts.links}: `} links={event.links} />
             <TechnologiesList text={`${texts.technologies}: `} technologies={event.technologies} />
             <ListWithHeading text={`${texts.images}: `} items={event.images} listClass="gap-4">

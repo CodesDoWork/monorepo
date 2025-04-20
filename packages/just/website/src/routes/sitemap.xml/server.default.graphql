@@ -1,7 +1,5 @@
 query GetSitemapServerData {
     routes: just_site_routes {
-        translations {
-            route
-        }
+        ...MinimalTranslatedRoute
     }
 }

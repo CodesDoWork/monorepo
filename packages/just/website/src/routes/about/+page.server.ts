@@ -1,36 +1,30 @@
 import type { FlatTrans } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
+import type { Thing } from "schema-dts";
+import type { LayoutServerData } from "../$types";
 import type { GetAboutServerDataQuery } from "../../graphql/default/generated/gql";
 import type { PageServerLoad } from "./$types";
 import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { GetAboutServerData } from "../../graphql/default/generated/gql";
 import { assetUrl } from "../../shared/assets";
+import { createBreadcrumbList, domainUrl } from "../../shared/urls";
 
 export const load: PageServerLoad = async ({ parent }) => {
-    const { currentLanguage } = await parent();
-    const { contact, about, workExperience, ...rest } = flattenTranslations(
+    const parentData = await parent();
+    const { currentLanguage } = parentData;
+    const { about, workExperience, ...rest } = flattenTranslations(
         await toPromise(GetAboutServerData({ variables: { language: currentLanguage.code } })),
     );
 
-    const portraitSrc = await getPortraitSrc(contact.socials[0].social.name);
     const techStack = buildTechStack(about.technologies);
 
     const transformedExperiences = transformWorkExperiences(workExperience);
     about.bio = replaceLinks(about.bio);
 
-    return { portraitSrc, about, workExperiences: transformedExperiences, techStack, ...rest };
+    const jsonLdThings = createJsonLdThings(parentData);
+
+    return { about, workExperiences: transformedExperiences, techStack, ...rest, jsonLdThings };
 };
-
-async function getPortraitSrc(email: string) {
-    return `https://gravatar.com/avatar/${await hash(email)}?size=512`;
-}
-
-async function hash(s: string) {
-    const utf8 = new TextEncoder().encode(s);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", utf8);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(bytes => bytes.toString(16).padStart(2, "0")).join("");
-}
 
 function buildTechStack(
     technologies: FlatTrans<GetAboutServerDataQuery["about"]["technologies"]>,
@@ -70,4 +64,18 @@ function transformWorkExperiences(
 
 function replaceLinks(text: string) {
     return text.replace(/<a /g, '<a class="text-[var(--page-color)] hover:underline" ');
+}
+
+function createJsonLdThings(parentData: LayoutServerData): Thing[] {
+    const { currentRoute, currentLanguage, homeRoute } = parentData;
+    return [
+        {
+            "@type": "AboutPage",
+            name: currentRoute.name,
+            description: currentRoute.description,
+            url: domainUrl(currentRoute),
+            inLanguage: currentLanguage.short,
+        },
+        createBreadcrumbList(currentRoute, homeRoute),
+    ];
 }

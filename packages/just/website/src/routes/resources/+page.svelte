@@ -4,13 +4,15 @@
     import Card from "../../components/Card.svelte";
     import Heading from "../../components/Heading.svelte";
     import { animationDelay } from "../../shared/animationDelay";
+    import { addJsonLdThings } from "../../contexts/jsonld";
 
     interface Props {
         data: PageData;
     }
 
     const { data }: Props = $props();
-    const { resources, sections } = data;
+    const { resources, sections, jsonLdThings } = data;
+    addJsonLdThings(jsonLdThings);
 
     let animationIdx = 0;
     const getCardStyle = () => animationDelay(animationIdx++);

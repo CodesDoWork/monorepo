@@ -3,7 +3,7 @@
     "compilerOptions": {
         "target": "esnext",
         "jsx": "preserve",
-        "lib": ["esnext", "dom"],
+        "lib": ["esnext", "dom", "DOM.Iterable"],
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "baseUrl": ".",

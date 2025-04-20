@@ -34,7 +34,8 @@ export function setLanguageCookie(cookies: Cookies, languageCode: string) {
 
 function getLanguageCodeFromRequest(request: Request): string | undefined {
     const languageHeader = request.headers.get("accept-language");
-    return languageHeader ? languageHeader.split(",")[0].trim() : undefined;
+    const code = languageHeader ? languageHeader.split(",")[0].trim() : undefined;
+    return code || new URL(request.url).pathname.split("/")[1];
 }
 
 function getLanguageFragment(languages: LanguageFragment[], code?: string): LanguageFragment {
@@ -46,4 +47,14 @@ function getLanguageFragment(languages: LanguageFragment[], code?: string): Lang
     return code
         ? (languages.find(lang => [lang.code, lang.short].includes(code)) ?? fallbackLanguage)
         : fallbackLanguage;
+}
+
+interface Translation {
+    language?: LanguageFragment | null;
+}
+
+export function byLanguage(language: LanguageFragment) {
+    return function (translation: Translation) {
+        return translation.language?.code === language.code;
+    };
 }

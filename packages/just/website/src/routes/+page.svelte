@@ -1,10 +1,12 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { byField } from "@cdw/monorepo/shared-utils/filters";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import Card from "../components/Card.svelte";
     import Heading from "../components/Heading.svelte";
     import Link from "../components/Link.svelte";
+    import { getJsonLdContext } from "../contexts/jsonld";
     import { animationDelay } from "../shared/animationDelay";
 
     interface Props {
@@ -12,11 +14,12 @@
     }
 
     const { data }: Props = $props();
-    const { routes, socials } = data;
+    const { routes, socials, jsonLdThings } = data;
+    getJsonLdContext().things = jsonLdThings;
 
     const homePageLinks = routes.filter(r => r.inNav);
     const findRouteColor = (route: string) => {
-        return routes?.find(r => r.route === route)?.color || "var(--accent)";
+        return routes?.find(byField("route", route))?.color || "var(--accent)";
     };
 
     const headingClass = clsx(
@@ -30,6 +33,7 @@
 <div class="mb-12 flex justify-center gap-3 sm:mb-16 md:mb-24 lg:mb-32 xl:mb-40">
     {#each socials as social, idx (idx)}
         <Link
+            isMe
             href={social.href}
             title={social.title}
             noStyle

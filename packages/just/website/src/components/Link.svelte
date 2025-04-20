@@ -11,6 +11,7 @@
         noStyle?: boolean;
         smoothScroll?: boolean;
         children?: Snippet;
+        isMe?: boolean;
         onclick?: (event: MouseEvent) => void;
     }
 
@@ -23,6 +24,7 @@
         smoothScroll = false,
         children,
         onclick,
+        isMe,
     }: Props = $props();
 
     type ClickEvent = MouseEvent & { currentTarget: EventTarget & HTMLAnchorElement };
@@ -55,6 +57,10 @@
     );
 
     const external = href.startsWith("http");
+    let rel = external ? "noopener" : undefined;
+    if (isMe) {
+        rel = rel ? `me ${rel}` : "me";
+    }
 </script>
 
 <svelte:element
@@ -62,7 +68,7 @@
     class={aClass}
     {href}
     onclick={handleClick}
-    rel={external ? "noopener" : undefined}
+    {rel}
     target={external ? "_blank" : undefined}
     role={href ? "link" : "none"}
     {title}>

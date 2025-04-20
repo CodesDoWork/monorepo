@@ -1,5 +1,6 @@
 import type { Route, ServerRoute } from "../routes/types";
 import { afterNavigate } from "$app/navigation";
+import { byId } from "@cdw/monorepo/shared-utils/filters";
 
 export function getRoutes(routes: Route[], serverRoutes: ServerRoute[], initialRoute: Route) {
     let currentRoute = $state(initialRoute);
@@ -24,10 +25,10 @@ export function getRoutes(routes: Route[], serverRoutes: ServerRoute[], initialR
 
 function getRouteForPath(routes: Route[], serverRoutes: ServerRoute[], path: string): Route {
     return routes.find(
-        route =>
-            route.id ===
+        byId(
             serverRoutes
                 .filter(r => path.startsWith(r.route))
                 .sort((a, b) => b.route.length - a.route.length)[0].id,
+        ),
     );
 }

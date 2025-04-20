@@ -1,7 +1,9 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     import clsx from "clsx";
+    import { addJsonLdThings } from "../../contexts/jsonld";
     import { animationDelay } from "../../shared/animationDelay";
+    import { smoothScrollTo } from "../../shared/smoothScroll";
     import ProjectCard from "./project-card.svelte";
 
     interface Props {
@@ -9,7 +11,12 @@
     }
 
     const { data }: Props = $props();
-    const { projects, texts } = data;
+    const { projects, texts, jsonLdThings } = data;
+    addJsonLdThings(jsonLdThings);
+
+    if (window.location.hash) {
+        setTimeout(() => smoothScrollTo(window.location.hash), 800);
+    }
 
     let currentCard = 0;
 </script>

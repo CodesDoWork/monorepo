@@ -1,29 +1,54 @@
+import type { Thing } from "schema-dts";
+import type { LayoutServerData } from "../$types";
 import type { Actions, PageServerLoad, RequestEvent } from "./$types";
 import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { SMTPClient } from "emailjs";
+import { z } from "zod";
 import { env } from "../../env";
 import {
     GetContactActionData,
     GetContactActionLanguages,
     GetContactServerData,
 } from "../../graphql/default/generated/gql";
-import { mapSocial } from "../../shared/mapSocials";
-import { z } from "zod";
 import { getLanguage } from "../../shared/language";
+import { mapSocial } from "../../shared/mapSocials";
+import { createBreadcrumbList, domainUrl } from "../../shared/urls";
 
 export const load: PageServerLoad = async ({ parent }) => {
-    const { currentLanguage } = await parent();
+    const parentData = await parent();
+    const { currentLanguage } = parentData;
     const { contact } = flattenTranslations(
         await toPromise(GetContactServerData({ variables: { language: currentLanguage.code } })),
     );
     const { socials, ...texts } = contact;
+    const jsonLdThings = createJsonLdThings(parentData);
 
     return {
         texts,
+        jsonLdThings,
         socials: socials.map(s => ({ ...mapSocial(s.socialItem), isSeeMore: s.isSeeMore })),
     };
 };
+
+function createJsonLdThings(parentData: LayoutServerData): Thing[] {
+    const { currentLanguage, currentRoute, socials, homeRoute } = parentData;
+    return [
+        {
+            "@type": "ContactPage",
+            name: currentRoute.name,
+            description: currentRoute.description,
+            url: domainUrl(currentRoute),
+            inLanguage: currentLanguage.short,
+            mainEntity: {
+                "@type": "ContactPoint",
+                url: domainUrl(currentRoute),
+                sameAs: socials.map(s => s.href),
+            },
+        },
+        createBreadcrumbList(currentRoute, homeRoute),
+    ];
+}
 
 const client = new SMTPClient({
     user: env.SMTP_USERNAME,

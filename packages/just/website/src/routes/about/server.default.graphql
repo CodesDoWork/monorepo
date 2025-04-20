@@ -1,13 +1,6 @@
 query GetAboutServerData($language: String!) {
-    contact: just_site_contact {
-        socials(filter: { socials_id: { platform: { name: { _eq: "Email" } } } }) {
-            social: socials_id {
-                name
-            }
-        }
-    }
-
     about: just_site_about {
+        imageUrl: image_url
         technologies {
             technology: technologies_id {
                 name

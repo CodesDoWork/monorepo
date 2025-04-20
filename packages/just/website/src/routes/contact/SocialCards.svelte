@@ -19,6 +19,7 @@
             style={`--hover-color: ${social.tone}; ${animationDelay(idx)}`}
             class="group border-l-4 border-[var(--hover-color)] outline-0 hover:border-l-8 hover:outline-0">
             <Link
+                isMe
                 noStyle
                 class="grid w-full grid-cols-[auto_1fr] p-4 transition-all hover:pb-5 hover:pt-3 sm:p-5 sm:hover:pb-7 md:h-20 md:p-6 md:hover:pt-4 lg:hover:pt-3"
                 href={social.href}

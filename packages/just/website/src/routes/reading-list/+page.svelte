@@ -2,6 +2,7 @@
     import type { PageData } from "./$types";
     import Heading from "../../components/Heading.svelte";
     import Link from "../../components/Link.svelte";
+    import { addJsonLdThings } from "../../contexts/jsonld";
     import { animationDelay } from "../../shared/animationDelay";
     import { toLinkFriendly } from "../../shared/toLinkFriendly";
     import BookCategory from "./BookCategory.svelte";
@@ -11,7 +12,8 @@
     }
 
     const { data }: Props = $props();
-    const { books, categories, texts } = data;
+    const { books, categories, texts, jsonLdThings } = data;
+    addJsonLdThings(jsonLdThings);
 
     let animationIdx = 0;
     const getCardStyle = () => animationDelay(animationIdx++);

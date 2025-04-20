@@ -1,17 +1,23 @@
 import type { FlatTrans } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
+import type { Graph } from "schema-dts";
 import type {
     GetHomeLayoutServerDataQuery,
     LanguageFragment,
 } from "../graphql/default/generated/gql";
 import type { LayoutServerLoad } from "./$types";
+import type { Route } from "./types";
+import { byId } from "@cdw/monorepo/shared-utils/filters";
 import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
+import { env } from "../env";
 import {
     GetHomeLayoutServerData,
     GetHomeLayoutServerLanguages,
 } from "../graphql/default/generated/gql";
-import { getLanguage } from "../shared/language";
-import { pathOrEmpty } from "../shared/routes";
+import { byLanguage, getLanguage } from "../shared/language";
+import { mapSocial } from "../shared/mapSocials";
+import { getRoute, getRouteByServerRoute, transformRoutes } from "../shared/routes";
+import { domainUrl } from "../shared/urls";
 
 export const load: LayoutServerLoad = async ({ request, url, cookies }) => {
     const { languages } = await toPromise(GetHomeLayoutServerLanguages({}));
@@ -27,39 +33,86 @@ async function loadServerData(
     const data = await toPromise(
         GetHomeLayoutServerData({ variables: { language: currentLanguage.code } }),
     );
-    const { siteInfo, routes, serverRoutes, fallbackLanguage } = flattenTranslations(data);
-    transformRoutes(routes, currentLanguage, fallbackLanguage[0].code);
-    const currentRoute = routes.find(r => r.route === url.pathname);
-    const privacyPolicyRoute = routes.find(
-        r => r.id === serverRoutes.find(sr => sr.route === "/privacy-policy")?.id,
-    );
+    const {
+        siteInfo: rawSiteInfo,
+        routes,
+        serverRoutes,
+        about,
+        contact,
+    } = flattenTranslations(data);
+
+    const allRoutes = transformRoutes(data.allRoutes);
+    const currentRouteId = getRoute(allRoutes, url.pathname)?.id;
+    const currentRoute = routes.find(byId(currentRouteId));
+    const homeRoute = getRouteByServerRoute(routes, serverRoutes, "/");
+    const privacyPolicyRoute = getRouteByServerRoute(routes, serverRoutes, "/privacy-policy");
+    routes.forEach(r => {
+        const transformedRoute = allRoutes.find(byId(r.id));
+        r.route = transformedRoute.translations.find(byLanguage(currentLanguage)).route;
+    });
+
+    const siteInfo = joinKeywords(rawSiteInfo);
+    const socials = contact.socials.map(s => s.socialsId).map(mapSocial);
+
+    const layoutJsonLd = createLayoutJsonLd({
+        siteInfo,
+        currentLanguage,
+        currentRoute,
+        about,
+        socials,
+        homeRoute,
+    });
 
     return {
-        siteInfo: joinKeywords(siteInfo),
+        siteInfo,
+        about,
         routes,
         currentRoute,
+        homeRoute,
         privacyPolicyRoute,
         currentLanguage,
         serverRoutes,
+        allRoutes,
         languages,
+        socials,
+        layoutJsonLd,
+        baseUrl: env.URL,
     };
-}
-
-function transformRoutes(
-    routes: FlatTrans<GetHomeLayoutServerDataQuery>["routes"],
-    language: LanguageFragment,
-    fallbackLanguage: string,
-) {
-    if (language.code === fallbackLanguage) {
-        return;
-    }
-
-    routes.forEach(r => {
-        r.route = `/${language.short}${pathOrEmpty(r.route)}`;
-    });
 }
 
 function joinKeywords(siteInfo: FlatTrans<GetHomeLayoutServerDataQuery>["siteInfo"]) {
     const { keywords, ...rest } = siteInfo;
     return { ...rest, keywords: Object.values(keywords).join(" ") };
+}
+
+interface LayoutJsonLdData {
+    siteInfo: FlatTrans<GetHomeLayoutServerDataQuery>["siteInfo"];
+    currentLanguage: LanguageFragment;
+    currentRoute: Route;
+    about: FlatTrans<GetHomeLayoutServerDataQuery>["about"];
+    socials: ReturnType<typeof mapSocial>[];
+    homeRoute: Route;
+}
+
+function createLayoutJsonLd(parent: LayoutJsonLdData): Graph {
+    const { siteInfo, currentLanguage, about, socials, homeRoute } = parent;
+
+    return {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Person",
+                name: siteInfo.name,
+                url: domainUrl(homeRoute),
+                sameAs: socials.map(s => s.href),
+                image: about.imageUrl,
+            },
+            {
+                "@type": "WebSite",
+                name: siteInfo.name,
+                url: domainUrl(homeRoute),
+                inLanguage: currentLanguage.short,
+            },
+        ],
+    };
 }

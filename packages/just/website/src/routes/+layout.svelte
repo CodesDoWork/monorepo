@@ -1,6 +1,8 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
+    import type { JsonLdContext } from "../contexts/jsonld";
     import type { PageData } from "./$types";
+    import { byId } from "@cdw/monorepo/shared-utils/filters";
     import { clsx } from "clsx";
     import tailwindConfig from "../../tailwind.config";
     import BackToTop from "../components/BackToTop.svelte";
@@ -8,6 +10,7 @@
     import Footer from "../components/Footer.svelte";
     import Header from "../components/Header.svelte";
     import Title from "../components/Title.svelte";
+    import { setJsonLdContext, stringifyJsonLd } from "../contexts/jsonld";
     import { getRoutes } from "../states/routes.svelte";
     import { getTheme, Theme } from "../states/theme.svelte";
     import "@cdw/monorepo/just-branding/assets/css/tailwind.css";
@@ -26,9 +29,21 @@
         currentLanguage,
         serverRoutes,
         languages,
+        allRoutes,
+        baseUrl,
+        about,
+        layoutJsonLd,
     } = data;
 
     const nav = getRoutes(routes, serverRoutes, serverRoute);
+
+    const currentRouteUrl = $derived(`${baseUrl}${nav.currentRoute?.route}`);
+    const alternateLinks = $derived(
+        allRoutes.find(byId(nav.currentRoute?.id))?.translations.map(t => ({
+            hreflang: t.language.short,
+            href: `${baseUrl}${t.route}`,
+        })) ?? [],
+    );
 
     const pageTitle = $derived(
         !nav.currentRoute || nav.currentRoute.name === siteInfo.name
@@ -52,6 +67,13 @@
                 "animate-fadeInSubtle",
         ),
     );
+
+    const jsonLdContext = $state<JsonLdContext>({ things: [] });
+    setJsonLdContext(jsonLdContext);
+    const jsonLdGraph = $derived({
+        ...layoutJsonLd,
+        "@graph": [...layoutJsonLd["@graph"], ...jsonLdContext.things],
+    });
 </script>
 
 <svelte:head>
@@ -66,16 +88,30 @@
         })();
     </script>
     <!-- eslint-enable svelte/indent -->
-
     <title>{pageTitle}</title>
-    <meta content="description" name={nav.currentRoute?.description ?? ""} />
-    <meta content={pageTitle} property="og:title" />
-    <meta content={nav.currentRoute?.description ?? ""} property="og:description" />
-    <meta content={pageTitle} property="og:site_name" />
-    <meta content={themeColor} name="theme-color" />
-    <meta content={siteInfo.keywords} name="keywords" />
-    <meta content="website" property="og:type" />
-    <meta content="https://justinkonratt.com" property="og:url" />
+    <meta name="content-language" content={currentLanguage.short} />
+    <meta name="robots" content={nav.currentRoute ? "index,follow" : "noindex"} />
+    <meta name="theme-color" content={themeColor} />
+    {#if nav.currentRoute}
+        <link rel="canonical" href={currentRouteUrl} />
+        <meta name="description" content={nav.currentRoute.description} />
+        <meta name="keywords" content={siteInfo.keywords} />
+
+        <meta property="og:title" content={pageTitle} />
+        <meta property="og:description" content={nav.currentRoute.description} />
+        <meta property="og:url" content={currentRouteUrl} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={about.imageUrl} />
+        <meta property="og:site_name" content={siteInfo.name} />
+        <meta property="og:locale" content={currentLanguage.code.replace("-", "_")} />
+        {#each languages as language}
+            <meta property="og:locale:alternate" content={language.code.replace("-", "_")} />
+        {/each}
+        {@html stringifyJsonLd(jsonLdGraph)}
+    {/if}
+    {#each alternateLinks as alternateLink}
+        <link rel="alternate" {...alternateLink} />
+    {/each}
 </svelte:head>
 
 <div

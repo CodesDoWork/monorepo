@@ -1,9 +1,0 @@
-query GetHomePageServerData {
-    contact: just_site_contact {
-        socials {
-            socialsId: socials_id {
-                ...Social
-            }
-        }
-    }
-}

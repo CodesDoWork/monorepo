@@ -7,10 +7,9 @@
         text: string;
         projects: T[];
         href?: string | ((project: T) => string);
-        onclick?: (project: T) => void;
     }
 
-    const { text, projects, onclick, href = "" }: Props = $props();
+    const { text, projects, href = "" }: Props = $props();
 </script>
 
 <ListWithHeading {text} items={projects}>
@@ -19,7 +18,6 @@
             noStyle
             href={typeof href === "string" ? href : href(project)}
             title={project.description}
-            onclick={onclick ? () => onclick(project) : undefined}
             class="group flex w-min min-w-24 flex-col items-center text-center hover:drop-shadow">
             <img
                 class="aspect-square h-8 w-8 rounded-full bg-white object-contain shadow sm:h-12 sm:w-12"

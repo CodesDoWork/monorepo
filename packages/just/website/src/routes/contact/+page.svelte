@@ -3,9 +3,10 @@
     import { enhance } from "$app/forms";
     import { clsx } from "clsx";
     import Heading from "../../components/Heading.svelte";
+    import Link from "../../components/Link.svelte";
+    import { addJsonLdThings } from "../../contexts/jsonld";
     import { animationDelay } from "../../shared/animationDelay";
     import SocialCards from "./SocialCards.svelte";
-    import Link from "../../components/Link.svelte";
 
     interface Props {
         data: PageData;
@@ -13,7 +14,8 @@
     }
 
     const { data, form }: Props = $props();
-    const { socials, texts, privacyPolicyRoute } = data;
+    const { socials, texts, privacyPolicyRoute, jsonLdThings } = data;
+    addJsonLdThings(jsonLdThings);
     const socialGroups = Object.groupBy(socials, s => s.isSeeMore.toString());
     const mainSocials = socialGroups.false;
     const seeMoreSocials = socialGroups.true;

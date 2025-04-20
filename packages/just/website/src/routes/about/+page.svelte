@@ -11,14 +11,24 @@
     import TimeLine from "../../components/TimeLine.svelte";
     import { animationDelay } from "../../shared/animationDelay";
     import Personalities from "./components/Personalities.svelte";
+    import { addJsonLdThings } from "../../contexts/jsonld";
 
     interface Props {
         data: PageData;
     }
 
     const { data }: Props = $props();
-    const { portraitSrc, about, workExperiences, techStack, disc, bigFive, mbti, currentLanguage } =
-        data;
+    const {
+        about,
+        workExperiences,
+        techStack,
+        disc,
+        bigFive,
+        mbti,
+        currentLanguage,
+        jsonLdThings,
+    } = data;
+    addJsonLdThings(jsonLdThings);
 
     let animationIdx = 0;
     const getCardStyle = () => animationDelay(animationIdx++);
@@ -30,7 +40,7 @@
     <img
         alt="Portrait"
         class={clsx(cardClass, "-mt-12 block w-24 self-end rounded-full shadow-md md:hidden")}
-        src={portraitSrc}
+        src={about.imageUrl}
         style={getCardStyle()} />
     <div class="flex-1 space-y-4">
         <Card class={cardClass} padding style={getCardStyle()}>
@@ -62,7 +72,7 @@
     </div>
     <div class="w-full md:w-64 lg:w-96 space-y-4 -mt-4 md:mt-0">
         <Card class={clsx(cardClass, "hidden md:block")} padding style={getCardStyle()}>
-            <img alt="Portrait" class="rounded" src={portraitSrc} />
+            <img alt="Portrait" class="rounded" src={about.imageUrl} />
         </Card>
         <Card class={clsx(cardClass, "overflow-hidden")} padding style={getCardStyle()}>
             <Heading level="h3">{about.personality}</Heading>

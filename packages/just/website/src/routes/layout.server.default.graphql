@@ -22,6 +22,14 @@ query GetHomeLayoutServerData($language: String!) {
         }
     }
 
+    about: just_site_about {
+        imageUrl: image_url
+    }
+
+    allRoutes: just_site_routes {
+        ...MinimalTranslatedRoute
+    }
+
     routes: just_site_routes {
         ...Route
     }
@@ -30,8 +38,12 @@ query GetHomeLayoutServerData($language: String!) {
         ...ServerRoute
     }
 
-    fallbackLanguage: languages(filter: { is_fallback: { _eq: true } }) {
-        code
+    contact: just_site_contact {
+        socials {
+            socialsId: socials_id {
+                ...Social
+            }
+        }
     }
 }
 

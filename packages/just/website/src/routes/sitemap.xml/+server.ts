@@ -3,8 +3,8 @@ import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { create } from "xmlbuilder2";
 import { env } from "../../env";
 import { GetSitemapServerData } from "../../graphql/default/generated/gql";
-import { transformRoutes } from "../../shared/routes";
 import { addPriorityRoute } from "../../shared/navigation/priority-routes";
+import { transformRoutes } from "../../shared/routes";
 
 addPriorityRoute("/sitemap.xml");
 

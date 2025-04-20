@@ -9,9 +9,9 @@
     import { ProjectsList } from "../../components/projects-list";
     import TechnologiesList from "../../components/TechnologiesList.svelte";
     import TimeLine from "../../components/TimeLine.svelte";
+    import { addJsonLdThings } from "../../contexts/jsonld";
     import { animationDelay } from "../../shared/animationDelay";
     import Personalities from "./components/Personalities.svelte";
-    import { addJsonLdThings } from "../../contexts/jsonld";
 
     interface Props {
         data: PageData;

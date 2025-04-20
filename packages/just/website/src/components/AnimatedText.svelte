@@ -52,7 +52,7 @@
     });
 
     $effect(() => {
-        text;
+        void text;
         deletionDone = false;
         setTimeout(() => deleteText(), typingMs / 2);
     });

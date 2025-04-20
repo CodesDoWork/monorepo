@@ -1,7 +1,7 @@
 <script lang="ts" generics="T">
     import type { Snippet } from "svelte";
-    import SmallHeading from "./SmallHeading.svelte";
     import clsx from "clsx";
+    import SmallHeading from "./SmallHeading.svelte";
 
     interface Props {
         listClass?: string;

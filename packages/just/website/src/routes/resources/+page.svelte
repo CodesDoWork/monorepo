@@ -3,8 +3,8 @@
     import Icon from "@iconify/svelte";
     import Card from "../../components/Card.svelte";
     import Heading from "../../components/Heading.svelte";
-    import { animationDelay } from "../../shared/animationDelay";
     import { addJsonLdThings } from "../../contexts/jsonld";
+    import { animationDelay } from "../../shared/animationDelay";
 
     interface Props {
         data: PageData;

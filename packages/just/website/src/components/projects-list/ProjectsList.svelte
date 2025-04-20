@@ -1,7 +1,8 @@
+<!-- eslint-disable-next-line no-use-before-define -->
 <script lang="ts" generics="T extends Project">
+    import type { Project } from "./types";
     import Link from "../Link.svelte";
     import ListWithHeading from "../ListWithHeading.svelte";
-    import type { Project } from "./types";
 
     interface Props {
         text: string;

@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { Route } from "../routes/types";
     import { clsx } from "clsx";
+    import { slide } from "svelte/transition";
     import { animationDelay } from "../shared/animationDelay";
     import Link from "./Link.svelte";
-    import { slide } from "svelte/transition";
 
     interface Props {
         class?: string;

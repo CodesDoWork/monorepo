@@ -5,8 +5,8 @@
     import clsx from "clsx";
     import Card from "../../components/Card.svelte";
     import Heading from "../../components/Heading.svelte";
-    import Link from "../../components/Link.svelte";
     import Label from "../../components/Label.svelte";
+    import Link from "../../components/Link.svelte";
 
     interface Props {
         project: Project;

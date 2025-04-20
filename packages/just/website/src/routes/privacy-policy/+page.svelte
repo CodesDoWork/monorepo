@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { addJsonLdThings } from "../../contexts/jsonld";
     import type { PageData } from "./$types";
+    import { addJsonLdThings } from "../../contexts/jsonld";
 
     interface Props {
         data: PageData;

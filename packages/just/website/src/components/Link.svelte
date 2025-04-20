@@ -50,7 +50,7 @@
             ],
             !button &&
                 !noStyle && [
-                    "text-[var(--page-color)] dark:text-[var(--page-color)] hover:bg-[var(--page-color)] dark:hover:bg-[var(--page-color)] p-1 hover:text-white dark:hover:text-black",
+                    "p-1 text-[var(--page-color)] hover:bg-[var(--page-color)] hover:text-white dark:text-[var(--page-color)] dark:hover:bg-[var(--page-color)] dark:hover:text-black",
                 ],
             className,
         ),

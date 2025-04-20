@@ -189,7 +189,7 @@
 
     let showDetail = $state(false);
     $effect(() => {
-        showDetail;
+        void showDetail;
         untrack(() => animateChartData(showDetail));
     });
 

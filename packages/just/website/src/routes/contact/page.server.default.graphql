@@ -15,6 +15,23 @@ query GetContactServerData($language: String!) {
             email
             message
             send
+            acceptPrivacy: accept_privacy
+            acceptPrivacyTail: accept_privacy_tail
+        }
+    }
+}
+
+query GetContactActionLanguages {
+    languages {
+        ...Language
+    }
+}
+
+query GetContactActionData($language: String!) {
+    contact: just_site_contact {
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            successMsg: success_msg
+            privacyError: privacy_error
         }
     }
 }

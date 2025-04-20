@@ -1,10 +1,16 @@
-import type { Actions, PageServerLoad } from "./$types";
+import type { Actions, PageServerLoad, RequestEvent } from "./$types";
 import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { SMTPClient } from "emailjs";
 import { env } from "../../env";
-import { GetContactServerData } from "../../graphql/default/generated/gql";
+import {
+    GetContactActionData,
+    GetContactActionLanguages,
+    GetContactServerData,
+} from "../../graphql/default/generated/gql";
 import { mapSocial } from "../../shared/mapSocials";
+import { z } from "zod";
+import { getLanguage } from "../../shared/language";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const { currentLanguage } = await parent();
@@ -27,30 +33,50 @@ const client = new SMTPClient({
     tls: true,
 });
 
-interface Message {
-    name: string;
-    email: string;
-    message: string;
-}
+const zMessage = z
+    .object({
+        name: z.string(),
+        email: z.string().email(),
+        message: z.string(),
+        privacy: z.coerce.boolean(),
+    })
+    .strict();
+type Message = z.infer<typeof zMessage>;
 
 export const actions: Actions = {
     mail: async event => {
-        const data: Partial<Message> = {};
         const formData = await event.request.formData();
-        formData.forEach((value, key) => (data[key as keyof Message] = value as string));
-        const messageData = data as Message;
-
-        try {
-            const { name, email, message } = messageData;
-            await client.sendAsync({
-                text: `From: ${name} <${email}>\n\n ${message}`,
-                from: `${name} <${email}>`,
-                to: env.SMTP_USERNAME,
-                subject: `[Just-Site] New Message from ${name}`,
-            });
-            return { success: true, msg: "Thank you for your message!" };
-        } catch (err) {
-            return { success: false, data: messageData, msg: err.toString() };
+        const data = Object.fromEntries(formData.entries());
+        const msgResult = zMessage.safeParse(data);
+        if (!msgResult.success) {
+            return { success: false, data, msg: msgResult.error.message };
         }
+
+        return processMessage(event, msgResult.data);
     },
 };
+
+async function processMessage(event: RequestEvent, msg: Message) {
+    const { languages } = await toPromise(GetContactActionLanguages({}));
+    const language = await getLanguage(event.request, event.cookies, languages);
+    const { contact } = flattenTranslations(
+        await toPromise(GetContactActionData({ variables: { language: language.code } })),
+    );
+
+    const { name, email, message, privacy } = msg;
+    if (!privacy) {
+        return { success: false, data: msg, msg: contact.privacyError };
+    }
+
+    try {
+        await client.sendAsync({
+            text: `From: ${name} <${email}>\n\n ${message}`,
+            from: `${name} <${email}>`,
+            to: env.SMTP_USERNAME,
+            subject: `[Just-Site] New Message from ${name}`,
+        });
+        return { success: true, msg: contact.successMsg };
+    } catch (err) {
+        return { success: false, data: msg, msg: err.toString() };
+    }
+}

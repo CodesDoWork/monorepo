@@ -5,6 +5,7 @@
     import Heading from "../../components/Heading.svelte";
     import { animationDelay } from "../../shared/animationDelay";
     import SocialCards from "./SocialCards.svelte";
+    import Link from "../../components/Link.svelte";
 
     interface Props {
         data: PageData;
@@ -12,7 +13,7 @@
     }
 
     const { data, form }: Props = $props();
-    const { socials, texts } = data;
+    const { socials, texts, privacyPolicyRoute } = data;
     const socialGroups = Object.groupBy(socials, s => s.isSeeMore.toString());
     const mainSocials = socialGroups.false;
     const seeMoreSocials = socialGroups.true;
@@ -61,6 +62,21 @@
                 name="message"
                 placeholder={texts.message}
                 required>{form?.data?.message || ""}</textarea>
+            <div>
+                <input
+                    type="checkbox"
+                    id="privacy"
+                    name="privacy"
+                    class={clsx(inputClass, "focus:ring-0 focus:ring-offset-0")}
+                    value={form?.data?.privacy || false}
+                    required />
+                <label for="privacy" class="ml-1">
+                    {texts.acceptPrivacy}
+                    <Link title={privacyPolicyRoute.description} href={privacyPolicyRoute.route}>
+                        {privacyPolicyRoute.name}
+                    </Link>{texts.acceptPrivacyTail}
+                </label>
+            </div>
             <button
                 class={clsx(
                     inputClass,

@@ -1,0 +1,169 @@
+query GetAboutServerData($language: String!) {
+    about: just_site_about {
+        imageUrl: image_url
+        technologies {
+            technology: technologies_id {
+                name
+                icon
+                techStacks: tech_stacks {
+                    techStack: tech_stack_id {
+                        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+                            name
+                        }
+                    }
+                }
+            }
+            isMainTechnology: is_main_technology
+        }
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            intro
+            bio
+            experience
+            present
+            projects
+            coreTechnologies: core_technologies
+            techStack: tech_stack
+            techStackInfo: tech_stack_info
+            personality
+        }
+    }
+
+    workExperience: just_site_work_experience {
+        startYear: start_year
+        endYear: end_year
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            jobTitle: job_title
+            responsibilities
+        }
+
+        company {
+            logo
+            name
+            url
+        }
+        technologies {
+            technology: technologies_id {
+                name
+                icon
+            }
+        }
+        projects {
+            project: just_site_work_projects_id {
+                logo
+                translations(filter: { languages_code: { code: { _eq: $language } } }) {
+                    name
+                    description
+                    url
+                }
+            }
+        }
+    }
+
+    disc: personality_disc {
+        dominance
+        influence
+        steadiness
+        conscientousness
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            name
+            dominanceText: dominance
+            influenceText: influence
+            steadinessText: steadiness
+            conscientousnessText: conscientousness
+        }
+    }
+
+    bigFive: personality_big_five {
+        extraversion
+        extraversionDeviation: extraversion_deviation
+        sociability
+        sociabilityDeviation: sociability_deviation
+        assertiveness
+        assertivenessDeviation: assertiveness_deviation
+        energyLevel: energy_level
+        energyLevelDeviation: energy_level_deviation
+        compatibility
+        compatibilityDeviation: compatibility_deviation
+        compassion
+        compassionDeviation: compassion_deviation
+        courtesy
+        courtesyDeviation: courtesy_deviation
+        trust
+        trustDeviation: trust_deviation
+        conscientiousness
+        conscientiousnessDeviation: conscientiousness_deviation
+        loveOfOrder: love_of_order
+        loveOfOrderDeviation: love_of_order_deviation
+        diligence
+        diligenceDeviation: diligence_deviation
+        reliability
+        reliabilityDeviation: reliability_deviation
+        emotionalStability: emotional_stability
+        emotionalStabilityDeviation: emotional_stability_deviation
+        serenity
+        serenityDeviation: serenity_deviation
+        lightheartedness
+        lightheartednessDeviation: lightheartedness_deviation
+        feelingStability: feeling_stability
+        feelingStabilityDeviation: feeling_stability_deviation
+        openness
+        opennessDeviation: openness_deviation
+        interestInArtAndCulture: interest_in_art_and_culture
+        interestInArtAndCultureDeviation: interest_in_art_and_culture_deviation
+        intellectualCuriosity: intellectual_curiosity
+        intellectualCuriosityDeviation: intellectual_curiosity_deviation
+        ingenuity
+        ingenuityDeviation: ingenuity_deviation
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            name
+            extraversionText: extraversion
+            sociabilityText: sociability
+            assertivenessText: assertiveness
+            energyLevelText: energy_level
+            compatibilityText: compatibility
+            compassionText: compassion
+            courtesyText: courtesy
+            trustText: trust
+            conscientousnessText: conscientousness
+            loveOfOrderText: love_of_order
+            diligenceText: diligence
+            reliabilityText: reliability
+            emotionalStabilityText: emotional_stability
+            serenityText: serenity
+            lightheartednessText: lightheartedness
+            feelingStabilityText: feeling_stability
+            opennessText: openness
+            interestInArtAndCultureText: interest_in_art_and_culture
+            intellectualCuriosityText: intellectual_curiosity
+            ingenuityText: ingenuity
+            defaultView: default_view
+            detailView: detail_view
+        }
+    }
+
+    mbti: personality_mbti {
+        extraverted
+        introverted
+        intuitive
+        observant
+        thinking
+        feeling
+        judging
+        prospecting
+        assertive
+        turbulent
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            name
+            extravertedText: extraverted
+            introvertedText: introverted
+            intuitiveText: intuitive
+            observantText: observant
+            thinkingText: thinking
+            feelingText: feeling
+            judgingText: judging
+            prospectingText: prospecting
+            assertiveText: assertive
+            turbulentText: turbulent
+        }
+    }
+}

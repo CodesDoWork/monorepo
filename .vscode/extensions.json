@@ -39,6 +39,7 @@
         "bbenoist.nix",
         "astro-build.astro-vscode",
         "dotjoshjohnson.xml",
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode",
+        "dnut.rewrap-revived"
     ]
 }

@@ -4,15 +4,14 @@ import { z } from "zod";
 
 export const env = createEnv({
     server: {
-        GITHUB_TOKEN: z.string(),
         URL: z.string().url(),
         CMS_URL: z.string().url(),
-        CMS_USER: z.string(),
-        CMS_PASSWORD: z.string(),
+        CMS_TOKEN: z.string(),
         SMTP_HOST: z.string(),
         SMTP_PORT: z.coerce.number(),
         SMTP_USERNAME: z.string(),
         SMTP_PASSWORD: z.string(),
+        NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
     },
     clientPrefix: "PUBLIC_",
     client: {},

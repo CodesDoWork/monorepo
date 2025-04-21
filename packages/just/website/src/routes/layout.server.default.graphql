@@ -1,0 +1,54 @@
+fragment ServerRoute on just_site_routes {
+    id
+    translations(filter: { languages_code: { is_fallback: { _eq: true } } }) {
+        route
+    }
+}
+
+fragment FooterTexts on just_site_info_translations {
+    licensedUnder: licensed_under
+    license
+    viewOn: view_on
+    viewOnTail: view_on_tail
+}
+
+query GetHomeLayoutServerData($language: String!) {
+    siteInfo: just_site_info {
+        ...SiteInfo
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            ...FooterTexts
+            backToTop: back_to_top
+            keywords
+        }
+    }
+
+    about: just_site_about {
+        imageUrl: image_url
+    }
+
+    allRoutes: just_site_routes {
+        ...MinimalTranslatedRoute
+    }
+
+    routes: just_site_routes {
+        ...Route
+    }
+
+    serverRoutes: just_site_routes {
+        ...ServerRoute
+    }
+
+    contact: just_site_contact {
+        socials {
+            socialsId: socials_id {
+                ...Social
+            }
+        }
+    }
+}
+
+query GetHomeLayoutServerLanguages {
+    languages {
+        ...Language
+    }
+}

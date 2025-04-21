@@ -1,13 +1,10 @@
 <script lang="ts">
-    import type { Book } from "../../types/frontend";
     import type { PageData } from "./$types";
-    import { onMount } from "svelte";
-    import { readable } from "svelte/store";
     import Heading from "../../components/Heading.svelte";
     import Link from "../../components/Link.svelte";
-    import Page from "../../components/Page.svelte";
-    import { animationDelay } from "../../helpers/animationDelay";
-    import { toLinkFriendly } from "../../helpers/toLinkFriendly";
+    import { addJsonLdThings } from "../../contexts/jsonld";
+    import { animationDelay } from "../../shared/animationDelay";
+    import { toLinkFriendly } from "../../shared/toLinkFriendly";
     import BookCategory from "./BookCategory.svelte";
 
     interface Props {
@@ -15,48 +12,34 @@
     }
 
     const { data }: Props = $props();
-    const { siteInfo, routes } = data;
-
-    const books = readable<Book[]>([], set =>
-        onMount(() =>
-            fetch("/api/reading-list")
-                .then(res => res.json())
-                .then(set),
-        ),
-    );
-    const categories = $derived(new Set($books.flatMap(book => book.categories).sort()));
+    const { books, categories, texts, jsonLdThings } = data;
+    addJsonLdThings(jsonLdThings);
 
     let animationIdx = 0;
     const getCardStyle = () => animationDelay(animationIdx++);
 </script>
 
-<Page loading={!$books.length} {routes} {siteInfo} title={{ title: "Reading List", small: true }}>
-    <p class="mb-2 italic">
-        Here are some of the books I've read. I tagged my recommendation but every book on this list
-        is great and worth reading. I didn't include every book I've read in the list because not
-        every book is worth it. More books are about to come soon, since I just can't (and don't
-        want to) stop reading.
-    </p>
-    <p class="mb-4 text-red-500">
-        ⚠️<b>Warning</b>⚠️<br />
-        Always apply your own truth and critical thinking.
-    </p>
-    <Heading level="h3">Categories</Heading>
-    <ol class="list-inside list-disc">
-        <li>
-            <Link href="#featured" smoothScroll title="Featured">Featured</Link>
-        </li>
-        {#each categories as category}
-            <li>
-                <Link title={category} href={`#${toLinkFriendly(category)}`} smoothScroll>
-                    {category}
-                </Link>
-            </li>
-        {/each}
-    </ol>
-    <hr class="opacity:50 my-8 dark:opacity-20" />
-    <BookCategory books={$books} category="Featured" {getCardStyle} />
+<p class="mb-2 italic">{texts.intro}</p>
+<p class="mb-4 text-red-500">
+    ⚠️<b>{texts.warning}</b>⚠️<br />{texts.warningContent}
+</p>
+<Heading level="h3">{texts.categories}</Heading>
+<ol class="list-inside list-disc sm:columns-2 xl:columns-3 2xl:columns-4">
+    <li>
+        <Link href={`#${toLinkFriendly(texts.featured)}`} smoothScroll title={texts.featured}>
+            {texts.featured}
+        </Link>
+    </li>
     {#each categories as category}
-        <BookCategory {category} books={$books} {getCardStyle} />
+        <li>
+            <Link title={category} href={`#${toLinkFriendly(category)}`} smoothScroll>
+                {category}
+            </Link>
+        </li>
     {/each}
-</Page>
+</ol>
+<hr class="opacity:50 my-8 dark:opacity-20" />
+<BookCategory {books} category={texts.featured} {getCardStyle} featuredText={texts.featured} />
+{#each categories as category}
+    <BookCategory {category} {books} {getCardStyle} featuredText={texts.featured} />
+{/each}

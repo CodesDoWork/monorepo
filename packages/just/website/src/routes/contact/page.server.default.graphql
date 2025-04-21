@@ -1,0 +1,37 @@
+query GetContactServerData($language: String!) {
+    contact: just_site_contact {
+        socials {
+            socialItem: socials_id {
+                ...Social
+            }
+            isSeeMore: is_see_more
+        }
+
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            letsConnect: lets_connect
+            seeMore: see_more
+            sendMessage: send_message
+            name
+            email
+            message
+            send
+            acceptPrivacy: accept_privacy
+            acceptPrivacyTail: accept_privacy_tail
+        }
+    }
+}
+
+query GetContactActionLanguages {
+    languages {
+        ...Language
+    }
+}
+
+query GetContactActionData($language: String!) {
+    contact: just_site_contact {
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            successMsg: success_msg
+            privacyError: privacy_error
+        }
+    }
+}

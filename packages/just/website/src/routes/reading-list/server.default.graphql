@@ -1,0 +1,32 @@
+fragment BookTexts on just_site_books_info_translations {
+    categories
+    featured
+    intro
+    warning
+    warningContent: warning_content
+}
+
+query GetReadingListData($language: String!) {
+    books: just_site_books {
+        authors
+        featured
+        categories: book_categories {
+            category: just_site_book_categories_id {
+                translations(filter: { languages_code: { code: { _eq: $language } } }) {
+                    name
+                }
+            }
+        }
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            title
+            description
+            cover
+        }
+    }
+
+    texts: just_site_books_info {
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            ...BookTexts
+        }
+    }
+}

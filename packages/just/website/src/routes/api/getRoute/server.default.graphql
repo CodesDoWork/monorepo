@@ -1,0 +1,9 @@
+query GetApiGetRouteServerData {
+    routes: just_site_routes {
+        ...MinimalTranslatedRoute
+    }
+
+    languages(filter: { is_fallback: { _eq: true } }) {
+        ...Language
+    }
+}

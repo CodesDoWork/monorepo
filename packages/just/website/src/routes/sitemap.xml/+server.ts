@@ -1,8 +1,12 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import moment from "moment";
+import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { create } from "xmlbuilder2";
 import { env } from "../../env";
-import { getBlogPosts, getDirectus, getRoutes } from "../../helpers/directus";
+import { GetSitemapServerData } from "../../graphql/default/generated/gql";
+import { addPriorityRoute } from "../../shared/navigation/priority-routes";
+import { transformRoutes } from "../../shared/routes";
+
+addPriorityRoute("/sitemap.xml");
 
 export const GET: RequestHandler = async () => {
     const sitemap = createSitemap(await getSitemapRoutes());
@@ -14,59 +18,52 @@ export const GET: RequestHandler = async () => {
     return response;
 };
 
-async function getSitemapRoutes(): Promise<Route[]> {
-    const directus = await getDirectus();
-    const directusRoutes = await getRoutes(directus);
-    const blogPosts = await getBlogPosts(directus);
+async function getSitemapRoutes(): Promise<SitemapURL[]> {
+    const { routes } = await toPromise(GetSitemapServerData({}));
+    const transformedRoutes = transformRoutes(routes);
 
-    const mainRoutes: Route[] = directusRoutes
-        .map(r => r.route)
-        .filter(r => r.startsWith("/"))
-        .map(r => ({ loc: r.replace(/\/$/, ""), changefreq: "weekly" }) satisfies Route);
+    const urls: SitemapURL[] = [];
+    transformedRoutes.forEach(r => {
+        r.translations.forEach(t => {
+            urls.push({
+                loc: `${env.URL}${t.route}`,
+                changefreq: "monthly",
+                "xhtml:link": r.translations.map(t => ({
+                    "@rel": "alternate",
+                    "@hreflang": t.language.short,
+                    "@href": `${env.URL}${t.route}`,
+                })),
+            });
+        });
+    });
 
-    const blogRoutes: Route[] = blogPosts.map(p => ({
-        loc: `/blog/${p.slug}`,
-        changefreq: "monthly",
-        lastmod: moment(p.date_updated || p.date_created).format("yyyy-MM-DD"),
-    }));
-
-    return mainRoutes.concat(blogRoutes);
+    return urls;
 }
 
-function createSitemap(routes: Route[]) {
+function createSitemap(routes: SitemapURL[]) {
     return {
-        root: {
-            urlset: {
-                "@xmlns": "https://www.sitemaps.org/schemas/sitemap/0.9",
-                "@xmlns:news": "https://www.google.com/schemas/sitemap-news/0.9",
-                "@xmlns:xhtml": "https://www.w3.org/1999/xhtml",
-                "@xmlns:mobile": "https://www.google.com/schemas/sitemap-mobile/1.0",
-                "@xmlns:image": "https://www.google.com/schemas/sitemap-image/1.1",
-                "@xmlns:video": "https://www.google.com/schemas/sitemap-video/1.1",
-                url: routes.map(createSitemapEntry),
-            },
+        urlset: {
+            "@xmlns": "https://www.sitemaps.org/schemas/sitemap/0.9",
+            "@xmlns:news": "https://www.google.com/schemas/sitemap-news/0.9",
+            "@xmlns:xhtml": "https://www.w3.org/1999/xhtml",
+            "@xmlns:mobile": "https://www.google.com/schemas/sitemap-mobile/1.0",
+            "@xmlns:image": "https://www.google.com/schemas/sitemap-image/1.1",
+            "@xmlns:video": "https://www.google.com/schemas/sitemap-video/1.1",
+            url: routes,
         },
     };
 }
 
-function createSitemapEntry(route: Route): SitemapURL {
-    return {
-        loc: `${env.URL}${route.loc}`,
-        changefreq: route.changefreq || "daily",
-        priority: 1.0 / ((route.loc.match(/\//g)?.length || 0) + 1),
-        lastmod: route.lastmod,
-    };
-}
-
-interface Route {
+interface SitemapURL {
     loc: string;
-    changefreq?: ChangeFreq;
-    lastmod?: string;
+    changefreq: ChangeFreq;
+    "xhtml:link": AlternateLink[];
 }
 
-interface SitemapURL extends Route {
-    changefreq: ChangeFreq;
-    priority: number;
+interface AlternateLink {
+    "@rel": "alternate";
+    "@hreflang": string;
+    "@href": string;
 }
 
 type ChangeFreq = "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";

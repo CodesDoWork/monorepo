@@ -1,0 +1,47 @@
+query GetEventsServerData($language: String!) {
+    events: just_site_events {
+        startDate: start_date
+        endDate: end_date
+        logo
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            title
+            description
+        }
+        projects {
+            project: just_site_projects_id {
+                id
+                name
+                translations(filter: { languages_code: { code: { _eq: $language } } }) {
+                    description
+                }
+                thumbnail
+            }
+        }
+        technologies {
+            technology: technologies_id {
+                name
+                icon
+            }
+        }
+        links {
+            link: links_id {
+                url
+                translations(filter: { languages_code: { code: { _eq: $language } } }) {
+                    title
+                }
+            }
+        }
+        images {
+            fileId: directus_files_id
+        }
+    }
+
+    texts: just_site_events_info {
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            projects
+            links
+            technologies
+            images
+        }
+    }
+}

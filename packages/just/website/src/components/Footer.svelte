@@ -1,47 +1,42 @@
 <script lang="ts">
-    import type { JustSiteRoutes } from "@cdw/monorepo/just-cms-types";
+    import type { FooterTextsFragment } from "../graphql/default/generated/gql";
+    import type { Route } from "../routes/types";
     import { clsx } from "clsx";
-    import { useRoutes } from "../stores/useRoutes";
+    import { slide } from "svelte/transition";
     import Link from "./Link.svelte";
 
     interface Props {
         class?: string;
-        routes: JustSiteRoutes[];
-        licenseType?: string;
-        licenseUrl?: string;
-        projectUrl?: string;
-        projectPlatform?: string;
+        copyright: string;
+        licenseType: string;
+        licenseUrl: string;
+        projectUrl: string;
+        projectPlatform: string;
+        currentRoute: Route;
+        privacyPolicyRoute: Route;
+        texts: FooterTextsFragment;
     }
 
     const {
         class: className = "",
-        routes,
-        licenseType = "",
-        licenseUrl = "",
-        projectUrl = "",
-        projectPlatform = "",
+        copyright,
+        licenseType,
+        licenseUrl,
+        projectUrl,
+        projectPlatform,
+        currentRoute,
+        privacyPolicyRoute,
+        texts,
     }: Props = $props();
 
-    const { currentRoute, previousRoute } = useRoutes(routes);
-
-    let footerVisibility = $state("");
-    $effect(() => {
-        if ($currentRoute?.is_hero) {
-            footerVisibility = "scale-0";
-        } else if ($previousRoute?.is_hero === false) {
-            footerVisibility = "scale-100";
-        } else {
-            footerVisibility = "animate-grow opacity-100 scale-100";
-        }
-    });
+    const isVisible = $derived(!currentRoute?.isHero);
 
     const footerClass = $derived(
         clsx(
             "select-none px-8 py-4 shadow",
             "text-center font-mono",
             "dark:bg-primary-500 bg-black bg-opacity-20 text-white transition-colors dark:bg-opacity-20",
-            "origin-bottom",
-            footerVisibility,
+            "text-sm",
             className,
         ),
     );
@@ -50,9 +45,22 @@
         "!text-black dark:!text-brandOrange-500 hover:!bg-brandOrange-500 hover:!text-black";
 </script>
 
-<footer class={footerClass}>
-    &copy; Justin Konratt {new Date().getFullYear()} - Licensed under
-    <Link class={linkClass} href={licenseUrl} title="License">{licenseType}</Link>
-    - View on
-    <Link class={linkClass} href={projectUrl} title="Project">{projectPlatform}</Link>
-</footer>
+{#if isVisible}
+    <footer transition:slide|global class={footerClass}>
+        <div class="mb-1">
+            &copy; {copyright}
+            {new Date().getFullYear()} - {texts.licensedUnder}
+            <Link class={linkClass} href={licenseUrl} title="License">{licenseType}</Link>
+            {texts.license} - {texts.viewOn}
+            <Link class={linkClass} href={projectUrl} title="Project">{projectPlatform}</Link>
+            {texts.viewOnTail}
+            <br />
+        </div>
+        <Link
+            class={linkClass}
+            href={privacyPolicyRoute.route}
+            title={privacyPolicyRoute.description}>
+            {privacyPolicyRoute.name}
+        </Link>
+    </footer>
+{/if}

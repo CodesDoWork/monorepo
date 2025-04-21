@@ -1,0 +1,22 @@
+query GetResourcesServerData($language: String!) {
+    resources: just_site_resources {
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            info
+        }
+    }
+
+    sections: just_site_resources_sections {
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            title
+            description
+        }
+        items {
+            file
+            translations(filter: { languages_code: { code: { _eq: $language } } }) {
+                title
+                description
+                filename
+            }
+        }
+    }
+}

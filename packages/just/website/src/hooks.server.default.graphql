@@ -1,0 +1,9 @@
+query GetHooksServerData {
+    routes: just_site_routes {
+        ...MinimalTranslatedRoute
+    }
+
+    languages {
+        ...Language
+    }
+}

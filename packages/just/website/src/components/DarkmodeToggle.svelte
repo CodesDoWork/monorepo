@@ -1,26 +1,27 @@
 <script lang="ts">
-    import type { Writable } from "svelte/store";
+    import type { ThemeState } from "../states/theme.svelte";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
+    import { Theme } from "../states/theme.svelte";
 
     interface Props {
         class?: string;
-        is_on_hero: boolean;
-        theme: Writable<string>;
+        isOnHero: boolean;
+        theme: ThemeState;
     }
 
-    const { class: className = "", is_on_hero, theme }: Props = $props();
+    const { class: className = "", isOnHero, theme }: Props = $props();
 
     const animationDuration = 300;
     let icon = $state("");
     $effect(() => {
         let iconName: string;
-        if ($theme === "dark") {
-            document.documentElement.classList.add("dark");
-            iconName = "material-symbols:light-mode-outline";
-        } else if ($theme === "light") {
-            document.documentElement.classList.remove("dark");
+        if (theme.theme === Theme.Light) {
             iconName = "material-symbols:dark-mode-outline";
+        } else if (theme.theme === Theme.Dark) {
+            iconName = "material-symbols:desktop-windows-outline-rounded";
+        } else if (theme.theme === Theme.OS) {
+            iconName = "material-symbols:light-mode-outline";
         }
 
         if (icon) {
@@ -32,7 +33,17 @@
 
     let isAnimating = $state(false);
     const toggleTheme = () => {
-        theme?.set($theme === "light" ? "dark" : "light");
+        let nextTheme;
+        if (theme.theme === Theme.Light) {
+            nextTheme = Theme.Dark;
+        } else if (theme.theme === Theme.Dark) {
+            nextTheme = Theme.OS;
+        } else if (theme.theme === Theme.OS) {
+            nextTheme = Theme.Light;
+        }
+
+        theme.setTheme(nextTheme);
+
         isAnimating = true;
         setTimeout(() => {
             isAnimating = false;
@@ -41,7 +52,7 @@
 
     const resultClass = $derived(clsx(isAnimating && "animate-switch", className));
     const iconClass = $derived(
-        clsx(is_on_hero ? "text-black dark:text-white" : "text-white", "size-6"),
+        clsx(isOnHero ? "text-black dark:text-white" : "text-white", "size-6"),
     );
 </script>
 

@@ -33,7 +33,6 @@ const fadeIn = {
     "100%": {
         opacity: "1",
         transform: "translateY(0)",
-        display: "block",
     },
 } satisfies Keyframes;
 

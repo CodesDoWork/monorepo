@@ -1,0 +1,38 @@
+fragment Project on just_site_projects {
+    id
+    name
+    thumbnail
+    license
+    githubUrl: github_url
+    homepage
+    technologies {
+        technology: technologies_id {
+            name
+            icon
+        }
+    }
+    translations(filter: { languages_code: { code: { _eq: $language } } }) {
+        description
+    }
+}
+
+fragment ProjectTexts on just_site_projects_info_translations {
+    viewOnGitHub: view_on_github
+    homepage
+    noLicense: no_license
+}
+
+query GetProjectsServerData($language: String!) {
+    projects: just_site_projects(filter: { parent: { id: { _null: true } } }) {
+        ...Project
+        children {
+            ...Project
+        }
+    }
+
+    texts: just_site_projects_info {
+        translations(filter: { languages_code: { code: { _eq: $language } } }) {
+            ...ProjectTexts
+        }
+    }
+}

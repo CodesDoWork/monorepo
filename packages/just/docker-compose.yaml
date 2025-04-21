@@ -477,12 +477,9 @@ services:
   website:
     <<: *common
     environment:
-      - GITHUB_TOKEN=${WEBSITE_GITHUB_TOKEN}
       - URL=${URL}
-      - GRAVATAR_EMAIL=${WEBSITE_GRAVATAR_EMAIL}
       - CMS_URL=${CMS_URL}
-      - CMS_USER=${WEBSITE_CMS_USER}
-      - CMS_PASSWORD=${WEBSITE_CMS_PASSWORD}
+      - CMS_TOKEN=${WEBSITE_CMS_TOKEN}
       - PORT=${WEBSITE_PORT}
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_PORT=${SMTP_PORT}

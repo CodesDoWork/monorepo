@@ -1,0 +1,8 @@
+{
+    "name": "shared-mlflow",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/shared/mlflow",
+    "projectType": "application",
+    "targets": {},
+    "tags": []
+}

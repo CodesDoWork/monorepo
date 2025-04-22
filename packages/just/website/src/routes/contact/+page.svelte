@@ -64,7 +64,7 @@
                 name="message"
                 placeholder={texts.message}
                 required>{form?.data?.message || ""}</textarea>
-            <div>
+            <div class="col-span-2">
                 <input
                     type="checkbox"
                     id="privacy"

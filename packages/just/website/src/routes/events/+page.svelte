@@ -59,6 +59,7 @@
                 {#snippet display(img)}
                     <button onclick={() => (clickedImage = img)}>
                         <img
+                            loading="lazy"
                             src={img}
                             alt=""
                             class="size-28 rounded-lg aspect-square object-cover shadow-lg hover:scale-[102%] hover:shadow-xl transition" />

@@ -38,6 +38,7 @@
 
 <div class="flex flex-col gap-4 md:flex-row">
     <img
+        loading="lazy"
         alt="Portrait"
         class={clsx(cardClass, "-mt-12 block w-24 self-end rounded-full shadow-md md:hidden")}
         src={about.imageUrl}
@@ -72,7 +73,7 @@
     </div>
     <div class="w-full md:w-64 lg:w-96 space-y-4 -mt-4 md:mt-0">
         <Card class={clsx(cardClass, "hidden md:block")} padding style={getCardStyle()}>
-            <img alt="Portrait" class="rounded" src={about.imageUrl} />
+            <img loading="lazy" alt="Portrait" class="rounded" src={about.imageUrl} />
         </Card>
         <Card class={clsx(cardClass, "overflow-hidden")} padding style={getCardStyle()}>
             <Heading level="h3">{about.personality}</Heading>

@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 
 function transformProjects(projects: Projects) {
     projects.forEach(project => {
-        project.thumbnail = assetUrl(project.thumbnail);
+        project.thumbnail = assetUrl(project.thumbnail, { quality: 33 });
         project.technologies.sort((t1, t2) => t1.technology.name.localeCompare(t2.technology.name));
         if (project.children) {
             transformProjects(project.children);

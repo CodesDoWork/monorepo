@@ -46,15 +46,15 @@ function transformEvents(
         ...e,
         projects: e.projects.map(({ project: { thumbnail, ...project } }) => ({
             ...project,
-            logo: assetUrl(thumbnail),
+            logo: assetUrl(thumbnail, { quality: 15 }),
             href: `${projectRoute.route}#_${project.id}`,
         })),
         links: e.links.map(({ link }) => link),
         technologies: e.technologies.map(({ technology }) => technology),
-        logo: assetUrl(e.logo),
+        logo: assetUrl(e.logo, { quality: 20 }),
         startDate: new Date(e.startDate as unknown as string),
         endDate: new Date(e.endDate as unknown as string),
-        images: e.images.map(({ fileId }) => assetUrl(fileId)),
+        images: e.images.map(({ fileId }) => assetUrl(fileId, { quality: 60 })),
     }));
 }
 

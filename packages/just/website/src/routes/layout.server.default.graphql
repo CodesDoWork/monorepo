@@ -18,7 +18,6 @@ query GetHomeLayoutServerData($language: String!) {
         translations(filter: { languages_code: { code: { _eq: $language } } }) {
             ...FooterTexts
             backToTop: back_to_top
-            keywords
         }
     }
 

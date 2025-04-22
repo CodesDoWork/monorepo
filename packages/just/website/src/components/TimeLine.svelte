@@ -27,6 +27,7 @@
             {@render content(timestep)}
         </div>
         <img
+            loading="lazy"
             alt="Logo"
             class="aspect-square w-full rounded-full border border-slate-400 object-cover p-0.5"
             src={logo(timestep)} />

@@ -59,7 +59,7 @@
         <Link
             class={linkClass}
             href={privacyPolicyRoute.route}
-            title={privacyPolicyRoute.description}>
+            title={privacyPolicyRoute.shortDescription}>
             {privacyPolicyRoute.name}
         </Link>
     </footer>

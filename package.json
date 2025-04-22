@@ -128,7 +128,7 @@
         "nx": "20.4.6",
         "pino-pretty": "^11.2.2",
         "postcss": "8.4.49",
-        "prettier": "^3.5.2",
+        "prettier": "^3.5.3",
         "prettier-plugin-astro": "^0.14.1",
         "prettier-plugin-tailwindcss": "^0.6.11",
         "replace-in-files-cli": "^3.0.0",

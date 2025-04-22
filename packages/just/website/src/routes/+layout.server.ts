@@ -33,13 +33,7 @@ async function loadServerData(
     const data = await toPromise(
         GetHomeLayoutServerData({ variables: { language: currentLanguage.code } }),
     );
-    const {
-        siteInfo: rawSiteInfo,
-        routes,
-        serverRoutes,
-        about,
-        contact,
-    } = flattenTranslations(data);
+    const { siteInfo, routes, serverRoutes, about, contact } = flattenTranslations(data);
 
     const allRoutes = transformRoutes(data.allRoutes);
     const currentRouteId = getRoute(allRoutes, url.pathname)?.id;
@@ -51,7 +45,6 @@ async function loadServerData(
         r.route = transformedRoute.translations.find(byLanguage(currentLanguage)).route;
     });
 
-    const siteInfo = joinKeywords(rawSiteInfo);
     const socials = contact.socials.map(s => s.socialsId).map(mapSocial);
 
     const layoutJsonLd = createLayoutJsonLd({
@@ -78,11 +71,6 @@ async function loadServerData(
         layoutJsonLd,
         baseUrl: env.URL,
     };
-}
-
-function joinKeywords(siteInfo: FlatTrans<GetHomeLayoutServerDataQuery>["siteInfo"]) {
-    const { keywords, ...rest } = siteInfo;
-    return { ...rest, keywords: Object.values(keywords).join(" ") };
 }
 
 interface LayoutJsonLdData {

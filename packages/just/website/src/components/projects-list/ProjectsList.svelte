@@ -21,6 +21,7 @@
             title={project.description}
             class="group flex w-min min-w-24 flex-col items-center text-center hover:drop-shadow">
             <img
+                loading="lazy"
                 class="aspect-square h-8 w-8 rounded-full bg-white object-contain shadow sm:h-12 sm:w-12"
                 src={project.logo}
                 alt="logo" />

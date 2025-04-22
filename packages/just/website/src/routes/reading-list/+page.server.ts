@@ -31,7 +31,7 @@ function transformBooks(books: FlatTrans<GetReadingListDataQuery["books"]>) {
         ...book,
         categories: book.categories.map(cat => cat.category.name),
         authors: (book.authors ?? []) as string[],
-        cover: assetUrl(book.cover),
+        cover: assetUrl(book.cover, { quality: 20 }),
     }));
 }
 

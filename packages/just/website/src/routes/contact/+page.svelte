@@ -64,7 +64,7 @@
                 name="message"
                 placeholder={texts.message}
                 required>{form?.data?.message || ""}</textarea>
-            <div>
+            <div class="col-span-2">
                 <input
                     type="checkbox"
                     id="privacy"
@@ -74,7 +74,9 @@
                     required />
                 <label for="privacy" class="ml-1">
                     {texts.acceptPrivacy}
-                    <Link title={privacyPolicyRoute.description} href={privacyPolicyRoute.route}>
+                    <Link
+                        title={privacyPolicyRoute.shortDescription}
+                        href={privacyPolicyRoute.route}>
                         {privacyPolicyRoute.name}
                     </Link>{texts.acceptPrivacyTail}
                 </label>

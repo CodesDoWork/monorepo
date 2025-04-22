@@ -5,8 +5,10 @@ fragment Route on just_site_routes {
     inNav: in_nav
     translations(filter: { languages_code: { code: { _eq: $language } } }) {
         name
+        shortDescription: short_description
         description
         route
+        keywords
     }
 }
 

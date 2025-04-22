@@ -30,7 +30,7 @@
             <Link
                 onclick={e => onLinkClick(routeLink, e)}
                 noStyle
-                title={routeLink.name}
+                title={routeLink.shortDescription}
                 href={routeLink.route}
                 class={clsx(
                     routeLink === currentRoute && "font-bold underline",

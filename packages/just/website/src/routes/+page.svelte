@@ -60,7 +60,7 @@
                 <Heading class={headingClass} level="h3">{navLink.name}</Heading>
                 <p
                     class="text-0 transition-fontSize ml-4 h-0 text-slate-600 sm:ml-5 sm:group-hover:text-sm md:ml-6 lg:group-hover:text-base dark:text-slate-300">
-                    {navLink.description}
+                    {navLink.shortDescription}
                 </p>
             </Link>
         </Card>

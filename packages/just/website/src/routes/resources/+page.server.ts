@@ -18,7 +18,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 
     sections.forEach(section =>
         section.items.forEach(item => {
-            item.file = assetUrl(item.file);
+            item.file = assetUrl(item.file, { format: "original" });
         }),
     );
 

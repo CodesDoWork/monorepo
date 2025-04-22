@@ -56,8 +56,11 @@ function transformWorkExperiences(
 
     return workExperience.map(e => ({
         ...e,
-        company: { ...e.company, logo: assetUrl(e.company.logo) },
-        projects: e.projects.map(({ project }) => ({ ...project, logo: assetUrl(project.logo) })),
+        company: { ...e.company, logo: assetUrl(e.company.logo, { quality: 20 }) },
+        projects: e.projects.map(({ project }) => ({
+            ...project,
+            logo: assetUrl(project.logo, { quality: 15 }),
+        })),
         technologies: e.technologies.map(({ technology }) => technology),
     }));
 }

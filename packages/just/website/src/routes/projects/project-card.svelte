@@ -21,6 +21,7 @@
 <Card id={`_${project.id}`} {style} class={clsx(className, "flex flex-col lg:flex-row")}>
     <img
         src={project.thumbnail}
+        loading="lazy"
         alt="project thumbnail"
         class="h-48 rounded-t-md object-cover lg:h-auto lg:w-80 lg:rounded-l-md lg:rounded-tr-none" />
     <div class="flex w-full flex-col p-4">

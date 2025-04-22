@@ -95,8 +95,7 @@
     {#if nav.currentRoute}
         <link rel="canonical" href={currentRouteUrl} />
         <meta name="description" content={nav.currentRoute.description} />
-        <meta name="keywords" content={siteInfo.keywords} />
-
+        <meta name="keywords" content={nav.currentRoute.keywords.join(" ")} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={nav.currentRoute.description} />
         <meta property="og:url" content={currentRouteUrl} />

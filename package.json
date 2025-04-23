@@ -88,7 +88,7 @@
         "@testing-library/react": "16.1.0",
         "@types/color": "^4.2.0",
         "@types/eslint-plugin-tailwindcss": "^3.17.0",
-        "@types/node": "^22.13.9",
+        "@types/node": "^22.14.1",
         "@types/node-cron": "^3.0.11",
         "@types/pg": "^8.11.13",
         "@typescript-eslint/parser": "^8.26.0",

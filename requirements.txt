@@ -351,7 +351,7 @@ pooch==1.8.2
     # via librosa
 prometheus-client==0.21.1
     # via jupyter-server
-prompt-toolkit==3.0.50
+prompt-toolkit==3.0.51
     # via
     #   ipython
     #   jupyter-console

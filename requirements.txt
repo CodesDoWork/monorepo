@@ -568,7 +568,7 @@ websocket-client==1.8.0
     # via jupyter-server
 wheel==0.45.1
     # via pip-tools
-widgetsnbextension==4.0.13
+widgetsnbextension==4.0.14
     # via ipywidgets
 xxhash==3.5.0
     # via

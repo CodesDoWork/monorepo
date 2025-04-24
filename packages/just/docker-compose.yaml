@@ -321,7 +321,6 @@ services:
       - MLFLOW_DEFAULT_ARTIFACT_ROOT=/mlflow/artifacts
       - MLFLOW_PORT=${MLFLOW_PORT}
       - MLFLOW_HOST=0.0.0.0
-      - MLFLOW_EXPOSE_PROMETHEUS=/mlflow/prometheus
     image: ${IMAGE_BASE}/shared-mlflow:${PROJECT_VERSION:-latest}
     volumes:
       - mlflow-artifacts:/mlflow/artifacts

@@ -2,6 +2,7 @@
     import type { Snippet } from "svelte";
     import type { JsonLdContext } from "../contexts/jsonld";
     import type { PageData } from "./$types";
+    import { page } from "$app/state";
     import { byId } from "@cdw/monorepo/shared-utils/filters";
     import { clsx } from "clsx";
     import tailwindConfig from "../../tailwind.config";
@@ -13,6 +14,7 @@
     import { setJsonLdContext, stringifyJsonLd } from "../contexts/jsonld";
     import { getRoutes } from "../states/routes.svelte";
     import { getTheme, Theme } from "../states/theme.svelte";
+    import { privateRoute } from "./private/constants";
     import "@cdw/monorepo/just-branding/assets/css/tailwind.css";
 
     interface Props {
@@ -113,37 +115,41 @@
     {/each}
 </svelte:head>
 
-<div
-    class={clsx(
-        "from-primary-400 to-secondary-400 dark:from-primary-950 dark:to-secondary-950",
-        "bg-gradient-to-b from-5% to-95% transition-colors",
-        "relative overflow-x-hidden",
-        "flex min-h-screen flex-col",
-    )}
-    style={`--page-color: ${nav.currentRoute?.color};`}>
-    <Header
-        title={siteInfo.name}
-        {routes}
-        {theme}
-        currentRoute={nav.currentRoute}
-        {currentLanguage}
-        {languages} />
-    <main class={mainClass}>
-        <Title currentRoute={nav.currentRoute} />
-        <BlurContent currentRoute={nav.currentRoute}>
-            {@render children?.()}
-        </BlurContent>
-    </main>
-    <BlurContent currentRoute={nav.currentRoute}>
-        <Footer
-            copyright={siteInfo.name}
-            licenseType={siteInfo.projectLicense}
-            licenseUrl={siteInfo.projectLicenseUrl}
-            projectPlatform={siteInfo.projectPlatform.name}
-            projectUrl={siteInfo.projectUrl}
-            texts={siteInfo}
+{#if page.route.id.startsWith(privateRoute)}
+    {@render children?.()}
+{:else}
+    <div
+        class={clsx(
+            "from-primary-400 to-secondary-400 dark:from-primary-950 dark:to-secondary-950",
+            "bg-gradient-to-b from-5% to-95% transition-colors",
+            "relative overflow-x-hidden",
+            "flex min-h-screen flex-col",
+        )}
+        style={`--page-color: ${nav.currentRoute?.color};`}>
+        <Header
+            title={siteInfo.name}
+            {routes}
+            {theme}
             currentRoute={nav.currentRoute}
-            {privacyPolicyRoute} />
-    </BlurContent>
-    <BackToTop text={siteInfo.backToTop} />
-</div>
+            {currentLanguage}
+            {languages} />
+        <main class={mainClass}>
+            <Title currentRoute={nav.currentRoute} />
+            <BlurContent currentRoute={nav.currentRoute}>
+                {@render children?.()}
+            </BlurContent>
+        </main>
+        <BlurContent currentRoute={nav.currentRoute}>
+            <Footer
+                copyright={siteInfo.name}
+                licenseType={siteInfo.projectLicense}
+                licenseUrl={siteInfo.projectLicenseUrl}
+                projectPlatform={siteInfo.projectPlatform.name}
+                projectUrl={siteInfo.projectUrl}
+                texts={siteInfo}
+                currentRoute={nav.currentRoute}
+                {privacyPolicyRoute} />
+        </BlurContent>
+        <BackToTop text={siteInfo.backToTop} />
+    </div>
+{/if}

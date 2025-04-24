@@ -71,6 +71,18 @@ export const tailwindConfig: Config = {
                 sans: "Inter",
                 mono: "Jetbrains Mono",
             },
+            width: {
+                a4: "210mm",
+            },
+            height: {
+                a4: "297mm",
+            },
+            spacing: {
+                "a4-page-padding": "20mm",
+            },
+            boxShadow: {
+                a4: "0 0 5mm rgba(0,0,0,0.1)",
+            },
             animation: {
                 "spin-slow": "spin 3s linear infinite",
                 blink: "blink 1.25s steps(1) infinite",

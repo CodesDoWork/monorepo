@@ -316,7 +316,6 @@ services:
 
   mlflow:
     <<: *common
-    command: --app-name basic-auth
     environment:
       - MLFLOW_BACKEND_STORE_URI=postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${DB_NAME}:${DB_PORT}/mlflow
       - MLFLOW_DEFAULT_ARTIFACT_ROOT=/mlflow/artifacts

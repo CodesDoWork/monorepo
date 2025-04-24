@@ -22,7 +22,7 @@ export const runLighthouseExecutor: PromiseExecutor<LighthouseExecutorSchema> = 
         createReportsDir();
         await dockerComposeUpExecutor({}, context);
 
-        const lighthouseImage = dockerImage("nx-plugins-lighthouse");
+        const lighthouseImage = dockerImage("nx-plugins-lighthouse", "latest");
         for (const url of replaceEnvs(urls, context).expandedArgs) {
             await execAsync("docker", [
                 "run --rm",

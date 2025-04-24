@@ -8,7 +8,7 @@ accelerate==1.2.1
     # via transformers
 aiohappyeyeballs==2.4.6
     # via aiohttp
-aiohttp==3.11.13
+aiohttp==3.11.18
     # via
     #   datasets
     #   fsspec
@@ -28,7 +28,7 @@ arrow==1.3.0
     # via isoduration
 asttokens==3.0.0
     # via stack-data
-async-lru==2.0.4
+async-lru==2.0.5
     # via jupyterlab
 attrs==24.3.0
     # via
@@ -75,7 +75,7 @@ comm==0.2.2
     # via
     #   ipykernel
     #   ipywidgets
-contourpy==1.3.1
+contourpy==1.3.2
     # via matplotlib
 cycler==0.12.1
     # via matplotlib
@@ -83,7 +83,7 @@ datasets[audio]==3.2.0
     # via
     #   -r requirements.in
     #   evaluate
-debugpy==1.8.13
+debugpy==1.8.14
     # via ipykernel
 decorator==5.1.1
     # via
@@ -130,7 +130,7 @@ gitpython==3.1.44
     # via wandb
 h11==0.14.0
     # via httpcore
-httpcore==1.0.7
+httpcore==1.0.8
     # via httpx
 httpx==0.28.1
     # via jupyterlab
@@ -159,7 +159,7 @@ ipython==8.30.0
     #   ipykernel
     #   ipywidgets
     #   jupyter-console
-ipywidgets==8.1.5
+ipywidgets==8.1.6
     # via
     #   -r requirements.in
     #   jupyter
@@ -232,7 +232,7 @@ jupyterlab-server==2.27.3
     # via
     #   jupyterlab
     #   notebook
-jupyterlab-widgets==3.0.13
+jupyterlab-widgets==3.0.14
     # via ipywidgets
 kiwisolver==1.4.8
     # via matplotlib
@@ -264,7 +264,7 @@ multidict==6.1.0
     # via
     #   aiohttp
     #   yarl
-multiprocess==0.70.17
+multiprocess==0.70.18
     # via
     #   datasets
     #   evaluate
@@ -342,7 +342,7 @@ pillow==11.0.0
     # via matplotlib
 pip-tools==7.4.1
     # via -r requirements.in
-platformdirs==4.3.6
+platformdirs==4.3.7
     # via
     #   jupyter-core
     #   pooch
@@ -351,7 +351,7 @@ pooch==1.8.2
     # via librosa
 prometheus-client==0.21.1
     # via jupyter-server
-prompt-toolkit==3.0.50
+prompt-toolkit==3.0.51
     # via
     #   ipython
     #   jupyter-console
@@ -359,7 +359,7 @@ propcache==0.2.1
     # via
     #   aiohttp
     #   yarl
-protobuf==5.29.3
+protobuf==5.29.4
     # via wandb
 psutil==6.1.1
     # via
@@ -381,7 +381,7 @@ pygments==2.18.0
     #   ipython
     #   jupyter-console
     #   nbconvert
-pyparsing==3.2.1
+pyparsing==3.2.3
     # via matplotlib
 pyproject-hooks==1.2.0
     # via
@@ -495,7 +495,7 @@ threadpoolctl==3.5.0
     # via scikit-learn
 tinycss2==1.4.0
     # via nbconvert
-tokenizers==0.21.0
+tokenizers==0.21.1
     # via transformers
 torch==2.5.1
     # via
@@ -554,7 +554,7 @@ urllib3==2.2.3
     # via
     #   requests
     #   sentry-sdk
-wandb==0.19.8
+wandb==0.19.10
     # via -r requirements.in
 wcwidth==0.2.13
     # via prompt-toolkit
@@ -568,7 +568,7 @@ websocket-client==1.8.0
     # via jupyter-server
 wheel==0.45.1
     # via pip-tools
-widgetsnbextension==4.0.13
+widgetsnbextension==4.0.14
     # via ipywidgets
 xxhash==3.5.0
     # via

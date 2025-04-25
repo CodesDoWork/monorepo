@@ -59,7 +59,7 @@
         "@apollo/client": "^3.13.8",
         "@astrojs/tailwind": "^5.1.5",
         "@cloudflare/kv-asset-handler": "^0.3.4",
-        "@cloudflare/workers-types": "^4.20250424.0",
+        "@cloudflare/workers-types": "^4.20250425.0",
         "@directus/extensions-sdk": "^12.1.4",
         "@directus/types": "^12.2.2",
         "@graphql-codegen/cli": "^5.0.5",

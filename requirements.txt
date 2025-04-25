@@ -35,7 +35,7 @@ attrs==24.3.0
     #   aiohttp
     #   jsonschema
     #   referencing
-audiomentations==0.38.0
+audiomentations==0.40.0
     # via -r requirements.in
 audioread==3.0.1
     # via librosa

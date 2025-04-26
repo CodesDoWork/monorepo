@@ -14,7 +14,7 @@ local opts = {
     client_secret = client_secret,
     logout_path = "/callback-logout",
     session_contents = { id_token = true },
-    ssl_verify = "no"
+    ssl_verify = "yes"
 }
 
 local res, err, url, session = require("resty.openidc").authenticate(opts)

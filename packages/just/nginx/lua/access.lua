@@ -4,8 +4,6 @@ local realm = os.getenv("KEYCLOAK_REALM")
 local client_id = os.getenv("NGINX_AUTH_CLIENT_ID")
 local client_secret = os.getenv("NGINX_AUTH_CLIENT_SECRET")
 
-local username_header = os.getenv("NGINX_AUTH_USERNAME_HEADER")
-
 local opts = {
     redirect_uri = "/callback-auth",
     accept_none_alg = true,
@@ -24,4 +22,4 @@ if err then
     ngx.exit(ngx.HTTP_FORBIDDEN)
 end
 
-ngx.req.set_header(username_header, res.id_token.preferred_username)
+return res

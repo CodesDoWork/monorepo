@@ -39,7 +39,7 @@ audiomentations==0.40.0
     # via -r requirements.in
 audioread==3.0.1
     # via librosa
-babel==2.16.0
+babel==2.17.0
     # via jupyterlab-server
 beautifulsoup4==4.12.3
     # via nbconvert

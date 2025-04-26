@@ -41,7 +41,7 @@ audioread==3.0.1
     # via librosa
 babel==2.17.0
     # via jupyterlab-server
-beautifulsoup4==4.12.3
+beautifulsoup4==4.13.4
     # via nbconvert
 bleach==6.2.0
     # via nbconvert

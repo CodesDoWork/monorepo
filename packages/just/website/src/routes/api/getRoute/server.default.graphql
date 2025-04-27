@@ -3,7 +3,7 @@ query GetApiGetRouteServerData {
         ...MinimalTranslatedRoute
     }
 
-    languages(filter: { is_fallback: { _eq: true } }) {
+    languages(filter: { short: { _eq: "en" } }) {
         ...Language
     }
 }

@@ -1,6 +1,6 @@
 fragment ServerRoute on just_site_routes {
     id
-    translations(filter: { languages_code: { is_fallback: { _eq: true } } }) {
+    translations(filter: { languages_code: { short: { _eq: "en" } } }) {
         route
     }
 }

@@ -115,7 +115,7 @@
     {/each}
 </svelte:head>
 
-{#if page.route.id.startsWith(privateRoute)}
+{#if page.route.id?.startsWith(privateRoute)}
     {@render children?.()}
 {:else}
     <div

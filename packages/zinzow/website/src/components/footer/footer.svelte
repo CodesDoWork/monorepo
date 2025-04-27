@@ -65,7 +65,7 @@
             <p class="mt-6 text-sm/6 md:mt-0">
                 Made with <Icon icon="noto:red-heart" class="inline-block" />&nbsp; by
                 <a
-                    href="https://justinkonratt.com"
+                    href="https://justinkonratt.de"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="transition-colors hover:text-gray-950 dark:hover:text-white">

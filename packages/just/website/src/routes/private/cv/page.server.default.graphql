@@ -1,0 +1,25 @@
+query GetCvData {
+    info: just_site_info {
+        name
+    }
+
+    about: just_site_about {
+        iamgeUrl: image_url
+    }
+
+    cv: just_site_cv {
+        address {
+            street
+            houseNumber: house_number
+            secondLine: second_line
+            zip
+            city
+        }
+        socials {
+            social: socials_id {
+                ...Social
+            }
+        }
+        summary
+    }
+}

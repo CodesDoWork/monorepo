@@ -5,7 +5,7 @@
     interface Props {
         id?: string;
         class?: string;
-        style: string | undefined;
+        style?: string;
         padding?: boolean;
         safeBg?: boolean;
         children?: Snippet;

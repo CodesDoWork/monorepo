@@ -18,5 +18,7 @@ export const GET: RequestHandler = async ({ request }) => {
     const defaultLanguage = languages[0];
 
     const route = getRoute(transformedRoutes, requestedRoute);
-    return text(route?.translations.find(byLanguage(defaultLanguage))?.route ?? requestedRoute);
+    const englishRoute = route?.translations.find(byLanguage(defaultLanguage))?.route;
+
+    return text(englishRoute?.replace("/en", "") ?? requestedRoute);
 };

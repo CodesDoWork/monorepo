@@ -20,7 +20,7 @@ RUN nx reset
 RUN nx build $APP_NAME
 
 
-FROM $DOCKER_PROXY/pihole/pihole:2025.04.0
+FROM $DOCKER_PROXY/pihole/pihole:2024.07.0
 ARG APP_DIR
 
 COPY --from=builder /workspace/packages/$APP_DIR/dnsmasq.d/custom.conf /etc/extra/dnsmasq.d/custom.conf

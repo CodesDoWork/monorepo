@@ -36,6 +36,19 @@
     const cardClass = "flex-col";
 </script>
 
+<svelte:head>
+    <style>
+        #simple-translate {
+            position: fixed !important;
+            bottom: 0 !important;
+            right: 0 !important;
+            z-index: 9999 !important;
+            width: auto !important;
+            height: auto !important;
+        }
+    </style>
+</svelte:head>
+
 <div class="flex flex-col gap-4 md:flex-row">
     <img
         loading="lazy"
@@ -44,9 +57,9 @@
         src={about.imageUrl}
         style={getCardStyle()} />
     <div class="flex-1 space-y-4">
-        <Card class={cardClass} padding style={getCardStyle()}>
+        <Card tag="section" class={cardClass} padding style={getCardStyle()}>
             <span class="mb-4 font-mono italic text-slate-400">{about.intro}</span>
-            <div class="hyphens-auto text-justify *:mb-2">{@html about.bio}</div>
+            <article class="hyphens-auto text-justify space-y-2">{@html about.bio}</article>
         </Card>
         <Card class={cardClass} padding style={getCardStyle()}>
             <Heading level="h3">{about.experience}</Heading>

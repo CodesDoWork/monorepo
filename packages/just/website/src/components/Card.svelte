@@ -8,6 +8,7 @@
         style?: string;
         padding?: boolean;
         safeBg?: boolean;
+        tag?: keyof HTMLElementTagNameMap;
         children?: Snippet;
     }
 
@@ -18,6 +19,7 @@
         padding = false,
         safeBg = false,
         children,
+        tag = "div",
     }: Props = $props();
 
     const cardClass = $derived(
@@ -35,6 +37,6 @@
     );
 </script>
 
-<div {id} class={cardClass} {style}>
+<svelte:element this={tag} {id} class={cardClass} {style}>
     {@render children?.()}
-</div>
+</svelte:element>

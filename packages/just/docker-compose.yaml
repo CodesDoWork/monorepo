@@ -314,6 +314,32 @@ services:
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_PASSWORD}
     image: ${DOCKER_PROXY}/keycloak/keycloak:25.0.2
 
+  mail:
+    environment:
+      - MAILCOW_HOSTNAME=${MAIL_HOSTNAME}
+      - MAILCOW_TZ=${TZ}
+      - MAILCOW_BRANCH=master
+      - TZ=${TZ}
+    image: ${IMAGE_BASE}/just-mail:${PROJECT_VERSION:-latest}
+    privileged: true
+    ports:
+      - 25:25
+      - 110:110
+      - 143:143
+      - 465:465
+      - 587:587
+      - 993:993
+      - 995:995
+      - 4190:4190
+    restart: always
+    volumes:
+      - mail-crypt:/var/lib/docker/volumes/mailcowdockerized_crypt-vol-1
+      - mail-mysql:/var/lib/docker/volumes/mailcowdockerized_mysql-vol-1
+      - mail-postfix:/var/lib/docker/volumes/mailcowdockerized_postfix-vol-1
+      - mail-redis:/var/lib/docker/volumes/mailcowdockerized_redis-vol-1
+      - mail-rspamd:/var/lib/docker/volumes/mailcowdockerized_rspamd-vol-1
+      - mail-vmail:/var/lib/docker/volumes/mailcowdockerized_vmail-vol-1
+
   mlflow:
     <<: *common
     environment:
@@ -510,6 +536,13 @@ volumes:
   grafana-storage:
 
   letsencrypt:
+
+  mail-crypt:
+  mail-mysql:
+  mail-postfix:
+  mail-redis:
+  mail-rspamd:
+  mail-vmail:
 
   # don't backup
   navidrome-cache:

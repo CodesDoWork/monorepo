@@ -23,6 +23,7 @@ RUN apt-get update && \
     apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 COPY --chmod=555 packages/$APP_DIR/entrypoint.sh /
+COPY --chmod=555 packages/$APP_DIR/cp_certs.sh /
 RUN git clone https://github.com/mailcow/mailcow-dockerized --branch 2025-03b /opt/$APP_DIR
 
 WORKDIR /opt/$APP_DIR

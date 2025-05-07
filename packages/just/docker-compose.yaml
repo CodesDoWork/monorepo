@@ -71,7 +71,8 @@ services:
     labels:
       ofelia.enabled: true
 
-      ofelia.job-run.backup.command: --verbose backup /data
+      ofelia.job-run.backup.command:
+        --verbose backup /data --exclude="/data/services/mail/docker/overlay2"
       ofelia.job-run.backup.environment: |-
         [
           "AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}",
@@ -94,6 +95,7 @@ services:
           "${STACK_NAME}_grafana-storage:/data/services/grafana/storage:ro",
           "${STACK_NAME}_grafana-config:/data/services/grafana/config:ro",
           "${STACK_NAME}_letsencrypt:/data/services/letsencrypt:ro",
+          "${STACK_NAME}_mail-docker:/data/services/mail/docker:ro",
           "${STACK_NAME}_mlflow-artifacts:/data/services/mlflow/artifacts:ro",
           "${STACK_NAME}_navidrome-data:/data/services/navidrome/data:ro",
           "${STACK_NAME}_netdata-config:/data/services/netdata/config:ro",
@@ -316,11 +318,62 @@ services:
 
   mail:
     environment:
-      - MAILCOW_HOSTNAME=${MAIL_HOSTNAME}
-      - MAILCOW_TZ=${TZ}
-      - MAILCOW_BRANCH=master
       - TZ=${TZ}
+      - MAILCOW_TZ=${TZ}
+      - MAILCOW_HOSTNAME=${MAIL_HOSTNAME}
+      - MAILCOW_PASS_SCHEME=${MAIL_PASS_SCHEME}
+      - DBNAME=${MAIL_DBNAME}
+      - DBUSER=${MAIL_DBUSER}
+      - DBPASS=${MAIL_DBPASS}
+      - DBROOT=${MAIL_DBROOT}
+      - REDISPASS=${MAIL_REDISPASS}
+      - HTTP_PORT=${MAIL_HTTP_PORT}
+      - HTTPS_PORT=${MAIL_HTTPS_PORT}
+      - HTTP_REDIRECT=${MAIL_HTTP_REDIRECT}
+      - SMTP_PORT=${MAIL_SMTP_PORT}
+      - SMTPS_PORT=${MAIL_SMTPS_PORT}
+      - SUBMISSION_PORT=${MAIL_SUBMISSION_PORT}
+      - IMAP_PORT=${MAIL_IMAP_PORT}
+      - IMAPS_HOST=${MAIL_IMAPS_PORT}
+      - POP_PORT=${MAIL_POP_PORT}
+      - POPS_HOST=${MAIL_POPS_PORT}
+      - SIEVE_PORT=${MAIL_SIEVE_PORT}
+      - DOVEADM_PORT=${MAIL_DOVEADM_PORT}
+      - SQL_PORT=${MAIL_SQL_PORT}
+      - REDIS_PORT=${MAIL_REDIS_PORT}
+      - COMPOSE_PROJECT_NAME=${MAIL_COMPOSE_PROJECT_NAME}
+      - DOCKER_COMPOSE_VERSION=${MAIL_DOCKER_COMPOSE_VERSION}
+      - ACL_ANYONE=${MAIL_ACL_ANYONE}
+      - MAILDIR_GC_TIME=${MAIL_MAILDIR_GC_TIME}
+      - AUTODISCOVER_SAN=${MAIL_AUTODISCOVER_SAN}
+      - SKIP_LETS_ENCRYPT=${MAIL_SKIP_LETS_ENCRYPT}
+      - ENABLE_SSL_SNI=${MAIL_ENABLE_SSL_SNI}
+      - SKIP_IP_CHECK=${MAIL_SKIP_IP_CHECK}
+      - SKIP_HTTP_VERIFICATION=${MAIL_SKIP_HTTP_VERIFICATION}
+      - SKIP_UNBOUND_HEALTHCHECK=${MAIL_SKIP_UNBOUND_HEALTHCHECK}
+      - SKIP_CLAMD=${MAIL_SKIP_CLAMD}
+      - SKIP_SOGO=${MAIL_SKIP_SOGO}
+      - SKIP_FTS=${MAIL_SKIP_FTS}
+      - FTS_HEAP=${MAIL_FTS_HEAP}
+      - FTS_PROCS=${MAIL_FTS_PROCS}
+      - ALLOW_ADMIN_EMAIL_LOGIN=${MAIL_ALLOW_ADMIN_EMAIL_LOGIN}
+      - USE_WATCHDOG=${MAIL_USE_WATCHDOG}
+      - WATCHDOG_NOTIFY_BAN=${MAIL_WATCHDOG_NOTIFY_BAN}
+      - WATCHDOG_NOTIFY_START=${MAIL_WATCHDOG_NOTIFY_START}
+      - WATCHDOG_EXTERNAL_CHECKS=${MAIL_WATCHDOG_EXTERNAL_CHECKS}
+      - WATCHDOG_VERBOSE=${MAIL_WATCHDOG_VERBOSE}
+      - LOG_LINES=${MAIL_LOG_LINES}
+      - IPV4_NETWORK=${MAIL_IPV4_NETWORK}
+      - IPV6_NETWORK=${MAIL_IPV6_NETWORK}
+      - MAILDIR_SUB=${MAIL_MAILDIR_SUB}
+      - SOGO_EXPIRE_SESSION=${MAIL_SOGO_EXPIRE_SESSION}
+      - WEBAUTHN_ONLY_TRUSTED_VENDORS=${MAIL_WEBAUTHN_ONLY_TRUSTED_VENDORS}
+      - DISABLE_NETFILTER_ISOLATION_RULE=${MAIL_DISABLE_NETFILTER_ISOLATION_RULE}
     image: ${IMAGE_BASE}/just-mail:${PROJECT_VERSION:-latest}
+    labels:
+      ofelia.enabled: true
+      ofelia.job-exec.datecron.schedule: "@every 60s"
+      ofelia.job-exec.datecron.command: cp_certs.sh
     privileged: true
     ports:
       - 25:25
@@ -333,12 +386,8 @@ services:
       - 4190:4190
     restart: always
     volumes:
-      - mail-crypt:/var/lib/docker/volumes/mailcowdockerized_crypt-vol-1
-      - mail-mysql:/var/lib/docker/volumes/mailcowdockerized_mysql-vol-1
-      - mail-postfix:/var/lib/docker/volumes/mailcowdockerized_postfix-vol-1
-      - mail-redis:/var/lib/docker/volumes/mailcowdockerized_redis-vol-1
-      - mail-rspamd:/var/lib/docker/volumes/mailcowdockerized_rspamd-vol-1
-      - mail-vmail:/var/lib/docker/volumes/mailcowdockerized_vmail-vol-1
+      - letsencrypt:/etc/letsencrypt:ro
+      - mail-docker:/var/lib/docker
 
   mlflow:
     <<: *common
@@ -537,12 +586,7 @@ volumes:
 
   letsencrypt:
 
-  mail-crypt:
-  mail-mysql:
-  mail-postfix:
-  mail-redis:
-  mail-rspamd:
-  mail-vmail:
+  mail-docker:
 
   # don't backup
   navidrome-cache:

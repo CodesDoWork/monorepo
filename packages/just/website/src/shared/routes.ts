@@ -24,10 +24,18 @@ export function getRouteByServerRoute<T extends MinimalTranslatedRouteFragment>(
 export function transformRoutes<T extends MinimalTranslatedRouteFragment>(routes: T[]) {
     return routes.map(r => ({
         ...r,
-        translations: r.translations.map(t => ({
-            ...t,
-            route: t.language.isFallback ? t.route : `/${t.language.short}${pathOrEmpty(t.route)}`,
-        })),
+        translations: [
+            ...r.translations.map(t => ({
+                ...t,
+                route: t.language.isFallback
+                    ? t.route
+                    : `/${t.language.short}${pathOrEmpty(t.route)}`,
+            })),
+            {
+                ...r.translations.find(t => t.language.short === "en"),
+                language: { short: "server", code: "server" },
+            },
+        ],
     }));
 }
 

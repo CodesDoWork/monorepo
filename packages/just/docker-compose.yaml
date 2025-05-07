@@ -373,8 +373,8 @@ services:
     image: ${IMAGE_BASE}/just-mail:${PROJECT_VERSION:-latest}
     labels:
       ofelia.enabled: true
-      ofelia.job-exec.datecron.schedule: "@every 60s"
-      ofelia.job-exec.datecron.command: cp_certs.sh
+      ofelia.job-exec.copy-certs.schedule: 0 0 3 1 * *
+      ofelia.job-exec.copy-certs.command: /cp_certs.sh
     privileged: true
     ports:
       - 25:25

@@ -177,11 +177,9 @@ workspace security:
 
 lighthouse:
   stage: analyze
+  variables:
+    DEFAULT_NETWORK_PREFIX: 192.168.193
   script:
-    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then export STAGE=PROD; elif [
-      "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export STAGE=TEST,PROD; else export
-      STAGE=DEV,TEST,PROD; fi
-    - nx g env-files LIGHTHOUSE,${STAGE} ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
     - nx affected -t lighthouse --parallel=1
   artifacts:
     paths:

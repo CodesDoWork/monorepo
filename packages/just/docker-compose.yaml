@@ -318,6 +318,7 @@ services:
 
   mail:
     environment:
+      - DOMAIN=${DOMAIN}
       - TZ=${TZ}
       - MAILCOW_TZ=${TZ}
       - MAILCOW_HOSTNAME=${MAIL_HOSTNAME}

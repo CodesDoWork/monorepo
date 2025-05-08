@@ -35,7 +35,7 @@ attrs==24.3.0
     #   aiohttp
     #   jsonschema
     #   referencing
-audiomentations==0.40.0
+audiomentations==0.41.0
     # via -r requirements.in
 audioread==3.0.1
     # via librosa
@@ -79,7 +79,7 @@ contourpy==1.3.2
     # via matplotlib
 cycler==0.12.1
     # via matplotlib
-datasets[audio]==3.5.0
+datasets[audio]==3.6.0
     # via
     #   -r requirements.in
     #   evaluate
@@ -248,7 +248,7 @@ markupsafe==3.0.2
     # via
     #   jinja2
     #   nbconvert
-matplotlib==3.10.1
+matplotlib==3.10.3
     # via -r requirements.in
 matplotlib-inline==0.1.7
     # via
@@ -554,7 +554,7 @@ urllib3==2.2.3
     # via
     #   requests
     #   sentry-sdk
-wandb==0.19.10
+wandb==0.19.11
     # via -r requirements.in
 wcwidth==0.2.13
     # via prompt-toolkit

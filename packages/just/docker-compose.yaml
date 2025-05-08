@@ -71,8 +71,7 @@ services:
     labels:
       ofelia.enabled: true
 
-      ofelia.job-run.backup.command:
-        --verbose backup /data --exclude="/data/services/mail/docker/overlay2"
+      ofelia.job-run.backup.command: --verbose backup /data
       ofelia.job-run.backup.environment: |-
         [
           "AWS_ACCESS_KEY_ID=${BACKBLAZE_KEY_ID}",
@@ -370,6 +369,7 @@ services:
       - SOGO_EXPIRE_SESSION=${MAIL_SOGO_EXPIRE_SESSION}
       - WEBAUTHN_ONLY_TRUSTED_VENDORS=${MAIL_WEBAUTHN_ONLY_TRUSTED_VENDORS}
       - DISABLE_NETFILTER_ISOLATION_RULE=${MAIL_DISABLE_NETFILTER_ISOLATION_RULE}
+      - ADDITIONAL_SAN=${MAIL_ADDITIONAL_SAN}
     image: ${IMAGE_BASE}/just-mail:${PROJECT_VERSION:-latest}
     labels:
       ofelia.enabled: true

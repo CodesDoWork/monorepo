@@ -27,7 +27,7 @@ COPY --chmod=555 packages/$APP_DIR/cp_certs.sh /
 RUN git clone https://github.com/mailcow/mailcow-dockerized --branch 2025-03b /opt/$APP_DIR
 
 WORKDIR /opt/$APP_DIR
-RUN cp data/assets/ssl-example/ data/assets/ssl/
+RUN cp -r data/assets/ssl-example/ data/assets/ssl/
 
 SHELL ["/bin/bash"]
 ENTRYPOINT ["/entrypoint.sh"]

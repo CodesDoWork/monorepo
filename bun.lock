@@ -92,7 +92,7 @@
         "flowbite-svelte": "^0.48.6",
         "glob": "^11.0.2",
         "globals": "^16.1.0",
-        "graphql": "^16.9.0",
+        "graphql": "^16.11.0",
         "graphql-codegen-svelte-apollo": "^1.1.0",
         "graphql-tag": "^2.12.6",
         "husky": "^9.1.7",
@@ -2342,7 +2342,7 @@
 
     "graphlib": ["graphlib@2.1.8", "", { "dependencies": { "lodash": "^4.17.15" } }, "sha512-jcLLfkpoVGmH7/InMC/1hIvOPSUh38oJtGhvrOFGzioE1DZ+0YW16RgmOJhHiuWTvGiJQ9Z1Ik43JvkRPRvE+A=="],
 
-    "graphql": ["graphql@16.10.0", "", {}, "sha512-AjqGKbDGUFRKIRCP9tCKiIGHyriz2oHEbPIbEtcSLSs4YjReZOIPQQWek4+6hjw62H9QShXHyaGivGiYVLeYFQ=="],
+    "graphql": ["graphql@16.11.0", "", {}, "sha512-mS1lbMsxgQj6hge1XZ6p7GPhbrtFwUFYi3wRzXAC/FmYnyXMTvvI3td3rjmQ2u8ewXueaSvRPWaEcgVVOT9Jnw=="],
 
     "graphql-codegen-svelte-apollo": ["graphql-codegen-svelte-apollo@1.1.0", "", { "dependencies": { "@apollo/client": "^3.2.7", "@graphql-codegen/plugin-helpers": "^2.3.1", "@graphql-codegen/visitor-plugin-common": "^2.5.1", "camel-case": "^4.1.1", "pascal-case": "^3.1.1" }, "peerDependencies": { "graphql": "^16.0.1" } }, "sha512-x7AxfzZV00rOlqllEQmpWpwVo0nJXQzoyK4yRRlGG8+OkEWLhbc3PnDgGU7YpBVrSrfL0Aoz3ienSDBQM3iT4Q=="],
 

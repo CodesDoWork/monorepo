@@ -374,7 +374,7 @@ pycparser==2.22
     # via cffi
 pydantic==2.11.4
     # via wandb
-pydantic-core==2.27.2
+pydantic-core==2.34.1
     # via pydantic
 pygments==2.18.0
     # via

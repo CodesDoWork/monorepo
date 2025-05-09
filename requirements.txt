@@ -110,7 +110,7 @@ filelock==3.18.0
     #   huggingface-hub
     #   torch
     #   transformers
-fonttools==4.55.3
+fonttools==4.57.0
     # via matplotlib
 fqdn==1.5.1
     # via jsonschema

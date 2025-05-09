@@ -154,7 +154,7 @@ ipykernel==6.29.5
     #   jupyter
     #   jupyter-console
     #   jupyterlab
-ipython==8.30.0
+ipython==8.36.0
     # via
     #   ipykernel
     #   ipywidgets

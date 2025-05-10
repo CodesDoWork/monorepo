@@ -418,7 +418,7 @@ pyzmq==26.4.0
     #   jupyter-client
     #   jupyter-console
     #   jupyter-server
-referencing==0.35.1
+referencing==0.36.2
     # via
     #   jsonschema
     #   jsonschema-specifications

@@ -491,7 +491,7 @@ terminado==0.18.1
     # via
     #   jupyter-server
     #   jupyter-server-terminals
-threadpoolctl==3.5.0
+threadpoolctl==3.6.0
     # via scikit-learn
 tinycss2==1.4.0
     # via nbconvert

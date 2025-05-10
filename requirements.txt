@@ -376,7 +376,7 @@ pydantic==2.11.4
     # via wandb
 pydantic-core==2.34.1
     # via pydantic
-pygments==2.18.0
+pygments==2.19.1
     # via
     #   ipython
     #   jupyter-console

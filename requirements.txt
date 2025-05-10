@@ -502,7 +502,7 @@ torch==2.7.0
     #   accelerate
     #   torchaudio
     #   transformers
-torchaudio==2.5.1
+torchaudio==2.7.0
     # via -r requirements.in
 tornado==6.4.2
     # via

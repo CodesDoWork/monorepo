@@ -534,7 +534,7 @@ traitlets==5.14.3
     #   nbclient
     #   nbconvert
     #   nbformat
-transformers[torch]==4.47.1
+transformers[torch]==4.51.3
     # via -r requirements.in
 types-python-dateutil==2.9.0.20241206
     # via arrow

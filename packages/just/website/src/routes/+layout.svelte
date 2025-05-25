@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
     import type { JsonLdContext } from "../contexts/jsonld";
+    import type { OverlayContext } from "../contexts/overlay";
     import type { PageData } from "./$types";
     import { page } from "$app/state";
     import { byId } from "@cdw/monorepo/shared-utils/filters";
@@ -10,8 +11,10 @@
     import BlurContent from "../components/BlurContent.svelte";
     import Footer from "../components/Footer.svelte";
     import Header from "../components/Header.svelte";
+    import Overlay from "../components/Overlay.svelte";
     import Title from "../components/Title.svelte";
     import { setJsonLdContext, stringifyJsonLd } from "../contexts/jsonld";
+    import { setOverlayContext } from "../contexts/overlay";
     import { getRoutes } from "../states/routes.svelte";
     import { getTheme, Theme } from "../states/theme.svelte";
     import { privateRoute } from "./private/constants";
@@ -76,6 +79,9 @@
         ...layoutJsonLd,
         "@graph": [...layoutJsonLd["@graph"], ...jsonLdContext.things],
     });
+
+    const overlayContext = $state<OverlayContext>({});
+    setOverlayContext(overlayContext);
 </script>
 
 <svelte:head>
@@ -118,6 +124,7 @@
 {#if page.route.id?.startsWith(privateRoute)}
     {@render children?.()}
 {:else}
+    <Overlay />
     <div
         class={clsx(
             "from-primary-400 to-secondary-400 dark:from-primary-950 dark:to-secondary-950",

@@ -1,6 +1,5 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { blur } from "svelte/transition";
     import Description from "../../components/Description.svelte";
     import LinksList from "../../components/LinksList.svelte";
     import ListWithHeading from "../../components/ListWithHeading.svelte";
@@ -8,6 +7,7 @@
     import TechnologiesList from "../../components/TechnologiesList.svelte";
     import TimeLine from "../../components/TimeLine.svelte";
     import { addJsonLdThings } from "../../contexts/jsonld";
+    import { getOverlayContext } from "../../contexts/overlay";
 
     interface Props {
         data: PageData;
@@ -17,31 +17,14 @@
     const { events, currentLanguage, texts, jsonLdThings } = data;
     addJsonLdThings(jsonLdThings);
 
+    const overlayContext = getOverlayContext();
+
     const formatter = new Intl.DateTimeFormat(currentLanguage.code);
-
-    let clickedImage = $state("");
 </script>
-
-{#if clickedImage}
-    <dialog
-        transition:blur={{ duration: 200 }}
-        open
-        class="fixed inset-0 z-50 h-screen w-screen bg-black/75"
-        onmouseup={() => (clickedImage = "")}>
-        <div
-            id="image-container"
-            class="absolute left-1/2 top-1/2 w-[90vw] md:w-[80vw] lg:w-auto max-h-[80vh] max-w-[80vw] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg">
-            <img
-                alt=""
-                src={clickedImage}
-                class="m-auto max-h-full max-w-full rounded-lg object-contain shadow-lg" />
-        </div>
-    </dialog>
-{/if}
 
 <TimeLine steps={events} logo={event => event.logo}>
     {#snippet date(event)}
-        {formatter.formatRange(event.startDate, event.endDate)}
+        {formatter.formatRange(event.startDate, event.endDate)} ({event.location})
     {/snippet}
     {#snippet title(event)}
         {event.title}
@@ -57,7 +40,7 @@
             <TechnologiesList text={`${texts.technologies}: `} technologies={event.technologies} />
             <ListWithHeading text={`${texts.images}: `} items={event.images} listClass="gap-4">
                 {#snippet display(img)}
-                    <button onclick={() => (clickedImage = img)}>
+                    <button onclick={() => (overlayContext.img = img)}>
                         <img
                             loading="lazy"
                             src={img}

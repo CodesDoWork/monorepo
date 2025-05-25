@@ -33,6 +33,7 @@
         if (smoothScroll) {
             event.preventDefault();
             smoothScrollTo(event.currentTarget.getAttribute("href"));
+            history.pushState(null, "", event.currentTarget.getAttribute("href"));
         }
 
         onclick?.(event);

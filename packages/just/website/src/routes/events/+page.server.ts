@@ -71,6 +71,7 @@ function createJsonLdThings(
         eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
         description: event.description,
         image: [event.logo, ...event.images],
+        location: event.location,
         inLanguage: currentLanguage.short,
     }));
 

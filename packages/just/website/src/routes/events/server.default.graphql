@@ -6,6 +6,7 @@ query GetEventsServerData($language: String!) {
         translations(filter: { languages_code: { code: { _eq: $language } } }) {
             title
             description
+            location
         }
         projects {
             project: just_site_projects_id {

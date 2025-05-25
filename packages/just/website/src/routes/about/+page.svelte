@@ -54,7 +54,7 @@
         loading="lazy"
         alt="Portrait"
         class={clsx(cardClass, "-mt-12 block w-24 self-end rounded-full shadow-md md:hidden")}
-        src={about.imageUrl}
+        src={about.portrait}
         style={getCardStyle()} />
     <div class="flex-1 space-y-4">
         <Card tag="section" class={cardClass} padding style={getCardStyle()}>
@@ -86,7 +86,7 @@
     </div>
     <div class="w-full md:w-64 lg:w-96 space-y-4 -mt-4 md:mt-0">
         <Card class={clsx(cardClass, "hidden md:block")} padding style={getCardStyle()}>
-            <img loading="lazy" alt="Portrait" class="rounded" src={about.imageUrl} />
+            <img loading="lazy" alt="Portrait" class="rounded" src={about.portrait} />
         </Card>
         <Card class={clsx(cardClass, "overflow-hidden")} padding style={getCardStyle()}>
             <Heading level="h3">{about.personality}</Heading>

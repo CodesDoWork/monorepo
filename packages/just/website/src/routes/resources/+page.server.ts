@@ -6,6 +6,7 @@ import type { PageServerLoad } from "./$types";
 import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { GetResourcesServerData } from "../../graphql/default/generated/gql";
+import { replaceLinks } from "../../lib/server/replace-links";
 import { assetUrl } from "../../shared/assets";
 import { createBreadcrumbList } from "../../shared/urls";
 
@@ -16,11 +17,12 @@ export const load: PageServerLoad = async ({ parent }) => {
         await toPromise(GetResourcesServerData({ variables: { language: currentLanguage.code } })),
     );
 
-    sections.forEach(section =>
+    sections.forEach(section => {
+        section.description = replaceLinks(section.description);
         section.items.forEach(item => {
             item.file = assetUrl(item.file, { format: "original" });
-        }),
-    );
+        });
+    });
 
     const jsonLdThings = createJsonLdThings(parentData, sections);
 

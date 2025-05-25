@@ -25,6 +25,10 @@ query GetContactActionLanguages {
     languages {
         ...Language
     }
+
+    allRoutes: just_site_routes {
+        ...MinimalTranslatedRoute
+    }
 }
 
 query GetContactActionData($language: String!) {

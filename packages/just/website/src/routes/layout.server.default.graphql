@@ -25,10 +25,6 @@ query GetHomeLayoutServerData($language: String!) {
         imageUrl: image_url
     }
 
-    allRoutes: just_site_routes {
-        ...MinimalTranslatedRoute
-    }
-
     routes: just_site_routes {
         ...Route
     }
@@ -49,5 +45,9 @@ query GetHomeLayoutServerData($language: String!) {
 query GetHomeLayoutServerLanguages {
     languages {
         ...Language
+    }
+
+    allRoutes: just_site_routes {
+        ...MinimalTranslatedRoute
     }
 }

@@ -4,10 +4,12 @@
 
 @font-face {
     font-family: "JetBrains Mono";
-    src: url("../font/JetBrainsMono.ttf");
+    src: url("../font/JetbrainsMono.woff2") format("woff2");
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Inter";
-    src: url("../font/Inter.ttf");
+    src: url("../font/Inter.woff2") format("woff2");
+    font-display: swap;
 }

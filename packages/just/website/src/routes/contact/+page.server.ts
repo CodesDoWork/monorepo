@@ -13,6 +13,7 @@ import {
 } from "../../graphql/default/generated/gql";
 import { getLanguage } from "../../shared/language";
 import { mapSocial } from "../../shared/mapSocials";
+import { transformRoutes } from "../../shared/routes";
 import { createBreadcrumbList, domainUrl } from "../../shared/urls";
 
 export const load: PageServerLoad = async ({ parent }) => {
@@ -82,8 +83,9 @@ export const actions: Actions = {
 };
 
 async function processMessage(event: RequestEvent, msg: Message) {
-    const { languages } = await toPromise(GetContactActionLanguages({}));
-    const language = await getLanguage(event.request, event.cookies, languages);
+    const data = await toPromise(GetContactActionLanguages({}));
+    const allRoutes = transformRoutes(data.allRoutes);
+    const language = await getLanguage(event.request, event.cookies, data.languages, allRoutes);
     const { contact } = flattenTranslations(
         await toPromise(GetContactActionData({ variables: { language: language.code } })),
     );

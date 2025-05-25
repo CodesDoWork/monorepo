@@ -1,6 +1,6 @@
 query GetAboutServerData($language: String!) {
     about: just_site_about {
-        imageUrl: image_url
+        portrait
         technologies {
             technology: technologies_id {
                 name

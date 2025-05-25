@@ -567,6 +567,7 @@ services:
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
     image: ${IMAGE_BASE}/just-website:${PROJECT_VERSION:-latest}
+    scale: 3
 
 volumes:
   bitwarden-data:

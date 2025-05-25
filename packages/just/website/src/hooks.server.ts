@@ -13,9 +13,9 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
 
     const { languages, routes } = await toPromise(GetHooksServerData({}));
-    const language = await getLanguage(event.request, event.cookies, languages);
-
     const transformedRoutes = transformRoutes(routes);
+    const language = await getLanguage(event.request, event.cookies, languages, transformedRoutes);
+
     const currentRoute = getRoute(transformedRoutes, path);
     const desiredRoute = currentRoute?.translations.find(byLanguage(language)).route;
 

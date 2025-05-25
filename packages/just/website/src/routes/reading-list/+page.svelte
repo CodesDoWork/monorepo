@@ -4,6 +4,7 @@
     import Link from "../../components/Link.svelte";
     import { addJsonLdThings } from "../../contexts/jsonld";
     import { animationDelay } from "../../shared/animationDelay";
+    import { smoothScrollTo } from "../../shared/smoothScroll";
     import { toLinkFriendly } from "../../shared/toLinkFriendly";
     import BookCategory from "./BookCategory.svelte";
 
@@ -17,6 +18,10 @@
 
     let animationIdx = 0;
     const getCardStyle = () => animationDelay(animationIdx++);
+
+    if (window.location.hash) {
+        setTimeout(() => smoothScrollTo(window.location.hash), 800);
+    }
 </script>
 
 <p class="mb-2 italic">{texts.intro}</p>

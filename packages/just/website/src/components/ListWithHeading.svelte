@@ -5,7 +5,7 @@
 
     interface Props {
         listClass?: string;
-        text: string;
+        text?: string;
         items: T[];
         display: Snippet<[T]>;
         direction?: "row" | "column";
@@ -16,7 +16,9 @@
 
 {#if items.length}
     <div>
-        <SmallHeading>{text}</SmallHeading>
+        {#if text}
+            <SmallHeading>{text}</SmallHeading>
+        {/if}
         <ul
             class={clsx(
                 listClass,

@@ -1,5 +1,6 @@
 import type { Cookies } from "@sveltejs/kit";
 import type { LanguageFragment } from "../graphql/default/generated/gql";
+import type { TransformedRoute } from "./routes";
 import { error } from "@sveltejs/kit";
 import { env } from "../env";
 
@@ -9,13 +10,15 @@ export async function getLanguage(
     request: Request,
     cookies: Cookies,
     languages: LanguageFragment[],
+    routes: TransformedRoute[],
 ): Promise<LanguageFragment> {
     let languageCode = cookies.get(LANGUAGE_COOKIE);
     let language: LanguageFragment;
     if (languageCode) {
         language = getLanguageFragment(languages, languageCode);
     } else {
-        languageCode = getLanguageCodeFromRequest(request);
+        languageCode =
+            getLanguageCodeFromRequest(request) || getLanguageCodeFromUrl(request, routes);
         language = getLanguageFragment(languages, languageCode);
         setLanguageCookie(cookies, language.code);
     }
@@ -34,8 +37,15 @@ export function setLanguageCookie(cookies: Cookies, languageCode: string) {
 
 function getLanguageCodeFromRequest(request: Request): string | undefined {
     const languageHeader = request.headers.get("accept-language");
-    const code = languageHeader ? languageHeader.split(",")[0].trim() : undefined;
-    return code || new URL(request.url).pathname.split("/")[1];
+    return languageHeader ? languageHeader.split(",")[0].trim() : undefined;
+}
+
+function getLanguageCodeFromUrl(request: Request, routes: TransformedRoute[]): string | undefined {
+    const path = new URL(request.url).pathname;
+    return (
+        routes.flatMap(r => r.translations).find(t => t.route === path)?.language.short ||
+        path.split("/")[1]
+    );
 }
 
 function getLanguageFragment(languages: LanguageFragment[], code?: string): LanguageFragment {

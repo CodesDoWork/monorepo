@@ -4,6 +4,7 @@ import type {
     GetHomeLayoutServerDataQuery,
     LanguageFragment,
 } from "../graphql/default/generated/gql";
+import type { TransformedRoute } from "../shared/routes";
 import type { LayoutServerLoad } from "./$types";
 import type { Route } from "./types";
 import { byId } from "@cdw/monorepo/shared-utils/filters";
@@ -17,26 +18,25 @@ import {
 import { byLanguage, getLanguage } from "../shared/language";
 import { mapSocial } from "../shared/mapSocials";
 import { getRoute, getRouteByServerRoute, transformRoutes } from "../shared/routes";
-
 import { domainUrl } from "../shared/urls";
 
 export const load: LayoutServerLoad = async ({ request, url, cookies }) => {
-    const { languages } = await toPromise(GetHomeLayoutServerLanguages({}));
-    const language = await getLanguage(request, cookies, languages);
-    return loadServerData(url, language, languages);
+    const data = await toPromise(GetHomeLayoutServerLanguages({}));
+    const allRoutes = transformRoutes(data.allRoutes);
+    const language = await getLanguage(request, cookies, data.languages, allRoutes);
+    return loadServerData(url, language, data.languages, allRoutes);
 };
 
 async function loadServerData(
     url: URL,
     currentLanguage: LanguageFragment,
     languages: LanguageFragment[],
+    allRoutes: TransformedRoute[],
 ) {
     const data = await toPromise(
         GetHomeLayoutServerData({ variables: { language: currentLanguage.code } }),
     );
     const { siteInfo, routes, serverRoutes, about, contact } = flattenTranslations(data);
-
-    const allRoutes = transformRoutes(data.allRoutes);
     const currentRouteId = getRoute(allRoutes, url.pathname)?.id;
     const currentRoute = routes.find(byId(currentRouteId));
     const homeRoute = getRouteByServerRoute(routes, serverRoutes, "/");

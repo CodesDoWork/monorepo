@@ -21,22 +21,25 @@ export function getRouteByServerRoute<T extends MinimalTranslatedRouteFragment>(
     return routes.find(byId(routeId));
 }
 
+export type TransformedRoute = ReturnType<typeof transformRoutes>[number];
+
 export function transformRoutes<T extends MinimalTranslatedRouteFragment>(routes: T[]) {
-    return routes.map(r => ({
-        ...r,
-        translations: [
-            ...r.translations.map(t => ({
-                ...t,
-                route: t.language.isFallback
-                    ? t.route
-                    : `/${t.language.short}${pathOrEmpty(t.route)}`,
-            })),
-            {
-                ...r.translations.find(t => t.language.short === "en"),
-                language: { short: "server", code: "server" },
-            },
-        ],
+    return routes.map(r => ({ ...r, translations: mapTranslations(r) }));
+}
+
+function mapTranslations<T extends MinimalTranslatedRouteFragment>(route: T) {
+    const translations = route.translations.map(t => ({
+        ...t,
+        route: t.language.isFallback ? t.route : `/${t.language.short}${pathOrEmpty(t.route)}`,
     }));
+
+    const serverRouteTrans = route.translations.find(t => t.language.short === "en");
+    const serverRouteInTranslations = translations.find(t => t.route === serverRouteTrans.route);
+    if (!serverRouteInTranslations) {
+        translations.push(serverRouteTrans);
+    }
+
+    return translations;
 }
 
 function pathOrEmpty(path: string) {

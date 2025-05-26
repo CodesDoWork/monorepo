@@ -6,6 +6,7 @@ import type { PageServerLoad } from "./$types";
 import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { GetAboutServerData } from "../../graphql/default/generated/gql";
+import { replaceLinks } from "../../lib/server/replace-links";
 import { assetUrl } from "../../shared/assets";
 import { createBreadcrumbList, domainUrl } from "../../shared/urls";
 
@@ -20,6 +21,7 @@ export const load: PageServerLoad = async ({ parent }) => {
 
     const transformedExperiences = transformWorkExperiences(workExperience);
     about.bio = replaceLinks(about.bio);
+    about.portrait = assetUrl(about.portrait, { quality: 67, width: 400, height: 400 });
 
     const jsonLdThings = createJsonLdThings(parentData);
 
@@ -63,10 +65,6 @@ function transformWorkExperiences(
         })),
         technologies: e.technologies.map(({ technology }) => technology),
     }));
-}
-
-function replaceLinks(text: string) {
-    return text.replace(/<a /g, '<a class="text-[var(--page-color)] hover:underline" ');
 }
 
 function createJsonLdThings(parentData: LayoutServerData): Thing[] {

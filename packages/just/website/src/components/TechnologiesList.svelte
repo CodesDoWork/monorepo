@@ -3,7 +3,7 @@
     import ListWithHeading from "./ListWithHeading.svelte";
 
     interface Props {
-        text: string;
+        text?: string;
         technologies: {
             name: string;
             icon: string;

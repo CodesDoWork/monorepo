@@ -4,11 +4,57 @@
     import { clsx } from "clsx";
     import Card from "../../../components/Card.svelte";
     import Heading from "../../../components/Heading.svelte";
+    import TechnologiesList from "../../../components/TechnologiesList.svelte";
+    import TimeLine from "../../../components/TimeLine.svelte";
 
     interface Props {
         data: PageData;
     }
     const { data }: Props = $props();
+
+    // TODO replace with directus data and simplify components
+    const education = [
+        {
+            title: "***",
+            institution: "***",
+            grade: "***",
+            dates: "***",
+            location: "***",
+            logo: "***",
+            position: "***",
+            duration: "***",
+        },
+    ];
+
+    const languages = [
+        {
+            name: "***",
+            level: "***",
+            icon: "***",
+        },
+    ];
+
+    const thesis = [
+        {
+            type: "***",
+            title: "***",
+            keywords: "***",
+            grade: "***",
+        },
+    ];
+
+    const hobbies = ["***"];
+    const achievements = [
+        {
+            title: "***",
+            date: "***",
+        },
+    ];
+
+    const softSkills = ["***"];
+
+    const cardClass = "p-3 flex-col text-sm";
+    const heading2Class = "!text-lg !mb-2";
 </script>
 
 <svelte:head>
@@ -18,54 +64,157 @@
             margin: 0;
         }
         body {
+            size: A4;
             margin: 0;
+        }
+
+        @media print {
+            html.dark body {
+                background: linear-gradient(
+                    to bottom,
+                    oklch(29.3% 0.066 243.157) 5%,
+                    oklch(27.7% 0.046 192.524) 95%
+                );
+                -webkit-print-color-adjust: exact;
+            }
         }
     </style>
 </svelte:head>
 
-<div class="min-w-screen min-h-screen flex justify-center items-center">
+<div
+    class="min-w-screen min-h-screen flex justify-center items-center print:dark"
+    style="--page-color: oklch(68.5% 0.169 237.323);">
     <div
         class={clsx(
             "w-a4 h-a4 p-a4-page-padding shadow-a4 box-border",
-            "from-primary-400 to-secondary-400 dark:from-primary-950 dark:to-secondary-950",
+            "dark:from-primary-950 dark:to-secondary-950",
             "bg-gradient-to-b from-5% to-95% transition-colors",
             "dark:text-white",
         )}>
-        <main class="grid grid-cols-[1fr_auto] gap-2">
-            <div class="flex flex-col gap-2">
-                <Heading level="h1" class="!text-xl !mt-0 dark:!text-primary-500 col-span-4">
-                    {data.name}
-                </Heading>
-                <Card class="p-2 flex-col">
-                    <p>{data.summary}</p>
-                </Card>
-                <Card class="p-2">
-                    <Heading level="h2" class="!text-lg">Erfahrung</Heading>
-                </Card>
-            </div>
-            <div class="flex gap-2 flex-col items-end">
-                <Card class="col-span-2 size-40 p-4">
-                    <img src={data.iamgeUrl} alt="portrait" class="object-fit rounded-md" />
-                </Card>
-                <Card class="w-max col-span-4 p-4 flex-col">
-                    <Heading level="h2" class="!text-lg">Kontakt</Heading>
+        <main class="grid grid-cols-[auto_4fr_5fr] gap-2">
+            <Heading level="h1" class="col-span-2 !text-xl !mt-0 !mb-2 text-black">
+                {data.name}
+            </Heading>
+            <div class="flex gap-2 flex-col items-end row-span-12">
+                <Card class={clsx(cardClass, "place-self-stretch")}>
+                    <Heading level="h2" class={heading2Class}>Kontakt</Heading>
                     <address>
                         {data.address.street}
                         {data.address.houseNumber}<br />
                         {#if data.address.secondLine}
-                            {data.address.secondLine}<br />
+                            {data.address.secondLine}<br />on
                         {/if}
                         {data.address.zip}
                         {data.address.city}<br />
                     </address>
-                    <ul class="mt-4">
+                    <ul class="mt-4 space-y-1">
                         {#each data.socials as social}
-                            <li class="flex gap-2">
+                            <li class="flex items-center gap-2">
                                 <Icon
                                     icon={social.icon}
-                                    class="size-6"
+                                    class="size-5"
                                     style="color: {social.tone}" />
-                                <a href={social.href}>{social.name}</a><br />
+                                <a href={social.href}>{social.name}</a>
+                            </li>
+                        {/each}
+                    </ul>
+                </Card>
+                <Card class={clsx(cardClass, "place-self-stretch")}>
+                    <Heading level="h2" class={heading2Class}>Sprachen</Heading>
+                    <ul>
+                        {#each languages as lang}
+                            <li class="flex items-center gap-2">
+                                <Icon icon={lang.icon} class="size-3" />
+                                {lang.name} - {lang.level}
+                            </li>
+                        {/each}
+                    </ul>
+                </Card>
+                <Card class={clsx(cardClass, "place-self-stretch")}>
+                    <Heading level="h2" class={heading2Class}>Hobbys</Heading>
+                    <ul class="ml-4 list-outside list-disc">
+                        {#each hobbies as hobby}
+                            <li class="">{hobby}</li>
+                        {/each}
+                    </ul>
+                </Card>
+                <Card class={clsx(cardClass, "place-self-stretch")}>
+                    <Heading level="h2" class={heading2Class}>Tech-Stack</Heading>
+                    <TechnologiesList technologies={data.technologies} />
+                </Card>
+                <Card class={cardClass}>
+                    <Heading level="h2" class={heading2Class}>Abschlussarbeiten</Heading>
+                    <ul class="ml-4 list-outside list-disc">
+                        {#each thesis as t}
+                            <li>
+                                <strong>{t.type}:</strong>
+                                „{t.title}“ - {t.keywords}
+                                {#if t.grade}
+                                    <span class="text-slate-500 dark:text-slate-400">
+                                        (Note: {t.grade})</span>
+                                {/if}
+                            </li>
+                        {/each}
+                    </ul>
+                </Card>
+            </div>
+            <Card class="size-[9.55rem] p-4">
+                <img src={data.portrait} alt="portrait" class="object-fit rounded-md" />
+            </Card>
+            <Card class={cardClass}>
+                <p>Geburtsdatum: 30.04.2002</p>
+                <ul class="text-justify mt-2 list-disc list-outside ml-4">
+                    {#each softSkills as skill}
+                        <li>{skill}</li>
+                    {/each}
+                </ul>
+            </Card>
+            <div class="flex flex-col gap-2 col-span-2">
+                <Card class={cardClass}>
+                    <Heading level="h2" class={heading2Class}>Ausbildung</Heading>
+                    <TimeLine small steps={education} logo={e => e.logo}>
+                        {#snippet date(e)}
+                            {e.dates}
+                        {/snippet}
+                        {#snippet title(e)}
+                            {e.title}
+                        {/snippet}
+                        {#snippet content(e)}
+                            {#if e.duration}
+                                <div class="flex items-center gap-1 mt-1">
+                                    <Icon icon="mingcute:time-duration-line" class="size-4" />
+                                    <p>{e.duration}</p>
+                                </div>
+                            {/if}
+                            {#if e.grade}
+                                <div class="flex items-center gap-1">
+                                    <Icon icon="ix:average" class="size-4" />
+                                    <p>Note: {e.grade}</p>
+                                </div>
+                            {/if}
+                            {#if e.position}
+                                <div class="flex items-center gap-1">
+                                    <Icon icon="icon-park-solid:people" class="size-4" />
+                                    <p>{e.position}</p>
+                                </div>
+                            {/if}
+                            <div class="flex items-center gap-1">
+                                <Icon icon="tdesign:institution-filled" class="size-4" />
+                                <p>{e.institution}</p>
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <Icon icon="mdi:location" class="size-4" />
+                                <p>{e.location}</p>
+                            </div>
+                        {/snippet}
+                    </TimeLine>
+                </Card>
+                <Card class={cardClass}>
+                    <Heading level="h2" class={heading2Class}>Leistungen</Heading>
+                    <ul class="ml-4 list-outside list-disc">
+                        {#each achievements as achievement}
+                            <li>
+                                <strong>{achievement.title}</strong> - {achievement.date}
                             </li>
                         {/each}
                     </ul>

@@ -48,6 +48,7 @@ async function loadServerData(
     });
 
     const socials = contact.socials.map(s => s.socialsId).map(mapSocial);
+    about.portrait = assetUrl(about.portrait, { quality: 67, width: 400, height: 400 });
 
     const layoutJsonLd = createLayoutJsonLd({
         siteInfo,
@@ -95,7 +96,7 @@ function createLayoutJsonLd(parent: LayoutJsonLdData): Graph {
                 name: siteInfo.name,
                 url: domainUrl(homeRoute),
                 sameAs: socials.map(s => s.href),
-                image: assetUrl(about.portrait, { quality: 67, width: 400, height: 400 }),
+                image: about.portrait,
             },
             {
                 "@type": "WebSite",

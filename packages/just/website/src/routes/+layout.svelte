@@ -108,7 +108,7 @@
         <meta property="og:description" content={nav.currentRoute.description} />
         <meta property="og:url" content={currentRouteUrl} />
         <meta property="og:type" content="website" />
-        <meta property="og:image" content={about.imageUrl} />
+        <meta property="og:image" content={about.portrait} />
         <meta property="og:site_name" content={siteInfo.name} />
         <meta property="og:locale" content={currentLanguage.code.replace("-", "_")} />
         {#each languages as language}

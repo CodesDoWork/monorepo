@@ -15,6 +15,7 @@ import {
     GetHomeLayoutServerData,
     GetHomeLayoutServerLanguages,
 } from "../graphql/default/generated/gql";
+import { assetUrl } from "../shared/assets";
 import { byLanguage, getLanguage } from "../shared/language";
 import { mapSocial } from "../shared/mapSocials";
 import { getRoute, getRouteByServerRoute, transformRoutes } from "../shared/routes";
@@ -94,7 +95,7 @@ function createLayoutJsonLd(parent: LayoutJsonLdData): Graph {
                 name: siteInfo.name,
                 url: domainUrl(homeRoute),
                 sameAs: socials.map(s => s.href),
-                image: about.imageUrl,
+                image: assetUrl(about.portrait, { quality: 67, width: 400, height: 400 }),
             },
             {
                 "@type": "WebSite",

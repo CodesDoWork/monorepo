@@ -4,54 +4,13 @@
     import { clsx } from "clsx";
     import Card from "../../../components/Card.svelte";
     import Heading from "../../../components/Heading.svelte";
-    import TechnologiesList from "../../../components/TechnologiesList.svelte";
     import TimeLine from "../../../components/TimeLine.svelte";
+    import CvContent from "./components/CvContent.svelte";
 
     interface Props {
         data: PageData;
     }
     const { data }: Props = $props();
-
-    // TODO replace with directus data and simplify components
-    const education = [
-        {
-            title: "***",
-            institution: "***",
-            grade: "***",
-            dates: "***",
-            location: "***",
-            logo: "***",
-            position: "***",
-            duration: "***",
-        },
-    ];
-
-    const languages = [
-        {
-            name: "***",
-            level: "***",
-            icon: "***",
-        },
-    ];
-
-    const thesis = [
-        {
-            type: "***",
-            title: "***",
-            keywords: "***",
-            grade: "***",
-        },
-    ];
-
-    const hobbies = ["***"];
-    const achievements = [
-        {
-            title: "***",
-            date: "***",
-        },
-    ];
-
-    const softSkills = ["***"];
 
     const cardClass = "p-3 flex-col text-sm";
     const heading2Class = "!text-lg !mb-2";
@@ -119,52 +78,23 @@
                         {/each}
                     </ul>
                 </Card>
-                <Card class={clsx(cardClass, "place-self-stretch")}>
-                    <Heading level="h2" class={heading2Class}>Sprachen</Heading>
-                    <ul>
-                        {#each languages as lang}
-                            <li class="flex items-center gap-2">
-                                <Icon icon={lang.icon} class="size-3" />
-                                {lang.name} - {lang.level}
-                            </li>
-                        {/each}
-                    </ul>
-                </Card>
-                <Card class={clsx(cardClass, "place-self-stretch")}>
-                    <Heading level="h2" class={heading2Class}>Hobbys</Heading>
-                    <ul class="ml-4 list-outside list-disc">
-                        {#each hobbies as hobby}
-                            <li class="">{hobby}</li>
-                        {/each}
-                    </ul>
-                </Card>
-                <Card class={clsx(cardClass, "place-self-stretch")}>
-                    <Heading level="h2" class={heading2Class}>Tech-Stack</Heading>
-                    <TechnologiesList technologies={data.technologies} />
-                </Card>
-                <Card class={cardClass}>
-                    <Heading level="h2" class={heading2Class}>Abschlussarbeiten</Heading>
-                    <ul class="ml-4 list-outside list-disc">
-                        {#each thesis as t}
-                            <li>
-                                <strong>{t.type}:</strong>
-                                „{t.title}“ - {t.keywords}
-                                {#if t.grade}
-                                    <span class="text-slate-500 dark:text-slate-400">
-                                        (Note: {t.grade})</span>
-                                {/if}
-                            </li>
-                        {/each}
-                    </ul>
-                </Card>
+                {#each data.secondarySections as { section }}
+                    <Card class={clsx(cardClass, "place-self-stretch")}>
+                        <Heading level="h2" class={heading2Class}>{section.name}</Heading>
+                        <CvContent
+                            type={section.type}
+                            value={section.items}
+                            technologies={data.technologies} />
+                    </Card>
+                {/each}
             </div>
             <Card class="size-[9.55rem] p-4">
                 <img src={data.portrait} alt="portrait" class="object-fit rounded-md" />
             </Card>
             <Card class={cardClass}>
-                <p>Geburtsdatum: 30.04.2002</p>
+                <p>Geburtsdatum: {data.birthday}</p>
                 <ul class="text-justify mt-2 list-disc list-outside ml-4">
-                    {#each softSkills as skill}
+                    {#each data.softSkills as skill}
                         <li>{skill}</li>
                     {/each}
                 </ul>
@@ -172,9 +102,12 @@
             <div class="flex flex-col gap-2 col-span-2">
                 <Card class={cardClass}>
                     <Heading level="h2" class={heading2Class}>Ausbildung</Heading>
-                    <TimeLine small steps={education} logo={e => e.logo}>
+                    <TimeLine
+                        small
+                        steps={data.experiences.map(e => e.experience)}
+                        logo={e => e.logo}>
                         {#snippet date(e)}
-                            {e.dates}
+                            {e.date}
                         {/snippet}
                         {#snippet title(e)}
                             {e.title}
@@ -209,16 +142,15 @@
                         {/snippet}
                     </TimeLine>
                 </Card>
-                <Card class={cardClass}>
-                    <Heading level="h2" class={heading2Class}>Leistungen</Heading>
-                    <ul class="ml-4 list-outside list-disc">
-                        {#each achievements as achievement}
-                            <li>
-                                <strong>{achievement.title}</strong> - {achievement.date}
-                            </li>
-                        {/each}
-                    </ul>
-                </Card>
+                {#each data.primarySections as { section }}
+                    <Card class={clsx(cardClass, "place-self-stretch")}>
+                        <Heading level="h2" class={heading2Class}>{section.name}</Heading>
+                        <CvContent
+                            type={section.type}
+                            value={section.items}
+                            technologies={data.technologies} />
+                    </Card>
+                {/each}
             </div>
         </main>
     </div>

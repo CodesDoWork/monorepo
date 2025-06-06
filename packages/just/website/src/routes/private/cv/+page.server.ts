@@ -11,5 +11,9 @@ export const load: PageServerLoad = async () => {
     const socials = cv.socials.map(s => mapSocial(s.social));
     const technologies = cv.technologies.map(({ technology }) => technology);
 
+    cv.experiences.forEach(exp => {
+        exp.experience.logo = assetUrl(exp.experience.logo);
+    });
+
     return { ...info, ...about, ...cv, socials, technologies };
 };

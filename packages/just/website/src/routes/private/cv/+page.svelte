@@ -14,6 +14,8 @@
 
     const cardClass = "p-3 flex-col text-sm";
     const heading2Class = "!text-lg !mb-2";
+
+    const formatter = new Intl.DateTimeFormat("de", { dateStyle: "medium" });
 </script>
 
 <svelte:head>
@@ -92,7 +94,7 @@
                 <img src={data.portrait} alt="portrait" class="object-fit rounded-md" />
             </Card>
             <Card class={cardClass}>
-                <p>Geburtsdatum: {data.birthday}</p>
+                <p>Geburtsdatum: {formatter.format(new Date(data.birthday))}</p>
                 <ul class="text-justify mt-2 list-disc list-outside ml-4">
                     {#each data.softSkills as skill}
                         <li>{skill}</li>

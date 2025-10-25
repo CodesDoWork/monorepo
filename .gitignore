@@ -42,3 +42,6 @@ vitest.config.*.timestamp*
 
 /**/generated
 /**/.vite
+
+# nixos
+/.direnv

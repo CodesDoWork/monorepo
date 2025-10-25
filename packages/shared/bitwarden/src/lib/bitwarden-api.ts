@@ -72,7 +72,7 @@ interface Cipher {
     id: string;
     identify: unknown;
     key: unknown;
-    login: {
+    login?: {
         autofillOnPageLoad: boolean | null;
         password: string | null;
         passwordRevisionDate: string | null;

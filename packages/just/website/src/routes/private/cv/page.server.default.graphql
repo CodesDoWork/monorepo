@@ -8,6 +8,8 @@ query GetCvData {
     }
 
     cv: just_site_cv {
+        birthday
+        softSkills: soft_skills
         address {
             street
             houseNumber: house_number
@@ -20,11 +22,36 @@ query GetCvData {
                 ...Social
             }
         }
-        summary
         technologies {
             technology: technologies_id {
                 name
                 icon
+            }
+        }
+        experiences {
+            experience: just_site_cv_experiences_id {
+                title
+                date
+                institution
+                logo
+                position
+                grade
+                duration
+                location
+            }
+        }
+        primarySections: primary_sections {
+            section: just_site_cv_sections_id {
+                name
+                type
+                items
+            }
+        }
+        secondarySections: secondary_sections {
+            section: just_site_cv_sections_id {
+                name
+                type
+                items
             }
         }
     }

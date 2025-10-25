@@ -45,3 +45,5 @@ vitest.config.*.timestamp*
 
 # nixos
 /.direnv
+.cursor/rules/nx-rules.mdc
+.github/instructions/nx.instructions.md

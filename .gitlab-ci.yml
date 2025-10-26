@@ -118,7 +118,7 @@ check formatting:
 eslint:
   stage: lint
   script:
-    - nx affected -t lint
+    - nx g exec "nx affected -t lint"
   resource_group: single
 
 secretlint:

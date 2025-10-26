@@ -6,7 +6,7 @@ ARG APP_DIR=just/nginx
 RUN mkdir /var/log/nginx
 
 RUN apk add --no-cache openssl-dev git gcc
-RUN luarocks install lua-resty-openidc
+RUN luarocks install lua-resty-openidc 1.8.0
 
 WORKDIR /etc/nginx
 COPY ./packages/$APP_DIR/conf conf.d

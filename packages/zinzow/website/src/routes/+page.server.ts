@@ -1,10 +1,10 @@
 import type { PageServerLoad } from "./$types";
 import { error } from "@sveltejs/kit";
+import { systemClient } from "../graphql/system/client";
 import { GetHomeSystemDataDocument } from "../graphql/system/generated/graphql";
 import { getAssetUrl } from "../utils/assets";
 import { getPageIdPrefix } from "../utils/graphql/translations";
 import { getTextsFromTranslations } from "../utils/translations";
-import { systemClient } from "../graphql/system/client";
 
 export const load: PageServerLoad = async () => {
     const pageIdPrefix = getPageIdPrefix("home");

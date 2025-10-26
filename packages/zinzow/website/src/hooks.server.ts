@@ -1,7 +1,7 @@
 import type { HandleServerError } from "@sveltejs/kit";
+import { systemClient } from "./graphql/system/client";
 import { GetErrorSystemDataDocument } from "./graphql/system/generated/graphql";
 import { getTextsFromTranslations } from "./utils/translations";
-import { systemClient } from "./graphql/system/client";
 
 interface SvelteKitError {
     status: number;

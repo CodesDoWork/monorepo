@@ -1,10 +1,10 @@
 import type { PageServerLoad } from "./$types";
+import { defaultClient } from "../../graphql/default/client";
 import { GetCareerDataDocument } from "../../graphql/default/generated/graphql";
+import { systemClient } from "../../graphql/system/client";
 import { GetCareerSystemDataDocument } from "../../graphql/system/generated/graphql";
 import { addAssetUrl } from "../../utils/graphql/assets";
 import { getTextsFromTranslations } from "../../utils/translations";
-import { defaultClient } from "../../graphql/default/client";
-import { systemClient } from "../../graphql/system/client";
 
 export const load: PageServerLoad = async () => {
     const pageIdPrefix = "page.career.";

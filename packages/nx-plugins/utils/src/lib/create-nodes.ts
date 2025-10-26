@@ -1,7 +1,8 @@
-import type { CreateNodes, TargetConfiguration } from "@nx/devkit";
+import type { CreateNodesV2, TargetConfiguration } from "@nx/devkit";
 import type {
-    CreateNodesContext,
+    CreateNodesContextV2,
     CreateNodesResult,
+    CreateNodesResultV2,
 } from "nx/src/project-graph/plugins/public-api";
 import { existsSync } from "node:fs";
 import path from "node:path";
@@ -10,27 +11,51 @@ export function createNodesForProjects<T = unknown>(
     projectFilePattern: string,
     createNodesFunction: CreateNodesFunction<T>,
     detectProject = true,
-): CreateNodes {
+): CreateNodesV2 {
     return [
         projectFilePattern,
-        (projectConfigurationFile, options, context): ReturnType<CreateNodesFunction<T>> => {
-            const root = path.dirname(projectConfigurationFile);
+        async (projectConfigurationFiles, options, context) => {
+            const createNodeResultFunction = createNodesResult(
+                createNodesFunction,
+                detectProject,
+                options as T | undefined,
+                context,
+            );
 
-            const isProject =
-                existsSync(path.join(root, "project.json")) ||
-                existsSync(path.join(root, "package.json"));
-            if (!isProject && detectProject) {
-                return {};
+            const results: CreateNodesResultV2 = [];
+            for (const projectConfigurationFile of projectConfigurationFiles) {
+                const result = await createNodeResultFunction(projectConfigurationFile);
+                results.push([projectConfigurationFile, result]);
             }
 
-            return createNodesFunction({
-                projectConfigurationFile,
-                options: options as T | undefined,
-                context,
-                root,
-            });
+            return results;
         },
     ];
+}
+
+function createNodesResult<T>(
+    createNodesFunction: CreateNodesFunction<T>,
+    detectProject: boolean,
+    options: T | undefined,
+    context: CreateNodesContextV2,
+) {
+    return function (projectConfigurationFile: string): ReturnType<CreateNodesFunction<T>> {
+        const root = path.dirname(projectConfigurationFile);
+
+        const isProject =
+            existsSync(path.join(root, "project.json")) ||
+            existsSync(path.join(root, "package.json"));
+        if (!isProject && detectProject) {
+            return {};
+        }
+
+        return createNodesFunction({
+            projectConfigurationFile,
+            options,
+            context,
+            root,
+        });
+    };
 }
 
 export function getExecutors<T = unknown>(
@@ -53,6 +78,6 @@ export function getExecutors<T = unknown>(
 type CreateNodesFunction<T = unknown> = (args: {
     projectConfigurationFile: string;
     options: T | undefined;
-    context: CreateNodesContext;
+    context: CreateNodesContextV2;
     root: string;
 }) => CreateNodesResult | Promise<CreateNodesResult>;

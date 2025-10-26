@@ -1,0 +1,4 @@
+{
+    "entryPoints": ["./worker/worker.ts"],
+    "tsconfig": "./worker/tsconfig.json"
+}

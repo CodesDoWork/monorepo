@@ -112,13 +112,13 @@ codegen:
 check formatting:
   stage: lint
   script:
-    - nx format:check
+    - nx g exec "nx format:check"
   resource_group: single
 
 eslint:
   stage: lint
   script:
-    - nx affected -t lint
+    - nx g exec "nx affected -t lint"
   resource_group: single
 
 secretlint:

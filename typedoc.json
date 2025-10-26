@@ -1,0 +1,14 @@
+{
+    "entryPoints": ["packages/**"],
+    "name": "@cdw/monorepo",
+    "entryPointStrategy": "packages",
+    "includeVersion": false,
+    "plugin": ["typedoc-plugin-markdown"],
+    "cleanOutputDir": true,
+    "out": "./typedoc",
+    "packageOptions": {
+        "includeVersion": true,
+        "entryPoints": ["src/index.ts"]
+    }
+    // "logLevel": "Verbose"
+}

@@ -1,16 +1,19 @@
 import type { PageServerLoad } from "./$types";
 import { error } from "@sveltejs/kit";
-import { GetHomeSystemData } from "../graphql/system/generated/gql";
+import { systemClient } from "../graphql/system/client";
+import { GetHomeSystemDataDocument } from "../graphql/system/generated/graphql";
 import { getAssetUrl } from "../utils/assets";
-import { toPromise } from "../utils/graphql/apollo";
 import { getPageIdPrefix } from "../utils/graphql/translations";
 import { getTextsFromTranslations } from "../utils/translations";
 
 export const load: PageServerLoad = async () => {
     const pageIdPrefix = getPageIdPrefix("home");
-    const { files, translations } = await toPromise(
-        GetHomeSystemData({ variables: { pageIdPrefix } }),
-    );
+
+    const { data } = await systemClient.query({
+        query: GetHomeSystemDataDocument,
+        variables: { pageIdPrefix },
+    });
+    const { files, translations } = data;
 
     const file = files[0];
     if (!file) {

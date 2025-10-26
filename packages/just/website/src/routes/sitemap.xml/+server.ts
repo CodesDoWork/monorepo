@@ -1,8 +1,8 @@
 import type { RequestHandler } from "@sveltejs/kit";
-import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { create } from "xmlbuilder2";
 import { env } from "../../env";
-import { GetSitemapServerData } from "../../graphql/default/generated/gql";
+import { defaultClient } from "../../graphql/default/client";
+import { GetSitemapServerDataDocument } from "../../graphql/default/generated/graphql";
 import { addPriorityRoute } from "../../shared/navigation/priority-routes";
 import { transformRoutes } from "../../shared/routes";
 
@@ -19,7 +19,8 @@ export const GET: RequestHandler = async () => {
 };
 
 async function getSitemapRoutes(): Promise<SitemapURL[]> {
-    const { routes } = await toPromise(GetSitemapServerData({}));
+    const { data } = await defaultClient.query({ query: GetSitemapServerDataDocument });
+    const { routes } = data;
     const transformedRoutes = transformRoutes(routes);
 
     const urls: SitemapURL[] = [];

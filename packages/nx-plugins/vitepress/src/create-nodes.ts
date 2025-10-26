@@ -5,7 +5,7 @@ import { z } from "zod";
 
 const zVitepressRcJson = z.object({
     docs: z.string(),
-    assets: z.record(z.array(z.string())).optional(),
+    assets: z.record(z.string(), z.array(z.string())).optional(),
 });
 
 export const createNodes = createNodesForProjects("**/.vitepressrc.json", ({ root }) => {

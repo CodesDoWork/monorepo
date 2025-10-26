@@ -1,5 +1,5 @@
 import type { Cookies } from "@sveltejs/kit";
-import type { LanguageFragment } from "../graphql/default/generated/gql";
+import type { LanguageFragment } from "../graphql/default/generated/graphql";
 import type { TransformedRoute } from "./routes";
 import { error } from "@sveltejs/kit";
 import { env } from "../env";

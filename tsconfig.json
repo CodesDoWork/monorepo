@@ -34,6 +34,7 @@
             "@cdw/monorepo/nx-plugins-vite": ["packages/nx-plugins/vite/src/index.ts"],
             "@cdw/monorepo/nx-plugins-vitepress": ["packages/nx-plugins/vitepress/src/index.ts"],
             "@cdw/monorepo/nx-plugins-vitest": ["packages/nx-plugins/vitest/src/index.ts"],
+            "@cdw/monorepo/nx-plugins-workspace": ["packages/nx-plugins/workspace/src/index.ts"],
             "@cdw/monorepo/nx-plugins-wrangler": ["packages/nx-plugins/wrangler/src/index.ts"],
             "@cdw/monorepo/shared-bitwarden": ["packages/shared/bitwarden/src/index.ts"],
             "@cdw/monorepo/shared-logging": ["packages/shared/logging/src/index.ts"],

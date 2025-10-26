@@ -71,7 +71,7 @@ colorama==0.4.6
     #   click
     #   ipython
     #   tqdm
-comm==0.2.2
+comm==0.2.3
     # via
     #   ipykernel
     #   ipywidgets

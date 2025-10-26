@@ -47,22 +47,22 @@ export async function decryptAes(
     }
 
     const dataForMac = Buffer.concat([secret.iv.buf, secret.payload.buf]);
-    const macBuffer = await computeMac(dataForMac, macKey.buf);
-    const macsMatch = await macsEqual(secret.mac.buf, macBuffer, macKey.buf);
+    const macBuffer = await computeMac(dataForMac, macKey.src);
+    const macsMatch = await macsEqual(secret.mac.src, macBuffer, macKey.src);
     if (!macsMatch) {
         throw new Error("MAC check failed.");
     }
 
     const importedKey = await crypto.subtle.importKey(
         "raw",
-        encKey.buf,
+        encKey.src,
         { name: "AES-CBC" },
         false,
         ["decrypt"],
     );
 
     return crypto.subtle
-        .decrypt({ name: "AES-CBC", iv: secret.iv.buf }, importedKey, secret.payload.buf)
+        .decrypt({ name: "AES-CBC", iv: secret.iv.src }, importedKey, secret.payload.src)
         .then(res => new ByteData(Buffer.from(res)));
 }
 

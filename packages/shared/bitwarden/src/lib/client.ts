@@ -153,7 +153,7 @@ export class BitwardenClient {
     }
 
     private strechMasterKey(masterKey: ByteData): Promise<SymmetricKey> {
-        return stretchKey(new Uint8Array(masterKey.buf));
+        return stretchKey(masterKey.src);
     }
 
     private get<Path extends GetRoutes, R = BitwardenApi[Path]["response"]>(

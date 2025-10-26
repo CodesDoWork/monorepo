@@ -43,6 +43,9 @@ vitest.config.*.timestamp*
 /**/generated
 /**/.vite
 
+# typedoc
+/typedoc
+
 # nixos
 /.direnv
 .cursor/rules/nx-rules.mdc

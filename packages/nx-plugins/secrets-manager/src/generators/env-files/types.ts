@@ -8,7 +8,7 @@ export enum BitwardenInfoKey {
 export const zExtendsConfig = z.object({ extends: z.string().optional() });
 
 export const zEnvValueTypes = z.union([z.string(), z.number(), z.boolean()]);
-export const zEnvConfig = z.object({ env: z.record(zEnvValueTypes).default({}) });
+export const zEnvConfig = z.object({ env: z.record(z.string(), zEnvValueTypes).default({}) });
 
 export const zBitwardenInfoKeys = z.nativeEnum(BitwardenInfoKey);
 export const zBirwardenInfo = z.union([
@@ -29,9 +29,9 @@ export const zSecretCollectionConfig = z
         vars: z.array(zSecretEnvConfig),
     })
     .strict();
-export const zSecretsConfig = z.record(zSecretCollectionConfig);
+export const zSecretsConfig = z.record(z.string(), zSecretCollectionConfig);
 export const zSecretsConfigObj = z.object({
-    secrets: z.record(zSecretCollectionConfig).default({}),
+    secrets: z.record(z.string(), zSecretCollectionConfig).default({}),
 });
 
 export const zProjectSecretsConfig = zExtendsConfig

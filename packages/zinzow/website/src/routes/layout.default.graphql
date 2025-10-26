@@ -1,11 +1,15 @@
+fragment Route on routes {
+    name
+    path
+    showInHeader
+    icon
+    shortDescription
+    isHero
+}
+
 query GetLayoutData {
     routes {
-        name
-        path
-        showInHeader
-        icon
-        shortDescription
-        isHero
+        ...Route
     }
     socialMedias {
         name

@@ -15,7 +15,7 @@ import {
     GetHomeLayoutServerDataDocument,
     GetHomeLayoutServerLanguagesDocument,
 } from "../graphql/default/generated/graphql";
-import { assetUrl } from "../shared/assets";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { byLanguage, getLanguage } from "../shared/language";
 import { mapSocial } from "../shared/mapSocials";
 import { getRoute, getRouteByServerRoute, transformRoutes } from "../shared/routes";

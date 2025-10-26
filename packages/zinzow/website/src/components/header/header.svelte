@@ -1,20 +1,21 @@
 <script lang="ts">
+    import type { RouteFragment } from "../../graphql/default/generated/graphql";
     import type { LayoutData } from "../../routes/$types";
     import Icon from "@iconify/svelte";
     import classNames from "classnames";
     import { writable } from "svelte/store";
     import { WidthBox } from "../content-area";
-    import { Logo } from "../logo";
     import { MobileMenu } from "../mobile-menu";
     import PopupNav from "./popup-nav.svelte";
 
     interface Props {
         data: LayoutData;
+        currentRoute: RouteFragment;
     }
 
-    const { data }: Props = $props();
+    const { data, currentRoute }: Props = $props();
 
-    const { routes, currentRoute } = data;
+    const { routes, logo } = data;
     const routesInNav = routes.filter(r => r.showInHeader);
 
     const mobileMenuOpen = writable(false);
@@ -24,7 +25,7 @@
 <header>
     <WidthBox tag="nav" class="flex items-center justify-between">
         <a href="/">
-            <Logo class="h-16" />
+            <img src={logo} alt="Logo" class="h-24 rounded" />
         </a>
         <div class="relative block md:hidden">
             <button onclick={onMenuClick}>
@@ -45,13 +46,13 @@
                     <li
                         class={classNames(
                             "hover:text-accent group/nav-item relative transition-colors",
-                            $currentRoute?.path.startsWith(route.path)
+                            currentRoute.path.startsWith(route.path)
                                 ? "text-accent"
                                 : "text-gray-900 dark:text-white",
                         )}>
                         <a
                             href={route.path}
-                            class="block px-3 py-1 text-sm/6 font-semibold transition group-hover/nav-item:scale-110">
+                            class="block px-3 py-1 text-sm/6 font-semibold transition group-hover/nav-item:scale-105">
                             {route.name}
                             {#if children.length}
                                 <Icon icon="carbon:chevron-down" class="inline size-4" />

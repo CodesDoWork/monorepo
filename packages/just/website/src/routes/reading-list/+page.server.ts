@@ -6,7 +6,7 @@ import type { PageServerLoad } from "./$types";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { defaultClient } from "../../graphql/default/client";
 import { GetReadingListDataDocument } from "../../graphql/default/generated/graphql";
-import { assetUrl } from "../../shared/assets";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { createBreadcrumbList } from "../../shared/urls";
 
 export const load: PageServerLoad = async ({ parent }) => {

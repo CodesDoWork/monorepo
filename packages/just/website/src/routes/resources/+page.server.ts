@@ -7,7 +7,7 @@ import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/t
 import { defaultClient } from "../../graphql/default/client";
 import { GetResourcesServerDataDocument } from "../../graphql/default/generated/graphql";
 import { replaceLinks } from "../../lib/server/replace-links";
-import { assetUrl } from "../../shared/assets";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { createBreadcrumbList } from "../../shared/urls";
 
 export const load: PageServerLoad = async ({ parent }) => {

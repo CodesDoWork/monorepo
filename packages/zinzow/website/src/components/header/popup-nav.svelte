@@ -1,14 +1,12 @@
 <script lang="ts">
-    import type { Readable } from "svelte/store";
-    import type { LayoutData } from "../../routes/$types";
+    import type { RouteFragment } from "../../graphql/default/generated/graphql";
     import Icon from "@iconify/svelte";
     import classNames from "classnames";
 
-    type Route = LayoutData["routes"][number];
     interface Props {
         class?: string;
-        routes?: Route[];
-        currentRoute: Readable<Route | undefined>;
+        routes?: RouteFragment[];
+        currentRoute: RouteFragment;
     }
 
     const { class: className = "", routes = [], currentRoute }: Props = $props();
@@ -18,7 +16,7 @@
     <div class="dark:bg-primary-900 mt-3 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
         <div class="p-4">
             {#each routes as route}
-                {@const isActive = $currentRoute?.path.startsWith(route.path)}
+                {@const isActive = currentRoute.path.startsWith(route.path)}
                 <div
                     class="dark:hover:bg-primary-950 group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 transition-all hover:bg-gray-50">
                     <div

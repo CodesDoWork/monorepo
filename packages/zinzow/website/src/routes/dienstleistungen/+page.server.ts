@@ -1,9 +1,9 @@
 import type { PageServerLoad } from "./$types";
+import { addAssetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { defaultClient } from "../../graphql/default/client";
 import { GetServiceDataDocument } from "../../graphql/default/generated/graphql";
 import { systemClient } from "../../graphql/system/client";
 import { GetServiceSystemDataDocument } from "../../graphql/system/generated/graphql";
-import { addAssetUrl } from "../../utils/graphql/assets";
 import { getTextsFromTranslations } from "../../utils/translations";
 
 export const load: PageServerLoad = async () => {

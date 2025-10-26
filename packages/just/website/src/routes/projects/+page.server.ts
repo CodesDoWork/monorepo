@@ -6,7 +6,7 @@ import type { PageServerLoad } from "./$types";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { defaultClient } from "../../graphql/default/client";
 import { GetProjectsServerDataDocument } from "../../graphql/default/generated/graphql";
-import { assetUrl } from "../../shared/assets";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { createBreadcrumbList, domainUrl } from "../../shared/urls";
 
 type Projects = FlatTrans<GetProjectsServerDataQuery["projects"]>;

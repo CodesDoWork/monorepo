@@ -1,5 +1,5 @@
 query GetHomeSystemData($pageIdPrefix: String!) {
-    files(filter: { folder: { name: { _eq: "hero" } } }) {
+    heroFiles: files(filter: { folder: { name: { _eq: "hero" } } }) {
         id
     }
 

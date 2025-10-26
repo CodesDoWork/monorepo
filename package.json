@@ -63,7 +63,7 @@
         "@directus/extensions-sdk": "^16.0.2",
         "@directus/types": "^13.2.3",
         "@graphql-codegen/cli": "^6.0.1",
-        "@graphql-codegen/client-preset": "^5.1.0",
+        "@graphql-codegen/client-preset": "^5.1.1",
         "@graphql-codegen/introspection": "^5.0.0",
         "@graphql-codegen/plugin-helpers": "^6.0.0",
         "@graphql-codegen/typescript": "^5.0.2",

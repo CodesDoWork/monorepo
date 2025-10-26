@@ -1,11 +1,11 @@
 import type { FlatTrans } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
-import type { GetResourcesServerDataQuery } from "../../graphql/default/generated/gql";
+import type { GetResourcesServerDataQuery } from "../../graphql/default/generated/graphql";
 import type { PageServerLoad } from "./$types";
-import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import { GetResourcesServerData } from "../../graphql/default/generated/gql";
+import { defaultClient } from "../../graphql/default/client";
+import { GetResourcesServerDataDocument } from "../../graphql/default/generated/graphql";
 import { replaceLinks } from "../../lib/server/replace-links";
 import { assetUrl } from "../../shared/assets";
 import { createBreadcrumbList } from "../../shared/urls";
@@ -13,9 +13,12 @@ import { createBreadcrumbList } from "../../shared/urls";
 export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const { currentLanguage } = parentData;
-    const { resources, sections } = flattenTranslations(
-        await toPromise(GetResourcesServerData({ variables: { language: currentLanguage.code } })),
-    );
+
+    const { data } = await defaultClient.query({
+        query: GetResourcesServerDataDocument,
+        variables: { language: currentLanguage.code },
+    });
+    const { resources, sections } = flattenTranslations(data);
 
     sections.forEach(section => {
         section.description = replaceLinks(section.description);

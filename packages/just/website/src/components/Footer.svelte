@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { FooterTextsFragment } from "../graphql/default/generated/gql";
+    import type { FooterTextsFragment } from "../graphql/default/generated/graphql";
     import type { Route } from "../routes/types";
     import { clsx } from "clsx";
     import { slide } from "svelte/transition";

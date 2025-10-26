@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 export enum Theme {
     Light = "light",
     Dark = "dark",
     OS = "os",
 }
+/* eslint-enable no-unused-vars */
 
 const LOCAL_STORAGE_KEY = "theme";
 

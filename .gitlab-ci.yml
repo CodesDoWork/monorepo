@@ -112,7 +112,7 @@ codegen:
 check formatting:
   stage: lint
   script:
-    - nx format:check
+    - nx g exec "nx format:check"
   resource_group: single
 
 eslint:

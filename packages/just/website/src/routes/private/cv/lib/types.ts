@@ -38,7 +38,7 @@ const zThesisList = z.array(
 );
 const zTechStack = z.array(z.string());
 
-export const CvSectionTypes: Record<CvSectionType, z.ZodTypeAny> = {
+export const CvSectionTypes = {
     [CvSectionType.SimpleList]: zSimpleList,
     [CvSectionType.Languages]: zLanguages,
     [CvSectionType.DetailList]: zDetailList,

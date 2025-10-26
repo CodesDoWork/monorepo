@@ -1,16 +1,23 @@
 import type { PageServerLoad } from "./$types";
-import { GetImpressionsData } from "../../graphql/default/generated/gql";
-import { GetImpressionsSystemData } from "../../graphql/system/generated/gql";
+import { GetImpressionsDataDocument } from "../../graphql/default/generated/graphql";
+import { GetImpressionsSystemDataDocument } from "../../graphql/system/generated/graphql";
 import { getAssetUrl } from "../../utils/assets";
-import { toPromise } from "../../utils/graphql/apollo";
 import { getTextsFromTranslations } from "../../utils/translations";
+import { defaultClient } from "../../graphql/default/client";
+import { systemClient } from "../../graphql/system/client";
 
 export const load: PageServerLoad = async () => {
     const pageIdPrefix = "page.impressions.";
-    const { impressions } = await toPromise(GetImpressionsData({}));
-    const { translations } = await toPromise(
-        GetImpressionsSystemData({ variables: { pageIdPrefix } }),
-    );
+
+    const { data: impressionsData } = await defaultClient.query({
+        query: GetImpressionsDataDocument,
+    });
+    const { impressions } = impressionsData;
+    const { data: translationsData } = await systemClient.query({
+        query: GetImpressionsSystemDataDocument,
+        variables: { pageIdPrefix },
+    });
+    const { translations } = translationsData;
 
     return {
         impressions: {

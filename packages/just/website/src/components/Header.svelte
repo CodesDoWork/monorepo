@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { LanguageFragment } from "../graphql/default/generated/gql";
+    import type { LanguageFragment } from "../graphql/default/generated/graphql";
     import type { Route } from "../routes/types";
     import type { ThemeState } from "../states/theme.svelte";
     import Icon from "@iconify/svelte";

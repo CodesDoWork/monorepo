@@ -1,7 +1,7 @@
 import type { HandleServerError } from "@sveltejs/kit";
-import { GetErrorSystemData } from "./graphql/system/generated/gql";
-import { toPromise } from "./utils/graphql/apollo";
+import { GetErrorSystemDataDocument } from "./graphql/system/generated/graphql";
 import { getTextsFromTranslations } from "./utils/translations";
+import { systemClient } from "./graphql/system/client";
 
 interface SvelteKitError {
     status: number;
@@ -13,9 +13,12 @@ export const handleError: HandleServerError = async ({ error }) => {
     console.error(error);
 
     const pageIdPrefix = `page.error.${status}.`;
-    const { translations, buttonText } = await toPromise(
-        GetErrorSystemData({ variables: { pageIdPrefix } }),
-    );
+
+    const { data } = await systemClient.query({
+        query: GetErrorSystemDataDocument,
+        variables: { pageIdPrefix },
+    });
+    const { translations, buttonText } = data;
 
     return {
         message: text,

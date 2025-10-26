@@ -11,15 +11,10 @@ const defaultUri = `${process.env.CMS_URL}/graphql`;
 const clientSchema: Types.Schema = { [defaultUri]: schemaOptions };
 const systemSchema: Types.Schema = { [`${defaultUri}/system`]: schemaOptions };
 
-const gqlPlugins: string[] = [
-    "typescript",
-    "typescript-operations",
-    "graphql-codegen-svelte-apollo",
-];
 const introspectionPlugins: string[] = ["introspection"];
 
-const gqlConfig = {
-    clientPath: "../client",
+const presetConfig = {
+    fragmentMasking: false,
 };
 
 export const config: CodegenConfig = {
@@ -27,22 +22,22 @@ export const config: CodegenConfig = {
     ignoreNoDocuments: true,
     generates: {
         // default
-        "./src/graphql/default/generated/gql.ts": {
+        "./src/graphql/default/generated/": {
             schema: clientSchema,
             documents: "./src/**/*.default.graphql",
-            plugins: gqlPlugins,
-            config: gqlConfig,
+            presetConfig,
+            preset: "client",
         },
         "./src/graphql/default/generated/graphql.schema.json": {
             schema: clientSchema,
             plugins: introspectionPlugins,
         },
         // system
-        "./src/graphql/system/generated/gql.ts": {
+        "./src/graphql/system/generated/": {
             schema: systemSchema,
             documents: "./src/**/*.system.graphql",
-            plugins: gqlPlugins,
-            config: gqlConfig,
+            presetConfig,
+            preset: "client",
         },
         "./src/graphql/system/generated/graphql.schema.json": {
             schema: systemSchema,

@@ -3,18 +3,18 @@ import type { Graph } from "schema-dts";
 import type {
     GetHomeLayoutServerDataQuery,
     LanguageFragment,
-} from "../graphql/default/generated/gql";
+} from "../graphql/default/generated/graphql";
 import type { TransformedRoute } from "../shared/routes";
 import type { LayoutServerLoad } from "./$types";
 import type { Route } from "./types";
 import { byId } from "@cdw/monorepo/shared-utils/filters";
-import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { env } from "../env";
+import { defaultClient } from "../graphql/default/client";
 import {
-    GetHomeLayoutServerData,
-    GetHomeLayoutServerLanguages,
-} from "../graphql/default/generated/gql";
+    GetHomeLayoutServerDataDocument,
+    GetHomeLayoutServerLanguagesDocument,
+} from "../graphql/default/generated/graphql";
 import { assetUrl } from "../shared/assets";
 import { byLanguage, getLanguage } from "../shared/language";
 import { mapSocial } from "../shared/mapSocials";
@@ -22,7 +22,7 @@ import { getRoute, getRouteByServerRoute, transformRoutes } from "../shared/rout
 import { domainUrl } from "../shared/urls";
 
 export const load: LayoutServerLoad = async ({ request, url, cookies }) => {
-    const data = await toPromise(GetHomeLayoutServerLanguages({}));
+    const { data } = await defaultClient.query({ query: GetHomeLayoutServerLanguagesDocument });
     const allRoutes = transformRoutes(data.allRoutes);
     const language = await getLanguage(request, cookies, data.languages, allRoutes);
     return loadServerData(url, language, data.languages, allRoutes);
@@ -34,9 +34,11 @@ async function loadServerData(
     languages: LanguageFragment[],
     allRoutes: TransformedRoute[],
 ) {
-    const data = await toPromise(
-        GetHomeLayoutServerData({ variables: { language: currentLanguage.code } }),
-    );
+    const { data } = await defaultClient.query({
+        query: GetHomeLayoutServerDataDocument,
+        variables: { language: currentLanguage.code },
+    });
+
     const { siteInfo, routes, serverRoutes, about, contact } = flattenTranslations(data);
     const currentRouteId = getRoute(allRoutes, url.pathname)?.id;
     const currentRoute = routes.find(byId(currentRouteId));

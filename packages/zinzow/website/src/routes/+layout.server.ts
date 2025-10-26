@@ -1,11 +1,12 @@
 import type { LayoutServerLoad } from "./$types";
-import { GetLayoutData } from "../graphql/default/generated/gql";
-import { GetLayoutSystemData } from "../graphql/system/generated/gql";
-import { toPromise } from "../utils/graphql/apollo";
+import { GetLayoutDataDocument } from "../graphql/default/generated/graphql";
+import { GetLayoutSystemDataDocument } from "../graphql/system/generated/graphql";
+import { systemClient } from "../graphql/system/client";
+import { defaultClient } from "../graphql/default/client";
 
 export const load: LayoutServerLoad = async () => {
-    const systemData = await toPromise(GetLayoutSystemData({}));
-    const defaultData = await toPromise(GetLayoutData({}));
+    const { data: systemData } = await systemClient.query({ query: GetLayoutSystemDataDocument });
+    const { data: defaultData } = await defaultClient.query({ query: GetLayoutDataDocument });
 
     return {
         ...systemData,

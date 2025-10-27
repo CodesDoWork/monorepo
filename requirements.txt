@@ -244,7 +244,7 @@ librosa==0.11.0
     #   datasets
 llvmlite==0.44.0
     # via numba
-markupsafe==3.0.2
+markupsafe==3.0.3
     # via
     #   jinja2
     #   nbconvert

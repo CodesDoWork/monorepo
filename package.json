@@ -91,7 +91,7 @@
         "@types/eslint-plugin-tailwindcss": "^3.17.0",
         "@types/node": "^24.9.1",
         "@types/node-cron": "^3.0.11",
-        "@types/pg": "^8.15.5",
+        "@types/pg": "^8.15.6",
         "@typescript-eslint/parser": "8.46.2",
         "@vitest/coverage-v8": "^4.0.3",
         "@vitest/ui": "^4.0.3",

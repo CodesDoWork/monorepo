@@ -381,7 +381,7 @@ pygments==2.19.2
     #   ipython
     #   jupyter-console
     #   nbconvert
-pyparsing==3.2.3
+pyparsing==3.2.5
     # via matplotlib
 pyproject-hooks==1.2.0
     # via

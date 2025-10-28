@@ -336,7 +336,7 @@ pandas==2.2.3
     #   evaluate
 pandocfilters==1.5.1
     # via nbconvert
-parso==0.8.4
+parso==0.8.5
     # via jedi
 pillow==11.2.1
     # via matplotlib

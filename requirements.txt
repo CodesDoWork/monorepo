@@ -425,7 +425,7 @@ referencing==0.36.2
     #   jupyter-events
 regex==2024.11.6
     # via transformers
-requests==2.32.3
+requests==2.32.5
     # via
     #   datasets
     #   evaluate

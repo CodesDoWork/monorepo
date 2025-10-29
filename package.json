@@ -55,7 +55,7 @@
         "zod": "^4.1.12"
     },
     "devDependencies": {
-        "@antfu/eslint-config": "^6.0.0",
+        "@antfu/eslint-config": "^6.1.0",
         "@apollo/client": "^4.0.8",
         "@astrojs/tailwind": "^6.0.2",
         "@cloudflare/kv-asset-handler": "^0.4.0",

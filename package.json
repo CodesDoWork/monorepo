@@ -150,7 +150,7 @@
         "vite": "7.1.12",
         "vitepress": "1.6.4",
         "vitest": "^4.0.4",
-        "wrangler": "^4.45.1",
+        "wrangler": "^4.45.2",
         "yaml": "^2.8.1"
     },
     "trustedDependencies": [

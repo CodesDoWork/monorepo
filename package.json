@@ -81,7 +81,7 @@
         "@prettier/plugin-xml": "^3.4.2",
         "@secretlint/secretlint-rule-preset-recommend": "^11.2.5",
         "@sveltejs/adapter-node": "5.4.0",
-        "@sveltejs/kit": "2.47.3",
+        "@sveltejs/kit": "2.48.3",
         "@sveltejs/vite-plugin-svelte": "6.2.1",
         "@swc-node/register": "1.11.1",
         "@swc/cli": "0.7.8",

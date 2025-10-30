@@ -4,7 +4,7 @@
 #
 #    pip-compile requirements.in
 #
-accelerate==1.6.0
+accelerate==1.11.0
     # via transformers
 aiohappyeyeballs==2.6.1
     # via aiohttp

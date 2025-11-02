@@ -159,7 +159,7 @@ ipython==8.36.0
     #   ipykernel
     #   ipywidgets
     #   jupyter-console
-ipywidgets==8.1.7
+ipywidgets==8.1.8
     # via
     #   -r requirements.in
     #   jupyter

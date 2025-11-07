@@ -289,7 +289,7 @@ notebook-shim==0.2.4
     # via
     #   jupyterlab
     #   notebook
-numba==0.61.2
+numba==0.62.1
     # via librosa
 numpy==1.26.4
     # via

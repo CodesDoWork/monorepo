@@ -1,24 +1,17 @@
 <script lang="ts">
-    import type { Readable } from "svelte/store";
-    import type { LayoutData } from "../../routes/$types";
+    import type { RouteFragment } from "../../graphql/default/generated/graphql";
     import Icon from "@iconify/svelte";
     import classNames from "classnames";
     import { writable } from "svelte/store";
 
-    type Route = LayoutData["routes"][number];
     interface Props {
         class?: string;
         onClose: () => void;
-        routes?: Route[];
-        currentRoute: Readable<Route | undefined>;
+        routes?: RouteFragment[];
+        currentRoute: RouteFragment;
     }
 
-    const {
-        class: className = "",
-        onClose,
-        routes = [],
-        currentRoute,
-    }: Props = $props();
+    const { class: className = "", onClose, routes = [], currentRoute }: Props = $props();
 
     const routesInNav = $derived(routes.filter(r => r.showInHeader));
     const routeStates = $derived(writable(routes.map(() => false)));
@@ -67,7 +60,7 @@
                         )}
                         <div
                             class={classNames(
-                                $currentRoute?.path.startsWith(route.path) && "text-accent",
+                                currentRoute.path.startsWith(route.path) && "text-accent",
                                 "hover:bg-primary-400 dark:hover:bg-primary-700 -mx-3 flex items-center justify-between rounded-lg px-3 py-2 text-base/7 font-semibold",
                             )}>
                             <a class="flex-1" onclick={triggerClose} href={route.path}>
@@ -88,7 +81,7 @@
                                 {#each children as child}
                                     <li
                                         class={classNames(
-                                            $currentRoute?.path.startsWith(child.path)
+                                            currentRoute.path.startsWith(child.path)
                                                 ? "text-accent"
                                                 : "",
                                             "hover:bg-primary-400 dark:hover:bg-primary-700 flex items-center justify-between rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold",

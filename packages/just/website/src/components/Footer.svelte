@@ -35,7 +35,7 @@
         clsx(
             "select-none px-8 py-4 shadow",
             "text-center font-mono",
-            "dark:bg-primary-500 bg-black bg-opacity-20 text-white transition-colors dark:bg-opacity-20",
+            "bg-black bg-opacity-20 text-white transition-colors dark:bg-primary-500 dark:bg-opacity-20",
             "text-sm",
             className,
         ),

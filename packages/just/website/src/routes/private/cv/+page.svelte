@@ -47,7 +47,7 @@
     style="--page-color: oklch(68.5% 0.169 237.323);">
     <div
         class={clsx(
-            "w-a4 h-a4 p-a4-page-padding shadow-a4 box-border",
+            "box-border h-a4 w-a4 p-a4-page-padding shadow-a4",
             "dark:from-primary-950 dark:to-secondary-950",
             "bg-gradient-to-b from-5% to-95% transition-colors",
             "dark:text-white",

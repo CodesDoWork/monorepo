@@ -4,11 +4,11 @@ import type { LayoutServerData } from "../$types";
 import type { GetEventsServerDataQuery } from "../../graphql/default/generated/graphql";
 import type { Route } from "../types";
 import type { PageServerLoad } from "./$types";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { byField, byId } from "@cdw/monorepo/shared-utils/filters";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { defaultClient } from "../../graphql/default/client";
 import { GetEventsServerDataDocument } from "../../graphql/default/generated/graphql";
-import { assetUrl } from "../../shared/assets";
 import { createBreadcrumbList } from "../../shared/urls";
 
 export const load: PageServerLoad = async ({ parent }) => {

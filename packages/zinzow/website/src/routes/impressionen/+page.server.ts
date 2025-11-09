@@ -1,9 +1,9 @@
 import type { PageServerLoad } from "./$types";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { defaultClient } from "../../graphql/default/client";
 import { GetImpressionsDataDocument } from "../../graphql/default/generated/graphql";
 import { systemClient } from "../../graphql/system/client";
 import { GetImpressionsSystemDataDocument } from "../../graphql/system/generated/graphql";
-import { getAssetUrl } from "../../utils/assets";
 import { getTextsFromTranslations } from "../../utils/translations";
 
 export const load: PageServerLoad = async () => {
@@ -26,7 +26,7 @@ export const load: PageServerLoad = async () => {
                 .map(file => file.directus_files_id)
                 .map(image => ({
                     ...image,
-                    url: getAssetUrl(image.id),
+                    url: assetUrl(image.id),
                     tags: image.tags as string[] | null,
                 })),
         },

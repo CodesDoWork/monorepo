@@ -3,10 +3,10 @@ import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
 import type { GetProjectsServerDataQuery } from "../../graphql/default/generated/graphql";
 import type { PageServerLoad } from "./$types";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { defaultClient } from "../../graphql/default/client";
 import { GetProjectsServerDataDocument } from "../../graphql/default/generated/graphql";
-import { assetUrl } from "../../shared/assets";
 import { createBreadcrumbList, domainUrl } from "../../shared/urls";
 
 type Projects = FlatTrans<GetProjectsServerDataQuery["projects"]>;

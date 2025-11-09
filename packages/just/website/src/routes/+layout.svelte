@@ -66,7 +66,7 @@
         clsx(
             "text-black transition-colors dark:text-white",
             nav.currentRoute?.isHero === false && "bg-white dark:bg-opacity-0",
-            "sm:px-1/20 lg:px-1/10 w-full flex-1 px-8 pb-16 pt-4 md:px-8",
+            "w-full flex-1 px-8 pb-16 pt-4 sm:px-1/20 md:px-8 lg:px-1/10",
             nav.currentRoute?.isHero === false &&
                 nav.previousRoute?.isHero &&
                 "animate-fadeInSubtle",

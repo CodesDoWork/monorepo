@@ -1,5 +1,3 @@
-import { env } from "../env";
-
 type AssetFormat = "auto" | "jpg" | "png" | "webp" | "tiff" | "original";
 type AssetFit = "cover" | "contain" | "inside" | "outside";
 
@@ -20,7 +18,12 @@ export function assetUrl(id: string, params: AssetParams = {}): string {
         delete params.format;
     }
 
-    const url = new URL(`${env.CMS_URL}/assets/${id}`);
+    const { CMS_URL } = process.env;
+    if (!CMS_URL) {
+        throw new Error("CMS_URL is not defined in environment variables");
+    }
+
+    const url = new URL(`${CMS_URL}/assets/${id}`);
 
     Object.entries(params).forEach(([key, value]) => {
         if (value) {
@@ -29,4 +32,19 @@ export function assetUrl(id: string, params: AssetParams = {}): string {
     });
 
     return url.toString();
+}
+
+interface IdObject {
+    id: string;
+}
+
+type AssetWithUrl<T extends IdObject> = T & { url: string };
+
+export function addAssetUrl<T extends IdObject>(asset: T | undefined): AssetWithUrl<T> | undefined {
+    return asset
+        ? {
+              ...asset,
+              url: assetUrl(asset.id),
+          }
+        : undefined;
 }

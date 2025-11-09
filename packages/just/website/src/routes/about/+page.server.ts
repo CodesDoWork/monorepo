@@ -3,11 +3,11 @@ import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
 import type { GetAboutServerDataQuery } from "../../graphql/default/generated/graphql";
 import type { PageServerLoad } from "./$types";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { defaultClient } from "../../graphql/default/client";
 import { GetAboutServerDataDocument } from "../../graphql/default/generated/graphql";
 import { replaceLinks } from "../../lib/server/replace-links";
-import { assetUrl } from "../../shared/assets";
 import { createBreadcrumbList, domainUrl } from "../../shared/urls";
 
 export const load: PageServerLoad = async ({ parent }) => {

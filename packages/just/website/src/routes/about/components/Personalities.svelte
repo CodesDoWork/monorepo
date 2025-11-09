@@ -35,8 +35,8 @@
                 "transition",
                 selectedIdx === idx
                     ? "bg-primary-400/40 dark:bg-primary-600/40"
-                    : "bg-primary-400/10 dark:bg-primary-600/10 text-slate-600 dark:text-slate-300",
-                "hover:bg-primary-400/50 hover:dark:bg-primary-600/50 hover:text-black dark:hover:text-white",
+                    : "bg-primary-400/10 text-slate-600 dark:bg-primary-600/10 dark:text-slate-300",
+                "hover:bg-primary-400/50 hover:text-black hover:dark:bg-primary-600/50 dark:hover:text-white",
             )}
             onclick={() => {
                 transitionFactor = idx < selectedIdx ? -1 : 1;

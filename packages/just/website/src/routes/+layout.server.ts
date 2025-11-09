@@ -7,6 +7,7 @@ import type {
 import type { TransformedRoute } from "../shared/routes";
 import type { LayoutServerLoad } from "./$types";
 import type { Route } from "./types";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { byId } from "@cdw/monorepo/shared-utils/filters";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { env } from "../env";
@@ -15,7 +16,6 @@ import {
     GetHomeLayoutServerDataDocument,
     GetHomeLayoutServerLanguagesDocument,
 } from "../graphql/default/generated/graphql";
-import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { byLanguage, getLanguage } from "../shared/language";
 import { mapSocial } from "../shared/mapSocials";
 import { getRoute, getRouteByServerRoute, transformRoutes } from "../shared/routes";

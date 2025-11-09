@@ -37,7 +37,7 @@
     const headerClass = $derived(
         clsx(
             "px-8 py-4 shadow lg:pr-40",
-            "dark:bg-primary-500 bg-black bg-opacity-20 text-white transition-colors dark:bg-opacity-20",
+            "bg-black bg-opacity-20 text-white transition-colors dark:bg-primary-500 dark:bg-opacity-20",
             className,
         ),
     );
@@ -61,7 +61,7 @@
             </div>
             <NavLinks
                 class="hidden lg:flex"
-                liClass={clsx("animate-fadeInTopSubtle inline-block opacity-0")}
+                liClass={clsx("inline-block animate-fadeInTopSubtle opacity-0")}
                 aClass="mx-1"
                 {routes}
                 {currentRoute} />

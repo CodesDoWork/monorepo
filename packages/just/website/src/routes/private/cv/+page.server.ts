@@ -1,7 +1,7 @@
 import type { PageServerLoad } from "./$types";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { defaultClient } from "../../../graphql/default/client";
 import { GetCvDataDocument } from "../../../graphql/default/generated/graphql";
-import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { mapSocial } from "../../../shared/mapSocials";
 
 export const load: PageServerLoad = async () => {

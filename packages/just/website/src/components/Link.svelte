@@ -45,7 +45,7 @@
             button && [
                 "p-3 dark:text-white",
                 "bg-white dark:bg-opacity-10",
-                "hover:bg-accent-500 dark:hover:bg-secondary-500/50 hover:rotate-3",
+                "hover:rotate-3 hover:bg-accent-500 dark:hover:bg-secondary-500/50",
                 "shadow-md hover:shadow-lg",
                 "origin-top-left",
             ],

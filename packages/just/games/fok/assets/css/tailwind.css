@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: "Crimson Text";
+    src: url("../font/CrimsonText.woff2") format("woff2");
+    font-display: swap;
+}

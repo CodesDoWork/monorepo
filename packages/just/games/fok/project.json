@@ -1,0 +1,8 @@
+{
+    "name": "just-games-fok",
+    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/games/fok/src",
+    "projectType": "application",
+    "targets": {},
+    "tags": ["just-games-fok"]
+}

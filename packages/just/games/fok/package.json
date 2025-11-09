@@ -1,0 +1,6 @@
+{
+    "name": "just-games-fok",
+    "type": "module",
+    "private": true,
+    "description": "This app contains a simple web app as extra for the game 'The Fall of Kingdoms'"
+}

@@ -349,7 +349,7 @@ platformdirs==4.5.0
     #   wandb
 pooch==1.8.2
     # via librosa
-prometheus-client==0.21.1
+prometheus-client==0.23.1
     # via jupyter-server
 prompt-toolkit==3.0.52
     # via

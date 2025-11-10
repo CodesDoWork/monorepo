@@ -370,7 +370,7 @@ pure-eval==0.2.3
     # via stack-data
 pyarrow==18.1.0
     # via datasets
-pycparser==2.22
+pycparser==2.23
     # via cffi
 pydantic==2.11.4
     # via wandb

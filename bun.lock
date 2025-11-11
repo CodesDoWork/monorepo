@@ -91,7 +91,7 @@
         "eslint-plugin-svelte": "^3.13.0",
         "eslint-plugin-tailwindcss": "^3.18.2",
         "eslint-plugin-toml": "^0.12.0",
-        "flowbite-svelte": "^1.26.0",
+        "flowbite-svelte": "^1.27.0",
         "glob": "^11.0.3",
         "globals": "^16.5.0",
         "graphql": "^16.12.0",
@@ -2450,7 +2450,7 @@
 
     "flowbite-datepicker": ["flowbite-datepicker@1.3.2", "", { "dependencies": { "@rollup/plugin-node-resolve": "^15.2.3", "flowbite": "^2.0.0" } }, "sha512-6Nfm0MCVX3mpaR7YSCjmEO2GO8CDt6CX8ZpQnGdeu03WUCWtEPQ/uy0PUiNtIJjJZWnX0Cm3H55MOhbD1g+E/g=="],
 
-    "flowbite-svelte": ["flowbite-svelte@1.26.0", "", { "dependencies": { "@floating-ui/dom": "^1.7.4", "@floating-ui/utils": "^0.2.10", "apexcharts": "^5.3.5", "clsx": "^2.1.1", "date-fns": "^4.1.0", "esm-env": "^1.2.2", "flowbite": "^3.1.2", "tailwind-merge": "^3.3.1", "tailwind-variants": "^3.1.1" }, "peerDependencies": { "svelte": "^5.29.0", "tailwindcss": "^4.1.4" } }, "sha512-HaPGUxtu0LmgInFsyZ5vr2eqW9oV75AvyN4D6UfsIcMFXs1kQwDwigLT+W3CLppKvT8C1pOo+RM6QxdlwoZ/7A=="],
+    "flowbite-svelte": ["flowbite-svelte@1.27.0", "", { "dependencies": { "@floating-ui/dom": "^1.7.4", "@floating-ui/utils": "^0.2.10", "apexcharts": "^5.3.5", "clsx": "^2.1.1", "date-fns": "^4.1.0", "esm-env": "^1.2.2", "flowbite": "^3.1.2", "tailwind-merge": "^3.3.1", "tailwind-variants": "^3.1.1" }, "peerDependencies": { "svelte": "^5.29.0", "tailwindcss": "^4.1.4" } }, "sha512-YtY3GBkmjoVjpE5wO+M/nGvur4A+7XJALQmgimXl29J2Rf5L1MRKLhUd9PIhe4G4L4ktZBQo9YmXWC8/p2feAA=="],
 
     "focus-trap": ["focus-trap@7.6.4", "", { "dependencies": { "tabbable": "^6.2.0" } }, "sha512-xx560wGBk7seZ6y933idtjJQc1l+ck+pI3sKvhKozdBV1dRZoKhkW5xoCaFv9tQiX5RH1xfSxjuNu6g+lmN/gw=="],
 

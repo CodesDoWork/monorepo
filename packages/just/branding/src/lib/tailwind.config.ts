@@ -78,7 +78,7 @@ export const tailwindConfig: Config = {
                 a4: "297mm",
             },
             spacing: {
-                "a4-page-padding": "20mm",
+                "a4-page-padding": "18mm",
             },
             boxShadow: {
                 a4: "0 0 5mm rgba(0,0,0,0.1)",

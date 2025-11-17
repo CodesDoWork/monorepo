@@ -1,7 +1,7 @@
 # monorepo
 
-This is a nx monorepo for most of the development of CodesDoWork.
-See the [docs](./docs) for more detailed information about this repo.
+This is a nx monorepo for most of the development of CodesDoWork. See the [docs](./docs) for more
+detailed information about this repo.
 
 ## LICENSE
 
@@ -10,18 +10,18 @@ directory.
 
 ## Tools
 
-This monorepo uses nx as framework to manage the packages.
-Natively, it uses typescript, but python was added for some projects.
+This monorepo uses nx as framework to manage the packages. Natively, it uses typescript, but python
+was added for some projects.
 
 ### TS
 
-To install the dependencies run the `install` command of the package manager used here or `ni`
-(when `@antfu/ni` is installed).
+To install the dependencies run the `install` command of the package manager used here or `ni` (when
+`@antfu/ni` is installed).
 
 ### Python
 
-- Create a virtual environment: `python -m venv .venv` and activate it:
-  `source .venv/bin/activate` or `.venv\Scripts\activate` (Windows).
+- Create a virtual environment: `python -m venv .venv` and activate it: `source .venv/bin/activate`
+  or `.venv\Scripts\activate` (Windows).
 - To install the dependencies run `pip install -r requirements.txt`
-- To create the `requirements.txt` file from `requirements.in`, run `pip-compile requirements.in`
-  (`pip-tools` needed).
+- To create the `requirements.txt` file from `requirements.in`, run `uv pip compile requirements.in`
+  (`uv` needed).

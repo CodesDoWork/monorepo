@@ -7,6 +7,6 @@ pkgs.mkShell {
     bun
     python313
     python313Packages.pip
-    python313Packages.pip-tools
+    python313Packages.uv
   ];
 }

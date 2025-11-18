@@ -14,7 +14,7 @@ export function runAstroExecutor(target: AstroTarget): PromiseExecutor {
                 shell: true,
                 env: {
                     ...process.env,
-                    JITI_ALIAS: getJitiAliasContent(projectDir, context),
+                    JITI_ALIAS: getJitiAliasContent(context.root, projectDir),
                 },
             });
 

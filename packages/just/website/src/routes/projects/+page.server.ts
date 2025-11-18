@@ -1,12 +1,12 @@
 import type { FlatTrans } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
-import type { GetProjectsServerDataQuery } from "../../graphql/default/generated/gql";
+import type { GetProjectsServerDataQuery } from "../../graphql/default/generated/graphql";
 import type { PageServerLoad } from "./$types";
-import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import { GetProjectsServerData } from "../../graphql/default/generated/gql";
-import { assetUrl } from "../../shared/assets";
+import { defaultClient } from "../../graphql/default/client";
+import { GetProjectsServerDataDocument } from "../../graphql/default/generated/graphql";
 import { createBreadcrumbList, domainUrl } from "../../shared/urls";
 
 type Projects = FlatTrans<GetProjectsServerDataQuery["projects"]>;
@@ -14,9 +14,12 @@ type Projects = FlatTrans<GetProjectsServerDataQuery["projects"]>;
 export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const { currentLanguage } = parentData;
-    const { projects, texts } = flattenTranslations(
-        await toPromise(GetProjectsServerData({ variables: { language: currentLanguage.code } })),
-    );
+
+    const { data } = await defaultClient.query({
+        query: GetProjectsServerDataDocument,
+        variables: { language: currentLanguage.code },
+    });
+    const { projects, texts } = flattenTranslations(data);
 
     transformProjects(projects);
     const jsonLdThings = createJsonLdThings(parentData, projects);

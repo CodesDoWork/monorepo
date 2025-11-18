@@ -3,25 +3,26 @@ import type { Graph } from "schema-dts";
 import type {
     GetHomeLayoutServerDataQuery,
     LanguageFragment,
-} from "../graphql/default/generated/gql";
+} from "../graphql/default/generated/graphql";
 import type { TransformedRoute } from "../shared/routes";
 import type { LayoutServerLoad } from "./$types";
 import type { Route } from "./types";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { byId } from "@cdw/monorepo/shared-utils/filters";
-import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { env } from "../env";
+import { defaultClient } from "../graphql/default/client";
 import {
-    GetHomeLayoutServerData,
-    GetHomeLayoutServerLanguages,
-} from "../graphql/default/generated/gql";
+    GetHomeLayoutServerDataDocument,
+    GetHomeLayoutServerLanguagesDocument,
+} from "../graphql/default/generated/graphql";
 import { byLanguage, getLanguage } from "../shared/language";
 import { mapSocial } from "../shared/mapSocials";
 import { getRoute, getRouteByServerRoute, transformRoutes } from "../shared/routes";
 import { domainUrl } from "../shared/urls";
 
 export const load: LayoutServerLoad = async ({ request, url, cookies }) => {
-    const data = await toPromise(GetHomeLayoutServerLanguages({}));
+    const { data } = await defaultClient.query({ query: GetHomeLayoutServerLanguagesDocument });
     const allRoutes = transformRoutes(data.allRoutes);
     const language = await getLanguage(request, cookies, data.languages, allRoutes);
     return loadServerData(url, language, data.languages, allRoutes);
@@ -33,9 +34,11 @@ async function loadServerData(
     languages: LanguageFragment[],
     allRoutes: TransformedRoute[],
 ) {
-    const data = await toPromise(
-        GetHomeLayoutServerData({ variables: { language: currentLanguage.code } }),
-    );
+    const { data } = await defaultClient.query({
+        query: GetHomeLayoutServerDataDocument,
+        variables: { language: currentLanguage.code },
+    });
+
     const { siteInfo, routes, serverRoutes, about, contact } = flattenTranslations(data);
     const currentRouteId = getRoute(allRoutes, url.pathname)?.id;
     const currentRoute = routes.find(byId(currentRouteId));
@@ -47,6 +50,7 @@ async function loadServerData(
     });
 
     const socials = contact.socials.map(s => s.socialsId).map(mapSocial);
+    about.portrait = assetUrl(about.portrait, { quality: 67, width: 400, height: 400 });
 
     const layoutJsonLd = createLayoutJsonLd({
         siteInfo,
@@ -94,7 +98,7 @@ function createLayoutJsonLd(parent: LayoutJsonLdData): Graph {
                 name: siteInfo.name,
                 url: domainUrl(homeRoute),
                 sameAs: socials.map(s => s.href),
-                image: about.imageUrl,
+                image: about.portrait,
             },
             {
                 "@type": "WebSite",

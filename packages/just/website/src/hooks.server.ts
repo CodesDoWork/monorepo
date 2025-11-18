@@ -1,7 +1,7 @@
 import type { Handle, HandleServerError } from "@sveltejs/kit";
-import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { redirect } from "@sveltejs/kit";
-import { GetHooksServerData } from "./graphql/default/generated/gql";
+import { defaultClient } from "./graphql/default/client";
+import { GetHooksServerDataDocument } from "./graphql/default/generated/graphql";
 import { byLanguage, getLanguage } from "./shared/language";
 import { priorityRoutes } from "./shared/navigation/priority-routes";
 import { getRoute, transformRoutes } from "./shared/routes";
@@ -12,7 +12,10 @@ export const handle: Handle = async ({ event, resolve }) => {
         return resolve(event);
     }
 
-    const { languages, routes } = await toPromise(GetHooksServerData({}));
+    const { data: hooksServerData } = await defaultClient.query({
+        query: GetHooksServerDataDocument,
+    });
+    const { languages, routes } = hooksServerData;
     const transformedRoutes = transformRoutes(routes);
     const language = await getLanguage(event.request, event.cookies, languages, transformedRoutes);
 

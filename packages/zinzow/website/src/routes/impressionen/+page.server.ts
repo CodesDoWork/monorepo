@@ -1,16 +1,23 @@
 import type { PageServerLoad } from "./$types";
-import { GetImpressionsData } from "../../graphql/default/generated/gql";
-import { GetImpressionsSystemData } from "../../graphql/system/generated/gql";
-import { getAssetUrl } from "../../utils/assets";
-import { toPromise } from "../../utils/graphql/apollo";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
+import { defaultClient } from "../../graphql/default/client";
+import { GetImpressionsDataDocument } from "../../graphql/default/generated/graphql";
+import { systemClient } from "../../graphql/system/client";
+import { GetImpressionsSystemDataDocument } from "../../graphql/system/generated/graphql";
 import { getTextsFromTranslations } from "../../utils/translations";
 
 export const load: PageServerLoad = async () => {
     const pageIdPrefix = "page.impressions.";
-    const { impressions } = await toPromise(GetImpressionsData({}));
-    const { translations } = await toPromise(
-        GetImpressionsSystemData({ variables: { pageIdPrefix } }),
-    );
+
+    const { data: impressionsData } = await defaultClient.query({
+        query: GetImpressionsDataDocument,
+    });
+    const { impressions } = impressionsData;
+    const { data: translationsData } = await systemClient.query({
+        query: GetImpressionsSystemDataDocument,
+        variables: { pageIdPrefix },
+    });
+    const { translations } = translationsData;
 
     return {
         impressions: {
@@ -19,7 +26,7 @@ export const load: PageServerLoad = async () => {
                 .map(file => file.directus_files_id)
                 .map(image => ({
                     ...image,
-                    url: getAssetUrl(image.id),
+                    url: assetUrl(image.id),
                     tags: image.tags as string[] | null,
                 })),
         },

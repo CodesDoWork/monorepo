@@ -1,4 +1,4 @@
-import type { MinimalTranslatedRouteFragment } from "../graphql/default/generated/gql";
+import type { MinimalTranslatedRouteFragment } from "../graphql/default/generated/graphql";
 import type { ServerRoute } from "../routes/types";
 import { byField, byId } from "@cdw/monorepo/shared-utils/filters";
 

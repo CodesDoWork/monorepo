@@ -3,6 +3,8 @@
     import type { LayoutData } from "./$types";
     import { Footer } from "../components/footer";
     import { Header } from "../components/header";
+    import { setNavigationContext } from "../contexts/navigation";
+    import { getRoutes } from "../states/routes.svelte";
     import { createColors, createCssVariables } from "../utils/css";
     import "../tailwind.css";
 
@@ -12,7 +14,11 @@
     }
 
     const { data, children }: Props = $props();
-    const { settings, currentRoute } = data;
+    const { settings, currentRoute, routes } = data;
+
+    const nav = getRoutes(routes, currentRoute);
+    setNavigationContext(nav);
+
     const colors = createColors({
         primary: settings.project_color,
         secondary: settings.secondaryColor,
@@ -28,8 +34,8 @@
 <div
     style={createCssVariables(colors)}
     class="dark:bg-primary-950 relative grid min-h-screen grid-rows-[min-content_1fr_min-content] overflow-x-hidden dark:text-white">
-    {#if $currentRoute?.isHero !== true}
-        <Header {data} />
+    {#if nav.currentRoute.isHero !== true}
+        <Header {data} currentRoute={nav.currentRoute} />
     {/if}
     <main>
         {@render children?.()}

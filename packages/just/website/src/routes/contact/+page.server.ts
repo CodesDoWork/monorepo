@@ -1,16 +1,16 @@
 import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
 import type { Actions, PageServerLoad, RequestEvent } from "./$types";
-import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { SMTPClient } from "emailjs";
 import { z } from "zod";
 import { env } from "../../env";
+import { defaultClient } from "../../graphql/default/client";
 import {
-    GetContactActionData,
-    GetContactActionLanguages,
-    GetContactServerData,
-} from "../../graphql/default/generated/gql";
+    GetContactActionDataDocument,
+    GetContactActionLanguagesDocument,
+    GetContactServerDataDocument,
+} from "../../graphql/default/generated/graphql";
 import { getLanguage } from "../../shared/language";
 import { mapSocial } from "../../shared/mapSocials";
 import { transformRoutes } from "../../shared/routes";
@@ -19,9 +19,12 @@ import { createBreadcrumbList, domainUrl } from "../../shared/urls";
 export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const { currentLanguage } = parentData;
-    const { contact } = flattenTranslations(
-        await toPromise(GetContactServerData({ variables: { language: currentLanguage.code } })),
-    );
+
+    const { data } = await defaultClient.query({
+        query: GetContactServerDataDocument,
+        variables: { language: currentLanguage.code },
+    });
+    const { contact } = flattenTranslations(data);
     const { socials, ...texts } = contact;
     const jsonLdThings = createJsonLdThings(parentData);
 
@@ -83,12 +86,22 @@ export const actions: Actions = {
 };
 
 async function processMessage(event: RequestEvent, msg: Message) {
-    const data = await toPromise(GetContactActionLanguages({}));
-    const allRoutes = transformRoutes(data.allRoutes);
-    const language = await getLanguage(event.request, event.cookies, data.languages, allRoutes);
-    const { contact } = flattenTranslations(
-        await toPromise(GetContactActionData({ variables: { language: language.code } })),
+    const { data: languageData } = await defaultClient.query({
+        query: GetContactActionLanguagesDocument,
+    });
+    const allRoutes = transformRoutes(languageData.allRoutes);
+    const language = await getLanguage(
+        event.request,
+        event.cookies,
+        languageData.languages,
+        allRoutes,
     );
+
+    const { data: contactData } = await defaultClient.query({
+        query: GetContactActionDataDocument,
+        variables: { language: language.code },
+    });
+    const { contact } = flattenTranslations(contactData);
 
     const { name, email, message, privacy } = msg;
     if (!privacy) {

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { ProjectTextsFragment } from "../../graphql/default/generated/gql";
+    import type { ProjectTextsFragment } from "../../graphql/default/generated/graphql";
     import type { Project } from "./types";
     import Icon from "@iconify/svelte";
     import clsx from "clsx";

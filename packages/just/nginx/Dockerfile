@@ -1,12 +1,12 @@
 ARG DOCKER_PROXY
 
-FROM $DOCKER_PROXY/openresty/openresty:1.25.3.2-0-alpine-fat
+FROM $DOCKER_PROXY/openresty/openresty:1.27.1.2-4-alpine-fat
 ARG APP_DIR=just/nginx
 
 RUN mkdir /var/log/nginx
 
 RUN apk add --no-cache openssl-dev git gcc
-RUN luarocks install lua-resty-openidc
+RUN luarocks install lua-resty-openidc 1.8.0
 
 WORKDIR /etc/nginx
 COPY ./packages/$APP_DIR/conf conf.d

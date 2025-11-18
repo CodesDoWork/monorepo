@@ -1,0 +1,9 @@
+{
+    "generators": {
+        "exec": {
+            "factory": "./src/generators/executor/generator",
+            "schema": "./src/generators/executor/schema.json",
+            "description": "Command executions wrapped in JITI"
+        }
+    }
+}

@@ -1,4 +1,4 @@
-import type { SocialFragment } from "../graphql/default/generated/gql";
+import type { SocialFragment } from "../graphql/default/generated/graphql";
 
 export function mapSocial(social: SocialFragment) {
     const { platform } = social;

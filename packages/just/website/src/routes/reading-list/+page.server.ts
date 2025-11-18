@@ -1,20 +1,23 @@
 import type { FlatTrans } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
-import type { GetReadingListDataQuery } from "../../graphql/default/generated/gql";
+import type { GetReadingListDataQuery } from "../../graphql/default/generated/graphql";
 import type { PageServerLoad } from "./$types";
-import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import { GetReadingListData } from "../../graphql/default/generated/gql";
-import { assetUrl } from "../../shared/assets";
+import { defaultClient } from "../../graphql/default/client";
+import { GetReadingListDataDocument } from "../../graphql/default/generated/graphql";
 import { createBreadcrumbList } from "../../shared/urls";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const { currentLanguage } = parentData;
-    const res = flattenTranslations(
-        await toPromise(GetReadingListData({ variables: { language: currentLanguage.code } })),
-    );
+
+    const { data } = await defaultClient.query({
+        query: GetReadingListDataDocument,
+        variables: { language: currentLanguage.code },
+    });
+    const res = flattenTranslations(data);
 
     const books = transformBooks(res.books);
     const categories = new Set(

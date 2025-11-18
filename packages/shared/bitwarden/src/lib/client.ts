@@ -77,10 +77,10 @@ export class BitwardenClient {
                             })),
                             id: cipher.id,
                             login: {
-                                username: cipher.login.username
+                                username: cipher.login?.username
                                     ? new Secret(this, cipher.login.username, cipher.organizationId)
                                     : null,
-                                password: cipher.login.password
+                                password: cipher.login?.password
                                     ? new Secret(this, cipher.login.password, cipher.organizationId)
                                     : null,
                             },
@@ -153,7 +153,7 @@ export class BitwardenClient {
     }
 
     private strechMasterKey(masterKey: ByteData): Promise<SymmetricKey> {
-        return stretchKey(masterKey.buf);
+        return stretchKey(masterKey.src);
     }
 
     private get<Path extends GetRoutes, R = BitwardenApi[Path]["response"]>(

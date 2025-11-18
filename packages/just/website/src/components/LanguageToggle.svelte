@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { LanguageFragment } from "../graphql/default/generated/gql";
+    import type { LanguageFragment } from "../graphql/default/generated/graphql";
     import type { Route } from "../routes/types";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
@@ -31,7 +31,7 @@
         className,
         textColor,
         displayHoverColor,
-        "dark:hover:text-secondary-500 group relative font-mono transition hover:drop-shadow-md",
+        "group relative font-mono transition hover:drop-shadow-md dark:hover:text-secondary-500",
     )}>
     <span class="cursor-default">{currentLanguage.short.toUpperCase()}</span>
     <div
@@ -41,7 +41,7 @@
             "transition-all",
             "pt-2",
         )}>
-        <ul class={clsx("dark:bg-primary-800 rounded bg-white shadow-md")}>
+        <ul class={clsx("rounded bg-white shadow-md dark:bg-primary-800")}>
             {#each languages as language}
                 {#if language.code !== currentLanguage.code}
                     <li class={clsx("rounded text-black dark:text-white", liHoverColor)}>

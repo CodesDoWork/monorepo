@@ -1,15 +1,23 @@
 import type { PageServerLoad } from "./$types";
-import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
-import { GetCvData } from "../../../graphql/default/generated/gql";
-import { assetUrl } from "../../../shared/assets";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
+import { defaultClient } from "../../../graphql/default/client";
+import { GetCvDataDocument } from "../../../graphql/default/generated/graphql";
 import { mapSocial } from "../../../shared/mapSocials";
 
 export const load: PageServerLoad = async () => {
-    const { about, cv, info } = await toPromise(GetCvData({ fetchPolicy: "no-cache" }));
+    const { data } = await defaultClient.query({
+        query: GetCvDataDocument,
+        fetchPolicy: "no-cache",
+    });
+    const { about, cv, info } = data;
 
     about.portrait = assetUrl(about.portrait);
     const socials = cv.socials.map(s => mapSocial(s.social));
     const technologies = cv.technologies.map(({ technology }) => technology);
+
+    cv.experiences.forEach(exp => {
+        exp.experience.logo = assetUrl(exp.experience.logo);
+    });
 
     return { ...info, ...about, ...cv, socials, technologies };
 };

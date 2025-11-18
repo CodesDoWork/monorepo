@@ -18,30 +18,20 @@ type SidebarFile = {
 export type Sidebar = SidebarItem[];
 
 export function generateSidebar(docsPath: string): Sidebar {
-    const skipLevels = 4;
-    const levelThreshold = 4;
     function processDirectory(dirPath: string, rootItem: SidebarDir, level = 0): SidebarDir {
-        const isBelowThreshold = level < levelThreshold;
-
+        console.log(dirPath);
         const children = readdirSync(dirPath, { withFileTypes: true });
         const dirItem: SidebarDir = {
-            text: isBelowThreshold
-                ? dirPath.split(path.sep)?.pop() || path.dirname(dirPath)
-                : dirPath.split(path.sep).slice(skipLevels).join("-"),
+            text: dirPath.split(path.sep)?.pop() || path.dirname(dirPath),
             collapsible: true,
             collapsed: true,
             items: [],
         };
-        const isCodeDocs = dirItem.text === "code-docs";
 
         for (const child of children) {
-            if (child.isDirectory() && !isCodeDocs) {
-                processDirectory(
-                    path.join(dirPath, child.name),
-                    isBelowThreshold ? dirItem : rootItem,
-                    level + 1,
-                );
-            } else if (child.name.endsWith(".md") && (!isCodeDocs || child.name === "modules.md")) {
+            if (child.isDirectory()) {
+                processDirectory(path.join(dirPath, child.name), dirItem, level + 1);
+            } else if (child.name.endsWith(".md")) {
                 const childPath = path.join(dirPath, child.name);
                 const fileName = path.parse(child.name).name;
                 dirItem.items.push({

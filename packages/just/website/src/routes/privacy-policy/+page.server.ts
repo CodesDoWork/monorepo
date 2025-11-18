@@ -1,19 +1,20 @@
 import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
 import type { PageServerLoad } from "./$types";
-import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import { GetPrivacyPolicyServerData } from "../../graphql/default/generated/gql";
+import { defaultClient } from "../../graphql/default/client";
+import { GetPrivacyPolicyServerDataDocument } from "../../graphql/default/generated/graphql";
 import { createBreadcrumbList, domainUrl } from "../../shared/urls";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const { currentLanguage } = parentData;
-    const { privacyPolicy } = flattenTranslations(
-        await toPromise(
-            GetPrivacyPolicyServerData({ variables: { language: currentLanguage.code } }),
-        ),
-    );
+
+    const { data } = await defaultClient.query({
+        query: GetPrivacyPolicyServerDataDocument,
+        variables: { language: currentLanguage.code },
+    });
+    const { privacyPolicy } = flattenTranslations(data);
 
     const jsonLdThings = createJsonLdThings(parentData);
 

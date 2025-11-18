@@ -1,22 +1,25 @@
 import type { FlatTrans } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
-import type { GetEventsServerDataQuery } from "../../graphql/default/generated/gql";
+import type { GetEventsServerDataQuery } from "../../graphql/default/generated/graphql";
 import type { Route } from "../types";
 import type { PageServerLoad } from "./$types";
+import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { byField, byId } from "@cdw/monorepo/shared-utils/filters";
-import { toPromise } from "@cdw/monorepo/shared-utils/svelte/graphql/apollo";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import { GetEventsServerData } from "../../graphql/default/generated/gql";
-import { assetUrl } from "../../shared/assets";
+import { defaultClient } from "../../graphql/default/client";
+import { GetEventsServerDataDocument } from "../../graphql/default/generated/graphql";
 import { createBreadcrumbList } from "../../shared/urls";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const { currentLanguage, serverRoutes, routes } = parentData;
-    const { events, texts } = flattenTranslations(
-        await toPromise(GetEventsServerData({ variables: { language: currentLanguage.code } })),
-    );
+
+    const { data } = await defaultClient.query({
+        query: GetEventsServerDataDocument,
+        variables: { language: currentLanguage.code },
+    });
+    const { events, texts } = flattenTranslations(data);
 
     const projectRouteId = serverRoutes.find(byField("route", "/projects"))?.id;
     const projectRoute = routes.find(byId(projectRouteId));

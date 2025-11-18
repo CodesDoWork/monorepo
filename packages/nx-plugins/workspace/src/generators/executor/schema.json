@@ -1,0 +1,18 @@
+{
+    "$schema": "https://json-schema.org/schema",
+    "$id": "Executor",
+    "title": "",
+    "type": "object",
+    "properties": {
+        "command": {
+            "type": "string",
+            "description": "Command to execute",
+            "$default": {
+                "$source": "argv",
+                "index": 0
+            },
+            "x-prompt": "Which command do you want to execute?"
+        }
+    },
+    "required": ["command"]
+}

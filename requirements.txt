@@ -305,7 +305,7 @@ numpy-minmax==0.5.0
     # via audiomentations
 numpy-rms==0.6.0
     # via audiomentations
-nvidia-cublas-cu12==12.8.4.1
+nvidia-cublas-cu12==12.9.1.4
     # via
     #   nvidia-cudnn-cu12
     #   nvidia-cusolver-cu12

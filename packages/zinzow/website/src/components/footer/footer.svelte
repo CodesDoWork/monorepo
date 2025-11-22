@@ -3,13 +3,14 @@
     import Icon from "@iconify/svelte";
     import { WidthBox } from "../content-area";
     import { H5 } from "../heading";
+    import { Logo } from "../logo";
 
     interface Props {
         data: LayoutData;
     }
 
     const { data }: Props = $props();
-    const { settings, socialMedias, footerSections, logo } = data;
+    const { settings, socialMedias, footerSections } = data;
 </script>
 
 <footer class="dark:bg-primary-950 bg-white">
@@ -18,7 +19,7 @@
             class="border-t border-gray-900/10 pt-12 xl:grid xl:grid-cols-7 xl:gap-8 dark:border-white/10">
             <div class="col-span-3 space-y-4 sm:space-y-7">
                 <a href="/" class="inline-block">
-                    <img src={logo} alt="logo" class="w-56 rounded" />
+                    <Logo class="size-56 p-4 bg-logoBg-500 dark:fill-black rounded shadow-md" />
                 </a>
                 <p class="text-balance text-sm/6 text-gray-600 dark:text-gray-300">
                     {settings.project_descriptor}

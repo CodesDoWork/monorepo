@@ -60,7 +60,7 @@
                 {#each firstRoutes as route, idx (idx)}
                     <li style={animationDelay(AnimationPriority.NAV + idx)} class={getClasses()}>
                         <a
-                            class="hover:text-primary dark:hover:text-accent block p-1 drop-shadow transition-all hover:scale-105 hover:drop-shadow-md"
+                            class="hover:text-primary block p-1 drop-shadow transition-all hover:scale-105 hover:drop-shadow-md"
                             href={route.path}>
                             {route.name}
                         </a>

@@ -24,8 +24,8 @@
                         <Icon
                             icon={route.icon}
                             class={classNames(
-                                "group-hover:text-accent size-6 transition-colors duration-300",
-                                isActive ? "text-accent" : " text-gray-600",
+                                "group-hover:text-primary size-6 transition-colors duration-300",
+                                isActive ? "text-primary" : " text-gray-600",
                             )} />
                     </div>
                     <div class="flex-auto">
@@ -33,7 +33,7 @@
                             href={route.path}
                             class={classNames(
                                 "block font-semibold",
-                                isActive ? "text-accent" : "text-gray-900 dark:text-gray-200",
+                                isActive ? "text-primary" : "text-gray-900 dark:text-gray-200",
                             )}>
                             {route.name}
                             <span class="absolute inset-0"></span>

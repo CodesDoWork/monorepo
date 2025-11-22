@@ -1,5 +1,4 @@
 import type { LayoutServerLoad } from "./$types";
-import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { defaultClient } from "../graphql/default/client";
 import { GetLayoutDataDocument } from "../graphql/default/generated/graphql";
 import { systemClient } from "../graphql/system/client";
@@ -13,6 +12,5 @@ export const load: LayoutServerLoad = async ({ url }) => {
         ...systemData,
         ...defaultData,
         currentRoute: defaultData.routes.find(r => r.path === url.pathname),
-        logo: assetUrl(systemData.logo[0].id),
     };
 };

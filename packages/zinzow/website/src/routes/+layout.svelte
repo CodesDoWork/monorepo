@@ -21,8 +21,7 @@
 
     const colors = createColors({
         primary: settings.project_color,
-        secondary: settings.secondaryColor,
-        accent: settings.accentColor,
+        logoBg: settings.logoBackgroundColor,
     });
 </script>
 

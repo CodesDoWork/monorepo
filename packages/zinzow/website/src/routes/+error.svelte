@@ -7,7 +7,7 @@
 </script>
 
 <div class="px-6 py-24 text-center sm:py-32 lg:px-8">
-    <p class="text-primary-600 dark:text-primary-400 text-base font-semibold">{status}</p>
+    <p class="text-primary text-base font-semibold">{status}</p>
     <H1 class="mt-4 text-5xl sm:text-7xl">{error.title || "Fehler"}</H1>
     <p class="mt-6 text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">
         {error.message || "Etwas ist schief gelaufen."}

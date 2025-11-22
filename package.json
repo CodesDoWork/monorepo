@@ -138,7 +138,7 @@
         "secretlint": "^11.2.5",
         "simple-git": "^3.30.0",
         "stream-browserify": "^3.0.0",
-        "svelte": "5.41.4",
+        "svelte": "5.43.14",
         "svelte-apollo": "^0.5.0",
         "svelte-check": "^4.3.4",
         "svelte-infinite-scroll": "^2.0.1",

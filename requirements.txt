@@ -116,7 +116,7 @@ gitpython==3.1.45
     # via wandb
 h11==0.16.0
     # via httpcore
-hf-xet==1.2.0
+hf-xet==1.2.1
     # via huggingface-hub
 httpcore==1.0.9
     # via httpx

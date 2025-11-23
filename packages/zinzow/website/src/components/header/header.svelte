@@ -4,10 +4,10 @@
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { writable } from "svelte/store";
+    import { animationDelay } from "../../utils/animation-delay";
     import { WidthBox } from "../content-area";
     import { Logo } from "../logo";
     import { MobileMenu } from "../mobile-menu";
-    import PopupNav from "./popup-nav.svelte";
 
     interface Props {
         data: LayoutData;
@@ -21,12 +21,20 @@
 
     const mobileMenuOpen = writable(false);
     const onMenuClick = () => mobileMenuOpen.update(value => !value);
+
+    const animate = (...classes: string[]) => clsx(...classes, "animate-fadeInBT opacity-0");
+    const AnimationPriority = {
+        LOGO: 0,
+        NAV: 1,
+    };
 </script>
 
-<header>
-    <WidthBox tag="nav" class="flex items-center justify-between">
+<header class={currentRoute?.isHero && "absolute inset-x-0"}>
+    <WidthBox tag="nav" class="z-10 flex items-center justify-between py-4">
         <a href="/">
-            <Logo class="size-24 rounded" />
+            <Logo
+                class={animate("size-32 rounded")}
+                style={animationDelay(AnimationPriority.LOGO)} />
         </a>
         <div
             class="
@@ -48,49 +56,28 @@
                 md:block
             ">
             <ol class="flex">
-                {#each routesInNav as route}
-                    {@const children = routes.filter(
-                        r => r.path.startsWith(route.path) && r.path !== route.path,
-                    )}
+                {#each routesInNav as route, idx (idx)}
                     <li
-                        class={clsx(
+                        style={animationDelay(AnimationPriority.NAV + idx)}
+                        class={animate(
                             `
-                                group/nav-item relative transition-colors
-                                hover:text-(--primary)
+                                group/nav-item relative transition-all
+                                hover:scale-105 hover:text-(--primary)
+                                dark:hover:text-(--primary-200)
                             `,
                             currentRoute.path.startsWith(route.path)
-                                ? "text-(--primary)"
+                                ? `
+                                    scale-105 text-(--primary)
+                                    dark:text-(--primary-200)
+                                `
                                 : `
-                                    text-gray-900
+                                    scale-100 text-gray-900
                                     dark:text-white
                                 `,
                         )}>
-                        <a
-                            href={route.path}
-                            class={clsx(
-                                `
-                                    block px-3 py-1 text-sm/6 font-semibold transition
-                                    group-hover/nav-item:scale-105
-                                `,
-                                currentRoute.path.startsWith(route.path)
-                                    ? "scale-105"
-                                    : "scale-100",
-                            )}>
+                        <a href={route.path} class={clsx(`block px-3 py-1 font-semibold`)}>
                             {route.name}
-                            {#if children.length}
-                                <Icon icon="carbon:chevron-down" class="inline size-4" />
-                            {/if}
                         </a>
-                        {#if children.length}
-                            <PopupNav
-                                class="
-                                    invisible translate-y-2 opacity-0 transition-all duration-300
-                                    group-hover/nav-item:visible group-hover/nav-item:translate-y-0
-                                    group-hover/nav-item:opacity-100
-                                "
-                                routes={children}
-                                {currentRoute} />
-                        {/if}
                     </li>
                 {/each}
             </ol>

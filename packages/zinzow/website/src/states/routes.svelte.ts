@@ -6,7 +6,7 @@ interface Route {
 }
 
 export function getRoutes<T extends Route>(routes: T[], initialRoute: T) {
-    let currentRoute = $state(initialRoute);
+    let currentRoute = $state<T | undefined>(initialRoute);
     let previousRoute = $state<T | undefined>();
 
     afterNavigate(({ from, to }) => {

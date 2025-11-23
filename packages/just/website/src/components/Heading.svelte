@@ -34,7 +34,7 @@
             level === "h4" && "mb-3 lg:text-lg xl:text-xl",
             level === "h5" && "mb-2 lg:text-lg",
             level === "h6" && "mb-1 italic",
-            "text-[var(--page-color)] dark:text-[var(--page-color)]",
+            "text-(--page-color) dark:text-(--page-color)",
         ),
     );
 </script>

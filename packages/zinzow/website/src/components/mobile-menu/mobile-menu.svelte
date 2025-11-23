@@ -41,10 +41,20 @@
     <div
         class={clsx(
             $menuAnimation,
-            "bg-primary dark:bg-primary-800 text-onPrimary fixed inset-y-0 right-0 z-10 min-w-56 overflow-y-auto p-6 shadow-lg sm:max-w-sm sm:ring-1 sm:ring-gray-900/10",
+            `
+              fixed inset-y-0 right-0 z-10 min-w-56 overflow-y-auto
+              bg-(--primary) p-6 text-(--onPrimary) shadow-lg
+              sm:max-w-sm sm:ring-1 sm:ring-gray-900/10
+              dark:bg-(--primary-800)
+            `,
         )}>
         <div class="mt-2 flex justify-end">
-            <button onclick={triggerClose} type="button" class="-m-2.5 rounded-md p-2.5">
+            <button
+                onclick={triggerClose}
+                type="button"
+                class="
+                -m-2.5 rounded-md p-2.5
+            ">
                 <Icon icon="material-symbols:close" class="size-6" />
             </button>
         </div>
@@ -57,8 +67,16 @@
                         )}
                         <div
                             class={clsx(
-                                currentRoute.path.startsWith(route.path) && "text-primary",
-                                "hover:bg-primary-400 dark:hover:bg-primary-700 -mx-3 flex items-center justify-between rounded-lg px-3 py-2 text-base/7 font-semibold",
+                                currentRoute.path.startsWith(route.path) &&
+                                    `
+                                  text-(--primary)
+                                `,
+                                `
+                                  -mx-3 flex items-center justify-between
+                                  rounded-lg px-3 py-2 text-base/7 font-semibold
+                                  hover:bg-(--primary-400)
+                                  dark:hover:bg-(--primary-700)
+                                `,
                             )}>
                             <a class="flex-1" onclick={triggerClose} href={route.path}>
                                 {route.name}
@@ -69,7 +87,11 @@
                                         icon="carbon:chevron-up"
                                         class={clsx(
                                             "size-4 text-current transition",
-                                            $routeStates[idx] ? "rotate-0" : "rotate-180",
+                                            $routeStates[idx]
+                                                ? "rotate-0"
+                                                : `
+                                              rotate-180
+                                            `,
                                         )} /></button>
                             {/if}
                         </div>
@@ -79,9 +101,15 @@
                                     <li
                                         class={clsx(
                                             currentRoute.path.startsWith(child.path)
-                                                ? "text-primary"
+                                                ? "text-(--primary)"
                                                 : "",
-                                            "hover:bg-primary-400 dark:hover:bg-primary-700 flex items-center justify-between rounded-lg py-2 pl-6 pr-3 text-sm/7 font-semibold",
+                                            `
+                                              flex items-center justify-between
+                                              rounded-lg py-2 pr-3 pl-6
+                                              text-sm/7 font-semibold
+                                              hover:bg-(--primary-400)
+                                              dark:hover:bg-(--primary-700)
+                                            `,
                                         )}>
                                         <a class="flex-1" onclick={triggerClose} href={child.path}>
                                             {child.name}

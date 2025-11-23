@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 import { sveltekit } from "@sveltejs/kit/vite";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -18,7 +19,7 @@ export default defineConfig({
         host: "localhost",
     },
 
-    plugins: [sveltekit(), nxViteTsPaths()],
+    plugins: [sveltekit(), tailwindcss(), nxViteTsPaths()],
 
     // Uncomment this if you are using workers.
     // worker: {

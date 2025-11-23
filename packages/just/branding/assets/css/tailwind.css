@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 @font-face {
     font-family: "JetBrains Mono";
@@ -12,4 +10,147 @@
     font-family: "Inter";
     src: url("../font/Inter.woff2") format("woff2");
     font-display: swap;
+}
+
+@theme {
+    --color-onPrimary: var(--color-white);
+
+    --color-primary: var(--color-sky-500);
+    --color-primary-50: var(--color-sky-50);
+    --color-primary-100: var(--color-sky-100);
+    --color-primary-200: var(--color-sky-200);
+    --color-primary-300: var(--color-sky-300);
+    --color-primary-400: var(--color-sky-400);
+    --color-primary-500: var(--color-sky-500);
+    --color-primary-600: var(--color-sky-600);
+    --color-primary-700: var(--color-sky-700);
+    --color-primary-800: var(--color-sky-800);
+    --color-primary-900: var(--color-sky-900);
+    --color-primary-950: var(--color-sky-950);
+
+    --color-secondary: var(--color-teal-500);
+    --color-secondary-50: var(--color-teal-50);
+    --color-secondary-100: var(--color-teal-100);
+    --color-secondary-200: var(--color-teal-200);
+    --color-secondary-300: var(--color-teal-300);
+    --color-secondary-400: var(--color-teal-400);
+    --color-secondary-500: var(--color-teal-500);
+    --color-secondary-600: var(--color-teal-600);
+    --color-secondary-700: var(--color-teal-700);
+    --color-secondary-800: var(--color-teal-800);
+    --color-secondary-900: var(--color-teal-900);
+    --color-secondary-950: var(--color-teal-950);
+
+    --color-tertiary: var(--color-orange-500);
+    --color-tertiary-50: var(--color-orange-50);
+    --color-tertiary-100: var(--color-orange-100);
+    --color-tertiary-200: var(--color-orange-200);
+    --color-tertiary-300: var(--color-orange-300);
+    --color-tertiary-400: var(--color-orange-400);
+    --color-tertiary-500: var(--color-orange-500);
+    --color-tertiary-600: var(--color-orange-600);
+    --color-tertiary-700: var(--color-orange-700);
+    --color-tertiary-800: var(--color-orange-800);
+    --color-tertiary-900: var(--color-orange-900);
+    --color-tertiary-950: var(--color-orange-950);
+
+    --color-accent: var(--color-fuchsia-500);
+    --color-accent-50: var(--color-fuchsia-50);
+    --color-accent-100: var(--color-fuchsia-100);
+    --color-accent-200: var(--color-fuchsia-200);
+    --color-accent-300: var(--color-fuchsia-300);
+    --color-accent-400: var(--color-fuchsia-400);
+    --color-accent-500: var(--color-fuchsia-500);
+    --color-accent-600: var(--color-fuchsia-600);
+    --color-accent-700: var(--color-fuchsia-700);
+    --color-accent-800: var(--color-fuchsia-800);
+    --color-accent-900: var(--color-fuchsia-900);
+    --color-accent-950: var(--color-fuchsia-950);
+
+    --color-error: var(--color-red-500);
+    --color-error-50: var(--color-red-50);
+    --color-error-100: var(--color-red-100);
+    --color-error-200: var(--color-red-200);
+    --color-error-300: var(--color-red-300);
+    --color-error-400: var(--color-red-400);
+    --color-error-500: var(--color-red-500);
+    --color-error-600: var(--color-red-600);
+    --color-error-700: var(--color-red-700);
+    --color-error-800: var(--color-red-800);
+    --color-error-900: var(--color-red-900);
+    --color-error-950: var(--color-red-950);
+
+    --font-sans: "Inter", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+
+    --text-0: 0;
+
+    --animate-spin-slow: spin 3s linear infinite;
+    --animate-blink: blink 1.25s steps(1) infinite;
+    --animate-fadeIn: fadeIn 0.5s ease-in-out forwards;
+    --animate-fadeInSubtle: fadeInSubtle 0.5s ease-in-out forwards;
+    --animate-fadeInTopSubtle: fadeInTopSubtle 0.5s ease-in-out forwards;
+    --animate-fadeOutTopSubtle: fadeInTopSubtle 0.5s ease-in-out reverse forwards;
+    --animate-switch: switch 0.3s ease-in-out;
+    --animate-grow: grow 0.5s ease-in-out forwards;
+    --animate-shrink: grow 0.5s ease-in-out reverse forwards;
+
+    @keyframes blink {
+        50% {
+            opacity: 0;
+        }
+    }
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+            transform: translateY(4rem);
+            display: none;
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    @keyframes fadeInSubtle {
+        0% {
+            opacity: 0;
+            transform: translateY(1rem);
+            display: none;
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    @keyframes fadeInTopSubtle {
+        0% {
+            opacity: 0;
+            transform: translateY(-1rem);
+            display: none;
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    @keyframes switch {
+        0% {
+        }
+        50% {
+            opacity: 0;
+            transform: translateY(0.5rem);
+        }
+        100% {
+        }
+    }
+    @keyframes grow {
+        0% {
+            opacity: 0;
+            transform: scaleY(0);
+        }
+        100% {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+    }
 }

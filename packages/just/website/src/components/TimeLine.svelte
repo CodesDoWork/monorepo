@@ -1,6 +1,6 @@
 <script lang="ts" generics="T">
     import type { Snippet } from "svelte";
-    import clsx from "clsx";
+    import { clsx } from "clsx";
     import Heading from "./Heading.svelte";
     import VerticalLine from "./VerticalLine.svelte";
 
@@ -21,20 +21,30 @@
         class={clsx(
             "grid grid-cols-[2.5rem_1fr]",
             small
-                ? "grid-rows-[1rem_auto_4.75rem] sm:grid-cols-[3.5rem_1fr]"
-                : "grid-rows-[1rem_auto_1fr] sm:grid-cols-[4rem_1fr]",
+                ? `
+                    grid-rows-[1rem_auto_4.75rem]
+                    sm:grid-cols-[3.5rem_1fr]
+                `
+                : `
+                    grid-rows-[1rem_auto_1fr]
+                    sm:grid-cols-[4rem_1fr]
+                `,
         )}>
         <VerticalLine />
-        <div class={clsx("row-span-3 ml-4 mt-2", small ? "pb-2" : "pb-8")}>
-            <span class="text-sm italic dark:text-slate-400 text-slate-500">
+        <div class={clsx("row-span-3 mt-2 ml-4", small ? "pb-2" : "pb-8")}>
+            <span
+                class="
+                text-sm text-slate-500 italic
+                dark:text-slate-400
+            ">
                 {@render date?.(timestep)}{@html date ? undefined : "&nbsp;"}
             </span>
             <Heading
                 commandStyle={false}
                 class={clsx(
-                    "!text-black",
-                    small && "!text-base",
-                    small ? "dark:!text-primary-500" : "dark:!text-white",
+                    "text-black!",
+                    small && "text-base!",
+                    small ? "dark:!text-primary-500" : "dark:text-white!",
                 )}
                 level="h5">
                 {@render title(timestep)}

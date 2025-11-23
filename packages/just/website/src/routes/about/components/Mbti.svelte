@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { PageData } from "../$types";
     import { formatNumber } from "@cdw/monorepo/shared-utils/numbers";
-    import clsx from "clsx";
+    import { clsx } from "clsx";
     import { getChartData } from "./chart-data.svelte";
 
     interface Props {
@@ -73,26 +73,29 @@
     const normalText = "text-gray-400";
 </script>
 
-<ul class="space-y-6 mt-4 px-2">
+<ul class="mt-4 space-y-6 px-2">
     {#each chartData as dataPoint, idx (idx)}
         {@const highlightLeft = dataPoint.value.current < 50}
         {@const value = highlightLeft ? 100 - dataPoint.value.current : dataPoint.value.current}
         {@const traitText = highlightLeft ? dataPoint.info.left.text : dataPoint.info.right.text}
-        <li class="h-6 w-full flex items-center gap-3">
+        <li class="flex h-6 w-full items-center gap-3">
             <span class={clsx(textClass, highlightLeft ? highlightedText : normalText)}>
                 {dataPoint.info.left.label}
             </span>
 
             <div class="relative w-full">
-                <div class="w-full h-2 rounded-full" style="background-color: {dataPoint.color};">
+                <div class="h-2 w-full rounded-full" style="background-color: {dataPoint.color};">
                 </div>
                 <div
-                    class="absolute text-sm bottom-4 -translate-x-1/2 w-max"
+                    class="absolute bottom-4 w-max -translate-x-1/2 text-sm"
                     style="left: {dataPoint.value.current}%">
                     {formatNumber(value, 1, currentLanguage.code)}&thinsp;% {traitText}
                 </div>
                 <div
-                    class="absolute size-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white top-1/2"
+                    class="
+                        absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full
+                        border-2 border-white
+                    "
                     style="background-color: {dataPoint.color}; left: {dataPoint.value.current}%;">
                 </div>
             </div>

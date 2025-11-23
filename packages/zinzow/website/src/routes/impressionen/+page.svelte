@@ -2,7 +2,7 @@
     import type { PageData } from "./$types";
     import { byId } from "@cdw/monorepo/shared-utils/filters";
     import Icon from "@iconify/svelte";
-    import classNames from "classnames";
+    import { clsx } from "clsx";
     import { writable } from "svelte/store";
     import { Badges } from "../../components/badge";
     import { PageContent } from "../../components/content-area";
@@ -60,16 +60,38 @@
 <ImagePopup isOpen={showDialog} {selectedImage} />
 <PageContent class="isolate">
     <H1>{data.texts.title}</H1>
-    <div class="mt-8 grid grid-cols-1 lg:grid-cols-[60%_40%]">
+    <div
+        class="
+            mt-8 grid grid-cols-1
+            lg:grid-cols-[60%_40%]
+        ">
         <div
-            class="relative row-span-3 grid grid-cols-subgrid lg:col-span-2 lg:row-span-2 lg:mx-8 xl:mx-4 2xl:mx-0">
-            <button onclick={() => showDialog.set(true)} class="h-[24rem] w-full md:h-[32rem]">
+            class="
+                relative row-span-3 grid grid-cols-subgrid
+                lg:col-span-2 lg:row-span-2 lg:mx-8
+                xl:mx-4
+                2xl:mx-0
+            ">
+            <button
+                onclick={() => showDialog.set(true)}
+                class="
+                    h-96 w-full
+                    md:h-128
+                ">
                 <img
                     alt={selectedImage.title}
                     src={selectedImage.url}
-                    class="mx-auto h-full object-contain object-bottom md:rounded-lg md:shadow-lg lg:w-full lg:object-cover" />
+                    class="
+                        mx-auto h-full object-contain object-bottom
+                        md:rounded-lg md:shadow-lg
+                        lg:w-full lg:object-cover
+                    " />
             </button>
-            <div class="p-0 lg:row-start-auto lg:h-auto lg:p-6">
+            <div
+                class="
+                    p-0
+                    lg:row-start-auto lg:h-auto lg:p-6
+                ">
                 <H3>{selectedImage.title}</H3>
                 {#if selectedImage.description}
                     <Paragraphs text={selectedImage.description} size="base" class="mt-4" />
@@ -83,36 +105,59 @@
                     <Badges class="mt-6" badges={selectedImage.tags} />
                 {/if}
             </div>
-            <div class="row-start-2 mb-8 mt-4 flex items-center justify-center gap-12 lg:m-0">
+            <div
+                class="
+                    row-start-2 mt-4 mb-8 flex items-center justify-center gap-12
+                    lg:m-0
+                ">
                 <button onclick={() => rotateImageBy(-1)}>
                     <Icon
                         icon="mingcute:left-line"
-                        class="size-10 text-gray-400 lg:absolute lg:-left-8 lg:top-1/2 lg:-translate-x-1/2 lg:-translate-y-1/2" />
+                        class="
+                            size-10 text-gray-400
+                            lg:absolute lg:top-1/2 lg:-left-8 lg:-translate-x-1/2
+                            lg:-translate-y-1/2
+                        " />
                 </button>
                 <button onclick={() => rotateImageBy(1)}>
                     <Icon
                         icon="mingcute:right-line"
-                        class="size-10 text-gray-400 lg:absolute lg:-right-8 lg:top-1/2 lg:-translate-y-1/2 lg:translate-x-1/2" />
+                        class="
+                            size-10 text-gray-400
+                            lg:absolute lg:top-1/2 lg:-right-8 lg:translate-x-1/2
+                            lg:-translate-y-1/2
+                        " />
                 </button>
             </div>
         </div>
-        <ol class="row-start-1 mt-4 flex md:mb-4 lg:col-span-2 lg:row-start-auto lg:mb-0">
+        <ol
+            class="
+                row-start-1 mt-4 flex
+                md:mb-4
+                lg:col-span-2 lg:row-start-auto lg:mb-0
+            ">
             {#each columnsArray as _, colIdx}
                 <div class="flex flex-col">
                     {#each images as img, imgIdx}
                         {#if imgIdx % columns === colIdx}
                             <li>
                                 <button
-                                    class="group h-full w-full p-1 md:p-2"
+                                    class="
+                                        group h-full w-full p-1
+                                        md:p-2
+                                    "
                                     onclick={() => (clickedSelectedImage = img)}
                                     onmousemove={() => (selectedImage = img)}
                                     onmouseleave={() => (selectedImage = clickedSelectedImage)}>
                                     <img
                                         alt={img.title}
                                         src={img.url}
-                                        class={classNames(
+                                        class={clsx(
                                             img.id === selectedImage.id && "ring-4",
-                                            "ring-primary w-full rounded shadow-md md:rounded-lg",
+                                            `
+                                                w-full rounded shadow-md ring-(--primary)
+                                                md:rounded-lg
+                                            `,
                                         )} />
                                 </button>
                             </li>

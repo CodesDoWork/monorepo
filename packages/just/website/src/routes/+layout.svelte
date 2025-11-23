@@ -6,7 +6,6 @@
     import { page } from "$app/state";
     import { byId } from "@cdw/monorepo/shared-utils/filters";
     import { clsx } from "clsx";
-    import tailwindConfig from "../../tailwind.config";
     import BackToTop from "../components/BackToTop.svelte";
     import BlurContent from "../components/BlurContent.svelte";
     import Footer from "../components/Footer.svelte";
@@ -18,7 +17,7 @@
     import { getRoutes } from "../states/routes.svelte";
     import { getTheme, Theme } from "../states/theme.svelte";
     import { privateRoute } from "./private/constants";
-    import "@cdw/monorepo/just-branding/assets/css/tailwind.css";
+    import "../app.css";
 
     interface Props {
         data: PageData;
@@ -56,17 +55,29 @@
             : `${nav.currentRoute.name} | ${siteInfo.name}`,
     );
 
+    const lightTheme = "oklch(74.6% 0.16 232.661)"; // primary-400 (aka sky-400)
+    const darkTheme = "oklch(29.3% 0.066 243.157)"; // primary-900 (aka sky-900)
+
     const theme = getTheme();
-    const colors = tailwindConfig.theme.extend.colors as Record<string, Record<number, string>>;
-    const themeColor = $derived(
-        theme.displayedTheme === Theme.Dark ? colors.primary[950] : colors.primary[400],
-    );
+    const themeColor = $derived(theme.displayedTheme === Theme.Dark ? darkTheme : lightTheme);
 
     const mainClass = $derived(
         clsx(
-            "text-black transition-colors dark:text-white",
-            nav.currentRoute?.isHero === false && "bg-white dark:bg-opacity-0",
-            "w-full flex-1 px-8 pb-16 pt-4 sm:px-1/20 md:px-8 lg:px-1/10",
+            `
+                text-black transition-colors
+                dark:text-white
+            `,
+            nav.currentRoute?.isHero === false &&
+                `
+                    bg-white
+                    dark:bg-transparent
+                `,
+            `
+                w-full flex-1 px-8 pt-4 pb-16
+                sm:px-[5%]
+                md:px-8
+                lg:px-[10%]
+            `,
             nav.currentRoute?.isHero === false &&
                 nav.previousRoute?.isHero &&
                 "animate-fadeInSubtle",
@@ -127,8 +138,11 @@
     <Overlay />
     <div
         class={clsx(
-            "from-primary-400 to-secondary-400 dark:from-primary-950 dark:to-secondary-950",
-            "bg-gradient-to-b from-5% to-95% transition-colors",
+            `
+                from-primary-400 to-secondary-400
+                dark:from-primary-950 dark:to-secondary-950
+            `,
+            "bg-linear-to-b from-5% to-95% transition-colors",
             "relative overflow-x-hidden",
             "flex min-h-screen flex-col",
         )}

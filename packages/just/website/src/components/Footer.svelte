@@ -33,16 +33,19 @@
 
     const footerClass = $derived(
         clsx(
-            "select-none px-8 py-4 shadow",
+            "px-8 py-4 shadow select-none",
             "text-center font-mono",
-            "bg-black bg-opacity-20 text-white transition-colors dark:bg-primary-500 dark:bg-opacity-20",
+            `
+                dark:bg-primary-500/20
+                bg-black/20 text-white transition-colors
+            `,
             "text-sm",
             className,
         ),
     );
 
     const linkClass =
-        "!text-black dark:!text-brandOrange-500 hover:!bg-brandOrange-500 hover:!text-black";
+        "text-black! dark:!text-tertiary-500 hover:!bg-tertiary-500 hover:text-black!";
 </script>
 
 {#if isVisible}

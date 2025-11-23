@@ -26,7 +26,7 @@
                 src={project.logo}
                 alt="logo" />
             <span
-                class="text-sm text-slate-600 transition-colors group-hover:text-[var(--page-color)] dark:text-slate-400">
+                class="text-sm text-slate-600 transition-colors group-hover:text-(--page-color) dark:text-slate-400">
                 {project.name}
             </span>
         </Link>

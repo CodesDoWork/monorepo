@@ -22,19 +22,36 @@
 
     const inputClass = clsx(
         "border-0",
-        "rounded p-2 shadow focus:shadow-md focus:outline-2",
-        "outline outline-1 outline-stone-200 dark:outline-0 dark:outline-slate-500 dark:focus:outline-1",
-        "placeholder:text-slate-400 dark:placeholder:text-slate-300",
-        "bg-white transition dark:bg-opacity-10",
+        `
+            rounded p-2 shadow
+            focus:shadow-md focus:outline-2
+        `,
+        `
+            outline outline-1 outline-stone-200
+            dark:outline-0 dark:outline-slate-500 dark:focus:outline-1
+        `,
+        `
+            placeholder:text-slate-400
+            dark:placeholder:text-slate-300
+        `,
+        `
+            bg-white transition
+            dark:bg-white/10
+        `,
     );
 </script>
 
-<div class="grid grid-cols-1 gap-12 xl:gap-16 2xl:grid-cols-2">
+<div
+    class="
+    grid grid-cols-1 gap-12
+    xl:gap-16
+    2xl:grid-cols-2
+">
     <section class="animate-fadeInSubtle opacity-0">
         <Heading level="h2">{texts.letsConnect}</Heading>
         <SocialCards socials={mainSocials} />
     </section>
-    <section class="row-start-2 animate-fadeInSubtle opacity-0">
+    <section class="animate-fadeInSubtle row-start-2 opacity-0">
         <Heading level="h2">{texts.seeMore}</Heading>
         <SocialCards socials={seeMoreSocials} />
     </section>
@@ -84,7 +101,10 @@
             <button
                 class={clsx(
                     inputClass,
-                    "col-span-2 !bg-[var(--page-color)] text-white !outline-0 active:brightness-75",
+                    `
+                        col-span-2 bg-(--page-color)! text-white outline-0!
+                        active:brightness-75
+                    `,
                 )}
                 type="submit">
                 {texts.send}

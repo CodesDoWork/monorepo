@@ -28,7 +28,7 @@
             <div
                 class="mr-8 mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
                 <div
-                    class="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none">
+                    class="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-0">
                     {#each images1 as image}
                         <AboutImage src={image} />
                     {/each}
@@ -83,7 +83,7 @@
         <img
             src={about.bannerImage}
             alt=""
-            class="aspect-[5/2] w-full object-cover xl:rounded-3xl" />
+            class="aspect-5/2 w-full object-cover xl:rounded-3xl" />
     </div>
 
     <!-- Values section -->
@@ -149,8 +149,8 @@
     <!-- Logo cloud -->
     <div class="relative isolate -z-10 mt-32 sm:mt-48">
         <div
-            class="absolute inset-x-0 top-1/2 -z-10 flex -translate-y-1/2 justify-center overflow-hidden [mask-image:radial-gradient(50%_45%_at_50%_55%,white,transparent)]">
-            <svg class="h-[40rem] w-[80rem] flex-none stroke-gray-200" aria-hidden="true">
+            class="absolute inset-x-0 top-1/2 -z-10 flex -translate-y-1/2 justify-center overflow-hidden mask-[radial-gradient(50%_45%_at_50%_55%,white,transparent)]">
+            <svg class="h-160 w-7xl flex-none stroke-gray-200" aria-hidden="true">
                 <defs>
                     <pattern
                         id="e9033f3e-f665-41a6-84ef-756f6778e6fe"

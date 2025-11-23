@@ -1,5 +1,5 @@
 <script lang="ts">
-    import clsx from "clsx";
+    import { clsx } from "clsx";
 
     interface Props {
         class?: string;
@@ -15,7 +15,13 @@
     height="1563.000000pt"
     viewBox="0 0 1563.000000 1563.000000"
     preserveAspectRatio="xMidYMid meet"
-    class={clsx("fill-black dark:fill-white", className)}>
+    class={clsx(
+        `
+            fill-black
+            dark:fill-white
+        `,
+        className,
+    )}>
     <g transform="translate(0.000000,1563.000000) scale(0.100000,-0.100000)" stroke="none">
         <path
             d="M7246 15288 c-9 -176 -31 -385 -57 -538 -23 -144 -31 -175 -65 -285

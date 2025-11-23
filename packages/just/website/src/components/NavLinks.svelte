@@ -28,13 +28,17 @@
     {#each routes.filter(r => r.inNav) as routeLink, idx (idx)}
         <li style={animationDelay(idx)} class={liClass}>
             <Link
-                onclick={e => onLinkClick(routeLink, e)}
+                onclick={e => onLinkClick?.(routeLink, e)}
                 noStyle
                 title={routeLink.shortDescription}
                 href={routeLink.route}
                 class={clsx(
                     routeLink === currentRoute && "font-bold underline",
-                    "rounded p-2 font-mono leading-none tracking-wide transition-colors duration-200 hover:bg-[var(--page-color)] hover:text-black",
+                    `
+                        rounded p-2 font-mono leading-none tracking-wide transition-colors
+                        duration-200
+                        hover:bg-(--page-color) hover:text-black
+                    `,
                     aClass,
                 )}>{routeLink.name}</Link>
         </li>

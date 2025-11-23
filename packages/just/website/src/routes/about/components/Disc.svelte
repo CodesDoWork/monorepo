@@ -2,7 +2,7 @@
     import type { PageData } from "../$types";
     import type { ChartData } from "./chart-data.svelte";
     import { formatNumber } from "@cdw/monorepo/shared-utils/numbers";
-    import clsx from "clsx";
+    import { clsx } from "clsx";
     import { getChartData } from "./chart-data.svelte";
 
     interface Props {
@@ -75,8 +75,17 @@
 <div
     class={clsx(
         "flex size-full justify-center",
-        "gap-2 sm:gap-x-8 lg:gap-x-4",
-        "flex-col sm:flex-row md:flex-col lg:flex-row",
+        `
+            gap-2
+            sm:gap-x-8
+            lg:gap-x-4
+        `,
+        `
+            flex-col
+            sm:flex-row
+            md:flex-col
+            lg:flex-row
+        `,
     )}>
     <svg
         viewBox={`0 0 ${2 * r} ${2 * r}`}
@@ -92,13 +101,19 @@
                 <path
                     d={arcData[idx].path}
                     fill={dataPoint.color}
-                    class="group-hover:scale-105 origin-center transition group-hover:drop-shadow-lg" />
+                    class="
+                        origin-center transition
+                        group-hover:scale-105 group-hover:drop-shadow-lg
+                    " />
                 <text
                     x={arcData[idx].x}
                     y={arcData[idx].y}
                     text-anchor="start"
                     style="transform: translate(-0.7rem, 0.25rem);"
-                    class="text-[0.5rem] opacity-0 group-hover:opacity-100 transition-opacity cursor-default">
+                    class="
+                        cursor-default text-[0.5rem] opacity-0 transition-opacity
+                        group-hover:opacity-100
+                    ">
                     {formatNumber(dataPoint.value.target, 1, currentLanguage.code)}&thinsp;%
                 </text>
             </g>
@@ -114,7 +129,7 @@
         )}>
         {#each chartData as dataPoint}
             {#if dataPoint.name !== ""}
-                <li class="flex gap-2 items-center">
+                <li class="flex items-center gap-2">
                     <div class="size-4 rounded" style="background-color: {dataPoint.color}"></div>
                     <span class="text-sm">{dataPoint.name}</span>
                 </li>

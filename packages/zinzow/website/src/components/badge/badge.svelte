@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
-    import classNames from "classnames";
+    import { clsx } from "clsx";
 
     interface Props {
         class?: string;
@@ -13,6 +13,6 @@
 
 <svelte:element
     this={tag}
-    class={classNames(className, "bg-primary rounded-md px-2 py-1 text-white shadow")}>
+    class={clsx(className, "rounded-md bg-(--primary) px-2 py-1 text-white shadow")}>
     {@render children?.()}
 </svelte:element>

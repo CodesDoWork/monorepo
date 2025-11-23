@@ -1,5 +1,5 @@
 <script lang="ts">
-    import classNames from "classnames";
+    import { clsx } from "clsx";
     import { Text } from ".";
 
     interface Props {
@@ -17,13 +17,13 @@
         {#if paragraph}
             <Text
                 tag="p"
-                class={classNames(
+                class={clsx(
                     {
                         "mt-4": idx > 0 && paragraphs[idx - 1] === "",
                         "text-lg/8 sm:text-xl/8": size === "lg",
                         "text-base/7": size === "base",
                     },
-                    "text-pretty font-medium",
+                    "font-medium text-pretty",
                 )}>
                 {paragraph}
             </Text>

@@ -18,7 +18,7 @@
     const liHoverColor = $derived(
         useCustomColor
             ? "hover:bg-primary-300 dark:hover:bg-primary-600 "
-            : "hover:bg-[var(--page-color)]",
+            : "hover:bg-(--page-color)",
     );
 
     const selectLanguage = (language: LanguageFragment) => {

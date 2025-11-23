@@ -18,8 +18,8 @@
     animateText={titleText}
     blinkCursor={!isSmall}
     class={clsx(
-        "select-none !drop-shadow-lg duration-1000",
-        !isSmall && "!mt-16 text-center !text-3xl sm:!text-4xl md:!text-5xl lg:mt-20 xl:!text-6xl",
+        "select-none drop-shadow-lg! duration-1000",
+        !isSmall && "mt-16! text-center text-3xl! sm:text-4xl! md:text-5xl! lg:mt-20 xl:text-6xl!",
         (!currentRoute || currentRoute.color === "#000000") && "dark:text-primary-500",
     )}
     commandStyle={isSmall}

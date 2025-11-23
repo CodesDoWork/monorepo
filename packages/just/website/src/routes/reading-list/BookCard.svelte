@@ -17,7 +17,11 @@
     <img
         loading="lazy"
         alt="cover"
-        class="max-w-20 rounded sm:max-w-32 md:max-w-1/2"
+        class="
+            max-w-20 rounded
+            sm:max-w-32
+            md:max-w-1/2
+        "
         src={book.cover} />
     <div>
         <Heading level="h6" commandStyle={false}>{book.title}</Heading>
@@ -30,7 +34,7 @@
     <p class="col-span-2">{book.description}</p>
     <ul class="col-span-2 flex flex-wrap gap-2">
         {#if book.featured}
-            <Label tag="li" class="!bg-red-500 !bg-opacity-70" name={featuredText} />
+            <Label tag="li" class="bg-red-500/70!" name={featuredText} />
         {/if}
         {#each book.categories as category}
             <Label tag="li" name={category} />

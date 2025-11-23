@@ -45,14 +45,20 @@
         theme.setTheme(nextTheme);
 
         isAnimating = true;
-        setTimeout(() => {
-            isAnimating = false;
-        }, animationDuration);
+        setTimeout(() => (isAnimating = false), animationDuration);
     };
 
     const resultClass = $derived(clsx(isAnimating && "animate-switch", className));
     const iconClass = $derived(
-        clsx(isOnHero ? "text-black dark:text-white" : "text-white", "size-6"),
+        clsx(
+            isOnHero
+                ? `
+                    text-black
+                    dark:text-white
+                `
+                : "text-white",
+            "size-6",
+        ),
     );
 </script>
 

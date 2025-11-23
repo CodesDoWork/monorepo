@@ -58,6 +58,15 @@ export default antfu(
         rules: {
             ...eslintPluginBetterTailwindcss.configs["recommended-warn"].rules,
             ...eslintPluginBetterTailwindcss.configs["recommended-error"].rules,
+            "better-tailwindcss/enforce-consistent-line-wrapping": [
+                "error",
+                {
+                    printWidth: 100,
+                    indent: 4,
+                },
+            ],
+            // TODO: Enable linting when plugin supports multiple entry points for monorepo
+            "better-tailwindcss/no-unregistered-classes": "off",
         },
     },
     ...eslintPluginToml.configs["flat/recommended"],

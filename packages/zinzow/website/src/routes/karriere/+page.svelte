@@ -23,9 +23,9 @@
                 <dt class="text-center text-2xl text-(--primary)">{benefit.title}</dt>
                 <dd
                     class="
-                  mt-2 w-full text-center text-gray-600
-                  dark:text-gray-500
-                ">
+                        mt-2 w-full text-center text-gray-600
+                        dark:text-gray-500
+                    ">
                     {benefit.description}
                 </dd>
             </dl>

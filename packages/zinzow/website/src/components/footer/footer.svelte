@@ -33,8 +33,8 @@
                 <a href="/" class="inline-block">
                     <Logo
                         class="
-                          size-56 rounded bg-(--logoBg) p-4 shadow-md
-                          dark:fill-black!
+                            size-56 rounded bg-(--logoBg) p-4 shadow-md
+                            dark:fill-black!
                         " />
                 </a>
                 <p
@@ -82,11 +82,9 @@
                                     <a
                                         href={route.routes_id.path}
                                         class="
-                                            text-sm/6 text-gray-600
-                                            transition-colors
+                                            text-sm/6 text-gray-600 transition-colors
                                             hover:text-gray-950
-                                            dark:text-gray-400
-                                            dark:hover:text-white
+                                            dark:text-gray-400 dark:hover:text-white
                                         ">
                                         {route.routes_id.name}
                                     </a>
@@ -99,8 +97,7 @@
         </div>
         <div
             class="
-                mt-16 flex flex-col justify-between border-t border-gray-900/10
-                pt-8 text-gray-600
+                mt-16 flex flex-col justify-between border-t border-gray-900/10 pt-8 text-gray-600
                 sm:mt-20
                 md:flex-row
                 lg:mt-24

@@ -27,7 +27,7 @@
             focus:shadow-md focus:outline-2
         `,
         `
-            outline outline-1 outline-stone-200
+            outline outline-stone-200
             dark:outline-0 dark:outline-slate-500 dark:focus:outline-1
         `,
         `
@@ -43,10 +43,10 @@
 
 <div
     class="
-    grid grid-cols-1 gap-12
-    xl:gap-16
-    2xl:grid-cols-2
-">
+        grid grid-cols-1 gap-12
+        xl:gap-16
+        2xl:grid-cols-2
+    ">
     <section class="animate-fadeInSubtle opacity-0">
         <Heading level="h2">{texts.letsConnect}</Heading>
         <SocialCards socials={mainSocials} />

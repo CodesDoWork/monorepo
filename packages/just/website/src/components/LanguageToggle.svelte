@@ -31,7 +31,11 @@
         className,
         textColor,
         displayHoverColor,
-        "group relative font-mono transition hover:drop-shadow-md dark:hover:text-secondary-500",
+        `
+            group relative font-mono transition
+            dark:hover:text-secondary-500
+            hover:drop-shadow-md
+        `,
     )}>
     <span class="cursor-default">{currentLanguage.short.toUpperCase()}</span>
     <div
@@ -41,13 +45,24 @@
             "transition-all",
             "pt-2",
         )}>
-        <ul class={clsx("rounded bg-white shadow-md dark:bg-primary-800")}>
+        <ul
+            class={clsx(`
+                dark:bg-primary-800
+                rounded bg-white shadow-md
+            `)}>
             {#each languages as language}
                 {#if language.code !== currentLanguage.code}
-                    <li class={clsx("rounded text-black dark:text-white", liHoverColor)}>
+                    <li
+                        class={clsx(
+                            `
+                                rounded text-black
+                                dark:text-white
+                            `,
+                            liHoverColor,
+                        )}>
                         <button
                             onclick={() => selectLanguage(language)}
-                            class="flex gap-3 items-center py-2 px-4">
+                            class="flex items-center gap-3 px-4 py-2">
                             <Icon icon={`circle-flags:${language.short}`} class="size-5"></Icon>
                             {language.name}
                         </button>

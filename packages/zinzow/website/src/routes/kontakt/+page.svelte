@@ -17,14 +17,14 @@
 <PageContent class="isolate">
     <div
         class="
-        grid grid-cols-1
-        lg:grid-cols-2
-    ">
+            grid grid-cols-1
+            lg:grid-cols-2
+        ">
         <div
             class="
-            mx-auto max-w-2xl
-            lg:mx-0 lg:max-w-lg
-        ">
+                mx-auto max-w-2xl
+                lg:mx-0 lg:max-w-lg
+            ">
             <H1>{texts.title}</H1>
             <Paragraphs text={texts.intro} />
             <dl class="mt-10 space-y-4">
@@ -51,15 +51,15 @@
         <form action="#" method="POST" class="self-center pt-20">
             <div
                 class="
-                mx-auto max-w-2xl
-                lg:mr-0 lg:max-w-lg
-            ">
+                    mx-auto max-w-2xl
+                    lg:mr-0 lg:max-w-lg
+                ">
                 <div
                     class="
-                    grid grid-cols-1 gap-x-8 gap-y-3
-                    sm:grid-cols-2
-                    lg:gap-y-6
-                ">
+                        grid grid-cols-1 gap-x-8 gap-y-3
+                        sm:grid-cols-2
+                        lg:gap-y-6
+                    ">
                     <div>
                         <label
                             for="firstName"
@@ -76,14 +76,11 @@
                                 id="firstName"
                                 autocomplete="given-name"
                                 class="
-                                  block w-full rounded-md border-0 bg-white
-                                  px-3.5 py-2 text-base text-gray-900 outline
-                                  outline-1 -outline-offset-1 outline-gray-300
-                                  focus:ring-0 focus:outline-2
-                                  focus:-outline-offset-2
-                                  focus:outline-(--primary)
-                                  dark:bg-white/5 dark:text-white
-                                  dark:outline-white/10
+                                    block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
+                                    text-gray-900 outline -outline-offset-1 outline-gray-300
+                                    focus:ring-0 focus:outline-2 focus:-outline-offset-2
+                                    focus:outline-(--primary)
+                                    dark:bg-white/5 dark:text-white dark:outline-white/10
                                 " />
                         </div>
                     </div>
@@ -103,14 +100,11 @@
                                 id="lastName"
                                 autocomplete="family-name"
                                 class="
-                                  block w-full rounded-md border-0 bg-white
-                                  px-3.5 py-2 text-base text-gray-900 outline
-                                  outline-1 -outline-offset-1 outline-gray-300
-                                  focus:ring-0 focus:outline-2
-                                  focus:-outline-offset-2
-                                  focus:outline-(--primary)
-                                  dark:bg-white/5 dark:text-white
-                                  dark:outline-white/10
+                                    block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
+                                    text-gray-900 outline -outline-offset-1 outline-gray-300
+                                    focus:ring-0 focus:outline-2 focus:-outline-offset-2
+                                    focus:outline-(--primary)
+                                    dark:bg-white/5 dark:text-white dark:outline-white/10
                                 " />
                         </div>
                     </div>
@@ -130,14 +124,11 @@
                                 id="email"
                                 autocomplete="email"
                                 class="
-                                  block w-full rounded-md border-0 bg-white
-                                  px-3.5 py-2 text-base text-gray-900 outline
-                                  outline-1 -outline-offset-1 outline-gray-300
-                                  focus:ring-0 focus:outline-2
-                                  focus:-outline-offset-2
-                                  focus:outline-(--primary)
-                                  dark:bg-white/5 dark:text-white
-                                  dark:outline-white/10
+                                    block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
+                                    text-gray-900 outline -outline-offset-1 outline-gray-300
+                                    focus:ring-0 focus:outline-2 focus:-outline-offset-2
+                                    focus:outline-(--primary)
+                                    dark:bg-white/5 dark:text-white dark:outline-white/10
                                 " />
                         </div>
                     </div>
@@ -156,14 +147,11 @@
                                 id="message"
                                 rows="4"
                                 class="
-                                  block w-full rounded-md border-0 bg-white
-                                  px-3.5 py-2 text-base text-gray-900 outline
-                                  outline-1 -outline-offset-1 outline-gray-300
-                                  focus:ring-0 focus:outline-2
-                                  focus:-outline-offset-2
-                                  focus:outline-(--primary)
-                                  dark:bg-white/5 dark:text-white
-                                  dark:outline-white/10
+                                    block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
+                                    text-gray-900 outline -outline-offset-1 outline-gray-300
+                                    focus:ring-0 focus:outline-2 focus:-outline-offset-2
+                                    focus:outline-(--primary)
+                                    dark:bg-white/5 dark:text-white dark:outline-white/10
                                 "></textarea>
                         </div>
                     </div>
@@ -172,13 +160,12 @@
                     <button
                         type="submit"
                         class="
-                          rounded-md bg-(--primary) px-3.5 py-2.5 text-center
-                          text-sm font-semibold text-white shadow-sm
-                          hover:bg-(--primary-400)
-                          focus-visible:outline focus-visible:outline-2
-                          focus-visible:outline-offset-2
-                          focus-visible:outline-(--primary)
-                          dark:hover:bg-(--primary-600)
+                            rounded-md bg-(--primary) px-3.5 py-2.5 text-center text-sm
+                            font-semibold text-white shadow-sm
+                            hover:bg-(--primary-400)
+                            focus-visible:outline-2 focus-visible:outline-offset-2
+                            focus-visible:outline-(--primary)
+                            dark:hover:bg-(--primary-600)
                         ">
                         {texts.send}
                     </button>
@@ -187,9 +174,9 @@
         </form>
         <div
             class="
-            mt-20
-            lg:col-span-2
-        "
+                mt-20
+                lg:col-span-2
+            "
             id={texts.findUs}>
             <H2>{texts.findUs}</H2>
             <div class="w-full border">

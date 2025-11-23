@@ -34,9 +34,9 @@
         <div class={clsx("row-span-3 mt-2 ml-4", small ? "pb-2" : "pb-8")}>
             <span
                 class="
-                text-sm text-slate-500 italic
-                dark:text-slate-400
-            ">
+                    text-sm text-slate-500 italic
+                    dark:text-slate-400
+                ">
                 {@render date?.(timestep)}{@html date ? undefined : "&nbsp;"}
             </span>
             <Heading
@@ -44,7 +44,7 @@
                 class={clsx(
                     "text-black!",
                     small && "text-base!",
-                    small ? "dark:!text-primary-500" : "dark:text-white!",
+                    small ? "dark:text-primary-500!" : "dark:text-white!",
                 )}
                 level="h5">
                 {@render title(timestep)}

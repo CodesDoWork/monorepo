@@ -34,7 +34,10 @@
     {#if hoveredItem}
         <span
             transition:fade={{ duration: 50 }}
-            class="absolute text-white bottom-1 text-center w-max left-1/2 -translate-x-1/2 z-20 bg-sky-600 rounded-md px-2 py-1 shadow-lg">
+            class="
+                absolute bottom-1 left-1/2 z-20 w-max -translate-x-1/2 rounded-md bg-sky-600 px-2
+                py-1 text-center text-white shadow-lg
+            ">
             {hoveredItem.name}
             {formatNumber(hoveredItem.info.y, 1, currentLanguage.code)}
         </span>
@@ -42,15 +45,15 @@
     <svg
         bind:clientWidth={chartWidth}
         bind:clientHeight={chartHeight}
-        class="w-full h-full overflow-visible"
+        class="h-full w-full overflow-visible"
         viewBox={`0 0 ${chartWidth} ${chartHeight}`}
         preserveAspectRatio="none">
-        <rect class="fill-sky-700/70 w-full" y={getY(80)} height={getY(70) - getY(80)} />
-        <rect class="fill-sky-700/50 w-full" y={getY(70)} height={getY(60) - getY(70)} />
-        <rect class="fill-sky-700/30 w-full" y={getY(60)} height={getY(40) - getY(60)} />
-        <rect class="fill-sky-700/50 w-full" y={getY(40)} height={getY(30) - getY(40)} />
-        <rect class="fill-sky-700/70 w-full" y={getY(30)} height={getY(20) - getY(30)} />
-        <line class="stroke-1 stroke-white" x1="0" x2="100%" y1={getY(50)} y2={getY(50)} />
+        <rect class="w-full fill-sky-700/70" y={getY(80)} height={getY(70) - getY(80)} />
+        <rect class="w-full fill-sky-700/50" y={getY(70)} height={getY(60) - getY(70)} />
+        <rect class="w-full fill-sky-700/30" y={getY(60)} height={getY(40) - getY(60)} />
+        <rect class="w-full fill-sky-700/50" y={getY(40)} height={getY(30) - getY(40)} />
+        <rect class="w-full fill-sky-700/70" y={getY(30)} height={getY(20) - getY(30)} />
+        <line class="stroke-white stroke-1" x1="0" x2="100%" y1={getY(50)} y2={getY(50)} />
 
         {#each chartData as point, idx}
             {@const groupOffset = drawGroups ? Math.floor(idx / 3) : 0}

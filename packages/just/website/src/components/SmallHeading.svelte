@@ -8,6 +8,10 @@
     const { children }: Props = $props();
 </script>
 
-<span class="block mt-6 font-bold text-slate-500 dark:text-slate-300 mb-3">
+<span
+    class="
+        mt-6 mb-3 block font-bold text-slate-500
+        dark:text-slate-300
+    ">
     {@render children?.()}
 </span>

@@ -30,8 +30,8 @@
         </a>
         <div
             class="
-              relative block
-              md:hidden
+                relative block
+                md:hidden
             ">
             <button onclick={onMenuClick}>
                 <Icon icon="ic:round-menu" class="size-6" />
@@ -44,8 +44,8 @@
         </div>
         <div
             class="
-              hidden
-              md:block
+                hidden
+                md:block
             ">
             <ol class="flex">
                 {#each routesInNav as route}
@@ -55,23 +55,22 @@
                     <li
                         class={clsx(
                             `
-                              group/nav-item relative transition-colors
-                              hover:text-(--primary)
+                                group/nav-item relative transition-colors
+                                hover:text-(--primary)
                             `,
                             currentRoute.path.startsWith(route.path)
                                 ? "text-(--primary)"
                                 : `
-                                  text-gray-900
-                                  dark:text-white
+                                    text-gray-900
+                                    dark:text-white
                                 `,
                         )}>
                         <a
                             href={route.path}
                             class={clsx(
                                 `
-                                  block px-3 py-1 text-sm/6 font-semibold
-                                  transition
-                                  group-hover/nav-item:scale-105
+                                    block px-3 py-1 text-sm/6 font-semibold transition
+                                    group-hover/nav-item:scale-105
                                 `,
                                 currentRoute.path.startsWith(route.path)
                                     ? "scale-105"
@@ -85,11 +84,9 @@
                         {#if children.length}
                             <PopupNav
                                 class="
-                                  invisible translate-y-2 opacity-0
-                                  transition-all duration-300
-                                  group-hover/nav-item:visible
-                                  group-hover/nav-item:translate-y-0
-                                  group-hover/nav-item:opacity-100
+                                    invisible translate-y-2 opacity-0 transition-all duration-300
+                                    group-hover/nav-item:visible group-hover/nav-item:translate-y-0
+                                    group-hover/nav-item:opacity-100
                                 "
                                 routes={children}
                                 {currentRoute} />

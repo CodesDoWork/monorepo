@@ -3,9 +3,10 @@
 
     interface Props {
         class?: string;
+        style?: string;
     }
 
-    const { class: className }: Props = $props();
+    const { class: className, style }: Props = $props();
 </script>
 
 <svg
@@ -15,6 +16,7 @@
     height="1563.000000pt"
     viewBox="0 0 1563.000000 1563.000000"
     preserveAspectRatio="xMidYMid meet"
+    {style}
     class={clsx(
         `
             fill-black

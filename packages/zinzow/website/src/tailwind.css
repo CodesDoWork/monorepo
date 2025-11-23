@@ -87,46 +87,46 @@
             backdrop-filter: blur(4px) brightness(0.5);
         }
     }
-    @keyframes backdropReverse: {
-        0%: {
+    @keyframes backdropReverse {
+        0% {
             backdrop-filter: blur(4px) brightness(0.5);
         }
-        100%: {
+        100% {
             backdrop-filter: blur(0px) brightness(1);
         }
     }
-    @keyframes flyInRight: {
-        0%: {
+    @keyframes flyInRight {
+        0% {
             transform: translateX(100%);
         }
-        100%: {
+        100% {
             transform: translateX(0%);
         }
     }
-    @keyframes flyOutRight: {
-        0%: {
+    @keyframes flyOutRight {
+        0% {
             transform: translateX(0%);
         }
-        100%: {
+        100% {
             transform: translateX(100%);
         }
     }
-    @keyframes fadeIn: {
-        0%: {
+    @keyframes fadeIn {
+        0% {
             opacity: 0;
             display: none;
         }
-        100%: {
+        100% {
             opacity: 1;
         }
     }
-    @keyframes fadeInBT: {
-        0%: {
+    @keyframes fadeInBT {
+        0% {
             opacity: 0;
             transform: translateY(1rem);
             display: none;
         }
-        100%: {
+        100% {
             opacity: 1;
             transform: translateY(0);
         }

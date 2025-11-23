@@ -36,9 +36,7 @@
         relative grid min-h-screen grid-rows-[min-content_1fr_min-content] overflow-x-hidden
         dark:bg-(--primary-950) dark:text-white
     ">
-    {#if nav.currentRoute.isHero !== true}
-        <Header {data} currentRoute={nav.currentRoute} />
-    {/if}
+    <Header {data} currentRoute={nav.currentRoute} />
     <main>
         {@render children?.()}
     </main>

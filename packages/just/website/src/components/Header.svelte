@@ -36,8 +36,14 @@
 
     const headerClass = $derived(
         clsx(
-            "px-8 py-4 shadow lg:pr-40",
-            "bg-black bg-opacity-20 text-white transition-colors dark:bg-primary-500 dark:bg-opacity-20",
+            `
+                px-8 py-4 shadow
+                lg:pr-40
+            `,
+            `
+                dark:bg-primary-500/20
+                bg-black/20 text-white transition-colors
+            `,
             className,
         ),
     );
@@ -47,11 +53,14 @@
 
 {#if isVisible}
     <header transition:slide class={headerClass}>
-        <div transition:fade class="flex items-center justify-between relative">
+        <div transition:fade class="relative flex items-center justify-between">
             <div class="flex items-center">
                 {#if backButton}
                     <Link
-                        class="m-0 mr-4 inline-block p-1 !text-white hover:!bg-[var(--page-color)] hover:!text-white"
+                        class="
+                            m-0 mr-4 inline-block p-1 text-white!
+                            hover:bg-(--page-color)! hover:text-white!
+                        "
                         href={currentRoute?.route}
                         title={currentRoute?.name}>
                         <Icon icon="carbon:chevron-left" />
@@ -60,13 +69,20 @@
                 <a class={clsx("font-mono font-bold drop-shadow-md")} href="/">{title}</a>
             </div>
             <NavLinks
-                class="hidden lg:flex"
-                liClass={clsx("inline-block animate-fadeInTopSubtle opacity-0")}
+                class="
+                    hidden
+                    lg:flex
+                "
+                liClass={clsx("animate-fadeInTopSubtle inline-block opacity-0")}
                 aClass="mx-1"
                 {routes}
                 {currentRoute} />
             <button
-                class="block active:scale-90 lg:hidden"
+                class="
+                    block
+                    active:scale-90
+                    lg:hidden
+                "
                 onclick={() => (isMobileNavVisible = !isMobileNavVisible)}>
                 <Icon class="h-6 w-6" icon="material-symbols:menu" />
             </button>
@@ -74,11 +90,15 @@
                 <button
                     transition:fade
                     aria-label="backdrop"
-                    class="fixed w-screen h-screen bg-black/65 z-20 inset-0"
+                    class="fixed inset-0 z-20 h-screen w-screen bg-black/65"
                     onclick={() => (isMobileNavVisible = false)}>
                 </button>
                 <NavLinks
-                    class="absolute -right-4 z-30 top-12 text-right dark:bg-primary-800 rounded bg-white shadow-lg space-y-2 py-2"
+                    class="
+                        dark:bg-primary-800
+                        absolute top-12 -right-4 z-30 space-y-2 rounded bg-white py-2 text-right
+                        shadow-lg
+                    "
                     onLinkClick={() => (isMobileNavVisible = false)}
                     aClass="block text-black dark:text-white pr-4 pl-8"
                     liClass="animate-fadeInTopSubtle opacity-0"
@@ -89,7 +109,12 @@
     </header>
 {/if}
 
-<div class="absolute right-[4.5rem] sm:right-20 lg:right-8 top-4 z-10 flex gap-4 sm:gap-6">
+<div
+    class="
+        absolute top-4 right-[4.5rem] z-10 flex gap-4
+        sm:right-20 sm:gap-6
+        lg:right-8
+    ">
     <LanguageToggle {currentRoute} {currentLanguage} {languages} />
     <DarkmodeToggle isOnHero={currentRoute?.isHero} {theme} />
 </div>

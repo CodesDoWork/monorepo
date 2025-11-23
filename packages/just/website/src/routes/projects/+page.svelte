@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import clsx from "clsx";
+    import { clsx } from "clsx";
     import { addJsonLdThings } from "../../contexts/jsonld";
     import { animationDelay } from "../../shared/animationDelay";
     import { smoothScrollTo } from "../../shared/smoothScroll";
@@ -21,7 +21,12 @@
     let currentCard = 0;
 </script>
 
-<div class="mx-auto mt-12 md:w-4/5 lg:w-full">
+<div
+    class="
+        mx-auto mt-12
+        md:w-4/5
+        lg:w-full
+    ">
     {#each projects as project}
         <ProjectCard
             style={animationDelay(++currentCard)}

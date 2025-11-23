@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { RouteFragment } from "../../graphql/default/generated/graphql";
     import Icon from "@iconify/svelte";
-    import classNames from "classnames";
+    import { clsx } from "clsx";
 
     interface Props {
         class?: string;
@@ -12,33 +12,59 @@
     const { class: className = "", routes = [], currentRoute }: Props = $props();
 </script>
 
-<div class={classNames("absolute -left-8 top-full z-10 w-screen max-w-md", className)}>
-    <div class="dark:bg-primary-900 mt-3 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+<div class={clsx("absolute top-full -left-8 z-10 w-screen max-w-md", className)}>
+    <div
+        class="
+            mt-3 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5
+            dark:bg-(--primary-900)
+        ">
         <div class="p-4">
             {#each routes as route}
                 {@const isActive = currentRoute.path.startsWith(route.path)}
                 <div
-                    class="dark:hover:bg-primary-950 group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6 transition-all hover:bg-gray-50">
+                    class="
+                        group relative flex items-center gap-x-6 rounded-lg p-4 text-sm/6
+                        transition-all
+                        hover:bg-gray-50
+                        dark:hover:bg-(--primary-950)
+                    ">
                     <div
-                        class="dark:bg-primary-950 dark:group-hover:bg-primary-900 flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                        class="
+                            dark:group-hover:bg-primary-900
+                            flex size-11 flex-none items-center justify-center rounded-lg bg-gray-50
+                            group-hover:bg-white
+                            dark:bg-(--primary-950)
+                        ">
                         <Icon
                             icon={route.icon}
-                            class={classNames(
-                                "group-hover:text-accent size-6 transition-colors duration-300",
-                                isActive ? "text-accent" : " text-gray-600",
+                            class={clsx(
+                                `
+                                    size-6 transition-colors duration-300
+                                    group-hover:text-(--primary)
+                                `,
+                                isActive ? "text-(--primary)" : "text-gray-600",
                             )} />
                     </div>
                     <div class="flex-auto">
                         <a
                             href={route.path}
-                            class={classNames(
+                            class={clsx(
                                 "block font-semibold",
-                                isActive ? "text-accent" : "text-gray-900 dark:text-gray-200",
+                                isActive
+                                    ? "text-(--primary)"
+                                    : `
+                                        text-gray-900
+                                        dark:text-gray-200
+                                    `,
                             )}>
                             {route.name}
                             <span class="absolute inset-0"></span>
                         </a>
-                        <p class="mt-1 text-gray-600 dark:text-gray-400">
+                        <p
+                            class="
+                                mt-1 text-gray-600
+                                dark:text-gray-400
+                            ">
                             {route.shortDescription}
                         </p>
                     </div>

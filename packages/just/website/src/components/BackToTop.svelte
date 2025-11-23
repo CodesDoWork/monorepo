@@ -16,8 +16,8 @@
 
     const buttonClass = $derived(
         clsx(
-            "fixed bottom-4 right-4 z-20",
-            "rounded bg-[var(--page-color)] px-2 py-1 text-sm font-bold",
+            "fixed right-4 bottom-4 z-20",
+            "rounded bg-(--page-color) px-2 py-1 text-sm font-bold",
             hidden && "invisible opacity-0",
             "transition-all duration-500",
         ),

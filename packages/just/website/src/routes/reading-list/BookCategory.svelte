@@ -21,7 +21,13 @@
 </script>
 
 <Heading class="mt-8" id={toLinkFriendly(category)} level="h3">{category}</Heading>
-<ul class="grid grid-cols-1 content-stretch gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+<ul
+    class="
+        grid grid-cols-1 content-stretch gap-4
+        sm:grid-cols-2
+        xl:grid-cols-3
+        2xl:grid-cols-4
+    ">
     {#each books.filter(byCategory(category)) as book}
         <li>
             <BookCard style={getCardStyle()} {book} {featuredText} />

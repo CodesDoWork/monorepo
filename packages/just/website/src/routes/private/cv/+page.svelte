@@ -13,7 +13,7 @@
     const { data }: Props = $props();
 
     const cardClass = "p-3 flex-col text-sm";
-    const heading2Class = "!text-lg !mb-2";
+    const heading2Class = "text-lg! mb-2!";
 
     const formatter = new Intl.DateTimeFormat("de", { dateStyle: "medium" });
 </script>
@@ -43,20 +43,23 @@
 </svelte:head>
 
 <div
-    class="min-w-screen min-h-screen flex justify-center items-center print:dark"
+    class="
+        print:dark
+        flex min-h-screen min-w-screen items-center justify-center
+    "
     style="--page-color: oklch(68.5% 0.169 237.323);">
     <div
         class={clsx(
-            "box-border h-a4 w-a4 p-a4-page-padding shadow-a4",
+            "box-border h-[297mm] w-[210mm] p-[18mm] shadow-sm",
             "dark:from-primary-950 dark:to-secondary-950",
-            "bg-gradient-to-b from-5% to-95% transition-colors",
+            "bg-linear-to-b from-5% to-95% transition-colors",
             "dark:text-white",
         )}>
         <main class="grid grid-cols-[auto_4fr_5fr] gap-2">
-            <Heading level="h1" class="col-span-2 !text-xl !mt-0 !mb-2 text-black">
+            <Heading level="h1" class="col-span-2 mt-0! mb-2! text-xl! text-black">
                 {data.name}
             </Heading>
-            <div class="flex gap-2 flex-col items-end row-span-12">
+            <div class="row-span-12 flex flex-col items-end gap-2">
                 <Card class={clsx(cardClass, "place-self-stretch")}>
                     <Heading level="h2" class={heading2Class}>Kontakt</Heading>
                     <address>
@@ -95,13 +98,13 @@
             </Card>
             <Card class={cardClass}>
                 <p>Geburtsdatum: {formatter.format(new Date(data.birthday))}</p>
-                <ul class="text-justify mt-2 list-disc list-outside ml-4">
+                <ul class="mt-2 ml-4 list-outside list-disc text-justify">
                     {#each data.softSkills as skill}
                         <li>{skill}</li>
                     {/each}
                 </ul>
             </Card>
-            <div class="flex flex-col gap-2 col-span-2">
+            <div class="col-span-2 flex flex-col gap-2">
                 <Card class={cardClass}>
                     <Heading level="h2" class={heading2Class}>Ausbildung</Heading>
                     <TimeLine
@@ -116,7 +119,7 @@
                         {/snippet}
                         {#snippet content(e)}
                             {#if e.duration}
-                                <div class="flex items-center gap-1 mt-1">
+                                <div class="mt-1 flex items-center gap-1">
                                     <Icon icon="mingcute:time-duration-line" class="size-4" />
                                     <p>{e.duration}</p>
                                 </div>

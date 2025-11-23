@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
     import Icon from "@iconify/svelte";
-    import classNames from "classnames";
+    import { clsx } from "clsx";
     import { Text } from ".";
     import { smoothScrollOnClick } from "../../utils/smoothScrollOnClick";
 
@@ -31,11 +31,11 @@
     {href}
     onclick={smoothScrollOnClick}
     role={href ? "link" : "none"}
-    class={classNames(className, "group flex w-fit gap-2")}>
+    class={clsx(className, "group flex w-fit gap-2")}>
     <dt class={iconContainerClass}>
-        <Icon {icon} class={classNames(hrefClass, "size-6 text-gray-400")} />
+        <Icon {icon} class={clsx(hrefClass, "size-6 text-gray-400")} />
     </dt>
-    <Text tag="dd" class={classNames(hrefClass)}>
+    <Text tag="dd" class={clsx(hrefClass)}>
         {@render children?.()}
     </Text>
 </svelte:element>

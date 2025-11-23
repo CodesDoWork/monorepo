@@ -31,7 +31,7 @@
     {/snippet}
     {#snippet content(event)}
         <Description>{event.description}</Description>
-        <div class="flex gap-x-12 flex-wrap">
+        <div class="flex flex-wrap gap-x-12">
             <ProjectsList
                 text={`${texts.projects}: `}
                 projects={event.projects}
@@ -45,7 +45,10 @@
                             loading="lazy"
                             src={img}
                             alt=""
-                            class="size-28 rounded-lg aspect-square object-cover shadow-lg hover:scale-[102%] hover:shadow-xl transition" />
+                            class="
+                                aspect-square size-28 rounded-lg object-cover shadow-lg transition
+                                hover:scale-[102%] hover:shadow-xl
+                            " />
                     </button>
                 {/snippet}
             </ListWithHeading>

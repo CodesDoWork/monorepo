@@ -35,14 +35,19 @@
                                 href={item.file}
                                 download={item.filename}
                                 target="_blank"
-                                class="rounded-md p-4 grid grid-cols-[auto_1fr_auto] gap-x-4 bg-white dark:bg-black/20 shadow hover:shadow-md dark:hover:bg-black/30 hover:bg-slate-50 transition items-center">
+                                class="
+                                    grid grid-cols-[auto_1fr_auto] items-center gap-x-4 rounded-md
+                                    bg-white p-4 shadow transition
+                                    hover:bg-slate-50 hover:shadow-md
+                                    dark:bg-black/20 dark:hover:bg-black/30
+                                ">
                                 <div class="row-span-2">
                                     <Icon icon="mdi-light:file" class="size-12" />
                                 </div>
                                 <Heading
                                     level="h4"
                                     commandStyle={false}
-                                    class="cursor-pointer col-span-2">
+                                    class="col-span-2 cursor-pointer">
                                     {item.title}
                                 </Heading>
                                 {#if item.description}
@@ -50,7 +55,7 @@
                                 {/if}
                                 {#if item.doi}
                                     <Link
-                                        class="w-fit col-start-3"
+                                        class="col-start-3 w-fit"
                                         title="Project Homepage"
                                         href={`https://doi.org/${item.doi}`}>
                                         DOI: {item.doi}

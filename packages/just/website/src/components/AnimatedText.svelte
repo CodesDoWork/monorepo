@@ -30,6 +30,7 @@
     let currentText = $state("");
 
     const deleteText = $derived(() => {
+        writingDone = false;
         if (currentText.length > 0) {
             currentText = currentText.substring(0, currentText.length - 1);
             setTimeout(() => deleteText(), typingMs / 2);
@@ -44,6 +45,7 @@
         }
 
         if (currentText.length < text.length) {
+            writingDone = false;
             currentText = text.substring(0, currentText.length + 1);
             setTimeout(() => typeText(), typingMs);
         } else {

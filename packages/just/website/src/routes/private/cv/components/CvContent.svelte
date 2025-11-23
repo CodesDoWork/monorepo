@@ -37,7 +37,12 @@
                 <strong>{t.type}:</strong>
                 „{t.title}“ - {t.keywords}
                 {#if t.grade}
-                    <span class="text-slate-500 dark:text-slate-400"> (Note: {t.grade})</span>
+                    <span
+                        class="
+                            text-slate-500
+                            dark:text-slate-400
+                        ">
+                        (Note: {t.grade})</span>
                 {/if}
             </li>
         {/each}

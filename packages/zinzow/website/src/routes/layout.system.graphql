@@ -3,12 +3,7 @@ query GetLayoutSystemData {
         project_name
         project_descriptor
         project_color
-        secondaryColor
-        accentColor
+        logoBackgroundColor
         copyright
-    }
-
-    logo: files(filter: { isLogo: { _eq: true } }) {
-        id
     }
 }

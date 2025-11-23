@@ -1,6 +1,6 @@
 <script lang="ts" generics="T">
     import type { Snippet } from "svelte";
-    import clsx from "clsx";
+    import { clsx } from "clsx";
     import SmallHeading from "./SmallHeading.svelte";
 
     interface Props {

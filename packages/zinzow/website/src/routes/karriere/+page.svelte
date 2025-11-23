@@ -20,8 +20,12 @@
     <ol class="mt-16 grid grid-cols-2 gap-16 px-24">
         {#each careerBenefits as benefit}
             <dl>
-                <dt class="text-accent-600 text-center text-2xl">{benefit.title}</dt>
-                <dd class="mt-2 w-full text-center text-gray-600 dark:text-gray-500">
+                <dt class="text-center text-2xl text-(--primary)">{benefit.title}</dt>
+                <dd
+                    class="
+                        mt-2 w-full text-center text-gray-600
+                        dark:text-gray-500
+                    ">
                     {benefit.description}
                 </dd>
             </dl>

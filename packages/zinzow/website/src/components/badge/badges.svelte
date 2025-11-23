@@ -1,5 +1,5 @@
 <script lang="ts">
-    import classNames from "classnames";
+    import { clsx } from "clsx";
     import { Badge } from ".";
 
     interface Props {
@@ -10,7 +10,7 @@
     const { class: className = "", badges }: Props = $props();
 </script>
 
-<ul class={classNames(className, "flex gap-2")}>
+<ul class={clsx(className, "flex gap-2")}>
     {#each badges as tag}
         <Badge tag="li">{tag}</Badge>
     {/each}

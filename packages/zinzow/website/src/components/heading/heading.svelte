@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
-    import classNames from "classnames";
+    import { clsx } from "clsx";
 
     type HeadingTag = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
 
@@ -15,8 +15,11 @@
 
 <svelte:element
     this={tag}
-    class={classNames(
-        "text-primary dark:text-primary text-pretty font-semibold tracking-tight",
+    class={clsx(
+        `
+            font-semibold tracking-tight text-pretty text-(--primary)
+            dark:text-(--primary)
+        `,
         className,
     )}>
     {@render children?.()}

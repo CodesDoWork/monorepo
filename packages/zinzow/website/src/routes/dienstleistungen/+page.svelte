@@ -18,7 +18,12 @@
 <PageContent class="isolate">
     <H1>{currentRoute.name}</H1>
     <Paragraphs class="max-w-prose" text={texts.intro} />
-    <ol class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-10">
+    <ol
+        class="
+            mt-10 grid grid-cols-1 gap-6
+            md:grid-cols-2
+            lg:gap-10
+        ">
         <ServiceCol services={services1} />
         <ServiceCol services={services2} />
     </ol>

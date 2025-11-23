@@ -1,9 +1,9 @@
 import antfu from "@antfu/eslint-config";
 import nx from "@nx/eslint-plugin";
 import eslintPluginAstro from "eslint-plugin-astro";
+import eslintPluginBetterTailwindcss from "eslint-plugin-better-tailwindcss";
 import eslintPluginHtml from "eslint-plugin-html";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
-import tailwind from "eslint-plugin-tailwindcss";
 import eslintPluginToml from "eslint-plugin-toml";
 
 export default antfu(
@@ -53,7 +53,22 @@ export default antfu(
     },
     eslintPluginPrettierRecommended,
     ...eslintPluginAstro.configs.recommended,
-    ...tailwind.configs["flat/recommended"],
+    {
+        plugins: { "better-tailwindcss": eslintPluginBetterTailwindcss },
+        rules: {
+            ...eslintPluginBetterTailwindcss.configs["recommended-warn"].rules,
+            ...eslintPluginBetterTailwindcss.configs["recommended-error"].rules,
+            "better-tailwindcss/enforce-consistent-line-wrapping": [
+                "error",
+                {
+                    printWidth: 100,
+                    indent: 4,
+                },
+            ],
+            // TODO: Enable linting when plugin supports multiple entry points for monorepo
+            "better-tailwindcss/no-unregistered-classes": "off",
+        },
+    },
     ...eslintPluginToml.configs["flat/recommended"],
     {
         rules: {

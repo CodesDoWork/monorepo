@@ -28,7 +28,7 @@ export const load: PageServerLoad = async () => {
     }
 
     return {
-        heroImages: heroImages.map(f => assetUrl(f.id, { quality: 50, width: 1920 / 2 })),
+        heroImages: heroImages.map(f => assetUrl(f.id, { quality: 50, width: 1_280 })),
         texts: getTextsFromTranslations(translations, pageIdPrefix),
     };
 };

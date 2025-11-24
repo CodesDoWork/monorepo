@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
-    import classNames from "classnames";
+    import { clsx } from "clsx";
     import Heading from "./heading.svelte";
 
     interface Props {
@@ -11,6 +11,14 @@
     const { class: className = "", children }: Props = $props();
 </script>
 
-<Heading tag="h1" class={classNames("mb-6 text-4xl sm:text-5xl", className)}>
+<Heading
+    tag="h1"
+    class={clsx(
+        `
+            mb-6 text-4xl
+            sm:text-5xl
+        `,
+        className,
+    )}>
     {@render children?.()}
 </Heading>

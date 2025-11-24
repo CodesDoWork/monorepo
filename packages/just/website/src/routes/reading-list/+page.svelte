@@ -29,7 +29,13 @@
     ⚠️<b>{texts.warning}</b>⚠️<br />{texts.warningContent}
 </p>
 <Heading level="h3">{texts.categories}</Heading>
-<ol class="list-inside list-disc sm:columns-2 xl:columns-3 2xl:columns-4">
+<ol
+    class="
+        list-inside list-disc
+        sm:columns-2
+        xl:columns-3
+        2xl:columns-4
+    ">
     <li>
         <Link href={`#${toLinkFriendly(texts.featured)}`} smoothScroll title={texts.featured}>
             {texts.featured}
@@ -43,7 +49,12 @@
         </li>
     {/each}
 </ol>
-<hr class="opacity:50 my-8 dark:opacity-20" />
+<hr
+    class="
+        opacity:50
+        my-8
+        dark:opacity-20
+    " />
 <BookCategory {books} category={texts.featured} {getCardStyle} featuredText={texts.featured} />
 {#each categories as category}
     <BookCategory {category} {books} {getCardStyle} featuredText={texts.featured} />

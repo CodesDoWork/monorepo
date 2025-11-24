@@ -17,23 +17,50 @@
 
 <PageContent class="isolate">
     <div class="relative -z-10 overflow-hidden">
-        <div class="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:justify-between">
-            <div class="relative w-full lg:max-w-xl lg:shrink-0 xl:max-w-2xl">
+        <div
+            class="
+                mx-auto max-w-2xl gap-x-14
+                lg:mx-0 lg:flex lg:max-w-none lg:justify-between
+            ">
+            <div
+                class="
+                    relative w-full
+                    lg:max-w-xl lg:shrink-0
+                    xl:max-w-2xl
+                ">
                 <H1>{about.title}</H1>
                 <p
-                    class="mt-8 text-pretty text-lg font-medium text-gray-500 sm:max-w-md sm:text-xl/8 lg:max-w-none">
+                    class="
+                        mt-8 text-lg font-medium text-pretty text-gray-500
+                        sm:max-w-md sm:text-xl/8
+                        lg:max-w-none
+                    ">
                     {about.aboutText}
                 </p>
             </div>
             <div
-                class="mr-8 mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
+                class="
+                    mt-14 mr-8 flex justify-end gap-8
+                    sm:-mt-44 sm:justify-start sm:pl-20
+                    lg:mt-0 lg:pl-0
+                ">
                 <div
-                    class="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none">
+                    class="
+                        ml-auto w-44 flex-none space-y-8 pt-32
+                        sm:ml-0 sm:pt-80
+                        lg:order-last lg:pt-36
+                        xl:order-0
+                    ">
                     {#each images1 as image}
                         <AboutImage src={image} />
                     {/each}
                 </div>
-                <div class="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-0">
+                <div
+                    class="
+                        mr-auto w-44 flex-none space-y-8
+                        sm:mr-0 sm:pt-52
+                        lg:pt-0
+                    ">
                     {#each images2 as image}
                         <AboutImage src={image} />
                     {/each}
@@ -43,17 +70,35 @@
     </div>
 
     <!-- Content section -->
-    <div class="mx-auto -mt-12 max-w-7xl px-6 sm:mt-0 lg:px-8 xl:mt-8">
-        <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
+    <div
+        class="
+            mx-auto -mt-12 max-w-7xl px-6
+            sm:mt-0
+            lg:px-8
+            xl:mt-8
+        ">
+        <div
+            class="
+                mx-auto max-w-2xl
+                lg:mx-0 lg:max-w-none
+            ">
             <H2>{texts.ourMission}</H2>
-            <div class="mt-6 flex flex-col gap-x-8 gap-y-20 lg:flex-row">
+            <div
+                class="
+                    mt-6 flex flex-col gap-x-8 gap-y-20
+                    lg:flex-row
+                ">
                 <div class="lg:w-full lg:max-w-2xl lg:flex-auto">
                     <p class="text-xl/8 text-gray-600">
                         {about.missionText}
                     </p>
                 </div>
                 <div class="lg:flex lg:flex-auto lg:justify-center">
-                    <dl class="w-64 space-y-8 xl:w-80">
+                    <dl
+                        class="
+                            w-64 space-y-8
+                            xl:w-80
+                        ">
                         <div class="flex flex-col-reverse gap-y-4">
                             <dt class="text-base/7 text-gray-600">Transactions every 24 hours</dt>
                             <dd class="text-5xl font-semibold tracking-tight text-gray-900">
@@ -79,23 +124,44 @@
     </div>
 
     <!-- Image section -->
-    <div class="mt-32 sm:mt-40 xl:mx-auto xl:max-w-7xl xl:px-8">
+    <div
+        class="
+            mt-32
+            sm:mt-40
+            xl:mx-auto xl:max-w-7xl xl:px-8
+        ">
         <img
             src={about.bannerImage}
             alt=""
-            class="aspect-[5/2] w-full object-cover xl:rounded-3xl" />
+            class="
+                aspect-5/2 w-full object-cover
+                xl:rounded-3xl
+            " />
     </div>
 
     <!-- Values section -->
-    <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-40 lg:px-8">
-        <div class="mx-auto max-w-2xl lg:mx-0">
+    <div
+        class="
+            mx-auto mt-32 max-w-7xl px-6
+            sm:mt-40
+            lg:px-8
+        ">
+        <div
+            class="
+                mx-auto max-w-2xl
+                lg:mx-0
+            ">
             <H2>{texts.ourValues}</H2>
             <p class="mt-6 text-lg/8 text-gray-600">
                 {about.valuesText}
             </p>
         </div>
         <dl
-            class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base/7 sm:grid-cols-2 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            class="
+                mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base/7
+                sm:grid-cols-2
+                lg:mx-0 lg:max-w-none lg:grid-cols-3
+            ">
             <div>
                 <dt class="font-semibold text-gray-900">Be world-class</dt>
                 <dd class="mt-1 text-gray-600">
@@ -147,10 +213,17 @@
     </div>
 
     <!-- Logo cloud -->
-    <div class="relative isolate -z-10 mt-32 sm:mt-48">
+    <div
+        class="
+            relative isolate -z-10 mt-32
+            sm:mt-48
+        ">
         <div
-            class="absolute inset-x-0 top-1/2 -z-10 flex -translate-y-1/2 justify-center overflow-hidden [mask-image:radial-gradient(50%_45%_at_50%_55%,white,transparent)]">
-            <svg class="h-[40rem] w-[80rem] flex-none stroke-gray-200" aria-hidden="true">
+            class="
+                absolute inset-x-0 top-1/2 -z-10 flex -translate-y-1/2 justify-center
+                overflow-hidden mask-[radial-gradient(50%_45%_at_50%_55%,white,transparent)]
+            ">
+            <svg class="h-160 w-7xl flex-none stroke-gray-200" aria-hidden="true">
                 <defs>
                     <pattern
                         id="e9033f3e-f665-41a6-84ef-756f6778e6fe"
@@ -173,38 +246,63 @@
                     fill="url(#e9033f3e-f665-41a6-84ef-756f6778e6fe)" />
             </svg>
         </div>
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div
+            class="
+                mx-auto max-w-7xl px-6
+                lg:px-8
+            ">
             <h2 class="text-center text-lg/8 font-semibold text-gray-900">
                 Trusted by the world’s most innovative teams
             </h2>
             <div
-                class="mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10 sm:max-w-xl sm:grid-cols-6 sm:gap-x-10 lg:mx-0 lg:max-w-none lg:grid-cols-5">
+                class="
+                    mx-auto mt-10 grid max-w-lg grid-cols-4 items-center gap-x-8 gap-y-10
+                    sm:max-w-xl sm:grid-cols-6 sm:gap-x-10
+                    lg:mx-0 lg:max-w-none lg:grid-cols-5
+                ">
                 <img
-                    class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+                    class="
+                        col-span-2 max-h-12 w-full object-contain
+                        lg:col-span-1
+                    "
                     src="https://tailwindui.com/plus/img/logos/158x48/transistor-logo-gray-900.svg"
                     alt="Transistor"
                     width="158"
                     height="48" />
                 <img
-                    class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+                    class="
+                        col-span-2 max-h-12 w-full object-contain
+                        lg:col-span-1
+                    "
                     src="https://tailwindui.com/plus/img/logos/158x48/reform-logo-gray-900.svg"
                     alt="Reform"
                     width="158"
                     height="48" />
                 <img
-                    class="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
+                    class="
+                        col-span-2 max-h-12 w-full object-contain
+                        lg:col-span-1
+                    "
                     src="https://tailwindui.com/plus/img/logos/158x48/tuple-logo-gray-900.svg"
                     alt="Tuple"
                     width="158"
                     height="48" />
                 <img
-                    class="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
+                    class="
+                        col-span-2 max-h-12 w-full object-contain
+                        sm:col-start-2
+                        lg:col-span-1
+                    "
                     src="https://tailwindui.com/plus/img/logos/158x48/savvycal-logo-gray-900.svg"
                     alt="SavvyCal"
                     width="158"
                     height="48" />
                 <img
-                    class="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
+                    class="
+                        col-span-2 col-start-2 max-h-12 w-full object-contain
+                        sm:col-start-auto
+                        lg:col-span-1
+                    "
                     src="https://tailwindui.com/plus/img/logos/158x48/statamic-logo-gray-900.svg"
                     alt="Statamic"
                     width="158"
@@ -214,8 +312,17 @@
     </div>
 
     <!-- Team section -->
-    <div class="mx-auto mt-32 max-w-7xl px-6 sm:mt-48 lg:px-8">
-        <div class="mx-auto max-w-2xl lg:mx-0">
+    <div
+        class="
+            mx-auto mt-32 max-w-7xl px-6
+            sm:mt-48
+            lg:px-8
+        ">
+        <div
+            class="
+                mx-auto max-w-2xl
+                lg:mx-0
+            ">
             <H2>{texts.ourTeam}</H2>
             <p class="mt-6 text-lg/8 text-gray-600">
                 {about.teamText}
@@ -223,7 +330,13 @@
         </div>
         <ul
             role="list"
-            class="mx-auto mt-20 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-16 text-center sm:grid-cols-3 md:grid-cols-4 lg:mx-0 lg:max-w-none lg:grid-cols-5 xl:grid-cols-6">
+            class="
+                mx-auto mt-20 grid max-w-2xl grid-cols-2 gap-x-8 gap-y-16 text-center
+                sm:grid-cols-3
+                md:grid-cols-4
+                lg:mx-0 lg:max-w-none lg:grid-cols-5
+                xl:grid-cols-6
+            ">
             <li>
                 <img
                     class="mx-auto size-24 rounded-full"

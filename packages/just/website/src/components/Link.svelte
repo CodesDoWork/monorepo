@@ -43,25 +43,45 @@
         clsx(
             "cursor-pointer rounded-md font-mono transition",
             button && [
-                "p-3 dark:text-white",
-                "bg-white dark:bg-opacity-10",
-                "hover:rotate-3 hover:bg-accent-500 dark:hover:bg-secondary-500/50",
-                "shadow-md hover:shadow-lg",
+                `
+                    p-3
+                    dark:text-white
+                `,
+                `
+                    bg-white
+                    dark:bg-white/10
+                `,
+                `
+                    hover:bg-accent-500 hover:rotate-3
+                    dark:hover:bg-secondary-500/50
+                `,
+                `
+                    shadow-md
+                    hover:shadow-lg
+                `,
                 "origin-top-left",
             ],
             !button &&
                 !noStyle && [
-                    "p-1 text-[var(--page-color)] hover:bg-[var(--page-color)] hover:text-white dark:text-[var(--page-color)] dark:hover:bg-[var(--page-color)] dark:hover:text-black",
+                    `
+                        p-1 text-(--page-color)
+                        hover:bg-(--page-color) hover:text-white
+                        dark:text-(--page-color) dark:hover:bg-(--page-color) dark:hover:text-black
+                    `,
                 ],
             className,
         ),
     );
 
-    const external = href.startsWith("http");
-    let rel = external ? "noopener" : undefined;
-    if (isMe) {
-        rel = rel ? `me ${rel}` : "me";
-    }
+    const external = $derived(href.startsWith("http"));
+    const rel = $derived.by(() => {
+        let tmpRel = external ? "noopener" : undefined;
+        if (isMe) {
+            tmpRel = tmpRel ? `me ${tmpRel}` : "me";
+        }
+
+        return tmpRel;
+    });
 </script>
 
 <svelte:element

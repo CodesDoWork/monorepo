@@ -198,28 +198,36 @@
     const selectedText = "text-black dark:text-white";
 </script>
 
-<div class="grid grid-rows-[1fr_auto] gap-4 h-full">
+<div class="grid h-full grid-rows-[1fr_auto] gap-4">
     <BigFiveChart
         {currentLanguage}
         chartData={showDetail ? detailedChartData : roughChartData}
         drawGroups={showDetail} />
     <div
-        class="mx-auto grid grid-cols-[1fr_auto_1fr] items-center gap-x-2 sm:gap-x-4 md:gap-x-2 lg:gap-x-4">
+        class="
+            mx-auto grid grid-cols-[1fr_auto_1fr] items-center gap-x-2
+            sm:gap-x-4
+            md:gap-x-2
+            lg:gap-x-4
+        ">
         <span class={clsx(textClass, showDetail ? normalText : selectedText)}>
             {bigFive.defaultView}
         </span>
 
-        <div class="relative w-10 h-5">
+        <div class="relative h-5 w-10">
             <button
                 aria-label="toggle background"
                 onclick={() => (showDetail = !showDetail)}
-                class="absolute w-full h-full rounded-full bg-sky-500 align-middle">
+                class="absolute h-full w-full rounded-full bg-sky-500 align-middle">
             </button>
             <button
                 aria-label="toggle foreground"
                 onclick={() => (showDetail = !showDetail)}
                 class={clsx(
-                    "absolute left-0 aspect-square h-full transform rounded-full border border-gray-300 bg-white shadow-md transition-all duration-300",
+                    `
+                        absolute left-0 aspect-square h-full transform rounded-full border
+                        border-gray-300 bg-white shadow-md transition-all duration-300
+                    `,
                     showDetail ? "translate-x-6" : "translate-x-0",
                 )}>
             </button>

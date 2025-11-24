@@ -49,17 +49,27 @@
     </style>
 </svelte:head>
 
-<div class="flex flex-col gap-4 md:flex-row">
+<div
+    class="
+        flex flex-col gap-4
+        md:flex-row
+    ">
     <img
         loading="lazy"
         alt="Portrait"
-        class={clsx(cardClass, "-mt-12 block w-24 self-end rounded-full shadow-md md:hidden")}
+        class={clsx(
+            cardClass,
+            `
+                -mt-12 block w-24 self-end rounded-full shadow-md
+                md:hidden
+            `,
+        )}
         src={about.portrait}
         style={getCardStyle()} />
     <div class="flex-1 space-y-4">
         <Card tag="section" class={cardClass} padding style={getCardStyle()}>
-            <span class="mb-4 font-mono italic text-slate-400">{about.intro}</span>
-            <article class="hyphens-auto text-justify space-y-2">{@html about.bio}</article>
+            <span class="mb-4 font-mono text-slate-400 italic">{about.intro}</span>
+            <article class="space-y-2 text-justify hyphens-auto">{@html about.bio}</article>
         </Card>
         <Card class={cardClass} padding style={getCardStyle()}>
             <Heading level="h3">{about.experience}</Heading>
@@ -84,8 +94,22 @@
             </TimeLine>
         </Card>
     </div>
-    <div class="w-full md:w-64 lg:w-96 space-y-4 -mt-4 md:mt-0">
-        <Card class={clsx(cardClass, "hidden md:block")} padding style={getCardStyle()}>
+    <div
+        class="
+            -mt-4 w-full space-y-4
+            md:mt-0 md:w-64
+            lg:w-96
+        ">
+        <Card
+            class={clsx(
+                cardClass,
+                `
+                    hidden
+                    md:block
+                `,
+            )}
+            padding
+            style={getCardStyle()}>
             <img loading="lazy" alt="Portrait" class="rounded" src={about.portrait} />
         </Card>
         <Card class={clsx(cardClass, "overflow-hidden")} padding style={getCardStyle()}>
@@ -94,14 +118,23 @@
         </Card>
         <Card class={cardClass} padding style={getCardStyle()}>
             <Heading level="h3">{about.techStack}</Heading>
-            <p class="text-slate-600 dark:text-slate-400"><i>{about.techStackInfo}</i></p>
+            <p
+                class="
+                    text-slate-600
+                    dark:text-slate-400
+                ">
+                <i>{about.techStackInfo}</i>
+            </p>
             {#each Object.entries(techStack) as [stackName, technologies]}
                 <Heading class="mt-4" level="h5">{stackName}</Heading>
                 <ul class="flex flex-wrap gap-2">
                     {#each technologies as { technology, isMainTechnology }}
                         <Label
                             highlighted={isMainTechnology}
-                            class="text-sm lg:text-base"
+                            class="
+                                text-sm
+                                lg:text-base
+                            "
                             tag="li"
                             icon={technology.icon}
                             name={technology.name} />

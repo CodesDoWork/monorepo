@@ -2,11 +2,12 @@
     import type { RouteFragment } from "../../graphql/default/generated/graphql";
     import type { LayoutData } from "../../routes/$types";
     import Icon from "@iconify/svelte";
-    import classNames from "classnames";
+    import { clsx } from "clsx";
     import { writable } from "svelte/store";
+    import { animationDelay } from "../../utils/animation-delay";
     import { WidthBox } from "../content-area";
+    import { Logo } from "../logo";
     import { MobileMenu } from "../mobile-menu";
-    import PopupNav from "./popup-nav.svelte";
 
     interface Props {
         data: LayoutData;
@@ -15,19 +16,31 @@
 
     const { data, currentRoute }: Props = $props();
 
-    const { routes, logo } = data;
+    const { routes } = data;
     const routesInNav = routes.filter(r => r.showInHeader);
 
     const mobileMenuOpen = writable(false);
     const onMenuClick = () => mobileMenuOpen.update(value => !value);
+
+    const animate = (...classes: string[]) => clsx(...classes, "animate-fadeInBT opacity-0");
+    const AnimationPriority = {
+        LOGO: 0,
+        NAV: 1,
+    };
 </script>
 
-<header>
-    <WidthBox tag="nav" class="flex items-center justify-between">
+<header class={currentRoute?.isHero && "absolute inset-x-0"}>
+    <WidthBox tag="nav" class="z-10 flex items-center justify-between py-4">
         <a href="/">
-            <img src={logo} alt="Logo" class="h-24 rounded" />
+            <Logo
+                class={animate("size-32 rounded")}
+                style={animationDelay(AnimationPriority.LOGO)} />
         </a>
-        <div class="relative block md:hidden">
+        <div
+            class="
+                relative block
+                md:hidden
+            ">
             <button onclick={onMenuClick}>
                 <Icon icon="ic:round-menu" class="size-6" />
             </button>
@@ -37,33 +50,34 @@
                 {routes}
                 {currentRoute} />
         </div>
-        <div class="hidden md:block">
+        <div
+            class="
+                hidden
+                md:block
+            ">
             <ol class="flex">
-                {#each routesInNav as route}
-                    {@const children = routes.filter(
-                        r => r.path.startsWith(route.path) && r.path !== route.path,
-                    )}
+                {#each routesInNav as route, idx (idx)}
                     <li
-                        class={classNames(
-                            "hover:text-accent group/nav-item relative transition-colors",
+                        style={animationDelay(AnimationPriority.NAV + idx)}
+                        class={animate(
+                            `
+                                group/nav-item relative transition-all
+                                hover:scale-105 hover:text-(--primary)
+                                dark:hover:text-(--primary-200)
+                            `,
                             currentRoute.path.startsWith(route.path)
-                                ? "text-accent"
-                                : "text-gray-900 dark:text-white",
+                                ? `
+                                    scale-105 text-(--primary)
+                                    dark:text-(--primary-200)
+                                `
+                                : `
+                                    scale-100 text-gray-900
+                                    dark:text-white
+                                `,
                         )}>
-                        <a
-                            href={route.path}
-                            class="block px-3 py-1 text-sm/6 font-semibold transition group-hover/nav-item:scale-105">
+                        <a href={route.path} class={clsx(`block px-3 py-1 font-semibold`)}>
                             {route.name}
-                            {#if children.length}
-                                <Icon icon="carbon:chevron-down" class="inline size-4" />
-                            {/if}
                         </a>
-                        {#if children.length}
-                            <PopupNav
-                                class="invisible translate-y-2 opacity-0 transition-all duration-300 group-hover/nav-item:visible group-hover/nav-item:translate-y-0 group-hover/nav-item:opacity-100"
-                                routes={children}
-                                {currentRoute} />
-                        {/if}
                     </li>
                 {/each}
             </ol>

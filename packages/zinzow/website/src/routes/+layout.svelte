@@ -21,8 +21,7 @@
 
     const colors = createColors({
         primary: settings.project_color,
-        secondary: settings.secondaryColor,
-        accent: settings.accentColor,
+        logoBg: settings.logoBackgroundColor,
     });
 </script>
 
@@ -33,10 +32,11 @@
 
 <div
     style={createCssVariables(colors)}
-    class="dark:bg-primary-950 relative grid min-h-screen grid-rows-[min-content_1fr_min-content] overflow-x-hidden dark:text-white">
-    {#if nav.currentRoute.isHero !== true}
-        <Header {data} currentRoute={nav.currentRoute} />
-    {/if}
+    class="
+        relative grid min-h-screen grid-rows-[min-content_1fr_min-content] overflow-x-hidden
+        dark:bg-(--primary-950) dark:text-white
+    ">
+    <Header {data} currentRoute={nav.currentRoute} />
     <main>
         {@render children?.()}
     </main>

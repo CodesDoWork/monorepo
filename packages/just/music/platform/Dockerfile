@@ -1,6 +1,6 @@
 ARG DOCKER_PROXY
 
-FROM $DOCKER_PROXY/deluan/navidrome:0.53.3
+FROM $DOCKER_PROXY/deluan/navidrome:0.58.5
 
 RUN adduser --disabled-password navidrome
 

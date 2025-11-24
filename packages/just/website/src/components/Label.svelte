@@ -14,7 +14,12 @@
 
     const labelClass = clsx(
         "flex items-center gap-1 rounded p-2",
-        highlighted ? "bg-primary-400/30 dark:bg-primary-600/30" : "bg-black/10",
+        highlighted
+            ? `
+                bg-primary-400/30
+                dark:bg-primary-600/30
+            `
+            : "bg-black/10",
         className,
     );
 </script>

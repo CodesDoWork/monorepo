@@ -19,14 +19,24 @@
             noStyle
             href={typeof href === "string" ? href : href(project)}
             title={project.description}
-            class="group flex w-min min-w-24 flex-col items-center text-center hover:drop-shadow">
+            class="
+                group flex w-min min-w-24 flex-col items-center text-center
+                hover:drop-shadow
+            ">
             <img
                 loading="lazy"
-                class="aspect-square h-8 w-8 rounded-full bg-white object-contain shadow sm:h-12 sm:w-12"
+                class="
+                    aspect-square h-8 w-8 rounded-full bg-white object-contain shadow
+                    sm:h-12 sm:w-12
+                "
                 src={project.logo}
                 alt="logo" />
             <span
-                class="text-sm text-slate-600 transition-colors group-hover:text-[var(--page-color)] dark:text-slate-400">
+                class="
+                    text-sm text-slate-600 transition-colors
+                    group-hover:text-(--page-color)
+                    dark:text-slate-400
+                ">
                 {project.name}
             </span>
         </Link>

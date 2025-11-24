@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
-    import classNames from "classnames";
+    import { clsx } from "clsx";
     import { WidthBox } from ".";
 
     interface Props {
@@ -12,6 +12,14 @@
     const { class: className = "", tag = "div", children }: Props = $props();
 </script>
 
-<WidthBox {tag} class={classNames("py-16 lg:py-24", className)}>
+<WidthBox
+    {tag}
+    class={clsx(
+        `
+            py-16
+            lg:py-24
+        `,
+        className,
+    )}>
     {@render children?.()}
 </WidthBox>

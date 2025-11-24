@@ -48,7 +48,7 @@
         "vitepress-plugin-mermaid": "2.0.17",
         "vue": "^3.5.25",
         "xmlbuilder2": "^4.0.0",
-        "zod": "^4.1.12"
+        "zod": "^4.1.13"
     },
     "devDependencies": {
         "@antfu/eslint-config": "^6.2.0",

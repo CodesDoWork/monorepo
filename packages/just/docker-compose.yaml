@@ -50,12 +50,15 @@ services:
       - DB_PASSWORD=${POSTGRES_PASSWORD}
       - AUTH_PROVIDERS=keycloak
       - AUTH_KEYCLOAK_ALLOW_PUBLIC_REGISTRATION=true
-      - AUTH_KEYCLOAK_DEFAULT_ROLE_ID=2c1d9be2-93c2-4693-8200-6351976a034e
+      - AUTH_KEYCLOAK_DEFAULT_ROLE_ID=public
       - AUTH_KEYCLOAK_DRIVER=openid
       - AUTH_KEYCLOAK_CLIENT_ID=${CMS_AUTH_CLIENT_ID}
       - AUTH_KEYCLOAK_CLIENT_SECRET=${CMS_AUTH_CLIENT_SECRET}
       - AUTH_KEYCLOAK_ISSUER_URL=https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/.well-known/openid-configuration
       - AUTH_KEYCLOAK_IDENTIFIER_KEY=email
+      - AUTH_KEYCLOAK_SCOPE="openid email client_roles_as_groups"
+      - AUTH_KEYCLOAK_ROLE_MAPPING={"admin":"2c1d9be2-93c2-4693-8200-6351976a034e"}
+      - AUTH_KEYCLOAK_GROUP_CLAIM_NAME=groups
     image: ${IMAGE_BASE}/just-cms:${PROJECT_VERSION:-latest}
     volumes:
       - directus-extension-registry:/directus/extensions/.registry
@@ -420,7 +423,14 @@ services:
       - PORT=${MUSIC_METADATA_PORT}
     healthcheck:
       test:
-        ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:${PORT}/health"]
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:${MUSIC_METADATA_PORT}/health",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3

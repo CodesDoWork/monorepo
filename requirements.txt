@@ -273,7 +273,7 @@ nbformat==5.10.4
     #   nbconvert
 nest-asyncio==1.6.0
     # via ipykernel
-networkx==3.5
+networkx==3.6
     # via torch
 notebook==7.5.0
     # via jupyter
@@ -572,7 +572,7 @@ traitlets==5.14.3
     #   nbclient
     #   nbconvert
     #   nbformat
-transformers==4.57.1
+transformers==4.57.2
     # via -r requirements.in
 triton==3.5.1
     # via torch

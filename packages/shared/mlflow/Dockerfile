@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.14-slim
 
 RUN pip install mlflow==2.21.3 psycopg2-binary==2.9.10
 

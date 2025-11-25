@@ -573,7 +573,7 @@ services:
       - PORT=${VPN_PORT}
       - PASSWORD_HASH=${VPN_PASSWORD_HASH}
       - UI_TRAFFIC_STATS=true
-    image: ghcr.io/wg-easy/wg-easy:14
+    image: ghcr.io/wg-easy/wg-easy:15
     ports:
       - 51820:51820/udp
     sysctls:

@@ -33,10 +33,19 @@ function M.authenticate()
         logout_path = "/callback-logout",
         session_contents = { id_token = true, access_token = true },
         scope = "openid email profile roles",
-        ssl_verify = "no"
+        ssl_verify = "yes"
     }
 
-    local res, err = require("resty.openidc").authenticate(opts)
+    local session_opts = {
+        secret = os.getenv("NGINX_AUTH_SESSION_SECRET"),
+        cookie_prefix = "nginx_auth_",
+        cookie_http_only = true,
+        cookie_secure = true,
+        cookie_same_site = "Lax",
+        remember = true
+    }
+
+    local res, err = require("resty.openidc").authenticate(opts, nil, nil, session_opts)
     if err then
         ngx.status = 403
         ngx.say(err)

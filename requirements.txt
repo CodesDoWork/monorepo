@@ -487,7 +487,7 @@ scipy==1.16.3
     #   scikit-learn
 send2trash==1.8.3
     # via jupyter-server
-sentry-sdk==2.45.0
+sentry-sdk==2.46.0
     # via wandb
 setuptools==80.9.0
     # via

@@ -91,7 +91,7 @@
         "@typescript-eslint/parser": "8.48.0",
         "@vitest/coverage-v8": "^4.0.14",
         "@vitest/ui": "^4.0.14",
-        "astro": "^5.16.0",
+        "astro": "^5.16.1",
         "chalk": "5.6.2",
         "emailjs": "^4.0.3",
         "envsub": "^4.1.0",

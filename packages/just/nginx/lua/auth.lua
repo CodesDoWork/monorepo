@@ -33,7 +33,7 @@ function M.authenticate()
         logout_path = "/callback-logout",
         session_contents = { id_token = true, access_token = true },
         scope = "openid email profile roles",
-        ssl_verify = "yes"
+        ssl_verify = "no"
     }
 
     local session_opts = {

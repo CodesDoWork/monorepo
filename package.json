@@ -136,7 +136,7 @@
         "vite": "7.2.4",
         "vitepress": "1.6.4",
         "vitest": "^4.0.14",
-        "wrangler": "^4.50.0",
+        "wrangler": "^4.51.0",
         "yaml": "^2.8.1"
     },
     "trustedDependencies": [

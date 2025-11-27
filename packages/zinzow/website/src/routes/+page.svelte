@@ -9,12 +9,14 @@
     }
 
     const { data }: Props = $props();
-    const { heroImages, texts } = data;
+    const { landscapeHeros, portraitHeros, texts } = data;
 
-    let currentHeroImageIdx = $state(0);
+    let currentLandscapeHeroImageIdx = $state(0);
+    let currentPortraitHeroImageIdx = $state(0);
     const cycleTime = 5000;
     function cycleHeroImage() {
-        currentHeroImageIdx = (currentHeroImageIdx + 1) % heroImages.length;
+        currentLandscapeHeroImageIdx = (currentLandscapeHeroImageIdx + 1) % landscapeHeros.length;
+        currentPortraitHeroImageIdx = (currentPortraitHeroImageIdx + 1) % portraitHeros.length;
         setTimeout(cycleHeroImage, cycleTime);
     }
     setTimeout(cycleHeroImage, cycleTime);
@@ -25,18 +27,36 @@
 
 <div
     class="
-        relative grid w-screen overflow-hidden py-6
-        md:h-screen md:max-h-240 md:min-h-0
+        relative grid h-screen w-screen py-6
+        md:max-h-240 md:min-h-0
     ">
     <div class="animate-fadeIn absolute inset-0">
-        {#key currentHeroImageIdx}
-            <img
-                in:fly={{ x: "100%", opacity: 1 }}
-                out:fly={{ x: "-100%", opacity: 1 }}
-                src={heroImages[currentHeroImageIdx]}
-                alt="hero"
-                class="absolute w-screen object-cover object-center saturate-[1.1]" />
-        {/key}
+        <div>
+            {#key currentLandscapeHeroImageIdx}
+                <img
+                    in:fly={{ x: "100%", opacity: 1 }}
+                    out:fly={{ x: "-100%", opacity: 1 }}
+                    src={landscapeHeros[currentLandscapeHeroImageIdx]}
+                    alt="hero"
+                    class="
+                        absolute hidden h-screen w-screen object-cover object-center saturate-[1.1]
+                        md:block md:max-h-240
+                    " />
+            {/key}
+        </div>
+        <div>
+            {#key currentPortraitHeroImageIdx}
+                <img
+                    in:fly={{ x: "100%", opacity: 1 }}
+                    out:fly={{ x: "-100%", opacity: 1 }}
+                    src={portraitHeros[currentPortraitHeroImageIdx]}
+                    alt="hero"
+                    class="
+                        absolute block h-screen w-screen object-cover object-center saturate-[1.1]
+                        md:hidden md:max-h-240
+                    " />
+            {/key}
+        </div>
         <div
             class="
                 absolute size-full bg-white/40
@@ -47,9 +67,9 @@
 
     <div
         class="
-            mx-auto my-auto flex w-full max-w-7xl flex-wrap items-center gap-x-12 gap-y-4 px-6
+            mx-auto my-auto flex w-full max-w-7xl flex-col flex-wrap gap-x-12 gap-y-4 px-6
             text-shadow-black/15 text-shadow-lg
-            md:px-12
+            md:flex-row md:items-center md:px-12
             lg:px-16
             dark:text-shadow-gray-200/15
         ">

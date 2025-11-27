@@ -33,7 +33,8 @@
                 <a href="/" class="inline-block">
                     <Logo
                         class="
-                            size-56 rounded bg-(--logoBg) p-4 shadow-md
+                            size-40 rounded bg-(--logoBg) p-4 shadow-md
+                            md:size-56
                             dark:fill-black!
                         " />
                 </a>

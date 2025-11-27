@@ -33,7 +33,7 @@
     <WidthBox tag="nav" class="z-10 flex items-center justify-between py-4">
         <a href="/">
             <Logo
-                class={animate("size-32 rounded")}
+                class={animate("size-24 md:size-32 rounded")}
                 style={animationDelay(AnimationPriority.LOGO)} />
         </a>
         <div

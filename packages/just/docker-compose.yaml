@@ -430,7 +430,7 @@ services:
           "--tries=1",
           "--spider",
           "--header='Connection: close'",
-          "http://localhost:${MUSIC_METADATA_PORT}/health",
+          "http://127.0.0.1:${MUSIC_METADATA_PORT}/health",
         ]
       interval: 30s
       timeout: 10s

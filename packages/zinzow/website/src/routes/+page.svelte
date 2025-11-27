@@ -27,8 +27,8 @@
 
 <div
     class="
-        relative grid w-screen py-6
-        md:h-screen md:max-h-240 md:min-h-0
+        relative grid h-screen w-screen py-6
+        md:max-h-240 md:min-h-0
     ">
     <div class="animate-fadeIn absolute inset-0">
         <div>
@@ -39,8 +39,8 @@
                     src={landscapeHeros[currentLandscapeHeroImageIdx]}
                     alt="hero"
                     class="
-                        absolute hidden w-screen object-cover object-center saturate-[1.1]
-                        md:block md:h-screen md:max-h-240
+                        absolute hidden h-screen w-screen object-cover object-center saturate-[1.1]
+                        md:block md:max-h-240
                     " />
             {/key}
         </div>
@@ -52,8 +52,8 @@
                     src={portraitHeros[currentPortraitHeroImageIdx]}
                     alt="hero"
                     class="
-                        absolute block w-screen object-cover object-center saturate-[1.1]
-                        md:hidden md:h-screen md:max-h-240
+                        absolute block h-screen w-screen object-cover object-center saturate-[1.1]
+                        md:hidden md:max-h-240
                     " />
             {/key}
         </div>
@@ -67,9 +67,9 @@
 
     <div
         class="
-            mx-auto my-auto flex w-full max-w-7xl flex-wrap items-center gap-x-12 gap-y-4 px-6
+            mx-auto my-auto flex w-full max-w-7xl flex-col flex-wrap gap-x-12 gap-y-4 px-6
             text-shadow-black/15 text-shadow-lg
-            md:px-12
+            md:flex-row md:items-center md:px-12
             lg:px-16
             dark:text-shadow-gray-200/15
         ">

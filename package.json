@@ -47,7 +47,7 @@
         "vitepress-plugin-auto-sidebar": "^1.4.0",
         "vitepress-plugin-mermaid": "2.0.17",
         "vue": "^3.5.25",
-        "xmlbuilder2": "^4.0.1",
+        "xmlbuilder2": "^4.0.3",
         "zod": "^4.1.13"
     },
     "devDependencies": {

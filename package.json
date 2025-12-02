@@ -88,7 +88,7 @@
         "@types/eslint-plugin-tailwindcss": "^3.17.0",
         "@types/node": "^24.10.1",
         "@types/pg": "^8.15.6",
-        "@typescript-eslint/parser": "8.48.0",
+        "@typescript-eslint/parser": "8.48.1",
         "@vitest/coverage-v8": "^4.0.15",
         "@vitest/ui": "^4.0.15",
         "astro": "^5.16.3",

@@ -41,7 +41,7 @@
         "color": "^5.0.3",
         "dotenv": "^17.2.3",
         "iconify-icon": "3.0.2",
-        "mermaid": "~11.12.1",
+        "mermaid": "~11.12.2",
         "pino": "^10.1.0",
         "tslib": "^2.8.1",
         "vitepress-plugin-auto-sidebar": "^1.4.0",

@@ -1,0 +1,5 @@
+query GetHomeData {
+    start_page {
+        imageCycleTimeMs: image_cycle_time_ms
+    }
+}

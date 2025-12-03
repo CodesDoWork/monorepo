@@ -8,7 +8,7 @@
         class?: string;
         onClose: () => void;
         routes?: RouteFragment[];
-        currentRoute: RouteFragment;
+        currentRoute?: RouteFragment;
     }
 
     const { class: className = "", onClose, routes = [], currentRoute }: Props = $props();
@@ -62,7 +62,7 @@
                         )}
                         <div
                             class={clsx(
-                                currentRoute.path.startsWith(route.path) && `text-(--primary)`,
+                                currentRoute?.path.startsWith(route.path) && `text-(--primary)`,
                                 `
                                     -mx-3 flex items-center justify-between rounded-lg px-3 py-2
                                     text-base/7 font-semibold
@@ -88,7 +88,7 @@
                                 {#each children as child}
                                     <li
                                         class={clsx(
-                                            currentRoute.path.startsWith(child.path)
+                                            currentRoute?.path.startsWith(child.path)
                                                 ? "text-(--primary)"
                                                 : "",
                                             `

@@ -7,5 +7,5 @@
 </script>
 
 <PageContent class="isolate">
-    <H1>{nav.currentRoute.name}</H1>
+    <H1>{nav.currentRoute?.name}</H1>
 </PageContent>

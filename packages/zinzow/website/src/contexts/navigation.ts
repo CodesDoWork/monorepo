@@ -3,7 +3,7 @@ import { getContext, setContext } from "svelte";
 
 const key = "navigation";
 export interface NavigationContext {
-    currentRoute: RouteFragment;
+    currentRoute?: RouteFragment;
     previousRoute?: RouteFragment;
 }
 

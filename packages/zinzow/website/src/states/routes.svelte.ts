@@ -5,7 +5,7 @@ interface Route {
     path: string;
 }
 
-export function getRoutes<T extends Route>(routes: T[], initialRoute: T) {
+export function getRoutes<T extends Route>(routes: T[], initialRoute: T | undefined) {
     let currentRoute = $state<T | undefined>(initialRoute);
     let previousRoute = $state<T | undefined>();
 

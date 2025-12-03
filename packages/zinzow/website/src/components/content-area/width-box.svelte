@@ -4,15 +4,13 @@
 
     interface Props {
         class?: string;
-        tag?: keyof HTMLElementTagNameMap;
         children?: Snippet;
     }
 
-    const { class: className = "", tag = "div", children }: Props = $props();
+    const { class: className = "", children }: Props = $props();
 </script>
 
-<svelte:element
-    this={tag}
+<div
     class={clsx(
         `
             relative mx-auto max-w-7xl p-6
@@ -21,4 +19,4 @@
         className,
     )}>
     {@render children?.()}
-</svelte:element>
+</div>

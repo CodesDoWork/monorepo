@@ -1,17 +1,23 @@
 <script lang="ts">
-    import { page } from "$app/stores";
+    import { page } from "$app/state";
+    import { clsx } from "clsx";
     import { H1 } from "../components/heading";
+    import { getNavigationContext } from "../contexts/navigation";
 
-    const status = $page.status;
-    const error = $page.error as Error & Record<string, string>;
+    const status = page.status;
+    const error = page.error as Error & Record<string, string>;
+
+    const nav = getNavigationContext();
 </script>
 
 <div
-    class="
-        px-6 py-24 text-center
-        sm:py-32
-        lg:px-8
-    ">
+    class={clsx(
+        `
+            px-6 py-24 text-center
+            lg:px-8
+        `,
+        nav.currentRoute?.isHero && "mt-48",
+    )}>
     <p class="text-base font-semibold text-(--primary)">{status}</p>
     <H1
         class="

@@ -62,7 +62,7 @@
                         )}
                         <div
                             class={clsx(
-                                currentRoute?.path.startsWith(route.path) && `text-(--primary)`,
+                                currentRoute?.path.startsWith(route.path) && `text-(--primary-200)`,
                                 `
                                     -mx-3 flex items-center justify-between rounded-lg px-3 py-2
                                     text-base/7 font-semibold
@@ -89,7 +89,7 @@
                                     <li
                                         class={clsx(
                                             currentRoute?.path.startsWith(child.path)
-                                                ? "text-(--primary)"
+                                                ? "text-(--primary-200)"
                                                 : "",
                                             `
                                                 flex items-center justify-between rounded-lg py-2

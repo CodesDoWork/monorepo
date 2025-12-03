@@ -1,4 +1,10 @@
 query GetCareerData {
+    career {
+        teamPhoto: team_photo {
+            id
+        }
+    }
+
     vacancies {
         title
         description

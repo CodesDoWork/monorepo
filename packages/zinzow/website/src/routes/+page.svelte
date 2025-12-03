@@ -9,17 +9,16 @@
     }
 
     const { data }: Props = $props();
-    const { landscapeHeros, portraitHeros, texts } = data;
+    const { landscapeHeros, portraitHeros, texts, imageCycleTimeMs } = data;
 
     let currentLandscapeHeroImageIdx = $state(0);
     let currentPortraitHeroImageIdx = $state(0);
-    const cycleTime = 5000;
     function cycleHeroImage() {
         currentLandscapeHeroImageIdx = (currentLandscapeHeroImageIdx + 1) % landscapeHeros.length;
         currentPortraitHeroImageIdx = (currentPortraitHeroImageIdx + 1) % portraitHeros.length;
-        setTimeout(cycleHeroImage, cycleTime);
+        setTimeout(cycleHeroImage, imageCycleTimeMs);
     }
-    setTimeout(cycleHeroImage, cycleTime);
+    setTimeout(cycleHeroImage, imageCycleTimeMs);
 
     const animate = (...classes: string[]) => clsx(...classes, "animate-fadeInBT opacity-0");
     const introWords = texts.intro.split(" ");

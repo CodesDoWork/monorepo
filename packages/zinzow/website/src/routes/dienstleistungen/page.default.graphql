@@ -4,7 +4,6 @@ query GetServiceData {
             name
             path
         }
-        shortDescription
         thumbnail {
             id
         }

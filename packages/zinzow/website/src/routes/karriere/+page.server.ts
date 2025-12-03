@@ -1,5 +1,5 @@
 import type { PageServerLoad } from "./$types";
-import { addAssetUrl } from "@cdw/monorepo/shared-utils/directus";
+import { addAssetUrl, assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { defaultClient } from "../../graphql/default/client";
 import { GetCareerDataDocument } from "../../graphql/default/generated/graphql";
 import { systemClient } from "../../graphql/system/client";
@@ -18,6 +18,10 @@ export const load: PageServerLoad = async () => {
     const { translations } = tranlationsData;
 
     return {
+        career: {
+            ...careerData.career,
+            teamPhoto: assetUrl(careerData.career?.teamPhoto?.id, { width: 1024, quality: 50 }),
+        },
         careerBenefits,
         vacancies: vacancies.map(vacancy => ({
             ...vacancy,

@@ -2,8 +2,6 @@ fragment Route on routes {
     name
     path
     showInHeader
-    icon
-    shortDescription
     isHero
 }
 

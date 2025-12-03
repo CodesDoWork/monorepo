@@ -13,7 +13,8 @@
 <div
     class={clsx(
         `
-            relative mx-auto max-w-7xl p-6
+            relative mx-auto max-w-screen p-6
+            md:max-w-7xl
             lg:px-8
         `,
         className,

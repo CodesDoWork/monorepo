@@ -15,8 +15,9 @@
     tag="h3"
     class={clsx(
         `
-            text-2xl
-            sm:text-3xl
+            text-xl
+            sm:text-2xl
+            md:text-3xl
         `,
         className,
     )}>

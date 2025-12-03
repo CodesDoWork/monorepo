@@ -9,7 +9,7 @@
     }
 
     const { data }: Props = $props();
-    const { careerBenefits, vacancies, texts } = data;
+    const { careerBenefits, vacancies, texts, career } = data;
 </script>
 
 <PageContent class="isolate">
@@ -17,20 +17,28 @@
     <div class="mt-8">
         <Paragraphs text={texts.identityAndCulture} />
     </div>
-    <ol class="mt-16 grid grid-cols-2 gap-16 px-24">
+    <ol
+        class="
+            mt-4 grid list-inside list-disc
+            md:mt-16 md:list-none md:grid-cols-2 md:gap-16 md:px-24
+        ">
         {#each careerBenefits as benefit}
-            <dl>
-                <dt class="text-center text-2xl text-(--primary)">{benefit.title}</dt>
-                <dd
-                    class="
-                        mt-2 w-full text-center text-gray-600
-                        dark:text-gray-500
-                    ">
-                    {benefit.description}
-                </dd>
-            </dl>
+            <li
+                class="
+                    text-xl text-(--primary)
+                    md:text-center md:text-2xl
+                ">
+                {benefit.title}
+            </li>
         {/each}
     </ol>
+    <img
+        src={career.teamPhoto}
+        alt="Team"
+        class="
+            mx-auto mt-16 w-full rounded-lg shadow-lg
+            md:mt-32 md:w-3/4
+        " />
     <ol class="mt-16">
         {#each vacancies as vacancy}
             <p>{vacancy.title}</p>

@@ -1,14 +1,13 @@
 <script lang="ts">
     import type { Writable } from "svelte/store";
+    import type { DirectusImageParams } from "../../lib/common/directus-image";
     import { clsx } from "clsx";
     import { nonpassive } from "svelte/legacy";
+    import { DirectusImage } from "../directus-image";
 
     interface Props {
         isOpen: Writable<boolean>;
-        selectedImage: {
-            title?: string;
-            url: string;
-        };
+        selectedImage: DirectusImageParams;
     }
 
     const { isOpen, selectedImage }: Props = $props();
@@ -75,10 +74,9 @@
             overflow-hidden rounded-lg
         "
         style="width: 80vw; height: 80vh;">
-        <img
+        <DirectusImage
             onmousedown={handleDragStart}
-            alt={selectedImage.title}
-            src={selectedImage.url}
+            img={selectedImage}
             style="transform: scale({zoom}) translate({translateDialogImageX}px, {translateDialogImageY}px)"
             class={clsx(
                 zoom > 1 ? (dragDialogImage ? "cursor-grabbing" : "cursor-grab") : "cursor-default",

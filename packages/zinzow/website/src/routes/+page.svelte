@@ -2,6 +2,7 @@
     import type { PageData } from "./$types";
     import { clsx } from "clsx";
     import { fly } from "svelte/transition";
+    import { DirectusImage } from "../components/directus-image";
     import { animationDelay } from "../utils/animation-delay";
 
     interface Props {
@@ -32,26 +33,24 @@
     <div class="animate-fadeIn absolute inset-0">
         <div>
             {#key currentLandscapeHeroImageIdx}
-                <img
-                    in:fly={{ x: "100%", opacity: 1 }}
-                    out:fly={{ x: "-100%", opacity: 1 }}
-                    src={landscapeHeros[currentLandscapeHeroImageIdx]}
-                    alt="hero"
+                <DirectusImage
+                    inTransition={{ fn: fly, params: { x: "100%", opacity: 1 } }}
+                    outTransition={{ fn: fly, params: { x: "-100%", opacity: 1 } }}
+                    img={landscapeHeros[currentLandscapeHeroImageIdx]}
                     class="
-                        absolute hidden h-screen w-screen object-cover object-center saturate-[1.1]
+                        absolute hidden h-screen w-screen saturate-[1.1]
                         md:block md:max-h-240
                     " />
             {/key}
         </div>
         <div>
             {#key currentPortraitHeroImageIdx}
-                <img
-                    in:fly={{ x: "100%", opacity: 1 }}
-                    out:fly={{ x: "-100%", opacity: 1 }}
-                    src={portraitHeros[currentPortraitHeroImageIdx]}
-                    alt="hero"
+                <DirectusImage
+                    inTransition={{ fn: fly, params: { x: "100%", opacity: 1 } }}
+                    outTransition={{ fn: fly, params: { x: "-100%", opacity: 1 } }}
+                    img={landscapeHeros[currentLandscapeHeroImageIdx]}
                     class="
-                        absolute block h-screen w-screen object-cover object-center saturate-[1.1]
+                        absolute block h-screen w-screen saturate-[1.1]
                         md:hidden md:max-h-240
                     " />
             {/key}

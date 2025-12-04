@@ -6,6 +6,7 @@
     import { writable } from "svelte/store";
     import { Badges } from "../../components/badge";
     import { PageContent } from "../../components/content-area";
+    import { DirectusImage } from "../../components/directus-image";
     import { H1, H3 } from "../../components/heading";
     import { Icons } from "../../components/icons";
     import { ImagePopup } from "../../components/image-popup";
@@ -78,11 +79,10 @@
                     h-96 w-full
                     md:h-128
                 ">
-                <img
-                    alt={selectedImage.title}
-                    src={selectedImage.url}
+                <DirectusImage
+                    img={selectedImage}
                     class="
-                        mx-auto h-full object-contain object-bottom
+                        mx-auto h-full
                         md:rounded-lg md:shadow-lg
                         lg:w-full lg:object-cover
                     " />
@@ -149,9 +149,8 @@
                                     onclick={() => (clickedSelectedImage = img)}
                                     onmousemove={() => (selectedImage = img)}
                                     onmouseleave={() => (selectedImage = clickedSelectedImage)}>
-                                    <img
-                                        alt={img.title}
-                                        src={img.url}
+                                    <DirectusImage
+                                        {img}
                                         class={clsx(
                                             img.id === selectedImage.id && "ring-4",
                                             `

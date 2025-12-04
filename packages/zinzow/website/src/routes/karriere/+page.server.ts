@@ -1,9 +1,11 @@
 import type { PageServerLoad } from "./$types";
-import { addAssetUrl, assetUrl } from "@cdw/monorepo/shared-utils/directus";
+import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
+import { addAssetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { defaultClient } from "../../graphql/default/client";
 import { GetCareerDataDocument } from "../../graphql/default/generated/graphql";
 import { systemClient } from "../../graphql/system/client";
 import { GetCareerSystemDataDocument } from "../../graphql/system/generated/graphql";
+import { directusImageParams } from "../../lib/common/directus-image";
 import { getTextsFromTranslations } from "../../utils/translations";
 
 export const load: PageServerLoad = async () => {
@@ -20,7 +22,11 @@ export const load: PageServerLoad = async () => {
     return {
         career: {
             ...careerData.career,
-            teamPhoto: assetUrl(careerData.career?.teamPhoto?.id, { width: 1024, quality: 50 }),
+            teamPhoto: directusImageParams({
+                ...defaultNull(careerData.career.teamPhoto),
+                alt: "Team Photo",
+                assetParams: { width: 1024, quality: 50 },
+            }),
         },
         careerBenefits,
         vacancies: vacancies.map(vacancy => ({

@@ -40,6 +40,6 @@
         "astro-build.astro-vscode",
         "dotjoshjohnson.xml",
         "esbenp.prettier-vscode",
-        "dnut.rewrap-revived",
+        "dnut.rewrap-revived"
     ]
 }

@@ -23,9 +23,11 @@
         outTransition,
         onmousedown,
     }: Props = $props();
-    const inFn = inTransition?.fn;
+
+    const noTransition = (): null => null;
+    const inFn = inTransition?.fn ?? noTransition;
     const inParams = inTransition?.params;
-    const outFn = outTransition?.fn;
+    const outFn = outTransition?.fn ?? noTransition;
     const outParams = outTransition?.params;
 </script>
 

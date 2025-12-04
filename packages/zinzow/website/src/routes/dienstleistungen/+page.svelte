@@ -20,11 +20,11 @@
     <Paragraphs class="max-w-prose" text={texts.intro} />
     <ol
         class="
-            mt-10 grid grid-cols-1 gap-6
+            mt-16 grid grid-cols-1 gap-6
             md:grid-cols-2
             lg:gap-12 lg:px-16
         ">
         <ServiceCol services={services1} />
-        <ServiceCol services={services2} class="md:mt-24" />
+        <ServiceCol services={services2} class="md:-mt-24" />
     </ol>
 </PageContent>

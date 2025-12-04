@@ -1,7 +1,7 @@
 query GetAboutData {
     about {
         title
-        aboutText
+        aboutText: about_text
         images {
             directus_files_id {
                 ...DirectusImage
@@ -13,5 +13,10 @@ query GetAboutData {
         }
         valuesText
         teamText
+    }
+    
+    stats: about_statistics {
+        name
+        value
     }
 }

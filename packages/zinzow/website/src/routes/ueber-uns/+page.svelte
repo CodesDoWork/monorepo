@@ -1,82 +1,29 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { AboutImage } from "../../components/about/about-image";
+    import { AboutIntroSection } from "../../components/about/about-intro-section";
+    import { AboutStats } from "../../components/about/about-stats";
     import { PageContent } from "../../components/content-area";
     import { DirectusImage } from "../../components/directus-image";
-    import { H1, H2, H4 } from "../../components/heading";
+    import { H2, H4 } from "../../components/heading";
 
     interface Props {
         data: PageData;
     }
 
     const { data }: Props = $props();
-    const { texts, about } = data;
-
-    const images1 = about.images.slice(0, about.images.length / 2);
-    const images2 = about.images.slice(about.images.length / 2, about.images.length);
+    const { texts, about, stats } = data;
 </script>
 
 <PageContent class="isolate">
-    <div class="relative -z-10 overflow-hidden">
-        <div
-            class="
-                mx-auto max-w-2xl gap-x-14
-                lg:mx-0 lg:flex lg:max-w-none lg:justify-between
-            ">
-            <div
-                class="
-                    relative w-full
-                    lg:max-w-xl lg:shrink-0
-                    xl:max-w-2xl
-                ">
-                <H1>{about.title}</H1>
-                <p
-                    class="
-                        mt-8 text-lg font-medium text-pretty text-gray-500
-                        sm:max-w-md sm:text-xl/8
-                        lg:max-w-none
-                    ">
-                    {about.aboutText}
-                </p>
-            </div>
-            <div
-                class="
-                    mt-14 mr-8 flex justify-end gap-8
-                    sm:-mt-44 sm:justify-start sm:pl-20
-                    lg:mt-0 lg:pl-0
-                ">
-                <div
-                    class="
-                        ml-auto w-44 flex-none space-y-8 pt-32
-                        sm:ml-0 sm:pt-80
-                        lg:order-last lg:pt-36
-                        xl:order-0
-                    ">
-                    {#each images1 as img}
-                        <AboutImage {img} />
-                    {/each}
-                </div>
-                <div
-                    class="
-                        mr-auto w-44 flex-none space-y-8
-                        sm:mr-0 sm:pt-52
-                        lg:pt-0
-                    ">
-                    {#each images2 as img}
-                        <AboutImage {img} />
-                    {/each}
-                </div>
-            </div>
-        </div>
-    </div>
+    <AboutStats {stats} />
+    <AboutIntroSection title={about.title} aboutText={about.aboutText} imgs={about.images} />
 
     <!-- Content section -->
     <div
         class="
-            mx-auto -mt-12 max-w-7xl px-6
-            sm:mt-0
-            lg:px-8
-            xl:mt-8
+            mx-auto -mt-12 max-w-7xl
+            sm:mt-8
+            md:mt-24
         ">
         <div
             class="
@@ -90,35 +37,13 @@
                     lg:flex-row
                 ">
                 <div class="lg:w-full lg:max-w-2xl lg:flex-auto">
-                    <p class="text-xl/8 text-gray-600">
+                    <p
+                        class="
+                            text-xl/8 text-gray-600
+                            dark:text-gray-400
+                        ">
                         {about.missionText}
                     </p>
-                </div>
-                <div class="lg:flex lg:flex-auto lg:justify-center">
-                    <dl
-                        class="
-                            w-64 space-y-8
-                            xl:w-80
-                        ">
-                        <div class="flex flex-col-reverse gap-y-4">
-                            <dt class="text-base/7 text-gray-600">Transactions every 24 hours</dt>
-                            <dd class="text-5xl font-semibold tracking-tight text-gray-900">
-                                44 million
-                            </dd>
-                        </div>
-                        <div class="flex flex-col-reverse gap-y-4">
-                            <dt class="text-base/7 text-gray-600">Assets under holding</dt>
-                            <dd class="text-5xl font-semibold tracking-tight text-gray-900">
-                                $119 trillion
-                            </dd>
-                        </div>
-                        <div class="flex flex-col-reverse gap-y-4">
-                            <dt class="text-base/7 text-gray-600">New users annually</dt>
-                            <dd class="text-5xl font-semibold tracking-tight text-gray-900">
-                                46,000
-                            </dd>
-                        </div>
-                    </dl>
                 </div>
             </div>
         </div>
@@ -127,14 +52,14 @@
     <!-- Image section -->
     <div
         class="
-            mt-32
-            sm:mt-40
+            mt-16
+            sm:mt-24
             xl:mx-auto xl:max-w-7xl xl:px-8
         ">
         <DirectusImage
             img={about.bannerImage}
             class="
-                aspect-5/2 w-full
+                aspect-5/2 w-full shadow-md
                 xl:rounded-3xl
             " />
     </div>

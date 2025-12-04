@@ -11,7 +11,7 @@ export const load: PageServerLoad = async () => {
     const pageIdPrefix = "page.about.";
 
     const { data: aboutData } = await defaultClient.query({ query: GetAboutDataDocument });
-    const { about } = aboutData;
+    const { about, stats } = aboutData;
     const { data: translationsData } = await systemClient.query({
         query: GetAboutSystemDataDocument,
         variables: { pageIdPrefix },
@@ -29,6 +29,7 @@ export const load: PageServerLoad = async () => {
                 alt: "about banner",
             }),
         },
+        stats,
         texts: getTextsFromTranslations(translations, pageIdPrefix),
     };
 };

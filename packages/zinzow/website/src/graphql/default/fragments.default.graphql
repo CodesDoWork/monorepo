@@ -1,0 +1,5 @@
+fragment DirectusImage on directus_files {
+    id
+    title
+    source
+}

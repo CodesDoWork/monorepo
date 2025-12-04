@@ -2,6 +2,7 @@
     import type { PageData } from "./$types";
     import { AboutImage } from "../../components/about/about-image";
     import { PageContent } from "../../components/content-area";
+    import { DirectusImage } from "../../components/directus-image";
     import { H1, H2, H4 } from "../../components/heading";
 
     interface Props {
@@ -51,8 +52,8 @@
                         lg:order-last lg:pt-36
                         xl:order-0
                     ">
-                    {#each images1 as image}
-                        <AboutImage src={image} />
+                    {#each images1 as img}
+                        <AboutImage {img} />
                     {/each}
                 </div>
                 <div
@@ -61,8 +62,8 @@
                         sm:mr-0 sm:pt-52
                         lg:pt-0
                     ">
-                    {#each images2 as image}
-                        <AboutImage src={image} />
+                    {#each images2 as img}
+                        <AboutImage {img} />
                     {/each}
                 </div>
             </div>
@@ -130,11 +131,10 @@
             sm:mt-40
             xl:mx-auto xl:max-w-7xl xl:px-8
         ">
-        <img
-            src={about.bannerImage}
-            alt=""
+        <DirectusImage
+            img={about.bannerImage}
             class="
-                aspect-5/2 w-full object-cover
+                aspect-5/2 w-full
                 xl:rounded-3xl
             " />
     </div>

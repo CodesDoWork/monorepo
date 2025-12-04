@@ -1,6 +1,6 @@
 query GetHomeSystemData($pageIdPrefix: String!) {
     heroFiles: files(filter: { folder: { name: { _eq: "Startseite" } } }) {
-        id
+        ...DirectusImage
         width
         height
     }

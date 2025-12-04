@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { PageData } from "../../routes/dienstleistungen/$types";
     import { clsx } from "clsx";
+    import DirectusImage from "../directus-image/DirectusImage.svelte";
     import { H2 } from "../heading";
 
     type Service = PageData["services"][number];
@@ -28,12 +29,9 @@
                     group relative isolate rounded-xl shadow-md transition
                     hover:scale-[102%] hover:shadow-lg
                 ">
-                <img
-                    class="
-                        absolute inset-0 -z-10 h-full w-full rounded-xl object-cover object-center
-                    "
-                    alt={service.route.name}
-                    src={service.thumbnail.url} />
+                <DirectusImage
+                    class="absolute inset-0 -z-10 h-full w-full rounded-xl"
+                    img={service.thumbnail} />
                 <div
                     class="
                         relative rounded-xl py-24 transition

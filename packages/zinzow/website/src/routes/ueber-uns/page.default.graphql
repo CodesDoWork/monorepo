@@ -4,12 +4,12 @@ query GetAboutData {
         aboutText
         images {
             directus_files_id {
-                id
+                ...DirectusImage
             }
         }
         missionText
         bannerImage {
-            id
+            ...DirectusImage
         }
         valuesText
         teamText

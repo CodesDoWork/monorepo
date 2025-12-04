@@ -1,7 +1,7 @@
 query GetCareerData {
     career {
         teamPhoto: team_photo {
-            id
+            ...DirectusImage
         }
     }
 

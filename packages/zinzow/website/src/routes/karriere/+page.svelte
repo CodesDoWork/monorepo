@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     import { PageContent } from "../../components/content-area";
+    import { DirectusImage } from "../../components/directus-image";
     import { H1 } from "../../components/heading";
     import Paragraphs from "../../components/text/paragraphs.svelte";
 
@@ -32,9 +33,8 @@
             </li>
         {/each}
     </ol>
-    <img
-        src={career.teamPhoto}
-        alt="Team"
+    <DirectusImage
+        img={career.teamPhoto}
         class="
             mx-auto mt-16 w-full rounded-lg shadow-lg
             md:mt-32 md:w-3/4

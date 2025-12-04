@@ -1,7 +1,7 @@
 type AssetFormat = "auto" | "jpg" | "png" | "webp" | "tiff" | "original";
 type AssetFit = "cover" | "contain" | "inside" | "outside";
 
-interface AssetParams {
+export interface AssetParams {
     fit?: AssetFit;
     width?: number;
     height?: number;

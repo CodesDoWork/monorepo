@@ -14,7 +14,7 @@ query GetAboutData {
         valuesText
         teamText
     }
-    
+
     stats: about_statistics {
         name
         value

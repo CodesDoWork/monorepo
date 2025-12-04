@@ -9,11 +9,10 @@
         children?: Snippet;
     }
 
-    const { class: className = "", tag = "div", children }: Props = $props();
+    const { class: className = "", children }: Props = $props();
 </script>
 
 <WidthBox
-    {tag}
     class={clsx(
         `
             py-16

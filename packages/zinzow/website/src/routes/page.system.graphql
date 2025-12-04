@@ -1,6 +1,8 @@
 query GetHomeSystemData($pageIdPrefix: String!) {
-    heroFiles: files(filter: { folder: { name: { _eq: "hero" } } }) {
+    heroFiles: files(filter: { folder: { name: { _eq: "Startseite" } } }) {
         id
+        width
+        height
     }
 
     translations(filter: { key: { _istarts_with: $pageIdPrefix } }) {

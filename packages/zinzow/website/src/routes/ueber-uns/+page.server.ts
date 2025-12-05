@@ -11,7 +11,7 @@ export const load: PageServerLoad = async () => {
     const pageIdPrefix = "page.about.";
 
     const { data: aboutData } = await defaultClient.query({ query: GetAboutDataDocument });
-    const { about, stats } = aboutData;
+    const { about, stats, values } = aboutData;
     const { data: translationsData } = await systemClient.query({
         query: GetAboutSystemDataDocument,
         variables: { pageIdPrefix },
@@ -28,8 +28,12 @@ export const load: PageServerLoad = async () => {
                 ...defaultNull(about.bannerImage),
                 alt: "about banner",
             }),
+            partners: about.partners?.map(f =>
+                directusImageParams({ ...defaultNull(f.directus_files_id), alt: "partner" }),
+            ),
         },
         stats,
+        values,
         texts: getTextsFromTranslations(translations, pageIdPrefix),
     };
 };

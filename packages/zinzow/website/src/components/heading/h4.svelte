@@ -11,6 +11,15 @@
     const { class: className = "", children }: Props = $props();
 </script>
 
-<Heading tag="h3" class={clsx("text-base/7", className)}>
+<Heading
+    tag="h4"
+    class={clsx(
+        `
+            md:text-md
+            text-base
+            lg:text-lg/8
+        `,
+        className,
+    )}>
     {@render children?.()}
 </Heading>

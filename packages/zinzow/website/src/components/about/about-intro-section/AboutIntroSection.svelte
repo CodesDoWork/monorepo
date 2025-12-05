@@ -17,7 +17,8 @@
 <section
     class="
         relative -z-10 mx-auto grid grid-cols-1 overflow-x-hidden
-        md:grid-cols-[57%_43%]
+        md:grid-cols-[60%_40%] md:px-8
+        lg:grid-cols-[57%_43%] lg:px-0
     ">
     <article>
         <H1>{title}</H1>
@@ -26,9 +27,9 @@
             class="
                 mt-8 space-y-4 text-justify text-lg font-medium text-pretty hyphens-auto
                 text-gray-600
-                sm:max-w-md sm:text-xl/8
-                md:pr-12
-                lg:max-w-none
+                sm:text-xl/8
+                md:max-w-none md:pr-12
+                lg:pr-12
                 dark:text-gray-400
             ">
             {@html aboutText}

@@ -14,7 +14,7 @@
 
 <section
     class="
-        relative isolate -z-10 mt-32
+        relative isolate -z-10 mt-32 mb-64
         sm:mt-48
     ">
     <BackgroundGrid />
@@ -28,9 +28,10 @@
         </H4>
         <div
             class="
-                mx-auto mt-10 flex max-w-lg place-items-center items-center justify-around gap-x-8
-                gap-y-10
+                mx-auto mt-10 flex max-w-lg flex-col place-items-center items-center justify-around
+                gap-x-8 gap-y-16
                 sm:max-w-xl sm:gap-x-10
+                md:flex-row md:flex-wrap
                 lg:mx-0 lg:max-w-none
             ">
             {#each partners as partner}

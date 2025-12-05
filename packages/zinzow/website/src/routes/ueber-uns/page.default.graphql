@@ -25,7 +25,7 @@ query GetAboutData {
         name
         value
     }
-    
+
     values: about_values {
         name
         description

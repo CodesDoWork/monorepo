@@ -32,7 +32,7 @@ query GetAboutData {
         name
         description
     }
-    
+
     teamMembers: team_members(sort: ["forename", "surname"]) {
         forename
         surname

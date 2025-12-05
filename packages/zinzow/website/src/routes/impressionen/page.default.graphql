@@ -2,8 +2,7 @@ query GetImpressionsData {
     impressions {
         images {
             directus_files_id {
-                id
-                title
+                ...DirectusImage
                 description
                 tags
                 location

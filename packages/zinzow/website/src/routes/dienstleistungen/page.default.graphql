@@ -5,7 +5,7 @@ query GetServiceData {
             path
         }
         thumbnail {
-            id
+            ...DirectusImage
         }
     }
 }

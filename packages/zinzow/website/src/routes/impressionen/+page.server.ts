@@ -1,9 +1,10 @@
 import type { PageServerLoad } from "./$types";
-import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
+import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
 import { defaultClient } from "../../graphql/default/client";
 import { GetImpressionsDataDocument } from "../../graphql/default/generated/graphql";
 import { systemClient } from "../../graphql/system/client";
 import { GetImpressionsSystemDataDocument } from "../../graphql/system/generated/graphql";
+import { directusImageParams } from "../../lib/common/directus-image";
 import { getTextsFromTranslations } from "../../utils/translations";
 
 export const load: PageServerLoad = async () => {
@@ -24,10 +25,10 @@ export const load: PageServerLoad = async () => {
             ...impressions,
             images: impressions.images
                 .map(file => file.directus_files_id)
-                .map(image => ({
-                    ...image,
-                    url: assetUrl(image.id),
-                    tags: image.tags as string[] | null,
+                .map(f => ({
+                    ...f,
+                    ...directusImageParams({ ...defaultNull(f), alt: "impression" }),
+                    tags: f.tags as string[] | null,
                 })),
         },
         texts: getTextsFromTranslations(translations, pageIdPrefix),

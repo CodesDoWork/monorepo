@@ -12,11 +12,33 @@ query GetAboutData {
             ...DirectusImage
         }
         valuesText
+        partnersTitle: partners_title
+        partners {
+            directus_files_id {
+                ...DirectusImage
+            }
+        }
+        isTeamVisible: is_team_visible
+        teamTitle: team_title
         teamText
     }
 
     stats: about_statistics {
         name
         value
+    }
+
+    values: about_values {
+        name
+        description
+    }
+
+    teamMembers: team_members(sort: ["forename", "surname"]) {
+        forename
+        surname
+        position
+        portrait {
+            ...DirectusImage
+        }
     }
 }

@@ -11,7 +11,7 @@ export const load: PageServerLoad = async () => {
     const pageIdPrefix = "page.about.";
 
     const { data: aboutData } = await defaultClient.query({ query: GetAboutDataDocument });
-    const { about, stats } = aboutData;
+    const { about } = aboutData;
     const { data: translationsData } = await systemClient.query({
         query: GetAboutSystemDataDocument,
         variables: { pageIdPrefix },
@@ -19,6 +19,7 @@ export const load: PageServerLoad = async () => {
     const { translations } = translationsData;
 
     return {
+        ...aboutData,
         about: {
             ...about,
             images: about.images.map(f =>
@@ -28,8 +29,20 @@ export const load: PageServerLoad = async () => {
                 ...defaultNull(about.bannerImage),
                 alt: "about banner",
             }),
+            partners: about.partners?.map(f =>
+                directusImageParams({ ...defaultNull(f.directus_files_id), alt: "partner" }),
+            ),
         },
-        stats,
+        teamMembers: aboutData.teamMembers.map(member => ({
+            ...member,
+            portrait: member.portrait
+                ? directusImageParams({
+                      ...defaultNull(member.portrait),
+                      alt: "team member",
+                      assetParams: { width: 256, quality: 50 },
+                  })
+                : null,
+        })),
         texts: getTextsFromTranslations(translations, pageIdPrefix),
     };
 };

@@ -16,7 +16,7 @@
         mx-auto -mt-16 mb-12 flex w-fit flex-col gap-x-8 gap-y-8 rounded-2xl border border-gray-200
         px-8 py-8
         sm:flex-row
-        md:mb-16 md:gap-x-16 md:px-12 md:py-12
+        md:mb-20 md:gap-x-16 md:px-12 md:py-12
         lg:gap-x-32 lg:px-24
         dark:border-gray-800
     ">

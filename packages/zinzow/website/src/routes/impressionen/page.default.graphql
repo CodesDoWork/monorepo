@@ -8,6 +8,5 @@ query GetImpressionsData {
                 location
             }
         }
-        columns
     }
 }

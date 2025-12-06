@@ -1,0 +1,35 @@
+<script lang="ts">
+    import { Badges } from "../badge";
+    import { H3 } from "../heading";
+    import { Icons } from "../icons";
+    import { Paragraphs, TextWithIcon } from "../text";
+
+    interface Props {
+        id: string;
+        title?: string;
+        description?: string;
+        location?: string;
+        tags?: string[];
+    }
+
+    const { id, title, description, location, tags }: Props = $props();
+</script>
+
+<div
+    class="
+        p-0
+        lg:row-start-auto lg:h-auto lg:p-6
+    ">
+    <H3>{title ?? id}</H3>
+    {#if description}
+        <Paragraphs text={description} size="base" class="mt-4" />
+    {/if}
+    {#if location}
+        <TextWithIcon icon={Icons.Location} class="mt-8">
+            {location}
+        </TextWithIcon>
+    {/if}
+    {#if tags}
+        <Badges class="mt-6" badges={tags} />
+    {/if}
+</div>

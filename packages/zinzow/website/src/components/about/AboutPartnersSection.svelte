@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { DirectusImageParams } from "../../../lib/common/directus-image";
-    import { BackgroundGrid } from "../../background-grid";
-    import { DirectusImage } from "../../directus-image";
-    import { H4 } from "../../heading";
+    import type { DirectusImageParams } from "../../lib/common/directus-image";
+    import { BackgroundGrid } from "../background-grid";
+    import { DirectusImage } from "../directus-image";
+    import { H4 } from "../heading";
 
     interface Props {
         title: string;

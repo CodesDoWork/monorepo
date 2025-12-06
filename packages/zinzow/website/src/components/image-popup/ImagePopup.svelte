@@ -1,16 +1,16 @@
 <script lang="ts">
-    import type { Writable } from "svelte/store";
     import type { DirectusImageParams } from "../../lib/common/directus-image";
     import { clsx } from "clsx";
     import { nonpassive } from "svelte/legacy";
     import { DirectusImage } from "../directus-image";
 
     interface Props {
-        isOpen: Writable<boolean>;
+        isOpen: boolean;
+        setIsOpen: (isOpen: boolean) => void;
         selectedImage: DirectusImageParams;
     }
 
-    const { isOpen, selectedImage }: Props = $props();
+    const { isOpen, setIsOpen, selectedImage }: Props = $props();
 
     let zoom = $state(1);
     let dragDialogImage = $state(false);
@@ -21,7 +21,7 @@
 
     function handleWheel(event: Event) {
         const { deltaY } = event as WheelEvent;
-        if ($isOpen) {
+        if (isOpen) {
             event.preventDefault();
             zoom -= deltaY / 1_000;
             zoom = Math.min(Math.max(1, zoom), 5);
@@ -47,8 +47,8 @@
         }
     }
 
-    isOpen.subscribe(isShown => {
-        if (!isShown) {
+    $effect(() => {
+        if (!isOpen) {
             dragDialogImage = false;
             translateDialogImageX = 0;
             translateDialogImageY = 0;
@@ -64,9 +64,9 @@
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
-    open={$isOpen}
+    open={isOpen}
     class="fixed inset-0 z-50 h-screen w-screen bg-black/80"
-    onmouseup={() => !dragDialogImage && isOpen.set(false)}>
+    onmouseup={() => !dragDialogImage && setIsOpen(false)}>
     <div
         id="image-container"
         class="

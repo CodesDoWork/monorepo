@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { DirectusImageParams } from "../../../lib/common/directus-image";
-    import { DirectusImage } from "../../directus-image";
+    import type { DirectusImageParams } from "../../lib/common/directus-image";
+    import { DirectusImage } from "../directus-image";
 
     interface Props {
         img: DirectusImageParams;

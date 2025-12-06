@@ -1,11 +1,13 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { AboutIntroSection } from "../../components/about/about-intro-section";
-    import { AboutMissionSection } from "../../components/about/about-mission-section";
-    import { AboutPartnersSection } from "../../components/about/about-partners-section";
-    import { AboutStats } from "../../components/about/about-stats";
-    import { AboutTeamSection } from "../../components/about/about-team-section";
-    import { AboutValuesSection } from "../../components/about/about-values-section";
+    import {
+        AboutIntroSection,
+        AboutMissionSection,
+        AboutPartnersSection,
+        AboutStats,
+        AboutTeamSection,
+        AboutValuesSection,
+    } from "../../components/about";
     import { PageContent } from "../../components/content-area";
     import { DirectusImage } from "../../components/directus-image";
 

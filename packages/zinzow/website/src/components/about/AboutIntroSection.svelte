@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type { DirectusImageParams } from "../../../lib/common/directus-image";
-    import { H1 } from "../../heading";
-    import { AboutImage } from "../about-image";
+    import type { DirectusImageParams } from "../../lib/common/directus-image";
+    import { H1 } from "../heading";
+    import AboutImage from "./AboutImage.svelte";
 
     interface Props {
         title: string;

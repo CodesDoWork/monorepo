@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { H2 } from "../../heading";
+    import { H2 } from "../heading";
 
     interface Props {
         title: string;

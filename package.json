@@ -124,7 +124,7 @@
         "schema-dts": "^1.1.5",
         "secretlint": "^11.2.5",
         "simple-git": "^3.30.0",
-        "svelte": "5.45.5",
+        "svelte": "5.45.6",
         "svelte-apollo": "^0.5.0",
         "svelte-check": "^4.3.4",
         "svelte-infinite-scroll": "^2.0.1",

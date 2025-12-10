@@ -124,7 +124,7 @@ httpx==0.28.1
     # via
     #   datasets
     #   jupyterlab
-huggingface-hub==1.2.1
+huggingface-hub==1.2.2
     # via
     #   accelerate
     #   datasets

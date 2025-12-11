@@ -24,7 +24,7 @@ export const load: PageServerLoad = async () => {
             thumbnail: directusImageParams({
                 ...defaultNull(service.thumbnail),
                 alt: service.route.name,
-                assetParams: { quality: 50, width: 512 },
+                assetParams: { quality: 50, width: 720 },
             }),
         })),
         texts: getTextsFromTranslations(translations, pageIdPrefix),

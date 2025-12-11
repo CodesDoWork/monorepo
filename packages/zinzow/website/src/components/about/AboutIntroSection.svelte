@@ -17,18 +17,18 @@
 <section
     class="
         relative -z-10 mx-auto grid grid-cols-1 overflow-x-hidden
-        md:grid-cols-[60%_40%] md:px-8
-        lg:grid-cols-[57%_43%] lg:px-0
+        md:grid-cols-[60%_40%]
+        lg:grid-cols-[57%_43%]
     ">
     <article>
-        <H1>{title}</H1>
+        <H1 class="md:absolute">{title}</H1>
         <div
             lang="de"
             class="
                 mt-8 space-y-4 text-justify text-lg font-medium text-pretty hyphens-auto
                 text-gray-600
                 sm:text-xl/8
-                md:max-w-none md:pr-12
+                md:mt-20 md:max-w-none md:pr-8
                 lg:pr-12
                 dark:text-gray-400
             ">
@@ -39,7 +39,9 @@
         class="
             mx-auto mt-8 grid max-w-64 grid-flow-col grid-cols-2 gap-x-3
             *:w-full *:space-y-3
-            md:mt-0 md:max-w-none md:gap-x-8 md:*:space-y-8
+            sm:max-w-none sm:gap-x-12 sm:px-24 sm:*:space-y-12
+            md:mt-0 md:gap-x-6 md:px-0 md:*:space-y-6
+            lg:gap-x-8 lg:*:space-y-8
         ">
         <div
             class="

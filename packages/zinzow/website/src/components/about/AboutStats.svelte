@@ -13,12 +13,11 @@
 
 <dl
     class="
-        mx-auto -mt-16 mb-12 flex w-fit flex-col gap-x-8 gap-y-8 rounded-2xl border border-gray-200
-        px-8 py-8
-        sm:flex-row
-        md:mb-20 md:gap-x-16 md:px-12 md:py-12
-        lg:gap-x-32 lg:px-24
-        dark:border-gray-800
+        xs:flex-row xs:justify-around xs:w-fit
+        -mt-8 mb-16 flex flex-col gap-x-12 gap-y-8
+        sm:gap-x-24
+        md:mb-20 md:gap-x-24
+        lg:-mt-16 lg:gap-x-40
     ">
     {#each stats as stat}
         <div

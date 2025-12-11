@@ -1,11 +1,5 @@
 query GetServiceDetailsData($route: String!) {
-    services(filter:  {
-       route:  {
-          path:  {
-             _eq: $route
-          }
-       }
-    }) {
+    services(filter: { route: { path: { _eq: $route } } }) {
         route {
             name
         }

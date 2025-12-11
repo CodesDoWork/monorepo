@@ -6,17 +6,12 @@ import { GetHomeDataDocument } from "../graphql/default/generated/graphql";
 import { systemClient } from "../graphql/system/client";
 import { GetHomeSystemDataDocument } from "../graphql/system/generated/graphql";
 import { directusImageParams } from "../lib/common/directus-image";
-import { getPageIdPrefix } from "../utils/graphql/translations";
-import { getTextsFromTranslations } from "../utils/translations";
 
 export const load: PageServerLoad = async () => {
-    const pageIdPrefix = getPageIdPrefix("home");
-
     const { data: systemData } = await systemClient.query({
         query: GetHomeSystemDataDocument,
-        variables: { pageIdPrefix },
     });
-    const { heroFiles, translations } = systemData;
+    const { heroFiles } = systemData;
 
     const { data: defaultData } = await defaultClient.query({ query: GetHomeDataDocument });
 
@@ -36,7 +31,6 @@ export const load: PageServerLoad = async () => {
     return {
         landscapeHeros,
         portraitHeros,
-        texts: getTextsFromTranslations(translations, pageIdPrefix),
-        ...defaultData.start_page,
+        ...defaultData.startPage,
     };
 };

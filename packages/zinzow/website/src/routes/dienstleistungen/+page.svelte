@@ -25,6 +25,6 @@
             lg:gap-12 lg:px-16
         ">
         <ServiceCol services={services1} />
-        <ServiceCol services={services2} class="md:-mt-24" />
+        <ServiceCol services={services2} class="md:-mt-28" />
     </ol>
 </PageContent>

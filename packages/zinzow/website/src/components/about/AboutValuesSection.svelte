@@ -13,12 +13,7 @@
     const { title, text, values }: Props = $props();
 </script>
 
-<section
-    class="
-        mt-32
-        md:px-8
-        lg:px-0
-    ">
+<section class="mt-32">
     <article>
         <H2>{title}</H2>
         <p

@@ -12,8 +12,7 @@
 <section
     class="
         mt-16
-        md:mt-24 md:px-8
-        lg:px-0
+        md:mt-24
     ">
     <article>
         <H2>{title}</H2>

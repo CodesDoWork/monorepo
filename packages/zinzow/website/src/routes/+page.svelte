@@ -10,7 +10,7 @@
     }
 
     const { data }: Props = $props();
-    const { landscapeHeros, portraitHeros, texts, imageCycleTimeMs } = data;
+    const { landscapeHeros, portraitHeros, imageCycleTimeMs, intro } = data;
 
     let currentLandscapeHeroImageIdx = $state(0);
     let currentPortraitHeroImageIdx = $state(0);
@@ -22,7 +22,7 @@
     setTimeout(cycleHeroImage, imageCycleTimeMs);
 
     const animate = (...classes: string[]) => clsx(...classes, "animate-fadeInBT opacity-0");
-    const introWords = texts.intro.split(" ");
+    const introWords = intro.split(" ");
 </script>
 
 <div
@@ -65,17 +65,17 @@
 
     <div
         class="
-            mx-auto my-auto flex w-full max-w-7xl flex-col flex-wrap gap-x-12 gap-y-4 px-6
-            text-shadow-black/15 text-shadow-lg
-            md:flex-row md:items-center md:px-12
-            lg:px-16
-            dark:text-shadow-gray-200/15
+            mx-auto mt-auto mb-24 flex w-full max-w-7xl flex-col flex-wrap gap-x-8 gap-y-4 px-6
+            text-shadow-black/20 text-shadow-lg
+            md:mb-32 md:flex-row md:items-center md:px-12
+            lg:gap-x-16 lg:px-16
+            dark:text-shadow-gray-400/20
         ">
         {#each introWords as word, idx (idx)}
             <span
                 style={animationDelay(idx)}
                 class={animate(
-                    "inline-block text-3xl font-bold text-(--primary) dark:text-gray-200 sm:text-4xl md:text-5xl lg:text-6xl",
+                    "inline-block text-3xl font-bold text-black dark:text-gray-200 sm:text-4xl md:text-5xl lg:text-6xl",
                 )}>
                 {word}
                 {idx < introWords.length - 1 ? " " : ""}

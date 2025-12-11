@@ -1,0 +1,13 @@
+query GetServiceDetailsData($route: String!) {
+    services(filter: { route: { path: { _eq: $route } } }) {
+        route {
+            name
+        }
+        description
+        images {
+            file: directus_files_id {
+                ...DirectusImage
+            }
+        }
+    }
+}

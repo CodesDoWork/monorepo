@@ -17,11 +17,7 @@
     const { title, text, members }: Props = $props();
 </script>
 
-<section
-    class="
-        md:px-8
-        lg:px-0
-    ">
+<section>
     <article>
         <H2>{title}</H2>
         <p

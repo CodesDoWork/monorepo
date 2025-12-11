@@ -71,6 +71,8 @@
 }
 
 @theme {
+    --breakpoint-xs: 32rem;
+
     --font-sans: "Lato", sans-serif;
     --animate-backdrop: backdrop 0.2s ease-in-out forwards;
     --animate-backdropReverse: backdropReverse 0.2s ease-in-out forwards;

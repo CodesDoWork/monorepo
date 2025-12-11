@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import AboutImage from "../../../components/about/AboutImage.svelte";
     import { PageContent } from "../../../components/content-area";
-    import DirectusImage from "../../../components/directus-image/DirectusImage.svelte";
     import { H1 } from "../../../components/heading";
     import { getNavigationContext } from "../../../contexts/navigation";
 
@@ -12,12 +12,42 @@
     const { data }: Props = $props();
     const { description, images } = data;
     const nav = getNavigationContext();
+
+    const imgs1 = images.slice(0, images.length / 2);
+    const imgs2 = images.slice(images.length / 2, images.length);
 </script>
 
 <PageContent class="isolate">
     <H1>{nav.currentRoute?.name}</H1>
-    {@html description}
-    {#each images as img}
-        <DirectusImage {img} />
-    {/each}
+    <section class="grid grid-cols-[57%_1fr] gap-8">
+        <article>
+            {@html description}
+        </article>
+        <aside
+            class="
+                grid grid-cols-2 gap-x-8
+                *:space-y-8
+            ">
+            <ul
+                class="
+                    pt-8
+                    sm:pt-24
+                    md:pt-32
+                    lg:pt-16
+                ">
+                {#each imgs1 as img}
+                    <li>
+                        <AboutImage {img} class="aspect-4/5!" />
+                    </li>
+                {/each}
+            </ul>
+            <ul class="">
+                {#each imgs2 as img}
+                    <li>
+                        <AboutImage {img} class="aspect-4/5!" />
+                    </li>
+                {/each}
+            </ul>
+        </aside>
+    </section>
 </PageContent>

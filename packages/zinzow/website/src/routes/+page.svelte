@@ -28,7 +28,7 @@
 <div
     class="
         relative grid h-screen w-screen py-6
-        md:max-h-240 md:min-h-0
+        md:max-h-256 md:min-h-0
     ">
     <div class="animate-fadeIn absolute inset-0">
         <div>
@@ -39,7 +39,7 @@
                     img={landscapeHeros[currentLandscapeHeroImageIdx]}
                     class="
                         absolute hidden h-screen w-screen saturate-[1.1]
-                        md:block md:max-h-240
+                        md:block md:max-h-256
                     " />
             {/key}
         </div>
@@ -51,7 +51,7 @@
                     img={landscapeHeros[currentLandscapeHeroImageIdx]}
                     class="
                         absolute block h-screen w-screen saturate-[1.1]
-                        md:hidden md:max-h-240
+                        md:hidden md:max-h-256
                     " />
             {/key}
         </div>
@@ -65,17 +65,17 @@
 
     <div
         class="
-            mx-auto mt-auto mb-24 flex w-full max-w-7xl flex-col flex-wrap gap-x-8 gap-y-4 px-6
-            text-shadow-black/20 text-shadow-lg
-            md:mb-32 md:flex-row md:items-center md:px-12
-            lg:gap-x-16 lg:px-16
+            mx-auto mt-auto mb-24 flex w-full max-w-7xl flex-col flex-wrap justify-around gap-y-3
+            px-6 text-shadow-black/20 text-shadow-lg
+            md:mb-8 md:flex-row md:items-center md:px-12
+            lg:px-16
             dark:text-shadow-gray-400/20
         ">
         {#each introWords as word, idx (idx)}
             <span
                 style={animationDelay(idx)}
                 class={animate(
-                    "inline-block text-3xl font-bold text-black dark:text-gray-200 sm:text-4xl md:text-5xl lg:text-6xl",
+                    "inline-block text-2xl font-bold text-black dark:text-gray-200 sm:text-3xl md:text-4xl lg:text-5xl",
                 )}>
                 {word}
                 {idx < introWords.length - 1 ? " " : ""}

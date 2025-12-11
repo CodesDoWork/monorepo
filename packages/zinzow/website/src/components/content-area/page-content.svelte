@@ -12,13 +12,6 @@
     const { class: className = "", children }: Props = $props();
 </script>
 
-<WidthBox
-    class={clsx(
-        `
-            py-16
-            lg:py-24
-        `,
-        className,
-    )}>
+<WidthBox class={clsx("py-16", className)}>
     {@render children?.()}
 </WidthBox>

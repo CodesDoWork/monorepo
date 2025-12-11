@@ -1,9 +1,9 @@
 import type { PageServerLoad } from "./$types";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
 import { addAssetUrl } from "@cdw/monorepo/shared-utils/directus";
-import { defaultClient } from "../../graphql/default/client";
+import { queryDefault } from "../../graphql/default/client";
 import { GetCareerDataDocument } from "../../graphql/default/generated/graphql";
-import { systemClient } from "../../graphql/system/client";
+import { querySystem } from "../../graphql/system/client";
 import { GetCareerSystemDataDocument } from "../../graphql/system/generated/graphql";
 import { directusImageParams } from "../../lib/common/directus-image";
 import { getTextsFromTranslations } from "../../utils/translations";
@@ -11,19 +11,19 @@ import { getTextsFromTranslations } from "../../utils/translations";
 export const load: PageServerLoad = async () => {
     const pageIdPrefix = "page.career.";
 
-    const { data: careerData } = await defaultClient.query({ query: GetCareerDataDocument });
-    const { careerBenefits, vacancies } = careerData;
-    const { data: tranlationsData } = await systemClient.query({
+    const { career, careerBenefits, vacancies } = await queryDefault({
+        query: GetCareerDataDocument,
+    });
+    const { translations } = await querySystem({
         query: GetCareerSystemDataDocument,
         variables: { pageIdPrefix },
     });
-    const { translations } = tranlationsData;
 
     return {
         career: {
-            ...careerData.career,
+            ...career,
             teamPhoto: directusImageParams({
-                ...defaultNull(careerData.career.teamPhoto),
+                ...defaultNull(career.teamPhoto),
                 alt: "Team Photo",
                 assetParams: { width: 1024, quality: 50 },
             }),

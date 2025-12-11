@@ -1,19 +1,15 @@
 import type { AssetParams } from "@cdw/monorepo/shared-utils/directus";
 import type { PageServerLoad } from "./$types";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
-import { defaultClient } from "../graphql/default/client";
+import { queryDefault } from "../graphql/default/client";
 import { GetHomeDataDocument } from "../graphql/default/generated/graphql";
-import { systemClient } from "../graphql/system/client";
+import { querySystem } from "../graphql/system/client";
 import { GetHomeSystemDataDocument } from "../graphql/system/generated/graphql";
 import { directusImageParams } from "../lib/common/directus-image";
 
 export const load: PageServerLoad = async () => {
-    const { data: systemData } = await systemClient.query({
-        query: GetHomeSystemDataDocument,
-    });
-    const { heroFiles } = systemData;
-
-    const { data: defaultData } = await defaultClient.query({ query: GetHomeDataDocument });
+    const { heroFiles } = await querySystem({ query: GetHomeSystemDataDocument });
+    const defaultData = await queryDefault({ query: GetHomeDataDocument });
 
     function toDirectusImage(assetParams: AssetParams) {
         return function (f: (typeof heroFiles)[number]) {

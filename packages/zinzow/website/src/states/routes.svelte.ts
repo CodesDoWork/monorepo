@@ -10,9 +10,9 @@ export function getRoutes<T extends Route>(routes: T[], initialRoute: T | undefi
     let previousRoute = $state<T | undefined>();
 
     afterNavigate(({ from, to }) => {
-        currentRoute = getRouteForPath(routes, to.route.id);
+        currentRoute = getRouteForPath(routes, to.url.pathname);
         if (from) {
-            previousRoute = getRouteForPath(routes, from.route.id);
+            previousRoute = getRouteForPath(routes, from.url.pathname);
         }
     });
 

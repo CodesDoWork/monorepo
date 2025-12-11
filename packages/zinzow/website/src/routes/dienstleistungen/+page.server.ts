@@ -1,8 +1,8 @@
 import type { PageServerLoad } from "./$types";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
-import { defaultClient } from "../../graphql/default/client";
+import { queryDefault } from "../../graphql/default/client";
 import { GetServiceDataDocument } from "../../graphql/default/generated/graphql";
-import { systemClient } from "../../graphql/system/client";
+import { querySystem } from "../../graphql/system/client";
 import { GetServiceSystemDataDocument } from "../../graphql/system/generated/graphql";
 import { directusImageParams } from "../../lib/common/directus-image";
 import { getTextsFromTranslations } from "../../utils/translations";
@@ -10,13 +10,11 @@ import { getTextsFromTranslations } from "../../utils/translations";
 export const load: PageServerLoad = async () => {
     const pageIdPrefix = "page.services.";
 
-    const { data: tranlationsData } = await systemClient.query({
+    const { translations } = await querySystem({
         query: GetServiceSystemDataDocument,
         variables: { pageIdPrefix },
     });
-    const { translations } = tranlationsData;
-    const { data: servicesData } = await defaultClient.query({ query: GetServiceDataDocument });
-    const { services } = servicesData;
+    const { services } = await queryDefault({ query: GetServiceDataDocument });
 
     return {
         services: services.map(service => ({

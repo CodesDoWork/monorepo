@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { PageContent } from "../../components/content-area";
+    import { WidthBox } from "../../components/content-area";
     import { DirectusImage } from "../../components/directus-image";
     import { H1 } from "../../components/heading";
     import Paragraphs from "../../components/text/paragraphs.svelte";
@@ -10,10 +10,10 @@
     }
 
     const { data }: Props = $props();
-    const { careerBenefits, vacancies, texts, career } = data;
+    const { careerBenefits, vacancies, texts, career } = $derived(data);
 </script>
 
-<PageContent class="isolate">
+<WidthBox class="isolate">
     <H1>{texts.title}</H1>
     <div class="mt-8">
         <Paragraphs text={texts.identityAndCulture} />
@@ -50,4 +50,4 @@
             </a>
         {/each}
     </ol>
-</PageContent>
+</WidthBox>

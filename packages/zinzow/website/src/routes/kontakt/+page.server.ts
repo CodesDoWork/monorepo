@@ -1,19 +1,18 @@
 import type { PageServerLoad } from "./$types";
-import { defaultClient } from "../../graphql/default/client";
+import { queryDefault } from "../../graphql/default/client";
 import { GetContactDataDocument } from "../../graphql/default/generated/graphql";
-import { systemClient } from "../../graphql/system/client";
+import { querySystem } from "../../graphql/system/client";
 import { GetContactSystemDataDocument } from "../../graphql/system/generated/graphql";
 import { getTextsFromTranslations } from "../../utils/translations";
 
 export const load: PageServerLoad = async () => {
     const pageIdPrefix = "page.contact.";
 
-    const { data: defaultData } = await defaultClient.query({ query: GetContactDataDocument });
-    const { data: translationsData } = await systemClient.query({
+    const defaultData = await queryDefault({ query: GetContactDataDocument });
+    const { translations } = await querySystem({
         query: GetContactSystemDataDocument,
         variables: { pageIdPrefix },
     });
-    const { translations } = translationsData;
 
     return { ...defaultData, texts: getTextsFromTranslations(translations, pageIdPrefix) };
 };

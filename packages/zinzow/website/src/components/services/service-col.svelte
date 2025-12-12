@@ -30,18 +30,19 @@
                     hover:scale-[102%] hover:shadow-lg
                 ">
                 <DirectusImage
-                    class="absolute inset-0 -z-10 h-full w-full rounded-xl"
+                    class="absolute inset-0 -z-10 size-full rounded-xl"
                     img={service.thumbnail} />
                 <div
                     class="
-                        relative rounded-xl py-24 transition
+                        relative rounded-xl py-40 transition
                         group-hover:bg-white/75
+                        lg:py-48
                         dark:group-hover:bg-black/75
                     ">
                     <H2
                         class="
-                            absolute top-2 left-2 size-fit rounded-lg bg-white/75 px-3 py-1 text-sm!
-                            text-nowrap transition-all
+                            absolute top-2 left-2 mt-0! size-fit rounded-lg bg-white/75 px-3 py-1
+                            text-sm! text-nowrap transition-all
                             group-hover:top-1/2 group-hover:right-1/2 group-hover:bottom-1/2
                             group-hover:left-1/2 group-hover:-translate-x-1/2
                             group-hover:-translate-y-1/2 group-hover:bg-transparent

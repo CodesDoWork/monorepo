@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { PageContent } from "../../components/content-area";
+    import { WidthBox } from "../../components/content-area";
     import { H1, H2 } from "../../components/heading";
     import { Icons } from "../../components/icons";
     import { Paragraphs, TextWithIcon } from "../../components/text";
@@ -11,10 +11,10 @@
     }
 
     const { data }: Props = $props();
-    const { texts, contact } = data;
+    const { texts, contact } = $derived(data);
 </script>
 
-<PageContent class="isolate">
+<WidthBox class="isolate">
     <div
         class="
             grid grid-cols-1
@@ -183,4 +183,4 @@
                 <p class="py-48 text-center">Map</p>
             </div>
         </div>
-    </div></PageContent>
+    </div></WidthBox>

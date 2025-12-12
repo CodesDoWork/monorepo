@@ -125,10 +125,6 @@ services:
       ofelia.job-run.forget-backup.image: ${DOCKER_PROXY}/restic/restic
       ofelia.job-run.forget-backup.schedule: 0 0 5 * * *
 
-      ofelia.job-run.create-playlists.image: ${IMAGE_BASE}/just-music-playlist-creator
-      ofelia.job-run.create-playlists.schedule: 0 30 2 * * *
-      ofelia.job-run.create-playlists.volume: ${MUSIC_VOLUME}:/music
-
       ofelia.job-run.renew-certs.environment: |-
         [
           "CLOUDFLARE_API_TOKEN=${CLOUDFLARE_ZONE_API_TOKEN}",

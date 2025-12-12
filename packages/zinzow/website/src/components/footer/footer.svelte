@@ -10,7 +10,7 @@
     }
 
     const { data }: Props = $props();
-    const { settings, socialMedias, footerSections } = data;
+    const { settings, socialMedias, footerSections } = $derived(data);
 </script>
 
 <footer

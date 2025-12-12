@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { PageContent } from "../../components/content-area";
+    import { WidthBox } from "../../components/content-area";
     import { DirectusImage } from "../../components/directus-image";
     import { H1 } from "../../components/heading";
     import { ImagePopup } from "../../components/image-popup";
@@ -22,7 +22,7 @@
     isOpen={imgs.showDialog}
     setIsOpen={(isOpen: boolean) => (imgs.showDialog = isOpen)}
     selectedImage={imgs.selectedImage} />
-<PageContent class="isolate">
+<WidthBox class="isolate">
     <H1>{data.texts.title}</H1>
     <div
         class="
@@ -59,4 +59,4 @@
             setClickedSelectedImageIdx={val => (imgs.clickedSelectedImageIdx = val)}
             setSelectedImageIdx={val => (imgs.selectedImageIdx = val)} />
     </div>
-</PageContent>
+</WidthBox>

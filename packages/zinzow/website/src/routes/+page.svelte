@@ -10,19 +10,21 @@
     }
 
     const { data }: Props = $props();
-    const { landscapeHeros, portraitHeros, imageCycleTimeMs, intro } = data;
+    const { landscapeHeros, portraitHeros, imageCycleTimeMs, intro } = $derived(data);
 
     let currentLandscapeHeroImageIdx = $state(0);
     let currentPortraitHeroImageIdx = $state(0);
-    function cycleHeroImage() {
+    const cycleHeroImage = $derived(function () {
         currentLandscapeHeroImageIdx = (currentLandscapeHeroImageIdx + 1) % landscapeHeros.length;
         currentPortraitHeroImageIdx = (currentPortraitHeroImageIdx + 1) % portraitHeros.length;
         setTimeout(cycleHeroImage, imageCycleTimeMs);
-    }
-    setTimeout(cycleHeroImage, imageCycleTimeMs);
+    });
+    $effect(() => {
+        setTimeout(cycleHeroImage, imageCycleTimeMs);
+    });
 
     const animate = (...classes: string[]) => clsx(...classes, "animate-fadeInBT opacity-0");
-    const introWords = intro.split(" ");
+    const introWords = $derived(intro.split(" "));
 </script>
 
 <div

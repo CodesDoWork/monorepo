@@ -15,8 +15,8 @@
 
     const { data, currentRoute }: Props = $props();
 
-    const { routes } = data;
-    const routesInNav = routes.filter(r => r.showInHeader);
+    const { routes } = $derived(data);
+    const routesInNav = $derived(routes.filter(r => r.showInHeader));
 
     let mobileMenuOpen = $state(false);
     const onMenuClick = $derived(() => (mobileMenuOpen = !mobileMenuOpen));

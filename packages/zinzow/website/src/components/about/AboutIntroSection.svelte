@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { DirectusImageParams } from "../../lib/common/directus-image";
+    import { splitInHalf } from "../../lib/client/split-in-half";
     import { H1 } from "../heading";
     import AboutImage from "./AboutImage.svelte";
 
@@ -10,8 +11,7 @@
     }
 
     const { title, aboutText, imgs }: Props = $props();
-    const imgs1 = imgs.slice(0, imgs.length / 2);
-    const imgs2 = imgs.slice(imgs.length / 2, imgs.length);
+    const [imgs1, imgs2] = $derived(splitInHalf(imgs));
 </script>
 
 <section
@@ -21,14 +21,13 @@
         lg:grid-cols-[57%_1fr]
     ">
     <article>
-        <H1 class="md:absolute">{title}</H1>
+        <H1 class="md:text-nowrap">{title}</H1>
         <div
             lang="de"
             class="
-                mt-8 space-y-4 text-justify text-lg font-medium text-pretty hyphens-auto
-                text-gray-600
+                space-y-4 text-justify text-lg font-medium text-pretty hyphens-auto text-gray-600
                 sm:text-xl/8
-                md:mt-20 md:max-w-none
+                md:max-w-none
                 dark:text-gray-400
             ">
             {@html aboutText}

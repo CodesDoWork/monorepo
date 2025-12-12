@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
     import { clsx } from "clsx";
-    import Heading from "./heading.svelte";
+    import { typographyClassMap } from "../../lib/common/typography";
 
     interface Props {
         class?: string;
@@ -11,6 +11,6 @@
     const { class: className = "", children }: Props = $props();
 </script>
 
-<Heading tag="h3" class={clsx("text-sm/6", className)}>
+<h5 class={clsx(typographyClassMap.h5, className)}>
     {@render children?.()}
-</Heading>
+</h5>

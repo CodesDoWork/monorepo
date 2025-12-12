@@ -8,7 +8,7 @@
         AboutTeamSection,
         AboutValuesSection,
     } from "../../components/about";
-    import { PageContent } from "../../components/content-area";
+    import { WidthBox } from "../../components/content-area";
     import { DirectusImage } from "../../components/directus-image";
 
     interface Props {
@@ -16,10 +16,10 @@
     }
 
     const { data }: Props = $props();
-    const { texts, about, stats, values, teamMembers } = data;
+    const { texts, about, stats, values, teamMembers } = $derived(data);
 </script>
 
-<PageContent class="isolate">
+<WidthBox class="isolate">
     <AboutStats {stats} />
     <AboutIntroSection title={about.title} aboutText={about.aboutText} imgs={about.images} />
     <AboutMissionSection title={texts.ourMission} text={about.missionText} />
@@ -46,4 +46,4 @@
     {#if about.isTeamVisible}
         <AboutTeamSection title={about.teamTitle} text={about.teamText} members={teamMembers} />
     {/if}
-</PageContent>
+</WidthBox>

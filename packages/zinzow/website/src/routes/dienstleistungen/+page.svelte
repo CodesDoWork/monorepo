@@ -1,21 +1,21 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import PageContent from "../../components/content-area/page-content.svelte";
+    import { WidthBox } from "../../components/content-area";
     import { H1 } from "../../components/heading";
     import { ServiceCol } from "../../components/services";
     import Paragraphs from "../../components/text/paragraphs.svelte";
+    import { splitInHalf } from "../../lib/client/split-in-half";
 
     interface Props {
         data: PageData;
     }
 
     const { data }: Props = $props();
-    const { services, currentRoute, texts } = data;
-    const services1 = services.slice(0, services.length / 2);
-    const services2 = services.slice(services.length / 2, services.length);
+    const { services, currentRoute, texts } = $derived(data);
+    const [services1, services2] = $derived(splitInHalf(services));
 </script>
 
-<PageContent class="isolate">
+<WidthBox class="isolate">
     <H1>{currentRoute?.name}</H1>
     <Paragraphs class="max-w-prose" text={texts.intro} />
     <ol
@@ -27,4 +27,4 @@
         <ServiceCol services={services1} />
         <ServiceCol services={services2} class="md:-mt-28" />
     </ol>
-</PageContent>
+</WidthBox>

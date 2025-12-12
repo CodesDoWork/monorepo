@@ -5,6 +5,7 @@ import { queryDefault } from "../../../graphql/default/client";
 import { GetServiceDetailsDataDocument } from "../../../graphql/default/generated/graphql";
 import { directusImageParams } from "../../../lib/common/directus-image";
 import { getErrorData } from "../../../lib/server/error-data";
+import { formatWYSIWYG } from "../../../lib/server/wysiwyg";
 
 export const load: PageServerLoad = async ({ url }) => {
     const servicesData = await queryDefault({
@@ -20,7 +21,7 @@ export const load: PageServerLoad = async ({ url }) => {
     const service = services[0];
 
     return {
-        ...service,
+        description: formatWYSIWYG(service.description),
         images: service.images.map(img =>
             directusImageParams({
                 ...defaultNull(img.file),

@@ -82,7 +82,7 @@
         "@sveltejs/vite-plugin-svelte": "6.2.1",
         "@swc-node/register": "1.11.1",
         "@swc/cli": "0.7.9",
-        "@swc/core": "1.15.3",
+        "@swc/core": "1.15.4",
         "@testing-library/react": "16.3.0",
         "@types/color": "^4.2.0",
         "@types/eslint-plugin-tailwindcss": "^3.17.0",

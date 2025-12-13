@@ -478,7 +478,7 @@ safetensors==0.7.0
     # via
     #   accelerate
     #   transformers
-scikit-learn==1.7.2
+scikit-learn==1.8.0
     # via librosa
 scipy==1.16.3
     # via

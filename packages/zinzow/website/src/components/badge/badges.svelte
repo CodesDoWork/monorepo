@@ -12,6 +12,6 @@
 
 <ul class={clsx(className, "flex gap-2")}>
     {#each badges as tag}
-        <Badge tag="li">{tag}</Badge>
+        <Badge>{tag}</Badge>
     {/each}
 </ul>

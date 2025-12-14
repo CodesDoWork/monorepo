@@ -25,10 +25,8 @@
         <div
             lang="de"
             class="
-                space-y-4 text-justify text-lg font-medium text-pretty hyphens-auto text-gray-600
-                sm:text-xl/8
+                text-justify hyphens-auto
                 md:max-w-none
-                dark:text-gray-400
             ">
             {@html aboutText}
         </div>

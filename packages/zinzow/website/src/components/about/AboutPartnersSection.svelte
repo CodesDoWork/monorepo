@@ -35,7 +35,7 @@
                 lg:mx-0 lg:max-w-none
             ">
             {#each partners as partner}
-                <DirectusImage img={partner} class="max-h-16" />
+                <DirectusImage img={partner} class="h-16" />
             {/each}
         </div>
     </article>

@@ -33,11 +33,8 @@
         ">
         <DirectusImage
             img={about.bannerImage}
-            class="
-                aspect-5/2 w-full rounded-lg shadow-md
-                md:rounded-2xl
-                xl:rounded-3xl
-            " />
+            imgClass="rounded-lg shadow-md md:rounded-2xl xl:rounded-3xl"
+            class="aspect-5/2 w-full" />
     </div>
 
     <AboutValuesSection title={texts.ourValues} text={about.valuesText} {values} />

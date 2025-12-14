@@ -2,6 +2,7 @@
     import type { DirectusImageParams } from "../../lib/common/directus-image";
     import { DirectusImage } from "../directus-image";
     import { H2, H4 } from "../heading";
+    import { P } from "../text";
 
     interface Props {
         title: string;
@@ -20,13 +21,7 @@
 <section>
     <article>
         <H2>{title}</H2>
-        <p
-            class="
-                mt-6 max-w-prose text-justify text-lg/8 hyphens-auto text-gray-600
-                dark:text-gray-400
-            ">
-            {text}
-        </p>
+        <P prose block>{text}</P>
     </article>
     <ul
         role="list"
@@ -40,7 +35,10 @@
         {#each members as member}
             <li>
                 {#if member.portrait}
-                    <DirectusImage img={member.portrait} class="mx-auto size-24 rounded-full" />
+                    <DirectusImage
+                        img={member.portrait}
+                        imgClass="rounded-full"
+                        class="mx-auto size-24" />
                 {:else}
                     <div
                         class="

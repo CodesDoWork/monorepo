@@ -1,5 +1,5 @@
-import Paragraphs from "./paragraphs.svelte";
-import TextWithIcon from "./text-with-icon.svelte";
-import Text from "./text.svelte";
+import P from "./P.svelte";
+import Paragraphs from "./Paragraphs.svelte";
+import TextWithIcon from "./TextWithIcon.svelte";
 
-export { Paragraphs, Text, TextWithIcon };
+export { P, Paragraphs, TextWithIcon };

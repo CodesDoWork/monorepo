@@ -3,6 +3,7 @@
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/zinzow",
     "projectType": "application",
+    "implicitDependencies": ["zinzow-test-auth", "zinzow-website"],
     "targets": {
         "deploy": {
             "executor": "@cdw/monorepo/nx-plugins-ci:deploy",

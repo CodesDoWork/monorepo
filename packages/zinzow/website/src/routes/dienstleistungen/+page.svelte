@@ -3,7 +3,7 @@
     import { WidthBox } from "../../components/content-area";
     import { H1 } from "../../components/heading";
     import { ServiceCol } from "../../components/services";
-    import Paragraphs from "../../components/text/paragraphs.svelte";
+    import { Paragraphs } from "../../components/text";
     import { splitInHalf } from "../../lib/client/split-in-half";
 
     interface Props {
@@ -16,8 +16,10 @@
 </script>
 
 <WidthBox class="isolate">
-    <H1>{currentRoute?.name}</H1>
-    <Paragraphs class="max-w-prose" text={texts.intro} />
+    <article class="max-w-prose">
+        <H1>{currentRoute?.name}</H1>
+        <Paragraphs text={texts.intro} />
+    </article>
     <ol
         class="
             mt-16 grid grid-cols-1 gap-6

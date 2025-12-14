@@ -5,6 +5,7 @@ import { GetAboutDataDocument } from "../../graphql/default/generated/graphql";
 import { querySystem } from "../../graphql/system/client";
 import { GetAboutSystemDataDocument } from "../../graphql/system/generated/graphql";
 import { directusImageParams } from "../../lib/common/directus-image";
+import { formatWYSIWYG } from "../../lib/server/wysiwyg";
 import { getTextsFromTranslations } from "../../utils/translations";
 
 export const load: PageServerLoad = async () => {
@@ -31,6 +32,7 @@ export const load: PageServerLoad = async () => {
             partners: about.partners?.map(f =>
                 directusImageParams({ ...defaultNull(f.directus_files_id), alt: "partner" }),
             ),
+            aboutText: formatWYSIWYG(about.aboutText),
         },
         teamMembers: aboutData.teamMembers.map(member => ({
             ...member,

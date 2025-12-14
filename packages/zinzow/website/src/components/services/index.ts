@@ -1,3 +1,4 @@
-import ServiceCol from "./service-col.svelte";
+import ServiceCol from "./ServiceCol.svelte";
+import ServiceImage from "./ServiceImage.svelte";
 
-export { ServiceCol };
+export { ServiceCol, ServiceImage };

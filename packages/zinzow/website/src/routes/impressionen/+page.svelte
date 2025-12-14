@@ -14,7 +14,7 @@
 
     const { data }: Props = $props();
     const columns = 6;
-    const imgs = useImages(data.impressions.images, columns);
+    const imgs = $derived(useImages(data.impressions.images, columns));
 </script>
 
 <svelte:window onkeydown={imgs.handleKey} />
@@ -44,9 +44,9 @@
                 ">
                 <DirectusImage
                     img={imgs.selectedImage}
+                    imgClass="rounded-md md:shadow-lg"
                     class="
-                        mx-auto h-full cursor-pointer rounded-md
-                        md:shadow-lg
+                        mx-auto h-full cursor-pointer
                         lg:w-full
                     " />
             </button>

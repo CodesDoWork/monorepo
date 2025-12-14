@@ -1,3 +1,3 @@
-import WidthBox from "./width-box.svelte";
+import WidthBox from "./WidthBox.svelte";
 
 export { WidthBox };

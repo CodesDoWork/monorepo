@@ -14,15 +14,17 @@
     }
 
     const { data, children }: Props = $props();
-    const { settings, currentRoute, routes } = data;
+    const { settings, currentRoute, routes } = $derived(data);
 
     const nav = getRoutes(routes, currentRoute);
     setNavigationContext(nav);
 
-    const colors = createColors({
-        primary: settings.project_color,
-        logoBg: settings.logoBackgroundColor,
-    });
+    const colors = $derived(
+        createColors({
+            primary: settings.project_color,
+            logoBg: settings.logoBackgroundColor,
+        }),
+    );
 </script>
 
 <svelte:head>
@@ -40,5 +42,5 @@
     <main>
         {@render children?.()}
     </main>
-    <Footer {data} />
+    <Footer {data} currentRoute={nav.currentRoute} />
 </div>

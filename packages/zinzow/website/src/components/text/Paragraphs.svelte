@@ -6,7 +6,7 @@
     }
 
     const { text }: Props = $props();
-    const paragraphs = text.split("\n").filter(Boolean);
+    const paragraphs = $derived(text.split("\n").filter(Boolean));
 </script>
 
 {#each paragraphs as paragraph, idx (idx)}

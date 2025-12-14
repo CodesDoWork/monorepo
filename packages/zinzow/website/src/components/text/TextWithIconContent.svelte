@@ -13,9 +13,11 @@
 
     const { class: className, href, icon, children }: Props = $props();
 
-    const hrefClass = {
-        "group-hover:text-gray-950 dark:group-hover:text-white transition-colors": href,
-    };
+    const hrefClass = $derived(
+        clsx({
+            "transition-colors group-hover:text-gray-950 dark:group-hover:text-white": href,
+        }),
+    );
 </script>
 
 <dt class={className}>

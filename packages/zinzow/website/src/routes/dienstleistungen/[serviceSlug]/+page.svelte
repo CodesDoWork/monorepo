@@ -19,14 +19,22 @@
 
 <WidthBox class="isolate">
     <H1>{nav.currentRoute?.name}</H1>
-    <section class="grid grid-cols-[50%_1fr] gap-16">
+    <section
+        class="
+            grid gap-12
+            md:grid-cols-[50%_1fr]
+            lg:gap-16
+        ">
         <article>
             {@html description}
         </article>
         <aside
             class="
-                grid grid-cols-2 gap-x-8
-                *:space-y-8
+                grid gap-4 px-4
+                *:space-y-4
+                sm:grid-cols-2
+                md:px-0
+                lg:gap-x-8 lg:*:space-y-8
             ">
             <ul
                 class="

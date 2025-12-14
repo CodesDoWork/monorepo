@@ -14,7 +14,7 @@
 
     const { data }: Props = $props();
     const columns = 6;
-    const imgs = useImages(data.impressions.images, columns);
+    const imgs = $derived(useImages(data.impressions.images, columns));
 </script>
 
 <svelte:window onkeydown={imgs.handleKey} />

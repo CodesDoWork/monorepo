@@ -18,7 +18,7 @@ const aHoverAnimation = clsx(
 
 const listBaseClasses = clsx("my-2 ml-8 list-inside");
 
-export const textBaseClasses = clsx("text-lg");
+export const textBaseClasses = clsx("md:text-lg");
 export const textColorClasses = clsx(
     `
         text-gray-700
@@ -37,29 +37,38 @@ export const typographyClassMap = {
         `,
         aHoverAnimation,
     ),
-    p: clsx(textBaseColorClasses, "has-[+p]:mb-4"),
+    p: clsx(
+        textBaseColorClasses,
+        `
+            has-[+p]:mb-2
+            md:has-[+p]:mb-4
+        `,
+    ),
     h1: clsx(
         headlineBaseClasses,
         `
-            mt-12 mb-6 text-3xl
-            sm:text-4xl
-            md:text-5xl
+            mt-6 mb-2 text-2xl
+            sm:mt-8 sm:mb-3 sm:text-3xl
+            md:mt-10 md:mb-4 md:text-4xl
+            lg:mt-12 lg:mb-6 lg:text-5xl
         `,
     ),
     h2: clsx(
         headlineBaseClasses,
         `
-            mt-8 mb-4 text-2xl
-            sm:text-3xl
-            md:text-4xl
+            mt-4 mb-1 text-xl
+            sm:mt-6 sm:mb-2 sm:text-2xl
+            md:mt-8 md:mb-3 md:text-3xl
+            lg:mt-10 lg:mb-5 lg:text-4xl
         `,
     ),
     h3: clsx(
         headlineBaseClasses,
         `
-            mt-6 mb-2 text-xl
-            sm:text-2xl
-            md:text-3xl
+            mt-4 mb-1 text-lg
+            sm:text-xl
+            md:mt-6 md:mb-2 md:text-2xl
+            lg:mt-8 lg:mb-4 lg:text-3xl
         `,
     ),
     h4: clsx(

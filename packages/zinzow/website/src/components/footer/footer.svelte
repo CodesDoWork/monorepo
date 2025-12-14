@@ -1,23 +1,29 @@
 <script lang="ts">
+    import type { RouteFragment } from "../../graphql/default/generated/graphql";
     import type { LayoutData } from "../../routes/$types";
     import Icon from "@iconify/svelte";
+    import { clsx } from "clsx";
     import { WidthBox } from "../content-area";
     import { H5 } from "../heading";
     import { Logo } from "../logo";
 
     interface Props {
         data: LayoutData;
+        currentRoute?: RouteFragment;
     }
 
-    const { data }: Props = $props();
+    const { data, currentRoute }: Props = $props();
     const { settings, socialMedias, footerSections } = $derived(data);
 </script>
 
 <footer
-    class="
-        bg-white
-        dark:bg-(--primary-950)
-    ">
+    class={clsx(
+        `
+            bg-white
+            dark:bg-(--primary-950)
+        `,
+        !currentRoute?.isHero && "mt-6",
+    )}>
     <WidthBox class="pt-0">
         <div
             class="
@@ -98,7 +104,8 @@
         </div>
         <div
             class="
-                mt-16 flex flex-col justify-between border-t border-gray-900/10 pt-8 text-gray-600
+                relative mt-16 flex flex-col justify-between border-t border-gray-900/10 pt-5
+                text-gray-600
                 sm:mt-20
                 md:flex-row
                 lg:mt-24

@@ -37,6 +37,7 @@
         ],
         "sharedGlobals": []
     },
+    "neverConnectToCloud": true,
     "plugins": [
         {
             "plugin": "@cdw/monorepo/nx-plugins-astro"
@@ -80,5 +81,10 @@
         {
             "plugin": "@nx/eslint/plugin"
         }
-    ]
+    ],
+    "pluginsConfig": {
+        "@nx/js": {
+            "rojectsAffectedByDependencyUpdates": "auto"
+        }
+    }
 }

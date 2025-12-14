@@ -25,13 +25,14 @@
 
     const animate = (...classes: string[]) => clsx(...classes, "animate-fadeInBT opacity-0");
     const introWords = $derived(intro.split(" "));
+
+    const sizeClass = clsx(`
+        h-screen w-screen
+        md:max-h-272 md:min-h-0
+    `);
 </script>
 
-<div
-    class="
-        relative grid h-screen w-screen py-6
-        md:max-h-256 md:min-h-0
-    ">
+<div class={clsx(sizeClass, "relative grid py-6")}>
     <div class="animate-fadeIn absolute inset-0">
         <div>
             {#key currentLandscapeHeroImageIdx}
@@ -39,10 +40,13 @@
                     inTransition={{ fn: fly, params: { x: "100%", opacity: 1 } }}
                     outTransition={{ fn: fly, params: { x: "-100%", opacity: 1 } }}
                     img={landscapeHeros[currentLandscapeHeroImageIdx]}
-                    class="
-                        absolute hidden h-screen w-screen saturate-[1.1]
-                        md:block md:max-h-256
-                    " />
+                    class={clsx(
+                        sizeClass,
+                        `
+                            absolute hidden saturate-[1.1]
+                            md:block
+                        `,
+                    )} />
             {/key}
         </div>
         <div>
@@ -51,10 +55,13 @@
                     inTransition={{ fn: fly, params: { x: "100%", opacity: 1 } }}
                     outTransition={{ fn: fly, params: { x: "-100%", opacity: 1 } }}
                     img={landscapeHeros[currentLandscapeHeroImageIdx]}
-                    class="
-                        absolute block h-screen w-screen saturate-[1.1]
-                        md:hidden md:max-h-256
-                    " />
+                    class={clsx(
+                        sizeClass,
+                        `
+                            absolute block saturate-[1.1]
+                            md:hidden
+                        `,
+                    )} />
             {/key}
         </div>
         <div

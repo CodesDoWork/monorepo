@@ -3,7 +3,7 @@
     import { WidthBox } from "../../components/content-area";
     import { DirectusImage } from "../../components/directus-image";
     import { H1 } from "../../components/heading";
-    import Paragraphs from "../../components/text/paragraphs.svelte";
+    import { Paragraphs } from "../../components/text";
 
     interface Props {
         data: PageData;
@@ -15,9 +15,7 @@
 
 <WidthBox class="isolate">
     <H1>{texts.title}</H1>
-    <div class="mt-8">
-        <Paragraphs text={texts.identityAndCulture} />
-    </div>
+    <Paragraphs text={texts.identityAndCulture} />
     <ol
         class="
             mt-4 grid list-inside list-disc

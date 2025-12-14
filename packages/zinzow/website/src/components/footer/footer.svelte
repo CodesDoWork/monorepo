@@ -41,7 +41,7 @@
                 <p
                     class="
                         text-sm/6 text-balance text-gray-600
-                        dark:text-gray-300
+                        dark:text-gray-400
                     ">
                     {settings.project_descriptor}
                 </p>

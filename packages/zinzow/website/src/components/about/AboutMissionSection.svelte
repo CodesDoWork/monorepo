@@ -1,5 +1,6 @@
 <script lang="ts">
     import { H2 } from "../heading";
+    import { P } from "../text";
 
     interface Props {
         title: string;
@@ -16,14 +17,8 @@
     ">
     <article>
         <H2>{title}</H2>
-        <p
-            lang="de"
-            class="
-                max-w-prose text-justify text-lg hyphens-auto text-gray-600
-                sm:text-xl/8
-                dark:text-gray-400
-            ">
+        <P lang="de" prose block>
             {text}
-        </p>
+        </P>
     </article>
 </section>

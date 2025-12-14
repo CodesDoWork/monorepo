@@ -11,24 +11,33 @@ const aHoverAnimation = clsx(
     `
         before:absolute before:right-0 before:bottom-0 before:inline before:h-0.5 before:w-0
         before:max-w-full before:bg-(--primary) before:transition-all before:duration-500
-        hover:before:left-0 hover:before:w-full hover:before:bg-(--primary-600)
+        hover:before:left-0 hover:before:w-full hover:before:bg-(--primary-900)
         dark:hover:before:bg-(--primary-400)
     `,
 );
 
+const listBaseClasses = clsx("my-2 ml-8 list-inside");
+
+export const textBaseClasses = clsx("text-lg");
+export const textColorClasses = clsx(
+    `
+        text-gray-700
+        dark:text-gray-300
+    `,
+);
+export const textBaseColorClasses = clsx(textBaseClasses, textColorClasses);
+
 export const typographyClassMap = {
     a: clsx(
+        textBaseClasses,
         `
             relative text-(--primary) transition-colors
-            hover:text-(--primary-600)
+            hover:text-(--primary-900)
             dark:hover:text-(--primary-400)
         `,
         aHoverAnimation,
     ),
-    p: clsx(`
-        text-gray-700
-        dark:text-gray-300
-    `),
+    p: clsx(textBaseColorClasses, "has-[+p]:mb-4"),
     h1: clsx(
         headlineBaseClasses,
         `
@@ -62,4 +71,7 @@ export const typographyClassMap = {
         `,
     ),
     h5: clsx(headlineBaseClasses, "text-sm/6"),
+    ol: clsx(listBaseClasses, "list-decimal"),
+    ul: clsx(listBaseClasses, "list-disc"),
+    li: clsx(textBaseColorClasses),
 };

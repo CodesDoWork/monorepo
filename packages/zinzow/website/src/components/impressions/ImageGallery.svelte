@@ -45,19 +45,24 @@
                             onmouseleave={resetSelectedImg}>
                             <DirectusImage
                                 {img}
-                                class={clsx(
+                                imgClass={clsx(
+                                    `
+                                        rounded-md shadow-md ring-(--primary)
+                                        sm:max-h-24
+                                        md:max-h-36 md:rounded-lg
+                                        lg:max-h-40
+                                    `,
                                     imgIdx === selectedImageIdx &&
                                         `
                                             ring-2
                                             md:ring-4
                                         `,
-                                    `
-                                        w-full cursor-pointer rounded-md shadow-md ring-(--primary)
-                                        sm:max-h-24
-                                        md:max-h-36 md:rounded-lg
-                                        lg:max-h-40
-                                    `,
-                                )} />
+                                )}
+                                sourceClass={clsx(`
+                                    hidden
+                                    md:block
+                                `)}
+                                class={clsx("w-full cursor-pointer")} />
                         </button>
                     </li>
                 {/if}

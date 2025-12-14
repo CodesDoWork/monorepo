@@ -44,9 +44,9 @@
                 ">
                 <DirectusImage
                     img={imgs.selectedImage}
+                    imgClass="rounded-md md:shadow-lg"
                     class="
-                        mx-auto h-full cursor-pointer rounded-md
-                        md:shadow-lg
+                        mx-auto h-full cursor-pointer
                         lg:w-full
                     " />
             </button>

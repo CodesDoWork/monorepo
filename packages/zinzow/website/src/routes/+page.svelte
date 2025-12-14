@@ -40,10 +40,11 @@
                     inTransition={{ fn: fly, params: { x: "100%", opacity: 1 } }}
                     outTransition={{ fn: fly, params: { x: "-100%", opacity: 1 } }}
                     img={landscapeHeros[currentLandscapeHeroImageIdx]}
+                    imgClass="saturate-[1.1]"
                     class={clsx(
                         sizeClass,
                         `
-                            absolute hidden saturate-[1.1]
+                            absolute! hidden
                             md:block
                         `,
                     )} />
@@ -55,10 +56,11 @@
                     inTransition={{ fn: fly, params: { x: "100%", opacity: 1 } }}
                     outTransition={{ fn: fly, params: { x: "-100%", opacity: 1 } }}
                     img={landscapeHeros[currentLandscapeHeroImageIdx]}
+                    imgClass="saturate-[1.1]"
                     class={clsx(
                         sizeClass,
                         `
-                            absolute block saturate-[1.1]
+                            absolute! block
                             md:hidden
                         `,
                     )} />

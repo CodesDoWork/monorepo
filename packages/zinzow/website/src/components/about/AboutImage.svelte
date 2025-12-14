@@ -14,10 +14,8 @@
 <div class="relative">
     <DirectusImage
         {img}
-        class={clsx(
-            "aspect-2/3 w-full rounded-xl bg-gray-900/5 object-cover shadow-lg",
-            className,
-        )} />
+        imgClass="rounded-xl shadow-lg"
+        class={clsx("aspect-2/3 w-full", className)} />
     <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-gray-900/10 ring-inset">
     </div>
 </div>

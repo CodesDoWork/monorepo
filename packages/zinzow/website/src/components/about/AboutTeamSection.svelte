@@ -35,7 +35,10 @@
         {#each members as member}
             <li>
                 {#if member.portrait}
-                    <DirectusImage img={member.portrait} class="mx-auto size-24 rounded-full" />
+                    <DirectusImage
+                        img={member.portrait}
+                        imgClass="rounded-full"
+                        class="mx-auto size-24" />
                 {:else}
                     <div
                         class="

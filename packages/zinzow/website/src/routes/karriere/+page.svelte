@@ -33,8 +33,9 @@
     </ol>
     <DirectusImage
         img={career.teamPhoto}
+        imgClass="rounded-lg shadow-lg"
         class="
-            mx-auto mt-16 aspect-2/1 w-full rounded-lg shadow-lg
+            mx-auto mt-16 aspect-2/1 w-full
             md:mt-32 md:w-3/4
         " />
     <ol class="mt-16">

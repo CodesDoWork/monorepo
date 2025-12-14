@@ -192,9 +192,10 @@
         </form>
         <DirectusImage
             img={contactPhoto}
+            imgClass="rounded-lg shadow-md"
             class="
                 xs:col-2 xs:row-2 xs:mt-20 xs:h-40
-                mx-auto mt-16 aspect-square h-56 rounded-lg shadow-md
+                mx-auto mt-16 aspect-square h-56
                 sm:mt-16 sm:h-48
                 md:mx-0 md:mt-8 md:h-56
                 lg:col-auto lg:row-auto lg:mt-16 lg:h-80

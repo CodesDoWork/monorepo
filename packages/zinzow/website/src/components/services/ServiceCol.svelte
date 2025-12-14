@@ -30,7 +30,8 @@
                     hover:scale-[102%] hover:shadow-lg
                 ">
                 <DirectusImage
-                    class="absolute inset-0 -z-10 size-full rounded-xl"
+                    class="absolute! inset-0 -z-10 size-full"
+                    imgClass="rounded-xl"
                     img={service.thumbnail} />
                 <div
                     class="

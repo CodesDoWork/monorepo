@@ -34,7 +34,7 @@
         "@mermaid-js/mermaid-mindmap": "^9.3.0",
         "@parcel/watcher": "^2.5.1",
         "@swc/helpers": "0.5.17",
-        "@t3-oss/env-core": "^0.13.8",
+        "@t3-oss/env-core": "^0.13.10",
         "@tailwindcss/vite": "^4.1.18",
         "axios": "^1.13.2",
         "clsx": "^2.1.1",

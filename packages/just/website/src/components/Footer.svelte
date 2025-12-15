@@ -45,7 +45,7 @@
     );
 
     const linkClass =
-        "text-black! dark:!text-tertiary-500 hover:!bg-tertiary-500 hover:text-black!";
+        "text-black! dark:!text-tertiary-500 hover:!bg-tertiary-500 hover:text-black! dark:hover:text-black!";
 </script>
 
 {#if isVisible}

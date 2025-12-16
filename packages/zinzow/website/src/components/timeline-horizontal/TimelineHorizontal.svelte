@@ -23,19 +23,19 @@
     </div>
     <div
         class="
-            absolute bottom-0 left-2/5 size-6 -translate-x-1/2 translate-y-1/2 text-(--primary)
+            absolute bottom-0 left-2/5 size-9 -translate-x-1/2 translate-y-1/2 text-(--primary)
             *:size-full
             md:top-1/2 md:right-0 md:bottom-auto md:left-auto md:translate-x-[37%]
             md:-translate-y-1/2
         ">
         <Icon
-            icon="bxs:right-arrow"
+            icon="eva:arrow-right-fill"
             class="
                 hidden
                 md:block
             " />
         <Icon
-            icon="bxs:down-arrow"
+            icon="eva:arrow-down-fill"
             class="
                 block
                 md:hidden

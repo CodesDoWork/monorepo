@@ -22,8 +22,8 @@
     </article>
     <ol
         class="
-            mt-16 grid grid-cols-1 gap-6
-            md:grid-cols-2
+            mt-8 grid grid-cols-1 gap-6
+            md:mt-36 md:grid-cols-2
             lg:gap-12 lg:px-16
         ">
         <ServiceCol services={services1} />

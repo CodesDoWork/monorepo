@@ -1,11 +1,14 @@
 <script lang="ts">
+    import type { PageData } from "./$types";
     import { WidthBox } from "../../components/content-area";
-    import { H1 } from "../../components/heading";
-    import { getNavigationContext } from "../../contexts/navigation";
 
-    const nav = getNavigationContext();
+    interface Props {
+        data: PageData;
+    }
+
+    const { data }: Props = $props();
 </script>
 
 <WidthBox>
-    <H1>{nav.currentRoute?.name}</H1>
+    {@html data.content}
 </WidthBox>

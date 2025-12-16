@@ -12,8 +12,8 @@
 
 <section
     class="
-        mt-16
-        md:mt-24
+        mt-24
+        md:mt-32
     ">
     <article>
         <H2>{title}</H2>

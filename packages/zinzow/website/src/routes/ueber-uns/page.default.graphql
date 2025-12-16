@@ -28,6 +28,11 @@ query GetAboutData {
         value
     }
 
+    timesteps: timeline_steps {
+        date
+        description
+    }
+
     values: about_values {
         name
         description

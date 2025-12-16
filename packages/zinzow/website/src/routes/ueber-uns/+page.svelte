@@ -10,18 +10,20 @@
     } from "../../components/about";
     import { WidthBox } from "../../components/content-area";
     import { DirectusImage } from "../../components/directus-image";
+    import { TimelineHorizontal } from "../../components/timeline-horizontal";
 
     interface Props {
         data: PageData;
     }
 
     const { data }: Props = $props();
-    const { texts, about, stats, values, teamMembers } = $derived(data);
+    const { texts, about, stats, timesteps, values, teamMembers } = $derived(data);
 </script>
 
 <WidthBox class="isolate">
     <AboutStats {stats} />
     <AboutIntroSection title={about.title} aboutText={about.aboutText} imgs={about.images} />
+    <TimelineHorizontal {timesteps} />
     <AboutMissionSection title={texts.ourMission} text={about.missionText} />
 
     <div

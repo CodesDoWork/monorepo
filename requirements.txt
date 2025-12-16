@@ -275,7 +275,7 @@ nest-asyncio==1.6.0
     # via ipykernel
 networkx==3.6.1
     # via torch
-notebook==7.5.0
+notebook==7.5.1
     # via jupyter
 notebook-shim==0.2.4
     # via

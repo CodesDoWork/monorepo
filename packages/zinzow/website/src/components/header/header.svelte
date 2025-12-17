@@ -57,7 +57,7 @@
                     hidden
                     md:block
                 ">
-                <ol class="flex">
+                <ul class="flex">
                     {#each routesInNav as route, idx (idx)}
                         <li
                             style={animationDelay(AnimationPriority.NAV + idx)}
@@ -82,7 +82,7 @@
                             </a>
                         </li>
                     {/each}
-                </ol>
+                </ul>
             </div>
         </nav>
     </WidthBox>

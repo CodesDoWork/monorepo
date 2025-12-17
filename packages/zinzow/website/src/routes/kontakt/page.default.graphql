@@ -5,6 +5,7 @@ query GetContactData {
         addressLine2
         tel
         email
+        acceptPrivacyPolicy: accept_privacy_policy
         contactPhoto: contact_photo {
             ...DirectusImage
         }

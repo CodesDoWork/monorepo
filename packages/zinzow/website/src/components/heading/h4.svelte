@@ -8,7 +8,7 @@
         children?: Snippet;
     }
 
-    const { class: className = "", children }: Props = $props();
+    const { class: className, children }: Props = $props();
 </script>
 
 <h4 class={clsx(typographyClassMap.h4, className)}>

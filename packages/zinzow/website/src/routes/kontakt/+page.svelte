@@ -16,8 +16,17 @@
     }
 
     const { data }: Props = $props();
-    const { texts, name, addressLine1, addressLine2, tel, email, coordinates, contactPhoto } =
-        $derived(data);
+    const {
+        texts,
+        name,
+        addressLine1,
+        addressLine2,
+        tel,
+        email,
+        acceptPrivacyPolicy,
+        coordinates,
+        contactPhoto,
+    } = $derived(data);
 
     const mapAnchor = $derived(normalizeAnchor(texts.findUs));
 
@@ -64,130 +73,141 @@
             method="POST"
             class="
                 xs:col-span-2
-                row-span-2 pt-12
-                lg:col-span-1
+                row-span-2 mx-auto w-full max-w-2xl pt-12
+                lg:col-span-1 lg:mr-0 lg:max-w-lg
             ">
             <div
                 class="
-                    mx-auto max-w-2xl
-                    lg:mr-0 lg:max-w-lg
+                    xs:grid-cols-2
+                    grid grid-cols-1 gap-x-8 gap-y-3
+                    lg:gap-y-6
                 ">
-                <div
-                    class="
-                        xs:grid-cols-2
-                        grid grid-cols-1 gap-x-8 gap-y-3
-                        lg:gap-y-6
-                    ">
-                    <div>
-                        <label
-                            for="firstName"
-                            class="
-                                block text-sm/6 font-semibold text-gray-900
-                                dark:text-white
-                            ">
-                            {texts.firstName}
-                        </label>
-                        <div class="mt-2.5">
-                            <input
-                                type="text"
-                                name="firstName"
-                                id="firstName"
-                                autocomplete="given-name"
-                                class="
-                                    block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
-                                    text-gray-900 outline -outline-offset-1 outline-gray-300
-                                    focus:ring-0 focus:outline-2 focus:-outline-offset-2
-                                    focus:outline-(--primary)
-                                    dark:bg-white/5 dark:text-white dark:outline-white/10
-                                " />
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            for="lastName"
-                            class="
-                                block text-sm/6 font-semibold text-gray-900
-                                dark:text-white
-                            ">
-                            {texts.lastName}
-                        </label>
-                        <div class="mt-2.5">
-                            <input
-                                type="text"
-                                name="lastName"
-                                id="lastName"
-                                autocomplete="family-name"
-                                class="
-                                    block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
-                                    text-gray-900 outline -outline-offset-1 outline-gray-300
-                                    focus:ring-0 focus:outline-2 focus:-outline-offset-2
-                                    focus:outline-(--primary)
-                                    dark:bg-white/5 dark:text-white dark:outline-white/10
-                                " />
-                        </div>
-                    </div>
-                    <div class="xs:col-span-2">
-                        <label
-                            for="email"
-                            class="
-                                block text-sm/6 font-semibold text-gray-900
-                                dark:text-white
-                            ">
-                            {texts.email}
-                        </label>
-                        <div class="mt-2.5">
-                            <input
-                                type="email"
-                                name="email"
-                                id="email"
-                                autocomplete="email"
-                                class="
-                                    block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
-                                    text-gray-900 outline -outline-offset-1 outline-gray-300
-                                    focus:ring-0 focus:outline-2 focus:-outline-offset-2
-                                    focus:outline-(--primary)
-                                    dark:bg-white/5 dark:text-white dark:outline-white/10
-                                " />
-                        </div>
-                    </div>
-                    <div class="xs:col-span-2">
-                        <label
-                            for="message"
-                            class="
-                                block text-sm/6 font-semibold text-gray-900
-                                dark:text-white
-                            ">
-                            {texts.message}
-                        </label>
-                        <div class="mt-2.5">
-                            <textarea
-                                name="message"
-                                id="message"
-                                rows="4"
-                                class="
-                                    block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
-                                    text-gray-900 outline -outline-offset-1 outline-gray-300
-                                    focus:ring-0 focus:outline-2 focus:-outline-offset-2
-                                    focus:outline-(--primary)
-                                    dark:bg-white/5 dark:text-white dark:outline-white/10
-                                "></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-8 flex justify-end">
-                    <button
-                        type="submit"
+                <div>
+                    <label
+                        for="firstName"
                         class="
-                            rounded-md bg-(--primary) px-3.5 py-2.5 text-center text-sm
-                            font-semibold text-white shadow-sm
-                            hover:bg-(--primary-400)
-                            focus-visible:outline-2 focus-visible:outline-offset-2
-                            focus-visible:outline-(--primary)
-                            dark:hover:bg-(--primary-600)
+                            block text-sm/6 font-semibold text-gray-900
+                            dark:text-white
                         ">
-                        {texts.send}
-                    </button>
+                        {texts.firstName}
+                    </label>
+                    <div class="mt-2.5">
+                        <input
+                            required
+                            type="text"
+                            name="firstName"
+                            id="firstName"
+                            autocomplete="given-name"
+                            class="
+                                block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
+                                text-gray-900 outline -outline-offset-1 outline-gray-300
+                                focus:ring-0 focus:outline-2 focus:-outline-offset-2
+                                focus:outline-(--primary)
+                                dark:bg-white/5 dark:text-white dark:outline-white/10
+                            " />
+                    </div>
                 </div>
+                <div>
+                    <label
+                        for="lastName"
+                        class="
+                            block text-sm/6 font-semibold text-gray-900
+                            dark:text-white
+                        ">
+                        {texts.lastName}
+                    </label>
+                    <div class="mt-2.5">
+                        <input
+                            required
+                            type="text"
+                            name="lastName"
+                            id="lastName"
+                            autocomplete="family-name"
+                            class="
+                                block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
+                                text-gray-900 outline -outline-offset-1 outline-gray-300
+                                focus:ring-0 focus:outline-2 focus:-outline-offset-2
+                                focus:outline-(--primary)
+                                dark:bg-white/5 dark:text-white dark:outline-white/10
+                            " />
+                    </div>
+                </div>
+                <div class="xs:col-span-2">
+                    <label
+                        for="email"
+                        class="
+                            block text-sm/6 font-semibold text-gray-900
+                            dark:text-white
+                        ">
+                        {texts.email}
+                    </label>
+                    <div class="mt-2.5">
+                        <input
+                            required
+                            type="email"
+                            name="email"
+                            id="email"
+                            autocomplete="email"
+                            class="
+                                block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
+                                text-gray-900 outline -outline-offset-1 outline-gray-300
+                                focus:ring-0 focus:outline-2 focus:-outline-offset-2
+                                focus:outline-(--primary)
+                                dark:bg-white/5 dark:text-white dark:outline-white/10
+                            " />
+                    </div>
+                </div>
+                <div class="xs:col-span-2">
+                    <label
+                        for="message"
+                        class="
+                            block text-sm/6 font-semibold text-gray-900
+                            dark:text-white
+                        ">
+                        {texts.message}
+                    </label>
+                    <div class="mt-2.5">
+                        <textarea
+                            required
+                            name="message"
+                            id="message"
+                            rows="4"
+                            class="
+                                block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
+                                text-gray-900 outline -outline-offset-1 outline-gray-300
+                                focus:ring-0 focus:outline-2 focus:-outline-offset-2
+                                focus:outline-(--primary)
+                                dark:bg-white/5 dark:text-white dark:outline-white/10
+                            "></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 flex items-center gap-2">
+                <input
+                    id="privacy"
+                    name="privacy"
+                    type="checkbox"
+                    required
+                    class="cursor-pointer" />
+                <label for="privacy">{@html acceptPrivacyPolicy}</label>
+            </div>
+            <!-- <div class="mt-4 flex items-center gap-2">
+                <input id="files" name="files" type="file" multiple />
+                <label for="files">Anhang</label>
+            </div> -->
+            <div class="mt-8 flex justify-end">
+                <button
+                    type="submit"
+                    class="
+                        rounded-md bg-(--primary) px-3.5 py-2.5 text-center text-sm font-semibold
+                        text-white shadow-sm
+                        hover:bg-(--primary-400)
+                        focus-visible:outline-2 focus-visible:outline-offset-2
+                        focus-visible:outline-(--primary)
+                        dark:hover:bg-(--primary-600)
+                    ">
+                    {texts.send}
+                </button>
             </div>
         </form>
         <DirectusImage

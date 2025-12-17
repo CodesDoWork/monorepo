@@ -7,7 +7,7 @@ export const headlineBaseClasses = clsx(
     `,
 );
 
-const aHoverAnimation = clsx(
+export const aHoverAnimation = clsx(
     `
         before:absolute before:right-0 before:bottom-0 before:inline before:h-0.5 before:w-0
         before:max-w-full before:bg-(--primary) before:transition-all before:duration-500
@@ -16,7 +16,7 @@ const aHoverAnimation = clsx(
     `,
 );
 
-const listBaseClasses = clsx("my-2 ml-8 list-inside");
+const listBaseClasses = clsx("my-2 ml-8 list-outside");
 
 export const textBaseClasses = clsx("md:text-lg");
 export const textColorClasses = clsx(
@@ -52,36 +52,29 @@ export const typographyClassMap = {
     h1: clsx(
         headlineBaseClasses,
         `
-            mt-6 mb-2 text-2xl
-            sm:mt-8 sm:mb-3 sm:text-2xl
-            md:mt-10 md:mb-4 md:text-3xl
-            lg:mt-12 lg:mb-6 lg:text-4xl
+            mt-6 mb-3 text-2xl
+            md:mt-12 md:mb-6 md:text-3xl
         `,
     ),
     h2: clsx(
         headlineBaseClasses,
         `
-            mt-4 mb-1 text-xl
-            sm:mt-6 sm:mb-2 sm:text-xl
-            md:mt-8 md:mb-3 md:text-2xl
-            lg:mt-10 lg:mb-5 lg:text-3xl
+            mt-5 mb-2 text-xl
+            md:mt-10 md:mb-5 md:text-2xl
         `,
     ),
     h3: clsx(
         headlineBaseClasses,
         `
             mt-4 mb-1 text-lg
-            sm:text-lg
-            md:mt-6 md:mb-2 md:text-xl
-            lg:mt-8 lg:mb-4 lg:text-2xl
+            md:mt-8 md:mb-4 md:text-xl
         `,
     ),
     h4: clsx(
         headlineBaseClasses,
         `
-            md:text-md
             mt-4 mb-1 text-base
-            lg:text-lg/8
+            md:text-lg/8
         `,
     ),
     h5: clsx(headlineBaseClasses, "text-sm/6"),

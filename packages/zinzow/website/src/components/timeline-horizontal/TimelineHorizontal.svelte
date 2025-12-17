@@ -52,15 +52,14 @@
             <P
                 class="
                     self-center text-right text-sm
-                    group-hover:pt-0 group-hover:pb-2 group-hover:text-gray-950
-                    md:self-end md:pt-2 md:text-center md:transition-all
+                    md:self-end md:pt-2 md:text-center md:transition-all md:group-hover:pt-0
+                    md:group-hover:pb-2 md:group-hover:text-gray-950
                     md:dark:group-hover:text-gray-50
                 ">{step.date}</P>
             <div
                 class="
                     relative mx-1 transition-all
-                    group-hover:-my-1.5
-                    md:mx-0 md:my-0.5
+                    md:mx-0 md:my-0.5 md:group-hover:-my-1.5
                 ">
                 <div class={verticalLineClass}></div>
                 <div
@@ -81,9 +80,9 @@
                 lang="de"
                 class="
                     my-2 self-center
-                    group-hover:pt-2 group-hover:pb-0 group-hover:text-gray-950
                     md:mx-2 md:my-0 md:self-start md:pb-2 md:text-center md:hyphens-auto
-                    md:transition-all
+                    md:transition-all md:group-hover:pt-2 md:group-hover:pb-0
+                    md:group-hover:text-gray-950
                     lg:mx-4
                     md:dark:group-hover:text-gray-50
                 ">{step.description}</P>

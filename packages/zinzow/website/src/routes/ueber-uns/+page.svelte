@@ -42,7 +42,7 @@
     </div>
 
     <AboutValuesSection title={texts.ourValues} text={about.valuesText} {values} />
-    {#if teamMembers}
+    {#if teamMembers.length}
         <AboutTeamSection title={about.teamTitle} text={about.teamText} members={teamMembers} />
     {/if}
 </WidthBox>

@@ -1,11 +1,19 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
+    import { clsx } from "clsx";
 
     interface Props {
         rotateImageBy: (amount: number) => void;
     }
 
     const { rotateImageBy }: Props = $props();
+
+    const iconClass = clsx(`
+        size-10 cursor-pointer text-gray-500 drop-shadow-md transition-all
+        hover:scale-115 hover:text-gray-400 hover:drop-shadow-lg
+        active:scale-85 active:text-gray-800 active:drop-shadow-sm
+        lg:absolute lg:top-1/2
+    `);
 </script>
 
 <div
@@ -16,17 +24,11 @@
     <button onclick={() => rotateImageBy(-1)}>
         <Icon
             icon="mingcute:left-line"
-            class="
-                size-10 text-gray-400
-                lg:absolute lg:top-1/2 lg:-left-8 lg:-translate-x-1/2 lg:-translate-y-1/2
-            " />
+            class={clsx(iconClass, "lg:-left-8 lg:-translate-x-1/2 lg:-translate-y-1/2")} />
     </button>
     <button onclick={() => rotateImageBy(1)}>
         <Icon
             icon="mingcute:right-line"
-            class="
-                size-10 text-gray-400
-                lg:absolute lg:top-1/2 lg:-right-8 lg:translate-x-1/2 lg:-translate-y-1/2
-            " />
+            class={clsx(iconClass, "lg:-right-8 lg:translate-x-1/2 lg:-translate-y-1/2")} />
     </button>
 </div>

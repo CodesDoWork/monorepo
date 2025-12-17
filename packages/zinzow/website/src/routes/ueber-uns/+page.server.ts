@@ -18,6 +18,10 @@ export const load: PageServerLoad = async () => {
         variables: { pageIdPrefix },
     });
 
+    if (!about.isTeamVisible) {
+        aboutData.teamMembers = [];
+    }
+
     return {
         ...aboutData,
         about: {
@@ -29,9 +33,6 @@ export const load: PageServerLoad = async () => {
                 ...defaultNull(about.bannerImage),
                 alt: "about banner",
             }),
-            partners: about.partners?.map(f =>
-                directusImageParams({ ...defaultNull(f.directus_files_id), alt: "partner" }),
-            ),
             aboutText: formatWYSIWYG(about.aboutText),
         },
         teamMembers: aboutData.teamMembers.map(member => ({

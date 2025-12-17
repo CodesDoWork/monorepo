@@ -12,12 +12,6 @@ query GetAboutData {
             ...DirectusImage
         }
         valuesText
-        partnersTitle: partners_title
-        partners {
-            directus_files_id {
-                ...DirectusImage
-            }
-        }
         isTeamVisible: is_team_visible
         teamTitle: team_title
         teamText

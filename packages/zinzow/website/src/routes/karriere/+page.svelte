@@ -1,9 +1,11 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { clsx } from "clsx";
     import { WidthBox } from "../../components/content-area";
     import { DirectusImage } from "../../components/directus-image";
-    import { H1 } from "../../components/heading";
+    import { H1, H4 } from "../../components/heading";
     import { Paragraphs } from "../../components/text";
+    import { aHoverAnimation } from "../../lib/common/typography";
 
     interface Props {
         data: PageData;
@@ -16,21 +18,29 @@
 <WidthBox class="isolate">
     <H1>{texts.title}</H1>
     <Paragraphs text={texts.identityAndCulture} />
-    <ol
+    <ul
         class="
-            mt-4 grid list-inside list-disc
-            md:mt-16 md:list-none md:grid-cols-2 md:gap-16 md:px-24
+            mx-auto mt-4 grid w-fit list-outside list-disc
+            sm:mt-12 sm:grid-cols-2
+            md:mt-16 md:gap-4
+            lg:gap-8
         ">
         {#each careerBenefits as benefit}
-            <li
-                class="
-                    text-xl text-(--primary)
-                    md:text-center md:text-2xl
-                ">
-                {benefit.title}
+            <li class="">
+                <H4
+                    class={clsx(
+                        aHoverAnimation,
+                        `
+                            relative inline-block origin-left cursor-default transition-all
+                            hover:scale-104 hover:text-(--primary-900)
+                            dark:hover:text-(--primary-400)
+                        `,
+                    )}>
+                    {benefit.title}
+                </H4>
             </li>
         {/each}
-    </ol>
+    </ul>
     <DirectusImage
         img={career.teamPhoto}
         imgClass="rounded-lg shadow-lg"

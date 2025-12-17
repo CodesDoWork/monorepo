@@ -84,7 +84,7 @@
                             {/if}
                         </div>
                         {#if $routeStates[idx]}
-                            <ol>
+                            <ul>
                                 {#each children as child}
                                     <li
                                         class={clsx(
@@ -103,7 +103,7 @@
                                         </a>
                                     </li>
                                 {/each}
-                            </ol>
+                            </ul>
                         {/if}
                     {/each}
                 </div>

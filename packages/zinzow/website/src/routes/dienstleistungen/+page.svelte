@@ -20,7 +20,7 @@
         <H1>{currentRoute?.name}</H1>
         <Paragraphs text={texts.intro} />
     </article>
-    <ol
+    <ul
         class="
             mt-8 grid grid-cols-1 gap-6
             md:mt-36 md:grid-cols-2
@@ -28,5 +28,5 @@
         ">
         <ServiceCol services={services1} />
         <ServiceCol services={services2} class="md:-mt-28" />
-    </ol>
+    </ul>
 </WidthBox>

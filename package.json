@@ -89,7 +89,7 @@
         "@types/color": "^4.2.0",
         "@types/eslint-plugin-tailwindcss": "^3.17.0",
         "@types/leaflet": "^1.9.21",
-        "@types/node": "^25.0.2",
+        "@types/node": "^25.0.3",
         "@types/pg": "^8.16.0",
         "@typescript-eslint/parser": "8.49.0",
         "@vitest/coverage-v8": "^4.0.16",

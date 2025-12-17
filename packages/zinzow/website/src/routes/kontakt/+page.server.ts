@@ -5,6 +5,7 @@ import { GetContactDataDocument } from "../../graphql/default/generated/graphql"
 import { querySystem } from "../../graphql/system/client";
 import { GetContactSystemDataDocument } from "../../graphql/system/generated/graphql";
 import { directusImageParams } from "../../lib/common/directus-image";
+import { formatWYSIWYG } from "../../lib/server/wysiwyg";
 import { getTextsFromTranslations } from "../../utils/translations";
 
 export const load: PageServerLoad = async () => {
@@ -27,6 +28,7 @@ export const load: PageServerLoad = async () => {
 
     return {
         ...contact,
+        acceptPrivacyPolicy: formatWYSIWYG(contact.acceptPrivacyPolicy),
         contactPhoto: directusImageParams({
             ...defaultNull(contact.contactPhoto),
             alt: "contact",

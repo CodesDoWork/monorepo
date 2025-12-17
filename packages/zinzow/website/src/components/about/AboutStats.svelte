@@ -1,4 +1,7 @@
 <script lang="ts">
+    import { clsx } from "clsx";
+    import { smallTextClasses } from "../../lib/common/typography";
+
     interface Stats {
         name: string;
         value: string;
@@ -25,11 +28,7 @@
                 flex flex-col-reverse
                 sm:gap-y-1
             ">
-            <dt
-                class="
-                    text-center text-base/7 text-gray-600
-                    dark:text-gray-400
-                ">
+            <dt class={clsx(smallTextClasses, "text-center text-base/7")}>
                 {stat.name}
             </dt>
             <dd

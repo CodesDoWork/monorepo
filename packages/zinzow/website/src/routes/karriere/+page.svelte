@@ -10,7 +10,7 @@
     }
 
     const { data }: Props = $props();
-    const { careerBenefits, vacancies, texts, career } = $derived(data);
+    const { careerBenefits, texts, career } = $derived(data);
 </script>
 
 <WidthBox class="isolate">
@@ -36,17 +36,7 @@
         imgClass="rounded-lg shadow-lg"
         class="
             mx-auto mt-16 aspect-2/1 w-full
-            md:mt-32 md:w-3/4
+            sm:mt-24
+            md:w-3/4
         " />
-    <ol class="mt-16">
-        {#each vacancies as vacancy}
-            <p>{vacancy.title}</p>
-            <p>{vacancy.description}</p>
-            <p>{vacancy.responsibilities}</p>
-            <p>{vacancy.profile}</p>
-            <a href={vacancy.attachment?.url} rel="noopener noreferrer" target="_blank">
-                Download
-            </a>
-        {/each}
-    </ol>
 </WidthBox>

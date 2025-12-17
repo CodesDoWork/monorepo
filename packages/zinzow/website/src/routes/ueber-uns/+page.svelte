@@ -3,7 +3,6 @@
     import {
         AboutIntroSection,
         AboutMissionSection,
-        AboutPartnersSection,
         AboutStats,
         AboutTeamSection,
         AboutValuesSection,
@@ -20,7 +19,11 @@
     const { texts, about, stats, timesteps, values, teamMembers } = $derived(data);
 </script>
 
-<WidthBox class="isolate">
+<WidthBox
+    class="
+        isolate space-y-16
+        sm:space-y-24
+    ">
     <AboutStats {stats} />
     <AboutIntroSection title={about.title} aboutText={about.aboutText} imgs={about.images} />
     <TimelineHorizontal {timesteps} />
@@ -28,8 +31,7 @@
 
     <div
         class="
-            mx-auto mt-16
-            sm:mt-24
+            mx-auto
             md:px-16
             lg:px-8
         ">
@@ -40,9 +42,7 @@
     </div>
 
     <AboutValuesSection title={texts.ourValues} text={about.valuesText} {values} />
-    <AboutPartnersSection title={about.partnersTitle} partners={about.partners} />
-
-    {#if about.isTeamVisible}
+    {#if teamMembers}
         <AboutTeamSection title={about.teamTitle} text={about.teamText} members={teamMembers} />
     {/if}
 </WidthBox>

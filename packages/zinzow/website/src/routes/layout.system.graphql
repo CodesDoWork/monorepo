@@ -3,6 +3,7 @@ query GetLayoutSystemData {
         project_name
         project_descriptor
         project_color
+        backgroundColor: background_color
         logoBackgroundColor
         copyright
     }

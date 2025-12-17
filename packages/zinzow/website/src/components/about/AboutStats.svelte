@@ -14,8 +14,8 @@
 <dl
     class="
         xs:flex-row xs:justify-around xs:w-fit
-        mb-12 flex flex-col gap-x-12 gap-y-8
-        sm:gap-x-24
+        mb-8 flex flex-col gap-x-12 gap-y-8
+        sm:mt-8 sm:mb-4 sm:gap-x-24
         md:gap-x-24
         lg:gap-x-40
     ">

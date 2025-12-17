@@ -41,7 +41,7 @@
         ">
         <div
             class="
-                pt-8
+                pt-16
                 sm:pt-24
                 md:pt-32
                 lg:pt-36

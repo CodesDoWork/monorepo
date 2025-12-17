@@ -3,6 +3,7 @@
     import type { LayoutData } from "../../routes/$types";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
+    import { smallTextClasses } from "../../lib/common/typography";
     import { WidthBox } from "../content-area";
     import { H5 } from "../heading";
     import { Logo } from "../logo";
@@ -16,14 +17,7 @@
     const { settings, socialMedias, footerSections } = $derived(data);
 </script>
 
-<footer
-    class={clsx(
-        `
-            bg-white
-            dark:bg-(--primary-950)
-        `,
-        !currentRoute?.isHero && "mt-6",
-    )}>
+<footer class={clsx(!currentRoute?.isHero && "mt-12")}>
     <WidthBox class="pt-0">
         <div
             class="
@@ -44,22 +38,21 @@
                             dark:fill-black!
                         " />
                 </a>
-                <p
-                    class="
-                        text-sm/6 text-balance text-gray-600
-                        dark:text-gray-400
-                    ">
+                <p class={smallTextClasses}>
                     {settings.project_descriptor}
                 </p>
                 <div class="flex gap-x-6">
                     {#each socialMedias as socialMedia}
                         <a
                             href={socialMedia.url}
-                            class="
-                                text-gray-600 transition-colors
-                                hover:text-gray-800
-                                dark:hover:text-gray-300
-                            "
+                            class={clsx(
+                                smallTextClasses,
+                                `
+                                    transition-colors
+                                    hover:text-gray-950
+                                    dark:hover:text-white
+                                `,
+                            )}
                             target="_blank"
                             title={`${socialMedia.user} @ ${socialMedia.name}`}
                             rel="noopener noreferrer">
@@ -88,11 +81,14 @@
                                 <li>
                                     <a
                                         href={route.routes_id.path}
-                                        class="
-                                            text-sm/6 text-gray-600 transition-colors
-                                            hover:text-gray-950
-                                            dark:text-gray-400 dark:hover:text-white
-                                        ">
+                                        class={clsx(
+                                            smallTextClasses,
+                                            `
+                                                transition-colors
+                                                hover:text-gray-950
+                                                dark:hover:text-white
+                                            `,
+                                        )}>
                                         {route.routes_id.name}
                                     </a>
                                 </li>
@@ -105,20 +101,22 @@
         <div
             class="
                 relative mt-16 flex flex-col justify-between border-t border-gray-900/10 pt-5
-                text-gray-600
                 sm:mt-20
                 md:flex-row
                 lg:mt-24
-                dark:border-white/10 dark:text-gray-400
+                dark:border-white/10
             ">
-            <p class="text-sm/6">
+            <p class={smallTextClasses}>
                 &copy; {settings.copyright}
             </p>
             <p
-                class="
-                    mt-6 text-sm/6
-                    md:mt-0
-                ">
+                class={clsx(
+                    smallTextClasses,
+                    `
+                        mt-6
+                        md:mt-0
+                    `,
+                )}>
                 Made with <Icon icon="noto:red-heart" class="inline-block" />&nbsp; by
                 <a
                     href="https://justinkonratt.de"

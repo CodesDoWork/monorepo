@@ -28,7 +28,7 @@
 
     const sizeClass = clsx(`
         h-screen w-screen
-        md:max-h-272 md:min-h-0
+        md:max-h-280 md:min-h-0
     `);
 </script>
 
@@ -76,7 +76,7 @@
 
     <div
         class="
-            mx-auto mt-auto mb-24 flex w-full max-w-7xl flex-col flex-wrap justify-around gap-y-3
+            mx-auto mt-auto mb-16 flex w-full max-w-7xl flex-col flex-wrap justify-around gap-y-3
             px-6 text-shadow-black/20 text-shadow-lg
             md:mb-8 md:flex-row md:items-center md:px-12
             lg:px-16
@@ -86,7 +86,14 @@
             <span
                 style={animationDelay(idx)}
                 class={animate(
-                    "inline-block text-2xl font-bold text-black dark:text-gray-200 sm:text-3xl md:text-4xl lg:text-5xl",
+                    clsx(
+                        `
+                            inline-block text-2xl font-bold text-black
+                            md:text-3xl
+                            lg:text-4xl
+                            dark:text-gray-200
+                        `,
+                    ),
                 )}>
                 {word}
                 {idx < introWords.length - 1 ? " " : ""}

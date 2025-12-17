@@ -1,6 +1,5 @@
 import type { PageServerLoad } from "./$types";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
-import { addAssetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { queryDefault } from "../../graphql/default/client";
 import { GetCareerDataDocument } from "../../graphql/default/generated/graphql";
 import { querySystem } from "../../graphql/system/client";
@@ -11,7 +10,7 @@ import { getTextsFromTranslations } from "../../utils/translations";
 export const load: PageServerLoad = async () => {
     const pageIdPrefix = "page.career.";
 
-    const { career, careerBenefits, vacancies } = await queryDefault({
+    const { career, careerBenefits } = await queryDefault({
         query: GetCareerDataDocument,
     });
     const { translations } = await querySystem({
@@ -29,10 +28,6 @@ export const load: PageServerLoad = async () => {
             }),
         },
         careerBenefits,
-        vacancies: vacancies.map(vacancy => ({
-            ...vacancy,
-            attachment: addAssetUrl(vacancy.attachment),
-        })),
         texts: getTextsFromTranslations(translations, pageIdPrefix),
     };
 };

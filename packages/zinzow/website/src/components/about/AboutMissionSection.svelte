@@ -10,11 +10,7 @@
     const { title, text }: Props = $props();
 </script>
 
-<section
-    class="
-        mt-24
-        md:mt-32
-    ">
+<section>
     <article>
         <H2>{title}</H2>
         <P lang="de" prose block>

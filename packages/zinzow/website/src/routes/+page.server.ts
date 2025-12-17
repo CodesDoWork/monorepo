@@ -1,5 +1,6 @@
 import type { AssetParams } from "@cdw/monorepo/shared-utils/directus";
 import type { PageServerLoad } from "./$types";
+import { shuffle } from "@cdw/monorepo/shared-utils/arrays";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
 import { queryDefault } from "../graphql/default/client";
 import { GetHomeDataDocument } from "../graphql/default/generated/graphql";
@@ -17,10 +18,11 @@ export const load: PageServerLoad = async () => {
         };
     }
 
-    const landscapeHeros = heroFiles
+    const shuffledHeros = shuffle(heroFiles);
+    const landscapeHeros = shuffledHeros
         .filter(f => f.width > f.height)
         .map(toDirectusImage({ quality: 50, width: 1_280 }));
-    const portraitHeros = heroFiles
+    const portraitHeros = shuffledHeros
         .filter(f => f.height > f.width)
         .map(toDirectusImage({ quality: 50, width: 720 }));
 

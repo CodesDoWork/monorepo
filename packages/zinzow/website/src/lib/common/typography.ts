@@ -21,11 +21,16 @@ const listBaseClasses = clsx("my-2 ml-8 list-inside");
 export const textBaseClasses = clsx("md:text-lg");
 export const textColorClasses = clsx(
     `
-        text-gray-700
-        dark:text-gray-300
+        text-gray-900
+        dark:text-gray-200
     `,
 );
 export const textBaseColorClasses = clsx(textBaseClasses, textColorClasses);
+
+export const smallTextClasses = clsx(`
+    text-sm/6 text-gray-800
+    dark:text-gray-300
+`);
 
 export const typographyClassMap = {
     a: clsx(
@@ -48,27 +53,27 @@ export const typographyClassMap = {
         headlineBaseClasses,
         `
             mt-6 mb-2 text-2xl
-            sm:mt-8 sm:mb-3 sm:text-3xl
-            md:mt-10 md:mb-4 md:text-4xl
-            lg:mt-12 lg:mb-6 lg:text-5xl
+            sm:mt-8 sm:mb-3 sm:text-2xl
+            md:mt-10 md:mb-4 md:text-3xl
+            lg:mt-12 lg:mb-6 lg:text-4xl
         `,
     ),
     h2: clsx(
         headlineBaseClasses,
         `
             mt-4 mb-1 text-xl
-            sm:mt-6 sm:mb-2 sm:text-2xl
-            md:mt-8 md:mb-3 md:text-3xl
-            lg:mt-10 lg:mb-5 lg:text-4xl
+            sm:mt-6 sm:mb-2 sm:text-xl
+            md:mt-8 md:mb-3 md:text-2xl
+            lg:mt-10 lg:mb-5 lg:text-3xl
         `,
     ),
     h3: clsx(
         headlineBaseClasses,
         `
             mt-4 mb-1 text-lg
-            sm:text-xl
-            md:mt-6 md:mb-2 md:text-2xl
-            lg:mt-8 lg:mb-4 lg:text-3xl
+            sm:text-lg
+            md:mt-6 md:mb-2 md:text-xl
+            lg:mt-8 lg:mb-4 lg:text-2xl
         `,
     ),
     h4: clsx(

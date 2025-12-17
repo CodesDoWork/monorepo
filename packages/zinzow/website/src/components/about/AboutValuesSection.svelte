@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { clsx } from "clsx";
+    import { smallTextClasses } from "../../lib/common/typography";
     import { H2 } from "../heading";
     import { P } from "../text";
 
@@ -14,15 +16,15 @@
     const { title, text, values }: Props = $props();
 </script>
 
-<section class="mt-32">
+<section>
     <article>
         <H2>{title}</H2>
         <P prose block>{text}</P>
     </article>
     <dl
         class="
-            mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base/7
-            sm:grid-cols-2
+            mx-auto mt-12 grid max-w-2xl grid-cols-1 gap-8 px-4 text-base/7
+            sm:grid-cols-2 sm:gap-12 sm:px-8
             lg:mx-0 lg:max-w-none lg:grid-cols-3
         ">
         {#each values as value}
@@ -34,11 +36,7 @@
                     ">
                     {value.name}
                 </dt>
-                <dd
-                    class="
-                        mt-1 text-gray-600
-                        dark:text-gray-400
-                    ">
+                <dd class={clsx(smallTextClasses, "mt-1 text-base/7!")}>
                     {value.description}
                 </dd>
             </div>

@@ -74,7 +74,7 @@
         id="image-container"
         sourceClass="left-1/2 right-auto -translate-x-1/2"
         class="
-            absolute! top-1/2 left-1/2 max-h-[80vh] w-[80vw] max-w-[80vw] -translate-x-1/2
+            absolute! top-1/2 left-1/2 h-[80vh] max-h-[80vh] w-[80vw] max-w-[80vw] -translate-x-1/2
             -translate-y-1/2 overflow-hidden rounded-lg
         "
         imgClass={clsx(

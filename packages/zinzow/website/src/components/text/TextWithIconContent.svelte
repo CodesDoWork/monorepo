@@ -15,7 +15,7 @@
 
     const hrefClass = $derived(
         clsx({
-            "transition-colors group-hover:text-gray-950 dark:group-hover:text-white": href,
+            "transition-colors group-hover:text-gray-950 dark:group-hover:text-gray-50": href,
         }),
     );
 </script>

@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { DirectusImageParams } from "../../lib/common/directus-image";
+    import { smallTextClasses } from "../../lib/common/typography";
     import { DirectusImage } from "../directus-image";
     import { H2, H4 } from "../heading";
     import { P } from "../text";
@@ -37,23 +38,19 @@
                 {#if member.portrait}
                     <DirectusImage
                         img={member.portrait}
-                        imgClass="rounded-full"
+                        imgClass="rounded-full shadow-md"
                         class="mx-auto size-24" />
                 {:else}
                     <div
                         class="
-                            mx-auto size-24 rounded-full bg-gray-200
+                            mx-auto size-24 rounded-full bg-gray-200 shadow-md
                             dark:bg-gray-800
                         ">
                     </div>
                 {/if}
                 <H4 class="mt-4">{member.forename}{member.surname ? ` ${member.surname}` : ``}</H4>
                 {#if member.position}
-                    <p
-                        class="
-                            text-sm/6 text-gray-600
-                            dark:text-gray-400
-                        ">
+                    <p class={smallTextClasses}>
                         {member.position}
                     </p>
                 {/if}

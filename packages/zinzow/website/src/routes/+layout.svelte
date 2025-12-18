@@ -1,10 +1,10 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
+    import type { NavigationContext } from "../contexts/navigation";
     import type { LayoutData } from "./$types";
     import { Footer } from "../components/footer";
     import { Header } from "../components/header";
     import { setNavigationContext } from "../contexts/navigation";
-    import { getRoutes } from "../states/routes.svelte";
     import { createColors, createCssVariables } from "../utils/css";
     import "../tailwind.css";
 
@@ -14,9 +14,13 @@
     }
 
     const { data, children }: Props = $props();
-    const { settings, currentRoute, routes } = $derived(data);
+    const { settings, currentRoute } = $derived(data);
 
-    const nav = getRoutes(routes, currentRoute);
+    const nav: NavigationContext = {
+        get currentRoute() {
+            return currentRoute;
+        },
+    };
     setNavigationContext(nav);
 
     const colors = $derived(
@@ -39,9 +43,9 @@
         bg-bg relative grid min-h-screen grid-rows-[min-content_1fr_min-content] overflow-x-hidden
         dark:bg-bg-950 dark:text-white
     ">
-    <Header {data} currentRoute={nav.currentRoute} />
+    <Header {data} {currentRoute} />
     <main>
         {@render children?.()}
     </main>
-    <Footer {data} currentRoute={nav.currentRoute} />
+    <Footer {data} {currentRoute} />
 </div>

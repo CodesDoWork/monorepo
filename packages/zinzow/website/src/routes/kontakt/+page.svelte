@@ -7,6 +7,7 @@
     import { WidthBox } from "../../components/content-area";
     import { DirectusImage } from "../../components/directus-image";
     import { CheckboxWithLabel, InputWithLabel } from "../../components/form";
+    import FileInputWithLabel from "../../components/form/FileInputWithLabel.svelte";
     import TextareaWithLabel from "../../components/form/TextareaWithLabel.svelte";
     import { H1, H2 } from "../../components/heading";
     import { Icons } from "../../components/icons";
@@ -117,12 +118,14 @@
                 <CheckboxWithLabel id="privacy" name="privacy" class="xs:col-span-2">
                     {@html acceptPrivacyPolicy}
                 </CheckboxWithLabel>
-                <InputWithLabel
+                <FileInputWithLabel
                     id="attachments"
                     name="attachments"
-                    type="file"
                     label="Anhang"
-                    multiple />
+                    multiple
+                    chooseText={texts.chooseFiles}
+                    fileChosenText={texts.fileChosen}
+                    filesChosenText={texts.filesChosen} />
                 <button
                     type="submit"
                     class={clsx(

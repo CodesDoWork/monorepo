@@ -90,7 +90,8 @@ export const stylesMap = {
         `,
     ),
     button: clsx(`
-        bg-primary rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm
+        bg-primary cursor-pointer rounded-md px-3.5 py-2.5 text-center text-sm font-semibold
+        text-white shadow-sm
         focus-visible:outline-primary focus-visible:outline-2 focus-visible:outline-offset-2
         hover:bg-primary-400
         dark:hover:bg-primary-600

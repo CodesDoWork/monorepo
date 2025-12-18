@@ -70,7 +70,7 @@
         "@vitest/ui": "^4.0.16",
         "astro": "^5.16.6",
         "chalk": "5.6.2",
-        "emailjs": "^4.0.3",
+        "emailjs": "^5.0.0",
         "envsub": "^4.1.0",
         "esbuild": "^0.27.2",
         "eslint": "^9.39.2",
@@ -2287,7 +2287,7 @@
 
     "electron-to-chromium": ["electron-to-chromium@1.5.109", "", {}, "sha512-AidaH9JETVRr9DIPGfp1kAarm/W6hRJTPuCnkF+2MqhF4KaAgRIcBc8nvjk+YMXZhwfISof/7WG29eS4iGxQLQ=="],
 
-    "emailjs": ["emailjs@4.0.3", "", { "peerDependencies": { "typescript": ">=4.3.5" }, "optionalPeers": ["typescript"] }, "sha512-1CDXoE3FxkSg7QRTlLsDCYG9elFNu/JQsYWu3Xfrk77ubbg5zYgFGg+JRUKQJ56mceM8o3rHHX0VB4wo9XsyLQ=="],
+    "emailjs": ["emailjs@5.0.0", "", { "peerDependencies": { "typescript": ">=5.0.0" }, "optionalPeers": ["typescript"] }, "sha512-J7gxswcLGRZQM+HQBgll0DJuEMFiJIa7UzgK3GsjlytyRS4X2z7K1brQLlezEs3ul+jqvYYoCTqPAgWrVZf0mw=="],
 
     "emittery": ["emittery@0.13.1", "", {}, "sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ=="],
 

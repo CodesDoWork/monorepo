@@ -89,7 +89,7 @@
                             before-bg-black
                             before:h-0.75
                             hover:before:bg-black
-                            dark:before:bg-gray-100 dark:hover:before:bg-gray-100
+                            dark:before:bg-gray-100 dark:hover:before:bg-gray-100!
                         `,
                         `
                             inline-block cursor-default text-2xl font-bold text-black transition-all

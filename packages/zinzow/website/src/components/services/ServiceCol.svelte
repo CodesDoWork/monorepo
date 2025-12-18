@@ -42,6 +42,7 @@
                     ">
                     <H2
                         class="
+                            dark:text-primary-100 dark:bg-black/75
                             absolute top-2 left-2 mt-0! size-fit rounded-lg bg-white/75 px-3 py-1
                             text-sm! text-nowrap transition-all
                             group-hover:top-1/2 group-hover:right-1/2 group-hover:bottom-1/2
@@ -49,7 +50,6 @@
                             group-hover:-translate-y-1/2 group-hover:bg-transparent
                             group-hover:text-3xl!
                             sm:text-base! sm:group-hover:text-4xl!
-                            dark:bg-black/75 dark:text-primary-100
                         ">
                         {service.route.name}
                     </H2>

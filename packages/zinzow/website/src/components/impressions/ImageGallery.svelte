@@ -47,7 +47,7 @@
                                 {img}
                                 imgClass={clsx(
                                     `
-                                        rounded-md shadow-md ring-primary
+                                        ring-primary rounded-md shadow-md
                                         sm:max-h-24
                                         md:max-h-36 md:rounded-lg
                                         lg:max-h-40

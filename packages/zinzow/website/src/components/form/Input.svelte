@@ -21,7 +21,6 @@
         id,
         autocomplete,
         multiple,
-        lang,
         class: className,
         "aria-describedby": ariaDescribedBy,
     }: Props = $props();

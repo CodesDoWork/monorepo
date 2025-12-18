@@ -22,17 +22,20 @@
     const { data }: Props = $props();
     const {
         texts,
+        title,
+        intro,
         name,
         addressLine1,
         addressLine2,
         tel,
         email,
         acceptPrivacyPolicy,
+        findUs,
         coordinates,
         contactPhoto,
     } = $derived(data);
 
-    const mapAnchor = $derived(normalizeAnchor(texts.findUs));
+    const mapAnchor = $derived(normalizeAnchor(findUs));
 
     let Map: Component<{ options: MapOptions; children?: Snippet }> | null = $state(null);
     let TileLayer: Component<{ url: string; options: TileLayerOptions }> | null = $state(null);
@@ -54,9 +57,9 @@
             grid grid-cols-1
             sm:grid-cols-2 sm:grid-rows-[min-content_min-content_1fr_min-content]
         ">
-        <H1 class="xs:col-span-2">{texts.title}</H1>
+        <H1 class="xs:col-span-2">{title}</H1>
         <div class="lg:max-w-lg">
-            <Paragraphs text={texts.intro} />
+            <Paragraphs text={intro} />
             <dl class="mt-10 space-y-4">
                 <TextWithIcon
                     href={`#${mapAnchor}`}
@@ -155,7 +158,7 @@
                 mt-20
             "
             id={mapAnchor}>
-            <H2>{texts.findUs}</H2>
+            <H2>{findUs}</H2>
             <div class="h-160 max-h-[75vh] w-full overflow-hidden rounded-lg shadow-md">
                 {#if Map}
                     <Map options={{ center: coordinates, zoom: 15 }}>

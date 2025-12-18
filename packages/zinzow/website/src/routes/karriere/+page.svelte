@@ -12,12 +12,12 @@
     }
 
     const { data }: Props = $props();
-    const { careerBenefits, texts, career } = $derived(data);
+    const { careerBenefits, career } = $derived(data);
 </script>
 
 <WidthBox class="isolate">
-    <H1>{texts.title}</H1>
-    <Paragraphs text={texts.identityAndCulture} />
+    <H1>{career.title}</H1>
+    <Paragraphs text={career.intro} />
     <ul
         class="
             mx-auto mt-4 grid w-fit list-outside list-disc

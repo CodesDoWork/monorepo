@@ -13,8 +13,9 @@
     }
 
     const { data }: Props = $props();
+    const { impressions } = $derived(data);
     const columns = 6;
-    const imgs = $derived(useImages(data.impressions.images, columns));
+    const imgs = $derived(useImages(impressions.images, columns));
 </script>
 
 <svelte:window onkeydown={imgs.handleKey} />
@@ -23,7 +24,7 @@
     setIsOpen={(isOpen: boolean) => (imgs.showDialog = isOpen)}
     selectedImage={imgs.selectedImage} />
 <WidthBox class="isolate">
-    <H1>{data.texts.title}</H1>
+    <H1>{impressions.title}</H1>
     <div
         class="
             mt-8 grid grid-cols-1

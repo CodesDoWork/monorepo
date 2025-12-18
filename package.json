@@ -96,7 +96,7 @@
         "@vitest/ui": "^4.0.16",
         "astro": "^5.16.6",
         "chalk": "5.6.2",
-        "emailjs": "^4.0.3",
+        "emailjs": "^5.0.0",
         "envsub": "^4.1.0",
         "esbuild": "^0.27.2",
         "eslint": "^9.39.2",

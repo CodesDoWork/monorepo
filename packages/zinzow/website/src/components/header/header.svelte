@@ -64,13 +64,13 @@
                             class={animate(
                                 `
                                 group/nav-item relative transition-all
-                                hover:scale-105 hover:text-(--primary)
-                                dark:hover:text-(--primary-200)
+                                hover:scale-105 hover:text-primary
+                                dark:hover:text-primary-200
                             `,
                                 currentRoute?.path.startsWith(route.path)
                                     ? `
-                                    scale-105 text-(--primary)
-                                    dark:text-(--primary-200)
+                                    scale-105 text-primary
+                                    dark:text-primary-200
                                 `
                                     : `
                                     scale-100 text-gray-900

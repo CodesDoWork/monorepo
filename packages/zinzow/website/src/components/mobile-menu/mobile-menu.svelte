@@ -42,10 +42,10 @@
         class={clsx(
             $menuAnimation,
             `
-                fixed inset-y-0 right-0 z-10 min-w-56 overflow-y-auto bg-(--primary) p-6
+                fixed inset-y-0 right-0 z-10 min-w-56 overflow-y-auto bg-primary p-6
                 text-(--onPrimary) shadow-lg
                 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10
-                dark:bg-(--primary-800)
+                dark:bg-primary-800
             `,
         )}>
         <div class="mt-2 flex justify-end">
@@ -62,12 +62,12 @@
                         )}
                         <div
                             class={clsx(
-                                currentRoute?.path.startsWith(route.path) && `text-(--primary-200)`,
+                                currentRoute?.path.startsWith(route.path) && `text-primary-200`,
                                 `
                                     -mx-3 flex items-center justify-between rounded-lg px-3 py-2
                                     text-base/7 font-semibold
-                                    hover:bg-(--primary-400)
-                                    dark:hover:bg-(--primary-700)
+                                    hover:bg-primary-400
+                                    dark:hover:bg-primary-700
                                 `,
                             )}>
                             <a class="flex-1" onclick={triggerClose} href={route.path}>
@@ -89,13 +89,13 @@
                                     <li
                                         class={clsx(
                                             currentRoute?.path.startsWith(child.path)
-                                                ? "text-(--primary-200)"
+                                                ? "text-primary-200"
                                                 : "",
                                             `
                                                 flex items-center justify-between rounded-lg py-2
                                                 pr-3 pl-6 text-sm/7 font-semibold
-                                                hover:bg-(--primary-400)
-                                                dark:hover:bg-(--primary-700)
+                                                hover:bg-primary-400
+                                                dark:hover:bg-primary-700
                                             `,
                                         )}>
                                         <a class="flex-1" onclick={triggerClose} href={child.path}>

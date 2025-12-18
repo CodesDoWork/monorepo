@@ -5,7 +5,7 @@
     import { DirectusImage } from "../../components/directus-image";
     import { H1, H4 } from "../../components/heading";
     import { Paragraphs } from "../../components/text";
-    import { aHoverAnimation } from "../../lib/common/typography";
+    import { aHoverAnimation } from "../../lib/common/styles";
 
     interface Props {
         data: PageData;
@@ -31,9 +31,9 @@
                     class={clsx(
                         aHoverAnimation,
                         `
+                            hover:text-primary-900 hover:scale-104
+                            dark:hover:text-primary-400
                             relative inline-block origin-left cursor-default transition-all
-                            hover:scale-104 hover:text-(--primary-900)
-                            dark:hover:text-(--primary-400)
                         `,
                     )}>
                     {benefit.title}

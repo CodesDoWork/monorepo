@@ -26,7 +26,7 @@
             y="50%"
             class="
                 overflow-visible fill-gray-50
-                dark:fill-(--primary-900)
+                dark:fill-primary-900
             ">
             <path d="M-300 0h201v201h-201Z M300 200h201v201h-201Z" stroke-width="0" />
         </svg>

@@ -36,9 +36,8 @@
 <div
     style={createCssVariables(colors)}
     class="
-        relative grid min-h-screen grid-rows-[min-content_1fr_min-content] overflow-x-hidden
-        bg-(--bg)
-        dark:bg-(--bg-950) dark:text-white
+        bg-bg relative grid min-h-screen grid-rows-[min-content_1fr_min-content] overflow-x-hidden
+        dark:bg-bg-950 dark:text-white
     ">
     <Header {data} currentRoute={nav.currentRoute} />
     <main>

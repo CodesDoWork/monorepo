@@ -3,7 +3,7 @@
     import type { LayoutData } from "../../routes/$types";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import { smallTextClasses } from "../../lib/common/typography";
+    import { smallTextClasses } from "../../lib/common/styles";
     import { WidthBox } from "../content-area";
     import { H5 } from "../heading";
     import { Logo } from "../logo";
@@ -33,7 +33,7 @@
                 <a href="/" class="inline-block">
                     <Logo
                         class="
-                            size-40 rounded bg-(--logoBg) p-4 shadow-md
+                            bg-logoBg size-40 rounded p-4 shadow-md
                             md:size-56
                             dark:fill-black!
                         " />

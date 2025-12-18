@@ -1,6 +1,6 @@
 <script lang="ts">
     import { clsx } from "clsx";
-    import { smallTextClasses } from "../../lib/common/typography";
+    import { smallTextClasses } from "../../lib/common/styles";
     import { H2 } from "../heading";
     import { P } from "../text";
 

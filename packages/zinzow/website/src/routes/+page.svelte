@@ -3,7 +3,7 @@
     import { clsx } from "clsx";
     import { fly } from "svelte/transition";
     import { DirectusImage } from "../components/directus-image";
-    import { aHoverAnimation } from "../lib/common/typography";
+    import { aHoverAnimation } from "../lib/common/styles";
     import { animationDelay } from "../utils/animation-delay";
 
     interface Props {

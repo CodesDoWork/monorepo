@@ -49,7 +49,7 @@
                             group-hover:-translate-y-1/2 group-hover:bg-transparent
                             group-hover:text-3xl!
                             sm:text-base! sm:group-hover:text-4xl!
-                            dark:bg-black/75 dark:text-(--primary-100)
+                            dark:bg-black/75 dark:text-primary-100
                         ">
                         {service.route.name}
                     </H2>

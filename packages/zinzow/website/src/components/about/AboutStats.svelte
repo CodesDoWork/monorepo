@@ -1,6 +1,6 @@
 <script lang="ts">
     import { clsx } from "clsx";
-    import { smallTextClasses } from "../../lib/common/typography";
+    import { smallTextClasses } from "../../lib/common/styles";
 
     interface Stats {
         name: string;
@@ -33,7 +33,7 @@
             </dt>
             <dd
                 class="
-                    text-center text-2xl font-semibold tracking-tight text-(--primary)
+                    text-primary text-center text-2xl font-semibold tracking-tight
                     sm:text-3xl
                     md:text-4xl
                     lg:text-5xl

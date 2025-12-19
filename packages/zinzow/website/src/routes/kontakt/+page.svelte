@@ -1,7 +1,8 @@
 <script lang="ts">
     import type { LatLngExpression, MapOptions, MarkerOptions, TileLayerOptions } from "leaflet";
     import type { Component, Snippet } from "svelte";
-    import type { PageData } from "./$types";
+    import type { ActionData, PageData } from "./$types";
+    import { enhance } from "$app/forms";
     import { clsx } from "clsx";
     import { onMount } from "svelte";
     import { WidthBox } from "../../components/content-area";
@@ -17,9 +18,10 @@
 
     interface Props {
         data: PageData;
+        form?: ActionData;
     }
 
-    const { data }: Props = $props();
+    const { data, form }: Props = $props();
     const {
         texts,
         title,
@@ -48,6 +50,8 @@
         TileLayer = sveaflet.TileLayer;
         Marker = sveaflet.Marker;
     });
+
+    const attachmentsId = "attachments";
 </script>
 
 <WidthBox class="isolate">
@@ -76,8 +80,22 @@
             </dl>
         </div>
         <form
-            action="#"
+            action="?/mail"
             method="POST"
+            enctype="multipart/form-data"
+            use:enhance={() => {
+                return async ({ update, formData }) => {
+                    await update();
+                    const files = formData.getAll(attachmentsId) as File[];
+                    const e = document.getElementById(attachmentsId) as HTMLInputElement;
+                    const dt = new DataTransfer();
+                    if (!form?.success) {
+                        files.forEach(file => dt.items.add(file));
+                    }
+                    e.files = dt.files;
+                    e.dispatchEvent(new Event("change", { bubbles: true }));
+                };
+            }}
             class="
                 xs:col-span-2
                 row-span-2 mx-auto w-full max-w-2xl pt-12
@@ -95,14 +113,18 @@
                     required
                     type="text"
                     autocomplete="given-name"
-                    label={texts.firstName} />
+                    label={texts.firstName}
+                    value={form?.data?.firstName}
+                    errors={form?.errors?.firstName?.errors} />
                 <InputWithLabel
                     id="lastName"
                     name="lastName"
                     required
                     type="text"
                     autocomplete="family-name"
-                    label={texts.lastName} />
+                    label={texts.lastName}
+                    value={form?.data?.lastName}
+                    errors={form?.errors?.lastName?.errors} />
                 <InputWithLabel
                     id="email"
                     name="email"
@@ -110,25 +132,36 @@
                     type="email"
                     autocomplete="email"
                     label={texts.email}
-                    class="xs:col-span-2" />
+                    class="xs:col-span-2"
+                    value={form?.data?.email}
+                    errors={form?.errors?.email?.errors} />
                 <TextareaWithLabel
                     id="message"
                     name="message"
                     required
                     rows={7}
                     label={texts.message}
+                    value={form?.data?.message}
+                    errors={form?.errors?.message?.errors}
                     class="xs:col-span-2" />
-                <CheckboxWithLabel id="privacy" name="privacy" class="xs:col-span-2">
+                <CheckboxWithLabel
+                    id="privacy"
+                    name="privacy"
+                    class="xs:col-span-2"
+                    required
+                    checked={form?.data?.privacy}
+                    errors={form?.errors?.privacy?.errors}>
                     {@html acceptPrivacyPolicy}
                 </CheckboxWithLabel>
                 <FileInputWithLabel
-                    id="attachments"
-                    name="attachments"
+                    id={attachmentsId}
+                    name={attachmentsId}
                     label="Anhang"
                     multiple
                     chooseText={texts.chooseFiles}
                     fileChosenText={texts.fileChosen}
-                    filesChosenText={texts.filesChosen} />
+                    filesChosenText={texts.filesChosen}
+                    errors={form?.errors?.attachments?.errors} />
                 <button
                     type="submit"
                     class={clsx(
@@ -140,6 +173,15 @@
                     )}>
                     {texts.send}
                 </button>
+                {#if form?.success}
+                    <p
+                        class="
+                            xs:col-span-2
+                            font-semibold text-green-600
+                        ">
+                        {texts.messageSent}
+                    </p>
+                {/if}
             </div>
         </form>
         <DirectusImage

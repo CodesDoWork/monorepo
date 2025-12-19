@@ -5,6 +5,8 @@
         id?: string;
         name?: string;
         checked?: boolean;
+        required?: boolean;
+        errors?: string[];
         "aria-describedby"?: string;
         class?: string;
     }
@@ -13,6 +15,8 @@
         id,
         name,
         checked,
+        required,
+        errors,
         "aria-describedby": ariaDescribedBy,
         class: className,
     }: Props = $props();
@@ -24,9 +28,15 @@
         {id}
         {name}
         {checked}
+        {required}
         aria-describedby={ariaDescribedBy}
         class={clsx(
             className,
+            errors?.length &&
+                `
+                    border-error-light!
+                    dark:border-error-dark!
+                `,
             `
                 checked:border-primary-600 checked:bg-primary-600
                 indeterminate:border-primary-600 indeterminate:bg-primary-600

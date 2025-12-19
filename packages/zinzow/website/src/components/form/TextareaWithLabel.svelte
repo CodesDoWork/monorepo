@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { ComponentProps } from "svelte";
+    import Errors from "./Errors.svelte";
     import Textarea from "./Textarea.svelte";
 
     type Props = Omit<ComponentProps<typeof Textarea>, "aria-describedby"> & {
@@ -20,6 +21,7 @@
         ">
         {label}
     </label>
+    <Errors errors={inputProps.errors} />
     <div class="mt-2.5">
         <Textarea {...inputProps} aria-describedby={labelId} />
     </div>

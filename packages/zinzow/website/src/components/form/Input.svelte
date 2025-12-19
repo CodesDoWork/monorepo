@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { FullAutoFill, HTMLInputTypeAttribute } from "svelte/elements";
+    import type { ChangeEventHandler, FullAutoFill, HTMLInputTypeAttribute } from "svelte/elements";
     import { clsx } from "clsx";
     import { stylesMap } from "../../lib/common/styles";
 
@@ -10,28 +10,26 @@
         id?: string;
         autocomplete?: FullAutoFill;
         multiple?: boolean;
+        value?: string;
+        errors?: string[];
         class?: string;
+        input?: HTMLInputElement;
+        onchange?: ChangeEventHandler<HTMLInputElement>;
         "aria-describedby"?: string;
     }
 
-    const {
-        required,
-        type,
-        name,
-        id,
-        autocomplete,
-        multiple,
-        class: className,
-        "aria-describedby": ariaDescribedBy,
-    }: Props = $props();
+    let { errors, class: className, input = $bindable(), ...props }: Props = $props();
 </script>
 
 <input
-    {required}
-    {type}
-    {name}
-    {id}
-    {autocomplete}
-    {multiple}
-    aria-describedby={ariaDescribedBy}
-    class={clsx(className, stylesMap.input)} />
+    bind:this={input}
+    {...props}
+    class={clsx(
+        className,
+        stylesMap.input,
+        errors?.length &&
+            `
+                outline-error-light!
+                dark:outline-error-dark!
+            `,
+    )} />

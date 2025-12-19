@@ -8,6 +8,8 @@
         id?: string;
         class?: string;
         rows?: number;
+        value?: string;
+        errors?: string[];
         "aria-describedby"?: string;
     }
 
@@ -16,6 +18,8 @@
         name,
         id,
         rows,
+        value,
+        errors,
         class: className,
         "aria-describedby": ariaDescribedBy,
     }: Props = $props();
@@ -27,5 +31,12 @@
     {id}
     {rows}
     aria-describedby={ariaDescribedBy}
-    class={clsx(className, stylesMap.input)}>
-</textarea>
+    class={clsx(
+        className,
+        stylesMap.input,
+        errors?.length &&
+            `
+                outline-error-light!
+                dark:outline-error-dark!
+            `,
+    )}>{value}</textarea>

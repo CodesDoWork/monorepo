@@ -3,9 +3,9 @@
     import Errors from "./Errors.svelte";
     import FileInput from "./FileInput.svelte";
 
-    type Props = Omit<ComponentProps<typeof FileInput>, "aria-describedby"> & {
+    interface Props extends ComponentProps<typeof FileInput> {
         label: string;
-    };
+    }
 
     const { label, class: className, ...inputProps }: Props = $props();
     const labelId = `${inputProps.id}-label`;

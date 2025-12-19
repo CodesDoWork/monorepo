@@ -1,21 +1,12 @@
 <script lang="ts">
-    import type { ChangeEventHandler, FullAutoFill, HTMLInputTypeAttribute } from "svelte/elements";
+    import type { DOMAttributes, HTMLInputAttributes } from "svelte/elements";
     import { clsx } from "clsx";
     import { stylesMap } from "../../lib/common/styles";
 
-    interface Props {
-        required?: boolean;
-        type?: HTMLInputTypeAttribute;
-        name?: string;
-        id?: string;
-        autocomplete?: FullAutoFill;
-        multiple?: boolean;
-        value?: string;
+    interface Props extends HTMLInputAttributes, DOMAttributes<HTMLInputElement> {
         errors?: string[];
         class?: string;
         input?: HTMLInputElement;
-        onchange?: ChangeEventHandler<HTMLInputElement>;
-        "aria-describedby"?: string;
     }
 
     let { errors, class: className, input = $bindable(), ...props }: Props = $props();

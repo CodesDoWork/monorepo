@@ -4,17 +4,19 @@
     import { stylesMap } from "../../lib/common/styles";
     import Input from "./Input.svelte";
 
-    type Props = Omit<ComponentProps<typeof Input>, "type"> & {
+    interface Props extends Omit<ComponentProps<typeof Input>, "type"> {
         chooseText: string;
         fileChosenText: string;
         filesChosenText: string;
-    };
+        dropFilesText: string;
+    }
 
     const {
         class: className,
         chooseText,
         fileChosenText,
         filesChosenText,
+        dropFilesText,
         ...inputProps
     }: Props = $props();
 
@@ -25,17 +27,36 @@
     };
 
     let selectedFiles: string[] = $state([]);
+    let isDragOver = $state(false);
+    const displayText = $derived.by(() => {
+        if (isDragOver) {
+            return dropFilesText;
+        }
 
-    const selectedFilesTextVariant = $derived(
-        selectedFiles.length === 1 ? fileChosenText : filesChosenText,
-    );
-    const selectedFilesText = $derived(`${selectedFiles.length} ${selectedFilesTextVariant}`);
-    const displayText = $derived(selectedFiles.length ? selectedFilesText : chooseText);
+        const selectedFilesTextVariant =
+            selectedFiles.length === 1 ? fileChosenText : filesChosenText;
+        const selectedFilesText = `${selectedFiles.length} ${selectedFilesTextVariant}`;
+        return selectedFiles.length ? selectedFilesText : chooseText;
+    });
+
+    const onDrop = $derived(function (e: DragEvent) {
+        e.preventDefault();
+        isDragOver = false;
+        if (e.dataTransfer?.files) {
+            input.files = e.dataTransfer.files;
+            selectedFiles = Array.from(e.dataTransfer.files).map(f => f.name);
+        }
+        return false;
+    });
 </script>
 
 <div class={className}>
     <div class="relative">
         <button
+            ondrop={onDrop}
+            ondragover={e => e.preventDefault()}
+            ondragenter={() => (isDragOver = true)}
+            ondragleave={() => (isDragOver = false)}
             type="button"
             {onclick}
             class={clsx(
@@ -46,6 +67,7 @@
                         outline-error-light outline
                         dark:outline-error-dark
                     `,
+                isDragOver && "bg-primary-400",
             )}>
             {displayText}
         </button>

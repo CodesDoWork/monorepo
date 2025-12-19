@@ -5,10 +5,24 @@ query GetCareerData {
         teamPhoto: team_photo {
             ...DirectusImage
         }
+        jobPostingsTitle: job_postings_title
+        cta
     }
 
     careerBenefits {
         title
         description
+    }
+
+    jobPostings: job_postings {
+        title
+        description
+        files {
+            file: directus_files_id {
+                id
+                title
+                filenameDownload: filename_download
+            }
+        }
     }
 }

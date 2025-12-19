@@ -1,9 +1,10 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     import { clsx } from "clsx";
+    import JobPosting from "../../components/career/JobPosting.svelte";
     import { WidthBox } from "../../components/content-area";
     import { DirectusImage } from "../../components/directus-image";
-    import { H1, H4 } from "../../components/heading";
+    import { H1, H2, H4 } from "../../components/heading";
     import { Paragraphs } from "../../components/text";
     import { aHoverAnimation } from "../../lib/common/styles";
 
@@ -12,7 +13,7 @@
     }
 
     const { data }: Props = $props();
-    const { careerBenefits, career } = $derived(data);
+    const { career, careerBenefits, jobPostings } = $derived(data);
 </script>
 
 <WidthBox class="isolate">
@@ -49,4 +50,27 @@
             sm:mt-24
             md:w-3/4
         " />
+    <section
+        class="
+            mt-16
+            sm:mt-24
+        ">
+        <H2>{career.jobPostingsTitle}</H2>
+        <ul
+            class="
+                grid gap-12 px-8
+                md:grid-cols-2
+            ">
+            {#each jobPostings as jobPosting}
+                <JobPosting {...jobPosting} />
+            {/each}
+        </ul>
+    </section>
+    <div
+        class="
+            bg-primary-100 mx-8 mt-16 rounded-md px-6 py-4 shadow-md
+            dark:bg-primary-900
+        ">
+        {@html career.cta}
+    </div>
 </WidthBox>

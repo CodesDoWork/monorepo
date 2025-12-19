@@ -4,9 +4,9 @@
     import Checkbox from "./Checkbox.svelte";
     import Errors from "./Errors.svelte";
 
-    type Props = Omit<ComponentProps<typeof Checkbox>, "aria-describedby"> & {
+    interface Props extends ComponentProps<typeof Checkbox> {
         children: Snippet;
-    };
+    }
 
     const { class: className, children, ...inputProps }: Props = $props();
     const labelId = `${inputProps.id}-label`;

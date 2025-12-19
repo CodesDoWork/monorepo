@@ -94,7 +94,7 @@
                         `
                             inline-block cursor-default text-2xl font-bold text-black transition-all
                             text-shadow-black/20 text-shadow-lg
-                            hover:scale-110 hover:text-shadow-black/25
+                            hover:scale-105 hover:text-shadow-black/25
                             md:text-3xl
                             dark:text-gray-100 dark:text-shadow-gray-400/20
                             dark:hover:text-shadow-gray-300/25

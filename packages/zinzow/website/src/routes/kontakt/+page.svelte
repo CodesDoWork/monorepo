@@ -161,6 +161,7 @@
                     chooseText={texts.chooseFiles}
                     fileChosenText={texts.fileChosen}
                     filesChosenText={texts.filesChosen}
+                    dropFilesText={texts.dropFiles}
                     errors={form?.errors?.attachments?.errors} />
                 <button
                     type="submit"

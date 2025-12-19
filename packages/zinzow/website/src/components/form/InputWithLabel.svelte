@@ -1,5 +1,7 @@
 <script lang="ts">
     import type { ComponentProps } from "svelte";
+    import { clsx } from "clsx";
+    import Errors from "./Errors.svelte";
     import Input from "./Input.svelte";
 
     type Props = Omit<ComponentProps<typeof Input>, "aria-describedby"> & {
@@ -10,7 +12,7 @@
     const labelId = `${inputProps.id}-label`;
 </script>
 
-<div class={className}>
+<div class={clsx(className, "flex flex-col justify-between")}>
     <label
         for={inputProps.id}
         id={labelId}
@@ -20,6 +22,7 @@
         ">
         {label}
     </label>
+    <Errors errors={inputProps.errors} />
     <div class="mt-2.5">
         <Input {...inputProps} aria-describedby={labelId} />
     </div>

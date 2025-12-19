@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { ComponentProps } from "svelte";
     import { clsx } from "clsx";
-    import { onMount } from "svelte";
     import { stylesMap } from "../../lib/common/styles";
     import Input from "./Input.svelte";
 
@@ -18,20 +17,14 @@
         filesChosenText,
         ...inputProps
     }: Props = $props();
-    const { id } = inputProps;
+
+    let input: HTMLInputElement | undefined = $state(undefined);
 
     const onclick = () => {
-        const input = document.getElementById(id) as HTMLInputElement;
-        input.click();
+        input?.click();
     };
 
     let selectedFiles: string[] = $state([]);
-    onMount(() => {
-        const input = document.getElementById(id) as HTMLInputElement;
-        input.addEventListener("change", () => {
-            selectedFiles = Array.from(input.files).map(f => f.name);
-        });
-    });
 
     const selectedFilesTextVariant = $derived(
         selectedFiles.length === 1 ? fileChosenText : filesChosenText,
@@ -42,10 +35,26 @@
 
 <div class={className}>
     <div class="relative">
-        <button type="button" {onclick} class={clsx(stylesMap.button, "absolute z-10 size-full")}>
+        <button
+            type="button"
+            {onclick}
+            class={clsx(
+                stylesMap.button,
+                "absolute z-10 size-full",
+                inputProps.errors?.length &&
+                    `
+                        outline-error-light outline
+                        dark:outline-error-dark
+                    `,
+            )}>
             {displayText}
         </button>
-        <Input type="file" class="opacity-0" {...inputProps} />
+        <Input
+            bind:input
+            type="file"
+            onchange={() => (selectedFiles = Array.from(input.files).map(f => f.name))}
+            class="opacity-0"
+            {...inputProps} />
     </div>
     {#if selectedFiles.length}
         <p>{selectedFiles.join(", ")}</p>

@@ -112,6 +112,9 @@
 }
 
 @theme {
+    --color-error-light: var(--color-red-600);
+    --color-error-dark: var(--color-red-800);
+
     --breakpoint-xs: 32rem;
 
     --font-sans: "Lato", sans-serif;

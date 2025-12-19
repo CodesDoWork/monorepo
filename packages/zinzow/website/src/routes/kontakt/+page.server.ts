@@ -1,5 +1,7 @@
-import type { PageServerLoad } from "./$types";
+import type { $ZodErrorTree } from "zod/v4/core";
+import type { Actions, PageServerLoad } from "./$types";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
+import { z } from "zod";
 import { queryDefault } from "../../graphql/default/client";
 import { GetContactDataDocument } from "../../graphql/default/generated/graphql";
 import { querySystem } from "../../graphql/system/client";
@@ -37,4 +39,45 @@ export const load: PageServerLoad = async () => {
         coordinates,
         texts: getTextsFromTranslations(translations, pageIdPrefix),
     };
+};
+
+z.config(z.locales.de());
+const zMessage = z
+    .object({
+        firstName: z.string(),
+        lastName: z.string(),
+        email: z.email(),
+        message: z.string(),
+        privacy: z.coerce.boolean(),
+        attachments: z.array(z.file()),
+    })
+    .strict();
+type Message = z.infer<typeof zMessage>;
+
+export const actions: Actions = {
+    mail: async event => {
+        const formData = await event.request.formData();
+        const data = {
+            firstName: formData.get("firstName").toString(),
+            lastName: formData.get("lastName").toString(),
+            email: formData.get("email").toString(),
+            message: formData.get("message").toString(),
+            privacy: formData.get("privacy") === "on",
+            attachments: formData.getAll("attachments") as File[],
+        };
+        const { attachments, ...nonAttachmentData } = data;
+        const msgResult = zMessage.safeParse(data);
+        if (!msgResult.success) {
+            return { data: nonAttachmentData, errors: z.treeifyError(msgResult.error).properties };
+        }
+
+        if (!msgResult.data.privacy) {
+            const privacyErrors: $ZodErrorTree<Message>["properties"] = {
+                privacy: { errors: ["must be checked"] },
+            };
+            return { data: nonAttachmentData, errors: privacyErrors };
+        }
+
+        return { success: true }; // processMessage(event, msgResult.data);
+    },
 };

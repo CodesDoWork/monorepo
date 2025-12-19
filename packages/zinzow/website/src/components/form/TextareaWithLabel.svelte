@@ -3,9 +3,9 @@
     import Errors from "./Errors.svelte";
     import Textarea from "./Textarea.svelte";
 
-    type Props = Omit<ComponentProps<typeof Textarea>, "aria-describedby"> & {
+    interface Props extends ComponentProps<typeof Textarea> {
         label: string;
-    };
+    }
 
     const { label, class: className, ...inputProps }: Props = $props();
     const labelId = `${inputProps.id}-label`;

@@ -4,9 +4,9 @@
     import Errors from "./Errors.svelte";
     import Input from "./Input.svelte";
 
-    type Props = Omit<ComponentProps<typeof Input>, "aria-describedby"> & {
+    interface Props extends ComponentProps<typeof Input> {
         label: string;
-    };
+    }
 
     const { label, class: className, ...inputProps }: Props = $props();
     const labelId = `${inputProps.id}-label`;

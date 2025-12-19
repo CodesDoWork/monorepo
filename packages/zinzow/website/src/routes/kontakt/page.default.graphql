@@ -1,14 +1,21 @@
 query GetContactData {
     contact {
+        title
+        intro
+
         name
         addressLine1
         addressLine2
         tel
         email
-        acceptPrivacyPolicy: accept_privacy_policy
+
         contactPhoto: contact_photo {
             ...DirectusImage
         }
+
+        acceptPrivacyPolicy: accept_privacy_policy
+
+        findUs: find_us
         coordinates
     }
 }

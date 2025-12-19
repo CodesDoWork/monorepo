@@ -3,6 +3,7 @@
     import { clsx } from "clsx";
     import { H1 } from "../components/heading";
     import { getNavigationContext } from "../contexts/navigation";
+    import { stylesMap } from "../lib/common/styles";
 
     const status = page.status;
     const error = page.error as Error & Record<string, string>;
@@ -18,7 +19,7 @@
         `,
         nav.currentRoute?.isHero && "mt-48",
     )}>
-    <p class="text-base font-semibold text-(--primary)">{status}</p>
+    <p class="text-primary text-base font-semibold">{status}</p>
     <H1
         class="
             mt-4 text-5xl
@@ -32,15 +33,7 @@
         {error.message || "Etwas ist schief gelaufen."}
     </p>
     <div class="mt-10 flex items-center justify-center gap-x-6">
-        <a
-            href="/"
-            class="
-                rounded-md bg-(--primary) px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm
-                hover:bg-(--primary-400)
-                focus-visible:outline-2 focus-visible:outline-offset-2
-                focus-visible:outline-(--primary)
-                dark:hover:bg-(--primary-600)
-            ">
+        <a href="/" class={stylesMap.button}>
             {error.buttonText || "Zur Startseite"}
         </a>
     </div>

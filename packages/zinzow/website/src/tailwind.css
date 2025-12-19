@@ -70,6 +70,47 @@
     font-style: italic;
 }
 
+@theme inline {
+    --color-primary: var(--primary);
+    --color-primary-50: var(--primary-50);
+    --color-primary-100: var(--primary-100);
+    --color-primary-200: var(--primary-200);
+    --color-primary-300: var(--primary-300);
+    --color-primary-400: var(--primary-400);
+    --color-primary-500: var(--primary-500);
+    --color-primary-600: var(--primary-600);
+    --color-primary-700: var(--primary-700);
+    --color-primary-800: var(--primary-800);
+    --color-primary-900: var(--primary-900);
+    --color-primary-950: var(--primary-950);
+
+    --color-logoBg: var(--logoBg);
+    --color-logoBg-50: var(--logoBg-50);
+    --color-logoBg-100: var(--logoBg-100);
+    --color-logoBg-200: var(--logoBg-200);
+    --color-logoBg-300: var(--logoBg-300);
+    --color-logoBg-400: var(--logoBg-400);
+    --color-logoBg-500: var(--logoBg-500);
+    --color-logoBg-600: var(--logoBg-600);
+    --color-logoBg-700: var(--logoBg-700);
+    --color-logoBg-800: var(--logoBg-800);
+    --color-logoBg-900: var(--logoBg-900);
+    --color-logoBg-950: var(--logoBg-950);
+
+    --color-bg: var(--bg);
+    --color-bg-50: var(--bg-50);
+    --color-bg-100: var(--bg-100);
+    --color-bg-200: var(--bg-200);
+    --color-bg-300: var(--bg-300);
+    --color-bg-400: var(--bg-400);
+    --color-bg-500: var(--bg-500);
+    --color-bg-600: var(--bg-600);
+    --color-bg-700: var(--bg-700);
+    --color-bg-800: var(--bg-800);
+    --color-bg-900: var(--bg-900);
+    --color-bg-950: var(--bg-950);
+}
+
 @theme {
     --breakpoint-xs: 32rem;
 

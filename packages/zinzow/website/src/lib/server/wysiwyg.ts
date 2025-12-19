@@ -1,7 +1,7 @@
-import { typographyClassMap } from "../common/typography";
+import { stylesMap } from "../common/styles";
 
 export function formatWYSIWYG(html: string): string {
-    Object.entries(typographyClassMap).forEach(([tag, className]) => {
+    Object.entries(stylesMap).forEach(([tag, className]) => {
         html = html.replaceAll(`<${tag}`, `<${tag} class="${className}"`);
     });
 

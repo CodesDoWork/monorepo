@@ -7,11 +7,17 @@ query GetAboutData {
                 ...DirectusImage
             }
         }
+
+        ourMission: our_mission
         missionText
+
         bannerImage {
             ...DirectusImage
         }
+
+        ourValues: our_values
         valuesText
+
         isTeamVisible: is_team_visible
         teamTitle: team_title
         teamText

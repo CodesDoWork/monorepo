@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { DirectusImageParams } from "../../lib/common/directus-image";
-    import { smallTextClasses } from "../../lib/common/typography";
+    import { smallTextClasses } from "../../lib/common/styles";
     import { DirectusImage } from "../directus-image";
     import { H2, H4 } from "../heading";
     import { P } from "../text";

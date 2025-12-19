@@ -11,14 +11,14 @@
     }
 
     const { data }: Props = $props();
-    const { services, currentRoute, texts } = $derived(data);
+    const { intro, services, currentRoute } = $derived(data);
     const [services1, services2] = $derived(splitInHalf(services));
 </script>
 
 <WidthBox class="isolate">
     <article class="max-w-prose">
         <H1>{currentRoute?.name}</H1>
-        <Paragraphs text={texts.intro} />
+        <Paragraphs text={intro} />
     </article>
     <ul
         class="

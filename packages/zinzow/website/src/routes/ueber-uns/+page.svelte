@@ -16,7 +16,7 @@
     }
 
     const { data }: Props = $props();
-    const { texts, about, stats, timesteps, values, teamMembers } = $derived(data);
+    const { about, stats, timesteps, values, teamMembers } = $derived(data);
 </script>
 
 <WidthBox
@@ -27,7 +27,7 @@
     <AboutStats {stats} />
     <AboutIntroSection title={about.title} aboutText={about.aboutText} imgs={about.images} />
     <TimelineHorizontal {timesteps} />
-    <AboutMissionSection title={texts.ourMission} text={about.missionText} />
+    <AboutMissionSection title={about.ourMission} text={about.missionText} />
 
     <div
         class="
@@ -41,7 +41,7 @@
             class="aspect-5/2 w-full" />
     </div>
 
-    <AboutValuesSection title={texts.ourValues} text={about.valuesText} {values} />
+    <AboutValuesSection title={about.ourValues} text={about.valuesText} {values} />
     {#if teamMembers.length}
         <AboutTeamSection title={about.teamTitle} text={about.teamText} members={teamMembers} />
     {/if}

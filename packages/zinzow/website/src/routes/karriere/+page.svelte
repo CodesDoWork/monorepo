@@ -5,19 +5,19 @@
     import { DirectusImage } from "../../components/directus-image";
     import { H1, H4 } from "../../components/heading";
     import { Paragraphs } from "../../components/text";
-    import { aHoverAnimation } from "../../lib/common/typography";
+    import { aHoverAnimation } from "../../lib/common/styles";
 
     interface Props {
         data: PageData;
     }
 
     const { data }: Props = $props();
-    const { careerBenefits, texts, career } = $derived(data);
+    const { careerBenefits, career } = $derived(data);
 </script>
 
 <WidthBox class="isolate">
-    <H1>{texts.title}</H1>
-    <Paragraphs text={texts.identityAndCulture} />
+    <H1>{career.title}</H1>
+    <Paragraphs text={career.intro} />
     <ul
         class="
             mx-auto mt-4 grid w-fit list-outside list-disc
@@ -31,9 +31,9 @@
                     class={clsx(
                         aHoverAnimation,
                         `
+                            hover:text-primary-900 hover:scale-104
+                            dark:hover:text-primary-400
                             relative inline-block origin-left cursor-default transition-all
-                            hover:scale-104 hover:text-(--primary-900)
-                            dark:hover:text-(--primary-400)
                         `,
                     )}>
                     {benefit.title}

@@ -18,7 +18,7 @@
         md:col-start-auto md:row-start-2 md:h-auto md:w-2
     `);
     const verticalLineClass = clsx(`
-        absolute top-0 left-1/2 h-[101%] w-1.5 -translate-x-1/2 bg-(--primary)
+        bg-primary absolute top-0 left-1/2 h-[101%] w-1.5 -translate-x-1/2
         md:top-1/2 md:left-0 md:h-1.5 md:w-[101%] md:translate-x-0 md:-translate-y-1/2
     `);
 </script>
@@ -64,15 +64,14 @@
                 <div class={verticalLineClass}></div>
                 <div
                     class="
-                        absolute top-1/2 left-0 h-1 w-full -translate-y-1/2 rounded-full
-                        bg-(--primary)
+                        bg-primary absolute top-1/2 left-0 h-1 w-full -translate-y-1/2 rounded-full
                         md:top-0 md:left-1/2 md:h-full md:w-1 md:-translate-x-1/2 md:translate-y-0
                     ">
                 </div>
                 <div
                     class="
-                        absolute top-1/2 left-1/2 size-3 -translate-x-1/2 -translate-y-1/2
-                        rounded-full bg-(--primary)
+                        bg-primary absolute top-1/2 left-1/2 size-3 -translate-x-1/2
+                        -translate-y-1/2 rounded-full
                     ">
                 </div>
             </div>
@@ -93,7 +92,7 @@
     </div>
     <div
         class="
-            col-start-2 -mt-4 block size-8 place-self-center self-center text-(--primary)
+            text-primary col-start-2 -mt-4 block size-8 place-self-center self-center
             *:size-8
             md:col-start-auto md:row-start-2 md:mt-0 md:-ml-4
         ">

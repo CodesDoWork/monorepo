@@ -4,7 +4,6 @@ import { getContext, setContext } from "svelte";
 const key = "navigation";
 export interface NavigationContext {
     currentRoute?: RouteFragment;
-    previousRoute?: RouteFragment;
 }
 
 export function setNavigationContext(context: NavigationContext) {

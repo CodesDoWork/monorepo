@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
     import { clsx } from "clsx";
-    import { typographyClassMap } from "../../lib/common/typography";
+    import { stylesMap } from "../../lib/common/styles";
 
     interface Props {
         class?: string;
@@ -17,7 +17,7 @@
 <p
     {lang}
     class={clsx(
-        typographyClassMap.p,
+        stylesMap.p,
         className,
         prose && "max-w-prose",
         block && "text-justify hyphens-auto",

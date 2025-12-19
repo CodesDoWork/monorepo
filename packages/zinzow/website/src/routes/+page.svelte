@@ -3,7 +3,7 @@
     import { clsx } from "clsx";
     import { fly } from "svelte/transition";
     import { DirectusImage } from "../components/directus-image";
-    import { aHoverAnimation } from "../lib/common/typography";
+    import { aHoverAnimation } from "../lib/common/styles";
     import { animationDelay } from "../utils/animation-delay";
 
     interface Props {
@@ -89,7 +89,7 @@
                             before-bg-black
                             before:h-0.75
                             hover:before:bg-black
-                            dark:before:bg-gray-100 dark:hover:before:bg-gray-100
+                            dark:before:bg-gray-100 dark:hover:before:bg-gray-100!
                         `,
                         `
                             inline-block cursor-default text-2xl font-bold text-black transition-all

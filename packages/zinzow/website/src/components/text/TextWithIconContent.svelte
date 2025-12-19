@@ -2,7 +2,7 @@
     import type { Snippet } from "svelte";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import { textBaseColorClasses } from "../../lib/common/typography";
+    import { textBaseColorClasses } from "../../lib/common/styles";
 
     interface Props {
         class?: string;

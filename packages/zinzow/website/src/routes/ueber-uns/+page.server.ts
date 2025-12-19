@@ -2,21 +2,12 @@ import type { PageServerLoad } from "./$types";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
 import { queryDefault } from "../../graphql/default/client";
 import { GetAboutDataDocument } from "../../graphql/default/generated/graphql";
-import { querySystem } from "../../graphql/system/client";
-import { GetAboutSystemDataDocument } from "../../graphql/system/generated/graphql";
 import { directusImageParams } from "../../lib/common/directus-image";
 import { formatWYSIWYG } from "../../lib/server/wysiwyg";
-import { getTextsFromTranslations } from "../../utils/translations";
 
 export const load: PageServerLoad = async () => {
-    const pageIdPrefix = "page.about.";
-
     const aboutData = await queryDefault({ query: GetAboutDataDocument });
     const { about } = aboutData;
-    const { translations } = await querySystem({
-        query: GetAboutSystemDataDocument,
-        variables: { pageIdPrefix },
-    });
 
     if (!about.isTeamVisible) {
         aboutData.teamMembers = [];
@@ -45,6 +36,5 @@ export const load: PageServerLoad = async () => {
                   })
                 : null,
         })),
-        texts: getTextsFromTranslations(translations, pageIdPrefix),
     };
 };

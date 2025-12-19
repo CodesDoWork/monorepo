@@ -41,6 +41,7 @@ export const load: PageServerLoad = async () => {
     };
 };
 
+z.config(z.locales.de());
 const zMessage = z
     .object({
         firstName: z.string(),

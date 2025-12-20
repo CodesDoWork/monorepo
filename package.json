@@ -129,7 +129,7 @@
         "simple-git": "^3.30.0",
         "svelte": "5.46.0",
         "svelte-apollo": "^0.5.0",
-        "svelte-check": "^4.3.4",
+        "svelte-check": "^4.3.5",
         "svelte-infinite-scroll": "^2.0.1",
         "tailwindcss": "^4.1.18",
         "tsx": "^4.21.0",

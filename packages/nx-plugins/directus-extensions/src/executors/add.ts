@@ -14,8 +14,11 @@ export const addDirectusExtensionExecutor: PromiseExecutor = async (_, context) 
             });
 
             child.on("exit", code => {
-                if (code === 0) resolve();
-                else reject(new Error(`Process exited with code ${code}`));
+                if (code === 0) {
+                    resolve();
+                } else {
+                    reject(new Error(`Process exited with code ${code}`));
+                }
             });
 
             child.on("error", err => reject(err));

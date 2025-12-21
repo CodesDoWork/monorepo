@@ -4,13 +4,19 @@ import { runDockerCommand } from "@cdw/monorepo/nx-plugins-docker";
 import { loadEnv } from "@cdw/monorepo/nx-plugins-utils";
 import { getServiceInfo } from "../utils";
 
-export const runComposeExecutor: PromiseExecutor<ExecutorSchema> = async ({ args }, context) => {
+export const runComposeExecutor: PromiseExecutor<ExecutorSchema> = async (
+    { profile, args },
+    context,
+) => {
     try {
         const { service, composeDir } = getServiceInfo(context);
-        await runDockerCommand(["compose", ...(args ?? []), service], {
-            cwd: composeDir,
-            env: { ...process.env, ...loadEnv(composeDir) },
-        });
+        await runDockerCommand(
+            ["compose", profile ? `--profile ${profile}` : "", ...(args ?? []), service],
+            {
+                cwd: composeDir,
+                env: { ...process.env, ...loadEnv(composeDir) },
+            },
+        );
         return { success: true };
     } catch (e) {
         return { success: false, error: e };

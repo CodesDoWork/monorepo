@@ -3,10 +3,11 @@ import type { ExecutorSchema } from "./schema";
 import { runComposeExecutor } from "./executor";
 
 export const dockerComposePullExecutor: PromiseExecutor<ExecutorSchema> = async (
-    { args },
+    schema,
     context,
 ) => {
-    return runComposeExecutor({ args: ["pull", ...(args ?? [])] }, context);
+    schema.args = ["pull", ...(schema.args ?? [])];
+    return runComposeExecutor(schema, context);
 };
 
 export default dockerComposePullExecutor;

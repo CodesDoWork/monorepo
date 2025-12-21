@@ -9,6 +9,11 @@
             "implementation": "./src/executors/serve",
             "schema": "./src/executors/schema.json",
             "description": "Dev directus extension"
+        },
+        "bundle-add": {
+            "implementation": "./src/executors/add",
+            "schema": "./src/executors/schema.json",
+            "description": "Add directus extension to bundle"
         }
     }
 }

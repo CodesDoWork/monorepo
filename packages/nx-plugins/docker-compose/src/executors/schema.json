@@ -5,8 +5,16 @@
     "description": "",
     "type": "object",
     "properties": {
+        "profile": {
+            "type": "string",
+            "alias": "p"
+        },
         "args": {
-            "type": "array"
+            "type": "array",
+            "$default": {
+                "$source": "argv",
+                "index": 0
+            }
         }
     },
     "required": []

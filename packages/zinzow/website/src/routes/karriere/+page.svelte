@@ -58,8 +58,10 @@
         <H2>{career.jobPostingsTitle}</H2>
         <ul
             class="
-                grid gap-12 px-8
+                mt-8 grid grid-cols-1 gap-8 px-4
+                sm:px-8
                 md:grid-cols-2
+                lg:gap-12
             ">
             {#each jobPostings as jobPosting}
                 <JobPosting {...jobPosting} />

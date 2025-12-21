@@ -1,7 +1,9 @@
 import type { $ZodErrorTree } from "zod/v4/core";
 import type { Actions, PageServerLoad } from "./$types";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
+import { createTransport } from "nodemailer";
 import { z } from "zod";
+import { env } from "../../env";
 import { queryDefault } from "../../graphql/default/client";
 import { GetContactDataDocument } from "../../graphql/default/generated/graphql";
 import { querySystem } from "../../graphql/system/client";
@@ -41,6 +43,17 @@ export const load: PageServerLoad = async () => {
     };
 };
 
+const mailTransport = createTransport({
+    host: env.SMTP_HOST,
+    port: env.SMTP_PORT,
+    secure: false,
+    tls: true,
+    auth: {
+        user: env.SMTP_USERNAME,
+        pass: env.SMTP_PASSWORD,
+    },
+});
+
 z.config(z.locales.de());
 const zMessage = z
     .object({
@@ -78,6 +91,28 @@ export const actions: Actions = {
             return { data: nonAttachmentData, errors: privacyErrors };
         }
 
-        return { success: true }; // processMessage(event, msgResult.data);
+        try {
+            const { firstName, lastName, email, message } = data;
+            await mailTransport.sendMail({
+                html: `<p>Von: <strong>${firstName} ${lastName}</strong> <<i>${email}</i>></p><br /><br</> <p>${message.replace(/\n/g, "<br />")}</p>`,
+                from: env.SMTP_USERNAME,
+                to: env.SMTP_USERNAME,
+                subject: `[Webseite] Neue Nachricht von ${firstName} ${lastName}`,
+                attachments: await Promise.all(
+                    attachments
+                        .filter(att => att.name !== "")
+                        .map(async att => ({
+                            filename: att.name,
+                            content: Buffer.from(await att.arrayBuffer()),
+                        })),
+                ),
+            });
+            return { success: true };
+        } catch (err) {
+            const errors: $ZodErrorTree<Message>["properties"] = {
+                message: { errors: [err.toString()] },
+            };
+            return { success: false, data: nonAttachmentData, errors };
+        }
     },
 };

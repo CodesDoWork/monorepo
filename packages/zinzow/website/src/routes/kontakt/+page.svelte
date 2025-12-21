@@ -52,6 +52,7 @@
     });
 
     const attachmentsId = "attachments";
+    let mailLoading = $state(false);
 </script>
 
 <WidthBox class="isolate">
@@ -83,9 +84,11 @@
             action="?/mail"
             method="POST"
             enctype="multipart/form-data"
+            onsubmit={() => (mailLoading = true)}
             use:enhance={() => {
                 return async ({ update, formData }) => {
                     await update();
+                    mailLoading = false;
                     const files = formData.getAll(attachmentsId) as File[];
                     const e = document.getElementById(attachmentsId) as HTMLInputElement;
                     const dt = new DataTransfer();
@@ -165,14 +168,20 @@
                     errors={form?.errors?.attachments?.errors} />
                 <button
                     type="submit"
+                    disabled={mailLoading}
                     class={clsx(
                         stylesMap.button,
+                        mailLoading &&
+                            `
+                                bg-primary-400
+                                dark:bg-primary-600
+                            `,
                         `
                             xs:col-start-2 xs:-mt-4
                             place-self-end
                         `,
                     )}>
-                    {texts.send}
+                    {mailLoading ? texts.sending : texts.send}
                 </button>
                 {#if form?.success}
                     <p

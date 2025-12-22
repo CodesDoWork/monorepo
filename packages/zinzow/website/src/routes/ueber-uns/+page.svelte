@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import { clsx } from "clsx";
     import {
         AboutIntroSection,
@@ -18,7 +19,12 @@
     }
 
     const { data }: Props = $props();
-    const { about, stats, timesteps, values, teamMembers } = $derived(data);
+    const { about, stats, timesteps, values, teamMembers, jsonLdThings } = $derived(data);
+
+    const jsonLdContext = getJsonLdContext();
+    $effect(() => {
+        jsonLdContext.things = jsonLdThings;
+    });
 </script>
 
 <WidthBox

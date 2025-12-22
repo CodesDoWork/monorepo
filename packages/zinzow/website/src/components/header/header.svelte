@@ -1,6 +1,5 @@
 <script lang="ts">
     import type { RouteFragment } from "../../graphql/default/generated/graphql";
-    import type { LayoutData } from "../../routes/$types";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { animationDelay, fadeInBottom } from "../../lib/client/animate";
@@ -9,13 +8,12 @@
     import { MobileMenu } from "../mobile-menu";
 
     interface Props {
-        data: LayoutData;
+        routes: RouteFragment[];
         currentRoute?: RouteFragment;
     }
 
-    const { data, currentRoute }: Props = $props();
+    const { routes, currentRoute }: Props = $props();
 
-    const { routes } = $derived(data);
     const routesInNav = $derived(routes.filter(r => r.showInHeader));
 
     let mobileMenuOpen = $state(false);

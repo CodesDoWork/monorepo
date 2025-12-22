@@ -1,4 +1,5 @@
 import type SMTPConnection from "nodemailer/lib/smtp-connection";
+import type { Thing } from "schema-dts";
 import type { $ZodErrorTree } from "zod/v4/core";
 import type { Actions, PageServerLoad } from "./$types";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
@@ -44,8 +45,31 @@ export const load: PageServerLoad = async () => {
         }),
         coordinates,
         texts: getTextsFromTranslations(translations, pageIdPrefix),
+        jsonldThings: createJsonLdThings(coordinates[1], coordinates[0]),
     };
 };
+
+function createJsonLdThings(lat: number, lng: number): Thing[] {
+    return [
+        {
+            "@type": "ContactPage",
+            mainEntity: {
+                "@id": `${env.URL}/#organization`,
+            },
+        },
+        {
+            "@type": "Place",
+            address: {
+                "@id": `${env.URL}/#address`,
+            },
+            geo: {
+                "@type": "GeoCoordinates",
+                latitude: lat,
+                longitude: lng,
+            },
+        },
+    ];
+}
 
 const smtpOptions: SMTPConnection.Options = {
     host: env.SMTP_HOST,

@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import { WidthBox } from "../../../components/content-area";
     import { H1 } from "../../../components/heading";
     import { ServiceImage } from "../../../components/services";
@@ -12,10 +13,15 @@
     }
 
     const { data }: Props = $props();
-    const { description, images } = $derived(data);
+    const { description, images, jsonldThings } = $derived(data);
     const nav = getNavigationContext();
 
     const [imgs1, imgs2] = $derived(splitInHalf(images));
+
+    const jsonLdContext = getJsonLdContext();
+    $effect(() => {
+        jsonLdContext.things = jsonldThings;
+    });
 </script>
 
 <WidthBox class="isolate">

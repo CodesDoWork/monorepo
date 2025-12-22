@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import { clsx } from "clsx";
     import { WidthBox } from "../../components/content-area";
     import { DirectusImage } from "../../components/directus-image";
@@ -15,9 +16,14 @@
     }
 
     const { data }: Props = $props();
-    const { impressions } = $derived(data);
+    const { impressions, jsonldThings } = $derived(data);
     const columns = 6;
     const imgs = $derived(useImages(impressions.images, columns));
+
+    const jsonLdContext = getJsonLdContext();
+    $effect(() => {
+        jsonLdContext.things = jsonldThings;
+    });
 </script>
 
 <svelte:window onkeydown={imgs.handleKey} />

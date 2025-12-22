@@ -11,3 +11,7 @@ export function formatWYSIWYG(html: string, extraStyles: Record<string, string> 
 
     return html;
 }
+
+export function wysiwygToText(html: string): string {
+    return html.replace(/<[^>]+>/g, "");
+}

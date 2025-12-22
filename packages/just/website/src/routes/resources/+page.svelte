@@ -1,10 +1,10 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import Icon from "@iconify/svelte";
     import Card from "../../components/Card.svelte";
     import Heading from "../../components/Heading.svelte";
     import Link from "../../components/Link.svelte";
-    import { addJsonLdThings } from "../../contexts/jsonld";
     import { animationDelay } from "../../shared/animationDelay";
 
     interface Props {

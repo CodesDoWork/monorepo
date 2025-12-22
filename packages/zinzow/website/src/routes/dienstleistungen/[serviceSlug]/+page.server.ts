@@ -1,11 +1,13 @@
+import type { Thing } from "schema-dts";
 import type { PageServerLoad } from "./$types";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
 import { error } from "@sveltejs/kit";
+import { env } from "../../../env";
 import { queryDefault } from "../../../graphql/default/client";
 import { GetServiceDetailsDataDocument } from "../../../graphql/default/generated/graphql";
 import { directusImageParams } from "../../../lib/common/directus-image";
 import { getErrorData } from "../../../lib/server/error-data";
-import { formatWYSIWYG } from "../../../lib/server/wysiwyg";
+import { formatWYSIWYG, wysiwygToText } from "../../../lib/server/wysiwyg";
 
 export const load: PageServerLoad = async ({ url }) => {
     const servicesData = await queryDefault({
@@ -29,5 +31,27 @@ export const load: PageServerLoad = async ({ url }) => {
                 assetParams: { quality: 50, width: 512 },
             }),
         ),
+        jsonldThings: createJsonLdThings(service),
     };
 };
+
+interface JsonLdService {
+    route?: {
+        name: string;
+    };
+    description?: string;
+}
+
+function createJsonLdThings(service: JsonLdService): Thing[] {
+    return [
+        {
+            "@type": "Service",
+            name: service.route.name,
+            description: wysiwygToText(service.description),
+            provider: {
+                "@id": `${env.URL}/#organization`,
+            },
+            serviceType: service.route.name,
+        },
+    ];
+}

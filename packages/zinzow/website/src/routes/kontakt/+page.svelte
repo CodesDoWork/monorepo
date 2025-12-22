@@ -3,6 +3,7 @@
     import type { Component, Snippet } from "svelte";
     import type { ActionData, PageData } from "./$types";
     import { enhance } from "$app/forms";
+    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import { clsx } from "clsx";
     import { onMount } from "svelte";
     import { WidthBox } from "../../components/content-area";
@@ -28,14 +29,16 @@
         title,
         intro,
         name,
-        addressLine1,
-        addressLine2,
+        street,
+        postcode,
+        city,
         tel,
         email,
         acceptPrivacyPolicy,
         findUs,
         coordinates,
         contactPhoto,
+        jsonldThings,
     } = $derived(data);
 
     const mapAnchor = $derived(normalizeAnchor(findUs));
@@ -54,6 +57,11 @@
 
     const attachmentsId = "attachments";
     let mailLoading = $state(false);
+
+    const jsonldContext = getJsonLdContext();
+    $effect(() => {
+        jsonldContext.things = jsonldThings;
+    });
 </script>
 
 <WidthBox class="isolate">
@@ -72,7 +80,7 @@
                     href={`#${mapAnchor}`}
                     icon={Icons.Location}
                     iconContainerClass="pt-1">
-                    {name}<br />{addressLine1}<br />{addressLine2}
+                    {name}<br />{street}<br />{postcode}&nbsp;{city}
                 </TextWithIcon>
                 <TextWithIcon
                     animationDelay={3}

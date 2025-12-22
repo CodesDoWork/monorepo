@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import { clsx } from "clsx";
     import JobPosting from "../../components/career/JobPosting.svelte";
     import { WidthBox } from "../../components/content-area";
@@ -14,7 +15,12 @@
     }
 
     const { data }: Props = $props();
-    const { career, careerBenefits, jobPostings } = $derived(data);
+    const { career, careerBenefits, jobPostings, jsonldThings } = $derived(data);
+
+    const jsonLdContext = getJsonLdContext();
+    $effect(() => {
+        jsonLdContext.things = jsonldThings;
+    });
 </script>
 
 <WidthBox class="isolate">

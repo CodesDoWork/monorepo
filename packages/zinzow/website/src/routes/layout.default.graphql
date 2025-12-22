@@ -3,6 +3,8 @@ fragment Route on routes {
     path
     showInHeader
     isHero
+    description
+    keywords
 }
 
 query GetLayoutData {
@@ -18,10 +20,18 @@ query GetLayoutData {
     footerSections {
         name
         routes {
-            routes_id {
+            route: routes_id {
                 name
                 path
             }
         }
+    }
+    contact {
+        street
+        postcode: postal_code
+        city
+        state
+        tel
+        email
     }
 }

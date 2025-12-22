@@ -17,6 +17,7 @@ query GetCareerData {
     jobPostings: job_postings {
         title
         description
+        dateCreated: date_created
         files {
             file: directus_files_id {
                 id

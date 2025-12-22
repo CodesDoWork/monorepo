@@ -1,5 +1,8 @@
+import type { Thing } from "schema-dts";
+import type { DirectusImageParams } from "../../lib/common/directus-image";
 import type { PageServerLoad } from "./$types";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
+import { env } from "../../env";
 import { queryDefault } from "../../graphql/default/client";
 import { GetAboutDataDocument } from "../../graphql/default/generated/graphql";
 import { directusImageParams } from "../../lib/common/directus-image";
@@ -12,6 +15,17 @@ export const load: PageServerLoad = async () => {
     if (!about.isTeamVisible) {
         aboutData.teamMembers = [];
     }
+
+    const teamMembers = aboutData.teamMembers.map(member => ({
+        ...member,
+        portrait: member.portrait
+            ? directusImageParams({
+                  ...defaultNull(member.portrait),
+                  alt: "team member",
+                  assetParams: { width: 256, quality: 50 },
+              })
+            : null,
+    }));
 
     return {
         ...aboutData,
@@ -31,15 +45,52 @@ export const load: PageServerLoad = async () => {
             }),
             aboutText: formatWYSIWYG(about.aboutText),
         },
-        teamMembers: aboutData.teamMembers.map(member => ({
-            ...member,
-            portrait: member.portrait
-                ? directusImageParams({
-                      ...defaultNull(member.portrait),
-                      alt: "team member",
-                      assetParams: { width: 256, quality: 50 },
-                  })
-                : null,
-        })),
+        teamMembers,
+        jsonLdThings: createJsonLdThings({ stats: aboutData.stats, teamMembers }),
     };
 };
+
+interface JsonLdData {
+    stats: {
+        name: string;
+        value: string;
+    }[];
+    teamMembers: {
+        forename: string;
+        surname?: string;
+        position?: string;
+        portrait?: DirectusImageParams;
+    }[];
+}
+
+function createJsonLdThings({ stats, teamMembers }: JsonLdData): Thing[] {
+    return [
+        {
+            "@type": "AboutPage",
+            mainEntity: {
+                "@id": `${env.URL}/#organization`,
+            },
+        },
+        ...stats.map(
+            s =>
+                ({
+                    "@type": "QuantitativeValue",
+                    name: s.name,
+                    unitText: s.name,
+                    value: s.value,
+                }) satisfies Thing,
+        ),
+        ...teamMembers.map(
+            member =>
+                ({
+                    "@type": "Person",
+                    name: member.surname ? `${member.forename} ${member.surname}` : member.forename,
+                    jobTitle: member.position,
+                    image: member.portrait?.src,
+                    worksFor: {
+                        "@id": `${env.URL}/#organization`,
+                    },
+                }) satisfies Thing,
+        ),
+    ];
+}

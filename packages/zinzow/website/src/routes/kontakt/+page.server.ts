@@ -1,3 +1,4 @@
+import type SMTPConnection from "nodemailer/lib/smtp-connection";
 import type { $ZodErrorTree } from "zod/v4/core";
 import type { Actions, PageServerLoad } from "./$types";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
@@ -43,16 +44,17 @@ export const load: PageServerLoad = async () => {
     };
 };
 
-const mailTransport = createTransport({
+const smtpOptions: SMTPConnection.Options = {
     host: env.SMTP_HOST,
     port: env.SMTP_PORT,
     secure: false,
-    tls: true,
     auth: {
         user: env.SMTP_USERNAME,
         pass: env.SMTP_PASSWORD,
     },
-});
+};
+
+const mailTransport = createTransport(smtpOptions);
 
 z.config(z.locales.de());
 const zMessage = z

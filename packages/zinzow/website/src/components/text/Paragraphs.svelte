@@ -4,7 +4,7 @@
 
     interface Props {
         text: string;
-        animationDelay: number;
+        animationDelay?: number;
     }
 
     const { text, animationDelay: delay }: Props = $props();
@@ -12,5 +12,7 @@
 </script>
 
 {#each paragraphs as paragraph, idx (idx)}
-    <P class={fadeIn()} style={animationDelay(idx + delay)}>{paragraph}</P>
+    <P class={delay && fadeIn()} style={delay ? animationDelay(idx + delay) : undefined}>
+        {paragraph}
+    </P>
 {/each}

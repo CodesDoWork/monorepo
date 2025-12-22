@@ -1,6 +1,5 @@
 <script lang="ts">
     import type { RouteFragment } from "../../graphql/default/generated/graphql";
-    import type { LayoutData } from "../../routes/$types";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { smallTextClasses } from "../../lib/common/styles";
@@ -9,15 +8,31 @@
     import { Logo } from "../logo";
 
     interface Props {
-        data: LayoutData;
         currentRoute?: RouteFragment;
+        projectDescription: string;
+        copyright: string;
+        socialMedias: {
+            url: string;
+            icon: string;
+            name: string;
+            user: string;
+        }[];
+        footerSections: {
+            name: string;
+            routes?: {
+                route?: {
+                    name: string;
+                    path: string;
+                };
+            }[];
+        }[];
     }
 
-    const { data, currentRoute }: Props = $props();
-    const { settings, socialMedias, footerSections } = $derived(data);
+    const { currentRoute, projectDescription, copyright, socialMedias, footerSections }: Props =
+        $props();
 </script>
 
-<footer class={clsx(!currentRoute?.isHero && "mt-12")}>
+<footer class={clsx(!currentRoute?.isHero && "mt-12", "row-start-3 w-screen")}>
     <WidthBox class="pt-0">
         <div
             class="
@@ -39,7 +54,7 @@
                         " />
                 </a>
                 <p class={smallTextClasses}>
-                    {settings.project_descriptor}
+                    {projectDescription}
                 </p>
                 <div class="flex gap-x-6">
                     {#each socialMedias as socialMedia}
@@ -77,10 +92,10 @@
                                 mt-5 space-y-3
                                 sm:mt-6 sm:space-y-4
                             ">
-                            {#each sectionRoutes as route}
+                            {#each sectionRoutes as { route }}
                                 <li>
                                     <a
-                                        href={route.routes_id.path}
+                                        href={route.path}
                                         class={clsx(
                                             smallTextClasses,
                                             `
@@ -89,7 +104,7 @@
                                                 dark:hover:text-white
                                             `,
                                         )}>
-                                        {route.routes_id.name}
+                                        {route.name}
                                     </a>
                                 </li>
                             {/each}
@@ -107,7 +122,7 @@
                 dark:border-white/10
             ">
             <p class={smallTextClasses}>
-                &copy; {settings.copyright}
+                &copy; {copyright}
             </p>
             <p
                 class={clsx(

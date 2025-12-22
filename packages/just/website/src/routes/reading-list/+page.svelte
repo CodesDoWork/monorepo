@@ -1,8 +1,8 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import Heading from "../../components/Heading.svelte";
     import Link from "../../components/Link.svelte";
-    import { addJsonLdThings } from "../../contexts/jsonld";
     import { animationDelay } from "../../shared/animationDelay";
     import { smoothScrollTo } from "../../shared/smoothScroll";
     import { toLinkFriendly } from "../../shared/toLinkFriendly";

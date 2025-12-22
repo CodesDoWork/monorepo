@@ -49,7 +49,11 @@
             `,
         )}>
         <div class="mt-2 flex justify-end">
-            <button onclick={triggerClose} type="button" class="-m-2.5 rounded-md p-2.5">
+            <button
+                onclick={triggerClose}
+                type="button"
+                aria-label="Menü"
+                class="-m-2.5 rounded-md p-2.5">
                 <Icon icon="material-symbols:close" class="size-6" />
             </button>
         </div>

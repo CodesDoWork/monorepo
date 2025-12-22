@@ -1,10 +1,10 @@
 <script lang="ts">
     import type { ActionData, PageData } from "./$types";
     import { enhance } from "$app/forms";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import { clsx } from "clsx";
     import Heading from "../../components/Heading.svelte";
     import Link from "../../components/Link.svelte";
-    import { addJsonLdThings } from "../../contexts/jsonld";
     import { animationDelay } from "../../shared/animationDelay";
     import SocialCards from "./SocialCards.svelte";
 

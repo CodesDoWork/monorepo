@@ -1,12 +1,12 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     import { byField } from "@cdw/monorepo/shared-utils/filters";
+    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import Card from "../components/Card.svelte";
     import Heading from "../components/Heading.svelte";
     import Link from "../components/Link.svelte";
-    import { getJsonLdContext } from "../contexts/jsonld";
     import { animationDelay } from "../shared/animationDelay";
 
     interface Props {

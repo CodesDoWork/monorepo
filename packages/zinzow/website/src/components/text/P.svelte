@@ -5,17 +5,26 @@
 
     interface Props {
         class?: string;
+        style?: string;
         children?: Snippet;
         lang?: string;
         prose?: boolean;
         block?: boolean;
     }
 
-    const { class: className = "", children, lang, prose = false, block = false }: Props = $props();
+    const {
+        class: className = "",
+        style,
+        children,
+        lang,
+        prose = false,
+        block = false,
+    }: Props = $props();
 </script>
 
 <p
     {lang}
+    {style}
     class={clsx(
         stylesMap.p,
         className,

@@ -2,72 +2,82 @@
 
 @font-face {
     font-family: "Lato";
-    src: url("/fonts/Lato/Lato-Thin.ttf") format("truetype");
+    src: url("/fonts/Lato/Lato-Thin.woff2") format("woff2");
     font-weight: 100;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Lato";
-    src: url("/fonts/Lato/Lato-ThinItalic.ttf") format("truetype");
+    src: url("/fonts/Lato/Lato-ThinItalic.woff2") format("woff2");
     font-weight: 100;
     font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Lato";
-    src: url("/fonts/Lato/Lato-Light.ttf") format("truetype");
+    src: url("/fonts/Lato/Lato-Light.woff2") format("woff2");
     font-weight: 300;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Lato";
-    src: url("/fonts/Lato/Lato-LightItalic.ttf") format("truetype");
+    src: url("/fonts/Lato/Lato-LightItalic.woff2") format("woff2");
     font-weight: 300;
     font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Lato";
-    src: url("/fonts/Lato/Lato-Regular.ttf") format("truetype");
+    src: url("/fonts/Lato/Lato-Regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Lato";
-    src: url("/fonts/Lato/Lato-Italic.ttf") format("truetype");
+    src: url("/fonts/Lato/Lato-Italic.woff2") format("woff2");
     font-weight: 400;
     font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Lato";
-    src: url("/fonts/Lato/Lato-Bold.ttf") format("truetype");
+    src: url("/fonts/Lato/Lato-Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Lato";
-    src: url("/fonts/Lato/Lato-BoldItalic.ttf") format("truetype");
+    src: url("/fonts/Lato/Lato-BoldItalic.woff2") format("woff2");
     font-weight: 700;
     font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Lato";
-    src: url("/fonts/Lato/Lato-Black.ttf") format("truetype");
+    src: url("/fonts/Lato/Lato-Black.woff2") format("woff2");
     font-weight: 900;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
     font-family: "Lato";
-    src: url("/fonts/Lato/Lato-BlackItalic.ttf") format("truetype");
+    src: url("/fonts/Lato/Lato-BlackItalic.woff2") format("woff2");
     font-weight: 900;
     font-style: italic;
+    font-display: swap;
 }
 
 @theme inline {

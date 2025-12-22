@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import { clsx } from "clsx";
-    import { addJsonLdThings } from "../../contexts/jsonld";
     import { animationDelay } from "../../shared/animationDelay";
     import { smoothScrollTo } from "../../shared/smoothScroll";
     import ProjectCard from "./project-card.svelte";

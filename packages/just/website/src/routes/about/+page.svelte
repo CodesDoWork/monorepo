@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import { clsx } from "clsx";
     import Card from "../../components/Card.svelte";
     import Description from "../../components/Description.svelte";
@@ -9,7 +10,6 @@
     import { ProjectsList } from "../../components/projects-list";
     import TechnologiesList from "../../components/TechnologiesList.svelte";
     import TimeLine from "../../components/TimeLine.svelte";
-    import { addJsonLdThings } from "../../contexts/jsonld";
     import { animationDelay } from "../../shared/animationDelay";
     import Personalities from "./components/Personalities.svelte";
 

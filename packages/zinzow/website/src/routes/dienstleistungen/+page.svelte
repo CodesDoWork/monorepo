@@ -1,9 +1,11 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import { WidthBox } from "../../components/content-area";
     import { H1 } from "../../components/heading";
     import { ServiceCol } from "../../components/services";
     import { Paragraphs } from "../../components/text";
+    import { fadeIn } from "../../lib/client/animate";
     import { splitInHalf } from "../../lib/client/split-in-half";
 
     interface Props {
@@ -11,12 +13,17 @@
     }
 
     const { data }: Props = $props();
-    const { intro, services, currentRoute } = $derived(data);
+    const { intro, services, currentRoute, jsonldThings } = $derived(data);
     const [services1, services2] = $derived(splitInHalf(services));
+
+    const jsonLdContext = getJsonLdContext();
+    $effect(() => {
+        jsonLdContext.things = jsonldThings;
+    });
 </script>
 
 <WidthBox class="isolate">
-    <article class="max-w-prose">
+    <article class={fadeIn("max-w-prose")}>
         <H1>{currentRoute?.name}</H1>
         <Paragraphs text={intro} />
     </article>
@@ -26,7 +33,7 @@
             md:mt-36 md:grid-cols-2
             lg:gap-12 lg:px-16
         ">
-        <ServiceCol services={services1} />
-        <ServiceCol services={services2} class="md:-mt-28" />
+        <ServiceCol services={services1} col={1} cols={2} />
+        <ServiceCol services={services2} col={2} cols={2} class="md:-mt-28" />
     </ul>
 </WidthBox>

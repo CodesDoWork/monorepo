@@ -13,7 +13,8 @@
         "src/**/*.svelte",
         ".svelte-kit/ambient.d.ts",
         ".svelte-kit/non-ambient.d.ts",
-        ".svelte-kit/types/**/$types.d.ts"
+        ".svelte-kit/types/**/$types.d.ts",
+        "../../shared/utils/src/svelte/contexts/jsonld.ts"
     ],
     "exclude": ["**/generated/*"]
 }

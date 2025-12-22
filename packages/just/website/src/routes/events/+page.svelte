@@ -1,12 +1,12 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import Description from "../../components/Description.svelte";
     import LinksList from "../../components/LinksList.svelte";
     import ListWithHeading from "../../components/ListWithHeading.svelte";
     import { ProjectsList } from "../../components/projects-list";
     import TechnologiesList from "../../components/TechnologiesList.svelte";
     import TimeLine from "../../components/TimeLine.svelte";
-    import { addJsonLdThings } from "../../contexts/jsonld";
     import { getOverlayContext } from "../../contexts/overlay";
 
     interface Props {

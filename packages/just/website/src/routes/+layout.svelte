@@ -1,10 +1,14 @@
 <script lang="ts">
+    import type { JsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import type { Snippet } from "svelte";
-    import type { JsonLdContext } from "../contexts/jsonld";
     import type { OverlayContext } from "../contexts/overlay";
     import type { PageData } from "./$types";
     import { page } from "$app/state";
     import { byId } from "@cdw/monorepo/shared-utils/filters";
+    import {
+        setJsonLdContext,
+        stringifyJsonLd,
+    } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import { clsx } from "clsx";
     import BackToTop from "../components/BackToTop.svelte";
     import BlurContent from "../components/BlurContent.svelte";
@@ -12,7 +16,6 @@
     import Header from "../components/Header.svelte";
     import Overlay from "../components/Overlay.svelte";
     import Title from "../components/Title.svelte";
-    import { setJsonLdContext, stringifyJsonLd } from "../contexts/jsonld";
     import { setOverlayContext } from "../contexts/overlay";
     import { getRoutes } from "../states/routes.svelte";
     import { getTheme, Theme } from "../states/theme.svelte";

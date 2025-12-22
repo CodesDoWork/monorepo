@@ -3,6 +3,7 @@
     import type { Component, Snippet } from "svelte";
     import type { ActionData, PageData } from "./$types";
     import { enhance } from "$app/forms";
+    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import { clsx } from "clsx";
     import { onMount } from "svelte";
     import { WidthBox } from "../../components/content-area";
@@ -13,6 +14,7 @@
     import { H1, H2 } from "../../components/heading";
     import { Icons } from "../../components/icons";
     import { Paragraphs, TextWithIcon } from "../../components/text";
+    import { animationDelay, fadeIn, fadeInBottom } from "../../lib/client/animate";
     import { normalizeAnchor } from "../../lib/common/normalize-anchor";
     import { stylesMap } from "../../lib/common/styles";
 
@@ -27,14 +29,16 @@
         title,
         intro,
         name,
-        addressLine1,
-        addressLine2,
+        street,
+        postcode,
+        city,
         tel,
         email,
         acceptPrivacyPolicy,
         findUs,
         coordinates,
         contactPhoto,
+        jsonldThings,
     } = $derived(data);
 
     const mapAnchor = $derived(normalizeAnchor(findUs));
@@ -52,6 +56,12 @@
     });
 
     const attachmentsId = "attachments";
+    let mailLoading = $state(false);
+
+    const jsonldContext = getJsonLdContext();
+    $effect(() => {
+        jsonldContext.things = jsonldThings;
+    });
 </script>
 
 <WidthBox class="isolate">
@@ -61,20 +71,29 @@
             grid grid-cols-1
             sm:grid-cols-2 sm:grid-rows-[min-content_min-content_1fr_min-content]
         ">
-        <H1 class="xs:col-span-2">{title}</H1>
+        <H1 class={clsx(fadeIn(), "xs:col-span-2")}>{title}</H1>
         <div class="lg:max-w-lg">
-            <Paragraphs text={intro} />
+            <Paragraphs text={intro} animationDelay={1} />
             <dl class="mt-10 space-y-4">
                 <TextWithIcon
+                    animationDelay={2}
                     href={`#${mapAnchor}`}
                     icon={Icons.Location}
                     iconContainerClass="pt-1">
-                    {name}<br />{addressLine1}<br />{addressLine2}
+                    {name}<br />{street}<br />{postcode}&nbsp;{city}
                 </TextWithIcon>
-                <TextWithIcon href={`tel:${tel}`} icon={Icons.Phone} iconContainerClass="pt-1">
+                <TextWithIcon
+                    animationDelay={3}
+                    href={`tel:${tel}`}
+                    icon={Icons.Phone}
+                    iconContainerClass="pt-1">
                     {tel}
                 </TextWithIcon>
-                <TextWithIcon href={`mailto:${email}`} icon={Icons.Email} iconContainerClass="pt-1">
+                <TextWithIcon
+                    animationDelay={4}
+                    href={`mailto:${email}`}
+                    icon={Icons.Email}
+                    iconContainerClass="pt-1">
                     {email}
                 </TextWithIcon>
             </dl>
@@ -83,9 +102,11 @@
             action="?/mail"
             method="POST"
             enctype="multipart/form-data"
+            onsubmit={() => (mailLoading = true)}
             use:enhance={() => {
                 return async ({ update, formData }) => {
                     await update();
+                    mailLoading = false;
                     const files = formData.getAll(attachmentsId) as File[];
                     const e = document.getElementById(attachmentsId) as HTMLInputElement;
                     const dt = new DataTransfer();
@@ -108,6 +129,8 @@
                     lg:gap-y-6
                 ">
                 <InputWithLabel
+                    style={animationDelay(3)}
+                    class={fadeInBottom()}
                     id="firstName"
                     name="firstName"
                     required
@@ -117,6 +140,8 @@
                     value={form?.data?.firstName}
                     errors={form?.errors?.firstName?.errors} />
                 <InputWithLabel
+                    style={animationDelay(4)}
+                    class={fadeInBottom()}
                     id="lastName"
                     name="lastName"
                     required
@@ -126,34 +151,39 @@
                     value={form?.data?.lastName}
                     errors={form?.errors?.lastName?.errors} />
                 <InputWithLabel
+                    style={animationDelay(5)}
+                    class={clsx(fadeInBottom(), "xs:col-span-2")}
                     id="email"
                     name="email"
                     required
                     type="email"
                     autocomplete="email"
                     label={texts.email}
-                    class="xs:col-span-2"
                     value={form?.data?.email}
                     errors={form?.errors?.email?.errors} />
                 <TextareaWithLabel
+                    style={animationDelay(6)}
+                    class={clsx(fadeInBottom(), "xs:col-span-2")}
                     id="message"
                     name="message"
                     required
                     rows={7}
                     label={texts.message}
                     value={form?.data?.message}
-                    errors={form?.errors?.message?.errors}
-                    class="xs:col-span-2" />
+                    errors={form?.errors?.message?.errors} />
                 <CheckboxWithLabel
+                    style={animationDelay(7)}
+                    class={clsx(fadeInBottom(), "xs:col-span-2")}
                     id="privacy"
                     name="privacy"
-                    class="xs:col-span-2"
                     required
                     checked={form?.data?.privacy}
                     errors={form?.errors?.privacy?.errors}>
                     {@html acceptPrivacyPolicy}
                 </CheckboxWithLabel>
                 <FileInputWithLabel
+                    style={animationDelay(8)}
+                    class={fadeInBottom()}
                     id={attachmentsId}
                     name={attachmentsId}
                     label="Anhang"
@@ -164,15 +194,23 @@
                     dropFilesText={texts.dropFiles}
                     errors={form?.errors?.attachments?.errors} />
                 <button
+                    style={animationDelay(9)}
                     type="submit"
+                    disabled={mailLoading}
                     class={clsx(
                         stylesMap.button,
+                        fadeInBottom(),
+                        mailLoading &&
+                            `
+                                bg-primary-400
+                                dark:bg-primary-600
+                            `,
                         `
                             xs:col-start-2 xs:-mt-4
                             place-self-end
                         `,
                     )}>
-                    {texts.send}
+                    {mailLoading ? texts.sending : texts.send}
                 </button>
                 {#if form?.success}
                     <p
@@ -188,18 +226,26 @@
         <DirectusImage
             img={contactPhoto}
             imgClass="rounded-lg shadow-md"
-            class="
-                xs:col-2 xs:row-2 xs:mt-20 xs:h-40
-                mx-auto mt-16 aspect-square h-56
-                sm:mt-16 sm:h-48
-                md:mx-0 md:mt-8 md:h-56
-                lg:col-auto lg:row-auto lg:mt-16 lg:h-80
-            " />
+            style={animationDelay(5)}
+            class={clsx(
+                fadeInBottom(),
+                `
+                    xs:col-2 xs:row-2 xs:mt-20 xs:h-40
+                    mx-auto mt-16 aspect-square h-56
+                    sm:mt-16 sm:h-48
+                    md:mx-0 md:mt-8 md:h-56
+                    lg:col-auto lg:row-auto lg:mt-16 lg:h-80
+                `,
+            )} />
         <div
-            class="
-                xs:col-span-2
-                mt-20
-            "
+            style={animationDelay(7)}
+            class={clsx(
+                fadeIn(),
+                `
+                    xs:col-span-2
+                    mt-20
+                `,
+            )}
             id={mapAnchor}>
             <H2>{findUs}</H2>
             <div class="h-160 max-h-[75vh] w-full overflow-hidden rounded-lg shadow-md">

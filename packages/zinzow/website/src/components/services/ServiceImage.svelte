@@ -1,17 +1,19 @@
 <script lang="ts">
     import type { DirectusImageParams } from "../../lib/common/directus-image";
     import { clsx } from "clsx";
+    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
     import { DirectusImage } from "../directus-image";
 
     interface Props {
         img: DirectusImageParams;
         class?: string;
+        animationDelay: number;
     }
 
-    const { img, class: className }: Props = $props();
+    const { img, class: className, animationDelay: delay }: Props = $props();
 </script>
 
-<div class="relative">
+<div class={fadeInBottom("relative")} style={animationDelay(delay)}>
     <DirectusImage
         {img}
         imgClass="rounded-xl shadow-lg max-h-72 min-h-56"

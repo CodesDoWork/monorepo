@@ -1,41 +1,36 @@
 <script lang="ts">
     import type { RouteFragment } from "../../graphql/default/generated/graphql";
-    import type { LayoutData } from "../../routes/$types";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import { animationDelay } from "../../utils/animation-delay";
+    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
     import { WidthBox } from "../content-area";
-    import { Logo } from "../logo";
+    import { LogoWithoutText } from "../logo";
     import { MobileMenu } from "../mobile-menu";
 
     interface Props {
-        data: LayoutData;
+        routes: RouteFragment[];
         currentRoute?: RouteFragment;
     }
 
-    const { data, currentRoute }: Props = $props();
+    const { routes, currentRoute }: Props = $props();
 
-    const { routes } = $derived(data);
     const routesInNav = $derived(routes.filter(r => r.showInHeader));
 
     let mobileMenuOpen = $state(false);
     const onMenuClick = $derived(() => (mobileMenuOpen = !mobileMenuOpen));
 
-    const animate = $derived((...classes: string[]) =>
-        clsx(...classes, "animate-fadeInBT opacity-0"),
-    );
     const AnimationPriority = {
         LOGO: 0,
         NAV: 1,
     };
 </script>
 
-<header class={currentRoute?.isHero && "absolute inset-x-0"}>
+<header class="row-start-1 w-screen">
     <WidthBox class="z-10">
         <nav class="flex items-center justify-between py-4">
-            <a href="/">
-                <Logo
-                    class={animate("size-24 md:size-32 rounded")}
+            <a href="/" aria-label="Home">
+                <LogoWithoutText
+                    class={fadeInBottom("size-24 md:size-32 rounded")}
                     style={animationDelay(AnimationPriority.LOGO)} />
             </a>
             <div
@@ -61,7 +56,7 @@
                     {#each routesInNav as route, idx (idx)}
                         <li
                             style={animationDelay(AnimationPriority.NAV + idx)}
-                            class={animate(
+                            class={fadeInBottom(
                                 `
                                 group/nav-item relative transition-all
                                 hover:scale-105 hover:text-primary

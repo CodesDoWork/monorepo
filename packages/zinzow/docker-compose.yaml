@@ -22,12 +22,10 @@ services:
       - DB_DATABASE=directus
       - DB_USER=${POSTGRES_USERNAME}
       - DB_PASSWORD=${POSTGRES_PASSWORD}
-      - WEBSOCKETS_ENABLED=true
       - SMTP_HOST=${SMTP_HOST}
       - SMTP_PORT=${SMTP_PORT}
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
-      - SMTP_TO=${SMTP_TO}
     image: ${DOCKER_PROXY}/directus/directus:11
     volumes:
       - directus-uploads:/directus/uploads

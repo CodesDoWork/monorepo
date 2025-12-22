@@ -12,7 +12,6 @@ export const env = createEnv({
         SMTP_PORT: z.coerce.number(),
         SMTP_USERNAME: z.string(),
         SMTP_PASSWORD: z.string(),
-        SMTP_TO: z.email(),
     },
     clientPrefix: "PUBLIC_",
     client: {},

@@ -6,7 +6,10 @@ import { createTransport } from "nodemailer";
 import { z } from "zod";
 import { env } from "../../env";
 import { queryDefault } from "../../graphql/default/client";
-import { GetContactDataDocument } from "../../graphql/default/generated/graphql";
+import {
+    GetContactDataDocument,
+    GetContactFormDataDocument,
+} from "../../graphql/default/generated/graphql";
 import { querySystem } from "../../graphql/system/client";
 import { GetContactSystemDataDocument } from "../../graphql/system/generated/graphql";
 import { directusImageParams } from "../../lib/common/directus-image";
@@ -93,12 +96,14 @@ export const actions: Actions = {
             return { data: nonAttachmentData, errors: privacyErrors };
         }
 
+        const { contact } = await queryDefault({ query: GetContactFormDataDocument });
+        const { msgReceiver } = contact;
         try {
             const { firstName, lastName, email, message } = data;
             await mailTransport.sendMail({
                 html: `<p>Von: <strong>${firstName} ${lastName}</strong> <<i>${email}</i>></p><br /><br</> <p>${message.replace(/\n/g, "<br />")}</p>`,
                 from: env.SMTP_USERNAME,
-                to: env.SMTP_USERNAME,
+                to: msgReceiver,
                 subject: `[Webseite] Neue Nachricht von ${firstName} ${lastName}`,
                 attachments: await Promise.all(
                     attachments

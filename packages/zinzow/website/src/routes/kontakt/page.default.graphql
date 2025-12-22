@@ -19,3 +19,9 @@ query GetContactData {
         coordinates
     }
 }
+
+query GetContactFormData {
+    contact {
+        msgReceiver: message_receiver
+    }
+}

@@ -32,7 +32,7 @@
         $props();
 </script>
 
-<footer class={clsx(!currentRoute?.isHero && "mt-12")}>
+<footer class={clsx(!currentRoute?.isHero && "mt-12", "row-start-3 w-screen")}>
     <WidthBox class="pt-0">
         <div
             class="

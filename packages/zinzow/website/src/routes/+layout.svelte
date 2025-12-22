@@ -8,6 +8,8 @@
         setJsonLdContext,
         stringifyJsonLd,
     } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
+    import { clsx } from "clsx";
+    import { blur } from "svelte/transition";
     import { Footer } from "../components/footer";
     import { Header } from "../components/header";
     import { setNavigationContext } from "../contexts/navigation";
@@ -122,13 +124,19 @@
 <div
     style={createCssVariables(colors)}
     class="
-        bg-bg relative grid min-h-screen grid-rows-[min-content_1fr_min-content] overflow-x-hidden
+        bg-bg relative grid min-h-screen grid-cols-1 grid-rows-[min-content_1fr_min-content]
+        overflow-x-hidden
         dark:bg-bg-950 dark:text-white
     ">
     <Header {routes} {currentRoute} />
-    <main>
-        {@render children?.()}
-    </main>
+    {#key currentRoute?.name}
+        <main
+            in:blur={{ duration: 150, opacity: 0, delay: 150 }}
+            out:blur={{ duration: 150, opacity: 0 }}
+            class={clsx(currentRoute?.isHero && `row-span-2 row-start-1`, "w-screen")}>
+            {@render children?.()}
+        </main>
+    {/key}
     <Footer
         {currentRoute}
         copyright={settings.copyright}

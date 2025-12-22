@@ -25,7 +25,7 @@
     };
 </script>
 
-<header class={currentRoute?.isHero && "absolute inset-x-0"}>
+<header class="row-start-1 w-screen">
     <WidthBox class="z-10">
         <nav class="flex items-center justify-between py-4">
             <a href="/" aria-label="Home">

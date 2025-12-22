@@ -3,8 +3,8 @@
     import { clsx } from "clsx";
     import { fly } from "svelte/transition";
     import { DirectusImage } from "../components/directus-image";
+    import { animationDelay, fadeInBottom } from "../lib/client/animate";
     import { aHoverAnimation } from "../lib/common/styles";
-    import { animationDelay } from "../utils/animation-delay";
 
     interface Props {
         data: PageData;
@@ -24,7 +24,6 @@
         setTimeout(cycleHeroImage, imageCycleTimeMs);
     });
 
-    const animate = (...classes: string[]) => clsx(...classes, "animate-fadeInBT opacity-0");
     const introWords = $derived(intro.split(" "));
 
     const sizeClass = clsx(`h-screen w-screen`);
@@ -82,7 +81,7 @@
         {#each introWords as word, idx (idx)}
             <span
                 style={animationDelay(idx)}
-                class={animate(
+                class={fadeInBottom(
                     clsx(
                         aHoverAnimation,
                         `

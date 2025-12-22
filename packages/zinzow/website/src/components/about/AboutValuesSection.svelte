@@ -1,5 +1,6 @@
 <script lang="ts">
     import { clsx } from "clsx";
+    import { animationDelay, fadeIn, fadeInBottom } from "../../lib/client/animate";
     import { smallTextClasses } from "../../lib/common/styles";
     import { H2 } from "../heading";
     import { P } from "../text";
@@ -11,13 +12,14 @@
             name: string;
             description: string;
         }[];
+        animationDelay: number;
     }
 
-    const { title, text, values }: Props = $props();
+    const { title, text, values, animationDelay: delay }: Props = $props();
 </script>
 
 <section>
-    <article>
+    <article class={fadeIn()} style={animationDelay(delay)}>
         <H2>{title}</H2>
         <P prose block>{text}</P>
     </article>
@@ -27,8 +29,8 @@
             sm:grid-cols-2 sm:gap-12 sm:px-8
             lg:mx-0 lg:max-w-none lg:grid-cols-3
         ">
-        {#each values as value}
-            <div>
+        {#each values as value, idx (idx)}
+            <div class={fadeInBottom()} style={animationDelay(delay + idx + 1)}>
                 <dt
                     class="
                         font-semibold text-gray-900

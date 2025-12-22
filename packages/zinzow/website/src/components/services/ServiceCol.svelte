@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { PageData } from "../../routes/dienstleistungen/$types";
     import { clsx } from "clsx";
+    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
     import DirectusImage from "../directus-image/DirectusImage.svelte";
     import { H2 } from "../heading";
 
@@ -9,9 +10,11 @@
     interface Props {
         services: Service[];
         class?: string;
+        col: number;
+        cols: number;
     }
 
-    const { services, class: className }: Props = $props();
+    const { services, class: className, col, cols }: Props = $props();
 </script>
 
 <div
@@ -22,8 +25,11 @@
             lg:gap-12
         `,
     )}>
-    {#each services as service}
-        <a href={service.route.path}>
+    {#each services as service, idx (idx)}
+        <a
+            href={service.route.path}
+            class={fadeInBottom()}
+            style={animationDelay(cols * idx + col)}>
             <li
                 class="
                     group relative isolate rounded-xl shadow-md transition

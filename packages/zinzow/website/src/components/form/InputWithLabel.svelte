@@ -8,11 +8,11 @@
         label: string;
     }
 
-    const { label, class: className, ...inputProps }: Props = $props();
+    const { label, class: className, style, ...inputProps }: Props = $props();
     const labelId = `${inputProps.id}-label`;
 </script>
 
-<div class={clsx(className, "flex flex-col justify-between")}>
+<div class={clsx(className, "flex flex-col justify-between")} {style}>
     <label
         for={inputProps.id}
         id={labelId}

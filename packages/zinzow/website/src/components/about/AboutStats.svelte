@@ -1,5 +1,6 @@
 <script lang="ts">
     import { clsx } from "clsx";
+    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
     import { smallTextClasses } from "../../lib/common/styles";
 
     interface Stats {
@@ -9,9 +10,10 @@
 
     interface Props {
         stats: Stats[];
+        animationDelay: number;
     }
 
-    const { stats }: Props = $props();
+    const { stats, animationDelay: delay }: Props = $props();
 </script>
 
 <dl
@@ -22,12 +24,16 @@
         md:gap-x-24
         lg:gap-x-40
     ">
-    {#each stats as stat}
+    {#each stats as stat, idx (idx)}
         <div
-            class="
-                flex flex-col-reverse
-                sm:gap-y-1
-            ">
+            style={animationDelay(idx + delay)}
+            class={clsx(
+                fadeInBottom(),
+                `
+                    flex flex-col-reverse
+                    sm:gap-y-1
+                `,
+            )}>
             <dt class={clsx(smallTextClasses, "text-center text-base/7")}>
                 {stat.name}
             </dt>

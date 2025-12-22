@@ -5,12 +5,13 @@
 
     interface Props {
         class?: string;
+        style?: string;
         children?: Snippet;
     }
 
-    const { class: className = "", children }: Props = $props();
+    const { class: className, style, children }: Props = $props();
 </script>
 
-<h2 class={clsx(stylesMap.h2, className)}>
+<h2 {style} class={clsx(stylesMap.h2, className)}>
     {@render children?.()}
 </h2>

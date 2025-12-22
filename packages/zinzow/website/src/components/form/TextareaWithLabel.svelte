@@ -5,13 +5,14 @@
 
     interface Props extends ComponentProps<typeof Textarea> {
         label: string;
+        style?: string;
     }
 
-    const { label, class: className, ...inputProps }: Props = $props();
+    const { label, class: className, style, ...inputProps }: Props = $props();
     const labelId = `${inputProps.id}-label`;
 </script>
 
-<div class={className}>
+<div class={className} {style}>
     <label
         for={inputProps.id}
         id={labelId}

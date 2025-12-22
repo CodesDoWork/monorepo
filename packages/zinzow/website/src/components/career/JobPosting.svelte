@@ -1,5 +1,7 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
+    import { clsx } from "clsx";
+    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
     import { H3 } from "../heading";
     import { Icons } from "../icons";
 
@@ -11,16 +13,21 @@
             title: string;
             filenameDownload: string;
         }[];
+        animationDelay: number;
     }
 
-    const { title, description, files }: Props = $props();
+    const { title, description, files, animationDelay: delay }: Props = $props();
 </script>
 
 <li
-    class="
-        border-primary/20 h-fit rounded-lg border px-8 pb-8 shadow-xs
-        dark:border-primary/80
-    ">
+    style={animationDelay(delay)}
+    class={clsx(
+        fadeInBottom(),
+        `
+            border-primary/20 h-fit rounded-lg border px-8 pb-8 shadow-xs
+            dark:border-primary/80
+        `,
+    )}>
     <H3>{title}</H3>
     {@html description}
     {#if files?.length}

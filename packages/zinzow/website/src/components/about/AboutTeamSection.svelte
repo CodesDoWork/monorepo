@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { DirectusImageParams } from "../../lib/common/directus-image";
+    import { animationDelay, fadeIn, fadeInBottom } from "../../lib/client/animate";
     import { smallTextClasses } from "../../lib/common/styles";
     import { DirectusImage } from "../directus-image";
     import { H2, H4 } from "../heading";
@@ -14,13 +15,14 @@
             portrait?: DirectusImageParams;
             position?: string;
         }[];
+        animationDelay: number;
     }
 
-    const { title, text, members }: Props = $props();
+    const { title, text, members, animationDelay: delay }: Props = $props();
 </script>
 
 <section>
-    <article>
+    <article class={fadeIn()} style={animationDelay(delay)}>
         <H2>{title}</H2>
         <P prose block>{text}</P>
     </article>
@@ -33,8 +35,8 @@
             lg:mx-0 lg:max-w-none lg:grid-cols-5
             xl:grid-cols-6
         ">
-        {#each members as member}
-            <li>
+        {#each members as member, idx (idx)}
+            <li class={fadeInBottom()} style={animationDelay(delay + idx + 1)}>
                 {#if member.portrait}
                     <DirectusImage
                         img={member.portrait}

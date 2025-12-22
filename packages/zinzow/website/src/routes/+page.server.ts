@@ -24,7 +24,7 @@ export const load: PageServerLoad = async () => {
         .map(toDirectusImage({ quality: 50, width: 1_280 }));
     const portraitHeros = shuffledHeros
         .filter(f => f.height > f.width)
-        .map(toDirectusImage({ quality: 50, width: 720 }));
+        .map(toDirectusImage({ quality: 40, width: 720 }));
 
     return {
         landscapeHeros,

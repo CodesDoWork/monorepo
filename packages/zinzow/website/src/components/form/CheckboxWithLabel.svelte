@@ -6,13 +6,14 @@
 
     interface Props extends ComponentProps<typeof Checkbox> {
         children: Snippet;
+        style?: string;
     }
 
-    const { class: className, children, ...inputProps }: Props = $props();
+    const { class: className, children, style, ...inputProps }: Props = $props();
     const labelId = `${inputProps.id}-label`;
 </script>
 
-<div class={clsx(className)}>
+<div class={clsx(className)} {style}>
     <div class="flex items-center gap-2">
         <Checkbox {...inputProps} aria-describedby={labelId} />
         <label for={inputProps.id} id={labelId} class="cursor-pointer">

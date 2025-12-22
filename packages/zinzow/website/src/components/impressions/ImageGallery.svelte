@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { DirectusImageParams } from "../../lib/common/directus-image";
     import { clsx } from "clsx";
+    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
     import { DirectusImage } from "../directus-image";
 
     interface Props {
@@ -11,6 +12,7 @@
         resetSelectedImg: () => void;
         setSelectedImageIdx: (idx: number) => void;
         setClickedSelectedImageIdx: (idx: number) => void;
+        animationDelay: number;
     }
 
     const {
@@ -21,6 +23,7 @@
         resetSelectedImg,
         setSelectedImageIdx,
         setClickedSelectedImageIdx,
+        animationDelay: delay,
     }: Props = $props();
 </script>
 
@@ -34,7 +37,7 @@
         <div class="flex flex-col">
             {#each images as img, imgIdx}
                 {#if imgIdx % columns === colIdx}
-                    <li>
+                    <li class={fadeInBottom()} style={animationDelay(delay + imgIdx)}>
                         <button
                             class="
                                 group h-full w-full p-1

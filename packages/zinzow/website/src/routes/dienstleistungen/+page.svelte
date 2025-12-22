@@ -4,6 +4,7 @@
     import { H1 } from "../../components/heading";
     import { ServiceCol } from "../../components/services";
     import { Paragraphs } from "../../components/text";
+    import { fadeIn } from "../../lib/client/animate";
     import { splitInHalf } from "../../lib/client/split-in-half";
 
     interface Props {
@@ -16,7 +17,7 @@
 </script>
 
 <WidthBox class="isolate">
-    <article class="max-w-prose">
+    <article class={fadeIn("max-w-prose")}>
         <H1>{currentRoute?.name}</H1>
         <Paragraphs text={intro} />
     </article>
@@ -26,7 +27,7 @@
             md:mt-36 md:grid-cols-2
             lg:gap-12 lg:px-16
         ">
-        <ServiceCol services={services1} />
-        <ServiceCol services={services2} class="md:-mt-28" />
+        <ServiceCol services={services1} col={1} cols={2} />
+        <ServiceCol services={services2} col={2} cols={2} class="md:-mt-28" />
     </ul>
 </WidthBox>

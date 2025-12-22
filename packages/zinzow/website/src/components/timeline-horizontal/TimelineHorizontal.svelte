@@ -1,6 +1,7 @@
 <script lang="ts">
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
+    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
     import { P } from "../text";
 
     interface Props {
@@ -9,9 +10,10 @@
             description: string;
         }[];
         class?: string;
+        animationDelay: number;
     }
 
-    const { timesteps, class: className }: Props = $props();
+    const { timesteps, class: className, animationDelay: delay }: Props = $props();
 
     const spacingBlockClass = clsx(`
         relative col-start-2 block h-2
@@ -24,8 +26,10 @@
 </script>
 
 <ul
+    style={animationDelay(delay)}
     class={clsx(
         className,
+        fadeInBottom(),
         `
             relative mx-auto grid w-fit grid-cols-[min-content_4.5rem_minmax(0,1fr)] gap-x-2 px-8
             md:grid-flow-col md:grid-cols-none md:grid-rows-[min-content_4.5rem_minmax(0,1fr)]

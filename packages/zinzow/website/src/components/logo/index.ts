@@ -1,3 +1,4 @@
-import Logo from "./logo.svelte";
+import Logo from "./Logo.svelte";
+import LogoWithoutText from "./LogoWithoutText.svelte";
 
-export { Logo };
+export { Logo, LogoWithoutText };

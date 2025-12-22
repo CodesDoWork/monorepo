@@ -1,9 +1,8 @@
 import type { PromiseExecutor } from "@nx/devkit";
-import { readFileSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
 import { projectRoot } from "@cdw/monorepo/nx-plugins-utils";
 import { execAsync } from "@cdw/monorepo/shared-utils";
 import { logger } from "@nx/devkit";
+import { writePackageJSON } from "./write-package-json";
 
 export const buildDirectusExtensionExecutor: PromiseExecutor = async (_, context) => {
     try {
@@ -13,15 +12,7 @@ export const buildDirectusExtensionExecutor: PromiseExecutor = async (_, context
             shell: true,
         });
 
-        const packageJsonPath = join(projectDir, "package.json");
-        const packageJson = JSON.parse(readFileSync(packageJsonPath).toString());
-        const distDir = dirname(packageJson["directus:extension"].path);
-        packageJson["directus:extension"].path = "./index.js";
-
-        writeFileSync(
-            join(projectDir, distDir, "package.json"),
-            JSON.stringify(packageJson, null, 4),
-        );
+        writePackageJSON(projectDir);
 
         return { success: true };
     } catch (e) {

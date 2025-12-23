@@ -22,10 +22,6 @@ services:
       - DB_DATABASE=directus
       - DB_USER=${POSTGRES_USERNAME}
       - DB_PASSWORD=${POSTGRES_PASSWORD}
-      - SMTP_HOST=${SMTP_HOST}
-      - SMTP_PORT=${SMTP_PORT}
-      - SMTP_USERNAME=${SMTP_USERNAME}
-      - SMTP_PASSWORD=${SMTP_PASSWORD}
     image: ${DOCKER_PROXY}/directus/directus:11
     volumes:
       - directus-uploads:/directus/uploads
@@ -65,6 +61,10 @@ services:
       - PORT=${WEBSITE_PORT}
       - CMS_URL=${CMS_URL}
       - CMS_TOKEN=${WEBSITE_CMS_TOKEN}
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
     image: ${IMAGE_BASE}/zinzow-website:${PROJECT_VERSION:-latest}
     ports:
       - 4300:4300

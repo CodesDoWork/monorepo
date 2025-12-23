@@ -1,0 +1,124 @@
+\section{Systemübersicht}
+
+Dieses Kapitel beschreibt den grundsätzlichen Aufbau des Systems, seine Hauptbestandteile sowie
+deren Zusammenspiel. Ziel ist es, ein verständliches Gesamtbild zu vermitteln, ohne technische
+Detailkenntnisse vorauszusetzen.
+
+\subsection{Wichtige Links}
+
+\begin{itemize}
+    \item Directus (CMS): \url{https://cms.agrarservicenordost.de}
+    \item Webseite: \url{https://agrarservicenordost.de}
+    \item Quellcode: \url{https://github.com/CodesDoWork/monorepo/tree/master/packages/zinzow}.
+\end{itemize}
+
+\subsection{Grobe Funktionsweise des Systems}
+
+Vereinfacht lässt sich das System wie folgt beschreiben:
+
+\begin{itemize}
+    \item Inhalte werden in einer Verwaltungsoberfläche (Directus) gepflegt.
+    \item Diese Inhalte werden dauerhaft gespeichert.
+    \item Die Webseite ruft die Inhalte ab und zeigt sie Besuchern an.
+    \item Der Zugriff erfolgt sicher über das Internet.
+\end{itemize}
+
+\noindent Alle beteiligten Systeme laufen auf demselben Server, sind jedoch logisch voneinander
+getrennt.
+
+\subsection{Zentrale Komponenten}
+
+\begin{description}
+    \item[Datenbank (Postgres)]
+    Die Datenbank speichert strukturierte Informationen wie Texte, Seiteninhalte, Konfigurationen
+    und Benutzerinformationen. Sie enthält alle Inhalte, die über die Verwaltungsoberfläche gepflegt
+    werden, mit Ausnahme hochgeladener Dateien wie Bilder oder Dokumente.
+
+    \item[Content-Management-System (CMS) (Directus)]
+    Directus stellt eine benutzerfreundliche Oberfläche zur Verfügung, über die Inhalte bearbeitet
+    werden können. Es fungiert als Vermittler zwischen Datenbank und Nutzer/Webseite und stellt die
+    Inhalte in einer standardisierten Form bereit.
+
+    \item[Webseite]
+    Die Webseite ist die sichtbare Oberfläche für Besucher. Sie fragt die benötigten Inhalte bei
+    Directus an und bereitet diese für die Darstellung im Browser auf.
+
+    \item[Cloudflare]
+    Cloudflare ist ein externer Sicherheits- und Zugangsservice. Er stellt die öffentliche
+    Verbindung über die Domain her und schützt das System vor unerwünschtem oder schädlichem
+    Datenverkehr.
+
+    \item[Cloudflare Tunnel]
+    Der Tunnel verbindet Cloudflare sicher mit dem internen Server. Dadurch die Dienste auf dem
+    Server nicht direkt aus dem Internet erreichbar sein.
+\end{description}
+
+\subsection{Zusammenspiel der Komponenten}
+
+Ein typischer Zugriff verläuft in dieser Reihenfolge:
+
+\begin{enumerate}
+    \item Ein Besucher ruft die Webseite über die Domain auf.
+    \item Cloudflare nimmt die Anfrage entgegen.
+    \item Der Cloudflare Tunnel leitet die Anfrage intern an die Webseite weiter.
+    \item Die Webseite fordert Inhalte von Directus an.
+    \item Directus liest die Inhalte aus der Datenbank.
+    \item Die Webseite zeigt die Inhalte im Browser an.
+\end{enumerate}
+
+\subsection{Grundlegende technische Konzepte}
+
+Auch wenn sie im Hintergrund arbeiten, sind die folgenden Konzepte zentral für Verlässlichkeit und
+Wartbarkeit des Systems.
+
+\subsubsection{Container}
+
+Jede Hauptkomponente läuft in einem eigenen abgeschlossenen Bereich (Container). Dadurch kann jede
+Komponente unabhängig gestartet, gestoppt oder aktualisiert werden, ohne andere Teile zu
+beeinträchtigen.
+
+\subsubsection{Docker und Docker Compose}
+
+Diese Werkzeuge sorgen dafür, dass alle Container gemeinsam und reproduzierbar betrieben werden
+können. Sie definieren:
+\begin{itemize}
+    \item Welche Komponenten existieren.
+    \item Wie sie miteinander verbunden sind.
+    \item Welche Daten dauerhaft gespeichert werden.
+\end{itemize}
+
+\subsubsection{Volumes (dauerhafte Speicherung)}
+\label{subsubsection:volumes}
+
+Volumes sind Order, in denen wichtige Daten dauerhaft gespeichert werden. Sie sind \textbf{nicht} an
+den laufenden Zustand einzelner Container gebunden und überdauern das Löschen oder Neustarten eines
+Containers.
+
+\noindent\textbf{Warum Volumes wichtig sind:}
+\begin{itemize}
+    \item Container können jederzeit neu gestartet oder ersetzt werden.
+    \item Ohne Volumes würden Inhalte und Einstellungen dabei verloren gehen.
+\end{itemize}
+
+\noindent\textbf{Beispiele im System:}
+\begin{description}
+    \item[Datenbank-Volume (\texttt{postgres-data})]
+    Speichert alle Inhalte der Datenbank dauerhaft. Auch bei Wartung oder Updates bleiben alle Daten
+    erhalten.
+
+    \item[Datei-Volume (\texttt{directus-uploads})]
+    Enthält von hochgeladene Dateien wie Bilder oder Dokumente, die über Directus verwaltet werden.
+\end{description}
+
+\subsection{Zusammenfassung}
+
+Das System trennt klar zwischen:
+\begin{itemize}
+    \item Inhaltspflege (Directus)
+    \item Datenspeicherung (Datenbank und Volumes)
+    \item Darstellung (Webseite)
+    \item Sicherheit und Zugriff (Cloudflare)
+\end{itemize}
+
+Diese Struktur ermöglicht einen stabilen, sicheren Betrieb und erlaubt Änderungen oder Erweiterungen
+einzelner Teile ohne Auswirkungen auf das Gesamtsystem.

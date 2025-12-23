@@ -1,0 +1,25 @@
+\section{Betrieb}
+
+\subsection{Inhalte verwalten}
+
+Um die Inhalte der Webseite zu pflegen, wird Directus genutzt. Die meisten Inhalte werden über den
+\textit{Content}-Bereich (Würfel-Symbol) verwaltet. Einige Informationen werden allerdings auch in
+den Einstellungen gepseichert. So ist in den Einstellungen (Zahnrad → EInstellungen) der Name und
+die Beschreibung der Webseite ganz oben, sowie die Hintergrundfarben, der Copyright Claim, das
+Gründungsjahr und der Unternehmensname ganz unten gespeichert. Im Erscheinungsbild (Zahnred →
+Erscheinungsbild) kann die Primärfarbe eingestellt werden. Dateien befinden sich in der
+Dateibibliothek (Ordner-Symbol).
+
+Um die Änderungen auf der Webseite sichtbar zu machen, muss diese \textbf{zweimal} neu geladen
+werden. Das liegt am Caching.
+
+\subsubsection{Nutzer und Rollen}
+
+Sollten Editoren hinzukommen, kann man das gute Rollensystem von directus nutzen:
+\url{https://directus.io/docs/guides/auth/access-control}
+
+\subsection{Andere Änderungen}
+
+Um z.B. den Mail-Account oder den SMTP Server zu aktualisieren, müssen die entsprechenden Werte in
+der \textit{.env} Datei auf dem Server geändert und die Webseite neu gestartet werden (siehe
+\ref{subsection:prepare-config-files} und \ref{subsection:run-containers}).

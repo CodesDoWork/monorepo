@@ -69,7 +69,7 @@
         <H2 class={fadeIn()} style={animationDelay(4)}>{career.jobPostingsTitle}</H2>
         <ul
             class="
-                mt-8 grid grid-cols-1 gap-8 px-4
+                mt-8 grid grid-cols-1 gap-8 px-2
                 sm:px-8
                 md:grid-cols-2
                 lg:gap-12
@@ -84,8 +84,9 @@
         class={clsx(
             fadeInBottom(),
             `
-                bg-primary-100 mx-8 mt-16 rounded-md px-6 py-4 shadow-md
+                bg-primary-100 mx-2 mt-16 rounded-md px-6 py-4 shadow-md
                 dark:bg-primary-900
+                sm:mx-8
             `,
         )}>
         {@html career.cta}

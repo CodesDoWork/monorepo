@@ -55,6 +55,7 @@ services:
 
   website:
     <<: *common
+    scale: ${WEBSITE_SCALE:-1}
     environment:
       - DOMAIN=${DOMAIN}
       - URL=${WEBSITE_URL}
@@ -66,8 +67,6 @@ services:
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
     image: ${IMAGE_BASE}/zinzow-website:${PROJECT_VERSION:-latest}
-    ports:
-      - 4300:4300
 
 volumes:
   postgres-data:

@@ -1,0 +1,254 @@
+\section{Installation}
+
+Die „Installation“ der Software meint das Einrichten und Starten der Software auf einem Server. Dies
+geschieht in folgenden Schritten:
+
+\begin{enumerate}
+    \item Systemanforderungen und sonstige Voraussetzungen prüfen.
+    \item Konfigurationsdateien kopieren und anpassen.
+    \item Docker Images kopieren.
+    \item Container starten.
+    \item Datenbank erstellen oder vorhandene Daten migrieren.
+\end{enumerate}
+
+\noindent Diese Schritte werden in den folgenden Abschnitten genauer beschrieben.
+
+\subsection{Systemanforderungen und Voraussetzungen}
+
+Bevor mit der Installation begonnen wird, müssen folgende Voraussetzungen erfüllt sein:
+
+\begin{itemize}
+    \item Es existiert ein Server mit mindestens:
+    \begin{itemize}
+        \item 500 MiB bis 1 GiB Arbeitsspeicher (RAM)
+        \item ausreichendem Speicherplatz für:
+        \begin{itemize}
+            \item ca. 100 MB für die Datenbank
+            \item zusätzlichen Speicherplatz für hochgeladene Bilder
+        \end{itemize}
+        \item einer stabilen Internetverbindung
+        \item Docker und Docker Compose installiert.
+    \end{itemize}
+    \item Es gibt eine registrierte Domain (z.\,B. \texttt{argrarservicenordost.de}).
+    \item Es gibt ein Cloudflare-Konto, das die Domain verwalten kann.
+\end{itemize}
+
+\subsubsection{Docker}
+
+Die Software wird mit \textbf{Docker} betrieben. Docker sorgt dafür, dass alle Bestandteile der
+Anwendung isoliert und zuverlässig laufen. Die Installationsanleitung gibt es hier:
+\url{https://docs.docker.com/engine/install/}.
+
+\subsubsection{Domain}
+
+Domains kann man günstig bei \href{https://porkbun.com/}{Porkbun} mieten. Um sie bei Cloudflare
+verüfgbar zu machen, müssen die richtigen Nameserver eingestellt werden. Das geht, indem man in der
+Domain-Übersicht auf \textit{"NS"} klickt und dort Folgendes einträgt:
+
+\begin{minted}[frame=lines]{text}
+angela.ns.cloudflare.com. cameron.ns.cloudflare.com.
+\end{minted}
+
+Die zwei folgenden Bilder zeigen diesen Prozess:
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\textwidth]{porkbun-overview.png}
+    \caption{\textit{"NS"} klicken.}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{porkbun-ns.png}
+    \caption{Nameserver eintragen.}
+\end{figure}
+
+\subsubsection{Cloudflare}
+
+Um diese Domain zu verwalten, muss es ein Cloudflare-Konto geben. Auf dem Cloudflare-Dashboard kann
+dann die Domain hinzugefügt werden: \url{https://dash.cloudflare.com/}.
+
+Zusätzlich muss ein sogenannter \textbf{Cloudflare Tunnel} eingerichtet sein. Dieser Tunnel
+ermöglicht den sicheren Zugriff auf die Software, ohne dass die Dienste auf dem Server direkt aus
+dem Internet erreichbar sind. Um einen Tunnel einzurichten, geht man wie folgt vor:
+
+\begin{enumerate}
+    \item Cloudflare Zero Trust öffnen und Account auswählen: \url{https://one.dash.cloudflare.com}.
+    \item Auf \textit{Networks} → \textit{Connectors} klicken und dort \textit{Create a tunnel}
+    auswählen.
+    \item \textit{"Cloudflared"} wählen und einem Namen (beliebig) eingeben → weiter.
+    \item Den Token aus dem Befehl kopieren (steht als letztes). Dieser wird später noch benötigt.
+\end{enumerate}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth]{cloudflare-tunnel.png}
+    \caption{Neuen Tunnel erstellen.}
+\end{figure}
+
+\subsection{Konfigurationsdateien vorbereiten}
+\label{subsection:prepare-config-files}
+
+Für den Betrieb werden zwei Dateien benötigt:
+
+\begin{itemize}
+    \item \texttt{docker-compose.yaml}
+    \item \texttt{.env}
+\end{itemize}
+
+Die Datei \texttt{docker-compose.yaml} beschreibt, welche Container gestartet werden. Die Datei
+\texttt{.env} enthält Konfigurationswerte wie Passwörter, Ports oder Tokens. Daher ist die
+\texttt{.env} Datei ist sicher zu halten!
+
+Die \texttt{docker-compose.yaml} befindet sich im Ordner der Quellcodes, während die \texttt{.env}
+Datei eigenhändig erstellt werden muss. Letztere enthält pro Zeile eine Umgebungsvariable, um die
+Software zu konfigurieren. Eine Zeile enhält immer \texttt{VARIABLE=WERT}, also z.\,B.
+\texttt{DOMAIN=agrarservicenordost.de}.
+
+\noindent Es müssen folgende Variablen gesetzt werden:
+
+\begin{description}
+    \item[STACK\_NAME] Ein Name für das Projekt.
+    \item[WEBSITE\_DOMAIN] Die Domain (ohne \texttt{https://}).
+    \item[WEBSITE\_URL] = \texttt{https://\$\{DOMAIN\}}
+    \item[WEBSITE\_PORT] der Port, auf dem die Webseite im Container abrufbar ist (z.\,B. 4300).
+    \item[WEBSITE\_SCALE] die Anzahl der Webseite-Container.
+    \item[WEBSITE\_CMS\_TOKEN] der Static Token aus dem Directus User "Web Client", damit die
+    Webseite auf
+    \item[CMS\_SECRET] ein Secret, um Directus zu sichern.
+    \item[CMS\_USERNAME] Eine Admin-Email für Directus.
+    \item[CMS\_PASSWORD] Das Passwort des Directus Admin.  
+    Directus zugreifen kann.
+    \item[CMS\_DOMAIN] Domain des CMS (ohne \texttt{https://}). Wird über den Cloudflare Tunnel
+    gesetzt (folgt später).
+    \item[CMS\_URL] = \texttt{https://\$\{CMS\_DOMAIN\}}
+    \item[POSTGRES\_USERNAME] der Benutzername der Datenbank.
+    \item[POSTGRES\_PASSWORD] das Passwort des Datenbank-Benutzers.
+    \item[SMTP\_HOST] der Host des SMTP Servers für den Mailversand.
+    \item[SMTP\_PORT] der Port des SMTP Servers (meist 587).
+    \item[SMTP\_USERNAME] der Benutzername für den SMTP Server.
+    \item[SMTP\_PASSWORD] das Passwort für den SMTP Nutzer.
+\end{description}
+
+Beide Dateien werden in ein gemeinsames Verzeichnis auf dem Server kopiert.
+
+\subsection{Docker Images kopieren}
+
+Das Docker Image der Webseite wird nicht aus dem Internet geladen, sondern lokal bereitgestellt.
+
+Vorgehensweise:
+\begin{enumerate}
+    \item Das Docker Image der Webseite wird lokal gebaut.
+    \item Die Images werden als tar-Datei exportiert.
+    \item Die tar-Datei wird auf den Server hochgeladen.
+\end{enumerate}
+
+Auf dem Server wird das Image entpackt und geladen:
+
+\begin{verbatim}
+docker load < image.tar
+\end{verbatim}
+
+Dieser Schritt stellt sicher, dass alle benötigten Komponenten lokal verfügbar sind.
+
+\subsection{Container starten}
+\label{subsection:run-containers}
+
+Nachdem alle Dateien vorbereitet sind, können die Container gestartet werden. Dies geschieht mit
+folgendem Befehl im Projektverzeichnis:
+
+\begin{verbatim}
+docker compose up -d
+\end{verbatim}
+
+\textbf{Erklärung:}
+\begin{itemize}
+    \item \texttt{docker compose} liest die Konfigurationsdateien.
+    \item \texttt{up} startet alle Container.
+    \item \texttt{-d} bedeutet, dass die Container im Hintergrund laufen.
+\end{itemize}
+
+\textbf{Hinweis}: Mit diesem Befehl können die Container nach ändern der Konfiguration neu gestartet
+werden.
+
+\subsection{Datenbank und Dateien vorbereiten}
+
+Als nächstes müssen die Daten vorbereitet werden.
+
+\subsubsection{Datenbank erstellen oder importieren}
+
+Es gibt zwei Möglichkeiten:
+\begin{itemize}
+    \item Eine neue Datenbank in PostgreSQL anlegen
+    \item Einen bestehenden Datenbank-Dump importieren
+\end{itemize}
+
+Neue Datenbank erstellen:
+\begin{verbatim}
+docker exec -it postgres psql -U $POSTGRES_USERNAME
+CREATE DATABASE directus;
+\end{verbatim}
+
+Alternativ kann ein Dump importiert werden:
+
+\begin{verbatim}
+docker exec -i postgres psql -U $POSTGRES_USERNAME < dump.sql
+\end{verbatim}
+
+\subsubsection{Bilddateien kopieren}
+
+Falls bereits Bilder existieren, müssen diese in den Directus-Container kopiert werden.
+
+Beispiel:
+
+\begin{verbatim}
+docker cp ./bilder directus:/directus/uploads
+\end{verbatim}
+
+\textbf{Hinweis:} Der genaue Zielpfad kann je nach Konfiguration abweichen.
+
+\subsection{Den Tunnel konfigurieren}
+
+Sollte bis hierhin alles geklappt haben, müsste der in Cloudflare angelegte Tunnel nun als
+\textit{"Healthy"} markiert werden. Zum Abschluss muss jetzt noch die Verbindung zu den Containern
+hergestellt werden. Dazu muss Folgendes getan werden:
+
+\begin{enumerate}
+    \item In der \textit{Connectors} Übersicht auf den Tunnel klicken und dann auf \textit{"Edit"}.
+    \item Zum Reiter \textit{"Published application routes"} navigieren und auf \textit{"Add a
+    published application route"} klicken.
+    \item Für die Webseite: Die Domain Auswählen und als Typ \texttt{HTTP} und als URL
+    \texttt{website:4300} (oder welcher Port in der \textit{.env} steht) eingeben. Subdomain und
+    Path leer lassen und speichern.
+    \item Für das CMS wiederholen und als Subdomain \texttt{cms} eingeben und bei URL
+    \texttt{cms:8055} eintragen. Damit ist die \texttt{CMS\_DOMAIN} in der \textit{.env}
+    \texttt{cms.agrarservicenordost.de}.
+\end{enumerate}
+
+Die folgenden Bilder zeigen die einzelnen Schritte:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{cloudflare-edit-tunnel.png}
+    \caption{Tunnel bearbeiten.}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{cloudflare-tunnel-add-route.png}
+    \caption{Neue Route anlegen.}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{cloudflare-setup-website.png}
+    \caption{Webseite hinzufügen.}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\textwidth]{cloudflare-setup-cms.png}
+    \caption{CMS hinzufügen.}
+\end{figure}
+
+Nach Abschluss dieses Schrittes ist die Software betriebsbereit.

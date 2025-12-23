@@ -1,0 +1,7 @@
+{
+    "name": "zinzow-docs-de",
+    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/zinzow/docs/de/src",
+    "projectType": "library",
+    "tags": []
+}

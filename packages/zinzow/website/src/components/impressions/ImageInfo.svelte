@@ -34,6 +34,6 @@
         </TextWithIcon>
     {/if}
     {#if tags}
-        <Badges class="mt-6" badges={tags} />
+        <Badges class="mt-6 flex-wrap" badges={tags} />
     {/if}
 </div>

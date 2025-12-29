@@ -2,7 +2,6 @@
     import type { JsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
     import type { BreadcrumbList, Thing } from "schema-dts";
     import type { Snippet } from "svelte";
-    import type { NavigationContext } from "../contexts/navigation";
     import type { LayoutData } from "./$types";
     import {
         setJsonLdContext,
@@ -12,7 +11,6 @@
     import { blur } from "svelte/transition";
     import { Footer } from "../components/footer";
     import { Header } from "../components/header";
-    import { setNavigationContext } from "../contexts/navigation";
     import { createColors, createCssVariables } from "../utils/css";
     import "../tailwind.css";
 
@@ -23,13 +21,6 @@
 
     const { data, children }: Props = $props();
     const { baseUrl, routes, settings, currentRoute, layoutJsonLd } = $derived(data);
-
-    const nav: NavigationContext = {
-        get currentRoute() {
-            return currentRoute;
-        },
-    };
-    setNavigationContext(nav);
 
     const colors = $derived(
         createColors({
@@ -109,7 +100,7 @@
     <meta content="" name="keywords" />
     <meta content="https://agrarservicenordost.de" property="og:url" />
     <meta name="theme-color" content="light-dark(white, black);" />
-    {#if nav.currentRoute}
+    {#if currentRoute}
         <link rel="canonical" href={currentRouteUrl} />
         <meta name="description" content={currentRoute.description} />
         <meta name="keywords" content={currentRoute.keywords.join(" ")} />
@@ -131,8 +122,8 @@
     <Header {routes} {currentRoute} />
     {#key currentRoute?.name}
         <main
-            in:blur={{ duration: 150, opacity: 0, delay: 150 }}
-            out:blur={{ duration: 150, opacity: 0 }}
+            in:blur={{ duration: 100, opacity: 0, delay: 100 }}
+            out:blur={{ duration: 100, opacity: 0 }}
             class={clsx(currentRoute?.isHero && `row-span-2 row-start-1`, "w-screen")}>
             {@render children?.()}
         </main>

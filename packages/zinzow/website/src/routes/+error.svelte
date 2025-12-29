@@ -1,14 +1,19 @@
 <script lang="ts">
+    import type { PageData } from "./$types";
     import { page } from "$app/state";
     import { clsx } from "clsx";
     import { H1 } from "../components/heading";
-    import { getNavigationContext } from "../contexts/navigation";
     import { stylesMap } from "../lib/common/styles";
+
+    interface Props {
+        data: PageData;
+    }
+
+    const { data }: Props = $props();
+    const { currentRoute } = $derived(data);
 
     const status = page.status;
     const error = page.error as Error & Record<string, string>;
-
-    const nav = getNavigationContext();
 </script>
 
 <div
@@ -17,7 +22,7 @@
             px-6 py-24 text-center
             lg:px-8
         `,
-        nav.currentRoute?.isHero && "mt-48",
+        currentRoute?.isHero && "mt-48",
     )}>
     <p class="text-primary text-base font-semibold">{status}</p>
     <H1

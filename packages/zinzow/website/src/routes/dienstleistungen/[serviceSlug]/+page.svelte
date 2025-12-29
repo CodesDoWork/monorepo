@@ -4,7 +4,6 @@
     import { WidthBox } from "../../../components/content-area";
     import { H1 } from "../../../components/heading";
     import { ServiceImage } from "../../../components/services";
-    import { getNavigationContext } from "../../../contexts/navigation";
     import { animationDelay, fadeIn } from "../../../lib/client/animate";
     import { splitInHalf } from "../../../lib/client/split-in-half";
 
@@ -13,8 +12,7 @@
     }
 
     const { data }: Props = $props();
-    const { description, images, jsonldThings } = $derived(data);
-    const nav = getNavigationContext();
+    const { description, currentRoute, images, jsonldThings } = $derived(data);
 
     const [imgs1, imgs2] = $derived(splitInHalf(images));
 
@@ -25,8 +23,8 @@
 </script>
 
 <WidthBox class="isolate">
-    {#key nav.currentRoute?.name}
-        <H1 class={fadeIn()}>{nav.currentRoute?.name}</H1>
+    {#key currentRoute?.name}
+        <H1 class={fadeIn()}>{currentRoute?.name}</H1>
         <section
             class="
                 grid gap-12

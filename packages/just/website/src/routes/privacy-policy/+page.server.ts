@@ -2,7 +2,7 @@ import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
 import type { PageServerLoad } from "./$types";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import { defaultClient } from "../../graphql/default/client";
+import { queryDefault } from "../../graphql/default/client";
 import { GetPrivacyPolicyServerDataDocument } from "../../graphql/default/generated/graphql";
 import { createBreadcrumbList, domainUrl } from "../../shared/urls";
 
@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const { currentLanguage } = parentData;
 
-    const { data } = await defaultClient.query({
+    const data = await queryDefault({
         query: GetPrivacyPolicyServerDataDocument,
         variables: { language: currentLanguage.code },
     });

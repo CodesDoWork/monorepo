@@ -5,7 +5,7 @@ import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/t
 import { SMTPClient } from "emailjs";
 import { z } from "zod";
 import { env } from "../../env";
-import { defaultClient } from "../../graphql/default/client";
+import { queryDefault } from "../../graphql/default/client";
 import {
     GetContactActionDataDocument,
     GetContactActionLanguagesDocument,
@@ -20,7 +20,7 @@ export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const { currentLanguage } = parentData;
 
-    const { data } = await defaultClient.query({
+    const data = await queryDefault({
         query: GetContactServerDataDocument,
         variables: { language: currentLanguage.code },
     });
@@ -86,9 +86,7 @@ export const actions: Actions = {
 };
 
 async function processMessage(event: RequestEvent, msg: Message) {
-    const { data: languageData } = await defaultClient.query({
-        query: GetContactActionLanguagesDocument,
-    });
+    const languageData = await queryDefault({ query: GetContactActionLanguagesDocument });
     const allRoutes = transformRoutes(languageData.allRoutes);
     const language = await getLanguage(
         event.request,
@@ -97,7 +95,7 @@ async function processMessage(event: RequestEvent, msg: Message) {
         allRoutes,
     );
 
-    const { data: contactData } = await defaultClient.query({
+    const contactData = await queryDefault({
         query: GetContactActionDataDocument,
         variables: { language: language.code },
     });

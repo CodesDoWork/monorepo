@@ -5,7 +5,7 @@ import type { GetResourcesServerDataQuery } from "../../graphql/default/generate
 import type { PageServerLoad } from "./$types";
 import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import { defaultClient } from "../../graphql/default/client";
+import { queryDefault } from "../../graphql/default/client";
 import { GetResourcesServerDataDocument } from "../../graphql/default/generated/graphql";
 import { replaceLinks } from "../../lib/server/replace-links";
 import { createBreadcrumbList } from "../../shared/urls";
@@ -14,7 +14,7 @@ export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const { currentLanguage } = parentData;
 
-    const { data } = await defaultClient.query({
+    const data = await queryDefault({
         query: GetResourcesServerDataDocument,
         variables: { language: currentLanguage.code },
     });

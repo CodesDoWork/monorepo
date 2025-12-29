@@ -1,6 +1,6 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import { error, text } from "@sveltejs/kit";
-import { defaultClient } from "../../../graphql/default/client";
+import { queryDefault } from "../../../graphql/default/client";
 import { GetApiGetRouteServerDataDocument } from "../../../graphql/default/generated/graphql";
 import { byLanguage } from "../../../shared/language";
 import { getRoute, transformRoutes } from "../../../shared/routes";
@@ -12,7 +12,7 @@ export const GET: RequestHandler = async ({ request }) => {
         return error(400, `Parameter "${ROUTE_PARAM}" must be provided!`);
     }
 
-    const { data: apiGetRoutesServerData } = await defaultClient.query({
+    const apiGetRoutesServerData = await queryDefault({
         query: GetApiGetRouteServerDataDocument,
     });
     const { routes, languages } = apiGetRoutesServerData;

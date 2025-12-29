@@ -1,6 +1,6 @@
 import type { Handle, HandleServerError } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
-import { defaultClient } from "./graphql/default/client";
+import { queryDefault } from "./graphql/default/client";
 import { GetHooksServerDataDocument } from "./graphql/default/generated/graphql";
 import { byLanguage, getLanguage } from "./shared/language";
 import { priorityRoutes } from "./shared/navigation/priority-routes";
@@ -12,7 +12,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         return resolve(event);
     }
 
-    const { data: hooksServerData } = await defaultClient.query({
+    const hooksServerData = await queryDefault({
         query: GetHooksServerDataDocument,
     });
     const { languages, routes } = hooksServerData;

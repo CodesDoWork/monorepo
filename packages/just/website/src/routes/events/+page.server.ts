@@ -7,7 +7,7 @@ import type { PageServerLoad } from "./$types";
 import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { byField, byId } from "@cdw/monorepo/shared-utils/filters";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import { defaultClient } from "../../graphql/default/client";
+import { queryDefault } from "../../graphql/default/client";
 import { GetEventsServerDataDocument } from "../../graphql/default/generated/graphql";
 import { createBreadcrumbList } from "../../shared/urls";
 
@@ -15,7 +15,7 @@ export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const { currentLanguage, serverRoutes, routes } = parentData;
 
-    const { data } = await defaultClient.query({
+    const data = await queryDefault({
         query: GetEventsServerDataDocument,
         variables: { language: currentLanguage.code },
     });

@@ -11,7 +11,7 @@ import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
 import { byId } from "@cdw/monorepo/shared-utils/filters";
 import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { env } from "../env";
-import { defaultClient } from "../graphql/default/client";
+import { queryDefault } from "../graphql/default/client";
 import {
     GetHomeLayoutServerDataDocument,
     GetHomeLayoutServerLanguagesDocument,
@@ -22,7 +22,7 @@ import { getRoute, getRouteByServerRoute, transformRoutes } from "../shared/rout
 import { domainUrl } from "../shared/urls";
 
 export const load: LayoutServerLoad = async ({ request, url, cookies }) => {
-    const { data } = await defaultClient.query({ query: GetHomeLayoutServerLanguagesDocument });
+    const data = await queryDefault({ query: GetHomeLayoutServerLanguagesDocument });
     const allRoutes = transformRoutes(data.allRoutes);
     const language = await getLanguage(request, cookies, data.languages, allRoutes);
     return loadServerData(url, language, data.languages, allRoutes);
@@ -34,7 +34,7 @@ async function loadServerData(
     languages: LanguageFragment[],
     allRoutes: TransformedRoute[],
 ) {
-    const { data } = await defaultClient.query({
+    const data = await queryDefault({
         query: GetHomeLayoutServerDataDocument,
         variables: { language: currentLanguage.code },
     });

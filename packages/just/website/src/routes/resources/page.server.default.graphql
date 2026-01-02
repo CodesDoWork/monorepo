@@ -11,7 +11,9 @@ query GetResourcesServerData($language: String!) {
             description
         }
         items {
-            file
+            file {
+                id
+            }
             doi
             translations(filter: { languages_code: { code: { _eq: $language } } }) {
                 title

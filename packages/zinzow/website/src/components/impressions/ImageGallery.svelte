@@ -1,8 +1,9 @@
 <script lang="ts">
-    import type { DirectusImageParams } from "../../lib/common/directus-image";
+    import type { DirectusImageParams } from "@cdw/monorepo/shared-svelte-components";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
-    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
-    import { DirectusImage } from "../directus-image";
+    import { fadeInBottom } from "../../lib/common/styles";
 
     interface Props {
         columns: number;
@@ -37,7 +38,7 @@
         <div class="flex flex-col">
             {#each images as img, imgIdx}
                 {#if imgIdx % columns === colIdx}
-                    <li class={fadeInBottom()} style={animationDelay(delay + imgIdx)}>
+                    <li class={fadeInBottom} style={animationDelay(delay + imgIdx)}>
                         <button
                             class="
                                 group h-full w-full p-1

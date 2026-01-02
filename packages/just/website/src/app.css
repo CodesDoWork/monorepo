@@ -1,3 +1,4 @@
 @import "../../branding/assets/css/tailwind.css";
+@source "./";
 
 @custom-variant dark (&:is(.dark *));

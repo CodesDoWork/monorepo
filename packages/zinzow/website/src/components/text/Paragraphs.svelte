@@ -1,6 +1,7 @@
 <script lang="ts">
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { P } from ".";
-    import { animationDelay, fadeIn } from "../../lib/client/animate";
+    import { fadeIn } from "../../lib/common/styles";
 
     interface Props {
         text: string;
@@ -12,7 +13,7 @@
 </script>
 
 {#each paragraphs as paragraph, idx (idx)}
-    <P class={delay && fadeIn()} style={delay ? animationDelay(idx + delay) : undefined}>
+    <P class={delay && fadeIn} style={delay ? animationDelay(idx + delay) : undefined}>
         {paragraph}
     </P>
 {/each}

@@ -1,12 +1,13 @@
-import type { AssetParams } from "@cdw/monorepo/shared-utils/directus";
+import type { AssetParams } from "@cdw/monorepo/shared-directus";
 import type { PageServerLoad } from "./$types";
+import { directusImageParams } from "@cdw/monorepo/shared-svelte-components";
 import { shuffle } from "@cdw/monorepo/shared-utils/arrays";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
+import { env } from "../env";
 import { queryDefault } from "../graphql/default/client";
 import { GetHomeDataDocument } from "../graphql/default/generated/graphql";
 import { querySystem } from "../graphql/system/client";
 import { GetHomeSystemDataDocument } from "../graphql/system/generated/graphql";
-import { directusImageParams } from "../lib/common/directus-image";
 
 export const load: PageServerLoad = async () => {
     const { heroFiles } = await querySystem({ query: GetHomeSystemDataDocument });
@@ -14,7 +15,11 @@ export const load: PageServerLoad = async () => {
 
     function toDirectusImage(assetParams: AssetParams) {
         return function (f: (typeof heroFiles)[number]) {
-            return directusImageParams({ ...defaultNull(f), alt: "hero", assetParams });
+            return directusImageParams(env.CMS_URL, {
+                ...defaultNull(f),
+                alt: "hero",
+                assetParams,
+            });
         };
     }
 

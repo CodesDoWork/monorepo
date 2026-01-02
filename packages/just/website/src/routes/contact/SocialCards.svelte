@@ -1,10 +1,9 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import Icon from "@iconify/svelte";
-    import Card from "../../components/Card.svelte";
-    import Heading from "../../components/Heading.svelte";
-    import Link from "../../components/Link.svelte";
-    import { animationDelay } from "../../shared/animationDelay";
+    import { Card } from "../../components/card";
+    import { H5, Link } from "../../components/texts";
 
     interface Props {
         socials: PageData["socials"];
@@ -44,14 +43,15 @@
                         sm:h-10 sm:w-10
                     "
                     icon={social.icon} />
-                <Heading
+                <H5
                     commandStyle={false}
                     class="
-                        mb-0! cursor-pointer text-black!
+                        my-0! cursor-pointer text-black!
                         group-hover:text-(--hover-color)!
                         dark:text-white!
-                    "
-                    level="h5">{social.platform}</Heading>
+                    ">
+                    {social.platform}
+                </H5>
                 <p
                     class="
                         text-0 h-0 text-slate-600 transition-[font-size]

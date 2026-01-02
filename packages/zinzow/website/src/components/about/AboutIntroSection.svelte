@@ -1,7 +1,8 @@
 <script lang="ts">
-    import type { DirectusImageParams } from "../../lib/common/directus-image";
-    import { animationDelay, fadeIn } from "../../lib/client/animate";
-    import { splitInHalf } from "../../lib/client/split-in-half";
+    import type { DirectusImageParams } from "@cdw/monorepo/shared-svelte-components";
+    import { splitInHalf } from "@cdw/monorepo/shared-utils/arrays";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
+    import { fadeIn } from "../../lib/common/styles";
     import { H1 } from "../heading";
     import AboutImage from "./AboutImage.svelte";
 
@@ -22,7 +23,7 @@
         md:grid-cols-[60%_1fr]
         lg:grid-cols-[57%_1fr]
     ">
-    <article class={fadeIn()} style={animationDelay(delay)}>
+    <article class={fadeIn} style={animationDelay(delay)}>
         <H1 class="md:text-nowrap">{title}</H1>
         <div
             lang="de"

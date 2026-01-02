@@ -1,7 +1,7 @@
 <script lang="ts">
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
-    import { animationDelay, fadeIn, fadeInBottom } from "../../lib/client/animate";
-    import { smallTextClasses } from "../../lib/common/styles";
+    import { fadeIn, fadeInBottom, smallTextClasses } from "../../lib/common/styles";
     import { H2 } from "../heading";
     import { P } from "../text";
 
@@ -19,7 +19,7 @@
 </script>
 
 <section>
-    <article class={fadeIn()} style={animationDelay(delay)}>
+    <article class={fadeIn} style={animationDelay(delay)}>
         <H2>{title}</H2>
         <P prose block>{text}</P>
     </article>
@@ -30,7 +30,7 @@
             lg:mx-0 lg:max-w-none lg:grid-cols-3
         ">
         {#each values as value, idx (idx)}
-            <div class={fadeInBottom()} style={animationDelay(delay + idx + 1)}>
+            <div class={fadeInBottom} style={animationDelay(delay + idx + 1)}>
                 <dt
                     class="
                         font-semibold text-gray-900

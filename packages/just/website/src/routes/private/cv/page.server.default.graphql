@@ -4,7 +4,9 @@ query GetCvData {
     }
 
     about: just_site_about {
-        portrait
+        portrait {
+            ...DirectusImage
+        }
     }
 
     cv: just_site_cv {
@@ -33,7 +35,9 @@ query GetCvData {
                 title
                 date
                 institution
-                logo
+                logo {
+                    ...DirectusImage
+                }
                 position
                 grade
                 duration

@@ -1,6 +1,8 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
     import {
         AboutIntroSection,
@@ -10,9 +12,8 @@
         AboutValuesSection,
     } from "../../components/about";
     import { WidthBox } from "../../components/content-area";
-    import { DirectusImage } from "../../components/directus-image";
     import { TimelineHorizontal } from "../../components/timeline-horizontal";
-    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
+    import { fadeInBottom } from "../../lib/common/styles";
 
     interface Props {
         data: PageData;
@@ -21,10 +22,7 @@
     const { data }: Props = $props();
     const { about, stats, timesteps, values, teamMembers, jsonLdThings } = $derived(data);
 
-    const jsonLdContext = getJsonLdContext();
-    $effect(() => {
-        jsonLdContext.things = jsonLdThings;
-    });
+    $effect(() => addJsonLdThings(jsonLdThings));
 </script>
 
 <WidthBox
@@ -44,7 +42,7 @@
     <div
         style={animationDelay(6)}
         class={clsx(
-            fadeInBottom(),
+            fadeInBottom,
             `
                 mx-auto
                 md:px-16

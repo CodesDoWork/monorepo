@@ -1,13 +1,14 @@
 import type { Thing } from "schema-dts";
 import type { PageServerLoad } from "./$types";
+import { directusImageParams } from "@cdw/monorepo/shared-svelte-components";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
+import { formatWYSIWYG, wysiwygToText } from "@cdw/monorepo/shared-utils/html/common";
 import { error } from "@sveltejs/kit";
 import { env } from "../../../env";
 import { queryDefault } from "../../../graphql/default/client";
 import { GetServiceDetailsDataDocument } from "../../../graphql/default/generated/graphql";
-import { directusImageParams } from "../../../lib/common/directus-image";
+import { stylesMap } from "../../../lib/common/styles";
 import { getErrorData } from "../../../lib/server/error-data";
-import { formatWYSIWYG, wysiwygToText } from "../../../lib/server/wysiwyg";
 
 export const load: PageServerLoad = async ({ url }) => {
     const servicesData = await queryDefault({
@@ -23,9 +24,9 @@ export const load: PageServerLoad = async ({ url }) => {
     const service = services[0];
 
     return {
-        description: formatWYSIWYG(service.description),
+        description: formatWYSIWYG(stylesMap, service.description),
         images: service.images.map(img =>
-            directusImageParams({
+            directusImageParams(env.CMS_URL, {
                 ...defaultNull(img.file),
                 alt: service.route.name,
                 assetParams: { quality: 50, width: 512 },

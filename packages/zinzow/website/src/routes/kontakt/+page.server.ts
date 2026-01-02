@@ -2,7 +2,9 @@ import type SMTPConnection from "nodemailer/lib/smtp-connection";
 import type { Thing } from "schema-dts";
 import type { $ZodErrorTree } from "zod/v4/core";
 import type { Actions, PageServerLoad } from "./$types";
+import { directusImageParams } from "@cdw/monorepo/shared-svelte-components";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
+import { formatWYSIWYG } from "@cdw/monorepo/shared-utils/html/common";
 import { createTransport } from "nodemailer";
 import { z } from "zod";
 import { env } from "../../env";
@@ -13,9 +15,8 @@ import {
 } from "../../graphql/default/generated/graphql";
 import { querySystem } from "../../graphql/system/client";
 import { GetContactSystemDataDocument } from "../../graphql/system/generated/graphql";
-import { directusImageParams } from "../../lib/common/directus-image";
-import { formatWYSIWYG } from "../../lib/server/wysiwyg";
-import { getTextsFromTranslations } from "../../utils/translations";
+import { stylesMap } from "../../lib/common/styles";
+import { getTextsFromTranslations } from "../../lib/server/translations";
 
 export const load: PageServerLoad = async () => {
     const pageIdPrefix = "page.contact.";
@@ -37,8 +38,8 @@ export const load: PageServerLoad = async () => {
 
     return {
         ...contact,
-        acceptPrivacyPolicy: formatWYSIWYG(contact.acceptPrivacyPolicy),
-        contactPhoto: directusImageParams({
+        acceptPrivacyPolicy: formatWYSIWYG(stylesMap, contact.acceptPrivacyPolicy),
+        contactPhoto: directusImageParams(env.CMS_URL, {
             ...defaultNull(contact.contactPhoto),
             alt: "contact",
             assetParams: { quality: 50, width: 720 },

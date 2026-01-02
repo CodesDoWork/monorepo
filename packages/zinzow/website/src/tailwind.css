@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@source "./";
+@source "../../../shared/svelte/components/src/";
 
 @font-face {
     font-family: "Lato";

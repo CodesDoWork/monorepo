@@ -1,8 +1,9 @@
 <script lang="ts">
     import type { PageData } from "../../routes/dienstleistungen/$types";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
-    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
-    import DirectusImage from "../directus-image/DirectusImage.svelte";
+    import { fadeInBottom } from "../../lib/common/styles";
     import { H2 } from "../heading";
 
     type Service = PageData["services"][number];
@@ -26,10 +27,7 @@
         `,
     )}>
     {#each services as service, idx (idx)}
-        <a
-            href={service.route.path}
-            class={fadeInBottom()}
-            style={animationDelay(cols * idx + col)}>
+        <a href={service.route.path} class={fadeInBottom} style={animationDelay(cols * idx + col)}>
             <li
                 class="
                     group relative isolate rounded-xl shadow-md transition

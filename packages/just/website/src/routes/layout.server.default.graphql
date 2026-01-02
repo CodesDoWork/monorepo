@@ -22,7 +22,9 @@ query GetHomeLayoutServerData($language: String!) {
     }
 
     about: just_site_about {
-        portrait
+        portrait {
+            ...DirectusImage
+        }
     }
 
     routes: just_site_routes {

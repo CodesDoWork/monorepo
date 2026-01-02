@@ -3,8 +3,8 @@ import { create } from "xmlbuilder2";
 import { env } from "../../env";
 import { queryDefault } from "../../graphql/default/client";
 import { GetSitemapServerDataDocument } from "../../graphql/default/generated/graphql";
-import { addPriorityRoute } from "../../shared/navigation/priority-routes";
-import { transformRoutes } from "../../shared/routes";
+import { addPriorityRoute } from "../../lib/common/priority-routes";
+import { transformRoutes } from "../../lib/common/routes";
 
 addPriorityRoute("/sitemap.xml");
 

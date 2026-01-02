@@ -4,8 +4,8 @@ import { z } from "zod";
 
 export const env = createEnv({
     server: {
-        URL: z.string().url(),
-        CMS_URL: z.string().url(),
+        URL: z.url(),
+        CMS_URL: z.url(),
         CMS_TOKEN: z.string(),
         SMTP_HOST: z.string(),
         SMTP_PORT: z.coerce.number(),

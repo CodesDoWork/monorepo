@@ -1,7 +1,7 @@
 <script lang="ts">
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
-    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
-    import { smallTextClasses } from "../../lib/common/styles";
+    import { fadeInBottom, smallTextClasses } from "../../lib/common/styles";
 
     interface Stats {
         name: string;
@@ -28,7 +28,7 @@
         <div
             style={animationDelay(idx + delay)}
             class={clsx(
-                fadeInBottom(),
+                fadeInBottom,
                 `
                     flex flex-col-reverse
                     sm:gap-y-1

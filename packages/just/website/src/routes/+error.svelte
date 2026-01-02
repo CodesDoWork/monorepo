@@ -1,6 +1,6 @@
 <script lang="ts">
     import { page } from "$app/state";
-    import Link from "../components/Link.svelte";
+    import { Link } from "../components/texts";
 
     const emojis: Record<number, string> = {
         400: "❗",

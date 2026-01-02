@@ -1,11 +1,10 @@
 <script lang="ts">
     import type { ActionData, PageData } from "./$types";
     import { enhance } from "$app/forms";
-    import { addJsonLdThings } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
-    import Heading from "../../components/Heading.svelte";
-    import Link from "../../components/Link.svelte";
-    import { animationDelay } from "../../shared/animationDelay";
+    import { H2, Link, P } from "../../components/texts";
     import SocialCards from "./SocialCards.svelte";
 
     interface Props {
@@ -14,29 +13,19 @@
     }
 
     const { data, form }: Props = $props();
-    const { socials, texts, privacyPolicyRoute, jsonLdThings } = data;
-    addJsonLdThings(jsonLdThings);
-    const socialGroups = Object.groupBy(socials, s => s.isSeeMore.toString());
-    const mainSocials = socialGroups.false;
-    const seeMoreSocials = socialGroups.true;
+    const { socials, texts, privacyPolicyRoute, jsonLdThings } = $derived(data);
+    $effect(() => addJsonLdThings(jsonLdThings));
+    const { false: mainSocials, true: seeMoreSocials } = $derived(
+        Object.groupBy(socials, s => s.isSeeMore.toString()),
+    );
 
     const inputClass = clsx(
-        "border-0",
         `
-            rounded p-2 shadow
-            focus:shadow-md focus:outline-2
-        `,
-        `
-            outline outline-stone-200
-            dark:outline-0 dark:outline-slate-500 dark:focus:outline-1
-        `,
-        `
+            rounded border-0 bg-white p-2 shadow outline outline-stone-200 transition
             placeholder:text-slate-400
-            dark:placeholder:text-slate-300
-        `,
-        `
-            bg-white transition
-            dark:bg-white/10
+            focus:shadow-md focus:outline-2
+            dark:bg-white/10 dark:outline-0 dark:outline-slate-500 dark:placeholder:text-slate-300
+            dark:focus:outline-1
         `,
     );
 </script>
@@ -47,16 +36,18 @@
         xl:gap-16
         2xl:grid-cols-2
     ">
-    <section class="animate-fadeInSubtle opacity-0">
-        <Heading level="h2">{texts.letsConnect}</Heading>
-        <SocialCards socials={mainSocials} />
-    </section>
-    <section class="animate-fadeInSubtle row-start-2 opacity-0">
-        <Heading level="h2">{texts.seeMore}</Heading>
-        <SocialCards socials={seeMoreSocials} />
-    </section>
+    <div class="row-span-2">
+        <section class="animate-fadeInSubtle opacity-0">
+            <H2>{texts.letsConnect}</H2>
+            <SocialCards socials={mainSocials} />
+        </section>
+        <section class="animate-fadeInSubtle opacity-0">
+            <H2>{texts.seeMore}</H2>
+            <SocialCards socials={seeMoreSocials} />
+        </section>
+    </div>
     <section class="animate-fadeInSubtle flex flex-col opacity-0" style={animationDelay(2)}>
-        <Heading level="h2">{texts.sendMessage}</Heading>
+        <H2>{texts.sendMessage}</H2>
         <form
             action="?/mail"
             class="grid grow grid-cols-2 grid-rows-[auto_1fr_auto] gap-4"
@@ -77,7 +68,8 @@
                 type="email"
                 value={form?.data?.email || ""} />
             <textarea
-                class={clsx(inputClass, "col-span-2 min-h-24")}
+                class={clsx(inputClass, "col-span-2")}
+                rows="9"
                 name="message"
                 placeholder={texts.message}
                 required>{form?.data?.message || ""}</textarea>
@@ -100,9 +92,10 @@
             </div>
             <button
                 class={clsx(
-                    inputClass,
                     `
-                        col-span-2 bg-(--page-color)! text-white outline-0!
+                        bg-pageColor col-span-2 cursor-pointer rounded-md p-2 text-white shadow-sm
+                        transition-[background,box-shadow]
+                        hover:bg-pageColor-600 hover:shadow-md
                         active:brightness-75
                     `,
                 )}
@@ -110,9 +103,9 @@
                 {texts.send}
             </button>
             {#if form}
-                <p class={clsx("col-span-2", form.success ? "text-green-500" : "text-error-500")}>
+                <P class={clsx("col-span-2", form.success ? "text-green-500!" : "text-error-500!")}>
                     {form.msg}
-                </p>
+                </P>
             {/if}
         </form>
     </section>

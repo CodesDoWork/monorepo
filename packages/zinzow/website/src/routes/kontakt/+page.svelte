@@ -3,20 +3,20 @@
     import type { Component, Snippet } from "svelte";
     import type { ActionData, PageData } from "./$types";
     import { enhance } from "$app/forms";
-    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
+    import { normalizeAnchor } from "@cdw/monorepo/shared-utils/html/common";
     import { clsx } from "clsx";
     import { onMount } from "svelte";
     import { WidthBox } from "../../components/content-area";
-    import { DirectusImage } from "../../components/directus-image";
     import { CheckboxWithLabel, InputWithLabel } from "../../components/form";
     import FileInputWithLabel from "../../components/form/FileInputWithLabel.svelte";
     import TextareaWithLabel from "../../components/form/TextareaWithLabel.svelte";
     import { H1, H2 } from "../../components/heading";
     import { Icons } from "../../components/icons";
     import { Paragraphs, TextWithIcon } from "../../components/text";
-    import { animationDelay, fadeIn, fadeInBottom } from "../../lib/client/animate";
-    import { normalizeAnchor } from "../../lib/common/normalize-anchor";
-    import { stylesMap } from "../../lib/common/styles";
+    import { fadeIn, fadeInBottom, stylesMap } from "../../lib/common/styles";
 
     interface Props {
         data: PageData;
@@ -58,10 +58,7 @@
     const attachmentsId = "attachments";
     let mailLoading = $state(false);
 
-    const jsonldContext = getJsonLdContext();
-    $effect(() => {
-        jsonldContext.things = jsonldThings;
-    });
+    $effect(() => addJsonLdThings(jsonldThings));
 </script>
 
 <WidthBox class="isolate">
@@ -71,7 +68,7 @@
             grid grid-cols-1
             sm:grid-cols-2 sm:grid-rows-[min-content_min-content_1fr_min-content]
         ">
-        <H1 class={clsx(fadeIn(), "xs:col-span-2")}>{title}</H1>
+        <H1 class={clsx(fadeIn, "xs:col-span-2")}>{title}</H1>
         <div class="lg:max-w-lg">
             <Paragraphs text={intro} animationDelay={1} />
             <dl class="mt-10 space-y-4">
@@ -130,7 +127,7 @@
                 ">
                 <InputWithLabel
                     style={animationDelay(3)}
-                    class={fadeInBottom()}
+                    class={fadeInBottom}
                     id="firstName"
                     name="firstName"
                     required
@@ -141,7 +138,7 @@
                     errors={form?.errors?.firstName?.errors} />
                 <InputWithLabel
                     style={animationDelay(4)}
-                    class={fadeInBottom()}
+                    class={fadeInBottom}
                     id="lastName"
                     name="lastName"
                     required
@@ -152,7 +149,7 @@
                     errors={form?.errors?.lastName?.errors} />
                 <InputWithLabel
                     style={animationDelay(5)}
-                    class={clsx(fadeInBottom(), "xs:col-span-2")}
+                    class={clsx(fadeInBottom, "xs:col-span-2")}
                     id="email"
                     name="email"
                     required
@@ -163,7 +160,7 @@
                     errors={form?.errors?.email?.errors} />
                 <TextareaWithLabel
                     style={animationDelay(6)}
-                    class={clsx(fadeInBottom(), "xs:col-span-2")}
+                    class={clsx(fadeInBottom, "xs:col-span-2")}
                     id="message"
                     name="message"
                     required
@@ -173,7 +170,7 @@
                     errors={form?.errors?.message?.errors} />
                 <CheckboxWithLabel
                     style={animationDelay(7)}
-                    class={clsx(fadeInBottom(), "xs:col-span-2")}
+                    class={clsx(fadeInBottom, "xs:col-span-2")}
                     id="privacy"
                     name="privacy"
                     required
@@ -183,7 +180,7 @@
                 </CheckboxWithLabel>
                 <FileInputWithLabel
                     style={animationDelay(8)}
-                    class={fadeInBottom()}
+                    class={fadeInBottom}
                     id={attachmentsId}
                     name={attachmentsId}
                     label="Anhang"
@@ -199,7 +196,7 @@
                     disabled={mailLoading}
                     class={clsx(
                         stylesMap.button,
-                        fadeInBottom(),
+                        fadeInBottom,
                         mailLoading &&
                             `
                                 bg-primary-400
@@ -228,7 +225,7 @@
             imgClass="rounded-lg shadow-md"
             style={animationDelay(5)}
             class={clsx(
-                fadeInBottom(),
+                fadeInBottom,
                 `
                     xs:col-2 xs:row-2 xs:mt-20 xs:h-40
                     mx-auto mt-16 aspect-square h-56
@@ -240,7 +237,7 @@
         <div
             style={animationDelay(7)}
             class={clsx(
-                fadeIn(),
+                fadeIn,
                 `
                     xs:col-span-2
                     mt-20

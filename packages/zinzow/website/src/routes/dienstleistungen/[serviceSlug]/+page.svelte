@@ -1,11 +1,12 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { splitInHalf } from "@cdw/monorepo/shared-utils/arrays";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { WidthBox } from "../../../components/content-area";
     import { H1 } from "../../../components/heading";
     import { ServiceImage } from "../../../components/services";
-    import { animationDelay, fadeIn } from "../../../lib/client/animate";
-    import { splitInHalf } from "../../../lib/client/split-in-half";
+    import { fadeIn } from "../../../lib/common/styles";
 
     interface Props {
         data: PageData;
@@ -16,22 +17,19 @@
 
     const [imgs1, imgs2] = $derived(splitInHalf(images));
 
-    const jsonLdContext = getJsonLdContext();
-    $effect(() => {
-        jsonLdContext.things = jsonldThings;
-    });
+    $effect(() => addJsonLdThings(jsonldThings));
 </script>
 
 <WidthBox class="isolate">
     {#key currentRoute?.name}
-        <H1 class={fadeIn()}>{currentRoute?.name}</H1>
+        <H1 class={fadeIn}>{currentRoute?.name}</H1>
         <section
             class="
                 grid gap-12
                 md:grid-cols-[50%_1fr]
                 lg:gap-16
             ">
-            <article class={fadeIn()} style={animationDelay(1)}>
+            <article class={fadeIn} style={animationDelay(1)}>
                 {@html description}
             </article>
             <aside

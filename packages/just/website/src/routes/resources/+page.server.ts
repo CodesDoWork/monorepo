@@ -1,14 +1,15 @@
-import type { FlatTrans } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
+import type { FlatTrans } from "@cdw/monorepo/shared-graphql";
 import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
 import type { GetResourcesServerDataQuery } from "../../graphql/default/generated/graphql";
 import type { PageServerLoad } from "./$types";
-import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
-import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
+import { assetUrl } from "@cdw/monorepo/shared-directus";
+import { flattenTranslations } from "@cdw/monorepo/shared-graphql";
+import { formatWYSIWYG } from "@cdw/monorepo/shared-utils/html/common";
+import { env } from "../../env";
 import { queryDefault } from "../../graphql/default/client";
 import { GetResourcesServerDataDocument } from "../../graphql/default/generated/graphql";
-import { replaceLinks } from "../../lib/server/replace-links";
-import { createBreadcrumbList } from "../../shared/urls";
+import { stylesMap } from "../../lib/common/styles";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
@@ -18,26 +19,31 @@ export const load: PageServerLoad = async ({ parent }) => {
         query: GetResourcesServerDataDocument,
         variables: { language: currentLanguage.code },
     });
-    const { resources, sections } = flattenTranslations(data);
+    const { resources, sections: translatedSections } = flattenTranslations(data);
 
-    sections.forEach(section => {
-        section.description = replaceLinks(section.description);
-        section.items.forEach(item => {
-            item.file = assetUrl(item.file, { format: "original" });
-        });
-    });
-
+    const sections = translatedSections.map(transformSection);
     const jsonLdThings = createJsonLdThings(parentData, sections);
 
     return { resources, sections, jsonLdThings };
 };
 
+function transformSection(section: FlatTrans<GetResourcesServerDataQuery>["sections"][0]) {
+    return {
+        ...section,
+        description: formatWYSIWYG(stylesMap, section.description),
+        items: section.items.map(item => ({
+            ...item,
+            file: assetUrl(env.CMS_URL, item.file.id, { download: true }),
+        })),
+    };
+}
+
 function createJsonLdThings(
     parentData: LayoutServerData,
-    sections: FlatTrans<GetResourcesServerDataQuery>["sections"],
+    sections: ReturnType<typeof transformSection>[],
 ): Thing[] {
-    const { currentRoute, homeRoute, siteInfo } = parentData;
-    const documentThings: Thing[] = sections.flatMap(section =>
+    const { siteInfo } = parentData;
+    return sections.flatMap(section =>
         section.items.map(item => ({
             "@type": "DigitalDocument",
             name: item.title,
@@ -50,6 +56,4 @@ function createJsonLdThings(
             },
         })),
     );
-
-    return [...documentThings, createBreadcrumbList(currentRoute, homeRoute)];
 }

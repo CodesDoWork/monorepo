@@ -1,14 +1,15 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
     import { WidthBox } from "../../components/content-area";
-    import { DirectusImage } from "../../components/directus-image";
     import { H1 } from "../../components/heading";
     import { ImagePopup } from "../../components/image-popup";
     import { ImageInfo, ImageNavigation } from "../../components/impressions";
     import ImageGallery from "../../components/impressions/ImageGallery.svelte";
-    import { animationDelay, fadeIn } from "../../lib/client/animate";
+    import { fadeIn } from "../../lib/common/styles";
     import { useImages } from "./image.svelte";
 
     interface Props {
@@ -20,10 +21,7 @@
     const columns = 6;
     const imgs = $derived(useImages(impressions.images, columns));
 
-    const jsonLdContext = getJsonLdContext();
-    $effect(() => {
-        jsonLdContext.things = jsonldThings;
-    });
+    $effect(() => addJsonLdThings(jsonldThings));
 </script>
 
 <svelte:window onkeydown={imgs.handleKey} />
@@ -32,7 +30,7 @@
     setIsOpen={(isOpen: boolean) => (imgs.showDialog = isOpen)}
     selectedImage={imgs.selectedImage} />
 <WidthBox class="isolate">
-    <H1 class={fadeIn()}>{impressions.title}</H1>
+    <H1 class={fadeIn}>{impressions.title}</H1>
     <div
         class="
             mt-8 grid grid-cols-1
@@ -40,13 +38,14 @@
         ">
         <div
             style={animationDelay(1)}
-            class={fadeIn(
-                clsx(`
+            class={clsx(
+                fadeIn,
+                `
                     relative row-span-3 grid grid-cols-subgrid
                     lg:col-span-2 lg:row-span-2 lg:mx-8
                     xl:mx-4
                     2xl:mx-0
-                `),
+                `,
             )}>
             <button
                 onclick={() => (imgs.showDialog = true)}

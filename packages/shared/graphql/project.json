@@ -1,0 +1,8 @@
+{
+    "name": "shared-graphql",
+    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/shared/graphql/src",
+    "projectType": "library",
+    "tags": ["shared"],
+    "targets": {}
+}

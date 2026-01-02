@@ -2,7 +2,9 @@ query GetEventsServerData($language: String!) {
     events: just_site_events {
         startDate: start_date
         endDate: end_date
-        logo
+        logo {
+            ...DirectusImage
+        }
         translations(filter: { languages_code: { code: { _eq: $language } } }) {
             title
             description
@@ -10,12 +12,13 @@ query GetEventsServerData($language: String!) {
         }
         projects {
             project: just_site_projects_id {
-                id
                 name
                 translations(filter: { languages_code: { code: { _eq: $language } } }) {
                     description
                 }
-                thumbnail
+                thumbnail {
+                    ...DirectusImage
+                }
             }
         }
         technologies {
@@ -33,7 +36,9 @@ query GetEventsServerData($language: String!) {
             }
         }
         images {
-            fileId: directus_files_id
+            file: directus_files_id {
+                ...DirectusImage
+            }
         }
     }
 

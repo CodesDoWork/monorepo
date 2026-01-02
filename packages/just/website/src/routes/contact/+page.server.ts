@@ -1,8 +1,9 @@
+import type SMTPConnection from "nodemailer/lib/smtp-connection";
 import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
 import type { Actions, PageServerLoad, RequestEvent } from "./$types";
-import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import { SMTPClient } from "emailjs";
+import { flattenTranslations } from "@cdw/monorepo/shared-graphql";
+import { createTransport } from "nodemailer";
 import { z } from "zod";
 import { env } from "../../env";
 import { queryDefault } from "../../graphql/default/client";
@@ -11,10 +12,9 @@ import {
     GetContactActionLanguagesDocument,
     GetContactServerDataDocument,
 } from "../../graphql/default/generated/graphql";
-import { getLanguage } from "../../shared/language";
-import { mapSocial } from "../../shared/mapSocials";
-import { transformRoutes } from "../../shared/routes";
-import { createBreadcrumbList, domainUrl } from "../../shared/urls";
+import { transformRoutes } from "../../lib/common/routes";
+import { getLanguage } from "../../lib/server/language";
+import { mapSocial } from "../../lib/server/map-socials";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
@@ -36,36 +36,34 @@ export const load: PageServerLoad = async ({ parent }) => {
 };
 
 function createJsonLdThings(parentData: LayoutServerData): Thing[] {
-    const { currentLanguage, currentRoute, socials, homeRoute } = parentData;
+    const { currentLanguage, socials } = parentData;
     return [
         {
             "@type": "ContactPage",
-            name: currentRoute.name,
-            description: currentRoute.description,
-            url: domainUrl(currentRoute),
             inLanguage: currentLanguage.short,
             mainEntity: {
                 "@type": "ContactPoint",
-                url: domainUrl(currentRoute),
                 sameAs: socials.map(s => s.href),
             },
         },
-        createBreadcrumbList(currentRoute, homeRoute),
     ];
 }
 
-const client = new SMTPClient({
-    user: env.SMTP_USERNAME,
-    password: env.SMTP_PASSWORD,
+const smtpOptions: SMTPConnection.Options = {
     host: env.SMTP_HOST,
     port: env.SMTP_PORT,
-    tls: true,
-});
+    secure: false,
+    auth: {
+        user: env.SMTP_USERNAME,
+        pass: env.SMTP_PASSWORD,
+    },
+};
 
+const mailTransport = createTransport(smtpOptions);
 const zMessage = z
     .object({
         name: z.string(),
-        email: z.string().email(),
+        email: z.email(),
         message: z.string(),
         privacy: z.coerce.boolean(),
     })
@@ -107,9 +105,9 @@ async function processMessage(event: RequestEvent, msg: Message) {
     }
 
     try {
-        await client.sendAsync({
-            text: `From: ${name} <${email}>\n\n ${message}`,
-            from: `${name} <${email}>`,
+        await mailTransport.sendMail({
+            html: `<p>From: <strong>${name}</strong> <<i>${email}</i>></p><br /><br</> <p>${message.replace(/\n/g, "<br />")}</p>`,
+            from: env.SMTP_USERNAME,
             to: env.SMTP_USERNAME,
             subject: `[Just-Site] New Message from ${name}`,
         });

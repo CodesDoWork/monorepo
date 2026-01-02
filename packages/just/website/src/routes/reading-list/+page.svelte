@@ -1,11 +1,11 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { addJsonLdThings } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
-    import Heading from "../../components/Heading.svelte";
-    import Link from "../../components/Link.svelte";
-    import { animationDelay } from "../../shared/animationDelay";
-    import { smoothScrollTo } from "../../shared/smoothScroll";
-    import { toLinkFriendly } from "../../shared/toLinkFriendly";
+    import { page } from "$app/state";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
+    import { smoothScrollTo } from "@cdw/monorepo/shared-utils/html/client";
+    import { normalizeAnchor } from "@cdw/monorepo/shared-utils/html/common";
+    import { H3, Link, P } from "../../components/texts";
     import BookCategory from "./BookCategory.svelte";
 
     interface Props {
@@ -13,22 +13,21 @@
     }
 
     const { data }: Props = $props();
-    const { books, categories, texts, jsonLdThings } = data;
-    addJsonLdThings(jsonLdThings);
+    const { books, categories, texts, jsonLdThings } = $derived(data);
+    $effect(() => addJsonLdThings(jsonLdThings));
 
-    let animationIdx = 0;
-    const getCardStyle = () => animationDelay(animationIdx++);
-
-    if (window.location.hash) {
-        setTimeout(() => smoothScrollTo(window.location.hash), 800);
-    }
+    $effect(() => {
+        if (page.url.hash) {
+            setTimeout(() => smoothScrollTo(window.location.hash), 0);
+        }
+    });
 </script>
 
-<p class="mb-2 italic">{texts.intro}</p>
-<p class="mb-4 text-red-500">
+<P>{texts.intro}</P>
+<P class="text-red-600!">
     ⚠️<b>{texts.warning}</b>⚠️<br />{texts.warningContent}
-</p>
-<Heading level="h3">{texts.categories}</Heading>
+</P>
+<H3>{texts.categories}</H3>
 <ol
     class="
         list-inside list-disc
@@ -37,13 +36,13 @@
         2xl:columns-4
     ">
     <li>
-        <Link href={`#${toLinkFriendly(texts.featured)}`} smoothScroll title={texts.featured}>
+        <Link href={`#${normalizeAnchor(texts.featured)}`} smoothScroll title={texts.featured}>
             {texts.featured}
         </Link>
     </li>
     {#each categories as category}
         <li>
-            <Link title={category} href={`#${toLinkFriendly(category)}`} smoothScroll>
+            <Link title={category} href={`#${normalizeAnchor(category)}`} smoothScroll>
                 {category}
             </Link>
         </li>
@@ -55,7 +54,12 @@
         my-8
         dark:opacity-20
     " />
-<BookCategory {books} category={texts.featured} {getCardStyle} featuredText={texts.featured} />
-{#each categories as category}
-    <BookCategory {category} {books} {getCardStyle} featuredText={texts.featured} />
+<BookCategory {books} category={texts.featured} featuredText={texts.featured} />
+{#each categories as category, idx (idx)}
+    <BookCategory
+        {category}
+        {books}
+        categoryIndex={(idx + 1) / 2}
+        style={animationDelay((idx + 1) / 2)}
+        featuredText={texts.featured} />
 {/each}

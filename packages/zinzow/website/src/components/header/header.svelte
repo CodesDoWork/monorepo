@@ -1,8 +1,9 @@
 <script lang="ts">
     import type { RouteFragment } from "../../graphql/default/generated/graphql";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
+    import { fadeInBottom } from "../../lib/common/styles";
     import { WidthBox } from "../content-area";
     import { LogoWithoutText } from "../logo";
     import { MobileMenu } from "../mobile-menu";
@@ -30,7 +31,13 @@
         <nav class="flex items-center justify-between py-4">
             <a href="/" aria-label="Home">
                 <LogoWithoutText
-                    class={fadeInBottom("size-24 md:size-32 rounded")}
+                    class={clsx(
+                        fadeInBottom,
+                        `
+                            size-24 rounded
+                            md:size-32
+                        `,
+                    )}
                     style={animationDelay(AnimationPriority.LOGO)} />
             </a>
             <div
@@ -56,21 +63,22 @@
                     {#each routesInNav as route, idx (idx)}
                         <li
                             style={animationDelay(AnimationPriority.NAV + idx)}
-                            class={fadeInBottom(
+                            class={clsx(
+                                fadeInBottom,
                                 `
-                                group/nav-item relative transition-all
-                                hover:scale-105 hover:text-primary
-                                dark:hover:text-primary-200
-                            `,
+                                    group/nav-item relative transition-all
+                                    hover:text-primary hover:scale-105
+                                    dark:hover:text-primary-200
+                                `,
                                 currentRoute?.path.startsWith(route.path)
                                     ? `
-                                    scale-105 text-primary
-                                    dark:text-primary-200
-                                `
+                                        text-primary scale-105
+                                        dark:text-primary-200
+                                    `
                                     : `
-                                    scale-100 text-gray-900
-                                    dark:text-white
-                                `,
+                                        scale-100 text-gray-900
+                                        dark:text-white
+                                    `,
                             )}>
                             <a href={route.path} class={clsx(`block px-3 py-1 font-semibold`)}>
                                 {route.name}

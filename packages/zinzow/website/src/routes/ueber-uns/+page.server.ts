@@ -1,12 +1,13 @@
+import type { DirectusImageParams } from "@cdw/monorepo/shared-svelte-components";
 import type { Thing } from "schema-dts";
-import type { DirectusImageParams } from "../../lib/common/directus-image";
 import type { PageServerLoad } from "./$types";
+import { directusImageParams } from "@cdw/monorepo/shared-svelte-components";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
+import { formatWYSIWYG } from "@cdw/monorepo/shared-utils/html/common";
 import { env } from "../../env";
 import { queryDefault } from "../../graphql/default/client";
 import { GetAboutDataDocument } from "../../graphql/default/generated/graphql";
-import { directusImageParams } from "../../lib/common/directus-image";
-import { formatWYSIWYG } from "../../lib/server/wysiwyg";
+import { stylesMap } from "../../lib/common/styles";
 
 export const load: PageServerLoad = async () => {
     const aboutData = await queryDefault({ query: GetAboutDataDocument });
@@ -19,7 +20,7 @@ export const load: PageServerLoad = async () => {
     const teamMembers = aboutData.teamMembers.map(member => ({
         ...member,
         portrait: member.portrait
-            ? directusImageParams({
+            ? directusImageParams(env.CMS_URL, {
                   ...defaultNull(member.portrait),
                   alt: "team member",
                   assetParams: { width: 256, quality: 50 },
@@ -32,18 +33,18 @@ export const load: PageServerLoad = async () => {
         about: {
             ...about,
             images: about.images.map(f =>
-                directusImageParams({
+                directusImageParams(env.CMS_URL, {
                     ...defaultNull(f.directus_files_id),
                     alt: "about aside",
                     assetParams: { quality: 50, width: 720 },
                 }),
             ),
-            bannerImage: directusImageParams({
+            bannerImage: directusImageParams(env.CMS_URL, {
                 ...defaultNull(about.bannerImage),
                 alt: "about banner",
                 assetParams: { width: 1_280, quality: 50 },
             }),
-            aboutText: formatWYSIWYG(about.aboutText),
+            aboutText: formatWYSIWYG(stylesMap, about.aboutText),
         },
         teamMembers,
         jsonLdThings: createJsonLdThings({ stats: aboutData.stats, teamMembers }),

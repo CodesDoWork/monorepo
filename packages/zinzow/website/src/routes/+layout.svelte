@@ -1,17 +1,14 @@
 <script lang="ts">
-    import type { JsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
+    import type { JsonLdContext } from "@cdw/monorepo/shared-svelte-contexts";
     import type { BreadcrumbList, Thing } from "schema-dts";
     import type { Snippet } from "svelte";
     import type { LayoutData } from "./$types";
-    import {
-        setJsonLdContext,
-        stringifyJsonLd,
-    } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
+    import { setJsonLdContext, stringifyJsonLd } from "@cdw/monorepo/shared-svelte-contexts";
+    import { createColors, createCssVariables } from "@cdw/monorepo/shared-utils/css/colors";
     import { clsx } from "clsx";
     import { blur } from "svelte/transition";
     import { Footer } from "../components/footer";
     import { Header } from "../components/header";
-    import { createColors, createCssVariables } from "../utils/css";
     import "../tailwind.css";
 
     interface Props {
@@ -98,7 +95,7 @@
     <title>{pageTitle}</title>
     <meta name="robots" content={currentRoute ? "index,follow" : "noindex"} />
     <meta content="" name="keywords" />
-    <meta content="https://agrarservicenordost.de" property="og:url" />
+    <meta content={baseUrl} property="og:url" />
     <meta name="theme-color" content="light-dark(white, black);" />
     {#if currentRoute}
         <link rel="canonical" href={currentRouteUrl} />

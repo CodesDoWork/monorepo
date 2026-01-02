@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { DirectusImageParams } from "../../lib/common/directus-image";
-    import { animationDelay, fadeIn, fadeInBottom } from "../../lib/client/animate";
-    import { smallTextClasses } from "../../lib/common/styles";
-    import { DirectusImage } from "../directus-image";
+    import type { DirectusImageParams } from "@cdw/monorepo/shared-svelte-components";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
+    import { fadeIn, fadeInBottom, smallTextClasses } from "../../lib/common/styles";
     import { H2, H4 } from "../heading";
     import { P } from "../text";
 
@@ -22,7 +22,7 @@
 </script>
 
 <section>
-    <article class={fadeIn()} style={animationDelay(delay)}>
+    <article class={fadeIn} style={animationDelay(delay)}>
         <H2>{title}</H2>
         <P prose block>{text}</P>
     </article>
@@ -36,7 +36,7 @@
             xl:grid-cols-6
         ">
         {#each members as member, idx (idx)}
-            <li class={fadeInBottom()} style={animationDelay(delay + idx + 1)}>
+            <li class={fadeInBottom} style={animationDelay(delay + idx + 1)}>
                 {#if member.portrait}
                     <DirectusImage
                         img={member.portrait}

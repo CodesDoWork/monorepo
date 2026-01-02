@@ -1,15 +1,17 @@
-import type { FlatTrans } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
+import type { FlatTrans } from "@cdw/monorepo/shared-graphql";
 import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
 import type { GetEventsServerDataQuery } from "../../graphql/default/generated/graphql";
 import type { Route } from "../types";
 import type { PageServerLoad } from "./$types";
-import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
+import { flattenTranslations } from "@cdw/monorepo/shared-graphql";
+import { directusImageParams } from "@cdw/monorepo/shared-svelte-components";
+import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
 import { byField, byId } from "@cdw/monorepo/shared-utils/filters";
-import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
+import { normalizeAnchor } from "@cdw/monorepo/shared-utils/html/common";
+import { env } from "../../env";
 import { queryDefault } from "../../graphql/default/client";
 import { GetEventsServerDataDocument } from "../../graphql/default/generated/graphql";
-import { createBreadcrumbList } from "../../shared/urls";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
@@ -49,15 +51,29 @@ function transformEvents(
         ...e,
         projects: e.projects.map(({ project: { thumbnail, ...project } }) => ({
             ...project,
-            logo: assetUrl(thumbnail, { quality: 15 }),
-            href: `${projectRoute.route}#_${project.id}`,
+            logo: directusImageParams(env.CMS_URL, {
+                ...defaultNull(thumbnail),
+                alt: "project logo",
+                assetParams: { width: 64, quality: 50 },
+            }),
+            href: `${projectRoute.route}#${normalizeAnchor(project.name)}`,
         })),
         links: e.links.map(({ link }) => link),
         technologies: e.technologies.map(({ technology }) => technology),
-        logo: assetUrl(e.logo, { quality: 20 }),
+        logo: directusImageParams(env.CMS_URL, {
+            ...defaultNull(e.logo),
+            alt: "event logo",
+            assetParams: { width: 128, quality: 30 },
+        }),
         startDate: new Date(e.startDate as unknown as string),
         endDate: new Date(e.endDate as unknown as string),
-        images: e.images.map(({ fileId }) => assetUrl(fileId, { quality: 60 })),
+        images: e.images.map(({ file }) =>
+            directusImageParams(env.CMS_URL, {
+                ...defaultNull(file),
+                alt: "event image",
+                assetParams: { width: 256, quality: 50 },
+            }),
+        ),
     }));
 }
 
@@ -65,18 +81,16 @@ function createJsonLdThings(
     parentData: LayoutServerData,
     events: ReturnType<typeof transformEvents>,
 ): Thing[] {
-    const { currentRoute, homeRoute, currentLanguage } = parentData;
-    const eventThings: Thing[] = events.map(event => ({
+    const { currentLanguage } = parentData;
+    return events.map(event => ({
         "@type": "Event",
         name: event.title,
         startDate: event.startDate.toISOString(),
         endDate: event.endDate.toISOString(),
         eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
         description: event.description,
-        image: [event.logo, ...event.images],
+        image: [event.logo.src, ...event.images.map(img => img.src)],
         location: event.location,
         inLanguage: currentLanguage.short,
     }));
-
-    return [...eventThings, createBreadcrumbList(currentRoute, homeRoute)];
 }

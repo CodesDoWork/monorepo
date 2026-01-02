@@ -1,7 +1,8 @@
 <script lang="ts">
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
+    import { fadeInBottom } from "../../lib/common/styles";
     import { P } from "../text";
 
     interface Props {
@@ -29,7 +30,7 @@
     style={animationDelay(delay)}
     class={clsx(
         className,
-        fadeInBottom(),
+        fadeInBottom,
         `
             relative mx-auto grid w-fit grid-cols-[min-content_4.5rem_minmax(0,1fr)] gap-x-2 px-8
             md:grid-flow-col md:grid-cols-none md:grid-rows-[min-content_4.5rem_minmax(0,1fr)]

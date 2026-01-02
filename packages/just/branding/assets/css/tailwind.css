@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../../../shared/svelte/components/src/";
 
 @font-face {
     font-family: "JetBrains Mono";
@@ -10,6 +11,22 @@
     font-family: "Inter";
     src: url("../font/inter/Inter.woff2") format("woff2");
     font-display: swap;
+}
+
+@theme inline {
+    --color-pageColor: var(--pageColor);
+    --color-pageColor-50: var(--pageColor-50);
+    --color-pageColor-100: var(--pageColor-100);
+    --color-pageColor-200: var(--pageColor-200);
+    --color-pageColor-300: var(--pageColor-300);
+    --color-pageColor-400: var(--pageColor-400);
+    --color-pageColor-500: var(--pageColor-500);
+    --color-pageColor-600: var(--pageColor-600);
+    --color-pageColor-700: var(--pageColor-700);
+    --color-pageColor-800: var(--pageColor-800);
+    --color-pageColor-900: var(--pageColor-900);
+    --color-pageColor-950: var(--pageColor-950);
+    --color-onPageColor: var(--onPageColor);
 }
 
 @theme {

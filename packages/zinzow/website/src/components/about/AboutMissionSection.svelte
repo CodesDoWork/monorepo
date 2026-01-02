@@ -1,5 +1,6 @@
 <script lang="ts">
-    import { animationDelay, fadeIn } from "../../lib/client/animate";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
+    import { fadeIn } from "../../lib/common/styles";
     import { H2 } from "../heading";
     import { P } from "../text";
 
@@ -13,7 +14,7 @@
 </script>
 
 <section>
-    <article class={fadeIn()} style={animationDelay(delay)}>
+    <article class={fadeIn} style={animationDelay(delay)}>
         <H2>{title}</H2>
         <P lang="de" prose block>
             {text}

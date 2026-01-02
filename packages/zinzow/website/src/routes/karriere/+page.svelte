@@ -1,14 +1,14 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
     import JobPosting from "../../components/career/JobPosting.svelte";
     import { WidthBox } from "../../components/content-area";
-    import { DirectusImage } from "../../components/directus-image";
     import { H1, H2, H4 } from "../../components/heading";
     import { Paragraphs } from "../../components/text";
-    import { animationDelay, fadeIn, fadeInBottom } from "../../lib/client/animate";
-    import { aHoverAnimation } from "../../lib/common/styles";
+    import { aHoverAnimation, fadeIn, fadeInBottom } from "../../lib/common/styles";
 
     interface Props {
         data: PageData;
@@ -17,14 +17,11 @@
     const { data }: Props = $props();
     const { career, careerBenefits, jobPostings, jsonldThings } = $derived(data);
 
-    const jsonLdContext = getJsonLdContext();
-    $effect(() => {
-        jsonLdContext.things = jsonldThings;
-    });
+    $effect(() => addJsonLdThings(jsonldThings));
 </script>
 
 <WidthBox class="isolate">
-    <H1 class={fadeIn()}>{career.title}</H1>
+    <H1 class={fadeIn}>{career.title}</H1>
     <Paragraphs text={career.intro} animationDelay={1} />
     <ul
         class="
@@ -35,12 +32,13 @@
         ">
         {#each careerBenefits as benefit, idx (idx)}
             <li
-                class={fadeInBottom(
-                    clsx(`
+                class={clsx(
+                    fadeInBottom,
+                    `
                         text-primary w-fit origin-left transition-all
                         hover:text-primary-900 hover:scale-104
                         dark:hover:text-primary-400
-                    `),
+                    `,
                 )}
                 style={animationDelay(2 + idx)}>
                 <H4 class={clsx(aHoverAnimation, `relative m-0! inline-block cursor-default`)}>
@@ -54,7 +52,7 @@
         imgClass="rounded-lg shadow-lg"
         style={animationDelay(3)}
         class={clsx(
-            fadeInBottom(),
+            fadeInBottom,
             `
                 mx-auto mt-16 aspect-2/1 w-full
                 sm:mt-24
@@ -66,7 +64,7 @@
             mt-16
             sm:mt-24
         ">
-        <H2 class={fadeIn()} style={animationDelay(4)}>{career.jobPostingsTitle}</H2>
+        <H2 class={fadeIn} style={animationDelay(4)}>{career.jobPostingsTitle}</H2>
         <ul
             class="
                 mt-8 grid grid-cols-1 gap-8 px-2
@@ -82,7 +80,7 @@
     <div
         style={animationDelay(6)}
         class={clsx(
-            fadeInBottom(),
+            fadeInBottom,
             `
                 bg-primary-100 mx-2 mt-16 rounded-md px-6 py-4 shadow-md
                 dark:bg-primary-900

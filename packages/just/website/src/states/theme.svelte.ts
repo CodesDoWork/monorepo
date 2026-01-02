@@ -11,11 +11,10 @@ const LOCAL_STORAGE_KEY = "theme";
 export interface ThemeState {
     theme: Theme;
     displayedTheme: Theme.Dark | Theme.Light;
-    setTheme: (theme: Theme) => void;
 }
 
 export function getTheme(): ThemeState {
-    let theme = $state<Theme>(Theme.Light);
+    let theme = $state<Theme>(Theme.OS);
     let mediaPrefersDark = $state(false);
     const mediaTheme = $derived(mediaPrefersDark ? Theme.Dark : Theme.Light);
 
@@ -50,11 +49,6 @@ export function getTheme(): ThemeState {
         };
     });
 
-    function setTheme(value: Theme) {
-        theme = value;
-        localStorage.setItem(LOCAL_STORAGE_KEY, value);
-    }
-
     return {
         get theme() {
             return theme;
@@ -62,6 +56,9 @@ export function getTheme(): ThemeState {
         get displayedTheme() {
             return displayedTheme;
         },
-        setTheme,
+        set theme(value: Theme) {
+            theme = value;
+            localStorage.setItem(LOCAL_STORAGE_KEY, value);
+        },
     };
 }

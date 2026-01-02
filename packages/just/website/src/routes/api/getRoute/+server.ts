@@ -2,8 +2,8 @@ import type { RequestHandler } from "@sveltejs/kit";
 import { error, text } from "@sveltejs/kit";
 import { queryDefault } from "../../../graphql/default/client";
 import { GetApiGetRouteServerDataDocument } from "../../../graphql/default/generated/graphql";
-import { byLanguage } from "../../../shared/language";
-import { getRoute, transformRoutes } from "../../../shared/routes";
+import { byLanguage } from "../../../lib/server/language";
+import { getRoute, transformRoutes } from "../../../lib/common/routes";
 import { ROUTE_PARAM } from "./config";
 
 export const GET: RequestHandler = async ({ request }) => {

@@ -1,12 +1,13 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { getJsonLdContext } from "@cdw/monorepo/shared-utils/svelte/contexts/jsonld";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { splitInHalf } from "@cdw/monorepo/shared-utils/arrays";
+    import { clsx } from "clsx";
     import { WidthBox } from "../../components/content-area";
     import { H1 } from "../../components/heading";
     import { ServiceCol } from "../../components/services";
     import { Paragraphs } from "../../components/text";
-    import { fadeIn } from "../../lib/client/animate";
-    import { splitInHalf } from "../../lib/client/split-in-half";
+    import { fadeIn } from "../../lib/common/styles";
 
     interface Props {
         data: PageData;
@@ -16,14 +17,11 @@
     const { intro, services, currentRoute, jsonldThings } = $derived(data);
     const [services1, services2] = $derived(splitInHalf(services));
 
-    const jsonLdContext = getJsonLdContext();
-    $effect(() => {
-        jsonLdContext.things = jsonldThings;
-    });
+    $effect(() => addJsonLdThings(jsonldThings));
 </script>
 
 <WidthBox class="isolate">
-    <article class={fadeIn("max-w-prose")}>
+    <article class={clsx(fadeIn, "max-w-prose")}>
         <H1>{currentRoute?.name}</H1>
         <Paragraphs text={intro} />
     </article>

@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { DirectusImageParams } from "../../lib/common/directus-image";
+    import type { DirectusImageParams } from "@cdw/monorepo/shared-svelte-components";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
     import { clsx } from "clsx";
     import { nonpassive } from "svelte/legacy";
-    import { DirectusImage } from "../directus-image";
 
     interface Props {
         isOpen: boolean;
@@ -11,6 +11,12 @@
     }
 
     const { isOpen, setIsOpen, selectedImage }: Props = $props();
+    const img: DirectusImageParams = $derived.by(() => {
+        const url = new URL(selectedImage.src);
+        url.searchParams.delete("height");
+        url.searchParams.delete("quality");
+        return { ...selectedImage, src: url.href };
+    });
 
     let zoom = $state(1);
     let dragDialogImage = $state(false);
@@ -69,7 +75,8 @@
     onmouseup={() => !dragDialogImage && setIsOpen(false)}>
     <DirectusImage
         onmousedown={handleDragStart}
-        img={selectedImage}
+        lazy
+        {img}
         imgStyle="transform: scale({zoom}) translate({translateDialogImageX}px, {translateDialogImageY}px)"
         id="image-container"
         sourceClass="left-1/2 right-auto -translate-x-1/2"

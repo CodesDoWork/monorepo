@@ -2,13 +2,24 @@ import type { Handle, HandleServerError } from "@sveltejs/kit";
 import { redirect } from "@sveltejs/kit";
 import { queryDefault } from "./graphql/default/client";
 import { GetHooksServerDataDocument } from "./graphql/default/generated/graphql";
-import { byLanguage, getLanguage } from "./shared/language";
-import { priorityRoutes } from "./shared/navigation/priority-routes";
-import { getRoute, transformRoutes } from "./shared/routes";
+import { priorityRoutes } from "./lib/common/priority-routes";
+import { reroutePath } from "./lib/common/reroute";
+import { getRoute, transformRoutes } from "./lib/common/routes";
+import { byLanguage, getLanguage } from "./lib/server/language";
 
 export const handle: Handle = async ({ event, resolve }) => {
     const path = event.url.pathname;
     if (priorityRoutes.some(route => path.startsWith(route))) {
+        return resolve(event);
+    }
+
+    const { request } = event;
+    const hasAccept = request.headers.has("accept") && request.headers.get("accept") !== "*/*";
+    if (hasAccept && request.headers.get("accept") === "application/json") {
+        const desiredRoute = await reroutePath(event.url, event.fetch);
+        if (desiredRoute !== undefined && path !== desiredRoute) {
+            return redirect(307, desiredRoute);
+        }
         return resolve(event);
     }
 
@@ -21,13 +32,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 
     const currentRoute = getRoute(transformedRoutes, path);
     const desiredRoute = currentRoute?.translations.find(byLanguage(language)).route;
-
     if (desiredRoute !== undefined && path !== desiredRoute) {
         return redirect(307, desiredRoute);
     }
 
-    const { request } = event;
-    const hasAccept = request.headers.has("accept") && request.headers.get("accept") !== "*/*";
     if (currentRoute && !hasAccept) {
         // svelte returns 405 for accept */* for paths "/" and "/[lang]"
         event.request.headers.set("accept", "text/html");

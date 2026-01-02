@@ -1,6 +1,6 @@
 import type { Graph } from "schema-dts";
 import type { LayoutServerLoad } from "./$types";
-import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
+import { assetUrl } from "@cdw/monorepo/shared-directus";
 import { env } from "../env";
 import { queryDefault } from "../graphql/default/client";
 import { GetLayoutDataDocument } from "../graphql/default/generated/graphql";
@@ -74,8 +74,8 @@ function createLayoutJsonLd({
                 name: legalName,
                 url: env.URL,
                 sameAs: socials,
-                logo: logoId ? assetUrl(logoId) : undefined,
-                image: logoId ? assetUrl(logoId) : undefined,
+                logo: logoId ? assetUrl(env.CMS_URL, logoId) : undefined,
+                image: logoId ? assetUrl(env.CMS_URL, logoId) : undefined,
                 foundingDate,
                 description,
                 address: {

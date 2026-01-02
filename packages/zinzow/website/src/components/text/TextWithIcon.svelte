@@ -1,8 +1,9 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
+    import { smoothScrollOnClick } from "@cdw/monorepo/shared-utils/html/client";
     import { clsx } from "clsx";
-    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
-    import { smoothScrollOnClick } from "../../utils/smoothScrollOnClick";
+    import { fadeInBottom } from "../../lib/common/styles";
     import TextWithIconContent from "./TextWithIconContent.svelte";
 
     interface Props {
@@ -24,9 +25,7 @@
     }: Props = $props();
 
     const style = $derived(delay ? animationDelay(delay) : undefined);
-    const elementClass = $derived(
-        clsx(className, delay && fadeInBottom(), "group flex w-fit gap-2"),
-    );
+    const elementClass = $derived(clsx(className, delay && fadeInBottom, "group flex w-fit gap-2"));
 </script>
 
 {#if href}

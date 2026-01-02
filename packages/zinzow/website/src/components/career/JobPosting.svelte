@@ -1,7 +1,8 @@
 <script lang="ts">
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
+    import { fadeInBottom } from "../../lib/common/styles";
     import { H3 } from "../heading";
     import { Icons } from "../icons";
 
@@ -22,7 +23,7 @@
 <li
     style={animationDelay(delay)}
     class={clsx(
-        fadeInBottom(),
+        fadeInBottom,
         `
             border-primary/20 rounded-lg border px-4 pb-4 shadow-xs
             dark:border-primary/80

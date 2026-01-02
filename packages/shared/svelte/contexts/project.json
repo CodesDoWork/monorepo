@@ -1,0 +1,8 @@
+{
+    "name": "shared-svelte-contexts",
+    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/shared/svelte/contexts/src",
+    "projectType": "library",
+    "tags": ["shared", "shared-svelte"],
+    "targets": {}
+}

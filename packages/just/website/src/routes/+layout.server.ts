@@ -1,35 +1,33 @@
-import type { FlatTrans } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
+import type { FlatTrans } from "@cdw/monorepo/shared-graphql";
 import type { Graph } from "schema-dts";
 import type {
     GetHomeLayoutServerDataQuery,
     LanguageFragment,
 } from "../graphql/default/generated/graphql";
-import type { TransformedRoute } from "../shared/routes";
+import type { TransformedRoute } from "../lib/common/routes";
 import type { LayoutServerLoad } from "./$types";
 import type { Route } from "./types";
-import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
+import { assetUrl } from "@cdw/monorepo/shared-directus";
+import { flattenTranslations } from "@cdw/monorepo/shared-graphql";
 import { byId } from "@cdw/monorepo/shared-utils/filters";
-import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
 import { env } from "../env";
 import { queryDefault } from "../graphql/default/client";
 import {
     GetHomeLayoutServerDataDocument,
     GetHomeLayoutServerLanguagesDocument,
 } from "../graphql/default/generated/graphql";
-import { byLanguage, getLanguage } from "../shared/language";
-import { mapSocial } from "../shared/mapSocials";
-import { getRoute, getRouteByServerRoute, transformRoutes } from "../shared/routes";
-import { domainUrl } from "../shared/urls";
+import { getRouteByServerRoute, transformRoutes } from "../lib/common/routes";
+import { byLanguage, getLanguage } from "../lib/server/language";
+import { mapSocial } from "../lib/server/map-socials";
 
-export const load: LayoutServerLoad = async ({ request, url, cookies }) => {
+export const load: LayoutServerLoad = async ({ request, cookies }) => {
     const data = await queryDefault({ query: GetHomeLayoutServerLanguagesDocument });
     const allRoutes = transformRoutes(data.allRoutes);
     const language = await getLanguage(request, cookies, data.languages, allRoutes);
-    return loadServerData(url, language, data.languages, allRoutes);
+    return loadServerData(language, data.languages, allRoutes);
 };
 
 async function loadServerData(
-    url: URL,
     currentLanguage: LanguageFragment,
     languages: LanguageFragment[],
     allRoutes: TransformedRoute[],
@@ -40,8 +38,6 @@ async function loadServerData(
     });
 
     const { siteInfo, routes, serverRoutes, about, contact } = flattenTranslations(data);
-    const currentRouteId = getRoute(allRoutes, url.pathname)?.id;
-    const currentRoute = routes.find(byId(currentRouteId));
     const homeRoute = getRouteByServerRoute(routes, serverRoutes, "/");
     const privacyPolicyRoute = getRouteByServerRoute(routes, serverRoutes, "/privacy-policy");
     routes.forEach(r => {
@@ -50,22 +46,25 @@ async function loadServerData(
     });
 
     const socials = contact.socials.map(s => s.socialsId).map(mapSocial);
-    about.portrait = assetUrl(about.portrait, { quality: 67, width: 400, height: 400 });
+    about.portrait = assetUrl(env.CMS_URL, about.portrait, {
+        quality: 67,
+        width: 400,
+        height: 400,
+    });
 
     const layoutJsonLd = createLayoutJsonLd({
         siteInfo,
         currentLanguage,
-        currentRoute,
         about,
         socials,
         homeRoute,
+        baseUrl: env.URL,
     });
 
     return {
         siteInfo,
         about,
         routes,
-        currentRoute,
         homeRoute,
         privacyPolicyRoute,
         currentLanguage,
@@ -81,14 +80,14 @@ async function loadServerData(
 interface LayoutJsonLdData {
     siteInfo: FlatTrans<GetHomeLayoutServerDataQuery>["siteInfo"];
     currentLanguage: LanguageFragment;
-    currentRoute: Route;
     about: FlatTrans<GetHomeLayoutServerDataQuery>["about"];
     socials: ReturnType<typeof mapSocial>[];
     homeRoute: Route;
+    baseUrl: string;
 }
 
 function createLayoutJsonLd(parent: LayoutJsonLdData): Graph {
-    const { siteInfo, currentLanguage, about, socials, homeRoute } = parent;
+    const { siteInfo, currentLanguage, about, socials, homeRoute, baseUrl } = parent;
 
     return {
         "@context": "https://schema.org",
@@ -96,14 +95,14 @@ function createLayoutJsonLd(parent: LayoutJsonLdData): Graph {
             {
                 "@type": "Person",
                 name: siteInfo.name,
-                url: domainUrl(homeRoute),
+                url: `${baseUrl}${homeRoute.route}`,
                 sameAs: socials.map(s => s.href),
                 image: about.portrait,
             },
             {
                 "@type": "WebSite",
                 name: siteInfo.name,
-                url: domainUrl(homeRoute),
+                url: `${baseUrl}${homeRoute.route}`,
                 inLanguage: currentLanguage.short,
             },
         ],

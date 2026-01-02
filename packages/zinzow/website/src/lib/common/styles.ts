@@ -9,10 +9,10 @@ export const headlineBaseClasses = clsx(
 
 export const aHoverAnimation = clsx(
     `
-        before:bg-primary before:absolute before:right-0 before:bottom-0 before:inline before:h-0.5
-        before:w-0 before:max-w-full before:transition-all before:duration-500
-        hover:before:bg-primary-900 hover:before:left-0 hover:before:w-full
-        dark:hover:before:bg-primary-400
+        bg-[linear-gradient(currentColor,currentColor)]
+        bg-[length:0_2px]
+        bg-right-bottom bg-no-repeat transition-[color,background-size]! duration-500
+        hover:bg-[length:100%_2px] hover:bg-left-bottom
     `,
 );
 
@@ -32,11 +32,14 @@ export const smallTextClasses = clsx(`
     dark:text-gray-300
 `);
 
+export const fadeInBottom = clsx("animate-fadeInBT opacity-0");
+export const fadeIn = clsx("animate-fadeIn opacity-0");
+
 export const stylesMap = {
     a: clsx(
         textBaseClasses,
         `
-            text-primary relative transition-colors
+            text-primary transition-colors
             hover:text-primary-900
             dark:hover:text-primary-400
         `,

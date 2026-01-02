@@ -1,8 +1,9 @@
 <script lang="ts">
-    import type { DirectusImageParams } from "../../lib/common/directus-image";
+    import type { DirectusImageParams } from "@cdw/monorepo/shared-svelte-components";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
-    import { animationDelay, fadeInBottom } from "../../lib/client/animate";
-    import { DirectusImage } from "../directus-image";
+    import { fadeInBottom } from "../../lib/common/styles";
 
     interface Props {
         img: DirectusImageParams;
@@ -13,7 +14,7 @@
     const { img, class: className, animationDelay: delay }: Props = $props();
 </script>
 
-<div class={fadeInBottom("relative")} style={animationDelay(delay)}>
+<div class={clsx(fadeInBottom, "relative")} style={animationDelay(delay)}>
     <DirectusImage
         {img}
         imgClass="rounded-xl shadow-lg max-h-72 min-h-56"

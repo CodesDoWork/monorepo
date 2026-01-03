@@ -1,53 +1,68 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import AboutImage from "../../../components/about/AboutImage.svelte";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { splitInHalf } from "@cdw/monorepo/shared-utils/arrays";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { WidthBox } from "../../../components/content-area";
     import { H1 } from "../../../components/heading";
-    import { getNavigationContext } from "../../../contexts/navigation";
-    import { splitInHalf } from "../../../lib/client/split-in-half";
+    import { ServiceImage } from "../../../components/services";
+    import { fadeIn } from "../../../lib/common/styles";
 
     interface Props {
         data: PageData;
     }
 
     const { data }: Props = $props();
-    const { description, images } = $derived(data);
-    const nav = getNavigationContext();
+    const { description, currentRoute, images, jsonldThings } = $derived(data);
 
     const [imgs1, imgs2] = $derived(splitInHalf(images));
+
+    $effect(() => addJsonLdThings(jsonldThings));
 </script>
 
 <WidthBox class="isolate">
-    <H1>{nav.currentRoute?.name}</H1>
-    <section class="grid grid-cols-[57%_1fr] gap-8">
-        <article>
-            {@html description}
-        </article>
-        <aside
+    {#key currentRoute?.name}
+        <H1 class={fadeIn}>{currentRoute?.name}</H1>
+        <section
             class="
-                grid grid-cols-2 gap-x-8
-                *:space-y-8
+                grid gap-12
+                md:grid-cols-[50%_1fr]
+                lg:gap-16
             ">
-            <ul
+            <article class={fadeIn} style={animationDelay(1)}>
+                {@html description}
+            </article>
+            <aside
                 class="
-                    pt-8
-                    sm:pt-24
-                    md:pt-32
-                    lg:pt-16
+                    grid gap-4 px-4
+                    *:space-y-4
+                    sm:grid-cols-2
+                    md:px-0
+                    lg:gap-x-8 lg:*:space-y-8
                 ">
-                {#each imgs1 as img}
-                    <li>
-                        <AboutImage {img} class="aspect-4/5!" />
-                    </li>
-                {/each}
-            </ul>
-            <ul class="">
-                {#each imgs2 as img}
-                    <li>
-                        <AboutImage {img} class="aspect-4/5!" />
-                    </li>
-                {/each}
-            </ul>
-        </aside>
-    </section>
+                <ul
+                    class="
+                        pt-8
+                        sm:pt-24
+                    ">
+                    {#each imgs1 as img, idx (idx)}
+                        {#key img.src}
+                            <li>
+                                <ServiceImage {img} animationDelay={2 * idx + 1} />
+                            </li>
+                        {/key}
+                    {/each}
+                </ul>
+                <ul class="">
+                    {#each imgs2 as img, idx (idx)}
+                        {#key img.src}
+                            <li>
+                                <ServiceImage {img} animationDelay={2 * idx + 2} />
+                            </li>
+                        {/key}
+                    {/each}
+                </ul>
+            </aside>
+        </section>
+    {/key}
 </WidthBox>

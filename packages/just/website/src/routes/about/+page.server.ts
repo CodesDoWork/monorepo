@@ -1,20 +1,22 @@
-import type { FlatTrans } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
+import type { FlatTrans } from "@cdw/monorepo/shared-graphql";
 import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
 import type { GetAboutServerDataQuery } from "../../graphql/default/generated/graphql";
 import type { PageServerLoad } from "./$types";
-import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
-import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import { defaultClient } from "../../graphql/default/client";
+import { flattenTranslations } from "@cdw/monorepo/shared-graphql";
+import { directusImageParams } from "@cdw/monorepo/shared-svelte-components";
+import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
+import { formatWYSIWYG } from "@cdw/monorepo/shared-utils/html/common";
+import { env } from "../../env";
+import { queryDefault } from "../../graphql/default/client";
 import { GetAboutServerDataDocument } from "../../graphql/default/generated/graphql";
-import { replaceLinks } from "../../lib/server/replace-links";
-import { createBreadcrumbList, domainUrl } from "../../shared/urls";
+import { stylesMap } from "../../lib/common/styles";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const { currentLanguage } = parentData;
 
-    const { data } = await defaultClient.query({
+    const data = await queryDefault({
         query: GetAboutServerDataDocument,
         variables: { language: currentLanguage.code },
     });
@@ -23,12 +25,37 @@ export const load: PageServerLoad = async ({ parent }) => {
     const techStack = buildTechStack(about.technologies);
 
     const transformedExperiences = transformWorkExperiences(workExperience);
-    about.bio = replaceLinks(about.bio);
-    about.portrait = assetUrl(about.portrait, { quality: 67, width: 400, height: 400 });
+    about.bio = formatWYSIWYG(stylesMap, about.bio);
 
     const jsonLdThings = createJsonLdThings(parentData);
 
-    return { about, workExperiences: transformedExperiences, techStack, ...rest, jsonLdThings };
+    return {
+        about: {
+            ...about,
+            portrait: directusImageParams(env.CMS_URL, {
+                ...defaultNull(about.portrait),
+                alt: "portrait",
+                assetParams: {
+                    quality: 67,
+                    width: 400,
+                    height: 400,
+                },
+            }),
+            portraitMobile: directusImageParams(env.CMS_URL, {
+                ...defaultNull(about.portrait),
+                alt: "portrait",
+                assetParams: {
+                    quality: 67,
+                    width: 256,
+                    height: 256,
+                },
+            }),
+        },
+        workExperiences: transformedExperiences,
+        techStack,
+        ...rest,
+        jsonLdThings,
+    };
 };
 
 function buildTechStack(
@@ -56,30 +83,38 @@ function transformWorkExperiences(
     workExperience: FlatTrans<GetAboutServerDataQuery["workExperience"]>,
 ) {
     workExperience.sort(
-        (e1, e2) => (e1.endYear || 1) - (e2.endYear || 1) || e2.startYear - e1.startYear,
+        (e1, e2) =>
+            (e1.endYear && e2.endYear && e2.endYear - e1.endYear) || e2.startYear - e1.startYear,
     );
 
     return workExperience.map(e => ({
         ...e,
-        company: { ...e.company, logo: assetUrl(e.company.logo, { quality: 20 }) },
+        company: {
+            ...e.company,
+            logo: directusImageParams(env.CMS_URL, {
+                ...defaultNull(e.company.logo),
+                alt: "company logo",
+                assetParams: { width: 128, quality: 30 },
+            }),
+        },
         projects: e.projects.map(({ project }) => ({
             ...project,
-            logo: assetUrl(project.logo, { quality: 15 }),
+            logo: directusImageParams(env.CMS_URL, {
+                ...defaultNull(project.logo),
+                alt: "project logo",
+                assetParams: { width: 64, quality: 50 },
+            }),
         })),
         technologies: e.technologies.map(({ technology }) => technology),
     }));
 }
 
 function createJsonLdThings(parentData: LayoutServerData): Thing[] {
-    const { currentRoute, currentLanguage, homeRoute } = parentData;
+    const { currentLanguage } = parentData;
     return [
         {
             "@type": "AboutPage",
-            name: currentRoute.name,
-            description: currentRoute.description,
-            url: domainUrl(currentRoute),
             inLanguage: currentLanguage.short,
         },
-        createBreadcrumbList(currentRoute, homeRoute),
     ];
 }

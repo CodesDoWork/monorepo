@@ -15,6 +15,7 @@ export const createNodes = createNodesForProjects(
                     targets: getExecutors("@cdw/monorepo/nx-plugins-directus-extensions", "", [
                         "build",
                         "serve",
+                        "bundle-add",
                     ]),
                 },
             },

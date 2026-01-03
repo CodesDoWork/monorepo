@@ -1,20 +1,22 @@
 <script lang="ts">
+    import type { JsonLdContext } from "@cdw/monorepo/shared-svelte-contexts";
     import type { Snippet } from "svelte";
-    import type { JsonLdContext } from "../contexts/jsonld";
     import type { OverlayContext } from "../contexts/overlay";
     import type { PageData } from "./$types";
+    import { afterNavigate } from "$app/navigation";
     import { page } from "$app/state";
+    import { setJsonLdContext, stringifyJsonLd } from "@cdw/monorepo/shared-svelte-contexts";
+    import { createColors, createCssVariables } from "@cdw/monorepo/shared-utils/css/colors";
     import { byId } from "@cdw/monorepo/shared-utils/filters";
     import { clsx } from "clsx";
-    import BackToTop from "../components/BackToTop.svelte";
-    import BlurContent from "../components/BlurContent.svelte";
-    import Footer from "../components/Footer.svelte";
-    import Header from "../components/Header.svelte";
-    import Overlay from "../components/Overlay.svelte";
-    import Title from "../components/Title.svelte";
-    import { setJsonLdContext, stringifyJsonLd } from "../contexts/jsonld";
+    import { BackToTop } from "../components/back-to-top";
+    import { BlurContent } from "../components/blur-content";
+    import { Footer } from "../components/footer";
+    import { Header } from "../components/header";
+    import { Overlay } from "../components/overlay";
+    import { Title } from "../components/texts";
     import { setOverlayContext } from "../contexts/overlay";
-    import { getRoutes } from "../states/routes.svelte";
+    import { getRoute } from "../lib/common/routes";
     import { getTheme, Theme } from "../states/theme.svelte";
     import { privateRoute } from "./private/constants";
     import "../app.css";
@@ -28,31 +30,36 @@
     const {
         siteInfo,
         routes,
-        currentRoute: serverRoute,
+        currentRoute,
         privacyPolicyRoute,
         currentLanguage,
-        serverRoutes,
         languages,
         allRoutes,
         baseUrl,
         about,
         layoutJsonLd,
-    } = data;
+    } = $derived(data);
 
-    const nav = getRoutes(routes, serverRoutes, serverRoute);
+    let previousRoute: (typeof routes)[number] | null = $state(null);
+    afterNavigate(({ from }) => {
+        if (from) {
+            const previousRouteId = getRoute(allRoutes, from.route.id)?.id;
+            previousRoute = routes.find(byId(previousRouteId));
+        }
+    });
 
-    const currentRouteUrl = $derived(`${baseUrl}${nav.currentRoute?.route}`);
+    const currentRouteUrl = $derived(`${baseUrl}${currentRoute?.route}`);
     const alternateLinks = $derived(
-        allRoutes.find(byId(nav.currentRoute?.id))?.translations.map(t => ({
+        allRoutes.find(byId(currentRoute?.id))?.translations.map(t => ({
             hreflang: t.language.short,
             href: `${baseUrl}${t.route}`,
         })) ?? [],
     );
 
     const pageTitle = $derived(
-        !nav.currentRoute || nav.currentRoute.name === siteInfo.name
+        !currentRoute || currentRoute.name === siteInfo.name
             ? siteInfo.name
-            : `${nav.currentRoute.name} | ${siteInfo.name}`,
+            : `${currentRoute.name} | ${siteInfo.name}`,
     );
 
     const lightTheme = "oklch(74.6% 0.16 232.661)"; // primary-400 (aka sky-400)
@@ -67,7 +74,7 @@
                 text-black transition-colors
                 dark:text-white
             `,
-            nav.currentRoute?.isHero === false &&
+            currentRoute?.isHero === false &&
                 `
                     bg-white
                     dark:bg-transparent
@@ -78,9 +85,7 @@
                 md:px-8
                 lg:px-[10%]
             `,
-            nav.currentRoute?.isHero === false &&
-                nav.previousRoute?.isHero &&
-                "animate-fadeInSubtle",
+            currentRoute?.isHero === false && previousRoute?.isHero && "animate-fadeInSubtle",
         ),
     );
 
@@ -93,6 +98,23 @@
 
     const overlayContext = $state<OverlayContext>({});
     setOverlayContext(overlayContext);
+
+    const backgroundClass = clsx(
+        `
+            bg-primary-400 from-primary-400 to-secondary-400 bg-linear-to-b from-5% to-95%
+            transition-colors
+            dark:bg-primary-950 dark:from-primary-950 dark:to-secondary-950
+        `,
+    );
+    $effect(() => {
+        document.body.className = backgroundClass;
+    });
+
+    const colors = $derived(
+        createColors({
+            pageColor: currentRoute?.color,
+        }),
+    );
 </script>
 
 <svelte:head>
@@ -101,7 +123,7 @@
         (function () {
             const theme = localStorage.getItem("theme");
             const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-            if (theme === "dark" || (!theme && systemPrefersDark)) {
+            if (theme === "dark" || ((!theme || theme === "os") && systemPrefersDark)) {
                 document.documentElement.classList.add("dark");
             }
         })();
@@ -109,14 +131,14 @@
     <!-- eslint-enable svelte/indent -->
     <title>{pageTitle}</title>
     <meta name="content-language" content={currentLanguage.short} />
-    <meta name="robots" content={nav.currentRoute ? "index,follow" : "noindex"} />
+    <meta name="robots" content={currentRoute ? "index,follow" : "noindex"} />
     <meta name="theme-color" content={themeColor} />
-    {#if nav.currentRoute}
+    {#if currentRoute}
         <link rel="canonical" href={currentRouteUrl} />
-        <meta name="description" content={nav.currentRoute.description} />
-        <meta name="keywords" content={nav.currentRoute.keywords.join(" ")} />
+        <meta name="description" content={currentRoute.description} />
+        <meta name="keywords" content={currentRoute.keywords.join(" ")} />
         <meta property="og:title" content={pageTitle} />
-        <meta property="og:description" content={nav.currentRoute.description} />
+        <meta property="og:description" content={currentRoute.description} />
         <meta property="og:url" content={currentRouteUrl} />
         <meta property="og:type" content="website" />
         <meta property="og:image" content={about.portrait} />
@@ -137,30 +159,22 @@
 {:else}
     <Overlay />
     <div
-        class={clsx(
-            `
-                from-primary-400 to-secondary-400
-                dark:from-primary-950 dark:to-secondary-950
-            `,
-            "bg-linear-to-b from-5% to-95% transition-colors",
-            "relative overflow-x-hidden",
-            "flex min-h-screen flex-col",
-        )}
-        style={`--page-color: ${nav.currentRoute?.color};`}>
+        class={clsx(backgroundClass, `relative flex min-h-screen flex-col overflow-x-hidden`)}
+        style={createCssVariables(colors)}>
         <Header
             title={siteInfo.name}
             {routes}
             {theme}
-            currentRoute={nav.currentRoute}
+            {currentRoute}
             {currentLanguage}
             {languages} />
         <main class={mainClass}>
-            <Title currentRoute={nav.currentRoute} />
-            <BlurContent currentRoute={nav.currentRoute}>
+            <Title {currentRoute} />
+            <BlurContent {currentRoute}>
                 {@render children?.()}
             </BlurContent>
         </main>
-        <BlurContent currentRoute={nav.currentRoute}>
+        <BlurContent {currentRoute}>
             <Footer
                 copyright={siteInfo.name}
                 licenseType={siteInfo.projectLicense}
@@ -168,7 +182,7 @@
                 projectPlatform={siteInfo.projectPlatform.name}
                 projectUrl={siteInfo.projectUrl}
                 texts={siteInfo}
-                currentRoute={nav.currentRoute}
+                {currentRoute}
                 {privacyPolicyRoute} />
         </BlurContent>
         <BackToTop text={siteInfo.backToTop} />

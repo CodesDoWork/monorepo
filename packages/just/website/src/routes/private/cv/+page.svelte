@@ -1,11 +1,12 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import DirectusImage from "@cdw/monorepo/packages/shared/svelte/components/src/directus-image/DirectusImage.svelte";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import Card from "../../../components/Card.svelte";
-    import Heading from "../../../components/Heading.svelte";
-    import TimeLine from "../../../components/TimeLine.svelte";
-    import CvContent from "./components/CvContent.svelte";
+    import { Card } from "../../../components/card";
+    import { H1, H2, P } from "../../../components/texts";
+    import { TimeLine } from "../../../components/timeline";
+    import CvContent from "./CvContent.svelte";
 
     interface Props {
         data: PageData;
@@ -56,12 +57,12 @@
             "dark:text-white",
         )}>
         <main class="grid grid-cols-[auto_4fr_5fr] gap-2">
-            <Heading level="h1" class="col-span-2 mt-0! mb-2! text-xl! text-black">
+            <H1 class="col-span-2 mt-0! mb-2! text-xl! text-black">
                 {data.name}
-            </Heading>
+            </H1>
             <div class="row-span-12 flex flex-col items-end gap-2">
                 <Card class={clsx(cardClass, "place-self-stretch")}>
-                    <Heading level="h2" class={heading2Class}>Kontakt</Heading>
+                    <H2 class={heading2Class}>Kontakt</H2>
                     <address>
                         {data.address.street}
                         {data.address.houseNumber}<br />
@@ -85,7 +86,7 @@
                 </Card>
                 {#each data.secondarySections as { section }}
                     <Card class={clsx(cardClass, "place-self-stretch")}>
-                        <Heading level="h2" class={heading2Class}>{section.name}</Heading>
+                        <H2 class={heading2Class}>{section.name}</H2>
                         <CvContent
                             type={section.type}
                             value={section.items}
@@ -94,10 +95,10 @@
                 {/each}
             </div>
             <Card class="size-[9.55rem] p-4">
-                <img src={data.portrait} alt="portrait" class="object-fit rounded-md" />
+                <DirectusImage img={data.portrait} imgClass="object-fit! rounded-md" />
             </Card>
             <Card class={cardClass}>
-                <p>Geburtsdatum: {formatter.format(new Date(data.birthday))}</p>
+                <P>Geburtsdatum: {formatter.format(new Date(data.birthday))}</P>
                 <ul class="mt-2 ml-4 list-outside list-disc text-justify">
                     {#each data.softSkills as skill}
                         <li>{skill}</li>
@@ -106,11 +107,8 @@
             </Card>
             <div class="col-span-2 flex flex-col gap-2">
                 <Card class={cardClass}>
-                    <Heading level="h2" class={heading2Class}>Ausbildung</Heading>
-                    <TimeLine
-                        small
-                        steps={data.experiences.map(e => e.experience)}
-                        logo={e => e.logo}>
+                    <H2 class={heading2Class}>Ausbildung</H2>
+                    <TimeLine small steps={data.experiences} logo={e => e.logo}>
                         {#snippet date(e)}
                             {e.date}
                         {/snippet}
@@ -121,35 +119,35 @@
                             {#if e.duration}
                                 <div class="mt-1 flex items-center gap-1">
                                     <Icon icon="mingcute:time-duration-line" class="size-4" />
-                                    <p>{e.duration}</p>
+                                    <P>{e.duration}</P>
                                 </div>
                             {/if}
                             {#if e.grade}
                                 <div class="flex items-center gap-1">
                                     <Icon icon="ix:average" class="size-4" />
-                                    <p>Note: {e.grade}</p>
+                                    <P>Note: {e.grade}</P>
                                 </div>
                             {/if}
                             {#if e.position}
                                 <div class="flex items-center gap-1">
                                     <Icon icon="icon-park-solid:people" class="size-4" />
-                                    <p>{e.position}</p>
+                                    <P>{e.position}</P>
                                 </div>
                             {/if}
                             <div class="flex items-center gap-1">
                                 <Icon icon="tdesign:institution-filled" class="size-4" />
-                                <p>{e.institution}</p>
+                                <P>{e.institution}</P>
                             </div>
                             <div class="flex items-center gap-1">
                                 <Icon icon="mdi:location" class="size-4" />
-                                <p>{e.location}</p>
+                                <P>{e.location}</P>
                             </div>
                         {/snippet}
                     </TimeLine>
                 </Card>
                 {#each data.primarySections as { section }}
                     <Card class={clsx(cardClass, "place-self-stretch")}>
-                        <Heading level="h2" class={heading2Class}>{section.name}</Heading>
+                        <H2 class={heading2Class}>{section.name}</H2>
                         <CvContent
                             type={section.type}
                             value={section.items}

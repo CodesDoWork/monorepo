@@ -1,5 +1,6 @@
 query GetImpressionsData {
     impressions {
+        title
         images {
             directus_files_id {
                 ...DirectusImage

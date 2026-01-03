@@ -1,19 +1,20 @@
-import type { FlatTrans } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
+import type { FlatTrans } from "@cdw/monorepo/shared-graphql";
 import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
 import type { GetReadingListDataQuery } from "../../graphql/default/generated/graphql";
 import type { PageServerLoad } from "./$types";
-import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
-import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import { defaultClient } from "../../graphql/default/client";
+import { flattenTranslations } from "@cdw/monorepo/shared-graphql";
+import { directusImageParams } from "@cdw/monorepo/shared-svelte-components";
+import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
+import { env } from "../../env";
+import { queryDefault } from "../../graphql/default/client";
 import { GetReadingListDataDocument } from "../../graphql/default/generated/graphql";
-import { createBreadcrumbList } from "../../shared/urls";
 
 export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const { currentLanguage } = parentData;
 
-    const { data } = await defaultClient.query({
+    const data = await queryDefault({
         query: GetReadingListDataDocument,
         variables: { language: currentLanguage.code },
     });
@@ -34,7 +35,11 @@ function transformBooks(books: FlatTrans<GetReadingListDataQuery["books"]>) {
         ...book,
         categories: book.categories.map(cat => cat.category.name),
         authors: (book.authors ?? []) as string[],
-        cover: assetUrl(book.cover, { quality: 20 }),
+        cover: directusImageParams(env.CMS_URL, {
+            ...defaultNull(book.cover),
+            alt: "book cover",
+            assetParams: { width: 128, quality: 50 },
+        }),
     }));
 }
 
@@ -42,16 +47,14 @@ function createJsonLdThings(
     parentData: LayoutServerData,
     books: ReturnType<typeof transformBooks>,
 ): Thing[] {
-    const { currentLanguage, currentRoute, homeRoute } = parentData;
-    const bookThings: Thing[] = books.map(book => ({
+    const { currentLanguage } = parentData;
+    return books.map(book => ({
         "@type": "Book",
         name: book.title,
         author: book.authors.map(name => ({ "@type": "Person", name })),
-        image: book.cover,
+        image: book.cover.src,
         genre: book.categories,
         description: book.description,
         inLanguage: currentLanguage.short,
     }));
-
-    return [...bookThings, createBreadcrumbList(currentRoute, homeRoute)];
 }

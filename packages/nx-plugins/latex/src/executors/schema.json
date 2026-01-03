@@ -1,0 +1,24 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Latex executor",
+    "description": "",
+    "type": "object",
+    "properties": {
+        "file": {
+            "type": "string",
+            "alias": "f",
+            "$default": {
+                "$source": "argv",
+                "index": 0
+            }
+        },
+        "args": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "default": []
+        }
+    },
+    "required": []
+}

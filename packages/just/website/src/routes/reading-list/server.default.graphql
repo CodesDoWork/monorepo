@@ -20,7 +20,9 @@ query GetReadingListData($language: String!) {
         translations(filter: { languages_code: { code: { _eq: $language } } }) {
             title
             description
-            cover
+            cover {
+                ...DirectusImage
+            }
         }
     }
 

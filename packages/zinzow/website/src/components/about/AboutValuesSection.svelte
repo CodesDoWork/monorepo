@@ -1,5 +1,9 @@
 <script lang="ts">
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
+    import { clsx } from "clsx";
+    import { fadeIn, fadeInBottom, smallTextClasses } from "../../lib/common/styles";
     import { H2 } from "../heading";
+    import { P } from "../text";
 
     interface Props {
         title: string;
@@ -8,30 +12,25 @@
             name: string;
             description: string;
         }[];
+        animationDelay: number;
     }
 
-    const { title, text, values }: Props = $props();
+    const { title, text, values, animationDelay: delay }: Props = $props();
 </script>
 
-<section class="mt-32">
-    <article>
+<section>
+    <article class={fadeIn} style={animationDelay(delay)}>
         <H2>{title}</H2>
-        <p
-            class="
-                mt-6 max-w-prose text-lg/8 hyphens-auto text-gray-600
-                dark:text-gray-400
-            ">
-            {text}
-        </p>
+        <P prose block>{text}</P>
     </article>
     <dl
         class="
-            mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 text-base/7
-            sm:grid-cols-2
+            mx-auto mt-12 grid max-w-2xl grid-cols-1 gap-8 px-4 text-base/7
+            sm:grid-cols-2 sm:gap-12 sm:px-8
             lg:mx-0 lg:max-w-none lg:grid-cols-3
         ">
-        {#each values as value}
-            <div>
+        {#each values as value, idx (idx)}
+            <div class={fadeInBottom} style={animationDelay(delay + idx + 1)}>
                 <dt
                     class="
                         font-semibold text-gray-900
@@ -39,11 +38,7 @@
                     ">
                     {value.name}
                 </dt>
-                <dd
-                    class="
-                        mt-1 text-gray-600
-                        dark:text-gray-400
-                    ">
+                <dd class={clsx(smallTextClasses, "mt-1 text-base/7!")}>
                     {value.description}
                 </dd>
             </div>

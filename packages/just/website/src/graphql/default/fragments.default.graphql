@@ -32,3 +32,20 @@ fragment SiteInfo on just_site_info {
     projectLicense: project_license
     projectLicenseUrl: project_license_url
 }
+
+fragment MinimalTranslatedRoute on just_site_routes {
+    id
+    translations {
+        language: languages_code {
+            code
+            short
+            isFallback: is_fallback
+        }
+        route
+    }
+}
+
+fragment DirectusImage on directus_files {
+    id
+    title
+}

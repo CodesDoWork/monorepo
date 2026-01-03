@@ -37,6 +37,7 @@
         ],
         "sharedGlobals": []
     },
+    "neverConnectToCloud": true,
     "plugins": [
         {
             "plugin": "@cdw/monorepo/nx-plugins-astro"
@@ -52,6 +53,9 @@
         },
         {
             "plugin": "@cdw/monorepo/nx-plugins-docker-compose"
+        },
+        {
+            "plugin": "@cdw/monorepo/nx-plugins-latex"
         },
         {
             "plugin": "@cdw/monorepo/nx-plugins-lighthouse"
@@ -80,5 +84,10 @@
         {
             "plugin": "@nx/eslint/plugin"
         }
-    ]
+    ],
+    "pluginsConfig": {
+        "@nx/js": {
+            "rojectsAffectedByDependencyUpdates": "auto"
+        }
+    }
 }

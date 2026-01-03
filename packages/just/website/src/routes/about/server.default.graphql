@@ -1,6 +1,8 @@
 query GetAboutServerData($language: String!) {
     about: just_site_about {
-        portrait
+        portrait {
+            ...DirectusImage
+        }
         technologies {
             technology: technologies_id {
                 name
@@ -37,7 +39,9 @@ query GetAboutServerData($language: String!) {
         }
 
         company {
-            logo
+            logo {
+                ...DirectusImage
+            }
             name
             url
         }
@@ -49,7 +53,9 @@ query GetAboutServerData($language: String!) {
         }
         projects {
             project: just_site_work_projects_id {
-                logo
+                logo {
+                    ...DirectusImage
+                }
                 translations(filter: { languages_code: { code: { _eq: $language } } }) {
                     name
                     description

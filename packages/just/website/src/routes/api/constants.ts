@@ -1,4 +1,4 @@
-import { addPriorityRoute } from "../../shared/navigation/priority-routes";
+import { addPriorityRoute } from "../../lib/common/priority-routes";
 
 export const API_ROUTE = "/api";
 

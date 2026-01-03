@@ -1,7 +1,11 @@
 fragment Project on just_site_projects {
     id
     name
-    thumbnail
+    thumbnail {
+        ...DirectusImage
+        width
+        height
+    }
     license
     githubUrl: github_url
     homepage

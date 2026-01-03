@@ -1,44 +1,35 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { byField } from "@cdw/monorepo/shared-utils/filters";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import Card from "../components/Card.svelte";
-    import Heading from "../components/Heading.svelte";
-    import Link from "../components/Link.svelte";
-    import { getJsonLdContext } from "../contexts/jsonld";
-    import { animationDelay } from "../shared/animationDelay";
+    import { Card } from "../components/card";
+    import { H3, Link } from "../components/texts";
 
     interface Props {
         data: PageData;
     }
 
     const { data }: Props = $props();
-    const { routes, socials, jsonLdThings } = data;
-    getJsonLdContext().things = jsonLdThings;
+    const { routes, socials, jsonLdThings } = $derived(data);
+    $effect(() => addJsonLdThings(jsonLdThings));
 
-    const homePageLinks = routes.filter(r => r.inNav);
+    const homePageLinks = $derived(routes.filter(r => r.inNav));
     const findRouteColor = (route: string) => {
         return routes?.find(byField("route", route))?.color || "var(--accent)";
     };
 
     const headingClass = clsx(
         `
-            m-5
-            md:m-6
-        `,
-        `
-            group-hover:mt-3 group-hover:mb-6
+            m-5 mb-0! cursor-pointer transition-all!
+            group-hover:mt-3 group-hover:mb-6 group-hover:text-(--hover-color)
             sm:group-hover:mt-2 sm:group-hover:mb-8
-            md:group-hover:mt-4
-            lg:group-hover:mt-3
+            md:mx-6! md:mt-6! md:group-hover:mt-4!
+            lg:group-hover:mt-3!
+            dark:text-white dark:group-hover:text-(--hover-color)
         `,
-        `
-            mb-0! cursor-pointer
-            group-hover:text-(--hover-color)!
-            dark:text-white!
-        `,
-        "transition-all!",
     );
 </script>
 
@@ -94,7 +85,7 @@
                 noStyle
                 class="flex h-full w-full flex-col"
                 href={navLink.route}>
-                <Heading class={headingClass} level="h3">{navLink.name}</Heading>
+                <H3 class={headingClass}>{navLink.name}</H3>
                 <p
                     class="
                         text-0 ml-4 h-0 text-slate-600 transition-[font-size]

@@ -20,9 +20,13 @@
         p-0
         lg:row-start-auto lg:h-auto lg:px-6
     ">
-    <H3 class="mt-0!">{title ?? id}</H3>
+    <H3
+        class="
+            mt-0!
+            has-[+p]:mb-4
+        ">{title ?? id}</H3>
     {#if description}
-        <Paragraphs text={description} size="base" class="mt-4" />
+        <Paragraphs text={description} />
     {/if}
     {#if location}
         <TextWithIcon icon={Icons.Location} class="mt-8">
@@ -30,6 +34,6 @@
         </TextWithIcon>
     {/if}
     {#if tags}
-        <Badges class="mt-6" badges={tags} />
+        <Badges class="mt-6 flex-wrap" badges={tags} />
     {/if}
 </div>

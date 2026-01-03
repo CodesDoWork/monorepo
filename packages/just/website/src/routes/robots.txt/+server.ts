@@ -1,6 +1,6 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import { env } from "../../env";
-import { addPriorityRoute } from "../../shared/navigation/priority-routes";
+import { addPriorityRoute } from "../../lib/common/priority-routes";
 
 addPriorityRoute("/robots.txt");
 

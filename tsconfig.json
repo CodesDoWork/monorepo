@@ -25,6 +25,7 @@
             "@cdw/monorepo/nx-plugins-docker-compose": [
                 "packages/nx-plugins/docker-compose/src/index.ts"
             ],
+            "@cdw/monorepo/nx-plugins-latex": ["packages/nx-plugins/latex/src/index.ts"],
             "@cdw/monorepo/nx-plugins-lighthouse": ["packages/nx-plugins/lighthouse/src/index.ts"],
             "@cdw/monorepo/nx-plugins-secrets-manager": [
                 "packages/nx-plugins/secrets-manager/src/index.ts"
@@ -37,7 +38,18 @@
             "@cdw/monorepo/nx-plugins-workspace": ["packages/nx-plugins/workspace/src/index.ts"],
             "@cdw/monorepo/nx-plugins-wrangler": ["packages/nx-plugins/wrangler/src/index.ts"],
             "@cdw/monorepo/shared-bitwarden": ["packages/shared/bitwarden/src/index.ts"],
+            "@cdw/monorepo/shared-directus": ["packages/shared/directus/src/index.ts"],
+            "@cdw/monorepo/shared-graphql": ["packages/shared/graphql/src/index.ts"],
             "@cdw/monorepo/shared-logging": ["packages/shared/logging/src/index.ts"],
+            "@cdw/monorepo/shared-svelte-components": [
+                "packages/shared/svelte/components/src/index.ts"
+            ],
+            "@cdw/monorepo/shared-svelte-contexts": [
+                "packages/shared/svelte/contexts/src/index.ts"
+            ],
+            "@cdw/monorepo/shared-svelte-transitions": [
+                "packages/shared/svelte/transitions/src/index.ts"
+            ],
             "@cdw/monorepo/shared-trivy": ["packages/shared/trivy/src/index.ts"],
             "@cdw/monorepo/shared-utils": ["packages/shared/utils/src/index.ts"],
             "@cdw/monorepo/shared-utils/*": [

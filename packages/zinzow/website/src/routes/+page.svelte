@@ -1,9 +1,10 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
     import { fly } from "svelte/transition";
-    import { DirectusImage } from "../components/directus-image";
-    import { animationDelay } from "../utils/animation-delay";
+    import { aHoverAnimation, fadeInBottom } from "../lib/common/styles";
 
     interface Props {
         data: PageData;
@@ -23,15 +24,12 @@
         setTimeout(cycleHeroImage, imageCycleTimeMs);
     });
 
-    const animate = (...classes: string[]) => clsx(...classes, "animate-fadeInBT opacity-0");
     const introWords = $derived(intro.split(" "));
+
+    const sizeClass = clsx(`h-screen w-screen`);
 </script>
 
-<div
-    class="
-        relative grid h-screen w-screen py-6
-        md:max-h-256 md:min-h-0
-    ">
+<div class={clsx(sizeClass, "relative grid py-6")}>
     <div class="animate-fadeIn absolute inset-0">
         <div>
             {#key currentLandscapeHeroImageIdx}
@@ -39,10 +37,14 @@
                     inTransition={{ fn: fly, params: { x: "100%", opacity: 1 } }}
                     outTransition={{ fn: fly, params: { x: "-100%", opacity: 1 } }}
                     img={landscapeHeros[currentLandscapeHeroImageIdx]}
-                    class="
-                        absolute hidden h-screen w-screen saturate-[1.1]
-                        md:block md:max-h-256
-                    " />
+                    imgClass="saturate-[1.1]"
+                    class={clsx(
+                        sizeClass,
+                        `
+                            absolute! hidden
+                            md:block
+                        `,
+                    )} />
             {/key}
         </div>
         <div>
@@ -51,10 +53,14 @@
                     inTransition={{ fn: fly, params: { x: "100%", opacity: 1 } }}
                     outTransition={{ fn: fly, params: { x: "-100%", opacity: 1 } }}
                     img={landscapeHeros[currentLandscapeHeroImageIdx]}
-                    class="
-                        absolute block h-screen w-screen saturate-[1.1]
-                        md:hidden md:max-h-256
-                    " />
+                    imgClass="saturate-[1.1]"
+                    class={clsx(
+                        sizeClass,
+                        `
+                            absolute! block
+                            md:hidden
+                        `,
+                    )} />
             {/key}
         </div>
         <div
@@ -67,17 +73,31 @@
 
     <div
         class="
-            mx-auto mt-auto mb-24 flex w-full max-w-7xl flex-col flex-wrap justify-around gap-y-3
-            px-6 text-shadow-black/20 text-shadow-lg
+            mx-auto mt-auto mb-16 flex w-full max-w-7xl flex-col flex-wrap justify-around gap-y-3
+            px-6
             md:mb-8 md:flex-row md:items-center md:px-12
             lg:px-16
-            dark:text-shadow-gray-400/20
         ">
         {#each introWords as word, idx (idx)}
             <span
                 style={animationDelay(idx)}
-                class={animate(
-                    "inline-block text-2xl font-bold text-black dark:text-gray-200 sm:text-3xl md:text-4xl lg:text-5xl",
+                class={clsx(
+                    fadeInBottom,
+                    aHoverAnimation,
+                    `
+                        before-bg-black
+                        before:h-0.75
+                        hover:before:bg-black
+                        dark:before:bg-gray-100 dark:hover:before:bg-gray-100!
+                    `,
+                    `
+                        inline-block cursor-default text-2xl font-bold text-black transition-all
+                        text-shadow-black/20 text-shadow-lg
+                        hover:scale-105 hover:text-shadow-black/25
+                        md:text-3xl
+                        dark:text-gray-100 dark:text-shadow-gray-400/20
+                        dark:hover:text-shadow-gray-300/25
+                    `,
                 )}>
                 {word}
                 {idx < introWords.length - 1 ? " " : ""}

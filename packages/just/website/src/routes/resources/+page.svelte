@@ -1,30 +1,26 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import Icon from "@iconify/svelte";
-    import Card from "../../components/Card.svelte";
-    import Heading from "../../components/Heading.svelte";
-    import Link from "../../components/Link.svelte";
-    import { addJsonLdThings } from "../../contexts/jsonld";
-    import { animationDelay } from "../../shared/animationDelay";
+    import { Card } from "../../components/card";
+    import { H2, H4, Link, P } from "../../components/texts";
 
     interface Props {
         data: PageData;
     }
 
     const { data }: Props = $props();
-    const { resources, sections, jsonLdThings } = data;
-    addJsonLdThings(jsonLdThings);
-
-    let animationIdx = 0;
-    const getCardStyle = () => animationDelay(animationIdx++);
+    const { resources, sections, jsonLdThings } = $derived(data);
+    $effect(() => addJsonLdThings(jsonLdThings));
 </script>
 
-<p class="italic">{resources.info}</p>
+<P>{resources.info}</P>
 <ul class="mt-8 space-y-4">
-    {#each sections as section}
+    {#each sections as section, idx (idx)}
         <li>
-            <Card padding style={getCardStyle()} class="flex-col">
-                <Heading level="h2">{section.title}</Heading>
+            <Card padding style={animationDelay(idx + 1)} class="flex-col">
+                <H2 class="mt-0!">{section.title}</H2>
                 {#if section.description}
                     <div class="mb-4">{@html section.description}</div>
                 {/if}
@@ -44,14 +40,11 @@
                                 <div class="row-span-2">
                                     <Icon icon="mdi-light:file" class="size-12" />
                                 </div>
-                                <Heading
-                                    level="h4"
-                                    commandStyle={false}
-                                    class="col-span-2 cursor-pointer">
+                                <H4 commandStyle={false} class="col-span-2 mt-0! cursor-pointer">
                                     {item.title}
-                                </Heading>
+                                </H4>
                                 {#if item.description}
-                                    <p class="max-w-prose">{item.description}</p>
+                                    <P class="max-w-prose">{item.description}</P>
                                 {/if}
                                 {#if item.doi}
                                     <Link

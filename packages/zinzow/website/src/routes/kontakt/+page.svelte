@@ -1,186 +1,266 @@
 <script lang="ts">
-    import type { PageData } from "./$types";
+    import type { LatLngExpression, MapOptions, MarkerOptions, TileLayerOptions } from "leaflet";
+    import type { Component, Snippet } from "svelte";
+    import type { ActionData, PageData } from "./$types";
+    import { enhance } from "$app/forms";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
+    import { normalizeAnchor } from "@cdw/monorepo/shared-utils/html/common";
+    import { clsx } from "clsx";
+    import { onMount } from "svelte";
     import { WidthBox } from "../../components/content-area";
+    import { CheckboxWithLabel, InputWithLabel } from "../../components/form";
+    import FileInputWithLabel from "../../components/form/FileInputWithLabel.svelte";
+    import TextareaWithLabel from "../../components/form/TextareaWithLabel.svelte";
     import { H1, H2 } from "../../components/heading";
     import { Icons } from "../../components/icons";
     import { Paragraphs, TextWithIcon } from "../../components/text";
+    import { fadeIn, fadeInBottom, stylesMap } from "../../lib/common/styles";
 
     interface Props {
-        // const center = [13.5461344, 53.7128988];
         data: PageData;
+        form?: ActionData;
     }
 
-    const { data }: Props = $props();
-    const { texts, contact } = $derived(data);
+    const { data, form }: Props = $props();
+    const {
+        texts,
+        title,
+        intro,
+        name,
+        street,
+        postcode,
+        city,
+        tel,
+        email,
+        acceptPrivacyPolicy,
+        findUs,
+        coordinates,
+        contactPhoto,
+        jsonldThings,
+    } = $derived(data);
+
+    const mapAnchor = $derived(normalizeAnchor(findUs));
+
+    let Map: Component<{ options: MapOptions; children?: Snippet }> | null = $state(null);
+    let TileLayer: Component<{ url: string; options: TileLayerOptions }> | null = $state(null);
+    let Marker: Component<{ latLng: LatLngExpression; options?: MarkerOptions }> | null =
+        $state(null);
+
+    onMount(async () => {
+        const sveaflet = await import("sveaflet");
+        Map = sveaflet.Map;
+        TileLayer = sveaflet.TileLayer;
+        Marker = sveaflet.Marker;
+    });
+
+    const attachmentsId = "attachments";
+    let mailLoading = $state(false);
+
+    $effect(() => addJsonLdThings(jsonldThings));
 </script>
 
 <WidthBox class="isolate">
     <div
         class="
+            xs:grid-cols-[65%_35%]
             grid grid-cols-1
-            lg:grid-cols-2
+            sm:grid-cols-2 sm:grid-rows-[min-content_min-content_1fr_min-content]
         ">
-        <div
-            class="
-                mx-auto max-w-2xl
-                lg:mx-0 lg:max-w-lg
-            ">
-            <H1>{texts.title}</H1>
-            <Paragraphs text={texts.intro} />
+        <H1 class={clsx(fadeIn, "xs:col-span-2")}>{title}</H1>
+        <div class="lg:max-w-lg">
+            <Paragraphs text={intro} animationDelay={1} />
             <dl class="mt-10 space-y-4">
                 <TextWithIcon
-                    href={`#${texts.findUs}`}
+                    animationDelay={2}
+                    href={`#${mapAnchor}`}
                     icon={Icons.Location}
                     iconContainerClass="pt-1">
-                    {contact.name}<br />{contact.addressLine1}<br />{contact.addressLine2}
+                    {name}<br />{street}<br />{postcode}&nbsp;{city}
                 </TextWithIcon>
                 <TextWithIcon
-                    href={`tel:${contact.tel}`}
+                    animationDelay={3}
+                    href={`tel:${tel}`}
                     icon={Icons.Phone}
                     iconContainerClass="pt-1">
-                    {contact.tel}
+                    {tel}
                 </TextWithIcon>
                 <TextWithIcon
-                    href={`mailto:${contact.email}`}
+                    animationDelay={4}
+                    href={`mailto:${email}`}
                     icon={Icons.Email}
                     iconContainerClass="pt-1">
-                    {contact.email}
+                    {email}
                 </TextWithIcon>
             </dl>
         </div>
-        <form action="#" method="POST" class="self-center pt-20">
+        <form
+            action="?/mail"
+            method="POST"
+            enctype="multipart/form-data"
+            onsubmit={() => (mailLoading = true)}
+            use:enhance={() => {
+                return async ({ update, formData }) => {
+                    await update();
+                    mailLoading = false;
+                    const files = formData.getAll(attachmentsId) as File[];
+                    const e = document.getElementById(attachmentsId) as HTMLInputElement;
+                    const dt = new DataTransfer();
+                    if (!form?.success) {
+                        files.forEach(file => dt.items.add(file));
+                    }
+                    e.files = dt.files;
+                    e.dispatchEvent(new Event("change", { bubbles: true }));
+                };
+            }}
+            class="
+                xs:col-span-2
+                row-span-2 mx-auto w-full max-w-2xl pt-12
+                lg:col-span-1 lg:mr-0 lg:max-w-lg
+            ">
             <div
                 class="
-                    mx-auto max-w-2xl
-                    lg:mr-0 lg:max-w-lg
+                    xs:grid-cols-2
+                    grid grid-cols-1 gap-x-8 gap-y-3
+                    lg:gap-y-6
                 ">
-                <div
-                    class="
-                        grid grid-cols-1 gap-x-8 gap-y-3
-                        sm:grid-cols-2
-                        lg:gap-y-6
-                    ">
-                    <div>
-                        <label
-                            for="firstName"
-                            class="
-                                block text-sm/6 font-semibold text-gray-900
-                                dark:text-white
-                            ">
-                            {texts.firstName}
-                        </label>
-                        <div class="mt-2.5">
-                            <input
-                                type="text"
-                                name="firstName"
-                                id="firstName"
-                                autocomplete="given-name"
-                                class="
-                                    block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
-                                    text-gray-900 outline -outline-offset-1 outline-gray-300
-                                    focus:ring-0 focus:outline-2 focus:-outline-offset-2
-                                    focus:outline-(--primary)
-                                    dark:bg-white/5 dark:text-white dark:outline-white/10
-                                " />
-                        </div>
-                    </div>
-                    <div>
-                        <label
-                            for="lastName"
-                            class="
-                                block text-sm/6 font-semibold text-gray-900
-                                dark:text-white
-                            ">
-                            {texts.lastName}
-                        </label>
-                        <div class="mt-2.5">
-                            <input
-                                type="text"
-                                name="lastName"
-                                id="lastName"
-                                autocomplete="family-name"
-                                class="
-                                    block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
-                                    text-gray-900 outline -outline-offset-1 outline-gray-300
-                                    focus:ring-0 focus:outline-2 focus:-outline-offset-2
-                                    focus:outline-(--primary)
-                                    dark:bg-white/5 dark:text-white dark:outline-white/10
-                                " />
-                        </div>
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label
-                            for="email"
-                            class="
-                                block text-sm/6 font-semibold text-gray-900
-                                dark:text-white
-                            ">
-                            {texts.email}
-                        </label>
-                        <div class="mt-2.5">
-                            <input
-                                type="email"
-                                name="email"
-                                id="email"
-                                autocomplete="email"
-                                class="
-                                    block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
-                                    text-gray-900 outline -outline-offset-1 outline-gray-300
-                                    focus:ring-0 focus:outline-2 focus:-outline-offset-2
-                                    focus:outline-(--primary)
-                                    dark:bg-white/5 dark:text-white dark:outline-white/10
-                                " />
-                        </div>
-                    </div>
-                    <div class="sm:col-span-2">
-                        <label
-                            for="message"
-                            class="
-                                block text-sm/6 font-semibold text-gray-900
-                                dark:text-white
-                            ">
-                            {texts.message}
-                        </label>
-                        <div class="mt-2.5">
-                            <textarea
-                                name="message"
-                                id="message"
-                                rows="4"
-                                class="
-                                    block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base
-                                    text-gray-900 outline -outline-offset-1 outline-gray-300
-                                    focus:ring-0 focus:outline-2 focus:-outline-offset-2
-                                    focus:outline-(--primary)
-                                    dark:bg-white/5 dark:text-white dark:outline-white/10
-                                "></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-8 flex justify-end">
-                    <button
-                        type="submit"
+                <InputWithLabel
+                    style={animationDelay(3)}
+                    class={fadeInBottom}
+                    id="firstName"
+                    name="firstName"
+                    required
+                    type="text"
+                    autocomplete="given-name"
+                    label={texts.firstName}
+                    value={form?.data?.firstName}
+                    errors={form?.errors?.firstName?.errors} />
+                <InputWithLabel
+                    style={animationDelay(4)}
+                    class={fadeInBottom}
+                    id="lastName"
+                    name="lastName"
+                    required
+                    type="text"
+                    autocomplete="family-name"
+                    label={texts.lastName}
+                    value={form?.data?.lastName}
+                    errors={form?.errors?.lastName?.errors} />
+                <InputWithLabel
+                    style={animationDelay(5)}
+                    class={clsx(fadeInBottom, "xs:col-span-2")}
+                    id="email"
+                    name="email"
+                    required
+                    type="email"
+                    autocomplete="email"
+                    label={texts.email}
+                    value={form?.data?.email}
+                    errors={form?.errors?.email?.errors} />
+                <TextareaWithLabel
+                    style={animationDelay(6)}
+                    class={clsx(fadeInBottom, "xs:col-span-2")}
+                    id="message"
+                    name="message"
+                    required
+                    rows={7}
+                    label={texts.message}
+                    value={form?.data?.message}
+                    errors={form?.errors?.message?.errors} />
+                <CheckboxWithLabel
+                    style={animationDelay(7)}
+                    class={clsx(fadeInBottom, "xs:col-span-2")}
+                    id="privacy"
+                    name="privacy"
+                    required
+                    checked={form?.data?.privacy}
+                    errors={form?.errors?.privacy?.errors}>
+                    {@html acceptPrivacyPolicy}
+                </CheckboxWithLabel>
+                <FileInputWithLabel
+                    style={animationDelay(8)}
+                    class={fadeInBottom}
+                    id={attachmentsId}
+                    name={attachmentsId}
+                    label="Anhang"
+                    multiple
+                    chooseText={texts.chooseFiles}
+                    fileChosenText={texts.fileChosen}
+                    filesChosenText={texts.filesChosen}
+                    dropFilesText={texts.dropFiles}
+                    errors={form?.errors?.attachments?.errors} />
+                <button
+                    style={animationDelay(9)}
+                    type="submit"
+                    disabled={mailLoading}
+                    class={clsx(
+                        stylesMap.button,
+                        fadeInBottom,
+                        mailLoading &&
+                            `
+                                bg-primary-400
+                                dark:bg-primary-600
+                            `,
+                        `
+                            xs:col-start-2 xs:-mt-4
+                            place-self-end
+                        `,
+                    )}>
+                    {mailLoading ? texts.sending : texts.send}
+                </button>
+                {#if form?.success}
+                    <p
                         class="
-                            rounded-md bg-(--primary) px-3.5 py-2.5 text-center text-sm
-                            font-semibold text-white shadow-sm
-                            hover:bg-(--primary-400)
-                            focus-visible:outline-2 focus-visible:outline-offset-2
-                            focus-visible:outline-(--primary)
-                            dark:hover:bg-(--primary-600)
+                            xs:col-span-2
+                            font-semibold text-green-600
                         ">
-                        {texts.send}
-                    </button>
-                </div>
+                        {texts.messageSent}
+                    </p>
+                {/if}
             </div>
         </form>
+        <DirectusImage
+            img={contactPhoto}
+            imgClass="rounded-lg shadow-md"
+            style={animationDelay(5)}
+            class={clsx(
+                fadeInBottom,
+                `
+                    xs:col-2 xs:row-2 xs:mt-20 xs:h-40
+                    mx-auto mt-16 aspect-square h-56
+                    sm:mt-16 sm:h-48
+                    md:mx-0 md:mt-8 md:h-56
+                    lg:col-auto lg:row-auto lg:mt-16 lg:h-80
+                `,
+            )} />
         <div
-            class="
-                mt-20
-                lg:col-span-2
-            "
-            id={texts.findUs}>
-            <H2>{texts.findUs}</H2>
-            <div class="w-full border">
-                <p class="py-48 text-center">Map</p>
+            style={animationDelay(7)}
+            class={clsx(
+                fadeIn,
+                `
+                    xs:col-span-2
+                    mt-20
+                `,
+            )}
+            id={mapAnchor}>
+            <H2>{findUs}</H2>
+            <div class="h-160 max-h-[75vh] w-full overflow-hidden rounded-lg shadow-md">
+                {#if Map}
+                    <Map options={{ center: coordinates, zoom: 15 }}>
+                        <TileLayer
+                            url={"https://tile.openstreetmap.org/{z}/{x}/{y}.png"}
+                            options={{
+                                minZoom: 7,
+                                maxZoom: 18,
+                                maxNativeZoom: 18,
+                                attribution:
+                                    "© <a href='https://www.openstreetmap.org/copyright' target='_blank' rel='noopener noreferrer'>OpenStreetMap contributors</a>",
+                            }} />
+                        <Marker latLng={coordinates} />
+                    </Map>
+                {/if}
             </div>
         </div>
-    </div></WidthBox>
+    </div>
+</WidthBox>

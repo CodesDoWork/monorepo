@@ -9,3 +9,16 @@ export function findSafeById<T, O extends IdObject<T>>(collection: O[], id: T): 
 
     return item;
 }
+
+export function shuffle<T>(array: T[]): T[] {
+    for (let i = array.length - 1; i > 0; --i) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]] as [T, T];
+    }
+
+    return array;
+}
+
+export function splitInHalf<T>(array: T[]): [T[], T[]] {
+    return [array.slice(0, array.length / 2), array.slice(array.length / 2)];
+}

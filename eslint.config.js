@@ -164,6 +164,10 @@ export default antfu(
                             ],
                         },
                         {
+                            sourceTag: "svelte",
+                            onlyDependOnLibsWithTags: ["shared-svelte"],
+                        },
+                        {
                             sourceTag: "workspace-scripts",
                             onlyDependOnLibsWithTags: ["shared", "workspace-scripts", "nx-plugins"],
                         },

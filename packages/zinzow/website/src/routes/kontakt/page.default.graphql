@@ -1,9 +1,28 @@
 query GetContactData {
     contact {
+        title
+        intro
+
         name
-        addressLine1
-        addressLine2
+        street
+        postcode: postal_code
+        city
         tel
         email
+
+        contactPhoto: contact_photo {
+            ...DirectusImage
+        }
+
+        acceptPrivacyPolicy: accept_privacy_policy
+
+        findUs: find_us
+        coordinates
+    }
+}
+
+query GetContactFormData {
+    contact {
+        msgReceiver: message_receiver
     }
 }

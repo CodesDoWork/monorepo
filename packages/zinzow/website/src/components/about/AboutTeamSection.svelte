@@ -1,7 +1,10 @@
 <script lang="ts">
-    import type { DirectusImageParams } from "../../lib/common/directus-image";
-    import { DirectusImage } from "../directus-image";
+    import type { DirectusImageParams } from "@cdw/monorepo/shared-svelte-components";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
+    import { fadeIn, fadeInBottom, smallTextClasses } from "../../lib/common/styles";
     import { H2, H4 } from "../heading";
+    import { P } from "../text";
 
     interface Props {
         title: string;
@@ -12,21 +15,16 @@
             portrait?: DirectusImageParams;
             position?: string;
         }[];
+        animationDelay: number;
     }
 
-    const { title, text, members }: Props = $props();
+    const { title, text, members, animationDelay: delay }: Props = $props();
 </script>
 
 <section>
-    <article>
+    <article class={fadeIn} style={animationDelay(delay)}>
         <H2>{title}</H2>
-        <p
-            class="
-                mt-6 max-w-prose text-justify text-lg/8 hyphens-auto text-gray-600
-                dark:text-gray-400
-            ">
-            {text}
-        </p>
+        <P prose block>{text}</P>
     </article>
     <ul
         role="list"
@@ -37,25 +35,24 @@
             lg:mx-0 lg:max-w-none lg:grid-cols-5
             xl:grid-cols-6
         ">
-        {#each members as member}
-            <li>
+        {#each members as member, idx (idx)}
+            <li class={fadeInBottom} style={animationDelay(delay + idx + 1)}>
                 {#if member.portrait}
-                    <DirectusImage img={member.portrait} class="mx-auto size-24 rounded-full" />
+                    <DirectusImage
+                        img={member.portrait}
+                        imgClass="rounded-full shadow-md"
+                        class="mx-auto size-24" />
                 {:else}
                     <div
                         class="
-                            mx-auto size-24 rounded-full bg-gray-200
+                            mx-auto size-24 rounded-full bg-gray-200 shadow-md
                             dark:bg-gray-800
                         ">
                     </div>
                 {/if}
                 <H4 class="mt-4">{member.forename}{member.surname ? ` ${member.surname}` : ``}</H4>
                 {#if member.position}
-                    <p
-                        class="
-                            text-sm/6 text-gray-600
-                            dark:text-gray-400
-                        ">
+                    <p class={smallTextClasses}>
                         {member.position}
                     </p>
                 {/if}

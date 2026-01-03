@@ -1,7 +1,9 @@
 <script lang="ts">
-    import type { DirectusImageParams } from "../../lib/common/directus-image";
+    import type { DirectusImageParams } from "@cdw/monorepo/shared-svelte-components";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
-    import { DirectusImage } from "../directus-image";
+    import { fadeInBottom } from "../../lib/common/styles";
 
     interface Props {
         columns: number;
@@ -11,6 +13,7 @@
         resetSelectedImg: () => void;
         setSelectedImageIdx: (idx: number) => void;
         setClickedSelectedImageIdx: (idx: number) => void;
+        animationDelay: number;
     }
 
     const {
@@ -21,6 +24,7 @@
         resetSelectedImg,
         setSelectedImageIdx,
         setClickedSelectedImageIdx,
+        animationDelay: delay,
     }: Props = $props();
 </script>
 
@@ -34,7 +38,7 @@
         <div class="flex flex-col">
             {#each images as img, imgIdx}
                 {#if imgIdx % columns === colIdx}
-                    <li>
+                    <li class={fadeInBottom} style={animationDelay(delay + imgIdx)}>
                         <button
                             class="
                                 group h-full w-full p-1
@@ -45,19 +49,24 @@
                             onmouseleave={resetSelectedImg}>
                             <DirectusImage
                                 {img}
-                                class={clsx(
+                                imgClass={clsx(
+                                    `
+                                        ring-primary rounded-md shadow-md
+                                        sm:max-h-24
+                                        md:max-h-36 md:rounded-lg
+                                        lg:max-h-40
+                                    `,
                                     imgIdx === selectedImageIdx &&
                                         `
                                             ring-2
                                             md:ring-4
                                         `,
-                                    `
-                                        w-full cursor-pointer rounded-md shadow-md ring-(--primary)
-                                        sm:max-h-24
-                                        md:max-h-36 md:rounded-lg
-                                        lg:max-h-40
-                                    `,
-                                )} />
+                                )}
+                                sourceClass={clsx(`
+                                    hidden
+                                    md:block
+                                `)}
+                                class={clsx("w-full cursor-pointer")} />
                         </button>
                     </li>
                 {/if}

@@ -1,13 +1,15 @@
-import type { FlatTrans } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
+import type { FlatTrans } from "@cdw/monorepo/shared-graphql";
+import type { DirectusImageParams } from "@cdw/monorepo/shared-svelte-components";
 import type { Thing } from "schema-dts";
 import type { LayoutServerData } from "../$types";
 import type { GetProjectsServerDataQuery } from "../../graphql/default/generated/graphql";
 import type { PageServerLoad } from "./$types";
-import { assetUrl } from "@cdw/monorepo/shared-utils/directus";
-import { flattenTranslations } from "@cdw/monorepo/shared-utils/svelte/graphql/translations";
-import { defaultClient } from "../../graphql/default/client";
+import { flattenTranslations } from "@cdw/monorepo/shared-graphql";
+import { directusImageParams } from "@cdw/monorepo/shared-svelte-components";
+import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
+import { env } from "../../env";
+import { queryDefault } from "../../graphql/default/client";
 import { GetProjectsServerDataDocument } from "../../graphql/default/generated/graphql";
-import { createBreadcrumbList, domainUrl } from "../../shared/urls";
 
 type Projects = FlatTrans<GetProjectsServerDataQuery["projects"]>;
 
@@ -15,57 +17,75 @@ export const load: PageServerLoad = async ({ parent }) => {
     const parentData = await parent();
     const { currentLanguage } = parentData;
 
-    const { data } = await defaultClient.query({
+    const data = await queryDefault({
         query: GetProjectsServerDataDocument,
         variables: { language: currentLanguage.code },
     });
-    const { projects, texts } = flattenTranslations(data);
+    const { projects: translatedProjects, texts } = flattenTranslations(data);
 
-    transformProjects(projects);
+    const projects = transformProjects(translatedProjects);
     const jsonLdThings = createJsonLdThings(parentData, projects);
 
     return { projects, texts, jsonLdThings };
 };
 
-function transformProjects(projects: Projects) {
-    projects.forEach(project => {
-        project.thumbnail = assetUrl(project.thumbnail, { quality: 33 });
-        project.technologies.sort((t1, t2) => t1.technology.name.localeCompare(t2.technology.name));
-        if (project.children) {
-            transformProjects(project.children);
-        }
-    });
+interface Project {
+    id: string;
+    name: string;
+    description: string;
+    license?: string;
+    homepage?: string;
+    githubUrl?: string;
+    thumbnail: DirectusImageParams;
+    technologies?: {
+        technology?: {
+            name: string;
+            icon: string;
+        };
+    }[];
+    children?: Project[];
 }
 
-function createJsonLdThings(parent: LayoutServerData, projects: Projects): Thing[] {
-    const { currentRoute, currentLanguage, siteInfo, homeRoute } = parent;
+function transformProjects(projects: Projects): Project[] {
+    return projects.map(
+        p =>
+            ({
+                ...p,
+                thumbnail: directusImageParams(env.CMS_URL, {
+                    ...defaultNull(p.thumbnail),
+                    alt: "project thumbnail",
+                    assetParams: { width: 512, quality: 67 },
+                }),
+                technologies: p.technologies.sort((t1, t2) =>
+                    t1.technology.name.localeCompare(t2.technology.name),
+                ),
+                children: p.children ? transformProjects(p.children) : undefined,
+            }) satisfies Project,
+    );
+}
 
-    const projectThings: Thing[] = projects.map(project => ({
+function createJsonLdThings(parent: LayoutServerData, projects: Project[]): Thing[] {
+    const { currentLanguage, siteInfo, homeRoute, baseUrl } = parent;
+    return projects.map(project => ({
         "@type": "SoftwareSourceCode",
         name: project.name,
         description: project.description,
-        url: `${domainUrl(currentRoute)}#_${project.id}`,
         codeRepository: project.githubUrl,
         license: project.license,
         programmingLanguage: project.technologies.map(t => t.technology.name),
         keywords: project.technologies.map(t => t.technology.name),
-        image: project.thumbnail,
+        image: project.thumbnail.src,
         author: {
             "@type": "Person",
             name: siteInfo.name,
         },
         mainEntityOfPage: {
             "@type": "WebPage",
-            name: currentRoute.name,
-            description: currentRoute.description,
-            url: domainUrl(currentRoute),
             inLanguage: currentLanguage.short,
             isPartOf: {
                 "@type": "WebSite",
-                url: domainUrl(homeRoute),
+                url: `${baseUrl}${homeRoute.route}`,
             },
         },
     }));
-
-    return [...projectThings, createBreadcrumbList(currentRoute, homeRoute)];
 }

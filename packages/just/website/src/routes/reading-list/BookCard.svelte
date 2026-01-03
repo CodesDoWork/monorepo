@@ -1,8 +1,9 @@
 <script lang="ts">
     import type { Book } from "./types";
-    import Card from "../../components/Card.svelte";
-    import Heading from "../../components/Heading.svelte";
-    import Label from "../../components/Label.svelte";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { Card } from "../../components/card";
+    import { Label } from "../../components/label";
+    import { H5, P } from "../../components/texts";
 
     interface Props {
         book: Book;
@@ -13,31 +14,27 @@
     const { book, style, featuredText }: Props = $props();
 </script>
 
-<Card class="grid h-full grid-cols-[auto_1fr] items-start gap-4 p-2" {style}>
-    <img
-        loading="lazy"
-        alt="cover"
-        class="
-            max-w-20 rounded
-            sm:max-w-32
-            md:max-w-1/2
-        "
-        src={book.cover} />
+<Card class="grid h-full grid-cols-[33%_67%] items-start gap-4 p-2 pr-6" {style}>
+    <DirectusImage imgClass="rounded" class="max-w-full" img={book.cover} />
     <div>
-        <Heading level="h6" commandStyle={false}>{book.title}</Heading>
+        <H5 class="mt-0!" commandStyle={false}>{book.title}</H5>
         <ul class="items-center text-sm">
             {#each book.authors as author}
                 <li>{author}</li>
             {/each}
         </ul>
     </div>
-    <p class="col-span-2">{book.description}</p>
+    <P class="col-span-2">{book.description}</P>
     <ul class="col-span-2 flex flex-wrap gap-2">
         {#if book.featured}
-            <Label tag="li" class="bg-red-500/70!" name={featuredText} />
+            <li>
+                <Label class="bg-red-500/70!" name={featuredText} />
+            </li>
         {/if}
         {#each book.categories as category}
-            <Label tag="li" name={category} />
+            <li>
+                <Label name={category} />
+            </li>
         {/each}
     </ul>
 </Card>

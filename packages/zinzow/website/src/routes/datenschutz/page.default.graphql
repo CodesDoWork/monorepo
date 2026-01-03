@@ -1,0 +1,5 @@
+query GetPrivacyPolicyData {
+    privacyPolicy: privacy_policy {
+        content
+    }
+}

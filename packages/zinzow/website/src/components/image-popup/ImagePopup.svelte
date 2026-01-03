@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { DirectusImageParams } from "../../lib/common/directus-image";
+    import type { DirectusImageParams } from "@cdw/monorepo/shared-svelte-components";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
     import { clsx } from "clsx";
     import { nonpassive } from "svelte/legacy";
-    import { DirectusImage } from "../directus-image";
 
     interface Props {
         isOpen: boolean;
@@ -11,6 +11,12 @@
     }
 
     const { isOpen, setIsOpen, selectedImage }: Props = $props();
+    const img: DirectusImageParams = $derived.by(() => {
+        const url = new URL(selectedImage.src);
+        url.searchParams.delete("height");
+        url.searchParams.delete("quality");
+        return { ...selectedImage, src: url.href };
+    });
 
     let zoom = $state(1);
     let dragDialogImage = $state(false);
@@ -65,22 +71,21 @@
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
     open={isOpen}
-    class="fixed inset-0 z-50 h-screen w-screen bg-black/80"
+    class="fixed inset-0 z-50 h-screen w-screen bg-black/85"
     onmouseup={() => !dragDialogImage && setIsOpen(false)}>
-    <div
+    <DirectusImage
+        onmousedown={handleDragStart}
+        lazy
+        {img}
+        imgStyle="transform: scale({zoom}) translate({translateDialogImageX}px, {translateDialogImageY}px)"
         id="image-container"
+        sourceClass="left-1/2 right-auto -translate-x-1/2"
         class="
-            absolute top-1/2 left-1/2 max-h-[80vh] max-w-[80vw] -translate-x-1/2 -translate-y-1/2
-            overflow-hidden rounded-lg
+            absolute! top-1/2 left-1/2 h-[80vh] max-h-[80vh] w-[80vw] max-w-[80vw] -translate-x-1/2
+            -translate-y-1/2 overflow-hidden rounded-lg
         "
-        style="width: 80vw; height: 80vh;">
-        <DirectusImage
-            onmousedown={handleDragStart}
-            img={selectedImage}
-            style="transform: scale({zoom}) translate({translateDialogImageX}px, {translateDialogImageY}px)"
-            class={clsx(
-                zoom > 1 ? (dragDialogImage ? "cursor-grabbing" : "cursor-grab") : "cursor-default",
-                "m-auto max-h-full max-w-full rounded-lg object-contain shadow-lg",
-            )} />
-    </div>
+        imgClass={clsx(
+            zoom > 1 ? (dragDialogImage ? "cursor-grabbing" : "cursor-grab") : "cursor-default",
+            "m-auto h-full max-h-full w-fit max-w-full rounded-lg object-contain!",
+        )} />
 </dialog>

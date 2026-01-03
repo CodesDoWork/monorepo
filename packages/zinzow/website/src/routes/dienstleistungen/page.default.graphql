@@ -1,4 +1,8 @@
 query GetServiceData {
+    servicePage: service_page {
+        intro
+    }
+
     services {
         route {
             name

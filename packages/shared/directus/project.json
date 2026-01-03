@@ -1,0 +1,8 @@
+{
+    "name": "shared-directus",
+    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/shared/directus/src",
+    "projectType": "library",
+    "tags": ["shared"],
+    "targets": {}
+}

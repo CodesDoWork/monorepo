@@ -1,0 +1,5 @@
+query GetImprintData {
+    imprint {
+        content
+    }
+}

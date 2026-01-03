@@ -1,53 +1,92 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
+    import { clsx } from "clsx";
+    import JobPosting from "../../components/career/JobPosting.svelte";
     import { WidthBox } from "../../components/content-area";
-    import { DirectusImage } from "../../components/directus-image";
-    import { H1 } from "../../components/heading";
-    import Paragraphs from "../../components/text/paragraphs.svelte";
+    import { H1, H2, H4 } from "../../components/heading";
+    import { Paragraphs } from "../../components/text";
+    import { aHoverAnimation, fadeIn, fadeInBottom } from "../../lib/common/styles";
 
     interface Props {
         data: PageData;
     }
 
     const { data }: Props = $props();
-    const { careerBenefits, vacancies, texts, career } = $derived(data);
+    const { career, careerBenefits, jobPostings, jsonldThings } = $derived(data);
+
+    $effect(() => addJsonLdThings(jsonldThings));
 </script>
 
 <WidthBox class="isolate">
-    <H1>{texts.title}</H1>
-    <div class="mt-8">
-        <Paragraphs text={texts.identityAndCulture} />
-    </div>
-    <ol
+    <H1 class={fadeIn}>{career.title}</H1>
+    <Paragraphs text={career.intro} animationDelay={1} />
+    <ul
         class="
-            mt-4 grid list-inside list-disc
-            md:mt-16 md:list-none md:grid-cols-2 md:gap-16 md:px-24
+            mx-auto mt-4 grid w-fit list-outside list-disc
+            sm:mt-12 sm:grid-cols-2
+            md:mt-16 md:gap-4
+            lg:gap-8
         ">
-        {#each careerBenefits as benefit}
+        {#each careerBenefits as benefit, idx (idx)}
             <li
-                class="
-                    text-xl text-(--primary)
-                    md:text-center md:text-2xl
-                ">
-                {benefit.title}
+                class={clsx(
+                    fadeInBottom,
+                    `
+                        text-primary w-fit origin-left transition-all
+                        hover:text-primary-900 hover:scale-104
+                        dark:hover:text-primary-400
+                    `,
+                )}
+                style={animationDelay(2 + idx)}>
+                <H4 class={clsx(aHoverAnimation, `relative m-0! inline-block cursor-default`)}>
+                    {benefit.title}
+                </H4>
             </li>
         {/each}
-    </ol>
+    </ul>
     <DirectusImage
         img={career.teamPhoto}
+        imgClass="rounded-lg shadow-lg"
+        style={animationDelay(3)}
+        class={clsx(
+            fadeInBottom,
+            `
+                mx-auto mt-16 aspect-2/1 w-full
+                sm:mt-24
+                md:w-3/4
+            `,
+        )} />
+    <section
         class="
-            mx-auto mt-16 aspect-2/1 w-full rounded-lg shadow-lg
-            md:mt-32 md:w-3/4
-        " />
-    <ol class="mt-16">
-        {#each vacancies as vacancy}
-            <p>{vacancy.title}</p>
-            <p>{vacancy.description}</p>
-            <p>{vacancy.responsibilities}</p>
-            <p>{vacancy.profile}</p>
-            <a href={vacancy.attachment?.url} rel="noopener noreferrer" target="_blank">
-                Download
-            </a>
-        {/each}
-    </ol>
+            mt-16
+            sm:mt-24
+        ">
+        <H2 class={fadeIn} style={animationDelay(4)}>{career.jobPostingsTitle}</H2>
+        <ul
+            class="
+                mt-8 grid grid-cols-1 gap-8 px-2
+                sm:px-8
+                md:grid-cols-2
+                lg:gap-12
+            ">
+            {#each jobPostings as jobPosting, idx (idx)}
+                <JobPosting {...jobPosting} animationDelay={5 + idx} />
+            {/each}
+        </ul>
+    </section>
+    <div
+        style={animationDelay(6)}
+        class={clsx(
+            fadeInBottom,
+            `
+                bg-primary-100 mx-2 mt-16 rounded-md px-6 py-4 shadow-md
+                dark:bg-primary-900
+                sm:mx-8
+            `,
+        )}>
+        {@html career.cta}
+    </div>
 </WidthBox>

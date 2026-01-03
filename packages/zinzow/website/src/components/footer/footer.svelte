@@ -1,23 +1,38 @@
 <script lang="ts">
-    import type { LayoutData } from "../../routes/$types";
+    import type { RouteFragment } from "../../graphql/default/generated/graphql";
     import Icon from "@iconify/svelte";
+    import { clsx } from "clsx";
+    import { smallTextClasses } from "../../lib/common/styles";
     import { WidthBox } from "../content-area";
     import { H5 } from "../heading";
     import { Logo } from "../logo";
 
     interface Props {
-        data: LayoutData;
+        currentRoute?: RouteFragment;
+        projectDescription: string;
+        copyright: string;
+        socialMedias: {
+            url: string;
+            icon: string;
+            name: string;
+            user: string;
+        }[];
+        footerSections: {
+            name: string;
+            routes?: {
+                route?: {
+                    name: string;
+                    path: string;
+                };
+            }[];
+        }[];
     }
 
-    const { data }: Props = $props();
-    const { settings, socialMedias, footerSections } = $derived(data);
+    const { currentRoute, projectDescription, copyright, socialMedias, footerSections }: Props =
+        $props();
 </script>
 
-<footer
-    class="
-        bg-white
-        dark:bg-(--primary-950)
-    ">
+<footer class={clsx(!currentRoute?.isHero && "mt-12", "row-start-3 w-screen")}>
     <WidthBox class="pt-0">
         <div
             class="
@@ -33,27 +48,26 @@
                 <a href="/" class="inline-block">
                     <Logo
                         class="
-                            size-40 rounded bg-(--logoBg) p-4 shadow-md
+                            bg-logoBg size-40 rounded p-4 shadow-md
                             md:size-56
                             dark:fill-black!
                         " />
                 </a>
-                <p
-                    class="
-                        text-sm/6 text-balance text-gray-600
-                        dark:text-gray-300
-                    ">
-                    {settings.project_descriptor}
+                <p class={smallTextClasses}>
+                    {projectDescription}
                 </p>
                 <div class="flex gap-x-6">
                     {#each socialMedias as socialMedia}
                         <a
                             href={socialMedia.url}
-                            class="
-                                text-gray-600 transition-colors
-                                hover:text-gray-800
-                                dark:hover:text-gray-300
-                            "
+                            class={clsx(
+                                smallTextClasses,
+                                `
+                                    transition-colors
+                                    hover:text-gray-950
+                                    dark:hover:text-white
+                                `,
+                            )}
                             target="_blank"
                             title={`${socialMedia.user} @ ${socialMedia.name}`}
                             rel="noopener noreferrer">
@@ -78,16 +92,19 @@
                                 mt-5 space-y-3
                                 sm:mt-6 sm:space-y-4
                             ">
-                            {#each sectionRoutes as route}
+                            {#each sectionRoutes as { route }}
                                 <li>
                                     <a
-                                        href={route.routes_id.path}
-                                        class="
-                                            text-sm/6 text-gray-600 transition-colors
-                                            hover:text-gray-950
-                                            dark:text-gray-400 dark:hover:text-white
-                                        ">
-                                        {route.routes_id.name}
+                                        href={route.path}
+                                        class={clsx(
+                                            smallTextClasses,
+                                            `
+                                                transition-colors
+                                                hover:text-gray-950
+                                                dark:hover:text-white
+                                            `,
+                                        )}>
+                                        {route.name}
                                     </a>
                                 </li>
                             {/each}
@@ -98,20 +115,23 @@
         </div>
         <div
             class="
-                mt-16 flex flex-col justify-between border-t border-gray-900/10 pt-8 text-gray-600
+                relative mt-16 flex flex-col justify-between border-t border-gray-900/10 pt-5
                 sm:mt-20
                 md:flex-row
                 lg:mt-24
-                dark:border-white/10 dark:text-gray-400
+                dark:border-white/10
             ">
-            <p class="text-sm/6">
-                &copy; {settings.copyright}
+            <p class={smallTextClasses}>
+                &copy; {copyright}
             </p>
             <p
-                class="
-                    mt-6 text-sm/6
-                    md:mt-0
-                ">
+                class={clsx(
+                    smallTextClasses,
+                    `
+                        mt-6
+                        md:mt-0
+                    `,
+                )}>
                 Made with <Icon icon="noto:red-heart" class="inline-block" />&nbsp; by
                 <a
                     href="https://justinkonratt.de"

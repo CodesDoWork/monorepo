@@ -7,17 +7,17 @@ query GetAboutData {
                 ...DirectusImage
             }
         }
+
+        ourMission: our_mission
         missionText
+
         bannerImage {
             ...DirectusImage
         }
+
+        ourValues: our_values
         valuesText
-        partnersTitle: partners_title
-        partners {
-            directus_files_id {
-                ...DirectusImage
-            }
-        }
+
         isTeamVisible: is_team_visible
         teamTitle: team_title
         teamText
@@ -26,6 +26,11 @@ query GetAboutData {
     stats: about_statistics {
         name
         value
+    }
+
+    timesteps: timeline_steps {
+        date
+        description
     }
 
     values: about_values {

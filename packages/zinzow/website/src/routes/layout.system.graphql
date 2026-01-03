@@ -1,9 +1,16 @@
 query GetLayoutSystemData {
     settings {
-        project_name
-        project_descriptor
-        project_color
+        projectName: project_name
+        projectDescription: project_descriptor
+        projectColor: project_color
+        backgroundColor: background_color
         logoBackgroundColor
         copyright
+        foundingYear: founding_year
+        legalName: legal_name
+    }
+
+    logo: files(filter: { title: { _eq: "SEO Logo" } }) {
+        id
     }
 }

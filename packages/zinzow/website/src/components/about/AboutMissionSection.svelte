@@ -1,29 +1,23 @@
 <script lang="ts">
+    import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
+    import { fadeIn } from "../../lib/common/styles";
     import { H2 } from "../heading";
+    import { P } from "../text";
 
     interface Props {
         title: string;
         text: string;
+        animationDelay: number;
     }
 
-    const { title, text }: Props = $props();
+    const { title, text, animationDelay: delay }: Props = $props();
 </script>
 
-<section
-    class="
-        mt-16
-        md:mt-24
-    ">
-    <article>
+<section>
+    <article class={fadeIn} style={animationDelay(delay)}>
         <H2>{title}</H2>
-        <p
-            lang="de"
-            class="
-                max-w-prose text-justify text-lg hyphens-auto text-gray-600
-                sm:text-xl/8
-                dark:text-gray-400
-            ">
+        <P lang="de" prose block>
             {text}
-        </p>
+        </P>
     </article>
 </section>

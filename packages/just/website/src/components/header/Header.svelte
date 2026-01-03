@@ -88,20 +88,24 @@
             </button>
             {#if isMobileNavVisible}
                 <button
-                    transition:fade
+                    transition:fade={{ duration: 250 }}
                     aria-label="backdrop"
-                    class="fixed inset-0 z-20 h-screen w-screen bg-black/65"
+                    class="fixed inset-0 z-20 h-screen w-screen bg-black/70"
                     onclick={() => (isMobileNavVisible = false)}>
                 </button>
                 <NavLinks
+                    isMobile
                     class="
                         dark:bg-primary-800
-                        absolute top-12 -right-4 z-30 space-y-2 rounded bg-white py-2 text-right
-                        shadow-lg
+                        bg-primary-700 absolute top-12 -right-4 z-30 space-y-3 rounded-md py-4
+                        text-right shadow-lg
                     "
                     onLinkClick={() => (isMobileNavVisible = false)}
-                    aClass="block text-black dark:text-white pr-4 pl-8"
-                    liClass="animate-fadeInTopSubtle opacity-0"
+                    aClass={clsx(`
+                        bg-primary block rounded-md py-3 pr-4 pl-12 text-nowrap text-black
+                        dark:hover:bg-pageColor dark:bg-black/10 dark:text-white
+                    `)}
+                    liClass="animate-fadeInTopSubtle opacity-0 px-4"
                     {routes}
                     {currentRoute} />
             {/if}
@@ -111,7 +115,7 @@
 
 <div
     class="
-        absolute top-4 right-[4.5rem] z-10 flex gap-4
+        absolute top-4 right-18 z-10 flex gap-4
         sm:right-20 sm:gap-6
         lg:right-8
     ">

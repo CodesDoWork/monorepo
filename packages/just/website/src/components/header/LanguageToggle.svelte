@@ -26,7 +26,6 @@
     };
 
     let isSelectionVisible = $state(false);
-    $inspect(isSelectionVisible);
 </script>
 
 <div

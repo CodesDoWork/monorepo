@@ -9,22 +9,26 @@
         class?: string;
         liClass?: string;
         aClass?: string;
+        isMobile?: boolean;
         routes: Route[];
         currentRoute: Route;
         onLinkClick?: (route: Route, event: MouseEvent) => void;
     }
 
     const {
-        class: className = "",
-        liClass = "",
-        aClass = "",
+        class: className,
+        liClass,
+        aClass,
+        isMobile,
         routes,
         currentRoute,
         onLinkClick,
     }: Props = $props();
 </script>
 
-<ol transition:slide class={className}>
+<ol
+    transition:slide={{ duration: isMobile ? 250 : 300, axis: isMobile ? "x" : "y" }}
+    class={className}>
     {#each routes.filter(r => r.inNav) as routeLink, idx (idx)}
         <li style={animationDelay(idx)} class={liClass}>
             <Link

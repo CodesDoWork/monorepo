@@ -21,7 +21,7 @@
 
     const inputClass = clsx(
         `
-            rounded border-0 bg-white p-2 shadow outline outline-stone-200 transition
+            rounded-md border-0 bg-white p-2 shadow outline outline-stone-200 transition
             placeholder:text-slate-400
             focus:shadow-md focus:outline-2
             dark:bg-white/10 dark:outline-0 dark:outline-slate-500 dark:placeholder:text-slate-300
@@ -54,14 +54,26 @@
             method="post"
             use:enhance>
             <input
-                class={clsx(inputClass)}
+                class={clsx(
+                    inputClass,
+                    `
+                        col-span-2
+                        sm:col-span-1
+                    `,
+                )}
                 name="name"
                 placeholder={texts.name}
                 required
                 type="text"
                 value={form?.data?.name || ""} />
             <input
-                class={clsx(inputClass)}
+                class={clsx(
+                    inputClass,
+                    `
+                        col-span-2
+                        sm:col-span-1
+                    `,
+                )}
                 name="email"
                 placeholder={texts.email}
                 required

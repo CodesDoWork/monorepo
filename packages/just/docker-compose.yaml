@@ -155,7 +155,7 @@ services:
       - NODE_ENV=production
     healthcheck:
       test: node /app/services/healthcheck
-    image: ${DOCKER_PROXY}/lissy93/dashy:3.1.1
+    image: ${DOCKER_PROXY}/lissy93/dashy:3.1.0
     volumes:
       - dashy-config:/app/user-data:ro
 
@@ -256,7 +256,7 @@ services:
             }
           }
         ]
-    image: ${DOCKER_PROXY}/zengxs/gitlab:18.2.1-ee
+    image: ${DOCKER_PROXY}/zengxs/gitlab:18.2.1-ee-arm64
     restart: always
     volumes:
       - gitlab-config:/etc/gitlab
@@ -291,7 +291,7 @@ services:
       - GF_SMTP_PASSWORD=${SMTP_PASSWORD}
     healthcheck:
       test: curl -fs http://localhost:${GRAFANA_PORT}/api/health | grep "ok" || exit 1
-    image: ${DOCKER_PROXY}/grafana/grafana:12.4.0
+    image: ${DOCKER_PROXY}/grafana/grafana:12.3.1
     volumes:
       - grafana-storage:/var/lib/grafana
       - grafana-config:/usr/share/grafana/conf
@@ -506,6 +506,7 @@ services:
   postgres:
     <<: *common
     cap_add:
+      - CAP_CHOWN
       - CAP_FOWNER
       - CAP_DAC_READ_SEARCH
       - CAP_SETGID

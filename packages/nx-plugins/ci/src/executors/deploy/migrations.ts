@@ -14,6 +14,7 @@ export async function runPreMigrations(
 ) {
     const { preCommands = [] } = getMigrations(context);
     if (!preCommands.length) {
+        logger.info("No pre-migrations found.");
         return;
     }
 
@@ -27,6 +28,7 @@ export async function runPostMigrations(
 ) {
     const { postCommands = [] } = getMigrations(context);
     if (!postCommands.length) {
+        logger.info("No post-migrations found.");
         return;
     }
 

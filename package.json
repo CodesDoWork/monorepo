@@ -28,7 +28,8 @@
         "docker:build-workspace": "nx run-many -t docker-build -p workspace-base workspace workspace-deps --parallel 1 --nxBail --output-style stream",
         "docker:workspace": "nx docker-compose-up workspace",
         "secretlint": "secretlint --secretlintignore .gitignore \"**/*\"",
-        "trivy": "tsx packages/workspace/scripts/src/trivy-analyze-fs.ts"
+        "trivy": "tsx packages/workspace/scripts/src/trivy-analyze-fs.ts",
+        "prepare": "husky"
     },
     "dependencies": {
         "@mermaid-js/mermaid-mindmap": "^9.3.0",

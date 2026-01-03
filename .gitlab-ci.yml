@@ -135,12 +135,8 @@ svelte check:
 
 sonarqube:
   stage: lint
-  cache: []
-  image:
-    name: ${DOCKER_PROXY}/sonarsource/sonar-scanner-cli:12.0.0.3214_8.0.1
-    entrypoint: [""]
   script:
-    - sonar-scanner
+    - sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}
   allow_failure: true
   only:
     - master

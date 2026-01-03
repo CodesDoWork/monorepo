@@ -80,8 +80,8 @@
                     dark:bg-transparent
                 `,
             `
-                w-full flex-1 px-8 pt-4 pb-16
-                sm:px-[5%]
+                w-full flex-1 px-4 pt-4 pb-16
+                sm:px-6
                 md:px-8
                 lg:px-[10%]
             `,

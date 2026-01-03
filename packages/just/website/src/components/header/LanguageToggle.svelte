@@ -16,12 +16,16 @@
     const textColor = $derived(useCustomColor ? "text-black dark:text-white" : "text-white");
     const displayHoverColor = $derived(useCustomColor ? "hover:text-white" : "hover:text-black");
     const liHoverColor = $derived(
-        useCustomColor ? "hover:bg-primary-300 dark:hover:bg-primary-600 " : "hover:bg-pageColor",
+        useCustomColor
+            ? "hover:bg-primary-300 dark:hover:bg-primary-600 active:bg-primary-300 dark:active:bg-primary-600"
+            : "hover:bg-pageColor active:bg-pageColor",
     );
 
     const selectLanguage = (language: LanguageFragment) => {
         fetch(`/api/setLanguage/${language.code}`).then(() => window.location.reload());
     };
+
+    let isSelectionVisible = $state(false);
 </script>
 
 <div
@@ -35,13 +39,18 @@
             hover:drop-shadow-md
         `,
     )}>
-    <span class="cursor-default">{currentLanguage.short.toUpperCase()}</span>
+    <button onclick={() => (isSelectionVisible = !isSelectionVisible)} class="cursor-default">
+        {currentLanguage.short.toUpperCase()}
+    </button>
     <div
         class={clsx(
-            "invisible absolute right-0 translate-y-4 opacity-0",
-            "group-hover:visible group-hover:translate-y-0 group-hover:opacity-100",
-            "transition-all",
-            "pt-2",
+            `absolute right-0 pt-2 transition-all`,
+            isSelectionVisible
+                ? "visible translate-y-0 opacity-100"
+                : `
+                    invisible translate-y-4 opacity-0
+                    group-hover:visible group-hover:translate-y-0 group-hover:opacity-100
+                `,
         )}>
         <ul
             class={clsx(`

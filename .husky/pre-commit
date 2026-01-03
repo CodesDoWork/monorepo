@@ -1,2 +1,2 @@
-nr format:check
+nx format:check
 nr secretlint

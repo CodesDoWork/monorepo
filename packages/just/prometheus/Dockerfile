@@ -10,5 +10,5 @@ COPY packages/$APP_DIR/prometheus.yaml packages/$APP_DIR/.env ./
 RUN export $(cat .env) && envsubst < prometheus.yaml > ./prometheus-ready.yaml
 
 
-FROM $DOCKER_PROXY/prom/prometheus:v2.54.1
+FROM $DOCKER_PROXY/prom/prometheus:v3.8.1
 COPY --from=builder /app/prometheus-ready.yaml /etc/prometheus/prometheus.yml

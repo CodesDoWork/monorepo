@@ -1,0 +1,7 @@
+migrations:
+  - version: 1.0.0
+    preCommands:
+      - docker compose exec postgres sh -c 'pg_dumpall -U "${POSTGRES_USER}"' > pg_dumpfile
+    postCommands:
+      - docker compose exec -i postgres sh -c 'psql -U "${POSTGRES_USER}"' < pg_dumpfile
+      - rm pg_dumpfile

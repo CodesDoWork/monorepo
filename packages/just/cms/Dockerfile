@@ -19,7 +19,7 @@ RUN nx reset
 RUN nx build just-cms-dashboard-config
 
 
-FROM $DOCKER_PROXY/directus/directus:11.5.1
+FROM $DOCKER_PROXY/directus/directus:11.14.0
 ARG APP_DIR
 
 USER root

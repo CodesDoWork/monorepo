@@ -1,6 +1,6 @@
 ARG DOCKER_PROXY
 
-FROM $DOCKER_PROXY/openresty/openresty:1.27.1.2-4-alpine-fat
+FROM $DOCKER_PROXY/openresty/openresty:1.27.1.2-5-alpine-fat
 ARG APP_DIR=just/nginx
 
 RUN mkdir /var/log/nginx

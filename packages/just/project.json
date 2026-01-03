@@ -3,13 +3,23 @@
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/just",
     "projectType": "application",
+    "metadata": {
+        "js": {
+            "packageVersion": "1.0.0"
+        }
+    },
     "targets": {
         "deploy": {
             "executor": "@cdw/monorepo/nx-plugins-ci:deploy",
             "options": {
                 "enabled": true,
                 "files": [".env", "docker-compose.yaml"],
-                "commands": ["docker compose up -d --pull always --remove-orphans"]
+                "commands": [
+                    "echo modprobe modules needed for wg-easy",
+                    "sudo modprobe iptable_nat",
+                    "sudo modprobe ip6table_nat",
+                    "docker compose up -d --pull always --remove-orphans"
+                ]
             },
             "configurations": {
                 "development": {

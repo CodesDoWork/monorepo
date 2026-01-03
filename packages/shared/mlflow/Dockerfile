@@ -1,6 +1,6 @@
 FROM python:3.12.12-slim
 
-RUN pip install mlflow==3.8.1 psycopg2-binary==2.9.11
+RUN pip install --no-cache-dir mlflow==3.8.1 psycopg2-binary==2.9.11
 
 SHELL ["bash"]
 ENTRYPOINT [ "mlflow", "server" ]

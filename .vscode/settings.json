@@ -10,5 +10,8 @@
         "projectKey": "codesdowork_monorepo"
     },
     "latex-workshop.latex.autoBuild.run": "never",
-    "ltex.language": "auto"
+    "ltex.language": "auto",
+    "files.associations": {
+        ".env.secure.yaml": "yaml"
+    }
 }

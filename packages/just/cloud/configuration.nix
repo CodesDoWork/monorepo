@@ -24,7 +24,7 @@
     hostName = "justCloud";
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 25 110 143 465 587 993 995 4190 ];
+      allowedTCPPorts = [ 22 25 110 143 465 587 993 995 3003 4190 ]; # 22=ssh, 3003=testing, resst=mail
       allowedUDPPorts = [ 51820 ];
       extraCommands = ''
         iptables -A INPUT -i lo -s 192.168.192.0/24 -j ACCEPT

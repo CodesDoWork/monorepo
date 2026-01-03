@@ -170,7 +170,7 @@ joblib==1.5.3
     # via
     #   librosa
     #   scikit-learn
-json5==0.12.1
+json5==0.13.0
     # via jupyterlab-server
 jsonpointer==3.0.0
     # via jsonschema

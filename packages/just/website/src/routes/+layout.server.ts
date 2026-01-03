@@ -46,16 +46,16 @@ async function loadServerData(
     });
 
     const socials = contact.socials.map(s => s.socialsId).map(mapSocial);
-    about.portrait = assetUrl(env.CMS_URL, about.portrait, {
-        quality: 67,
-        width: 400,
-        height: 400,
+    const portrait = assetUrl(env.CMS_URL, about.portrait.id, {
+        quality: 80,
+        width: 512,
+        height: 512,
     });
 
     const layoutJsonLd = createLayoutJsonLd({
         siteInfo,
         currentLanguage,
-        about,
+        about: { ...about, portrait },
         socials,
         homeRoute,
         baseUrl: env.URL,
@@ -63,7 +63,7 @@ async function loadServerData(
 
     return {
         siteInfo,
-        about,
+        about: { ...about, portrait },
         routes,
         homeRoute,
         privacyPolicyRoute,
@@ -80,7 +80,9 @@ async function loadServerData(
 interface LayoutJsonLdData {
     siteInfo: FlatTrans<GetHomeLayoutServerDataQuery>["siteInfo"];
     currentLanguage: LanguageFragment;
-    about: FlatTrans<GetHomeLayoutServerDataQuery>["about"];
+    about: Omit<FlatTrans<GetHomeLayoutServerDataQuery>["about"], "portrait"> & {
+        portrait: string;
+    };
     socials: ReturnType<typeof mapSocial>[];
     homeRoute: Route;
     baseUrl: string;

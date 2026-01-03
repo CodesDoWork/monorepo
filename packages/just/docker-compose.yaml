@@ -95,7 +95,6 @@ services:
           "${STACK_NAME}_gitlab-config:/data/services/gitlab/config:ro",
           "${STACK_NAME}_gitlab-data:/data/services/gitlab/data:ro",
           "${STACK_NAME}_grafana-storage:/data/services/grafana/storage:ro",
-          "${STACK_NAME}_grafana-config:/data/services/grafana/config:ro",
           "${STACK_NAME}_letsencrypt:/data/services/letsencrypt:ro",
           "${STACK_NAME}_mail-docker:/data/services/mail/docker:ro",
           "${STACK_NAME}_mlflow-artifacts:/data/services/mlflow/artifacts:ro",
@@ -155,7 +154,7 @@ services:
       - NODE_ENV=production
     healthcheck:
       test: node /app/services/healthcheck
-    image: ${DOCKER_PROXY}/lissy93/dashy:3.1.1
+    image: ${DOCKER_PROXY}/lissy93/dashy:3.1.0
     volumes:
       - dashy-config:/app/user-data:ro
 
@@ -256,7 +255,7 @@ services:
             }
           }
         ]
-    image: ${DOCKER_PROXY}/zengxs/gitlab:18.2.1-ee
+    image: ${DOCKER_PROXY}/zengxs/gitlab:18.2.1-ee-arm64
     restart: always
     volumes:
       - gitlab-config:/etc/gitlab
@@ -285,16 +284,34 @@ services:
   grafana:
     <<: *common
     environment:
-      - GF_SMTP_ENABLED=true
-      - GF_SMTP_HOST=${SMTP_HOST}:${SMTP_PORT}
-      - GF_SMTP_USER=${SMTP_USERNAME}
-      - GF_SMTP_PASSWORD=${SMTP_PASSWORD}
+      GF_SERVER_ROOT_URL: https://${GRAFANA_DOMAIN}
+      GF_SMTP_ENABLED: true
+      GF_SMTP_HOST: ${SMTP_HOST}:${SMTP_PORT}
+      GF_SMTP_USER: ${SMTP_USERNAME}
+      GF_SMTP_PASSWORD: ${SMTP_PASSWORD}
+      GF_AUTH_GENERIC_OAUTH_ENABLED: true
+      GF_AUTH_GENERIC_OAUTH_NAME: Keycloak
+      GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: true
+      GF_AUTH_GENERIC_OAUTH_USE_REFRESH_TOKEN: true
+      GF_AUTH_GENERIC_OAUTH_CLIENT_ID: ${GRAFANA_AUTH_CLIENT_ID}
+      GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: ${GRAFANA_AUTH_CLIENT_SECRET}
+      GF_AUTH_GENERIC_OAUTH_SCOPES: openid email profile offline_access roles
+      GF_AUTH_GENERIC_OAUTH_EMAIL_ATTRIBUTE_PATH: email
+      GF_AUTH_GENERIC_OAUTH_LOGIN_ATTRIBUTE_PATH: username
+      GF_AUTH_GENERIC_OAUTH_NAME_ATTRIBUTE_PATH: full_name
+      GF_AUTH_GENERIC_OAUTH_AUTH_URL: https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/auth
+      GF_AUTH_GENERIC_OAUTH_TOKEN_URL: https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/token
+      GF_AUTH_GENERIC_OAUTH_API_URL: https://${KEYCLOAK_DOMAIN}/realms/${KEYCLOAK_REALM}/protocol/openid-connect/userinfo
+      GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH:
+        contains(resource_access.grafana.roles[*], 'admin') && 'Admin' ||
+        contains(resource_access.grafana.roles[*], 'editor') && 'Editor' ||
+        contains(resource_access.grafana.roles[*], 'viewer') && 'Viewer'
+      GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_STRICT: true
     healthcheck:
       test: curl -fs http://localhost:${GRAFANA_PORT}/api/health | grep "ok" || exit 1
-    image: ${DOCKER_PROXY}/grafana/grafana:12.4.0
+    image: ${DOCKER_PROXY}/grafana/grafana:12.3.1
     volumes:
       - grafana-storage:/var/lib/grafana
-      - grafana-config:/usr/share/grafana/conf
 
   keycloak:
     <<: *common
@@ -506,6 +523,7 @@ services:
   postgres:
     <<: *common
     cap_add:
+      - CAP_CHOWN
       - CAP_FOWNER
       - CAP_DAC_READ_SEARCH
       - CAP_SETGID
@@ -606,7 +624,6 @@ volumes:
   # don't backup
   gitlab-shared:
 
-  grafana-config:
   grafana-storage:
 
   letsencrypt:

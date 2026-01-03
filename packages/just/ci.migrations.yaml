@@ -3,5 +3,5 @@ migrations:
     preCommands:
       - docker compose exec postgres sh -c 'pg_dumpall -U "${POSTGRES_USER}"' > pg_dumpfile
     postCommands:
-      - docker compose exec -i postgres sh -c 'psql -U "${POSTGRES_USER}"' < pg_dumpfile
+      - docker compose exec -T postgres sh -c 'psql -U "${POSTGRES_USER}"' < pg_dumpfile
       - rm pg_dumpfile

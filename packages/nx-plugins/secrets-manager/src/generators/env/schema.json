@@ -33,13 +33,17 @@
         "dirs": {
             "type": "array",
             "description": "Relative dir pahts to generate .env files for",
-            "alias": "d",
             "default": ["."]
         },
         "recursive": {
             "type": "boolean",
             "description": "Apply to children",
             "default": true
+        },
+        "no-recursive": {
+            "type": "boolean",
+            "description": "Don't apply to children",
+            "default": false
         }
     },
     "required": []

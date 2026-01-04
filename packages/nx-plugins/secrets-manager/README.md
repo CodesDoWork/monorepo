@@ -42,7 +42,7 @@ secrets?:
 ## 3. Create .env files
 
 ```bash
-nx g env-files [stages] [bw-username] [bw-password]
+nx g env [stages] [bw-username] [bw-password] [--dirs=<array>] [--recursive=<default true>] [--no-recursive=<default false>]
 ```
 
 or

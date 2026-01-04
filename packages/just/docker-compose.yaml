@@ -413,6 +413,7 @@ services:
       - MLFLOW_DEFAULT_ARTIFACT_ROOT=/mlflow/artifacts
       - MLFLOW_PORT=${MLFLOW_PORT}
       - MLFLOW_HOST=0.0.0.0
+      - MLFLOW_SERVER_ALLOWED_HOSTS=mlflow:${MLFLOW_PORT},mlflow.${DOMAIN}
     image: ${IMAGE_BASE}/shared-mlflow:${PROJECT_VERSION:-latest}
     volumes:
       - mlflow-artifacts:/mlflow/artifacts

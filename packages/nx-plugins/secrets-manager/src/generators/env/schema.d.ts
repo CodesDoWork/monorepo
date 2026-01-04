@@ -4,4 +4,5 @@ export interface EnvFilesGeneratorSchema {
     password: string;
     dirs: string[];
     recursive: boolean;
+    "no-recursive": boolean;
 }

@@ -1,8 +1,8 @@
 {
     "generators": {
-        "env-files": {
-            "factory": "./src/generators/env-files/generator",
-            "schema": "./src/generators/env-files/schema.json",
+        "env": {
+            "factory": "./src/generators/env/generator",
+            "schema": "./src/generators/env/schema.json",
             "description": "env-files generator"
         }
     }

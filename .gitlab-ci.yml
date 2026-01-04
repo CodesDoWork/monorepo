@@ -25,6 +25,18 @@ variables:
   MASTER_BRANCH: master
   DEV_BRANCH: develop
 
+workflow:
+  auto_cancel:
+    on_new_commit: interruptible
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_BRANCH == $DEV_BRANCH || $CI_COMMIT_BRANCH == $MASTER_BRANCH
+      when: always
+      auto_cancel:
+        on_new_commit: none
+    - when: always
+
 default:
   image: ${IMAGE_BASE}/workspace:${PROJECT_VERSION}
   services:
@@ -108,11 +120,12 @@ generate env files:
     - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then export STAGE=PROD; elif [
       "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export STAGE=TEST,PROD; else export
       STAGE=DEV,TEST,PROD; fi
-    - nx g env-files ${STAGE} ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
+    - nx g env ${STAGE} ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
+    - when: on_success
 
 codegen:
   stage: codegen

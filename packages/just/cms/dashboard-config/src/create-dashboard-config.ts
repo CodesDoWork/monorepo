@@ -1,35 +1,26 @@
-import type {
-    CustomDirectusTypes,
-    DashboardConfig,
-    DashboardItems,
-    DashboardPages,
-    DashboardPagesDashboardSections,
-    DashboardSections,
-    DashboardSectionsDashboardItems,
-    DashboardSectionsDashboardWidgets,
-    DashboardWidgets,
-    DirectusFiles,
-} from "@cdw/monorepo/just-cms-types";
 import type { ActionHandler } from "@directus/types";
 import type { Logger } from "pino";
+import type {
+    Dashboard_Config,
+    Dashboard_Items,
+    Dashboard_Pages,
+    Dashboard_Sections,
+    Dashboard_Widgets,
+} from "./generated/types";
 import type {
     AnyObject,
     AppConfig,
     DashyConfig,
     Item,
+    ItemsServiceConstructor,
     PageConfig,
     Widget,
-} from "./dashboard-config";
+} from "./types";
 import { readdirSync, rmSync, writeFileSync } from "node:fs";
 import { stringify as stringifyYaml } from "yaml";
 
 const DASHBOARD_CONFIG_DIR = "/dashy/config";
 const PUBLIC_URL = "PUBLIC_URL";
-
-type ItemsServiceConstructor = new <Collection extends keyof CustomDirectusTypes>(
-    collection: Collection,
-    options: any,
-) => any;
 
 export function createDashboardConfig(
     logger: Logger,
@@ -78,13 +69,13 @@ async function buildConfig(
 
 function getAppConfig(
     ItemsService: ItemsServiceConstructor,
-    serviceOptions: any,
+    serviceOptions: unknown,
 ): Promise<AppConfig> {
     const configService = new ItemsService("dashboard_config", serviceOptions);
 
     return configService
         .readSingleton({})
-        .then((res: any) => res as DashboardConfig)
+        .then((res: any) => res as Dashboard_Config)
         .then((res: any) => ({
             customCss: res.custom_css,
             defaultOpeningMethod: res.default_opening_method,
@@ -107,8 +98,8 @@ function getAppConfig(
 
 function getDashboardPages(
     ItemsService: ItemsServiceConstructor,
-    serviceOptions: any,
-): Promise<DashboardPagesResult[]> {
+    serviceOptions: unknown,
+): Promise<Dashboard_Pages[]> {
     const pageService = new ItemsService("dashboard_pages", serviceOptions);
     return pageService
         .readByQuery({
@@ -121,13 +112,13 @@ function getDashboardPages(
                 "sections.dashboard_sections_id.widgets.dashboard_widgets_id.*",
             ],
         })
-        .then((res: any) => res as DashboardPagesResult[]);
+        .then((res: Dashboard_Pages[]) => res as Dashboard_Pages[]);
 }
 
 async function createPageConfig(
-    page: DashboardPagesResult,
+    page: Dashboard_Pages,
     config: AppConfig,
-    pages: DashboardPagesResult[],
+    pages: Dashboard_Pages[],
     env: AnyObject,
 ): Promise<PageConfig> {
     return {
@@ -141,32 +132,45 @@ async function createPageConfig(
         })),
         appConfig: page.name === "conf" ? config : undefined,
         sections:
-            page.sections?.map(({ dashboard_sections_id: section }) => ({
-                name: section.name,
-                icon: section.icon,
-                displayData: {
-                    cutToHeight: section.cut_to_height,
-                },
-                items: section.items?.map(createSectionItems(env)),
-                widgets: section.widgets?.map(createSectionWidgets),
-            })) ?? [],
+            page.sections
+                ?.map(section => section?.dashboard_sections_id)
+                .filter(Boolean)
+                .map(section => section as Dashboard_Sections)
+                .map(section => ({
+                    name: section.name,
+                    icon: section.icon,
+                    displayData: {
+                        cutToHeight: section.cut_to_height ?? false,
+                    },
+                    items: section.items
+                        ?.map(item => item?.dashboard_items_id)
+                        .filter(Boolean)
+                        .map(item => item as Dashboard_Items)
+                        .map(createSectionItems(env)),
+                    widgets: section.widgets
+                        ?.map(widget => widget?.dashboard_widgets_id)
+                        .filter(Boolean)
+                        .map(widget => widget as Dashboard_Widgets)
+                        .map(createSectionWidgets)
+                        ?.filter(Boolean),
+                })) ?? [],
     };
 }
 
-function createSectionItems(env: AnyObject): (item: DashboardSectionsDashboardItemsResult) => Item {
-    return ({ dashboard_items_id: item }: DashboardSectionsDashboardItemsResult): Item => ({
-        title: item.title,
-        icon: item.icon_img
-            ? assetUrl(env[PUBLIC_URL], item.icon_img.id)
-            : (item.icon ?? undefined),
-        url: item.url,
-        tags: (item.tags ?? []) as string[],
-    });
+function createSectionItems(env: AnyObject) {
+    return (item: Dashboard_Items): Item => {
+        return {
+            title: item.title,
+            icon: item.icon_img
+                ? assetUrl(env[PUBLIC_URL], item.icon_img.id)
+                : (item.icon ?? undefined),
+            url: item.url,
+            tags: (item.tags ?? []) as string[],
+        };
+    };
 }
 
-function createSectionWidgets({
-    dashboard_widgets_id: widget,
-}: DashboardSectionsDashboardWidgetsResult): Widget {
+function createSectionWidgets(widget: Dashboard_Widgets): Widget {
     return {
         type: widget.type,
         options: widget.options as AnyObject,
@@ -175,30 +179,4 @@ function createSectionWidgets({
 
 function assetUrl(cmsUrl: string, id: string) {
     return `${cmsUrl}/assets/${id}`;
-}
-
-interface DashboardPagesResult extends DashboardPages {
-    logo: DirectusFiles | null;
-    sections: DashboardPagesDashboardSectionsResult[];
-}
-
-interface DashboardPagesDashboardSectionsResult extends DashboardPagesDashboardSections {
-    dashboard_sections_id: DashboardSectionsResult;
-}
-
-interface DashboardSectionsResult extends DashboardSections {
-    items: DashboardSectionsDashboardItemsResult[];
-    widgets: DashboardSectionsDashboardWidgetsResult[];
-}
-
-interface DashboardSectionsDashboardItemsResult extends DashboardSectionsDashboardItems {
-    dashboard_items_id: DashboardItemsResult;
-}
-
-interface DashboardItemsResult extends DashboardItems {
-    icon_img: DirectusFiles | null;
-}
-
-interface DashboardSectionsDashboardWidgetsResult extends DashboardSectionsDashboardWidgets {
-    dashboard_widgets_id: DashboardWidgets;
 }

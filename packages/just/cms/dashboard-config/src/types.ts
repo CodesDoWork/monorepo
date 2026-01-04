@@ -1,3 +1,5 @@
+import type { Query } from "./generated/types";
+
 export type DashyConfig = Record<string, PageConfig>;
 
 export interface PageConfig {
@@ -59,3 +61,14 @@ export interface Widget {
 }
 
 export type AnyObject = Record<string, any>;
+
+type FilterCollectionKeys<T> = {
+    [K in keyof T]: K extends `${string}_by_version` | `${string}_aggregated` | `${string}_by_id`
+        ? never
+        : K;
+}[keyof T];
+
+export type ItemsServiceConstructor = new (
+    collection: FilterCollectionKeys<Query>,
+    options: unknown,
+) => any;

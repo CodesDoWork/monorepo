@@ -1,9 +1,15 @@
 import { logger } from "@cdw/monorepo/shared-logging";
+import { ingestFile, initStore } from "./store";
+import { watchMusicLibDirs } from "./watcher";
 
-function printHelloWorld() {
-    const hello = 1;
-    const world = 2;
-    logger.info({ hello, world }, "Hello World");
+initStore();
+watchMusicLibDirs({
+    add,
+    deleted: path => logger.info(`deleted: ${path}`),
+});
+
+function add(path: string) {
+    ingestFile(path).then(wasIngested =>
+        logger.info((wasIngested ? "Added:   " : "Skipped: ") + path),
+    );
 }
-
-printHelloWorld();

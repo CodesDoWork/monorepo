@@ -167,7 +167,7 @@ export default antfu(
                         },
                         {
                             sourceTag: "svelte",
-                            onlyDependOnLibsWithTags: ["shared-svelte"],
+                            onlyDependOnLibsWithTags: ["shared-svelte", "shared"],
                         },
                         {
                             sourceTag: "workspace-scripts",

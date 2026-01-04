@@ -29,5 +29,5 @@ COPY --from=builder /workspace/dist/packages/$APP_DIR .
 COPY --from=builder /workspace/packages/$APP_DIR/package.json .
 
 USER node
-HEALTHCHECK --interval=60s CMD "[ $(wget --spider -S http://127.0.0.1:${PORT}/ 2>&1 | grep 'HTTP/' | awk '{print $2}') == '200' ] || exit 1"
+HEALTHCHECK --interval=60s CMD wget -q --spider http://127.0.0.1:${PORT}/ || exit 1
 CMD ["node", "index.js"]

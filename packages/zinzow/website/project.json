@@ -4,5 +4,5 @@
     "sourceRoot": "packages/zinzow/website/src",
     "projectType": "application",
     "targets": {},
-    "tags": ["app"]
+    "tags": ["app", "svelte"]
 }

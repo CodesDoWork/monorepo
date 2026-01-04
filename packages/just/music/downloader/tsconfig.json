@@ -3,18 +3,16 @@
     "compilerOptions": {
         "rootDirs": [".", ".svelte-kit/types"],
         "types": ["svelte", "node", "vite/client"],
-        "strict": false,
         "strictNullChecks": false,
         "strictPropertyInitialization": false
     },
     "include": [
         "vite.config.ts",
-        "tailwind.config.ts",
         "src/**/*.ts",
         "src/**/*.svelte",
         ".svelte-kit/ambient.d.ts",
         ".svelte-kit/non-ambient.d.ts",
         ".svelte-kit/types/**/$types.d.ts"
     ],
-    "exclude": []
+    "exclude": ["**/generated/*"]
 }

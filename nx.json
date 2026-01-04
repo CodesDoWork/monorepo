@@ -18,6 +18,15 @@
                 "{workspaceRoot}/.eslintignore"
             ],
             "cache": true
+        },
+        "@nx/vite:build": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["production", "^production"]
+        },
+        "@nx/vitest:test": {
+            "cache": true,
+            "inputs": ["default", "^production"]
         }
     },
     "namedInputs": {
@@ -67,13 +76,7 @@
             "plugin": "@cdw/monorepo/nx-plugins-svelte"
         },
         {
-            "plugin": "@cdw/monorepo/nx-plugins-vite"
-        },
-        {
             "plugin": "@cdw/monorepo/nx-plugins-vitepress"
-        },
-        {
-            "plugin": "@cdw/monorepo/nx-plugins-vitest"
         },
         {
             "plugin": "@cdw/monorepo/nx-plugins-workspace"
@@ -83,6 +86,12 @@
         },
         {
             "plugin": "@nx/eslint/plugin"
+        },
+        {
+            "plugin": "@nx/vite/plugin"
+        },
+        {
+            "plugin": "@nx/vitest"
         }
     ],
     "pluginsConfig": {

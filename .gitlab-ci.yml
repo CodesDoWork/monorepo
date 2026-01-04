@@ -95,6 +95,7 @@ install deps:
     - nci
   resource_group: single
   rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*deps.*/
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
     - when: on_success

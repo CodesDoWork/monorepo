@@ -43,7 +43,7 @@ async function generateEnvFiles(
         await generator.createEnvFile(root);
     }
 
-    if (!options.recursive) {
+    if (options["no-recursive"] || !options.recursive) {
         return;
     }
 

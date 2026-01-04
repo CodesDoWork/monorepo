@@ -8,13 +8,11 @@
     },
     "include": [
         "vite.config.ts",
-        "tailwind.config.ts",
         "src/**/*.ts",
         "src/**/*.svelte",
         ".svelte-kit/ambient.d.ts",
         ".svelte-kit/non-ambient.d.ts",
-        ".svelte-kit/types/**/$types.d.ts",
-        "../../shared/svelte/contexts/src/lib/jsonld.ts"
+        ".svelte-kit/types/**/$types.d.ts"
     ],
     "exclude": ["**/generated/*"]
 }

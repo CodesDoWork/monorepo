@@ -4,7 +4,7 @@ accelerate==1.12.0
     # via transformers
 aiohappyeyeballs==2.6.1
     # via aiohttp
-aiohttp==3.13.2
+aiohttp==3.13.3
     # via fsspec
 aiosignal==1.4.0
     # via aiohttp
@@ -43,7 +43,7 @@ beautifulsoup4==4.14.3
     # via nbconvert
 bleach==6.3.0
     # via nbconvert
-certifi==2025.11.12
+certifi==2026.1.4
     # via
     #   httpcore
     #   httpx
@@ -170,7 +170,7 @@ joblib==1.5.3
     # via
     #   librosa
     #   scikit-learn
-json5==0.12.1
+json5==0.13.0
     # via jupyterlab-server
 jsonpointer==3.0.0
     # via jsonschema
@@ -340,7 +340,7 @@ nvidia-nvjitlink-cu12==12.9.86
     #   nvidia-cusolver-cu12
     #   nvidia-cusparse-cu12
     #   torch
-nvidia-nvshmem-cu12==3.4.5
+nvidia-nvshmem-cu12==3.5.19
     # via torch
 nvidia-nvtx-cu12==12.9.79
     # via torch
@@ -371,7 +371,7 @@ parso==0.8.5
     # via jedi
 pexpect==4.9.0
     # via ipython
-pillow==12.0.0
+pillow==12.1.0
     # via matplotlib
 platformdirs==4.5.1
     # via

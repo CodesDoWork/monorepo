@@ -150,6 +150,7 @@ export default antfu(
                             sourceTag: "just-music-downloader",
                             onlyDependOnLibsWithTags: [
                                 "shared",
+                                "shared-svelte",
                                 "just-music-downloader",
                                 "just-branding",
                             ],
@@ -158,6 +159,7 @@ export default antfu(
                             sourceTag: "just-website",
                             onlyDependOnLibsWithTags: [
                                 "shared",
+                                "shared-svelte",
                                 "just-cms",
                                 "just-website",
                                 "just-branding",
@@ -165,7 +167,7 @@ export default antfu(
                         },
                         {
                             sourceTag: "svelte",
-                            onlyDependOnLibsWithTags: ["shared-svelte"],
+                            onlyDependOnLibsWithTags: ["shared-svelte", "shared"],
                         },
                         {
                             sourceTag: "workspace-scripts",

@@ -1,8 +1,0 @@
-{
-    "name": "nx-plugins-vitest",
-    "type": "commonjs",
-    "private": true,
-    "main": "./src/index.ts",
-    "typings": "./src/index.ts",
-    "executors": "./executors.json"
-}

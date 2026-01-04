@@ -87,7 +87,7 @@
     ],
     "pluginsConfig": {
         "@nx/js": {
-            "rojectsAffectedByDependencyUpdates": "auto"
+            "projectsAffectedByDependencyUpdates": "auto"
         }
     }
 }

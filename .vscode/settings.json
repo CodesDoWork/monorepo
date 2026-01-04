@@ -5,13 +5,13 @@
         "**/dist/**": true,
         "**/node_modules/**": true
     },
-    "sonarlint.connectedMode.project": {
-        "connectionId": "https-sonar-justinkonratt-com",
-        "projectKey": "codesdowork_monorepo"
-    },
     "latex-workshop.latex.autoBuild.run": "never",
     "ltex.language": "auto",
     "files.associations": {
         ".env.secure.yaml": "yaml"
+    },
+    "sonarlint.connectedMode.project": {
+        "connectionId": "https-sonar-justinkonratt-de",
+        "projectKey": "codesdowork_monorepo"
     }
 }

@@ -1,8 +1,0 @@
-{
-    "name": "just-cms-types",
-    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/just/cms/types/src",
-    "projectType": "library",
-    "tags": ["just-cms"],
-    "targets": {}
-}

@@ -81,6 +81,11 @@ build workspace image:
       PROJECT_VERSION=${PROJECT_VERSION} --build-arg DOCKER_PROXY=${DOCKER_PROXY}
       --platform=linux/arm64 .
   resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*workspace.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
 
 install deps:
   stage: deps
@@ -89,6 +94,10 @@ install deps:
   script:
     - nci
   resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
 
 generate env files:
   stage: env
@@ -100,6 +109,9 @@ generate env files:
       STAGE=DEV,TEST,PROD; fi
     - nx g env-files ${STAGE} ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
   resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
 
 codegen:
   stage: codegen
@@ -108,38 +120,59 @@ codegen:
   script:
     - nx affected -t codegen
   resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
 
 check formatting:
   stage: lint
   script:
     - nx g exec "nx format:check"
   resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
 
 eslint:
   stage: lint
   script:
     - nx g exec "nx affected -t lint"
   resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
 
 secretlint:
   stage: lint
   script:
     - secretlint --secretlintignore .gitignore "**/*"
   resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
 
 svelte check:
   stage: lint
   script:
     - nx affected -t svelte-check
   resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
 
 sonarqube:
   stage: lint
   script:
     - sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}
   allow_failure: true
-  only:
-    - master
+  rules:
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*sonar.*/
   resource_group: single
 
 test:
@@ -147,6 +180,10 @@ test:
   script:
     - nx affected -t test
   resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
 
 build images:
   stage: build
@@ -155,6 +192,10 @@ build images:
     - nx affected -t docker-build --exclude="workspace*" --parallel=1
     - nx docker-build just-documentation
   resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
 
 image security:
   stage: analyze
@@ -163,6 +204,10 @@ image security:
     - nx affected -t docker-trivy
   allow_failure: true
   resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
 
 workspace security:
   stage: analyze
@@ -170,6 +215,10 @@ workspace security:
     - nr trivy
   allow_failure: true
   resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
 
 lighthouse:
   stage: analyze
@@ -182,13 +231,17 @@ lighthouse:
       - ./reports/lighthouse
   resource_group: single
   retry: 1
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
 
 deploy:
   stage: deploy
   script:
     - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then nx affected -t deploy; else nx affected -t
       deploy -c development; fi
-  only:
-    - master
-    - develop
   resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+    - if: $CI_COMMIT_BRANCH == $DEV_BRANCH

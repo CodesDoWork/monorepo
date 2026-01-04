@@ -12,5 +12,5 @@ RUN apk add --no-cache \
     docker docker-cli-compose \
     git openssh-client \
     gcompat \
-    openjdk17-jre-headless
+    openjdk25-jre-headless
 RUN npm i -g @antfu/ni@23.3.1 bun@1.2.2

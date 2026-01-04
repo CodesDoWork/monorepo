@@ -25,6 +25,18 @@ variables:
   MASTER_BRANCH: master
   DEV_BRANCH: develop
 
+workflow:
+  auto_cancel:
+    on_new_commit: interruptible
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: never
+    - if: $CI_COMMIT_BRANCH == $DEV_BRANCH || $CI_COMMIT_BRANCH == $MASTER_BRANCH
+      when: always
+      auto_cancel:
+        on_new_commit: none
+    - when: always
+
 default:
   image: ${IMAGE_BASE}/workspace:${PROJECT_VERSION}
   services:

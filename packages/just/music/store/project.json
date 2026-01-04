@@ -1,0 +1,63 @@
+{
+    "name": "just-music-store",
+    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/music/store/src",
+    "projectType": "application",
+    "tags": ["app"],
+    "targets": {
+        "build": {
+            "executor": "@nx/esbuild:esbuild",
+            "outputs": ["{options.outputPath}"],
+            "defaultConfiguration": "production",
+            "options": {
+                "platform": "node",
+                "outputPath": "dist/packages/just/music/store",
+                "format": ["esm"],
+                "external": [],
+                "thirdParty": false,
+                "minify": false,
+                "bundle": true,
+                "main": "packages/just/music/store/src/main.ts",
+                "tsConfig": "packages/just/music/store/tsconfig.app.json",
+                "assets": ["packages/just/music/store/src/assets"],
+                "generatePackageJson": true,
+                "esbuildOptions": {
+                    "sourcemap": true,
+                    "outExtension": {
+                        ".js": ".js"
+                    }
+                }
+            },
+            "configurations": {
+                "development": {},
+                "production": {
+                    "minify": true,
+                    "esbuildOptions": {
+                        "sourcemap": false,
+                        "outExtension": {
+                            ".js": ".js"
+                        }
+                    }
+                }
+            }
+        },
+        "serve": {
+            "continuous": true,
+            "executor": "@nx/js:node",
+            "defaultConfiguration": "development",
+            "dependsOn": ["build"],
+            "options": {
+                "buildTarget": "just-music-store:build",
+                "runBuildTargetDependencies": false
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "just-music-store:build:development"
+                },
+                "production": {
+                    "buildTarget": "just-music-store:build:production"
+                }
+            }
+        }
+    }
+}

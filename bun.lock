@@ -41,7 +41,7 @@
         "@graphql-codegen/plugin-helpers": "^6.1.0",
         "@graphql-codegen/typescript": "^5.0.7",
         "@graphql-codegen/typescript-operations": "^5.0.7",
-        "@iconify/svelte": "5.1.0",
+        "@iconify/svelte": "5.2.1",
         "@nx/devkit": "22.3.3",
         "@nx/esbuild": "22.3.3",
         "@nx/eslint": "22.3.3",
@@ -767,7 +767,7 @@
 
     "@iconify-json/simple-icons": ["@iconify-json/simple-icons@1.2.55", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-9vc04pmup/zcef8hDypWU8nMwMaFVkWuUzWkxyL++DVp5AA8baoJHK6RyKN1v+cvfR2agxkUb053XVggzFFkTA=="],
 
-    "@iconify/svelte": ["@iconify/svelte@5.1.0", "", { "dependencies": { "@iconify/types": "^2.0.0" }, "peerDependencies": { "svelte": ">4.0.0" } }, "sha512-I14nSqo0pNXO5OKsT61ZO3XIPF4yRHA2ErgPsaZ1sPJdKXn80o7o8jOe1xpWphbb9FihdX6by9zlKKBss61mFw=="],
+    "@iconify/svelte": ["@iconify/svelte@5.2.1", "", { "dependencies": { "@iconify/types": "^2.0.0" }, "peerDependencies": { "svelte": ">5.0.0" } }, "sha512-zHmsIPmnIhGd5gc95bNN5FL+GifwMZv7M2rlZEpa7IXYGFJm/XGHdWf6PWQa6OBoC+R69WyiPO9NAj5wjfjbow=="],
 
     "@iconify/types": ["@iconify/types@2.0.0", "", {}, "sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg=="],
 

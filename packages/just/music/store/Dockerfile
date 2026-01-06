@@ -31,9 +31,7 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-RUN apk update && \
-    apk add ffmpeg && \
-    rm -rf /var/cache/apk/*
+RUN apk add --no-cache ffmpeg
 COPY --from=python /usr/local/bin/r128gain /usr/local/bin
 
 COPY --from=builder /workspace/dist/packages/$APP_DIR .

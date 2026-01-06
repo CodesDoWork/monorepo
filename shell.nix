@@ -9,9 +9,9 @@ pkgs.mkShell {
     python313
     python313Packages.pip
     python313Packages.uv
-    pkgs.texlive.combined.scheme-full
+    texlive.combined.scheme-full
     ltex-ls-plus
     ffmpeg_7-headless
-    chromaprint
+    r128gain
   ];
 }

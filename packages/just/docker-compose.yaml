@@ -418,19 +418,6 @@ services:
     volumes:
       - mlflow-artifacts:/mlflow/artifacts
 
-  music-downloader:
-    <<: *common
-    cap_add:
-      - CAP_FOWNER
-    environment:
-      - DOWNLOAD_DIR=/music/downloads
-      - PORT=${MUSIC_DOWNLOADER_PORT}
-    # healthcheck:
-    #   test: wget -qO- http://$(hostname):${MUSIC_DOWNLOADER_PORT}/api/trpc/health?input={} || exit 1
-    image: ${IMAGE_BASE}/just-music-downloader:${PROJECT_VERSION:-latest}
-    volumes:
-      - ${MUSIC_VOLUME}/downloads:/music/downloads
-
   music-metadata:
     <<: *common
     environment:
@@ -452,7 +439,7 @@ services:
       start_period: 40s
     image: ghcr.io/wow-signal-dev/metadata-remote:1.2.0
     volumes:
-      - ${MUSIC_VOLUME}:/music
+      - ${MUSIC_LIBRARY_PATH}:/music
 
   music-platform:
     <<: *common
@@ -475,7 +462,16 @@ services:
     volumes:
       - navidrome-data:/data
       - navidrome-cache:/data/cache
-      - ${MUSIC_VOLUME}:/music:ro
+      - ${MUSIC_LIBRARY_PATH}:/music:ro
+
+  music-store:
+    <<: *common
+    environment:
+      MUSIC_STORE_DIR: ${MUSIC_STORE_MUSIC_STORE_DIR}
+      MUSIC_LIB_DIRS: ${MUSIC_STORE_MUSIC_LIB_DIRS}
+    image: ${IMAGE_BASE}/just-music-store:${PROJECT_VERSION:-latest}
+    volumes:
+      - ${MUSIC_DIR_PATH}:/music
 
   netdata:
     cap_add:

@@ -17,6 +17,7 @@ export function watchMusicLibDirs({ add, remove, ready }: WatchActions) {
     });
     watcher
         .on("add", path => add(resolve(path)))
+        .on("change", path => add(resolve(path)))
         .on("unlink", path => remove(resolve(path)))
         .on("ready", ready);
 }

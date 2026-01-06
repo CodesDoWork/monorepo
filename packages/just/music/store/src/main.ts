@@ -35,9 +35,7 @@ function add(path: string) {
 }
 
 function remove(path: string) {
-    removeFromStoreIfLastLink(path).then(wasRemoved =>
-        logger.info((wasRemoved ? "Removed: " : "Skipped remove: ") + path),
-    );
+    removeFromStoreIfLastLink(path);
 }
 
 function ready() {

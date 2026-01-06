@@ -72,9 +72,6 @@
             "plugin": "@cdw/monorepo/nx-plugins-latex"
         },
         {
-            "plugin": "@cdw/monorepo/nx-plugins-lighthouse"
-        },
-        {
             "plugin": "@cdw/monorepo/nx-plugins-secrets-manager"
         },
         {

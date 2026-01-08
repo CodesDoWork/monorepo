@@ -234,22 +234,6 @@ workspace security:
       when: never
     - when: on_success
 
-lighthouse:
-  stage: analyze
-  variables:
-    DEFAULT_NETWORK_PREFIX: 192.168.193
-  script:
-    - nx affected -t lighthouse --parallel=1
-  artifacts:
-    paths:
-      - ./reports/lighthouse
-  resource_group: single
-  retry: 1
-  rules:
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
-      when: never
-    - when: on_success
-
 deploy:
   stage: deploy
   script:

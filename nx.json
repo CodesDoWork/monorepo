@@ -27,6 +27,11 @@
         "@nx/vitest:test": {
             "cache": true,
             "inputs": ["default", "^production"]
+        },
+        "@nx/esbuild:esbuild": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["production", "^production"]
         }
     },
     "namedInputs": {
@@ -65,9 +70,6 @@
         },
         {
             "plugin": "@cdw/monorepo/nx-plugins-latex"
-        },
-        {
-            "plugin": "@cdw/monorepo/nx-plugins-lighthouse"
         },
         {
             "plugin": "@cdw/monorepo/nx-plugins-secrets-manager"

@@ -3,5 +3,18 @@
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/just/website/src",
     "projectType": "application",
-    "tags": ["just-website"]
+    "tags": ["just-website"],
+    "targets": {
+        "lighthouse": {
+            "executor": "@cdw/monorepo/nx-plugins-lighthouse:lighthouse",
+            "options": {
+                "url": "${URL}"
+            },
+            "configurations": {
+                "development": {
+                    "enabled": false
+                }
+            }
+        }
+    }
 }

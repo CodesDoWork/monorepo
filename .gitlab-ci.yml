@@ -250,6 +250,9 @@ lighthouse:
   script:
     - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then nx affected -t lighthouse; else nx
       affected -t lighthouse -c development; fi
+  artifacts:
+    paths:
+      - ./_reports/lighthouse
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH

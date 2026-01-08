@@ -9,8 +9,15 @@ ENV SONAR_SCANNER_SKIP_JRE_PROVISIONING=true
 
 RUN apk update
 RUN apk add --no-cache \
+    # docker
     docker docker-cli-compose \
+    # dev tools
     git openssh-client \
+    # compiler tools
     gcompat \
-    openjdk25-jre-headless
+    # Java JRE for Sonar Scanner
+    openjdk25-jre-headless \
+    # Chromium for browser tests like lighthouse or e2e tests
+    chromium
+
 RUN npm i -g @antfu/ni@23.3.1 bun@1.2.2

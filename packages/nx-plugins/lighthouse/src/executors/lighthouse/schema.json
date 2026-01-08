@@ -1,14 +1,48 @@
 {
-    "$schema": "https://json-schema.org/schema",
-    "version": 2,
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
     "title": "Lighthouse executor",
     "description": "",
     "type": "object",
     "properties": {
-        "urls": {
-            "type": "array",
-            "description": "URLs to analyze"
+        "url": {
+            "type": "string",
+            "description": "URL to analyze"
+        },
+        "headers": {
+            "type": "object",
+            "description": "Headers to pass to the URL",
+            "properties": {
+                "Authorization": {
+                    "type": "object",
+                    "properties": {
+                        "user": {
+                            "type": "string"
+                        },
+                        "password": {
+                            "type": "string"
+                        },
+                        "token": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": ["basic", "bearer"]
+                        }
+                    },
+                    "required": ["type"],
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": {
+                "type": "string"
+            }
+        },
+        "enabled": {
+            "type": "boolean",
+            "description": "Enable executor",
+            "default": true
         }
     },
-    "required": []
+    "required": ["url"],
+    "additionalProperties": false
 }

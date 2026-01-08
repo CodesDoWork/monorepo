@@ -9,9 +9,10 @@ pkgs.mkShell {
     python313
     python313Packages.pip
     python313Packages.uv
-    texlive.combined.scheme-full
-    ltex-ls-plus
-    ffmpeg_7-headless
-    r128gain
+    texlive.combined.scheme-full # LaTeX
+    ltex-ls-plus # LaTeX
+    ffmpeg_7-headless # audio tool (just-music-store, just-music-downloader)
+    r128gain # music normalization (just-music-store)
+    chromium # nx-plugins-lighthouse
   ];
 }

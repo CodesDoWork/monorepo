@@ -1,7 +1,7 @@
 import type { ExecutorContext } from "@nx/devkit";
 import type { SSHOptions } from "./types";
 import path from "node:path";
-import { loadEnv, replaceEnvs } from "@cdw/monorepo/packages/nx-plugins/utils/src";
+import { loadEnv, replaceEnvsInArray } from "@cdw/monorepo/packages/nx-plugins/utils/src";
 import { execAsync } from "@cdw/monorepo/shared-utils";
 import { logger } from "@nx/devkit";
 
@@ -76,7 +76,7 @@ export async function executeCommands(
     { sshOptions, login, dest }: SSHOptions,
 ) {
     logger.info(`Executing commands\n\t- ${commands.join("\n\t- ")}`);
-    const { expandedArgs: expandedCommands } = replaceEnvs(commands || [], context);
+    const { expanded: expandedCommands } = replaceEnvsInArray(commands || [], context);
     for (const command of expandedCommands) {
         await execAsync("ssh", [...sshOptions, login, `cd ${dest}`, "&&", command]);
     }

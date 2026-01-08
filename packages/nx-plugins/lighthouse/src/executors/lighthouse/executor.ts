@@ -1,46 +1,77 @@
 import type { PromiseExecutor } from "@nx/devkit";
-import type { LighthouseExecutorSchema } from "../../schema";
+import type { LighthouseExecutorSchema } from "./schema";
 import { existsSync, mkdirSync } from "node:fs";
-import path from "node:path";
-import { dockerImage } from "@cdw/monorepo/nx-plugins-docker";
+import { join } from "node:path";
 import {
-    dockerComposeDownExecutor,
-    dockerComposeUpExecutor,
-    getServiceNetwork,
-} from "@cdw/monorepo/nx-plugins-docker-compose";
-import { replaceEnvs } from "@cdw/monorepo/nx-plugins-utils";
+    getProjectConfig,
+    replaceEnvsInObject,
+    replaceEnvsInString,
+} from "@cdw/monorepo/nx-plugins-utils";
 import { execAsync } from "@cdw/monorepo/shared-utils";
 import { logger } from "@nx/devkit";
 
-const REPORTS_DIR = "reports/lighthouse";
+const REPORTS_DIR = "_reports/lighthouse";
 
 export const runLighthouseExecutor: PromiseExecutor<LighthouseExecutorSchema> = async (
-    { urls },
+    { url, headers, enabled },
     context,
 ) => {
+    if (enabled === false) {
+        logger.info("Skipping lighthouse executor since it is not enabled.");
+        return { success: true };
+    }
+
+    const { Authorization, ...lighthouseHeaders } = headers || {};
+    if (Authorization) {
+        const {
+            expanded: { user, password, token, type },
+        } = replaceEnvsInObject(Authorization, context);
+        if (type === "basic" && user && password) {
+            const credentials = Buffer.from(`${user}:${password}`).toString("base64");
+            lighthouseHeaders.Authorization = `Basic ${credentials}`;
+        }
+
+        if (type === "bearer" && token) {
+            lighthouseHeaders.Authorization = `Bearer ${token}`;
+        }
+    }
+
     try {
         createReportsDir();
-        await dockerComposeUpExecutor({}, context);
+        const { name: projectName } = getProjectConfig(context);
+        const lighthouseUrl = replaceEnvsInString(url, context).expanded;
+        const args = [
+            "--chrome-flags='--headless --no-sandbox'",
+            `--extra-headers='${JSON.stringify(lighthouseHeaders)}'`,
+        ];
 
-        const lighthouseImage = dockerImage("nx-plugins-lighthouse", "latest");
-        for (const url of replaceEnvs(urls, context).expandedArgs) {
-            await execAsync("docker", [
-                "run --rm",
-                "--cap-drop ALL",
-                "--cap-add SYS_ADMIN",
-                `--mount type=bind,source=${path.join(context.root, REPORTS_DIR)},target=/lighthouse`,
-                `--network ${getServiceNetwork(context)}`,
-                lighthouseImage,
-                url,
-            ]);
-        }
+        await execAsync(
+            "lighthouse",
+            [
+                ...args,
+                "--output-path",
+                `${join(REPORTS_DIR, projectName ?? "report")}-mobile.html`,
+                lighthouseUrl,
+            ],
+            { shell: true },
+        );
+
+        await execAsync(
+            "lighthouse",
+            [
+                ...args,
+                "--preset=desktop",
+                "--output-path",
+                `${join(REPORTS_DIR, projectName ?? "report")}-desktop.html`,
+                lighthouseUrl,
+            ],
+            { shell: true },
+        );
 
         return { success: true };
     } catch (e) {
         logger.error(e);
         return { success: false };
-    } finally {
-        await dockerComposeDownExecutor({}, context);
     }
 };
 

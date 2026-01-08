@@ -13,12 +13,10 @@ Thumbs.db
 /node_modules
 
 # output
-/.lighthouse-reports
 /dist
 /tmp
 /out-tsc
 /coverage
-/reports
 
 # misc
 /.nx

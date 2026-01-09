@@ -20,10 +20,6 @@ RUN nx reset
 RUN nx build $APP_NAME
 
 
-FROM $DOCKER_PROXY/python:3.14.2-alpine3.23 AS python
-RUN pip install r128gain
-
-
 FROM base
 ARG APP_DIR
 
@@ -31,8 +27,8 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-RUN apk add --no-cache ffmpeg
-COPY --from=python /usr/local/bin/r128gain /usr/local/bin
+RUN apk add --no-cache ffmpeg python3 py3-pip
+RUN pip install r128gain --break-system-packages
 
 COPY --from=builder /workspace/dist/packages/$APP_DIR .
 RUN npm i

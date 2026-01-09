@@ -45,7 +45,7 @@
         "iconify-icon": "3.0.2",
         "leaflet": "^1.9.4",
         "mermaid": "~11.12.2",
-        "music-metadata": "^11.10.4",
+        "music-metadata": "^11.10.5",
         "nodemailer": "^7.0.12",
         "pino": "^10.1.0",
         "sveaflet": "^0.1.4",

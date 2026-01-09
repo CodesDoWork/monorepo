@@ -1,6 +1,6 @@
 import type { PromiseExecutor } from "@nx/devkit";
 import type { WranglerExecutorSchema } from "./schema";
-import { loadEnv, projectRoot, replaceEnvs } from "@cdw/monorepo/nx-plugins-utils";
+import { loadEnv, projectRoot, replaceEnvsInArray } from "@cdw/monorepo/nx-plugins-utils";
 import { execAsync } from "@cdw/monorepo/shared-utils";
 import { logger } from "@nx/devkit";
 
@@ -15,9 +15,9 @@ export function runWranglerExecutor(target: WranglerTarget): PromiseExecutor {
 
         try {
             const projectDir = projectRoot(context);
-            const { expandedArgs, usedEnvs } = replaceEnvs(args, context);
+            const { expanded, usedEnvs } = replaceEnvsInArray(args, context);
             const { CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_WORKERS_API_TOKEN } = loadEnv();
-            await execAsync("wrangler", [target, ...expandedArgs], {
+            await execAsync("wrangler", [target, ...expanded], {
                 cwd: projectDir,
                 shell: true,
                 secrets: usedEnvs,

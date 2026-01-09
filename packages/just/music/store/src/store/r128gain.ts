@@ -15,8 +15,14 @@ export async function normalizeGainIfNecessary(filePath: string) {
 }
 
 function writeNormalizationTags(filePath: string) {
-    const x = spawnSync("r128gain", ["--", filePath]);
-    const stdout = x.stdout.toString();
-    const stderr = x.stderr.toString();
-    logger.info(`Normalization outout: ${stdout || stderr}`);
+    const { error, stdout, stderr } = spawnSync("r128gain", ["--", filePath], {
+        encoding: "utf-8",
+    });
+
+    if (error) {
+        logger.error(error, `Failed to normalize gain for ${filePath}`);
+        throw error;
+    }
+
+    logger.info(`Normalized gain for ${filePath}. Outout: ${stdout || stderr}`);
 }

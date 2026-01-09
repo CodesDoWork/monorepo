@@ -3,6 +3,29 @@
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/zinzow/website/src",
     "projectType": "application",
-    "targets": {},
-    "tags": ["app", "svelte"]
+    "tags": ["app", "svelte"],
+    "targets": {
+        "lighthouse": {
+            "executor": "@cdw/monorepo/nx-plugins-lighthouse:lighthouse",
+            "options": {
+                "url": "${URL}",
+                "headers": {
+                    "Authorization": {
+                        "user": "${TEST_AUTH_USERNAME}",
+                        "password": "${TEST_AUTH_PASSWORD}",
+                        "type": "basic"
+                    }
+                }
+            },
+            "configurations": {
+                "development": {
+                    "enabled": true
+                },
+                "production": {
+                    "enabled": false
+                }
+            },
+            "defaultConfiguration": "production"
+        }
+    }
 }

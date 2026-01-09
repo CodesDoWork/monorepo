@@ -41,7 +41,7 @@ export const runLighthouseExecutor: PromiseExecutor<LighthouseExecutorSchema> = 
         const { name: projectName } = getProjectConfig(context);
         const lighthouseUrl = replaceEnvsInString(url, context).expanded;
         const args = [
-            "--chrome-flags='--headless --no-sandbox'",
+            "--chrome-flags='--headless --no-sandbox --disable-dev-shm-usage'",
             `--extra-headers='${JSON.stringify(lighthouseHeaders)}'`,
         ];
 

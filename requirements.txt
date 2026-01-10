@@ -480,7 +480,7 @@ safetensors==0.7.0
     #   transformers
 scikit-learn==1.8.0
     # via librosa
-scipy==1.16.3
+scipy==1.17.0
     # via
     #   audiomentations
     #   librosa

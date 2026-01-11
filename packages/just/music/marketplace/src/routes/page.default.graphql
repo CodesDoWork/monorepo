@@ -1,0 +1,11 @@
+query GetHomepageData {
+    dashboardItems: dashboard_items(
+        filter: { _or: [{ title: { _eq: "Music" } }, { title: { _eq: "Music Metadata" } }] }
+    ) {
+        title
+        url
+        icon: icon_img {
+            ...DirectusImage
+        }
+    }
+}

@@ -147,11 +147,11 @@ export default antfu(
                             ],
                         },
                         {
-                            sourceTag: "just-music-downloader",
+                            sourceTag: "just-music-marketplace",
                             onlyDependOnLibsWithTags: [
                                 "shared",
                                 "shared-svelte",
-                                "just-music-downloader",
+                                "just-music-marketplace",
                                 "just-branding",
                             ],
                         },

@@ -82,12 +82,5 @@
         "skipDefaultLibCheck": true,
         "skipLibCheck": true
     },
-    "exclude": [
-        "node_modules",
-        "tmp",
-        "dist",
-        "packages/just/music/downloader",
-        "packages/just/website",
-        "packages/zinzow/website"
-    ]
+    "exclude": ["node_modules", "tmp", "dist"]
 }

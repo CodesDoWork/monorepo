@@ -1,0 +1,16 @@
+{
+    "extends": "../../../../tsconfig.json",
+    "compilerOptions": {
+        "rootDirs": [".", ".svelte-kit/types"],
+        "types": ["svelte", "node", "vite/client"]
+    },
+    "include": [
+        "vite.config.ts",
+        "src/**/*.ts",
+        "src/**/*.svelte",
+        ".svelte-kit/ambient.d.ts",
+        ".svelte-kit/non-ambient.d.ts",
+        ".svelte-kit/types/**/$types.d.ts"
+    ],
+    "exclude": ["**/generated/*"]
+}

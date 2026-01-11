@@ -467,8 +467,9 @@ services:
   music-store:
     <<: *common
     environment:
-      MUSIC_STORE_DIR: ${MUSIC_STORE_MUSIC_STORE_DIR}
-      MUSIC_LIB_DIRS: ${MUSIC_STORE_MUSIC_LIB_DIRS}
+      STORE_DIR: ${MUSIC_STORE_STORE_DIR}
+      LIBS_DIR: ${MUSIC_STORE_LIBS_DIR}
+      LIBS: ${MUSIC_STORE_LIBS}
     image: ${IMAGE_BASE}/just-music-store:${PROJECT_VERSION:-latest}
     volumes:
       - ${MUSIC_DIR_PATH}:/music

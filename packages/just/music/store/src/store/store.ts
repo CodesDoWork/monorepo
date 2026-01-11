@@ -16,14 +16,14 @@ import { normalizeGainIfNecessary } from "./r128gain";
 
 const logger = createLogger("store");
 
-const { MUSIC_STORE_DIR } = env;
+const { STORE_DIR } = env;
 
 const storePaths: Record<string, string> = {};
 const inodeStorePaths = new InodeStorePaths();
 
 export function initStore() {
-    if (!existsSync(MUSIC_STORE_DIR)) {
-        mkdirSync(MUSIC_STORE_DIR, { recursive: true });
+    if (!existsSync(STORE_DIR)) {
+        mkdirSync(STORE_DIR, { recursive: true });
     }
 
     cleanAndIndexStore();
@@ -56,8 +56,8 @@ export async function removeFromStoreIfLastLink(filePath: string): Promise<boole
 }
 
 function cleanAndIndexStore() {
-    readdirSync(MUSIC_STORE_DIR).forEach(file => {
-        const storePath = path.join(MUSIC_STORE_DIR, file);
+    readdirSync(STORE_DIR).forEach(file => {
+        const storePath = path.join(STORE_DIR, file);
         const removed = rmIfLastLink(storePath);
         if (!removed) {
             inodeStorePaths.add(storePath);
@@ -78,7 +78,7 @@ async function buildStorePath(filePath: string): Promise<string> {
     const { size } = statSync(filePath);
     const { ext } = path.parse(filePath);
     const hash = await hashFile(filePath);
-    return path.join(MUSIC_STORE_DIR, `${size}_${hash}${ext}`);
+    return path.join(STORE_DIR, `${size}_${hash}${ext}`);
 }
 
 function moveToStoreIfNew(filePath: string, storePath: string): boolean {

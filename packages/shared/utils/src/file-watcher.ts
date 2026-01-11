@@ -1,6 +1,5 @@
 import { resolve } from "node:path";
 import chokidar from "chokidar";
-import { env } from "./env";
 
 interface WatchActions {
     add: (path: string) => void;
@@ -8,8 +7,8 @@ interface WatchActions {
     ready: () => void;
 }
 
-export function watchMusicLibDirs({ add, remove, ready }: WatchActions) {
-    const watcher = chokidar.watch(env.MUSIC_LIB_DIRS.split(","), {
+export function watchDirs({ add, remove, ready }: WatchActions, ...dirs: string[]) {
+    const watcher = chokidar.watch(dirs, {
         awaitWriteFinish: {
             stabilityThreshold: 200,
             pollInterval: 100,

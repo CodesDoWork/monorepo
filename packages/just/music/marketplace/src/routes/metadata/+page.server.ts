@@ -28,6 +28,14 @@ export const load: PageServerLoad = async ({ request }) => {
                 }
             });
 
+            if (meta.bitrate) {
+                if (meta.bitrate < 128_000) {
+                    errors.push("<strong>Bitrate</strong> ciritcally low");
+                } else if (meta.bitrate <= 192_000) {
+                    warnings.push("<strong>Bitrate</strong> low");
+                }
+            }
+
             return {
                 ...t,
                 paths: t.paths.filter(p => p.startsWith(env.LIBS_DIR)),

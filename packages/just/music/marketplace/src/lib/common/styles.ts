@@ -6,11 +6,8 @@ export const smallTextClass = clsx(`
     dark:group-hover/card:text-gray-400
 `);
 
-export const inputClass = clsx(
-    `
-        focus:outline-primary focus:ring-0 focus:outline-2 focus:-outline-offset-2
-        block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base text-gray-900 outline
-        -outline-offset-1 outline-gray-300
-        dark:bg-white/5 dark:text-white dark:outline-white/10
-    `,
-);
+export const buttonClass = clsx(`
+    bg-primary cursor-pointer rounded-md p-2 text-white shadow-sm transition-colors
+    hover:bg-primary-400 hover:shadow-md
+    dark:hover:bg-primary-600
+`);

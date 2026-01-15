@@ -48,6 +48,11 @@
                     <span class="col-span-2 italic">
                         {track.meta.genre?.join(", ") ?? "No Genres"}
                     </span>
+                    {#if track.meta.bitrate}
+                        <span class="mt-1 text-sm">
+                            {Math.round(track.meta.bitrate / 1000)}&thinsp;kbps
+                        </span>
+                    {/if}
                     <ul class="col-span-2 mt-2">
                         {#each track.paths as path}
                             <li class={smallTextClass}>

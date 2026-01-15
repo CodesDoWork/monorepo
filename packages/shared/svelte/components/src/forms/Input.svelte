@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { DOMAttributes, HTMLInputAttributes } from "svelte/elements";
     import { clsx } from "clsx";
-    import { stylesMap } from "../../lib/common/styles";
+    import { inputClass } from "./styles";
 
     interface Props extends HTMLInputAttributes, DOMAttributes<HTMLInputElement> {
         errors?: string[];
@@ -9,15 +9,22 @@
         input?: HTMLInputElement;
     }
 
-    let { errors, class: className, input = $bindable(), ...props }: Props = $props();
+    let {
+        errors,
+        class: className,
+        input = $bindable(),
+        value = $bindable(),
+        ...props
+    }: Props = $props();
 </script>
 
 <input
     bind:this={input}
+    bind:value
     {...props}
     class={clsx(
         className,
-        stylesMap.input,
+        inputClass,
         errors?.length &&
             `
                 outline-error-light!

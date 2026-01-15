@@ -43,11 +43,7 @@ export async function ingestFile(filePath: string): Promise<boolean> {
 
 export async function removeFromStoreIfLastLink(filePath: string): Promise<boolean> {
     const storePath = storePaths[filePath];
-    if (!storePath) {
-        throw new Error(`No store path found for ${filePath}`);
-    }
-
-    const removed = rmIfLastLink(storePath);
+    const removed = storePath ? rmIfLastLink(storePath) : false;
     if (removed) {
         delete storePaths[filePath];
     }

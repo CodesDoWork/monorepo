@@ -1,8 +1,9 @@
 <script lang="ts">
+    import type { HTMLTextareaAttributes } from "svelte/elements";
     import { clsx } from "clsx";
-    import { stylesMap } from "../../lib/common/styles";
+    import { inputClass } from "./styles";
 
-    interface Props {
+    interface Props extends HTMLTextareaAttributes {
         required?: boolean;
         name?: string;
         id?: string;
@@ -22,10 +23,12 @@
         errors,
         class: className,
         "aria-describedby": ariaDescribedBy,
+        ...rest
     }: Props = $props();
 </script>
 
 <textarea
+    {...rest}
     {required}
     {name}
     {id}
@@ -33,10 +36,10 @@
     aria-describedby={ariaDescribedBy}
     class={clsx(
         className,
-        stylesMap.input,
+        inputClass,
         errors?.length &&
             `
-                outline-error-light!
-                dark:outline-error-dark!
+                outline-red-600!
+                dark:outline-red-800!
             `,
     )}>{value}</textarea>

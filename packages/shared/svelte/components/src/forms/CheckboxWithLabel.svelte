@@ -5,20 +5,29 @@
     import Errors from "./Errors.svelte";
 
     interface Props extends ComponentProps<typeof Checkbox> {
-        children: Snippet;
+        children?: Snippet;
         style?: string;
     }
 
-    const { class: className, children, style, ...inputProps }: Props = $props();
+    let {
+        class: className,
+        children,
+        style,
+        checked = $bindable(),
+        input = $bindable(),
+        ...inputProps
+    }: Props = $props();
     const labelId = `${inputProps.id}-label`;
 </script>
 
 <div class={clsx(className)} {style}>
     <div class="flex items-center gap-2">
-        <Checkbox {...inputProps} aria-describedby={labelId} />
-        <label for={inputProps.id} id={labelId} class="cursor-pointer">
-            {@render children()}
-        </label>
+        <Checkbox {...inputProps} bind:checked bind:input aria-describedby={labelId} />
+        {#if children}
+            <label for={inputProps.id} id={labelId} class="cursor-pointer">
+                {@render children()}
+            </label>
+        {/if}
     </div>
     <Errors errors={inputProps.errors} />
 </div>

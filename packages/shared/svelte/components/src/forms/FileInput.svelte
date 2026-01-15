@@ -1,8 +1,8 @@
 <script lang="ts">
     import type { ComponentProps } from "svelte";
     import { clsx } from "clsx";
-    import { stylesMap } from "../../lib/common/styles";
     import Input from "./Input.svelte";
+    import { buttonClass } from "./styles";
 
     interface Props extends Omit<ComponentProps<typeof Input>, "type"> {
         chooseText: string;
@@ -60,12 +60,12 @@
             type="button"
             {onclick}
             class={clsx(
-                stylesMap.button,
+                buttonClass,
                 "absolute z-10 size-full",
                 inputProps.errors?.length &&
                     `
-                        outline-error-light outline
-                        dark:outline-error-dark
+                        outline outline-red-600
+                        dark:outline-red-800
                     `,
                 isDragOver && "bg-primary-400",
             )}>

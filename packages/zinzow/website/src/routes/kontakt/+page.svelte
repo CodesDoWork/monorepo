@@ -4,15 +4,18 @@
     import type { ActionData, PageData } from "./$types";
     import { enhance } from "$app/forms";
     import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import {
+        CheckboxWithLabel,
+        FileInputWithLabel,
+        InputWithLabel,
+        TextareaWithLabel,
+    } from "@cdw/monorepo/shared-svelte-components/forms";
     import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { normalizeAnchor } from "@cdw/monorepo/shared-utils/html/common";
     import { clsx } from "clsx";
     import { onMount } from "svelte";
     import { WidthBox } from "../../components/content-area";
-    import { CheckboxWithLabel, InputWithLabel } from "../../components/form";
-    import FileInputWithLabel from "../../components/form/FileInputWithLabel.svelte";
-    import TextareaWithLabel from "../../components/form/TextareaWithLabel.svelte";
     import { H1, H2 } from "../../components/heading";
     import { Icons } from "../../components/icons";
     import { Paragraphs, TextWithIcon } from "../../components/text";

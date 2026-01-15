@@ -39,13 +39,13 @@ export const actions = {
 
 function getUserTracks(userLib: string) {
     return getTracks()
+        .toSorted((a, b) => (a.meta.title ?? "").localeCompare(b.meta.title ?? ""))
+        .sort((a, b) => (a.meta.artist ?? "").localeCompare(b.meta.artist ?? ""))
         .map((t, idx) => {
             return {
                 idx,
                 ...t,
                 has: t.paths.some(path => path.startsWith(userLib)),
             };
-        })
-        .sort((a, b) => (a.meta.title ?? "").localeCompare(b.meta.title ?? ""))
-        .sort((a, b) => (a.meta.artist ?? "").localeCompare(b.meta.artist ?? ""));
+        });
 }

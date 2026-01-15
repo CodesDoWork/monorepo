@@ -6,6 +6,8 @@ export interface Track {
         genre?: string[];
         year?: number;
         album?: string;
+        bitrate?: number;
+        duration?: number;
     };
 }
 

@@ -1,11 +1,10 @@
-import type { Actions, PageServerLoad } from "./$types";
+import type { PageServerLoad } from "./$types";
 import { directusImageParams } from "@cdw/monorepo/shared-svelte-components";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
 import downloadIcon from "../assets/download.png";
 import { env } from "../env";
 import { queryDefault } from "../graphql/default/client";
 import { GetHomepageDataDocument } from "../graphql/default/generated/graphql";
-import { download } from "../lib/server/download";
 
 interface Link {
     icon:
@@ -63,10 +62,3 @@ export const load: PageServerLoad = async () => {
         furhterLinks,
     };
 };
-
-export const actions = {
-    download: async ({ request }) => {
-        const formData = await request.formData();
-        download(formData.get("url") as string);
-    },
-} satisfies Actions;

@@ -32,7 +32,7 @@ function M.authenticate()
         client_secret = client_secret,
         logout_path = "/callback-logout",
         session_contents = { id_token = true, access_token = true },
-        scope = "openid email profile roles",
+        scope = "openid email profile roles music-lib",
         ssl_verify = "no"
     }
 

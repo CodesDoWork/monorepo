@@ -10,8 +10,8 @@
     {#each errors as error}
         <p
             class="
-                text-error-light
-                dark:text-error-dark
+                text-red-600
+                dark:text-red-800
             ">
             {error}
         </p>

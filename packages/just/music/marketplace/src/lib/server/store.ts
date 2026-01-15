@@ -41,11 +41,12 @@ async function add(path: string) {
                 inode,
                 new Promise<void>(resolve => {
                     parseFile(path).then(metadata => {
-                        const { common } = metadata;
+                        const { common, format } = metadata;
                         const { title, artist, genre, year, album } = common;
+                        const { bitrate, duration } = format;
                         tracks.set(inode, {
                             paths: [path],
-                            meta: { title, artist, genre, year, album },
+                            meta: { title, artist, genre, year, album, bitrate, duration },
                         });
                         resolve();
                     });

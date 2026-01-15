@@ -60,7 +60,7 @@
         "@antfu/eslint-config": "^6.7.3",
         "@apollo/client": "^4.0.13",
         "@astrojs/tailwind": "^6.0.2",
-        "@cloudflare/kv-asset-handler": "^0.4.1",
+        "@cloudflare/kv-asset-handler": "^0.4.2",
         "@cloudflare/workers-types": "^4.20260109.0",
         "@directus/extensions-sdk": "^17.0.4",
         "@directus/types": "^13.5.0",

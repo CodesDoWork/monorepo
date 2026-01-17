@@ -485,7 +485,7 @@ scipy==1.17.0
     #   audiomentations
     #   librosa
     #   scikit-learn
-send2trash==2.0.0
+send2trash==2.1.0
     # via jupyter-server
 sentry-sdk==2.49.0
     # via wandb

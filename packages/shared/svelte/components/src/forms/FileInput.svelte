@@ -40,6 +40,10 @@
     });
 
     const onDrop = $derived(function (e: DragEvent) {
+        if (!input) {
+            return true;
+        }
+
         e.preventDefault();
         isDragOver = false;
         if (e.dataTransfer?.files) {
@@ -74,7 +78,7 @@
         <Input
             bind:input
             type="file"
-            onchange={() => (selectedFiles = Array.from(input.files).map(f => f.name))}
+            onchange={() => (selectedFiles = Array.from(input?.files ?? []).map(f => f.name))}
             class="opacity-0"
             {...inputProps} />
     </div>

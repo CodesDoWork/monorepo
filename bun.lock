@@ -81,7 +81,7 @@
         "eslint-config-prettier": "10.1.8",
         "eslint-plugin-astro": "^1.5.0",
         "eslint-plugin-better-tailwindcss": "^3.8.0",
-        "eslint-plugin-format": "^1.2.0",
+        "eslint-plugin-format": "^1.3.1",
         "eslint-plugin-html": "^8.1.3",
         "eslint-plugin-prettier": "^5.5.5",
         "eslint-plugin-react": "7.37.5",
@@ -562,7 +562,7 @@
 
     "@docsearch/react": ["@docsearch/react@3.8.2", "", { "dependencies": { "@algolia/autocomplete-core": "1.17.7", "@algolia/autocomplete-preset-algolia": "1.17.7", "@docsearch/css": "3.8.2", "algoliasearch": "^5.14.2" }, "peerDependencies": { "@types/react": ">= 16.8.0 < 19.0.0", "react": ">= 16.8.0 < 19.0.0", "react-dom": ">= 16.8.0 < 19.0.0", "search-insights": ">= 1 < 3" }, "optionalPeers": ["@types/react", "react", "react-dom", "search-insights"] }, "sha512-xCRrJQlTt8N9GU0DG4ptwHRkfnSnD/YpdeaXe02iKfqs97TkZJv60yE+1eq/tjPcVnTW8dP5qLP7itifFVV5eg=="],
 
-    "@dprint/formatter": ["@dprint/formatter@0.4.1", "", {}, "sha512-IB/GXdlMOvi0UhQQ9mcY15Fxcrc2JPadmo6tqefCNV0bptFq7YBpggzpqYXldBXDa04CbKJ+rDwO2eNRPE2+/g=="],
+    "@dprint/formatter": ["@dprint/formatter@0.5.1", "", {}, "sha512-cdZUrm0iv/FnnY3CKE2dEcVhNEzrC551aE2h2mTFwQCRBrqyARLDnb7D+3PlXTUVp3s34ftlnGOVCmhLT9DeKA=="],
 
     "@dprint/markdown": ["@dprint/markdown@0.20.0", "", {}, "sha512-qvynFdQZwul4Y+hoMP02QerEhM5VItb4cO8/qpQrSuQuYvDU+bIseiheVAetSpWlNPBU1JK8bQKloiCSp9lXnA=="],
 
@@ -2514,7 +2514,7 @@
 
     "eslint-plugin-es-x": ["eslint-plugin-es-x@7.8.0", "", { "dependencies": { "@eslint-community/eslint-utils": "^4.1.2", "@eslint-community/regexpp": "^4.11.0", "eslint-compat-utils": "^0.5.1" }, "peerDependencies": { "eslint": ">=8" } }, "sha512-7Ds8+wAAoV3T+LAKeu39Y5BzXCrGKrcISfgKEqTS4BDN8SFEDQd0S43jiQ8vIa3wUKD07qitZdfzlenSi8/0qQ=="],
 
-    "eslint-plugin-format": ["eslint-plugin-format@1.2.0", "", { "dependencies": { "@dprint/formatter": "^0.4.1", "@dprint/markdown": "^0.20.0", "@dprint/toml": "^0.7.0", "eslint-formatting-reporter": "^0.0.0", "eslint-parser-plain": "^0.1.1", "prettier": "^3.7.4", "synckit": "^0.11.11" }, "peerDependencies": { "eslint": "^8.40.0 || ^9.0.0" } }, "sha512-46iOK4ROUPCEScJ29bWh5LFEkkbnap1LIFJG0sDjsCiNvM8zgY101Kk/OteZ1rpFf0nGxaRGkN6GAkGRE5BFZA=="],
+    "eslint-plugin-format": ["eslint-plugin-format@1.3.1", "", { "dependencies": { "@dprint/formatter": "^0.5.1", "@dprint/markdown": "^0.20.0", "@dprint/toml": "^0.7.0", "eslint-formatting-reporter": "^0.0.0", "eslint-parser-plain": "^0.1.1", "ohash": "^2.0.11", "prettier": "^3.7.4", "synckit": "^0.11.11" }, "peerDependencies": { "eslint": "^8.40.0 || ^9.0.0" } }, "sha512-nK96Gnt6/9wj8KhTFg+D80Mc01cffrcB15NO6pkTJmPpO0vHV+9yxegr+wVry4O3uGbu83HN86inCO3IsML9Rw=="],
 
     "eslint-plugin-html": ["eslint-plugin-html@8.1.3", "", { "dependencies": { "htmlparser2": "^10.0.0" } }, "sha512-cnCdO7yb/jrvgSJJAfRkGDOwLu1AOvNdw8WCD6nh/2C4RnxuI4tz6QjMEAmmSiHSeugq/fXcIO8yBpIBQrMZCg=="],
 
@@ -5495,6 +5495,8 @@
     "eslint-plugin-es-x/@eslint-community/eslint-utils": ["@eslint-community/eslint-utils@4.4.1", "", { "dependencies": { "eslint-visitor-keys": "^3.4.3" }, "peerDependencies": { "eslint": "^6.0.0 || ^7.0.0 || >=8.0.0" } }, "sha512-s3O3waFUrMV8P/XaF/+ZTp1X9XBZW1a4B97ZnjQF2KYWaFD2A8KyFBsrsfSjEmjn3RGWAIuvlneuZm3CUK3jbA=="],
 
     "eslint-plugin-es-x/eslint-compat-utils": ["eslint-compat-utils@0.5.1", "", { "dependencies": { "semver": "^7.5.4" }, "peerDependencies": { "eslint": ">=6.0.0" } }, "sha512-3z3vFexKIEnjHE3zCMRo6fn/e44U7T1khUjg+Hp0ZQMCigh28rALD0nPFBcGZuiLC5rLZa2ubQHDRln09JfU2Q=="],
+
+    "eslint-plugin-format/synckit": ["synckit@0.11.12", "", { "dependencies": { "@pkgr/core": "^0.2.9" } }, "sha512-Bh7QjT8/SuKUIfObSXNHNSK6WHo6J1tHCqJsuaFDP7gP0fkzSfTxI8y85JrppZ0h8l0maIgc2tfuZQ6/t3GtnQ=="],
 
     "eslint-plugin-jsdoc/@es-joy/jsdoccomment": ["@es-joy/jsdoccomment@0.76.0", "", { "dependencies": { "@types/estree": "^1.0.8", "@typescript-eslint/types": "^8.46.0", "comment-parser": "1.4.1", "esquery": "^1.6.0", "jsdoc-type-pratt-parser": "~6.10.0" } }, "sha512-g+RihtzFgGTx2WYCuTHbdOXJeAlGnROws0TeALx9ow/ZmOROOZkVg5wp/B44n0WJgI4SQFP1eWM2iRPlU2Y14w=="],
 

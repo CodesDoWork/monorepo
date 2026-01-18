@@ -1,16 +1,21 @@
+import { join } from "node:path";
 import { logger } from "@cdw/monorepo/shared-logging";
+import { watchDirs } from "@cdw/monorepo/shared-utils/file-watcher";
+import { env } from "./env";
 import { ScanState } from "./scan-state";
 import { ingestFile, initStore, removeFromStoreIfLastLink } from "./store";
-import { watchMusicLibDirs } from "./watcher";
 
 const initialScan = new ScanState();
 
 initStore();
-watchMusicLibDirs({
-    add,
-    remove,
-    ready,
-});
+watchDirs(
+    {
+        add,
+        remove,
+        ready,
+    },
+    ...env.LIBS.split(",").map(lib => join(env.LIBS_DIR, lib)),
+);
 
 function add(path: string) {
     if (!initialScan.done) {

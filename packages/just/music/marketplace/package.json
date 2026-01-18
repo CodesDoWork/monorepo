@@ -1,0 +1,6 @@
+{
+    "name": "just-music-marketplace",
+    "type": "module",
+    "private": true,
+    "description": "This app contains the marketplace for our music"
+}

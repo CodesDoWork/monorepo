@@ -42,6 +42,9 @@
             "@cdw/monorepo/shared-svelte-components": [
                 "packages/shared/svelte/components/src/index.ts"
             ],
+            "@cdw/monorepo/shared-svelte-components/*": [
+                "packages/shared/svelte/components/src/*/index.ts"
+            ],
             "@cdw/monorepo/shared-svelte-contexts": [
                 "packages/shared/svelte/contexts/src/index.ts"
             ],
@@ -82,12 +85,5 @@
         "skipDefaultLibCheck": true,
         "skipLibCheck": true
     },
-    "exclude": [
-        "node_modules",
-        "tmp",
-        "dist",
-        "packages/just/music/downloader",
-        "packages/just/website",
-        "packages/zinzow/website"
-    ]
+    "exclude": ["node_modules", "tmp", "dist"]
 }

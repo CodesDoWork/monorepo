@@ -14,5 +14,6 @@ pkgs.mkShell {
     ffmpeg_7-headless # audio tool (just-music-store, just-music-downloader)
     r128gain # music normalization (just-music-store)
     chromium # nx-plugins-lighthouse
+    yt-dlp # just-music-marketplace
   ];
 }

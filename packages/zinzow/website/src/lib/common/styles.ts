@@ -84,14 +84,6 @@ export const stylesMap = {
     ol: clsx(listBaseClasses, "list-decimal"),
     ul: clsx(listBaseClasses, "list-disc"),
     li: clsx(textBaseColorClasses),
-    input: clsx(
-        `
-            focus:outline-primary focus:ring-0 focus:outline-2 focus:-outline-offset-2
-            block w-full rounded-md border-0 bg-white px-3.5 py-2 text-base text-gray-900 outline
-            -outline-offset-1 outline-gray-300
-            dark:bg-white/5 dark:text-white dark:outline-white/10
-        `,
-    ),
     button: clsx(`
         bg-primary cursor-pointer rounded-md px-3.5 py-2.5 text-center text-sm font-semibold
         text-white shadow-sm transition-colors duration-100

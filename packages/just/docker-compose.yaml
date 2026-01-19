@@ -418,6 +418,19 @@ services:
     volumes:
       - mlflow-artifacts:/mlflow/artifacts
 
+  music-marketplace:
+    <<: *common
+    environment:
+      PORT: ${MUSIC_MARKETPLACE_PORT}
+      STORE_DIR: ${MUSIC_STORE_STORE_DIR}
+      LIBS_DIR: ${MUSIC_STORE_LIBS_DIR}
+      LIBS: ${MUSIC_STORE_LIBS}
+      CMS_URL: ${CMS_URL}
+      CMS_TOKEN: ${MUSIC_MARKETPLACE_CMS_TOKEN}
+    image: ${IMAGE_BASE}/just-music-marketplace:${PROJECT_VERSION:-latest}
+    volumes:
+      - ${MUSIC_DIR_PATH}:/music
+
   music-metadata:
     <<: *common
     environment:
@@ -467,8 +480,9 @@ services:
   music-store:
     <<: *common
     environment:
-      MUSIC_STORE_DIR: ${MUSIC_STORE_MUSIC_STORE_DIR}
-      MUSIC_LIB_DIRS: ${MUSIC_STORE_MUSIC_LIB_DIRS}
+      STORE_DIR: ${MUSIC_STORE_STORE_DIR}
+      LIBS_DIR: ${MUSIC_STORE_LIBS_DIR}
+      LIBS: ${MUSIC_STORE_LIBS}
     image: ${IMAGE_BASE}/just-music-store:${PROJECT_VERSION:-latest}
     volumes:
       - ${MUSIC_DIR_PATH}:/music
@@ -583,7 +597,7 @@ services:
       - PORT=${VPN_PORT}
       - INSECURE=true
       - DISABLE_IPV6=true
-    image: ghcr.io/wg-easy/wg-easy:15.1.0
+    image: ghcr.io/wg-easy/wg-easy:15.2.1
     ports:
       - 51820:51820/udp
     sysctls:

@@ -3,8 +3,9 @@ import { z } from "zod";
 
 export const env = createEnv({
     server: {
-        MUSIC_LIB_DIRS: z.string(),
-        MUSIC_STORE_DIR: z.string(),
+        LIBS_DIR: z.string(),
+        LIBS: z.string(),
+        STORE_DIR: z.string(),
     },
     clientPrefix: "PUBLIC_",
     client: {},

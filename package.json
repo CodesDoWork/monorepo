@@ -52,7 +52,7 @@
         "tslib": "^2.8.1",
         "vitepress-plugin-auto-sidebar": "^1.4.0",
         "vitepress-plugin-mermaid": "2.0.17",
-        "vue": "^3.5.26",
+        "vue": "^3.5.27",
         "xmlbuilder2": "^4.0.3",
         "zod": "^4.3.5"
     },

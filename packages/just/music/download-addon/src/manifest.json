@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "Music Downloader Addon",
+    "version": "1.0",
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "just-music-download-addon@justinkonratt.de"
+        }
+    },
+    "permissions": ["activeTab", "cookies", "storage"],
+    "host_permissions": [
+        "https://*.youtube.com/*",
+        "https://music-marketplace.justinkonratt.de/api/download*"
+    ],
+    "action": {
+        "default_popup": "src/popup.html",
+        "default_icon": {
+            "16": "icons/icon16.png",
+            "32": "icons/icon32.png"
+        }
+    },
+    "icons": {
+        "16": "icons/icon16.png",
+        "32": "icons/icon32.png",
+        "48": "icons/icon48.png",
+        "64": "icons/icon64.png",
+        "96": "icons/icon96.png",
+        "128": "icons/icon128.png"
+    }
+}

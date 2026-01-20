@@ -4,9 +4,11 @@
     import { enhance } from "$app/forms";
     import { CheckboxWithLabel, Input } from "@cdw/monorepo/shared-svelte-components/forms";
     import { clsx } from "clsx";
+    import { VirtualList } from "flowbite-svelte";
     import { BackButton } from "../../components/buttons";
     import { LoadingBarrier } from "../../components/loading";
     import { H1 } from "../../components/texts";
+    import { getPairs } from "../../lib/client/get-pairs";
     import { buttonClass } from "../../lib/common/styles";
     import { useTrackFilters } from "./filters.svelte";
     import TrackCard from "./TrackCard.svelte";
@@ -16,18 +18,23 @@
     // svelte-ignore state_referenced_locally
     let tracks = $state(data.tracks);
     const filters = $derived(useTrackFilters(tracks));
+    const displayedPairs = $derived(getPairs(filters.displayedTracks));
     const allSelected = $derived(filters.displayedTracks.every(t => t.has));
 
     function handleSelectAll() {
         const has = !allSelected;
         filters.displayedTracks.forEach(t => (t.has = has));
     }
+
+    $effect(() => {
+        tracks = data.tracks;
+    });
 </script>
 
 <BackButton />
 <H1>Manage Songs</H1>
 <LoadingBarrier isLoading={!isStoreReady}>
-    <div class="grid grid-cols-[1fr_auto] items-center">
+    <div class="grid grid-cols-[1fr_auto_auto] grid-rows-[auto_1fr] items-center gap-x-6 gap-y-4">
         <span
             class="
                 dark:text-secondary
@@ -35,13 +42,14 @@
             ">
             {userLib}
         </span>
+        <p class="text-sm"><strong>{filters.displayedTracks.length}</strong> songs displayed</p>
         <button class={buttonClass} onclick={handleSelectAll}>
             {allSelected ? "Deselect" : "Select"} All
         </button>
         <form
             method="POST"
             action="?/save"
-            class="col-span-2"
+            class="col-span-3"
             use:enhance={({ formData }) => {
                 const selectedTracks: number[] = [];
                 tracks.forEach(track => {
@@ -57,10 +65,22 @@
                         tracks = tracks.map(t => ({ ...t, has: selectedTracks.includes(t.idx) }));
                     });
             }}>
-            <ul class="mt-4 grid grid-cols-2 gap-4">
-                {#each filters.displayedTracks as track (track.idx)}
-                    <TrackCard bind:track={tracks[track.idx] as IndexedTrack} />
-                {/each}
+            <ul>
+                <VirtualList
+                    height={650}
+                    minItemHeight={139}
+                    classes={{
+                        content: clsx("w-full pb-8"),
+                    }}
+                    items={displayedPairs}>
+                    {#snippet children(pair)}
+                        <div class="grid grid-cols-2">
+                            {#each pair as track}
+                                <TrackCard bind:track={tracks[track.idx] as IndexedTrack} />
+                            {/each}
+                        </div>
+                    {/snippet}
+                </VirtualList>
             </ul>
             <button type="submit" class={clsx(buttonClass, "fixed right-8 bottom-8")}>Save</button>
         </form>

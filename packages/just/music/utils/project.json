@@ -1,0 +1,8 @@
+{
+    "name": "just-music-utils",
+    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/music/utils/src",
+    "projectType": "library",
+    "tags": ["just-music:shared"],
+    "targets": {}
+}

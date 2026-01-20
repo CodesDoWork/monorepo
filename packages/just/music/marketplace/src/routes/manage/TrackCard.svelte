@@ -15,7 +15,7 @@
     let checkbox: HTMLInputElement | undefined = $state();
 </script>
 
-<li>
+<li class="size-full p-2">
     <Card class="size-full">
         <button
             type="button"

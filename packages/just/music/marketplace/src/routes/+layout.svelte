@@ -15,7 +15,7 @@
         from-5% to-95% text-gray-800 transition-colors
         dark:from-primary-950 dark:to-secondary-950 dark:text-gray-200
     ">
-    <main class="mx-auto max-w-7xl pb-16">
+    <main class="mx-auto max-w-7xl">
         {@render children?.()}
     </main>
 </div>

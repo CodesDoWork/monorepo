@@ -32,6 +32,7 @@
         "prepare": "husky"
     },
     "dependencies": {
+        "@humanspeak/svelte-virtual-list": "^0.3.6",
         "@mermaid-js/mermaid-mindmap": "^9.3.0",
         "@parcel/watcher": "^2.5.4",
         "@swc/helpers": "0.5.18",
@@ -50,6 +51,8 @@
         "pino": "^10.1.1",
         "sveaflet": "^0.1.4",
         "tslib": "^2.8.1",
+        "uuid": "^13.0.0",
+        "vite-plugin-web-extension": "^4.5.0",
         "vitepress-plugin-auto-sidebar": "^1.4.0",
         "vitepress-plugin-mermaid": "2.0.17",
         "vue": "^3.5.26",
@@ -97,6 +100,7 @@
         "@types/leaflet": "^1.9.21",
         "@types/node": "^25.0.9",
         "@types/pg": "^8.16.0",
+        "@types/webextension-polyfill": "^0.12.4",
         "@typescript-eslint/parser": "8.53.0",
         "@vitest/coverage-v8": "^4.0.17",
         "@vitest/ui": "^4.0.17",
@@ -145,6 +149,7 @@
         "vite": "7.3.1",
         "vitepress": "1.6.4",
         "vitest": "^4.0.17",
+        "webextension-polyfill": "^0.12.0",
         "wrangler": "^4.59.2",
         "yaml": "^2.8.2"
     },

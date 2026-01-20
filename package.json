@@ -63,7 +63,7 @@
         "@cloudflare/kv-asset-handler": "^0.4.2",
         "@cloudflare/workers-types": "^4.20260120.0",
         "@directus/extensions-sdk": "^17.0.5",
-        "@directus/types": "^13.5.0",
+        "@directus/types": "^14.0.0",
         "@graphql-codegen/cli": "^6.1.1",
         "@graphql-codegen/client-preset": "^5.2.2",
         "@graphql-codegen/introspection": "^5.0.0",

@@ -1,17 +1,29 @@
-import tailwind from "@astrojs/tailwind";
+import { fileURLToPath } from "node:url";
+import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
+const resolvedOutDir = fileURLToPath(
+    new URL("../../../dist/packages/just/maintenance", import.meta.url),
+);
+
 export default defineConfig({
+    root: fileURLToPath(new URL(".", import.meta.url)),
     srcDir: "./src",
-    outDir: "../../../dist/packages/just/maintenance",
+    outDir: resolvedOutDir,
+    cacheDir: "../../../node_modules/.vite/packages/just/maintenance",
     vite: {
+        build: {
+            outDir: resolvedOutDir,
+            emptyOutDir: true,
+        },
         server: {
             host: "0.0.0.0",
             fs: {
-                allow: ["../../../node_modules", "../branding/assets"],
+                // eslint-disable-next-line node/prefer-global/process
+                allow: [process.cwd(), "../../../node_modules", "../branding/assets"],
             },
         },
-        cacheDir: "../../../node_modules/.vite/packages/just/maintenance",
+        plugins: [nxViteTsPaths(), tailwindcss()],
     },
-    integrations: [tailwind({ applyBaseStyles: false })],
 });

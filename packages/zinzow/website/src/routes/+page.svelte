@@ -85,15 +85,10 @@
                     fadeInBottom,
                     aHoverAnimation,
                     `
-                        before-bg-black
+                        inline-block cursor-default text-2xl font-bold text-black
+                        transition-[color,background-size,scale]! text-shadow-black/20
+                        text-shadow-lg
                         before:h-0.75
-                        hover:before:bg-black
-                        dark:before:bg-gray-100
-                        dark:hover:before:bg-gray-100!
-                    `,
-                    `
-                        inline-block cursor-default text-2xl font-bold text-black transition-all
-                        text-shadow-black/20 text-shadow-lg
                         hover:scale-105 hover:text-shadow-black/25
                         md:text-3xl
                         dark:text-gray-100 dark:text-shadow-gray-400/20

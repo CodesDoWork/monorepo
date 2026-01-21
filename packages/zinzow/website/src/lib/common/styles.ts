@@ -11,7 +11,7 @@ export const headlineBaseClasses = clsx(
 export const aHoverAnimation = clsx(
     `
         bg-[linear-gradient(currentColor,currentColor)] bg-size-[0_2px] bg-bottom-right bg-no-repeat
-        transition-[color,background-size]! duration-500
+        transition-[color,background-size] duration-500
         hover:bg-size-[100%_2px] hover:bg-bottom-left
     `,
 );
@@ -42,7 +42,6 @@ export const stylesMap = {
             text-primary
             hover:text-primary-900
             dark:hover:text-primary-400
-            transition-colors
         `,
         aHoverAnimation,
     ),

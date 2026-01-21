@@ -1,9 +1,16 @@
+type PreserveNullable<U, T> =
+    | U
+    | (T extends null ? null : never)
+    | (T extends undefined ? undefined : never);
+
 interface ObjectWithTranslations {
     translations?: (object | null)[] | null;
 }
 
 type TransOf<T extends ObjectWithTranslations> =
-    T["translations"] extends Array<infer E> ? E : never;
+    NonNullable<T["translations"]> extends Array<infer E>
+        ? PreserveNullable<E, T["translations"]>
+        : never;
 
 type NextLevel<L extends number> = L extends 1
     ? 2
@@ -17,10 +24,14 @@ type NextLevel<L extends number> = L extends 1
 
 export type FlatTrans<T, L extends number = 1> = L extends 5
     ? T
-    : T extends Array<infer E>
-      ? FlatTrans<E, NextLevel<L>>[]
-      : T extends ObjectWithTranslations
-        ? FlatTrans<Omit<T, "translations">, NextLevel<L>> & TransOf<T>
+    : NonNullable<T> extends Array<infer E>
+      ? PreserveNullable<FlatTrans<E, NextLevel<L>>[], T>
+      : NonNullable<T> extends ObjectWithTranslations
+        ? PreserveNullable<
+              FlatTrans<Omit<NonNullable<T>, "translations">, NextLevel<L>> &
+                  TransOf<NonNullable<T>>,
+              T
+          >
         : {
               [K in keyof T]: FlatTrans<T[K]>;
           };

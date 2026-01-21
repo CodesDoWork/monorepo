@@ -41,9 +41,10 @@
         <button
             class={clsx(
                 `
-                    hover:bg-primary-400/50 hover:text-black hover:shadow-md
+                    hover:bg-primary-400/50
                     hover:dark:bg-primary-600/50
-                    rounded px-3 py-2 shadow transition
+                    rounded-sm px-3 py-2 shadow-sm transition
+                    hover:text-black hover:shadow-md
                     dark:hover:text-white
                 `,
                 selectedIdx === idx
@@ -52,8 +53,10 @@
                         dark:bg-primary-600/40
                     `
                     : `
-                        bg-primary-400/10 text-slate-600
-                        dark:bg-primary-600/10 dark:text-slate-300
+                        bg-primary-400/10
+                        dark:bg-primary-600/10
+                        text-slate-600
+                        dark:text-slate-300
                     `,
             )}
             onclick={() => {
@@ -66,7 +69,7 @@
 <div class="relative mt-4 h-56">
     {#key selectedType.name}
         <div
-            class="absolute h-full w-full"
+            class="absolute size-full"
             in:fly={{ x: slideBy * transitionFactor }}
             out:fly={{ x: -slideBy * transitionFactor }}>
             <PersonalityDisplay {...selectedType.properties} />

@@ -3,6 +3,11 @@
     "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/just/music/marketplace/src",
     "projectType": "application",
-    "targets": {},
+    "targets": {
+        "build": {
+            "dependsOn": ["just-music-download-addon:zip"]
+        }
+    },
+    "implicitDependencies": ["just-music-download-addon"],
     "tags": ["just-music-marketplace"]
 }

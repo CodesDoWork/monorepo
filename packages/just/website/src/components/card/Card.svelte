@@ -26,9 +26,10 @@
                 animate-fadeIn flex rounded-lg bg-gray-100/90 opacity-0 shadow-md outline
                 outline-stone-200 transition-all
                 hover:shadow-lg
-                dark:bg-gray-50/10 dark:outline-0 dark:hover:bg-gray-50/13 dark:hover:outline-0
+                dark:bg-gray-50/10 dark:outline-0
+                dark:hover:bg-gray-50/13 dark:hover:outline-0
             `,
-            safeBg ? "hover:bg-gray-100/100" : "hover:bg-gray-100/65",
+            safeBg ? "hover:bg-gray-100" : "hover:bg-gray-100/65",
             padding &&
                 `
                     p-4

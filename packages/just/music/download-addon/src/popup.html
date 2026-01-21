@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="./tailwind.css" />
+    </head>
+    <body class="w-120 bg-white p-4 shadow-lg">
+        <div id="app" class="space-y-4">
+            <h1 class="border-b pb-2 text-xl font-bold text-gray-800">Downloader</h1>
+
+            <div>
+                <label class="block text-sm font-medium text-gray-600">Video URL</label>
+                <input
+                    id="urlInput"
+                    type="text"
+                    class="focus:border-primary focus:ring-primary mt-1 block w-full rounded-md border border-gray-300 p-2 shadow-sm sm:text-sm" />
+            </div>
+
+            <button
+                id="downloadBtn"
+                class="hover:bg-primary-600 focus:ring-primary bg-primary flex w-full justify-center rounded-md border border-transparent px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none">
+                Download Now
+            </button>
+
+            <div id="status" class="min-h-4 text-center text-xs"></div>
+        </div>
+        <div class="mt-4">
+            <label class="text-xs font-semibold text-slate-500 uppercase">Live Logs</label>
+            <div
+                id="logContainer"
+                class="mt-1 h-32 w-full overflow-y-auto rounded border border-slate-700 bg-slate-900 p-2 font-mono text-[10px] text-green-400">
+                <div id="logContent">> Waiting for start...</div>
+            </div>
+        </div>
+        <script type="module" src="./popup.ts"></script>
+    </body>
+</html>

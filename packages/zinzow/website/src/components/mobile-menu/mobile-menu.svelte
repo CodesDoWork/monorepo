@@ -42,9 +42,10 @@
         class={clsx(
             $menuAnimation,
             `
-                bg-primary fixed inset-y-0 right-0 z-10 min-w-56 overflow-y-auto p-6
-                text-(--onPrimary) shadow-lg
+                bg-primary
                 dark:bg-primary-800
+                fixed inset-y-0 right-0 z-10 min-w-56 overflow-y-auto p-6 text-(--onPrimary)
+                shadow-lg
                 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10
             `,
         )}>

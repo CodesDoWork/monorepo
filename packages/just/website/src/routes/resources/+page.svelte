@@ -33,9 +33,10 @@
                                 target="_blank"
                                 class="
                                     grid grid-cols-[auto_1fr_auto] items-center gap-x-4 rounded-md
-                                    bg-white p-4 shadow transition
+                                    bg-white p-4 shadow-sm transition
                                     hover:bg-slate-50 hover:shadow-md
-                                    dark:bg-black/20 dark:hover:bg-black/30
+                                    dark:bg-black/20
+                                    dark:hover:bg-black/30
                                 ">
                                 <div class="row-span-2">
                                     <Icon icon="mdi-light:file" class="size-12" />

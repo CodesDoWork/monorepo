@@ -24,7 +24,7 @@
     <button onclick={() => rotateImageBy(-1)}>
         <Icon
             icon="mingcute:left-line"
-            class={clsx(iconClass, "lg:-left-8 lg:-translate-x-1/2 lg:-translate-y-1/2")} />
+            class={clsx(iconClass, "lg:-left-8 lg:-translate-1/2")} />
     </button>
     <button onclick={() => rotateImageBy(1)}>
         <Icon

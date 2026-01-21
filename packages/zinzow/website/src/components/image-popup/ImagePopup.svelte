@@ -67,8 +67,6 @@
     use:nonpassive={["wheel", () => handleWheel]}
     onmousemove={handleDragOver}
     onmouseup={() => (dragDialogImage = false)} />
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
     open={isOpen}
     class="fixed inset-0 z-50 h-screen w-screen bg-black/85"
@@ -81,8 +79,8 @@
         id="image-container"
         sourceClass="left-1/2 right-auto -translate-x-1/2"
         class="
-            absolute! top-1/2 left-1/2 h-[80vh] max-h-[80vh] w-[80vw] max-w-[80vw] -translate-x-1/2
-            -translate-y-1/2 overflow-hidden rounded-lg
+            absolute! top-1/2 left-1/2 h-[80vh] max-h-[80vh] w-[80vw] max-w-[80vw] -translate-1/2
+            overflow-hidden rounded-lg
         "
         imgClass={clsx(
             zoom > 1 ? (dragDialogImage ? "cursor-grabbing" : "cursor-grab") : "cursor-default",

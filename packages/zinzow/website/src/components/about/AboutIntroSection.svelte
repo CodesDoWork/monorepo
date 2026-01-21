@@ -38,9 +38,12 @@
         class="
             mx-auto mt-8 grid max-w-64 grid-flow-col grid-cols-2 gap-x-3 overflow-hidden
             *:w-full *:space-y-3
-            sm:max-w-none sm:gap-x-12 sm:px-24 sm:*:space-y-12
-            md:mt-0 md:gap-x-6 md:px-0 md:*:space-y-6
-            lg:gap-x-8 lg:*:space-y-8
+            sm:max-w-none sm:gap-x-12 sm:px-24
+            sm:*:space-y-12
+            md:mt-0 md:gap-x-6 md:px-0
+            md:*:space-y-6
+            lg:gap-x-8
+            lg:*:space-y-8
         ">
         <div
             class="

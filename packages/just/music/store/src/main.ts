@@ -1,4 +1,5 @@
 import { join } from "node:path";
+import { isMusicFile } from "@cdw/monorepo/just-music-utils";
 import { logger } from "@cdw/monorepo/shared-logging";
 import { watchDirs } from "@cdw/monorepo/shared-utils/file-watcher";
 import { env } from "./env";
@@ -18,6 +19,10 @@ watchDirs(
 );
 
 function add(path: string) {
+    if (!isMusicFile(path)) {
+        return;
+    }
+
     if (!initialScan.done) {
         initialScan.incrementPending();
     }
@@ -40,7 +45,9 @@ function add(path: string) {
 }
 
 function remove(path: string) {
-    removeFromStoreIfLastLink(path);
+    if (isMusicFile(path)) {
+        removeFromStoreIfLastLink(path);
+    }
 }
 
 function ready() {

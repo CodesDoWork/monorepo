@@ -38,7 +38,8 @@
                     *:space-y-4
                     sm:grid-cols-2
                     md:px-0
-                    lg:gap-x-8 lg:*:space-y-8
+                    lg:gap-x-8
+                    lg:*:space-y-8
                 ">
                 <ul
                     class="

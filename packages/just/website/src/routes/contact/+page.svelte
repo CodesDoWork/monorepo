@@ -21,10 +21,11 @@
 
     const inputClass = clsx(
         `
-            rounded-md border-0 bg-white p-2 shadow outline outline-stone-200 transition
+            rounded-md border-0 bg-white p-2 shadow-sm outline outline-stone-200 transition
             placeholder:text-slate-400
             focus:shadow-md focus:outline-2
-            dark:bg-white/10 dark:outline-0 dark:outline-slate-500 dark:placeholder:text-slate-300
+            dark:bg-white/10 dark:outline-0 dark:outline-slate-500
+            dark:placeholder:text-slate-300
             dark:focus:outline-1
         `,
     );
@@ -105,9 +106,11 @@
             <button
                 class={clsx(
                     `
-                        bg-pageColor col-span-2 cursor-pointer rounded-md p-2 text-white shadow-sm
+                        bg-pageColor
+                        hover:bg-pageColor-600
+                        col-span-2 cursor-pointer rounded-md p-2 text-white shadow-sm
                         transition-[background,box-shadow]
-                        hover:bg-pageColor-600 hover:shadow-md
+                        hover:shadow-md
                         active:brightness-75
                     `,
                 )}

@@ -13,8 +13,9 @@
 <h1
     class={clsx(
         `
-            text-primary-950 my-16 text-center text-4xl font-bold
+            text-primary-950
             dark:text-primary-500
+            my-16 text-center text-4xl font-bold
         `,
         className,
     )}>

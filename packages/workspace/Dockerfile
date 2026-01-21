@@ -18,6 +18,8 @@ RUN apk add --no-cache \
     # Java JRE for Sonar Scanner
     openjdk25-jre-headless \
     # Chromium for browser tests like lighthouse or e2e tests
-    chromium
+    chromium \
+    # misc
+    zip
 
 RUN npm i -g @antfu/ni@23.3.1 bun@1.2.2

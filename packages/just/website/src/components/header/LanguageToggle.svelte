@@ -34,8 +34,9 @@
         textColor,
         displayHoverColor,
         `
-            group relative font-mono transition
+            group
             dark:hover:text-secondary-500
+            relative font-mono transition
             hover:drop-shadow-md
         `,
     )}>
@@ -55,14 +56,14 @@
         <ul
             class={clsx(`
                 dark:bg-primary-800
-                rounded bg-white shadow-md
+                rounded-sm bg-white shadow-md
             `)}>
             {#each languages as language}
                 {#if language.code !== currentLanguage.code}
                     <li
                         class={clsx(
                             `
-                                rounded text-black
+                                rounded-sm text-black
                                 dark:text-white
                             `,
                             liHoverColor,

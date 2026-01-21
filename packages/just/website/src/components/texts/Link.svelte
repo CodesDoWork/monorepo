@@ -42,17 +42,22 @@
             "cursor-pointer rounded-md font-mono transition",
             button &&
                 `
-                    hover:bg-accent-500 hover:rotate-3 hover:shadow-lg
+                    hover:bg-accent-500
                     dark:hover:bg-secondary-500/50
                     origin-top-left bg-white p-3 shadow-md
+                    hover:rotate-3 hover:shadow-lg
                     dark:bg-white/10 dark:text-white
                 `,
             !button &&
                 !noStyle &&
                 `
-                    text-pageColor p-1
-                    hover:bg-pageColor hover:text-white
-                    dark:text-pageColor dark:hover:bg-pageColor dark:hover:text-black
+                    text-pageColor
+                    hover:bg-pageColor
+                    dark:text-pageColor
+                    dark:hover:bg-pageColor
+                    p-1
+                    hover:text-white
+                    dark:hover:text-black
                 `,
             className,
         ),

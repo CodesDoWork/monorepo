@@ -39,9 +39,10 @@
                 class={clsx(
                     routeLink === currentRoute && "font-bold underline",
                     `
-                        hover:bg-pageColor hover:text-black
-                        rounded p-2 font-mono leading-none tracking-wide transition-colors
+                        hover:bg-pageColor
+                        rounded-sm p-2 font-mono leading-none tracking-wide transition-colors
                         duration-200
+                        hover:text-black
                     `,
                     aClass,
                 )}>{routeLink.name}</Link>

@@ -112,9 +112,11 @@
 <div
     style={createCssVariables(colors)}
     class="
-        bg-bg relative grid min-h-screen grid-cols-1 grid-rows-[min-content_1fr_min-content]
+        bg-bg
+        dark:bg-bg-950
+        relative grid min-h-screen grid-cols-1 grid-rows-[min-content_1fr_min-content]
         overflow-x-hidden
-        dark:bg-bg-950 dark:text-white
+        dark:text-white
     ">
     <Header {routes} {currentRoute} />
     {#key currentRoute?.name}

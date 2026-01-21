@@ -10,6 +10,6 @@
     const { class: className = "", children }: Props = $props();
 </script>
 
-<li class={clsx(className, "bg-primary rounded-md px-2 py-1 text-white shadow")}>
+<li class={clsx(className, "bg-primary rounded-md px-2 py-1 text-white shadow-sm")}>
     {@render children?.()}
 </li>

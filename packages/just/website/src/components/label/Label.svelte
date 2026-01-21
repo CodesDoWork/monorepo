@@ -13,7 +13,7 @@
 
     const labelClass = $derived(
         clsx(
-            "flex items-center gap-1 rounded p-2",
+            "flex items-center gap-1 rounded-sm p-2",
             highlighted
                 ? `
                     bg-primary-400/30
@@ -28,6 +28,6 @@
 <div class={labelClass}>
     <span>{name}</span>
     {#if icon}
-        <Icon class="h-6 w-6" {icon} />
+        <Icon class="size-6" {icon} />
     {/if}
 </div>

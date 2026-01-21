@@ -33,7 +33,7 @@
 
     const footerClass = $derived(
         clsx(
-            "px-8 py-4 shadow select-none",
+            "px-8 py-4 shadow-sm select-none",
             "text-center font-mono",
             `
                 dark:bg-primary-500/20

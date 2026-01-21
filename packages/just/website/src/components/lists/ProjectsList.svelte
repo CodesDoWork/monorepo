@@ -21,13 +21,13 @@
             title={project.description}
             class="
                 group flex w-min min-w-24 flex-col items-center text-center
-                hover:drop-shadow
+                hover:drop-shadow-sm
             ">
             <DirectusImage
                 img={project.logo}
                 imgClass="object-contain! rounded-full"
                 class="
-                    size-8 rounded-full bg-white shadow
+                    size-8 rounded-full bg-white shadow-sm
                     sm:size-12
                 " />
             <span

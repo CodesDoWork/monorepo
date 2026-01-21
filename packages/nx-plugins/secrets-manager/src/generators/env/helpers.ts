@@ -6,7 +6,7 @@ export function getSecretFieldName(config: SecretEnvConfig): string {
         return config.toLowerCase().replace(/_/g, "");
     }
 
-    return config.field || getSecretFieldName(config.name);
+    return getSecretFieldName(config.field || config.name);
 }
 
 export async function getCipherSecret(cipher: Cipher, field: string): Promise<string | undefined> {

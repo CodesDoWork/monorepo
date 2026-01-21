@@ -66,7 +66,7 @@ export default antfu(
                 },
             ],
             // TODO: Enable linting when plugin supports multiple entry points for monorepo
-            "better-tailwindcss/no-unregistered-classes": "off",
+            "better-tailwindcss/no-unknown-classes": "off",
         },
     },
     ...eslintPluginToml.configs["flat/recommended"],
@@ -93,7 +93,6 @@ export default antfu(
     {
         files: ["**/*.astro"],
         rules: {
-            "tailwindcss/no-custom-classname": "off",
             "format/prettier": "off",
             "prettier/prettier": "off",
         },
@@ -108,10 +107,7 @@ export default antfu(
         files: ["**/*.svelte"],
         rules: {
             "svelte/no-at-html-tags": "off",
-            "svelte/no-unused-svelte-ignore": "off",
             "prettier/prettier": "off",
-            "tailwindcss/no-custom-classname": "off",
-            "tailwindcss/migration-from-tailwind-2": "off",
         },
     },
     {
@@ -147,12 +143,17 @@ export default antfu(
                             ],
                         },
                         {
+                            sourceTag: "just-music-store",
+                            onlyDependOnLibsWithTags: ["shared", "just-music:shared"],
+                        },
+                        {
                             sourceTag: "just-music-marketplace",
                             onlyDependOnLibsWithTags: [
                                 "shared",
                                 "shared-svelte",
                                 "just-music-marketplace",
                                 "just-branding",
+                                "just-music:shared",
                             ],
                         },
                         {

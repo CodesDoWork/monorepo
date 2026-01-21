@@ -15,6 +15,7 @@
             "@cdw/monorepo/just-branding": ["packages/just/branding/src/index.ts"],
             "@cdw/monorepo/just-branding/*": ["packages/just/branding/*"],
             "@cdw/monorepo/just-cms-types": ["packages/just/cms/types/src/index.ts"],
+            "@cdw/monorepo/just-music-utils": ["packages/just/music/utils/src/index.ts"],
             "@cdw/monorepo/nx-plugins-astro": ["packages/nx-plugins/astro/src/index.ts"],
             "@cdw/monorepo/nx-plugins-ci": ["packages/nx-plugins/ci/src/index.ts"],
             "@cdw/monorepo/nx-plugins-codegen": ["packages/nx-plugins/codegen/src/index.ts"],

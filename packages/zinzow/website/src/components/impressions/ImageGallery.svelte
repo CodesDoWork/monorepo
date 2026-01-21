@@ -41,7 +41,7 @@
                     <li class={fadeInBottom} style={animationDelay(delay + imgIdx)}>
                         <button
                             class="
-                                group h-full w-full p-1
+                                group size-full p-1
                                 md:p-2
                             "
                             onclick={() => setClickedSelectedImageIdx(imgIdx)}

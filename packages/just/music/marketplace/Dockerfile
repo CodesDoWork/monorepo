@@ -16,6 +16,8 @@ COPY packages/nx-plugins ./packages/nx-plugins
 COPY packages/shared ./packages/shared
 COPY packages/just ./packages/just
 RUN nx reset
+RUN nx zip just-music-download-addon
+RUN cp dist/packages/just/music/download-addon/dist.zip packages/just/music/marketplace/static/download-addon.zip
 RUN nx build $APP_NAME
 
 

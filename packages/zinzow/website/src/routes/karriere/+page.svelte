@@ -35,9 +35,11 @@
                 class={clsx(
                     fadeInBottom,
                     `
-                        text-primary w-fit origin-left transition-all
-                        hover:text-primary-900 hover:scale-104
+                        text-primary
+                        hover:text-primary-900
                         dark:hover:text-primary-400
+                        w-fit origin-left transition-all
+                        hover:scale-104
                     `,
                 )}
                 style={animationDelay(2 + idx)}>
@@ -82,8 +84,9 @@
         class={clsx(
             fadeInBottom,
             `
-                bg-primary-100 mx-2 mt-16 rounded-md px-6 py-4 shadow-md
+                bg-primary-100
                 dark:bg-primary-900
+                mx-2 mt-16 rounded-md px-6 py-4 shadow-md
                 sm:mx-8
             `,
         )}>

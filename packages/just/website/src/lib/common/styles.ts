@@ -2,8 +2,9 @@ import { clsx } from "clsx";
 
 const headingBaseClasses = clsx(
     `
-        text-pageColor cursor-default font-mono font-bold drop-shadow-sm transition-colors
+        text-pageColor
         dark:text-pageColor
+        cursor-default font-mono font-bold drop-shadow-sm transition-colors
     `,
 );
 
@@ -11,10 +12,9 @@ export const commandStyleClasses = clsx("before:mr-2 before:opacity-75 before:co
 
 export const aHoverAnimation = clsx(
     `
-        bg-[linear-gradient(currentColor,currentColor)]
-        bg-[length:0_2px]
-        bg-right-bottom bg-no-repeat transition-[color,background-size]! duration-500
-        hover:bg-[length:100%_2px] hover:bg-left-bottom
+        bg-[linear-gradient(currentColor,currentColor)] bg-size-[0_2px] bg-bottom-right bg-no-repeat
+        transition-[color,background-size]! duration-500
+        hover:bg-size-[100%_2px] hover:bg-bottom-left
     `,
 );
 
@@ -38,9 +38,10 @@ export const stylesMap = {
     a: clsx(
         textBaseClasses,
         `
-            text-pageColor transition-colors
+            text-pageColor
             hover:text-pageColor-600
             dark:hover:text-pageColor-400
+            transition-colors
         `,
         aHoverAnimation,
     ),
@@ -86,7 +87,7 @@ export const stylesMap = {
     h5: clsx(
         headingBaseClasses,
         `
-            mt-2 mb-2
+            my-2
             lg:text-lg
         `,
     ),

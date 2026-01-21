@@ -2,17 +2,17 @@ import { clsx } from "clsx";
 
 export const headlineBaseClasses = clsx(
     `
-        text-primary font-semibold tracking-tight text-pretty
+        text-primary
         dark:text-primary
+        font-semibold tracking-tight text-pretty
     `,
 );
 
 export const aHoverAnimation = clsx(
     `
-        bg-[linear-gradient(currentColor,currentColor)]
-        bg-[length:0_2px]
-        bg-right-bottom bg-no-repeat transition-[color,background-size]! duration-500
-        hover:bg-[length:100%_2px] hover:bg-left-bottom
+        bg-[linear-gradient(currentColor,currentColor)] bg-size-[0_2px] bg-bottom-right bg-no-repeat
+        transition-[color,background-size]! duration-500
+        hover:bg-size-[100%_2px] hover:bg-bottom-left
     `,
 );
 
@@ -39,9 +39,10 @@ export const stylesMap = {
     a: clsx(
         textBaseClasses,
         `
-            text-primary transition-colors
+            text-primary
             hover:text-primary-900
             dark:hover:text-primary-400
+            transition-colors
         `,
         aHoverAnimation,
     ),
@@ -85,10 +86,12 @@ export const stylesMap = {
     ul: clsx(listBaseClasses, "list-disc"),
     li: clsx(textBaseColorClasses),
     button: clsx(`
-        bg-primary cursor-pointer rounded-md px-3.5 py-2.5 text-center text-sm font-semibold
-        text-white shadow-sm transition-colors duration-100
-        focus-visible:outline-primary focus-visible:outline-2 focus-visible:outline-offset-2
+        bg-primary
         hover:bg-primary-400
+        focus-visible:outline-primary
         dark:hover:bg-primary-600
+        cursor-pointer rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-white
+        shadow-sm transition-colors duration-100
+        focus-visible:outline-2 focus-visible:outline-offset-2
     `),
 };

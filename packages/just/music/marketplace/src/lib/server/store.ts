@@ -1,6 +1,7 @@
 import type { Track } from "../common/track";
 import { statSync } from "node:fs";
 import { join } from "node:path";
+import { isMusicFile } from "@cdw/monorepo/just-music-utils";
 import { createLogger } from "@cdw/monorepo/shared-logging";
 import { watchDirs } from "@cdw/monorepo/shared-utils/file-watcher";
 import { parseFile } from "music-metadata";
@@ -28,14 +29,18 @@ watchDirs(
 );
 
 async function add(path: string) {
+    if (!isMusicFile(path)) {
+        return;
+    }
+
     const inode = getInode(path);
     pathInodes.set(path, inode);
     if (tracks.has(inode)) {
-        tracks.get(inode)?.paths.push(path);
+        pushPath(path, inode);
     } else {
         if (inflight.has(inode)) {
             await inflight.get(inode);
-            tracks.get(inode)?.paths.push(path);
+            pushPath(path, inode);
         } else {
             inflight.set(
                 inode,
@@ -58,7 +63,18 @@ async function add(path: string) {
     }
 }
 
+function pushPath(path: string, inode: number) {
+    const paths = tracks.get(inode)?.paths;
+    if (paths && !paths.includes(path)) {
+        paths.push(path);
+    }
+}
+
 function remove(path: string) {
+    if (!isMusicFile(path)) {
+        return;
+    }
+
     const inode = pathInodes.get(path);
     pathInodes.delete(path);
     if (inode) {

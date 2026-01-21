@@ -132,7 +132,7 @@
         {#each chartData as dataPoint}
             {#if dataPoint.name !== ""}
                 <li class="flex items-center gap-2">
-                    <div class="size-4 rounded" style="background-color: {dataPoint.color}"></div>
+                    <div class="size-4 rounded-sm" style="background-color: {dataPoint.color}"></div>
                     <span class="text-sm">{dataPoint.name}</span>
                 </li>
             {/if}

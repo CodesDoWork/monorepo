@@ -26,9 +26,11 @@
             m-5 mb-0! cursor-pointer transition-all!
             group-hover:mt-3 group-hover:mb-6 group-hover:text-(--hover-color)
             sm:group-hover:mt-2 sm:group-hover:mb-8
-            md:mx-6! md:mt-6! md:group-hover:mt-4!
+            md:mx-6! md:mt-6!
+            md:group-hover:mt-4!
             lg:group-hover:mt-3!
-            dark:text-white dark:group-hover:text-(--hover-color)
+            dark:text-white
+            dark:group-hover:text-(--hover-color)
         `,
     );
 </script>
@@ -54,7 +56,7 @@
             ">
             <Icon
                 class="
-                    animate-fadeInSubtle h-full w-full opacity-0 drop-shadow transition
+                    animate-fadeInSubtle size-full opacity-0 drop-shadow-sm transition
                     hover:text-(--hover-color)
                 "
                 icon={social.icon}
@@ -75,21 +77,21 @@
             style={`--hover-color: ${findRouteColor(navLink.route)}; ${animationDelay(idx)}`}
             safeBg
             class="
-                !hover:outline-0
                 group flex h-16 border-l-4 border-(--hover-color) outline-0!
-                hover:border-l-8
+                hover:border-l-8 hover:outline-0!
                 md:h-20
             ">
             <Link
                 title={navLink.name}
                 noStyle
-                class="flex h-full w-full flex-col"
+                class="flex size-full flex-col"
                 href={navLink.route}>
                 <H3 class={headingClass}>{navLink.name}</H3>
                 <p
                     class="
                         text-0 ml-4 h-0 text-slate-600 transition-[font-size]
-                        sm:ml-5 sm:group-hover:text-sm
+                        sm:ml-5
+                        sm:group-hover:text-sm
                         md:ml-6
                         lg:group-hover:text-base
                         dark:text-slate-300

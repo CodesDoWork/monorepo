@@ -1,0 +1,13 @@
+{
+    "name": "just-music-download-addon",
+    "$schema": "../../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/music/download-addon/src",
+    "projectType": "application",
+    "tags": ["just-music-download-addon"],
+    "targets": {
+        "zip": {
+            "command": "cd dist/packages/just/music/download-addon && zip -r -x=dist.zip dist.zip .",
+            "dependsOn": ["build"]
+        }
+    }
+}

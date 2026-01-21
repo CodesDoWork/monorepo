@@ -37,7 +37,7 @@
     const headerClass = $derived(
         clsx(
             `
-                px-8 py-4 shadow
+                px-8 py-4 shadow-sm
                 lg:pr-40
             `,
             `
@@ -58,8 +58,9 @@
                 {#if backButton}
                     <Link
                         class="
-                            hover:bg-pageColor! hover:text-white!
+                            hover:bg-pageColor!
                             m-0 mr-4 inline-block p-1 text-white!
+                            hover:text-white!
                         "
                         href={currentRoute?.route}
                         title={currentRoute?.name}>
@@ -84,7 +85,7 @@
                     lg:hidden
                 "
                 onclick={() => (isMobileNavVisible = !isMobileNavVisible)}>
-                <Icon class="h-6 w-6" icon="material-symbols:menu" />
+                <Icon class="size-6" icon="material-symbols:menu" />
             </button>
             {#if isMobileNavVisible}
                 <button
@@ -102,8 +103,10 @@
                     "
                     onLinkClick={() => (isMobileNavVisible = false)}
                     aClass={clsx(`
-                        bg-primary block rounded-md py-3 pr-4 pl-12 text-nowrap text-black
-                        dark:hover:bg-pageColor dark:bg-black/10 dark:text-white
+                        bg-primary
+                        dark:hover:bg-pageColor
+                        block rounded-md py-3 pr-4 pl-12 text-nowrap text-black
+                        dark:bg-black/10 dark:text-white
                     `)}
                     liClass="animate-fadeInTopSubtle opacity-0 px-4"
                     {routes}

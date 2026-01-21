@@ -34,7 +34,7 @@
                     class={clsx(
                         fadeInBottom,
                         `
-                            size-24 rounded
+                            size-24 rounded-sm
                             md:size-32
                         `,
                     )}
@@ -66,14 +66,17 @@
                             class={clsx(
                                 fadeInBottom,
                                 `
-                                    group/nav-item relative transition-all
-                                    hover:text-primary hover:scale-105
+                                    group/nav-item
+                                    hover:text-primary
                                     dark:hover:text-primary-200
+                                    relative transition-all
+                                    hover:scale-105
                                 `,
                                 currentRoute?.path.startsWith(route.path)
                                     ? `
-                                        text-primary scale-105
+                                        text-primary
                                         dark:text-primary-200
+                                        scale-105
                                     `
                                     : `
                                         scale-100 text-gray-900

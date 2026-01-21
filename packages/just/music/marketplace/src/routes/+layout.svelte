@@ -11,9 +11,11 @@
 
 <div
     class="
-        from-primary-400 to-secondary-400 relative min-h-screen overflow-x-hidden bg-linear-to-b
-        from-5% to-95% text-gray-800 transition-colors
-        dark:from-primary-950 dark:to-secondary-950 dark:text-gray-200
+        from-primary-400 to-secondary-400
+        dark:from-primary-950 dark:to-secondary-950
+        relative min-h-screen overflow-x-hidden bg-linear-to-b from-5% to-95% text-gray-800
+        transition-colors
+        dark:text-gray-200
     ">
     <main class="mx-auto max-w-7xl">
         {@render children?.()}

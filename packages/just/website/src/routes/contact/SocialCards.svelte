@@ -30,17 +30,19 @@
                 class="
                     grid w-full grid-cols-[auto_1fr] p-4 transition-all
                     hover:pt-3 hover:pb-5
-                    sm:p-5 sm:hover:pb-7
-                    md:h-20 md:p-6 md:hover:pt-4
+                    sm:p-5
+                    sm:hover:pb-7
+                    md:h-20 md:p-6
+                    md:hover:pt-4
                     lg:hover:pt-3
                 "
                 href={social.href}
                 title={social.title}>
                 <Icon
                     class="
-                        row-span-2 mr-4 h-8 w-8 transition-colors
+                        row-span-2 mr-4 size-8 transition-colors
                         group-hover:text-(--hover-color)
-                        sm:h-10 sm:w-10
+                        sm:size-10
                     "
                     icon={social.icon} />
                 <H5

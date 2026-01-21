@@ -17,7 +17,7 @@
     const buttonClass = $derived(
         clsx(
             `
-                bg-pageColor fixed right-4 bottom-4 z-20 rounded px-2 py-1 text-sm font-bold
+                bg-pageColor fixed right-4 bottom-4 z-20 rounded-sm px-2 py-1 text-sm font-bold
                 transition-all duration-500
             `,
             hidden && "invisible opacity-0",

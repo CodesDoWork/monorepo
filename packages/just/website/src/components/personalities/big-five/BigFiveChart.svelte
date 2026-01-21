@@ -49,7 +49,7 @@
     <svg
         bind:clientWidth={chartWidth}
         bind:clientHeight={chartHeight}
-        class="h-full w-full overflow-visible"
+        class="size-full overflow-visible"
         viewBox={`0 0 ${chartWidth} ${chartHeight}`}
         preserveAspectRatio="none">
         <rect class="w-full fill-sky-700/70" y={getY(80)} height={getY(70) - getY(80)} />

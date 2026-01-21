@@ -57,14 +57,15 @@
             <P
                 class="
                     self-center text-right text-sm
-                    md:self-end md:pt-2 md:text-center md:transition-all md:group-hover:pt-0
-                    md:group-hover:pb-2 md:group-hover:text-gray-950
+                    md:self-end md:pt-2 md:text-center md:transition-all
+                    md:group-hover:pt-0 md:group-hover:pb-2 md:group-hover:text-gray-950
                     md:dark:group-hover:text-gray-50
                 ">{step.date}</P>
             <div
                 class="
                     relative mx-1 transition-all
-                    md:mx-0 md:my-0.5 md:group-hover:-my-1.5
+                    md:mx-0 md:my-0.5
+                    md:group-hover:-my-1.5
                 ">
                 <div class={verticalLineClass}></div>
                 <div
@@ -74,10 +75,7 @@
                     ">
                 </div>
                 <div
-                    class="
-                        bg-primary absolute top-1/2 left-1/2 size-3 -translate-x-1/2
-                        -translate-y-1/2 rounded-full
-                    ">
+                    class="bg-primary absolute top-1/2 left-1/2 size-3 -translate-1/2 rounded-full">
                 </div>
             </div>
             <P
@@ -85,8 +83,8 @@
                 class="
                     my-2 self-center
                     md:mx-2 md:my-0 md:self-start md:pb-2 md:text-center md:hyphens-auto
-                    md:transition-all md:group-hover:pt-2 md:group-hover:pb-0
-                    md:group-hover:text-gray-950
+                    md:transition-all
+                    md:group-hover:pt-2 md:group-hover:pb-0 md:group-hover:text-gray-950
                     lg:mx-4
                     md:dark:group-hover:text-gray-50
                 ">{step.description}</P>

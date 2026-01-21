@@ -221,7 +221,7 @@
             <button
                 aria-label="toggle background"
                 onclick={() => (showDetail = !showDetail)}
-                class="absolute h-full w-full rounded-full bg-sky-500 align-middle">
+                class="absolute size-full rounded-full bg-sky-500 align-middle">
             </button>
             <button
                 aria-label="toggle foreground"

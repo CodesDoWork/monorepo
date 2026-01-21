@@ -101,9 +101,9 @@
 
     const backgroundClass = clsx(
         `
-            bg-primary-400 from-primary-400 to-secondary-400 bg-linear-to-b from-5% to-95%
-            transition-colors
+            bg-primary-400 from-primary-400 to-secondary-400
             dark:bg-primary-950 dark:from-primary-950 dark:to-secondary-950
+            bg-linear-to-b from-5% to-95% transition-colors
         `,
     );
     $effect(() => {

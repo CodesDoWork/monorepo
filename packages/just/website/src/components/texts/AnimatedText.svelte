@@ -22,7 +22,7 @@
         clsx(
             "after:ml-2 after:opacity-50 after:content-['▌']",
             writingDone && blinkCursor && "after:animate-blink",
-            writingDone && !blinkCursor && "after:!content-none",
+            writingDone && !blinkCursor && "after:content-none!",
             className,
         ),
     );

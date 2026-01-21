@@ -95,8 +95,7 @@
                 </div>
                 <div
                     class="
-                        absolute top-1/2 size-4 -translate-x-1/2 -translate-y-1/2 rounded-full
-                        border-2 border-white
+                        absolute top-1/2 size-4 -translate-1/2 rounded-full border-2 border-white
                     "
                     style="background-color: {dataPoint.color}; left: {dataPoint.value.current}%;">
                 </div>

@@ -1,7 +1,7 @@
 import browser from "webextension-polyfill";
 
 // --- Configuration & Constants ---
-const API_BASE = "http://localhost:4200/api";
+const API_BASE = import.meta.env.VITE_API_URL;
 const ENDPOINTS = {
     download: `${API_BASE}/download`,
     status: (id: string) => `${API_BASE}/download/status/${id}`,

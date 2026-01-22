@@ -33,47 +33,51 @@ async function add(path: string) {
         return;
     }
 
+    logger.info(`New file: ${path}`);
+
     const inode = getInode(path);
     pathInodes.set(path, inode);
     if (tracks.has(inode)) {
-        pushPath(path, inode);
+        ingestSong(path, inode, tracks.get(inode)?.paths);
     } else {
         if (inflight.has(inode)) {
             await inflight.get(inode);
-            pushPath(path, inode);
+            const paths = tracks.get(inode)?.paths;
+            if (paths && !paths.includes(path)) {
+                paths.push(path);
+            }
         } else {
-            inflight.set(
-                inode,
-                new Promise<void>(resolve => {
-                    parseFile(path).then(metadata => {
-                        const { common, format } = metadata;
-                        const { title, artist, genre, year, album } = common;
-                        const { bitrate, duration } = format;
-                        tracks.set(inode, {
-                            paths: [path],
-                            meta: { title, artist, genre, year, album, bitrate, duration },
-                        });
-                        resolve();
-                    });
-                }).finally(() => {
-                    inflight.delete(inode);
-                }),
-            );
+            ingestSong(path, inode);
         }
     }
 }
 
-function pushPath(path: string, inode: number) {
-    const paths = tracks.get(inode)?.paths;
-    if (paths && !paths.includes(path)) {
-        paths.push(path);
-    }
+function ingestSong(path: string, inode: number, paths?: string[]) {
+    inflight.set(
+        inode,
+        new Promise<void>(resolve => {
+            parseFile(path).then(metadata => {
+                const { common, format } = metadata;
+                const { title, artist, genre, year, album } = common;
+                const { bitrate, duration } = format;
+                tracks.set(inode, {
+                    paths: paths ? [...paths, path] : [path],
+                    meta: { title, artist, genre, year, album, bitrate, duration },
+                });
+                resolve();
+            });
+        }).finally(() => {
+            inflight.delete(inode);
+        }),
+    );
 }
 
 function remove(path: string) {
     if (!isMusicFile(path)) {
         return;
     }
+
+    logger.info(`Removed file: ${path}`);
 
     const inode = pathInodes.get(path);
     pathInodes.delete(path);

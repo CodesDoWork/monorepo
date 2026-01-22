@@ -32,11 +32,15 @@
 </script>
 
 {#if isLoading}
-    <Card padding class="flex w-fit items-center gap-3 text-xl">
-        <Icon icon="eos-icons:bubble-loading" class="size-6" />
-        <span>Loading{".".repeat(dots)}{@html "&nbsp;".repeat(3 - dots)}</span>
-    </Card>
-    <p class={clsx("mt-4", smallTextClass)}>This page automatically refreshes every 3 seconds.</p>
+    <section>
+        <Card padding class="flex w-fit items-center gap-3 text-xl">
+            <Icon icon="eos-icons:bubble-loading" class="size-6" />
+            <span>Loading{".".repeat(dots)}{@html "&nbsp;".repeat(3 - dots)}</span>
+        </Card>
+        <p class={clsx("mt-4", smallTextClass)}>
+            This page automatically refreshes every 3 seconds.
+        </p>
+    </section>
 {:else}
     {@render children()}
 {/if}

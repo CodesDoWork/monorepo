@@ -20,8 +20,6 @@ Thumbs.db
 
 # misc
 /.nx
-.astro
-.next
 .svelte-kit
 .wrangler
 .env

@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { LanguageFragment } from "../../graphql/default/generated/graphql";
     import type { Route } from "../../routes/types";
+    import { refreshAll } from "$app/navigation";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
 
@@ -22,7 +23,7 @@
     );
 
     const selectLanguage = (language: LanguageFragment) => {
-        fetch(`/api/setLanguage/${language.code}`).then(() => window.location.reload());
+        fetch(`/api/setLanguage/${language.code}`).then(() => refreshAll());
     };
 
     let isSelectionVisible = $state(false);

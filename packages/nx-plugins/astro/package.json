@@ -1,8 +1,0 @@
-{
-    "name": "nx-plugins-astro",
-    "type": "commonjs",
-    "private": true,
-    "main": "./src/index.ts",
-    "typings": "./src/index.ts",
-    "executors": "./executors.json"
-}

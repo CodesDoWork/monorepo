@@ -15,7 +15,7 @@
     $effect(() => addJsonLdThings(jsonLdThings));
 </script>
 
-<P>{resources.info}</P>
+<P>{resources?.info}</P>
 <ul class="mt-8 space-y-4">
     {#each sections as section, idx (idx)}
         <li>

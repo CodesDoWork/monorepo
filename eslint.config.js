@@ -161,10 +161,13 @@ export default antfu(
                             onlyDependOnLibsWithTags: [
                                 "shared",
                                 "shared-svelte",
-                                "just-cms",
                                 "just-website",
                                 "just-branding",
                             ],
+                        },
+                        {
+                            sourceTag: "just-food",
+                            onlyDependOnLibsWithTags: ["shared", "shared-svelte", "just-branding"],
                         },
                         {
                             sourceTag: "svelte",

@@ -16,6 +16,8 @@
         "clsx": "^2.1.1",
         "color": "^5.0.3",
         "dotenv": "^17.2.3",
+        "hyparquet": "^1.24.0",
+        "hyparquet-compressors": "^1.1.1",
         "iconify-icon": "3.0.2",
         "leaflet": "^1.9.4",
         "mermaid": "~11.12.2",
@@ -2748,6 +2750,8 @@
 
     "fx-runner": ["fx-runner@1.4.0", "", { "dependencies": { "commander": "2.9.0", "shell-quote": "1.7.3", "spawn-sync": "1.0.15", "when": "3.7.7", "which": "1.2.4", "winreg": "0.0.12" }, "bin": { "fx-runner": "bin/fx-runner" } }, "sha512-rci1g6U0rdTg6bAaBboP7XdRu01dzTAaKXxFf+PUqGuCv6Xu7o8NZdY1D5MvKGIjb6EdS1g3VlXOgksir1uGkg=="],
 
+    "fzstd": ["fzstd@0.1.1", "", {}, "sha512-dkuVSOKKwh3eas5VkJy1AW1vFpet8TA/fGmVA5krThl8YcOVE/8ZIoEA1+U1vEn5ckxxhLirSdY837azmbaNHA=="],
+
     "generator-function": ["generator-function@2.0.1", "", {}, "sha512-SFdFmIJi+ybC0vjlHN0ZGVGHc3lgE0DxPAT0djjVg+kjOnSqclqmj0KQ7ykTOLP6YxoqOvuAODGdcHJn+43q3g=="],
 
     "gensync": ["gensync@1.0.0-beta.2", "", {}, "sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg=="],
@@ -2899,6 +2903,12 @@
     "human-signals": ["human-signals@8.0.1", "", {}, "sha512-eKCa6bwnJhvxj14kZk5NCPc6Hb6BdsU9DZcOnmQKSnO1VKrfV0zCvtttPZUsBvjmNDn8rpcJfpwSYnHBjc95MQ=="],
 
     "husky": ["husky@9.1.7", "", { "bin": { "husky": "bin.js" } }, "sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA=="],
+
+    "hyparquet": ["hyparquet@1.24.0", "", {}, "sha512-w9TL/dSK/55kPUQcxryhwVisp4fxSq3xDoDz/MNYjoomVMFsh/mLK+BA3xxpRuoPTyxLJRnlRQJt6IZ9bXgOcA=="],
+
+    "hyparquet-compressors": ["hyparquet-compressors@1.1.1", "", { "dependencies": { "fzstd": "0.1.1", "hysnappy": "1.0.0" } }, "sha512-yx7aA3Rhj0YycbdV71+XznQSLAefa4cT0urpgNXy4aM6eSeCknaVDNne8y45Uz74Fb15yyXUzOStlceOJBan7A=="],
+
+    "hysnappy": ["hysnappy@1.0.0", "", {}, "sha512-MNrC4NfwDGPb889O6gIfEtbvEZCSWUsSEhsz4Oq2FRcpGtXHfeVz3KciSPp5Pnnz1NjFMgDQNfxdJozymJEDDA=="],
 
     "iconify-icon": ["iconify-icon@3.0.2", "", { "dependencies": { "@iconify/types": "^2.0.0" } }, "sha512-DYPAumiUeUeT/GHT8x2wrAVKn1FqZJqFH0Y5pBefapWRreV1BBvqBVMb0020YQ2njmbR59r/IathL2d2OrDrxA=="],
 

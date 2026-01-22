@@ -1,0 +1,20 @@
+{
+    "name": "just-food",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/food/src",
+    "projectType": "application",
+    "tags": ["just-food"],
+    "targets": {
+        "lighthouse": {
+            "executor": "@cdw/monorepo/nx-plugins-lighthouse:lighthouse",
+            "options": {
+                "url": "${URL}"
+            },
+            "configurations": {
+                "development": {
+                    "enabled": false
+                }
+            }
+        }
+    }
+}

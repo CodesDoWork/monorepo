@@ -30,10 +30,10 @@ export const load: PageServerLoad = async ({ parent }) => {
 function transformSection(section: FlatTrans<GetResourcesServerDataQuery>["sections"][0]) {
     return {
         ...section,
-        description: formatWYSIWYG(stylesMap, section.description),
-        items: section.items.map(item => ({
+        description: formatWYSIWYG(stylesMap, section.description ?? ""),
+        items: section.items?.map(item => ({
             ...item,
-            file: assetUrl(env.CMS_URL, item.file.id, { download: true }),
+            file: item?.file ? assetUrl(env.CMS_URL, item.file.id, { download: true }) : undefined,
         })),
     };
 }
@@ -44,16 +44,19 @@ function createJsonLdThings(
 ): Thing[] {
     const { siteInfo } = parentData;
     return sections.flatMap(section =>
-        section.items.map(item => ({
-            "@type": "DigitalDocument",
-            name: item.title,
-            description: item.description,
-            inLanguage: "en",
-            url: item.file,
-            author: {
-                "@type": "Person",
-                name: siteInfo.name,
-            },
-        })),
+        (section.items ?? []).map(
+            item =>
+                ({
+                    "@type": "DigitalDocument",
+                    name: item.title,
+                    description: item.description ?? undefined,
+                    inLanguage: "en",
+                    url: item.file,
+                    author: {
+                        "@type": "Person",
+                        name: siteInfo?.name,
+                    },
+                }) satisfies Thing,
+        ),
     );
 }

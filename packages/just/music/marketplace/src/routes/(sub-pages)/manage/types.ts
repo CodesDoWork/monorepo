@@ -1,4 +1,4 @@
-import type { Track } from "../../lib/common/track";
+import type { Track } from "../../../lib/common/track";
 
 export interface IndexedTrack extends Track {
     idx: number;

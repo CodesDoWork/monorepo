@@ -1,8 +1,0 @@
-{
-    "name": "nx-plugins-astro",
-    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/nx-plugins/astro/src",
-    "projectType": "library",
-    "tags": ["nx-plugins"],
-    "targets": {}
-}

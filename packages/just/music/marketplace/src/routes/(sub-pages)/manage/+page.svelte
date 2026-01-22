@@ -3,13 +3,11 @@
     import type { IndexedTrack } from "./types";
     import { enhance } from "$app/forms";
     import { CheckboxWithLabel, Input } from "@cdw/monorepo/shared-svelte-components/forms";
+    import { VirtualList } from "@cdw/monorepo/shared-svelte-components/virtual-list";
     import { clsx } from "clsx";
-    import { VirtualList } from "flowbite-svelte";
-    import { BackButton } from "../../components/buttons";
-    import { LoadingBarrier } from "../../components/loading";
-    import { H1 } from "../../components/texts";
-    import { getPairs } from "../../lib/client/get-pairs";
-    import { buttonClass } from "../../lib/common/styles";
+    import { LoadingBarrier } from "../../../components/loading";
+    import { getPairs } from "../../../lib/client/get-pairs";
+    import { buttonClass } from "../../../lib/common/styles";
     import { useTrackFilters } from "./filters.svelte";
     import TrackCard from "./TrackCard.svelte";
 
@@ -31,10 +29,12 @@
     });
 </script>
 
-<BackButton />
-<H1>Manage Songs</H1>
 <LoadingBarrier isLoading={!isStoreReady}>
-    <div class="grid grid-cols-[1fr_auto_auto] grid-rows-[auto_1fr] items-center gap-x-6 gap-y-4">
+    <div
+        class="
+            grid h-full min-h-0 grid-cols-[1fr_auto_auto] grid-rows-[auto_1fr] items-center gap-x-6
+            gap-y-4
+        ">
         <span
             class="
                 dark:text-secondary
@@ -49,7 +49,7 @@
         <form
             method="POST"
             action="?/save"
-            class="col-span-3"
+            class="col-span-3 h-full min-h-0"
             use:enhance={({ formData }) => {
                 const selectedTracks: number[] = [];
                 tracks.forEach(track => {
@@ -62,27 +62,23 @@
                 return ({ update }) =>
                     update().then(() => {
                         filters.reset();
-                        tracks = tracks.map(t => ({ ...t, has: selectedTracks.includes(t.idx) }));
+                        tracks = tracks.map(t => {
+                            return { ...t, has: selectedTracks.includes(t.idx) };
+                        });
                     });
             }}>
-            <ul>
-                <VirtualList
-                    height={650}
-                    minItemHeight={139}
-                    classes={{
-                        content: clsx("w-full pb-8"),
-                    }}
-                    items={displayedPairs}>
-                    {#snippet children(pair)}
-                        <div class="grid grid-cols-2">
-                            {#each pair as track}
-                                <TrackCard bind:track={tracks[track.idx] as IndexedTrack} />
-                            {/each}
-                        </div>
-                    {/snippet}
-                </VirtualList>
-            </ul>
-            <button type="submit" class={clsx(buttonClass, "fixed right-8 bottom-8")}>Save</button>
+            <VirtualList itemContainerClass={clsx("last:pb-6")} items={displayedPairs}>
+                {#snippet children(pair)}
+                    <div class="grid grid-cols-2">
+                        {#each pair as track}
+                            <TrackCard bind:track={tracks[track.idx] as IndexedTrack} />
+                        {/each}
+                    </div>
+                {/snippet}
+            </VirtualList>
+            <button type="submit" class={clsx(buttonClass, "fixed right-8 bottom-8")}>
+                Save
+            </button>
         </form>
     </div>
     <aside

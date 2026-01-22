@@ -1,12 +1,7 @@
 <script lang="ts">
     import { clsx } from "clsx";
-    import { BackButton } from "../../components/buttons";
-    import { H1 } from "../../components/texts";
-    import { buttonClass } from "../../lib/common/styles";
+    import { buttonClass } from "../../../lib/common/styles";
 </script>
-
-<BackButton />
-<H1>Downloader</H1>
 
 <div>
     <a class={clsx(buttonClass, "")} href="/download-addon.zip" download="download-addon.zip">

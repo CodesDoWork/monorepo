@@ -1,8 +1,8 @@
-import type { Track } from "../../lib/common/track";
+import type { Track } from "../../../lib/common/track";
 import type { PageServerLoad } from "./$types";
-import { env } from "../../env";
-import { getMusicLib } from "../../lib/server/headers";
-import { getTracks, isStoreReady } from "../../lib/server/store";
+import { env } from "../../../env";
+import { getMusicLib } from "../../../lib/server/headers";
+import { getTracks, isStoreReady } from "../../../lib/server/store";
 
 type MetaKey = keyof Track["meta"];
 
@@ -49,5 +49,5 @@ export const load: PageServerLoad = async ({ request }) => {
         .sort((a, b) => b.warnings.length - a.warnings.length)
         .sort((a, b) => b.errors.length - a.errors.length);
 
-    return { tracks, isStoreReady: isStoreReady(), userLib };
+    return { tracks, isStoreReady: isStoreReady(), userLib, title: "Metadata" };
 };

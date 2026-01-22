@@ -3,9 +3,9 @@
     import { Checkbox } from "@cdw/monorepo/shared-svelte-components/forms";
     import { formatDuration } from "@cdw/monorepo/shared-utils/numbers";
     import clsx from "clsx";
-    import { Card } from "../../components/cards";
-    import { smallTextClass } from "../../lib/common/styles";
-    import { displayTrack } from "../../lib/common/track";
+    import { Card } from "../../../components/cards";
+    import { smallTextClass } from "../../../lib/common/styles";
+    import { displayTrack } from "../../../lib/common/track";
 
     interface Props {
         track: IndexedTrack;

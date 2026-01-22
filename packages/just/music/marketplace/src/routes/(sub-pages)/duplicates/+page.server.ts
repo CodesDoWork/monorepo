@@ -1,7 +1,7 @@
-import type { Track } from "../../lib/common/track";
+import type { Track } from "../../../lib/common/track";
 import type { PageServerLoad } from "./$types";
-import { env } from "../../env";
-import { getTracks, isStoreReady } from "../../lib/server/store";
+import { env } from "../../../env";
+import { getTracks, isStoreReady } from "../../../lib/server/store";
 
 export const load: PageServerLoad = async () => {
     const tracks = getTracks();
@@ -28,5 +28,5 @@ export const load: PageServerLoad = async () => {
         .filter(indices => indices.length > 1)
         .forEach(indices => duplicates.push(indices.map(getTrack)));
 
-    return { duplicates, isStoreReady: isStoreReady() };
+    return { duplicates, isStoreReady: isStoreReady(), title: "Duplicates" };
 };

@@ -1,14 +1,19 @@
 import type { Actions, PageServerLoad } from "./$types";
 import { linkSync, rmSync } from "node:fs";
 import { join } from "node:path";
-import { env } from "../../env";
-import { getSelectedTracks } from "../../lib/common/selected-tracks";
-import { getMusicLib } from "../../lib/server/headers";
-import { getTracks, isStoreReady } from "../../lib/server/store";
+import { env } from "../../../env";
+import { getSelectedTracks } from "../../../lib/common/selected-tracks";
+import { getMusicLib } from "../../../lib/server/headers";
+import { getTracks, isStoreReady } from "../../../lib/server/store";
 
 export const load: PageServerLoad = async ({ request }) => {
     const userLib = getMusicLib(request);
-    return { tracks: getUserTracks(userLib), isStoreReady: isStoreReady(), userLib };
+    return {
+        tracks: getUserTracks(userLib),
+        isStoreReady: isStoreReady(),
+        userLib,
+        title: "Manage Songs",
+    };
 };
 
 export const actions = {

@@ -16,7 +16,6 @@
             "@cdw/monorepo/just-branding/*": ["packages/just/branding/*"],
             "@cdw/monorepo/just-cms-types": ["packages/just/cms/types/src/index.ts"],
             "@cdw/monorepo/just-music-utils": ["packages/just/music/utils/src/index.ts"],
-            "@cdw/monorepo/nx-plugins-astro": ["packages/nx-plugins/astro/src/index.ts"],
             "@cdw/monorepo/nx-plugins-ci": ["packages/nx-plugins/ci/src/index.ts"],
             "@cdw/monorepo/nx-plugins-codegen": ["packages/nx-plugins/codegen/src/index.ts"],
             "@cdw/monorepo/nx-plugins-directus-extensions": [
@@ -40,6 +39,7 @@
             "@cdw/monorepo/shared-directus": ["packages/shared/directus/src/index.ts"],
             "@cdw/monorepo/shared-graphql": ["packages/shared/graphql/src/index.ts"],
             "@cdw/monorepo/shared-logging": ["packages/shared/logging/src/index.ts"],
+            "@cdw/monorepo/shared-svelte-actions": ["packages/shared/svelte/actions/src/index.ts"],
             "@cdw/monorepo/shared-svelte-components": [
                 "packages/shared/svelte/components/src/index.ts"
             ],

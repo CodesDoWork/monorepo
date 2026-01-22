@@ -12,11 +12,6 @@ interface DownloadResponse {
     downloadId: string;
 }
 
-interface StatusUpdate {
-    status: "processing" | "completed" | "failed";
-    message?: string;
-}
-
 // --- Logic Modules ---
 
 /** Handles all communication with the backend */
@@ -121,22 +116,15 @@ class DownloadUI {
         this.eventSource = new EventSource(ENDPOINTS.status(id));
 
         this.eventSource.onmessage = event => {
-            try {
-                const data: StatusUpdate = JSON.parse(event.data);
-                this.appendLog(data.message || event.data);
-
-                if (data.status === "completed" || data.status === "failed") {
-                    this.terminateSession(
-                        data.status === "completed" ? "Done!" : "Download failed",
-                        data.status === "failed",
-                    );
-                }
-            } catch {
-                this.appendLog(event.data);
-            }
+            this.appendLog(event.data);
         };
 
         this.eventSource.onerror = async () => {
+            if (this.eventSource?.CLOSED === 2) {
+                this.terminateSession("Download finished");
+                return;
+            }
+
             try {
                 const res = await ApiClient.checkStreamHealth(id);
                 if (res.status === 404) {
@@ -158,9 +146,9 @@ class DownloadUI {
     }
 
     private terminateSession(message: string, isError = false) {
-        this.closeStream();
         browser.storage.local.remove("activeDownloadId");
         this.updateStatus(message, isError);
+        this.closeStream();
     }
 }
 

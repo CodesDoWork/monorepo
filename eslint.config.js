@@ -1,6 +1,5 @@
 import antfu from "@antfu/eslint-config";
 import nx from "@nx/eslint-plugin";
-import eslintPluginAstro from "eslint-plugin-astro";
 import eslintPluginBetterTailwindcss from "eslint-plugin-better-tailwindcss";
 import eslintPluginHtml from "eslint-plugin-html";
 import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
@@ -10,7 +9,6 @@ export default antfu(
     {
         typescript: true,
         svelte: true,
-        astro: true,
         jsonc: true,
         yaml: {
             overrides: {
@@ -42,7 +40,6 @@ export default antfu(
             },
         },
         formatters: {
-            astro: true,
             css: true,
             html: true,
             markdown: "prettier",
@@ -52,7 +49,6 @@ export default antfu(
         ignores: ["**/generated"],
     },
     eslintPluginPrettierRecommended,
-    ...eslintPluginAstro.configs.recommended,
     {
         plugins: { "better-tailwindcss": eslintPluginBetterTailwindcss },
         rules: {
@@ -89,13 +85,6 @@ export default antfu(
     {
         files: ["**/*.html"],
         plugins: { eslintPluginHtml },
-    },
-    {
-        files: ["**/*.astro"],
-        rules: {
-            "format/prettier": "off",
-            "prettier/prettier": "off",
-        },
     },
     {
         files: ["**/*.toml"],

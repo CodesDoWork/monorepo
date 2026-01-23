@@ -433,6 +433,8 @@ services:
 
   music-metadata:
     <<: *common
+    cap_add:
+      - CAP_DAC_OVERRIDE
     environment:
       - PORT=${MUSIC_METADATA_PORT}
     healthcheck:

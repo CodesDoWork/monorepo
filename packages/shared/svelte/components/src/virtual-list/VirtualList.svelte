@@ -12,30 +12,27 @@
     }
 
     const { class: className, itemContainerClass, items, buffer = 3, children }: Props = $props();
-    // svelte-ignore state_referenced_locally
-    let overflowinItems = $state(items.map(() => false));
+    let overflowingItems: boolean[] = $state([]);
 
     $effect(() => {
-        overflowinItems = items.map(() => false);
+        overflowingItems = items.map((_, idx) => idx !== 0);
     });
 
-    const offset = $derived.by(() => {
-        const firstInView = overflowinItems.indexOf(false);
-        return Math.max(0, firstInView - buffer);
-    });
-
-    const displayedItems = $derived.by(() => {
-        const lastInView = overflowinItems.lastIndexOf(false);
-        return items.slice(offset, lastInView + buffer + 1);
-    });
+    const offset = $derived(Math.max(0, overflowingItems.indexOf(false) - buffer));
+    const displayedItems = $derived(
+        items.slice(offset, overflowingItems.lastIndexOf(false) + buffer + 1),
+    );
 </script>
 
 <ul class={clsx(className, "scrollbar-hide size-full min-h-0 overflow-y-auto")}>
     {#each displayedItems as item, idx (idx + offset)}
-        <div
-            class={itemContainerClass}
-            use:overflowOberserver={info => (overflowinItems[idx + offset] = info.parent)}>
-            {@render children(item, idx + offset)}
-        </div>
+        {#key displayedItems.length}
+            {@const globalIdx = idx + offset}
+            <div
+                class={itemContainerClass}
+                use:overflowOberserver={info => (overflowingItems[globalIdx] = info.parent)}>
+                {@render children(item, globalIdx)}
+            </div>
+        {/key}
     {/each}
 </ul>

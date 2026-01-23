@@ -13,8 +13,8 @@
 
     const { data }: PageProps = $props();
     const { isStoreReady, userLib } = $derived(data);
-    // svelte-ignore state_referenced_locally
-    let tracks = $state(data.tracks);
+
+    let tracks: IndexedTrack[] = $state([]);
     const filters = $derived(useTrackFilters(tracks));
     const displayedPairs = $derived(getPairs(filters.displayedTracks));
     const allSelected = $derived(filters.displayedTracks.every(t => t.has));

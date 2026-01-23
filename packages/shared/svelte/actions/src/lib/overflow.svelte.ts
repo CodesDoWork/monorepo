@@ -71,6 +71,8 @@ export const overflowOberserver: Action<HTMLElement, (info: OverflowingInfo) => 
     window.addEventListener("scroll", checkOverflow, true);
     window.addEventListener("resize", checkOverflow);
 
+    checkOverflow();
+
     return {
         destroy() {
             observer.disconnect();

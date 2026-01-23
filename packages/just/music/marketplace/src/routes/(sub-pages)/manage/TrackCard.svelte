@@ -21,7 +21,7 @@
             type="button"
             onclick={() => checkbox?.click()}
             class="
-                grid size-full cursor-pointer grid-cols-[min-content_1fr_auto_auto]
+                grid size-full cursor-pointer grid-cols-[min-content_1fr_4rem_4rem]
                 grid-rows-[min-content_1fr_min-content] items-center gap-4 p-4 text-left
             ">
             <Checkbox
@@ -30,8 +30,12 @@
                 svgClass={clsx("size-5")}
                 bind:input={checkbox}
                 bind:checked={track.has} />
-            <span class="font-bold select-none">{displayTrack(track)}</span>
-            <span class="col-span-2 text-gray-200">{track.meta.album}</span>
+            <span class={clsx("font-bold select-none", !track.meta.album && "col-span-3")}>
+                {displayTrack(track)}
+            </span>
+            {#if track.meta.album}
+                <span class="col-span-2 text-center text-gray-200">{track.meta.album}</span>
+            {/if}
             <span class="col-span-3 italic">{track.meta.genre}</span>
             <span class="col-span-2 justify-self-end text-sm">
                 {#if track.meta.duration}

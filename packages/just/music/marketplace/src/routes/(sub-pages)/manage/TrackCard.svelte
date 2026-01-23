@@ -6,6 +6,7 @@
     import { Card } from "../../../components/cards";
     import { smallTextClass } from "../../../lib/common/styles";
     import { displayTrack } from "../../../lib/common/track";
+    import AudioButton from "./AudioButton.svelte";
 
     interface Props {
         track: IndexedTrack;
@@ -34,10 +35,19 @@
                 {displayTrack(track)}
             </span>
             {#if track.meta.album}
-                <span class="col-span-2 text-center text-gray-200">{track.meta.album}</span>
+                <span
+                    class="
+                        col-span-2 text-center text-gray-800
+                        dark:text-gray-200
+                    ">{track.meta.album}</span>
             {/if}
             <span class="col-span-3 italic">{track.meta.genre}</span>
-            <span class="col-span-2 justify-self-end text-sm">
+            {#if track.storeFile}
+                <AudioButton storeFile={track.storeFile} />
+            {:else}
+                <span class="text-red-600">No store file found!</span>
+            {/if}
+            <span class="justify-self-end text-sm">
                 {#if track.meta.duration}
                     {formatDuration(track.meta.duration)}
                 {/if}

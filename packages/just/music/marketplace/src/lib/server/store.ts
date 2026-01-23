@@ -1,6 +1,6 @@
 import type { Track } from "../common/track";
 import { statSync } from "node:fs";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import { isMusicFile } from "@cdw/monorepo/just-music-utils";
 import { createLogger } from "@cdw/monorepo/shared-logging";
 import { watchDirs } from "@cdw/monorepo/shared-utils/file-watcher";
@@ -42,9 +42,14 @@ async function add(path: string) {
     } else {
         if (inflight.has(inode)) {
             await inflight.get(inode);
-            const paths = tracks.get(inode)?.paths;
-            if (paths && !paths.includes(path)) {
-                paths.push(path);
+            const track = tracks.get(inode);
+            if (track) {
+                if (!track.paths.includes(path)) {
+                    track.paths.push(path);
+                    if (path.startsWith(env.STORE_DIR)) {
+                        track.storeFile = basename(path);
+                    }
+                }
             }
         } else {
             ingestSong(path, inode);
@@ -60,8 +65,11 @@ function ingestSong(path: string, inode: number, paths?: string[]) {
                 const { common, format } = metadata;
                 const { title, artist, genre, year, album } = common;
                 const { bitrate, duration } = format;
+                paths = paths ? [...paths, path] : [path];
+                const storePath = paths.find(p => p.startsWith(env.STORE_DIR));
                 tracks.set(inode, {
-                    paths: paths ? [...paths, path] : [path],
+                    paths,
+                    storeFile: storePath ? basename(storePath) : undefined,
                     meta: { title, artist, genre, year, album, bitrate, duration },
                 });
                 resolve();

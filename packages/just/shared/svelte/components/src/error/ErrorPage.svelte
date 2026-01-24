@@ -28,7 +28,7 @@
             md:text-4xl
             lg:text-5xl
         ">
-        {page.error.message}
+        {page.error?.message || "Something went wrong"}
     </p>
     <span
         class="

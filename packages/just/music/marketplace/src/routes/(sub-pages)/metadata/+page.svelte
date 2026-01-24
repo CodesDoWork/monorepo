@@ -30,7 +30,11 @@
     </div>
     <VirtualList itemContainerClass={clsx("last:pb-6")} items={displayedPairs}>
         {#snippet children(pair)}
-            <div class="grid grid-cols-2">
+            <div
+                class="
+                    grid
+                    md:grid-cols-2
+                ">
                 {#each pair as track}
                     <li class="p-2">
                         <Card

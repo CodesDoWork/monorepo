@@ -15,7 +15,9 @@
         `
             text-primary-950
             dark:text-primary-500
-            my-16 text-center text-4xl font-bold
+            mt-3 mb-4 w-full text-center text-2xl font-bold
+            sm:text-3xl
+            md:my-16 md:text-4xl
         `,
         className,
     )}>

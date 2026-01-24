@@ -32,20 +32,74 @@
 <LoadingBarrier isLoading={!isStoreReady}>
     <div
         class="
-            grid h-full min-h-0 grid-cols-[1fr_auto_auto] grid-rows-[auto_1fr] items-center gap-x-6
-            gap-y-4
+            grid h-full min-h-0 grid-cols-[minmax(10rem,1fr)_auto_minmax(5rem,auto)]
+            grid-rows-[auto_auto_1fr] items-center gap-x-4 gap-y-2
+            md:gap-x-6 md:gap-y-4
+            xl:grid-rows-[auto_1fr]
         ">
         <span
             class="
                 dark:text-secondary
-                text-secondary-800 text-lg font-bold
+                text-secondary-800 text-xs font-bold text-wrap wrap-anywhere
+                sm:text-sm
+                md:text-base
+                lg:text-lg
             ">
             {userLib}
         </span>
-        <p class="text-sm"><strong>{filters.displayedTracks.length}</strong> songs displayed</p>
-        <button class={buttonClass} onclick={handleSelectAll}>
+        <p class="text-right text-sm text-wrap">
+            <strong>{filters.displayedTracks.length}</strong> songs displayed
+        </p>
+        <button
+            class={clsx(
+                buttonClass,
+                `
+                    text-sm
+                    md:text-base
+                `,
+            )}
+            onclick={handleSelectAll}>
             {allSelected ? "Deselect" : "Select"} All
         </button>
+        <div
+            class="
+                dark:bg-primary-900/50
+                bg-primary/50 col-span-3 grid h-fit w-full grid-cols-2 gap-2 rounded-md p-2 pb-6
+                shadow-lg
+                *:text-xs
+                sm:p-4
+                sm:*:text-base
+                md:gap-4
+                lg:grid-cols-3
+                xl:fixed xl:top-1/2 xl:right-8 xl:w-64 xl:-translate-y-1/2 xl:grid-cols-1
+            ">
+            <h2
+                class="
+                    col-span-2 text-center text-base font-bold
+                    sm:text-lg
+                    md:text-xl
+                    lg:col-span-3
+                    xl:col-span-1
+                ">
+                Filters
+            </h2>
+            <Input bind:value={filters.freetextFilter} placeholder="Freetext" />
+            <Input bind:value={filters.artistFilter} placeholder="Artist" />
+            <Input bind:value={filters.titleFilter} placeholder="Title" />
+            <Input bind:value={filters.genreFilter} placeholder="Genre" />
+            <Input bind:value={filters.albumFilter} placeholder="Album" />
+            <Input bind:value={filters.yearFilter} placeholder="Year" />
+            <CheckboxWithLabel
+                bind:checked={filters.showOnlyUnsavedFilter}
+                id="showUnsavedOnly"
+                class="
+                    col-span-2
+                    lg:col-span-3
+                    xl:col-span-1
+                ">
+                Only show unselected
+            </CheckboxWithLabel>
+        </div>
         <form
             method="POST"
             action="?/save"
@@ -69,33 +123,28 @@
             }}>
             <VirtualList itemContainerClass={clsx("last:pb-6")} items={displayedPairs}>
                 {#snippet children(pair)}
-                    <div class="grid grid-cols-2">
+                    <div
+                        class="
+                            grid
+                            md:grid-cols-2
+                        ">
                         {#each pair as track}
                             <TrackCard bind:track={tracks[track.idx] as IndexedTrack} />
                         {/each}
                     </div>
                 {/snippet}
             </VirtualList>
-            <button type="submit" class={clsx(buttonClass, "fixed right-8 bottom-8")}>
+            <button
+                type="submit"
+                class={clsx(
+                    buttonClass,
+                    `
+                        fixed right-4 bottom-4
+                        md:right-8 md:bottom-8
+                    `,
+                )}>
                 Save
             </button>
         </form>
     </div>
-    <aside
-        class="
-            dark:bg-primary-900/50
-            bg-primary/50 fixed top-1/2 right-8 h-fit w-64 -translate-y-1/2 space-y-4 rounded-md p-4
-            pb-6 shadow-lg
-        ">
-        <h2 class="text-center text-xl font-bold">Filters</h2>
-        <Input bind:value={filters.freetextFilter} placeholder="Freetext" />
-        <Input bind:value={filters.artistFilter} placeholder="Artist" />
-        <Input bind:value={filters.titleFilter} placeholder="Title" />
-        <Input bind:value={filters.genreFilter} placeholder="Genre" />
-        <Input bind:value={filters.albumFilter} placeholder="Album" />
-        <Input bind:value={filters.yearFilter} placeholder="Year" />
-        <CheckboxWithLabel bind:checked={filters.showOnlyUnsavedFilter} id="showUnsavedOnly">
-            Only show unselected
-        </CheckboxWithLabel>
-    </aside>
 </LoadingBarrier>

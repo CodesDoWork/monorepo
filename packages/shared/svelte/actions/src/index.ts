@@ -1,1 +1,6 @@
-export { type OverflowingInfo, overflowOberserver } from "./lib/overflow.svelte";
+export {
+    type OverflowEdges,
+    type OverflowingInfo,
+    overflowOberserver,
+    type OverflowResult,
+} from "./lib/overflow";

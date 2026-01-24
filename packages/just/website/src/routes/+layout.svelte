@@ -5,6 +5,7 @@
     import type { PageData } from "./$types";
     import { afterNavigate } from "$app/navigation";
     import { page } from "$app/state";
+    import { Layout } from "@cdw/monorepo/just-shared-svelte-components";
     import { setJsonLdContext, stringifyJsonLd } from "@cdw/monorepo/shared-svelte-contexts";
     import { createColors, createCssVariables } from "@cdw/monorepo/shared-utils/css/colors";
     import { byId } from "@cdw/monorepo/shared-utils/filters";
@@ -99,17 +100,6 @@
     const overlayContext = $state<OverlayContext>({});
     setOverlayContext(overlayContext);
 
-    const backgroundClass = clsx(
-        `
-            bg-primary-400 from-primary-400 to-secondary-400
-            dark:bg-primary-950 dark:from-primary-950 dark:to-secondary-950
-            bg-linear-to-b from-5% to-95% transition-colors
-        `,
-    );
-    $effect(() => {
-        document.body.className = backgroundClass;
-    });
-
     const colors = $derived(
         createColors({
             pageColor: currentRoute?.color,
@@ -158,9 +148,7 @@
     {@render children?.()}
 {:else}
     <Overlay />
-    <div
-        class={clsx(backgroundClass, `relative flex min-h-screen flex-col overflow-x-hidden`)}
-        style={createCssVariables(colors)}>
+    <Layout class="relative flex flex-col overflow-x-hidden" style={createCssVariables(colors)}>
         <Header
             title={siteInfo.name}
             {routes}
@@ -186,5 +174,5 @@
                 {privacyPolicyRoute} />
         </BlurContent>
         <BackToTop text={siteInfo.backToTop} />
-    </div>
+    </Layout>
 {/if}

@@ -1,0 +1,8 @@
+{
+    "name": "just-shared-svelte-components",
+    "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/just/shared/svelte/components/src",
+    "projectType": "library",
+    "tags": ["just-shared-svelte"],
+    "targets": {}
+}

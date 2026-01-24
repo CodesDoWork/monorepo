@@ -2,12 +2,12 @@
     import type { PageProps } from "./$types";
     import type { IndexedTrack } from "./types";
     import { enhance } from "$app/forms";
+    import { Button } from "@cdw/monorepo/shared-svelte-components/buttons";
     import { CheckboxWithLabel, Input } from "@cdw/monorepo/shared-svelte-components/forms";
     import { VirtualList } from "@cdw/monorepo/shared-svelte-components/virtual-list";
     import { clsx } from "clsx";
     import { LoadingBarrier } from "../../../components/loading";
     import { getPairs } from "../../../lib/client/get-pairs";
-    import { buttonClass } from "../../../lib/common/styles";
     import { useTrackFilters } from "./filters.svelte";
     import TrackCard from "./TrackCard.svelte";
 
@@ -50,17 +50,14 @@
         <p class="text-right text-sm text-wrap">
             <strong>{filters.displayedTracks.length}</strong> songs displayed
         </p>
-        <button
-            class={clsx(
-                buttonClass,
-                `
-                    text-sm
-                    md:text-base
-                `,
-            )}
+        <Button
+            class="
+                text-sm
+                md:text-base
+            "
             onclick={handleSelectAll}>
             {allSelected ? "Deselect" : "Select"} All
-        </button>
+        </Button>
         <div
             class="
                 dark:bg-primary-900/50
@@ -134,17 +131,15 @@
                     </div>
                 {/snippet}
             </VirtualList>
-            <button
+            <Button
                 type="submit"
-                class={clsx(
-                    buttonClass,
-                    `
-                        fixed right-4 bottom-4
-                        md:right-8 md:bottom-8
-                    `,
-                )}>
+                class="
+                    fixed right-4 bottom-4
+                    md:right-8 md:bottom-8
+                ">
                 Save
-            </button>
+            </Button>
+            >>>>>>> develop
         </form>
     </div>
 </LoadingBarrier>

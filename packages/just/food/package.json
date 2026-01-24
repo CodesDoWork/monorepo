@@ -1,0 +1,6 @@
+{
+    "name": "just-food",
+    "type": "module",
+    "private": true,
+    "description": "This app contains a food planner app"
+}

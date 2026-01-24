@@ -31,6 +31,50 @@
         ),
     );
 
+    // --- TOP NUTRIENTS FILTER (ADDED) ---
+    // unique list of nutrients present as topNutrients across dataset
+    const allTopNutrients = $derived([
+        ...new Set(bslData.flatMap((item: BSLItem) => item.topNutrients || [])),
+    ]);
+
+    let selectedTopNutrients = $state(new Set<string>()); // selected nutrient filters
+    let isTopNutrientSelectorOpen = $state(false);
+    // filter mode: 'any' => item matches if it contains any selected nutrient
+    // 'all' => item must contain all selected nutrients
+    let topNutrientFilterMode = $state<"any" | "all">("any");
+
+    function toggleTopNutrient(n: string) {
+        const newSet = new Set(selectedTopNutrients);
+        if (newSet.has(n)) {
+            newSet.delete(n);
+        } else {
+            newSet.add(n);
+        }
+        selectedTopNutrients = newSet;
+    }
+
+    function clearTopNutrientFilters() {
+        selectedTopNutrients = new Set();
+    }
+
+    function itemMatchesTopNutrients(item: BSLItem) {
+        if (selectedTopNutrients.size === 0) return true;
+        const present = new Set(item.topNutrients || []);
+        if (topNutrientFilterMode === "any") {
+            for (const n of selectedTopNutrients) {
+                if (present.has(n)) return true;
+            }
+            return false;
+        } else {
+            // 'all'
+            for (const n of selectedTopNutrients) {
+                if (!present.has(n)) return false;
+            }
+            return true;
+        }
+    }
+
+    // --- VALUE HELPERS ---
     function getValueByPath(obj: any, path: string) {
         return path.split(".").reduce((acc, part) => acc && acc[part], obj);
     }
@@ -50,12 +94,17 @@
     }
 
     let searchQuery = $state("");
+    // integrate nutrient filters into searchResults
     const searchResults = $derived.by(() => {
         const query = searchQuery.replaceAll(" ", "").toLowerCase();
-        if (!query) {
-            return bslData;
+        // start from full dataset
+        let items = bslData;
+        if (query) {
+            items = items.filter(item => item._searchStr.includes(query));
         }
-        return bslData.filter(item => item._searchStr.includes(query));
+        // apply top nutrient filters
+        items = items.filter(item => itemMatchesTopNutrients(item));
+        return items;
     });
 
     let selectedItem = $state<BSLItem | null>(null);
@@ -235,6 +284,30 @@
                             ">Columns</span>
                     </button>
 
+                    <!-- Top Nutrients button (added) -->
+                    <button
+                        onclick={() => (isTopNutrientSelectorOpen = !isTopNutrientSelectorOpen)}
+                        class="
+                            flex items-center gap-2 rounded-lg border border-gray-300 bg-gray-100
+                            px-4 py-2 text-sm font-medium transition-colors
+                            hover:bg-gray-200
+                            dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300
+                            dark:hover:bg-gray-700
+                        ">
+                        <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 8c1.657 0 3-1.343 3-3S13.657 2 12 2 9 3.343 9 5s1.343 3 3 3zM4.5 21c0-3.038 2.462-5.5 5.5-5.5h4c3.038 0 5.5 2.462 5.5 5.5" />
+                        </svg>
+                        <span
+                            class="
+                            hidden
+                            sm:inline
+                        ">Top Nutrients</span>
+                    </button>
+
                     <button
                         disabled={compareSet.size < 1}
                         onclick={() => (compareMode = !compareMode)}
@@ -305,6 +378,88 @@
                                     dark:text-gray-300
                                 "
                                 title={col}>{col}</span>
+                        </label>
+                    {/each}
+                </div>
+            {/if}
+
+            {#if isTopNutrientSelectorOpen}
+                <div
+                    class="
+                        mt-4 grid max-h-60 grid-cols-1 gap-2 overflow-y-auto rounded-lg border
+                        border-gray-200 bg-gray-50 p-4
+                        sm:grid-cols-2
+                        md:grid-cols-3
+                        dark:border-gray-700 dark:bg-gray-800
+                    ">
+                    <div
+                        class="
+                            col-span-full mb-2 flex items-center justify-between border-b pb-2
+                            text-sm text-gray-500
+                            dark:border-gray-700 dark:text-gray-400
+                        ">
+                        <div>Filter by Top Nutrients:</div>
+                        <div class="flex items-center gap-2">
+                            <div class="text-xs text-gray-500">Mode:</div>
+                            <button
+                                onclick={() => (topNutrientFilterMode = "any")}
+                                class={clsx(
+                                    "rounded-sm px-2 py-1 text-xs",
+                                    topNutrientFilterMode === "any"
+                                        ? "bg-primary-600 text-white"
+                                        : `
+                                        bg-gray-100
+                                        dark:bg-gray-700
+                                    `,
+                                )}>
+                                Any
+                            </button>
+                            <button
+                                onclick={() => (topNutrientFilterMode = "all")}
+                                class={clsx(
+                                    "rounded-sm px-2 py-1 text-xs",
+                                    topNutrientFilterMode === "all"
+                                        ? "bg-primary-600 text-white"
+                                        : `
+                                        bg-gray-100
+                                        dark:bg-gray-700
+                                    `,
+                                )}>
+                                All
+                            </button>
+                            <button
+                                onclick={() => clearTopNutrientFilters()}
+                                class="
+                                    ml-2 rounded-sm bg-gray-100 px-2 py-1 text-xs
+                                    dark:bg-gray-700
+                                ">
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    {#each allTopNutrients as nut}
+                        <label
+                            class="
+                                flex cursor-pointer items-center space-x-2 rounded-sm p-1 text-xs
+                                hover:bg-gray-100
+                                dark:hover:bg-gray-700
+                            ">
+                            <input
+                                type="checkbox"
+                                checked={selectedTopNutrients.has(nut)}
+                                onchange={() => toggleTopNutrient(nut)}
+                                class="
+                                    text-primary-600
+                                    focus:ring-primary-500
+                                    rounded-sm
+                                " />
+                            <span
+                                class="
+                                    truncate text-gray-700
+                                    dark:text-gray-300
+                                "
+                                title={nut}>{nut}</span>
                         </label>
                     {/each}
                 </div>
@@ -533,6 +688,28 @@
                                                     ">
                                                     🥑 {item.fat_total_g ?? 0}&thinsp;g
                                                 </span>
+
+                                                {#each item.topNutrients as nutrient}
+                                                    <!-- nutrient tag is now clickable to toggle filter -->
+                                                    <button
+                                                        onclick={() => toggleTopNutrient(nutrient)}
+                                                        class={clsx(
+                                                            `
+                                                                rounded-sm px-2 py-1 text-xs
+                                                                text-stone-700
+                                                            `,
+                                                            selectedTopNutrients.has(nutrient)
+                                                                ? "bg-primary-600 text-white"
+                                                                : `
+                                                                    bg-stone-100
+                                                                    dark:bg-stone-950/30
+                                                                    dark:text-stone-300
+                                                                `,
+                                                        )}
+                                                        title="Toggle nutrient filter">
+                                                        Top 3&thinsp;% {nutrient}
+                                                    </button>
+                                                {/each}
                                             </div>
                                         </div>
                                     </div>

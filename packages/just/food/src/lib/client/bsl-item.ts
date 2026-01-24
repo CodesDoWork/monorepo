@@ -1,5 +1,3 @@
-import type { DeepPartial } from "@apollo/client/utilities";
-
 export interface RawBSLItem {
     "BLS Code": string;
     Lebensmittelbezeichnung: string;
@@ -600,25 +598,41 @@ export interface PerfectBSLItem {
     };
 }
 
-export interface BSLItem extends DeepPartial<PerfectBSLItem> {
+export type NutrientPaths = Exclude<PathsOf<PerfectBSLItem>, "code" | "name" | "description">;
+
+type DeepNullable<T> = {
+    [K in keyof T]?: T[K] extends object ? DeepNullable<T[K]> : T[K];
+};
+
+export interface BSLItem extends DeepNullable<PerfectBSLItem> {
+    topNutrients: NutrientPaths[];
     _searchStr: string;
 }
 
-function num(val: string | number | undefined | null): number | undefined {
+type PathsOf<T> = T extends object
+    ? {
+          [K in keyof T & (string | number)]: T[K] extends object
+              ? `${K}` | `${K}.${PathsOf<T[K]>}`
+              : `${K}`;
+      }[keyof T & (string | number)]
+    : never;
+
+function num(val: string | number | undefined | null): number | null {
     if (typeof val === "number") {
         return val;
     }
 
     if (!val) {
-        return undefined;
+        return null;
     }
 
     const parsed = Number.parseFloat(val.replace(",", "."));
-    return Number.isNaN(parsed) ? undefined : parsed;
+    return Number.isNaN(parsed) ? null : parsed;
 }
 
 export function rawBSLItemToBSLItem(raw: RawBSLItem): BSLItem {
     return {
+        topNutrients: [],
         _searchStr: `${raw["BLS Code"]} ${raw.Lebensmittelbezeichnung} ${raw["Food name"]}`
             .replaceAll(" ", "")
             .toLowerCase(),

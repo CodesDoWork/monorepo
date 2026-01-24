@@ -140,6 +140,7 @@ export default antfu(
                             onlyDependOnLibsWithTags: [
                                 "shared",
                                 "shared-svelte",
+                                "just-shared-svelte",
                                 "just-music-marketplace",
                                 "just-branding",
                                 "just-music:shared",
@@ -150,13 +151,19 @@ export default antfu(
                             onlyDependOnLibsWithTags: [
                                 "shared",
                                 "shared-svelte",
+                                "just-shared-svelte",
                                 "just-website",
                                 "just-branding",
                             ],
                         },
                         {
                             sourceTag: "just-food",
-                            onlyDependOnLibsWithTags: ["shared", "shared-svelte", "just-branding"],
+                            onlyDependOnLibsWithTags: [
+                                "shared",
+                                "shared-svelte",
+                                "just-shared-svelte",
+                                "just-branding",
+                            ],
                         },
                         {
                             sourceTag: "svelte",

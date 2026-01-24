@@ -1,12 +1,9 @@
 <script lang="ts">
-    import { clsx } from "clsx";
-    import { buttonClass } from "../../../lib/common/styles";
+    import { LinkButton } from "@cdw/monorepo/shared-svelte-components/buttons";
 </script>
 
 <div>
-    <a class={clsx(buttonClass, "")} href="/download-addon.zip" download="download-addon.zip">
-        Download Addon
-    </a>
+    <LinkButton href="/download-addon.zip" download="download-addon.zip">Download Addon</LinkButton>
     <h2 class="text-secondary mt-12 mb-4 text-2xl font-bold">How to install the addon:</h2>
     <ol class="ml-4 list-decimal space-y-2">
         <li>

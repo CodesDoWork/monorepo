@@ -2,12 +2,12 @@
     import type { PageProps } from "./$types";
     import type { IndexedTrack } from "./types";
     import { enhance } from "$app/forms";
+    import { Button } from "@cdw/monorepo/shared-svelte-components/buttons";
     import { CheckboxWithLabel, Input } from "@cdw/monorepo/shared-svelte-components/forms";
     import { VirtualList } from "@cdw/monorepo/shared-svelte-components/virtual-list";
     import { clsx } from "clsx";
     import { LoadingBarrier } from "../../../components/loading";
     import { getPairs } from "../../../lib/client/get-pairs";
-    import { buttonClass } from "../../../lib/common/styles";
     import { useTrackFilters } from "./filters.svelte";
     import TrackCard from "./TrackCard.svelte";
 
@@ -43,9 +43,9 @@
             {userLib}
         </span>
         <p class="text-sm"><strong>{filters.displayedTracks.length}</strong> songs displayed</p>
-        <button class={buttonClass} onclick={handleSelectAll}>
+        <Button onclick={handleSelectAll}>
             {allSelected ? "Deselect" : "Select"} All
-        </button>
+        </Button>
         <form
             method="POST"
             action="?/save"
@@ -76,9 +76,7 @@
                     </div>
                 {/snippet}
             </VirtualList>
-            <button type="submit" class={clsx(buttonClass, "fixed right-8 bottom-8")}>
-                Save
-            </button>
+            <Button type="submit" class="fixed right-8 bottom-8">Save</Button>
         </form>
     </div>
     <aside

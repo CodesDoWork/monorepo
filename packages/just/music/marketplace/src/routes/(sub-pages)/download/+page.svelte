@@ -1,14 +1,25 @@
 <script lang="ts">
-    import { clsx } from "clsx";
     import { buttonClass } from "../../../lib/common/styles";
 </script>
 
-<div>
-    <a class={clsx(buttonClass, "")} href="/download-addon.zip" download="download-addon.zip">
+<div class="pt-8">
+    <a class={buttonClass} href="/download-addon.zip" download="download-addon.zip">
         Download Addon
     </a>
-    <h2 class="text-secondary mt-12 mb-4 text-2xl font-bold">How to install the addon:</h2>
-    <ol class="ml-4 list-decimal space-y-2">
+    <h2
+        class="
+            dark:text-secondary
+            text-secondary-700 mt-12 mb-4 text-lg font-bold
+            sm:text-xl
+            md:text-2xl
+        ">
+        How to install the addon:
+    </h2>
+    <ol
+        class="
+            ml-4 list-decimal space-y-2 text-sm
+            md:text-base
+        ">
         <li>
             Goto "<a
                 href="about:debugging#/runtime/this-firefox"

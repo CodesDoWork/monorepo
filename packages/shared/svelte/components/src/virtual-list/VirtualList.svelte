@@ -12,14 +12,14 @@
     }
 
     const { class: className, itemContainerClass, items, buffer = 3, children }: Props = $props();
-    let overflowingItems = $state<boolean[]>([]);
+    let outsideItems = $state<boolean[]>([]);
 
     $effect(() => {
-        overflowingItems = items.map((_, idx) => idx !== 0);
+        outsideItems = items.map((_, idx) => idx !== 0);
     });
 
-    const offset = $derived(Math.max(0, overflowingItems.indexOf(false) - buffer));
-    const end = $derived(overflowingItems.lastIndexOf(false) + buffer + 1);
+    const offset = $derived(Math.max(0, outsideItems.indexOf(false) - buffer));
+    const end = $derived(outsideItems.lastIndexOf(false) + buffer + 1);
     const displayedItems = $derived(items.slice(offset, end));
 </script>
 
@@ -28,7 +28,7 @@
         {@const globalIdx = idx + offset}
         <div
             class={itemContainerClass}
-            use:overflowOberserver={info => (overflowingItems[globalIdx] = info.parent)}>
+            use:overflowOberserver={info => (outsideItems[globalIdx] = info.outside.parent)}>
             {@render children(item, globalIdx)}
         </div>
     {/each}

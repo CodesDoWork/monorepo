@@ -17,10 +17,23 @@
     const itemIconClasses = clsx("size-8");
 </script>
 
-<div class="relative grid h-screen items-center justify-center">
-    <H1 class="absolute top-16 w-full">Just Music Marketplace</H1>
-    <section class="flex flex-col">
-        <ul class="grid grid-cols-2 gap-8">
+<div
+    class="
+        relative grid items-center justify-center
+        md:h-screen
+    ">
+    <H1
+        class="
+            mt-8! mb-12!
+            md:absolute md:top-16
+        ">Just Music Marketplace</H1>
+    <section class="md:flex md:flex-col">
+        <ul
+            class="
+                mb-8 grid gap-4
+                sm:grid-cols-2 sm:gap-6
+                md:gap-8
+            ">
             {#each dashboardItems as item}
                 <li>
                     <LinkCard href={item.url} class={itemLinkClasses}>

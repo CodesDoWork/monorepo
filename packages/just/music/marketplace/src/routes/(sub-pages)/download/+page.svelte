@@ -2,10 +2,22 @@
     import { LinkButton } from "@cdw/monorepo/shared-svelte-components/buttons";
 </script>
 
-<div>
+<div class="pt-8">
     <LinkButton href="/download-addon.zip" download="download-addon.zip">Download Addon</LinkButton>
-    <h2 class="text-secondary mt-12 mb-4 text-2xl font-bold">How to install the addon:</h2>
-    <ol class="ml-4 list-decimal space-y-2">
+    <h2
+        class="
+            dark:text-secondary
+            text-secondary-700 mt-12 mb-4 text-lg font-bold
+            sm:text-xl
+            md:text-2xl
+        ">
+        How to install the addon:
+    </h2>
+    <ol
+        class="
+            ml-4 list-decimal space-y-2 text-sm
+            md:text-base
+        ">
         <li>
             Goto "<a
                 href="about:debugging#/runtime/this-firefox"

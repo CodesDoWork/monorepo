@@ -21,7 +21,11 @@
     {#if duplicates.length}
         <VirtualList itemContainerClass={clsx("last:pb-6")} items={pairs}>
             {#snippet children(pair)}
-                <div class="grid grid-cols-2">
+                <div
+                    class="
+                        grid
+                        md:grid-cols-2
+                    ">
                     {#each pair as duplicateTracks}
                         <li class="p-2">
                             <Card padding class="size-full">
@@ -31,7 +35,9 @@
                                             <p>{displayTrack(track)}</p>
                                             <ul>
                                                 {#each track.paths as path}
-                                                    <li class={smallTextClass}>{path}</li>
+                                                    <li class={smallTextClass}>
+                                                        {path}
+                                                    </li>
                                                 {/each}
                                             </ul>
                                         </li>

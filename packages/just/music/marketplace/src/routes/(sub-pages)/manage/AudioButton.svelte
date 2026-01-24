@@ -19,23 +19,35 @@
     });
 </script>
 
-<div>
-    {#if showAudio}
-        <audio bind:this={audioRef} class="h-8 w-full rounded-full" controls>
+{#if showAudio}
+    <div
+        class="
+            w-32
+            md:w-56
+            xl:w-auto
+        ">
+        <audio
+            onclick={e => e.stopPropagation()}
+            bind:this={audioRef}
+            class="
+                -ml-5 scale-80 rounded-full
+                md:-ml-8
+                xl:ml-0 xl:h-8 xl:w-full xl:scale-100
+            "
+            controls>
             <source src={`/api/getAudio/${storeFile}`} type="audio/mpeg" />
             Audio not supported
         </audio>
-    {:else}
-        <button {onclick} class="group size-fit cursor-pointer p-1">
-            <Icon
-                icon="zondicons:play-outline"
-                class="
-                    size-5 drop-shadow-md drop-shadow-black/30 transition-transform
-                    group-hover:scale-107 group-hover:drop-shadow-lg
-                    group-hover:drop-shadow-black/30
-                    dark:drop-shadow-black
-                    dark:group-hover:drop-shadow-black
-                " />
-        </button>
-    {/if}
-</div>
+    </div>
+{:else}
+    <button {onclick} class="group size-fit cursor-pointer p-1">
+        <Icon
+            icon="zondicons:play-outline"
+            class="
+                size-5 drop-shadow-md drop-shadow-black/30 transition-transform
+                group-hover:scale-107 group-hover:drop-shadow-lg group-hover:drop-shadow-black/30
+                dark:drop-shadow-black
+                dark:group-hover:drop-shadow-black
+            " />
+    </button>
+{/if}

@@ -2,6 +2,7 @@
     import type { BSLItem } from "../../lib/client/bsl-item";
     import { VirtualList } from "@cdw/monorepo/shared-svelte-components/virtual-list";
     import { clsx } from "clsx";
+    import { BSL_NAMES } from "../../lib/client/bsl-item";
     import { getBSLContext } from "../../lib/client/contexts/bsl";
 
     const bsl = getBSLContext();
@@ -11,12 +12,7 @@
     function getFlattenedKeys(obj: any, prefix = ""): string[] {
         let keys: string[] = [];
         for (const key in obj) {
-            if (
-                typeof obj[key] === "object" &&
-                obj[key] !== null &&
-                key !== "fattyAcids" &&
-                key !== "aminoAcids"
-            ) {
+            if (typeof obj[key] === "object" && !Array.isArray(obj[key]) && obj[key] !== null) {
                 keys = keys.concat(getFlattenedKeys(obj[key], `${prefix + key}.`));
             } else {
                 keys.push(prefix + key);
@@ -27,7 +23,7 @@
 
     const allPossibleColumns = $derived(
         getFlattenedKeys(bslData[0] || {}).filter(
-            k => !["code", "description", "name"].includes(k),
+            k => !["code", "description", "name", "topNutrients", "_searchStr"].includes(k),
         ),
     );
 
@@ -146,7 +142,7 @@
     }
 </script>
 
-{#snippet dataTree(data: any)}
+{#snippet dataTree(data: any, path = "")}
     <div
         class="
             space-y-1 border-l-2 border-gray-200 pl-4
@@ -154,7 +150,7 @@
         ">
         <VirtualList items={Object.entries(data)}>
             {#snippet children([key, value])}
-                {#if value !== null && value !== undefined}
+                {#if value !== null && value !== undefined && !["topNutrients", "_searchStr", "code", "description", "name"].includes(key)}
                     <div
                         class="
                             text-sm text-gray-800
@@ -167,9 +163,9 @@
                                     dark:text-primary-400
                                     font-semibold capitalize
                                 ">
-                                {key.replace(/_/g, " ")}:
+                                {BSL_NAMES[path ? `${path}.${key}` : key] || key}:
                             </span>
-                            {@render dataTree(value)}
+                            {@render dataTree(value, path ? `${path}.${key}` : key)}
                         {:else}
                             <div
                                 class="
@@ -182,14 +178,14 @@
                                         text-gray-500 capitalize
                                         dark:text-gray-400
                                     ">
-                                    {key.replace(/_/g, " ")}
+                                    {BSL_NAMES[path ? `${path}.${key}` : key] || key}
                                 </span>
                                 <span
                                     class="
                                         font-mono text-gray-900
                                         dark:text-gray-100
                                     ">
-                                    {formatValue(value)}
+                                    {formatValue(value)}&thinsp;{key.split("_").pop()}
                                 </span>
                             </div>
                         {/if}
@@ -303,9 +299,9 @@
                         </svg>
                         <span
                             class="
-                            hidden
-                            sm:inline
-                        ">Top Nutrients</span>
+                                hidden
+                                sm:inline
+                            ">Top Nutrients</span>
                     </button>
 
                     <button
@@ -377,7 +373,7 @@
                                     truncate text-gray-700
                                     dark:text-gray-300
                                 "
-                                title={col}>{col}</span>
+                                title={col}>{BSL_NAMES[col]}</span>
                         </label>
                     {/each}
                 </div>
@@ -408,9 +404,9 @@
                                     topNutrientFilterMode === "any"
                                         ? "bg-primary-600 text-white"
                                         : `
-                                        bg-gray-100
-                                        dark:bg-gray-700
-                                    `,
+                                            bg-gray-100
+                                            dark:bg-gray-700
+                                        `,
                                 )}>
                                 Any
                             </button>
@@ -421,9 +417,9 @@
                                     topNutrientFilterMode === "all"
                                         ? "bg-primary-600 text-white"
                                         : `
-                                        bg-gray-100
-                                        dark:bg-gray-700
-                                    `,
+                                            bg-gray-100
+                                            dark:bg-gray-700
+                                        `,
                                 )}>
                                 All
                             </button>
@@ -459,7 +455,7 @@
                                     truncate text-gray-700
                                     dark:text-gray-300
                                 "
-                                title={nut}>{nut}</span>
+                                title={nut}>{BSL_NAMES[nut]}</span>
                         </label>
                     {/each}
                 </div>
@@ -707,7 +703,7 @@
                                                                 `,
                                                         )}
                                                         title="Toggle nutrient filter">
-                                                        Top 3&thinsp;% {nutrient}
+                                                        Top 3&thinsp;% {BSL_NAMES[nutrient]}
                                                     </button>
                                                 {/each}
                                             </div>
@@ -746,8 +742,8 @@
             aria-modal="true">
             <div
                 class="
-                    animate-in zoom-in-95 flex max-h-[90vh] w-full max-w-2xl flex-col
-                    overflow-hidden rounded-2xl bg-white shadow-2xl duration-200
+                    animate-in zoom-in-95 flex max-h-[90vh] w-full max-w-xl flex-col overflow-hidden
+                    rounded-2xl bg-white shadow-2xl duration-200
                     dark:bg-gray-900
                 "
                 onclick={e => e.stopPropagation()}>
@@ -762,15 +758,8 @@
                                 text-2xl font-bold text-gray-900
                                 dark:text-white
                             ">
-                            {selectedItem.name}
-                        </h2>
-                        <p
-                            class="
-                                text-gray-600
-                                dark:text-gray-400
-                            ">
                             {selectedItem.description}
-                        </p>
+                        </h2>
                     </div>
                     <button
                         onclick={() => (selectedItem = null)}

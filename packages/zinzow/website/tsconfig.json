@@ -1,7 +1,7 @@
 {
     "extends": "../../../tsconfig.json",
     "compilerOptions": {
-        "rootDirs": [".", ".svelte-kit/types/packages/zinzow/website"],
+        "rootDirs": [".", ".svelte-kit/types"],
         "types": ["svelte", "node", "vite/client"],
         "strictNullChecks": false,
         "strictPropertyInitialization": false

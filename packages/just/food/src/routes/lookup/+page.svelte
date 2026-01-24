@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { BSLItem } from "../../lib/client/bsl-item";
+    import type { BSLItem, NutrientPaths } from "../../lib/client/bsl-item";
     import { VirtualList } from "@cdw/monorepo/shared-svelte-components/virtual-list";
     import { clsx } from "clsx";
     import { BSL_NAMES } from "../../lib/client/bsl-item";
@@ -54,17 +54,24 @@
     }
 
     function itemMatchesTopNutrients(item: BSLItem) {
-        if (selectedTopNutrients.size === 0) return true;
+        if (selectedTopNutrients.size === 0) {
+            return true;
+        }
+
         const present = new Set(item.topNutrients || []);
         if (topNutrientFilterMode === "any") {
             for (const n of selectedTopNutrients) {
-                if (present.has(n)) return true;
+                if (present.has(n as NutrientPaths)) {
+                    return true;
+                }
             }
             return false;
         } else {
             // 'all'
             for (const n of selectedTopNutrients) {
-                if (!present.has(n)) return false;
+                if (!present.has(n as NutrientPaths)) {
+                    return false;
+                }
             }
             return true;
         }

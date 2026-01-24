@@ -8,4 +8,4 @@
     const { data }: Props = $props();
 </script>
 
-<p>Hello</p>
+<p>Hello {data}</p>

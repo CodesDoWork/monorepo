@@ -1,7 +1,7 @@
 {
     "extends": "../../../tsconfig.json",
     "compilerOptions": {
-        "rootDirs": [".", ".svelte-kit/types/packages/just/food"],
+        "rootDirs": [".", ".svelte-kit/types"],
         "types": ["svelte", "node", "vite/client"]
     },
     "include": [

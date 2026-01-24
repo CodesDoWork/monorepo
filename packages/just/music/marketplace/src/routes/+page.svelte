@@ -24,7 +24,7 @@
     ">
     <H1
         class="
-            mt-8! mb-12!
+            mt-8! mb-12! w-full
             md:absolute md:top-16
         ">Just Music Marketplace</H1>
     <section class="md:flex md:flex-col">

@@ -22,26 +22,29 @@
             type="button"
             onclick={() => checkbox?.click()}
             class="
-                grid size-full cursor-pointer grid-cols-[min-content_1fr_4rem_4rem]
-                grid-rows-[min-content_1fr_min-content] items-center gap-4 p-4 text-left
+                grid size-full cursor-pointer grid-cols-[min-content_1fr_min-content_min-content]
+                grid-rows-[min-content_1fr_min-content] items-center gap-2 p-4 text-left text-sm
+                md:gap-4 md:text-base
             ">
-            <Checkbox
-                onclick={() => checkbox?.click()}
-                boxClass={clsx("row-span-3 size-6")}
-                svgClass={clsx("size-5")}
-                bind:input={checkbox}
-                bind:checked={track.has} />
-            <span class={clsx("font-bold select-none", !track.meta.album && "col-span-3")}>
-                {displayTrack(track)}
+            <span class="col-span-4 font-bold select-none">{displayTrack(track)}</span>
+            <span class={clsx("col-span-2 italic", !track.meta.album && `col-span-4`)}>
+                {track.meta.genre}
             </span>
             {#if track.meta.album}
                 <span
                     class="
-                        col-span-2 text-center text-gray-800
+                        col-span-2 text-right text-gray-800
                         dark:text-gray-200
-                    ">{track.meta.album}</span>
+                    ">
+                    {track.meta.album}
+                </span>
             {/if}
-            <span class="col-span-3 italic">{track.meta.genre}</span>
+            <Checkbox
+                onclick={() => checkbox?.click()}
+                boxClass={clsx(`lg:size-6`)}
+                svgClass={clsx("lg:size-5")}
+                bind:input={checkbox}
+                bind:checked={track.has} />
             {#if track.storeFile}
                 <AudioButton storeFile={track.storeFile} />
             {:else}
@@ -52,7 +55,7 @@
                     {formatDuration(track.meta.duration)}
                 {/if}
             </span>
-            <span class={smallTextClass}>
+            <span class={clsx(smallTextClass, "text-nowrap!")}>
                 {track.meta.bitrate ? Math.round(track.meta.bitrate / 1000) : "-"}&thinsp;kbps
             </span>
         </button>

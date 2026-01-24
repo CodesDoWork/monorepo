@@ -1,5 +1,6 @@
 export interface Track {
     paths: string[];
+    storeFile?: string;
     meta: {
         title?: string;
         artist?: string;

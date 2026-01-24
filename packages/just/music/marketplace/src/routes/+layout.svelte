@@ -11,7 +11,7 @@
 </script>
 
 <Layout>
-    <main class="mx-auto max-w-7xl">
+    <main class="mx-auto flex min-h-screen max-w-7xl flex-col">
         {@render children?.()}
     </main>
 </Layout>

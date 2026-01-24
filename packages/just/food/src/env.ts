@@ -6,6 +6,7 @@ export const env = createEnv({
     server: {
         CMS_URL: z.url(),
         CMS_TOKEN: z.string(),
+        DEV_USER_EMAIL: z.email().optional(),
         NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
     },
     clientPrefix: "PUBLIC_",

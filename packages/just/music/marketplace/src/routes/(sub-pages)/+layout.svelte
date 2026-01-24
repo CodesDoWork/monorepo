@@ -1,8 +1,8 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
     import { page } from "$app/state";
+    import { H1 } from "@cdw/monorepo/just-shared-svelte-components/texts";
     import { BackButton } from "../../components/buttons";
-    import { H1 } from "../../components/texts";
 
     interface Props {
         children?: Snippet;

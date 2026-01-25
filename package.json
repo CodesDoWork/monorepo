@@ -48,7 +48,7 @@
         "mermaid": "~11.12.2",
         "music-metadata": "^11.11.0",
         "nodemailer": "^7.0.12",
-        "pino": "^10.2.1",
+        "pino": "^10.3.0",
         "sveaflet": "^0.1.4",
         "tailwind-scrollbar-hide": "^4.0.0",
         "tslib": "^2.8.1",

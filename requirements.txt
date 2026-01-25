@@ -344,7 +344,7 @@ nvidia-nvshmem-cu12==3.5.19
     # via torch
 nvidia-nvtx-cu12==12.9.79
     # via torch
-packaging==25.0
+packaging==26.0
     # via
     #   accelerate
     #   datasets

@@ -541,7 +541,7 @@ torch==2.10.0
     #   transformers
 torchaudio==2.10.0
     # via -r requirements.in
-torchcodec==0.9.1
+torchcodec==0.10.0
     # via datasets
 tornado==6.5.4
     # via

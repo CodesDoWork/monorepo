@@ -145,7 +145,7 @@
         "vitepress": "1.6.4",
         "vitest": "^4.0.18",
         "webextension-polyfill": "^0.12.0",
-        "wrangler": "^4.59.2",
+        "wrangler": "^4.60.0",
         "yaml": "^2.8.2"
     },
     "trustedDependencies": [

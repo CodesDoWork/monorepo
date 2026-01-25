@@ -106,7 +106,7 @@
         "schema-dts": "^1.1.5",
         "secretlint": "^11.3.0",
         "simple-git": "^3.30.0",
-        "svelte": "5.47.1",
+        "svelte": "5.48.2",
         "svelte-apollo": "^0.5.0",
         "svelte-check": "^4.3.5",
         "tailwindcss": "^4.1.18",
@@ -4106,7 +4106,7 @@
 
     "sveaflet": ["sveaflet@0.1.4", "", { "dependencies": { "@docsearch/css": "^3.6.1", "@docsearch/js": "^3.6.1", "geojson": "^0.5.0", "mdsvexamples": "^0.5.0", "nprogress": "^0.2.0", "svelte-meta-tags": "^4.1.0" }, "peerDependencies": { "leaflet": "^1.9.4", "svelte": "^4.0.0 || ^5.0.0-next.0" } }, "sha512-4Zf92gjhXyYuBl5tXr27iYyXWOXq1ppYHEMHykaAf/Zfk0cQ1d8xapVZ8/ENgYc9PQ6FZHWJPP7LRtoULmGH1w=="],
 
-    "svelte": ["svelte@5.47.1", "", { "dependencies": { "@jridgewell/remapping": "^2.3.4", "@jridgewell/sourcemap-codec": "^1.5.0", "@sveltejs/acorn-typescript": "^1.0.5", "@types/estree": "^1.0.5", "acorn": "^8.12.1", "aria-query": "^5.3.1", "axobject-query": "^4.1.0", "clsx": "^2.1.1", "devalue": "^5.6.2", "esm-env": "^1.2.1", "esrap": "^2.2.1", "is-reference": "^3.0.3", "locate-character": "^3.0.0", "magic-string": "^0.30.11", "zimmerframe": "^1.1.2" } }, "sha512-MhSWfWEpG5T57z0Oyfk9D1GhAz/KTZKZZlWtGEsy9zNk2fafpuU7sJQlXNSA8HtvwKxVC9XlDyl5YovXUXjjHA=="],
+    "svelte": ["svelte@5.48.2", "", { "dependencies": { "@jridgewell/remapping": "^2.3.4", "@jridgewell/sourcemap-codec": "^1.5.0", "@sveltejs/acorn-typescript": "^1.0.5", "@types/estree": "^1.0.5", "acorn": "^8.12.1", "aria-query": "^5.3.1", "axobject-query": "^4.1.0", "clsx": "^2.1.1", "devalue": "^5.6.2", "esm-env": "^1.2.1", "esrap": "^2.2.1", "is-reference": "^3.0.3", "locate-character": "^3.0.0", "magic-string": "^0.30.11", "zimmerframe": "^1.1.2" } }, "sha512-VPWD+UyoSFZ7Nxix5K/F8yWiKWOiROkLlWYXOZReE0TUycw+58YWB3D6lAKT+57xmN99wRX4H3oZmw0NPy7y3Q=="],
 
     "svelte-apollo": ["svelte-apollo@0.5.0", "", { "peerDependencies": { "@apollo/client": "^3", "graphql": "*", "svelte": "^3" } }, "sha512-B4RoSAGGeuQS8pgoo5wQ+41DonoEewHkcx6qH6zjsd2nOZNNVETVRLleTph9rRmHuCtXZxvzupNfthWH+lG+9g=="],
 

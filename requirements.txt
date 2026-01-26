@@ -489,7 +489,7 @@ send2trash==2.1.0
     # via jupyter-server
 sentry-sdk==2.50.0
     # via wandb
-setuptools==80.10.1
+setuptools==80.10.2
     # via
     #   jupyterlab
     #   torch

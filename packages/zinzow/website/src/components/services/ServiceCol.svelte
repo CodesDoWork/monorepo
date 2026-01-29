@@ -46,9 +46,9 @@
                     ">
                     <H2
                         class="
-                            dark:text-primary-100
-                            absolute top-2 left-2 mt-0! size-fit rounded-lg bg-white/75 px-3 py-1
-                            text-sm! text-nowrap transition-all
+                            dark:text-primary-100!
+                            absolute top-2 left-2 mt-0! h-fit w-max max-w-full rounded-lg
+                            bg-white/75 px-3 py-1 text-center text-sm! transition-all
                             group-hover:inset-1/2 group-hover:-translate-1/2
                             group-hover:bg-transparent group-hover:text-3xl!
                             sm:text-base!

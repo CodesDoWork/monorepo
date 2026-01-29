@@ -1,7 +1,7 @@
 <script lang="ts">
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
-    import { fadeInBottom, smallTextClasses } from "../../lib/common/styles";
+    import { colorPrimaryClass, fadeInBottom, smallTextClasses } from "../../lib/common/styles";
 
     interface Stats {
         name: string;
@@ -38,12 +38,15 @@
                 {stat.name}
             </dt>
             <dd
-                class="
-                    text-primary text-center text-2xl font-semibold tracking-tight
-                    sm:text-3xl
-                    md:text-4xl
-                    lg:text-5xl
-                ">
+                class={clsx(
+                    colorPrimaryClass,
+                    `
+                        text-center text-2xl font-semibold tracking-tight
+                        sm:text-3xl
+                        md:text-4xl
+                        lg:text-5xl
+                    `,
+                )}>
                 {stat.value}
             </dd>
         </div>

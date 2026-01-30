@@ -19,7 +19,7 @@
         "hyparquet-compressors": "^1.1.1",
         "leaflet": "^1.9.4",
         "mermaid": "~11.12.2",
-        "music-metadata": "^11.11.0",
+        "music-metadata": "^11.11.1",
         "nodemailer": "^7.0.12",
         "pino": "^10.3.0",
         "sveaflet": "^0.1.4",
@@ -3408,7 +3408,7 @@
 
     "multimatch": ["multimatch@6.0.0", "", { "dependencies": { "@types/minimatch": "^3.0.5", "array-differ": "^4.0.0", "array-union": "^3.0.1", "minimatch": "^3.0.4" } }, "sha512-I7tSVxHGPlmPN/enE3mS1aOSo6bWBfls+3HmuEeCUBCE7gWnm3cBXCBkpurzFjVRwC6Kld8lLaZ1Iv5vOcjvcQ=="],
 
-    "music-metadata": ["music-metadata@11.11.0", "", { "dependencies": { "@borewit/text-codec": "^0.2.1", "@tokenizer/token": "^0.3.0", "content-type": "^1.0.5", "debug": "^4.4.3", "file-type": "^21.3.0", "media-typer": "^1.1.0", "strtok3": "^10.3.4", "token-types": "^6.1.2", "uint8array-extras": "^1.5.0", "win-guid": "^0.2.0" } }, "sha512-OTlsv/FiCr+c4+fC6t9j/GTC/m1KKc3QtOTYHVEvvGLDLpPdtgf32pB7JXJ/Xi8qdIxwwh2PR8J/1t0QL1BxWQ=="],
+    "music-metadata": ["music-metadata@11.11.1", "", { "dependencies": { "@borewit/text-codec": "^0.2.1", "@tokenizer/token": "^0.3.0", "content-type": "^1.0.5", "debug": "^4.4.3", "file-type": "^21.3.0", "media-typer": "^1.1.0", "strtok3": "^10.3.4", "token-types": "^6.1.2", "uint8array-extras": "^1.5.0", "win-guid": "^0.2.0" } }, "sha512-8FT+lSLznASDhn5KNJtQE6ZH95VqhxtKWNPrvdfhlqgbdZZEEAXehx+xpUvas4VuEZAu49BhQgLa3NlmPeRaww=="],
 
     "mute-stream": ["mute-stream@3.0.0", "", {}, "sha512-dkEJPVvun4FryqBmZ5KhDo0K9iDXAwn08tMLDinNdRBNPcYEDiWYysLcc6k3mjTMlbP9KyylvRpd4wFtwrT9rw=="],
 

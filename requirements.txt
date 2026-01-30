@@ -71,7 +71,7 @@ datasets==4.5.0
     # via
     #   -r requirements.in
     #   evaluate
-debugpy==1.8.19
+debugpy==1.8.20
     # via ipykernel
 decorator==5.2.1
     # via

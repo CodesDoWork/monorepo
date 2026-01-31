@@ -11,6 +11,7 @@
         iconContainerClass?: string;
         icon: string;
         href?: string | null;
+        small?: boolean;
         children?: Snippet;
         animationDelay?: number;
     }
@@ -20,6 +21,7 @@
         iconContainerClass,
         icon,
         href = null,
+        small,
         children,
         animationDelay: delay,
     }: Props = $props();
@@ -35,13 +37,13 @@
         role={href ? "link" : "none"}
         {style}
         class={elementClass}>
-        <TextWithIconContent {href} class={iconContainerClass} {icon}>
+        <TextWithIconContent {href} class={iconContainerClass} {icon} {small}>
             {@render children?.()}
         </TextWithIconContent>
     </a>
 {:else}
     <div {style} class={elementClass}>
-        <TextWithIconContent {href} class={iconContainerClass} {icon}>
+        <TextWithIconContent {href} class={iconContainerClass} {icon} {small}>
             {@render children?.()}
         </TextWithIconContent>
     </div>

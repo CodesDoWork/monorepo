@@ -74,7 +74,8 @@
                         class="mx-auto mt-4 max-w-full"
                         href={`tel:${member.phone}`}
                         icon={Icons.Phone}
-                        iconContainerClass="pt-0.5">
+                        iconContainerClass="pt-1"
+                        small>
                         {member.phone}
                     </TextWithIcon>
                 {/if}

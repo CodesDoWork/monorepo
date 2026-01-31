@@ -1,12 +1,11 @@
+import type { DirectusImageParams } from "@cdw/monorepo/packages/shared/svelte/components/src";
 import type { Video } from "../../components/impressions/types";
 import type { PageData } from "./$types";
 
-export function useGallery(
-    images: PageData["impressions"]["images"],
-    videos: Video[],
-    columns: number,
-) {
-    const columnsArray = Array.from({ length: columns }).map(() => [] as (typeof images | Video)[]);
+type Image = PageData["impressions"]["images"][number];
+
+export function useGallery(images: Image[], videos: Video[], columns: number) {
+    const columnsArray = Array.from({ length: columns }).map(() => [] as (Image | Video)[]);
     images.forEach((_, idx) => columnsArray[idx % columns].push(images[idx]));
     videos.forEach((_, idx) => columnsArray[(idx + images.length) % columns].push(videos[idx]));
 
@@ -120,6 +119,10 @@ export function useGallery(
     };
 }
 
-export function isVideo(item: PageData["impressions"]["images"] | Video): item is Video {
-    return !("src" in item);
+export function isImage(item: Image | Video): item is Image {
+    return "src" in item;
+}
+
+export function isDirectusParams(item: DirectusImageParams | Video): item is DirectusImageParams {
+    return "src" in item;
 }

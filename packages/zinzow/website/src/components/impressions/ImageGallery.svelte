@@ -5,6 +5,7 @@
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
     import { fadeInBottom } from "../../lib/common/styles";
+    import { isDirectusParams } from "../../routes/impressionen/gallery.svelte";
 
     interface Props {
         columns: number;
@@ -51,9 +52,9 @@
         md:mb-4
         lg:col-span-2 lg:row-start-auto lg:mb-0
     ">
-    {#each columnsArray as colImgs, colIdx}
+    {#each columnsArray as colItems, colIdx}
         <div class="flex flex-col">
-            {#each colImgs as img, rowIdx}
+            {#each colItems as item, rowIdx}
                 {@const imgIdx = rowIdx * columns + colIdx}
                 {@const isSelected = colIdx === selectedCol && rowIdx === selectedRow}
                 <li class={fadeInBottom} style={animationDelay(delay + imgIdx)}>
@@ -65,9 +66,9 @@
                         onclick={() => clickItem(colIdx, rowIdx)}
                         onmousemove={() => selectItem(colIdx, rowIdx)}
                         onmouseleave={resetSelectedItem}>
-                        {#if "src" in img}
+                        {#if isDirectusParams(item)}
                             <DirectusImage
-                                {img}
+                                img={item}
                                 imgClass={itemClass(isSelected)}
                                 sourceClass={clsx(`
                                     hidden
@@ -76,7 +77,7 @@
                                 class={containerClass} />
                         {:else}
                             <YTVideo
-                                video={img}
+                                video={item}
                                 class={clsx(
                                     itemClass(isSelected),
                                     containerClass,

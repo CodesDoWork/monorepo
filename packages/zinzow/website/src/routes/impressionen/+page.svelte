@@ -10,7 +10,7 @@
     import { ImageInfo, ImageNavigation } from "../../components/impressions";
     import ImageGallery from "../../components/impressions/ImageGallery.svelte";
     import { fadeIn } from "../../lib/common/styles";
-    import { isVideo, useGallery } from "./gallery.svelte";
+    import { isImage, useGallery } from "./gallery.svelte";
 
     interface Props {
         data: PageData;
@@ -34,7 +34,7 @@
 </script>
 
 <svelte:window onkeydown={gallery.handleKey} />
-{#if !isVideo(gallery.selectedItem)}
+{#if isImage(gallery.selectedItem)}
     <ImagePopup
         isOpen={gallery.showDialog}
         setIsOpen={(isOpen: boolean) => (gallery.showDialog = isOpen)}
@@ -64,10 +64,10 @@
                     h-96 w-full
                     md:h-128
                 ">
-                {#if isVideo(gallery.selectedItem)}
-                    <YTVideo video={gallery.selectedItem} class={clsx(itemClass, imgClass)} />
-                {:else if gallery.selectedItem}
+                {#if isImage(gallery.selectedItem)}
                     <DirectusImage img={gallery.selectedItem} {imgClass} class={itemClass} />
+                {:else if gallery.selectedItem}
+                    <YTVideo video={gallery.selectedItem} class={clsx(itemClass, imgClass)} />
                 {/if}
             </button>
             <ImageInfo {...gallery.selectedItem} />

@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { DirectusImage, YTVideo } from "@cdw/monorepo/shared-svelte-components";
     import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
@@ -10,25 +10,36 @@
     import { ImageInfo, ImageNavigation } from "../../components/impressions";
     import ImageGallery from "../../components/impressions/ImageGallery.svelte";
     import { fadeIn } from "../../lib/common/styles";
-    import { useImages } from "./image.svelte";
+    import { isVideo, useGallery } from "./gallery.svelte";
 
     interface Props {
         data: PageData;
     }
 
     const { data }: Props = $props();
-    const { impressions, jsonldThings } = $derived(data);
+    const { impressions, videos, jsonldThings } = $derived(data);
     const columns = 6;
-    const imgs = $derived(useImages(impressions.images, columns));
+    const gallery = $derived(useGallery(impressions.images, videos, columns));
 
     $effect(() => addJsonLdThings(jsonldThings));
+
+    const imgClass = clsx(`
+        rounded-md
+        md:shadow-lg
+    `);
+    const itemClass = clsx(`
+        mx-auto h-full cursor-pointer
+        lg:w-full
+    `);
 </script>
 
-<svelte:window onkeydown={imgs.handleKey} />
-<ImagePopup
-    isOpen={imgs.showDialog}
-    setIsOpen={(isOpen: boolean) => (imgs.showDialog = isOpen)}
-    selectedImage={imgs.selectedImage} />
+<svelte:window onkeydown={gallery.handleKey} />
+{#if !isVideo(gallery.selectedItem)}
+    <ImagePopup
+        isOpen={gallery.showDialog}
+        setIsOpen={(isOpen: boolean) => (gallery.showDialog = isOpen)}
+        selectedImage={gallery.selectedItem} />
+{/if}
 <WidthBox class="isolate">
     <H1 class={fadeIn}>{impressions.title}</H1>
     <div
@@ -48,27 +59,20 @@
                 `,
             )}>
             <button
-                onclick={() => (imgs.showDialog = true)}
+                onclick={() => (gallery.showDialog = true)}
                 class="
                     h-96 w-full
                     md:h-128
                 ">
-                <DirectusImage
-                    img={imgs.selectedImage}
-                    imgClass="rounded-md md:shadow-lg"
-                    class="
-                        mx-auto h-full cursor-pointer
-                        lg:w-full
-                    " />
+                {#if isVideo(gallery.selectedItem)}
+                    <YTVideo video={gallery.selectedItem} class={clsx(itemClass, imgClass)} />
+                {:else if gallery.selectedItem}
+                    <DirectusImage img={gallery.selectedItem} {imgClass} class={itemClass} />
+                {/if}
             </button>
-            <ImageInfo {...imgs.selectedImage} />
-            <ImageNavigation rotateImageBy={imgs.rotateImageBy} />
+            <ImageInfo {...gallery.selectedItem} />
+            <ImageNavigation rotateCol={gallery.rotateCol} />
         </div>
-        <ImageGallery
-            {columns}
-            {...imgs}
-            animationDelay={2}
-            setClickedSelectedImageIdx={val => (imgs.clickedSelectedImageIdx = val)}
-            setSelectedImageIdx={val => (imgs.selectedImageIdx = val)} />
+        <ImageGallery {columns} {...gallery} animationDelay={2} />
     </div>
 </WidthBox>

@@ -5,14 +5,13 @@
     import { Paragraphs, TextWithIcon } from "../text";
 
     interface Props {
-        id: string;
         title?: string;
         description?: string;
         location?: string;
         tags?: string[];
     }
 
-    const { id, title, description, location, tags }: Props = $props();
+    const { title, description, location, tags }: Props = $props();
 </script>
 
 <div
@@ -24,7 +23,9 @@
         class="
             mt-0!
             has-[+p]:mb-4
-        ">{title ?? id}</H3>
+        ">
+        {title}
+    </H3>
     {#if description}
         <Paragraphs text={description} />
     {/if}

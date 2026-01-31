@@ -3,7 +3,7 @@
     import { page } from "$app/state";
     import { clsx } from "clsx";
     import { H1 } from "../components/heading";
-    import { stylesMap } from "../lib/common/styles";
+    import { colorPrimaryClass, stylesMap } from "../lib/common/styles";
 
     interface Props {
         data: PageData;
@@ -24,7 +24,9 @@
         `,
         currentRoute?.isHero && "mt-48",
     )}>
-    <p class="text-primary text-base font-semibold">{status}</p>
+    <p class={clsx(colorPrimaryClass, "text-base font-semibold")}>
+        {status}
+    </p>
     <H1
         class="
             mt-4 text-5xl

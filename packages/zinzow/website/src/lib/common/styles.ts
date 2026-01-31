@@ -1,11 +1,13 @@
 import { clsx } from "clsx";
 
+export const colorPrimaryClass = clsx(`
+    text-primary
+    dark:text-primary-400
+`);
+
 export const headlineBaseClasses = clsx(
-    `
-        text-primary
-        dark:text-primary
-        font-semibold tracking-tight text-pretty
-    `,
+    colorPrimaryClass,
+    "font-semibold tracking-tight text-pretty",
 );
 
 export const aHoverAnimation = clsx(
@@ -38,10 +40,10 @@ export const fadeIn = clsx("animate-fadeIn opacity-0");
 export const stylesMap = {
     a: clsx(
         textBaseClasses,
+        colorPrimaryClass,
         `
-            text-primary
             hover:text-primary-900
-            dark:hover:text-primary-400
+            dark:hover:text-primary-300
         `,
         aHoverAnimation,
     ),

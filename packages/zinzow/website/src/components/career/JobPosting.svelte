@@ -2,7 +2,7 @@
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
-    import { fadeInBottom } from "../../lib/common/styles";
+    import { colorPrimaryClass, fadeInBottom } from "../../lib/common/styles";
     import { H3 } from "../heading";
     import { Icons } from "../icons";
 
@@ -58,12 +58,14 @@
                                 dark:group-hover:text-gray-100
                             " />
                         <span
-                            class="
-                                text-primary
-                                group-hover:text-primary-700
-                                dark:group-hover:text-primary-300
-                                transition-colors
-                            ">{file.title}</span>
+                            class={clsx(
+                                colorPrimaryClass,
+                                `
+                                    group-hover:text-primary-700
+                                    dark:group-hover:text-primary-300
+                                    transition-colors
+                                `,
+                            )}>{file.title}</span>
                     </a>
                 </li>
             {/each}

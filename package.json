@@ -47,7 +47,7 @@
         "leaflet": "^1.9.4",
         "mermaid": "~11.12.2",
         "music-metadata": "^11.11.1",
-        "nodemailer": "^7.0.12",
+        "nodemailer": "^7.0.13",
         "pino": "^10.3.0",
         "sveaflet": "^0.1.4",
         "tailwind-scrollbar-hide": "^4.0.0",

@@ -4,13 +4,14 @@ import { linkSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { env } from "../../../env";
 import { getSelectedTracks } from "../../../lib/common/selected-tracks";
+import { compressAndEncode } from "../../../lib/server/compression";
 import { getMusicLib } from "../../../lib/server/headers";
 import { getTracks, isStoreReady } from "../../../lib/server/store";
 
 export const load: PageServerLoad = async ({ request }) => {
     const userLib = getMusicLib(request);
     return {
-        tracks: getUserTracks(userLib),
+        tracks: compressAndEncode(getUserTracks(userLib)),
         isStoreReady: isStoreReady(),
         userLib,
         title: "Manage Songs",

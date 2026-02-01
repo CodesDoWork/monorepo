@@ -6,6 +6,7 @@
     import { VirtualList } from "@cdw/monorepo/shared-svelte-components/virtual-list";
     import { clsx } from "clsx";
     import { LoadingBarrier } from "../../../components/loading";
+    import { decodeAndDecompress } from "../../../lib/client/compression";
     import { getPairs } from "../../../lib/client/get-pairs";
     import { useTrackFilters } from "./filters.svelte";
     import Filters from "./Filters.svelte";
@@ -27,7 +28,7 @@
     }
 
     $effect(() => {
-        tracks = data.tracks;
+        decodeAndDecompress<IndexedTrack[]>(data.tracks).then(data => (tracks = data));
     });
 </script>
 

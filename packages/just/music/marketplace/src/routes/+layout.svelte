@@ -26,7 +26,7 @@
 </svelte:head>
 
 <Layout>
-    <main class="mx-auto flex min-h-screen max-w-7xl flex-col">
+    <main class="flex min-h-screen flex-col">
         {@render children?.()}
     </main>
 </Layout>

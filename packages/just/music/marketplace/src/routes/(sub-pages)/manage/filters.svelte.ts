@@ -7,40 +7,54 @@ export function useTrackFilters<T extends IndexedTrack>(tracks: T[]) {
     let genreFilter = $state("");
     let albumFilter = $state("");
     let yearFilter = $state("");
+    let trackFilter = $state("");
+    let diskFilter = $state("");
     let showOnlyUnsavedFilter = $state(false);
     const displayedTracks = $derived.by(() => {
         let tmpTracks = tracks;
 
+        function matches(value: string | undefined, filter: string) {
+            return filter.endsWith(" ") ? value === filter.slice(0, -1) : value?.includes(filter);
+        }
+
         if (freetextFilter) {
-            tmpTracks = tmpTracks.filter(t => t.freetext.includes(freetextFilter.toLowerCase()));
+            tmpTracks = tmpTracks.filter(t => matches(t.freetext, freetextFilter.toLowerCase()));
         }
 
         if (artistFilter) {
             tmpTracks = tmpTracks.filter(t =>
-                t.meta.artist?.toLowerCase().includes(artistFilter.toLowerCase()),
+                matches(t.meta.artist?.toLowerCase(), artistFilter.toLowerCase()),
             );
         }
 
         if (titleFilter) {
             tmpTracks = tmpTracks.filter(t =>
-                t.meta.title?.toLowerCase().includes(titleFilter.toLowerCase()),
+                matches(t.meta.title?.toLowerCase(), titleFilter.toLowerCase()),
             );
         }
 
         if (genreFilter) {
             tmpTracks = tmpTracks.filter(t =>
-                t.meta.genre?.some(g => g.toLowerCase().includes(genreFilter.toLowerCase())),
+                t.meta.genre?.some(g => matches(g.toLowerCase(), genreFilter.toLowerCase())),
             );
         }
 
         if (albumFilter) {
             tmpTracks = tmpTracks.filter(t =>
-                t.meta.album?.toLowerCase().includes(albumFilter.toLowerCase()),
+                matches(t.meta.album?.toLowerCase(), albumFilter.toLowerCase()),
             );
         }
 
         if (yearFilter) {
-            tmpTracks = tmpTracks.filter(t => t.meta.year?.toString().includes(yearFilter));
+            tmpTracks = tmpTracks.filter(t => matches(t.meta.year?.toString(), yearFilter));
+        }
+
+        if (trackFilter) {
+            tmpTracks = tmpTracks.filter(t => matches(t.meta.trackNo?.toString(), trackFilter));
+        }
+
+        if (diskFilter) {
+            tmpTracks = tmpTracks.filter(t => matches(t.meta.diskNo?.toString(), diskFilter));
         }
 
         if (showOnlyUnsavedFilter) {
@@ -57,6 +71,9 @@ export function useTrackFilters<T extends IndexedTrack>(tracks: T[]) {
         genreFilter = "";
         albumFilter = "";
         yearFilter = "";
+        trackFilter = "";
+        diskFilter = "";
+        showOnlyUnsavedFilter = false;
     }
 
     return {
@@ -98,6 +115,18 @@ export function useTrackFilters<T extends IndexedTrack>(tracks: T[]) {
         },
         set yearFilter(value: string) {
             yearFilter = value;
+        },
+        get trackFilter() {
+            return trackFilter;
+        },
+        set trackFilter(value: string) {
+            trackFilter = value;
+        },
+        get diskFilter() {
+            return diskFilter;
+        },
+        set diskFilter(value: string) {
+            diskFilter = value;
         },
         get showOnlyUnsavedFilter() {
             return showOnlyUnsavedFilter;

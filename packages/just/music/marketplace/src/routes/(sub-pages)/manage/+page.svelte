@@ -8,12 +8,16 @@
     import { LoadingBarrier } from "../../../components/loading";
     import { decodeAndDecompress } from "../../../lib/client/compression";
     import { getPairs } from "../../../lib/client/get-pairs";
+    import { displayTrack } from "../../../lib/common/track";
     import { useTrackFilters } from "./filters.svelte";
     import Filters from "./Filters.svelte";
     import TrackCard from "./TrackCard.svelte";
 
-    const { data }: PageProps = $props();
+    const { data, form }: PageProps = $props();
     const { isStoreReady, userLib } = $derived(data);
+    const { errors } = $derived(form || { errors: [] });
+
+    let acknowledgedErrors = $state(false);
 
     let tracks: IndexedTrack[] = $state([]);
     const filters = $derived(useTrackFilters(tracks));
@@ -30,7 +34,51 @@
     $effect(() => {
         decodeAndDecompress<IndexedTrack[]>(data.tracks).then(data => (tracks = data));
     });
+
+    $effect(() => {
+        if (errors.length) {
+            acknowledgedErrors = false;
+        }
+    });
 </script>
+
+{#if errors.length && tracks.length && !acknowledgedErrors}
+    <dialog
+        open
+        onclick={() => (acknowledgedErrors = true)}
+        class="
+            absolute inset-0 z-50 flex size-full items-center justify-center bg-black/50 p-4
+            text-black backdrop-blur-sm
+            dark:text-white
+        ">
+        <ul
+            class="
+                dark:bg-primary-950
+                bg-primary-500 border-primary flex list-disc flex-col gap-4 rounded-md border p-4
+                pl-8
+            ">
+            {#each errors as error}
+                {@const track = tracks[error.idx]}
+                <li>
+                    <p
+                        class="
+                            text-sm
+                            md:text-base
+                        ">
+                        {track && displayTrack(track)}:
+                        <span
+                            class="
+                                text-red-800
+                                dark:text-red-600
+                            ">
+                            {error.msg}
+                        </span>
+                    </p>
+                </li>
+            {/each}
+        </ul>
+    </dialog>
+{/if}
 
 <LoadingBarrier isLoading={!isStoreReady}>
     <div></div>

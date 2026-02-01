@@ -38,6 +38,8 @@
     <Input bind:value={filters.genreFilter} placeholder="Genre" />
     <Input bind:value={filters.albumFilter} placeholder="Album" />
     <Input bind:value={filters.yearFilter} placeholder="Year" />
+    <Input bind:value={filters.trackFilter} placeholder="Track Nr." />
+    <Input bind:value={filters.diskFilter} placeholder="Disk Nr." />
     <CheckboxWithLabel
         bind:checked={filters.showOnlyUnsavedFilter}
         id="showUnsavedOnly"

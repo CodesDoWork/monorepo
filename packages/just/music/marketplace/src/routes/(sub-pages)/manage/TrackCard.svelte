@@ -2,6 +2,7 @@
     import type { IndexedTrack } from "./types";
     import { Checkbox } from "@cdw/monorepo/shared-svelte-components/forms";
     import { formatDuration } from "@cdw/monorepo/shared-utils/numbers";
+    import Icon from "@iconify/svelte";
     import clsx from "clsx";
     import { Card } from "../../../components/cards";
     import { smallTextClass } from "../../../lib/common/styles";
@@ -23,7 +24,8 @@
             onclick={() => checkbox?.click()}
             class="
                 grid size-full cursor-pointer grid-cols-[min-content_1fr_min-content_min-content]
-                grid-rows-[min-content_1fr_min-content] items-center gap-2 p-4 text-left text-sm
+                grid-rows-[min-content_1fr_min-content_min-content] items-center gap-2 p-4 text-left
+                text-sm
                 md:gap-4 md:text-base
             ">
             <span class="col-span-4 font-bold select-none">{displayTrack(track)}</span>
@@ -39,6 +41,35 @@
                     {track.meta.album}
                 </span>
             {/if}
+            <div
+                class={clsx(
+                    "col-span-4",
+                    track.meta.diskNo ||
+                        track.meta.diskOf ||
+                        track.meta.trackNo ||
+                        track.meta.trackOf
+                        ? "flex items-center gap-2"
+                        : `h-0`,
+                )}>
+                {#if track.meta.diskNo || track.meta.diskOf}
+                    <Icon icon="tabler:disc" class="size-5" />
+                    <span class="mr-8">
+                        {track.meta.diskNo}1&nbsp;/&nbsp;4
+                        {#if track.meta.diskOf}
+                            &nbsp;/&nbsp;{track.meta.diskOf}
+                        {/if}
+                    </span>
+                {/if}
+                {#if track.meta.trackNo || track.meta.trackOf}
+                    <span>
+                        <span class="text-lg font-bold text-shadow-black/20 text-shadow-lg">#</span>
+                        {track.meta.trackNo}
+                        {#if track.meta.trackOf}
+                            &nbsp;/&nbsp;{track.meta.trackOf}
+                        {/if}
+                    </span>
+                {/if}
+            </div>
             <Checkbox
                 onclick={() => checkbox?.click()}
                 boxClass={clsx(`lg:size-6`)}

@@ -9,6 +9,10 @@ export interface Track {
         album?: string;
         bitrate?: number;
         duration?: number;
+        diskNo?: number | null;
+        diskOf?: number | null;
+        trackNo?: number | null;
+        trackOf?: number | null;
     };
 }
 

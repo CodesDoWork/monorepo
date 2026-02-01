@@ -11,4 +11,6 @@ export {
     TextareaWithLabel,
 } from "./forms";
 
+export { HorizontalItemTable, Table } from "./table";
+
 export { type YTEmbeddedVideo, YTVideo } from "./yt-video";

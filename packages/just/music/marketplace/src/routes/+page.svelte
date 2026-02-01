@@ -1,10 +1,10 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import { H1 } from "@cdw/monorepo/just-shared-svelte-components/texts";
     import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
     import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { LinkCard } from "../components/cards";
-    import { H1 } from "../components/texts";
 
     interface Props {
         data: PageData;
@@ -24,7 +24,7 @@
     ">
     <H1
         class="
-            mt-8! mb-12!
+            mt-8! mb-12! w-full
             md:absolute md:top-16
         ">Just Music Marketplace</H1>
     <section class="md:flex md:flex-col">

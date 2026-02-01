@@ -1,11 +1,10 @@
 <script lang="ts">
-    import { buttonClass } from "../../../lib/common/styles";
+    import { LinkButton } from "@cdw/monorepo/shared-svelte-components/buttons";
 </script>
 
+<div></div>
 <div class="pt-8">
-    <a class={buttonClass} href="/download-addon.zip" download="download-addon.zip">
-        Download Addon
-    </a>
+    <LinkButton href="/download-addon.zip" download="download-addon.zip">Download Addon</LinkButton>
     <h2
         class="
             dark:text-secondary

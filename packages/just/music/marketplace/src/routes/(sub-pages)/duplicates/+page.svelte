@@ -14,7 +14,7 @@
 
     const { data }: Props = $props();
     const { duplicates, isStoreReady } = $derived(data);
-    const pairs = $derived(getPairs([...duplicates, ...duplicates, ...duplicates, ...duplicates]));
+    const pairs = $derived(getPairs(duplicates));
 </script>
 
 <LoadingBarrier isLoading={!isStoreReady}>

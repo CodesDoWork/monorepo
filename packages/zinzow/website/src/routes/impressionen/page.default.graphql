@@ -10,4 +10,12 @@ query GetImpressionsData {
             }
         }
     }
+
+    videos: yt_videos {
+        id: video_id
+        title
+        description
+        location
+        tags
+    }
 }

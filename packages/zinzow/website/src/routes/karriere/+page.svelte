@@ -8,7 +8,12 @@
     import { WidthBox } from "../../components/content-area";
     import { H1, H2, H4 } from "../../components/heading";
     import { Paragraphs } from "../../components/text";
-    import { aHoverAnimation, fadeIn, fadeInBottom } from "../../lib/common/styles";
+    import {
+        aHoverAnimation,
+        colorPrimaryClass,
+        fadeIn,
+        fadeInBottom,
+    } from "../../lib/common/styles";
 
     interface Props {
         data: PageData;
@@ -34,12 +39,12 @@
             <li
                 class={clsx(
                     fadeInBottom,
+                    colorPrimaryClass,
                     `
-                        text-primary
                         hover:text-primary-900
-                        dark:hover:text-primary-400
+                        dark:hover:text-primary-300
                         w-fit origin-left transition-all
-                        hover:scale-104
+                        hover:scale-103
                     `,
                 )}
                 style={animationDelay(2 + idx)}>

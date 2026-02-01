@@ -1,31 +1,49 @@
 <script lang="ts">
     import type { DirectusImageParams } from "@cdw/monorepo/shared-svelte-components";
-    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import type { Video } from "./types";
+    import { DirectusImage, YTVideo } from "@cdw/monorepo/shared-svelte-components";
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
     import { fadeInBottom } from "../../lib/common/styles";
+    import { isDirectusParams } from "../../routes/impressionen/gallery.svelte";
 
     interface Props {
         columns: number;
-        columnsArray: DirectusImageParams[][];
-        images: DirectusImageParams[];
-        selectedImageIdx: number;
-        resetSelectedImg: () => void;
-        setSelectedImageIdx: (idx: number) => void;
-        setClickedSelectedImageIdx: (idx: number) => void;
+        columnsArray: (Video | DirectusImageParams)[][];
+        selectedCol: number;
+        selectedRow: number;
+        resetSelectedItem: () => void;
+        selectItem: (col: number, row: number) => void;
+        clickItem: (col: number, row: number) => void;
         animationDelay: number;
     }
 
     const {
-        images,
         columns,
         columnsArray,
-        selectedImageIdx,
-        resetSelectedImg,
-        setSelectedImageIdx,
-        setClickedSelectedImageIdx,
+        selectedCol,
+        selectedRow,
+        resetSelectedItem,
+        selectItem,
+        clickItem,
         animationDelay: delay,
     }: Props = $props();
+
+    const itemClass = (isSelected: boolean) =>
+        clsx(
+            `
+                ring-primary rounded-md shadow-md
+                sm:max-h-24
+                md:max-h-36 md:rounded-lg
+                lg:max-h-40
+            `,
+            isSelected &&
+                `
+                    ring-2
+                    md:ring-4
+                `,
+        );
+    const containerClass = clsx("w-full");
 </script>
 
 <ul
@@ -34,42 +52,40 @@
         md:mb-4
         lg:col-span-2 lg:row-start-auto lg:mb-0
     ">
-    {#each columnsArray as _, colIdx}
+    {#each columnsArray as colItems, colIdx}
         <div class="flex flex-col">
-            {#each images as img, imgIdx}
-                {#if imgIdx % columns === colIdx}
-                    <li class={fadeInBottom} style={animationDelay(delay + imgIdx)}>
-                        <button
-                            class="
-                                group size-full p-1
-                                md:p-2
-                            "
-                            onclick={() => setClickedSelectedImageIdx(imgIdx)}
-                            onmousemove={() => setSelectedImageIdx(imgIdx)}
-                            onmouseleave={resetSelectedImg}>
+            {#each colItems as item, rowIdx}
+                {@const imgIdx = rowIdx * columns + colIdx}
+                {@const isSelected = colIdx === selectedCol && rowIdx === selectedRow}
+                <li class={fadeInBottom} style={animationDelay(delay + imgIdx)}>
+                    <button
+                        class="
+                            group size-full cursor-pointer p-1
+                            md:p-2
+                        "
+                        onclick={() => clickItem(colIdx, rowIdx)}
+                        onmousemove={() => selectItem(colIdx, rowIdx)}
+                        onmouseleave={resetSelectedItem}>
+                        {#if isDirectusParams(item)}
                             <DirectusImage
-                                {img}
-                                imgClass={clsx(
-                                    `
-                                        ring-primary rounded-md shadow-md
-                                        sm:max-h-24
-                                        md:max-h-36 md:rounded-lg
-                                        lg:max-h-40
-                                    `,
-                                    imgIdx === selectedImageIdx &&
-                                        `
-                                            ring-2
-                                            md:ring-4
-                                        `,
-                                )}
+                                img={item}
+                                imgClass={itemClass(isSelected)}
                                 sourceClass={clsx(`
                                     hidden
                                     md:block
                                 `)}
-                                class={clsx("w-full cursor-pointer")} />
-                        </button>
-                    </li>
-                {/if}
+                                class={containerClass} />
+                        {:else}
+                            <YTVideo
+                                video={item}
+                                class={clsx(
+                                    itemClass(isSelected),
+                                    containerClass,
+                                    `pointer-events-none`,
+                                )} />
+                        {/if}
+                    </button>
+                </li>
             {/each}
         </div>
     {/each}

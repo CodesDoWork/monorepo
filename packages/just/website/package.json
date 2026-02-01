@@ -2,8 +2,5 @@
     "name": "just-website",
     "type": "module",
     "private": true,
-    "description": "This app contains my personal website",
-    "imports": {
-        "#app.css": "./src/app.css"
-    }
+    "description": "This app contains my personal website"
 }

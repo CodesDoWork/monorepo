@@ -1,5 +1,13 @@
 export default {
     projects: {
+        "just-food-graphql-default": {
+            schema: ["packages/just/food/src/graphql/default/generated/graphql.schema.json"],
+            documents: ["packages/just/food/src/**/*.default.graphql"],
+        },
+        "just-food-graphql-system": {
+            schema: ["packages/just/website/src/graphql/system/generated/graphql.schema.json"],
+            documents: ["packages/just/website/src/**/*.system.graphql"],
+        },
         "just-website-graphql-default": {
             schema: ["packages/just/website/src/graphql/default/generated/graphql.schema.json"],
             documents: ["packages/just/website/src/**/*.default.graphql"],

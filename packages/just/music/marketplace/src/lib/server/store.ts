@@ -63,14 +63,26 @@ function ingestSong(path: string, inode: number, paths?: string[]) {
         new Promise<void>(resolve => {
             parseFile(path).then(metadata => {
                 const { common, format } = metadata;
-                const { title, artist, genre, year, album } = common;
+                const { title, artist, genre, year, album, disk, track } = common;
                 const { bitrate, duration } = format;
                 paths = paths ? [...paths, path] : [path];
                 const storePath = paths.find(p => p.startsWith(env.STORE_DIR));
                 tracks.set(inode, {
                     paths,
                     storeFile: storePath ? basename(storePath) : undefined,
-                    meta: { title, artist, genre, year, album, bitrate, duration },
+                    meta: {
+                        title,
+                        artist,
+                        genre,
+                        year,
+                        album,
+                        diskNo: disk.no,
+                        diskOf: disk.of,
+                        trackNo: track.no,
+                        trackOf: track.of,
+                        bitrate,
+                        duration,
+                    },
                 });
                 resolve();
             });
@@ -93,7 +105,7 @@ function remove(path: string) {
         const track = tracks.get(inode);
         if (track) {
             track.paths = track.paths.filter(p => p !== path);
-            if (!track.paths.length) {
+            if (!track.paths.length || !track.paths.some(p => p.startsWith(env.STORE_DIR))) {
                 tracks.delete(inode);
             }
         }

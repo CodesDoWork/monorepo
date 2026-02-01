@@ -2,47 +2,100 @@
     import type { PageProps } from "./$types";
     import type { IndexedTrack } from "./types";
     import { enhance } from "$app/forms";
-    import { CheckboxWithLabel, Input } from "@cdw/monorepo/shared-svelte-components/forms";
+    import { Button } from "@cdw/monorepo/shared-svelte-components/buttons";
     import { VirtualList } from "@cdw/monorepo/shared-svelte-components/virtual-list";
     import { clsx } from "clsx";
     import { LoadingBarrier } from "../../../components/loading";
+    import { decodeAndDecompress } from "../../../lib/client/compression";
     import { getPairs } from "../../../lib/client/get-pairs";
-    import { buttonClass } from "../../../lib/common/styles";
+    import { displayTrack } from "../../../lib/common/track";
     import { useTrackFilters } from "./filters.svelte";
+    import Filters from "./Filters.svelte";
     import TrackCard from "./TrackCard.svelte";
 
-    const { data }: PageProps = $props();
+    const { data, form }: PageProps = $props();
     const { isStoreReady, userLib } = $derived(data);
+    const { errors } = $derived(form || { errors: [] });
+
+    let acknowledgedErrors = $state(false);
 
     let tracks: IndexedTrack[] = $state([]);
     const filters = $derived(useTrackFilters(tracks));
     const displayedPairs = $derived(getPairs(filters.displayedTracks));
-    const allSelected = $derived(filters.displayedTracks.every(t => t.has));
 
+    let filtersShown = $state(false);
+
+    const allSelected = $derived(filters.displayedTracks.every(t => t.has));
     function handleSelectAll() {
         const has = !allSelected;
         filters.displayedTracks.forEach(t => (t.has = has));
     }
 
     $effect(() => {
-        tracks = data.tracks;
+        decodeAndDecompress<IndexedTrack[]>(data.tracks).then(data => (tracks = data));
+    });
+
+    $effect(() => {
+        if (errors.length) {
+            acknowledgedErrors = false;
+        }
     });
 </script>
 
+{#if errors.length && tracks.length && !acknowledgedErrors}
+    <dialog
+        open
+        onclick={() => (acknowledgedErrors = true)}
+        class="
+            absolute inset-0 z-50 flex size-full items-center justify-center bg-black/50 p-4
+            text-black backdrop-blur-sm
+            dark:text-white
+        ">
+        <ul
+            class="
+                dark:bg-primary-950
+                bg-primary-500 border-primary flex list-disc flex-col gap-4 rounded-md border p-4
+                pl-8
+            ">
+            {#each errors as error}
+                {@const track = tracks[error.idx]}
+                <li>
+                    <p
+                        class="
+                            text-sm
+                            md:text-base
+                        ">
+                        {track && displayTrack(track)}:
+                        <span
+                            class="
+                                text-red-800
+                                dark:text-red-600
+                            ">
+                            {error.msg}
+                        </span>
+                    </p>
+                </li>
+            {/each}
+        </ul>
+    </dialog>
+{/if}
+
 <LoadingBarrier isLoading={!isStoreReady}>
+    <div></div>
     <div
         class="
-            grid h-full min-h-0 grid-cols-[minmax(10rem,1fr)_auto_minmax(5rem,auto)]
-            grid-rows-[auto_auto_1fr] items-center gap-x-4 gap-y-2
-            md:gap-x-6 md:gap-y-4
-            xl:grid-rows-[auto_1fr]
+            grid h-full min-h-0 grid-cols-[1fr_auto_auto] grid-rows-[auto_auto_1fr] items-center
+            gap-x-4 gap-y-2
+            md:grid-cols-[minmax(10rem,1fr)_auto_minmax(5rem,auto)_minmax(5rem,auto)] md:gap-x-6
+            md:gap-y-4
+            2xl:grid-rows-[auto_1fr]
         ">
         <span
             class="
                 dark:text-secondary
-                text-secondary-800 text-xs font-bold text-wrap wrap-anywhere
+                text-secondary-800 col-span-3 text-xs font-bold text-wrap wrap-anywhere
                 sm:text-sm
-                md:text-base
+                md:col-span-1 md:text-base
                 lg:text-lg
             ">
             {userLib}
@@ -50,60 +103,42 @@
         <p class="text-right text-sm text-wrap">
             <strong>{filters.displayedTracks.length}</strong> songs displayed
         </p>
-        <button
+        <Button
             class={clsx(
-                buttonClass,
                 `
                     text-sm
                     md:text-base
+                    2xl:hidden
                 `,
+                !filtersShown && "outline-primary bg-transparent outline",
             )}
+            onclick={() => (filtersShown = !filtersShown)}>
+            Filters
+        </Button>
+        <Button
+            class="
+                text-sm
+                md:text-base
+            "
             onclick={handleSelectAll}>
             {allSelected ? "Deselect" : "Select"} All
-        </button>
-        <div
-            class="
-                dark:bg-primary-900/50
-                bg-primary/50 col-span-3 grid h-fit w-full grid-cols-2 gap-2 rounded-md p-2 pb-6
-                shadow-lg
-                *:text-xs
-                sm:p-4
-                sm:*:text-base
-                md:gap-4
-                lg:grid-cols-3
-                xl:fixed xl:top-1/2 xl:right-8 xl:w-64 xl:-translate-y-1/2 xl:grid-cols-1
-            ">
-            <h2
+        </Button>
+        {#if filtersShown}
+            <Filters
+                {filters}
                 class="
-                    col-span-2 text-center text-base font-bold
-                    sm:text-lg
-                    md:text-xl
-                    lg:col-span-3
-                    xl:col-span-1
-                ">
-                Filters
-            </h2>
-            <Input bind:value={filters.freetextFilter} placeholder="Freetext" />
-            <Input bind:value={filters.artistFilter} placeholder="Artist" />
-            <Input bind:value={filters.titleFilter} placeholder="Title" />
-            <Input bind:value={filters.genreFilter} placeholder="Genre" />
-            <Input bind:value={filters.albumFilter} placeholder="Album" />
-            <Input bind:value={filters.yearFilter} placeholder="Year" />
-            <CheckboxWithLabel
-                bind:checked={filters.showOnlyUnsavedFilter}
-                id="showUnsavedOnly"
-                class="
-                    col-span-2
-                    lg:col-span-3
-                    xl:col-span-1
-                ">
-                Only show unselected
-            </CheckboxWithLabel>
-        </div>
+                    col-span-3
+                    md:col-span-4
+                    2xl:hidden
+                " />
+        {/if}
         <form
             method="POST"
             action="?/save"
-            class="col-span-3 h-full min-h-0"
+            class="
+                col-span-3 h-full min-h-0
+                md:col-span-4
+            "
             use:enhance={({ formData }) => {
                 const selectedTracks: number[] = [];
                 tracks.forEach(track => {
@@ -134,17 +169,22 @@
                     </div>
                 {/snippet}
             </VirtualList>
-            <button
+            <Button
                 type="submit"
-                class={clsx(
-                    buttonClass,
-                    `
-                        fixed right-4 bottom-4
-                        md:right-8 md:bottom-8
-                    `,
-                )}>
+                class="
+                    fixed right-4 bottom-4
+                    md:right-8 md:bottom-8
+                ">
                 Save
-            </button>
+            </Button>
         </form>
+    </div>
+    <div class="flex h-full -translate-y-[calc((100vh-100%)/2)] flex-col justify-center">
+        <Filters
+            {filters}
+            class="
+                hidden
+                2xl:grid 2xl:grid-cols-1
+            " />
     </div>
 </LoadingBarrier>

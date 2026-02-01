@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
+    import { Layout } from "@cdw/monorepo/just-shared-svelte-components";
     import "@cdw/monorepo/just-branding/assets/css/tailwind.css";
 
     interface Props {
@@ -24,14 +25,8 @@
         media="(prefers-color-scheme: dark)" />
 </svelte:head>
 
-<div
-    class="
-        from-primary-400 to-secondary-400
-        dark:from-primary-950 dark:to-secondary-950
-        relative min-h-screen bg-linear-to-b from-5% to-95% px-4 text-gray-800 transition-colors
-        dark:text-gray-200
-    ">
-    <main class="mx-auto max-w-7xl">
+<Layout>
+    <main class="flex min-h-screen flex-col">
         {@render children?.()}
     </main>
-</div>
+</Layout>

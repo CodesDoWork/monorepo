@@ -42,6 +42,8 @@ query GetAboutData {
         forename
         surname
         position
+        function
+        phone
         portrait {
             ...DirectusImage
         }

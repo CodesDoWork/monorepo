@@ -14,8 +14,20 @@
         showAudio = true;
     }
 
+    const pauseAllOtherAudios = $derived(() => {
+        const audios = document.getElementsByTagName("audio");
+        for (let i = 0; i < audios.length; ++i) {
+            if (audios[i] !== audioRef) {
+                audios[i]?.pause();
+            }
+        }
+    });
+
     $effect(() => {
-        audioRef?.play();
+        if (audioRef) {
+            audioRef.addEventListener("play", pauseAllOtherAudios);
+            audioRef.play();
+        }
     });
 </script>
 

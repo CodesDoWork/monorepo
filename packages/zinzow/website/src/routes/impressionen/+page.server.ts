@@ -7,7 +7,7 @@ import { queryDefault } from "../../graphql/default/client";
 import { GetImpressionsDataDocument } from "../../graphql/default/generated/graphql";
 
 export const load: PageServerLoad = async () => {
-    const { impressions } = await queryDefault({ query: GetImpressionsDataDocument });
+    const { impressions, videos } = await queryDefault({ query: GetImpressionsDataDocument });
 
     const images = impressions.images
         .map(file => file.directus_files_id)
@@ -26,6 +26,7 @@ export const load: PageServerLoad = async () => {
             ...impressions,
             images,
         },
+        videos,
         jsonldThings: createJsonLdThings(impressions.title, images),
     };
 };

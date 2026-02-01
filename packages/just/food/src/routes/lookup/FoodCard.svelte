@@ -67,7 +67,7 @@
                             dark:bg-accent-900/30 dark:text-accent-300
                             rounded-sm px-2 py-1
                         ">
-                        {item.energy?.energy_kcal ?? 0}&thinsp;kcal
+                        🔥 {item.energy?.energy_kcal ?? 0}&thinsp;kcal
                     </span>
                     <span
                         class="

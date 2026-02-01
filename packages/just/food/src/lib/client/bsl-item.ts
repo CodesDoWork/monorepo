@@ -1056,3 +1056,7 @@ export function rawBSLItemToBSLItem(raw: RawBSLItem): BSLItem {
         },
     };
 }
+
+export function isDetailKey(key: string): boolean {
+    return !["code", "description", "name", "topNutrients", "_searchStr"].includes(key);
+}

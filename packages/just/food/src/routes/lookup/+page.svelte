@@ -2,6 +2,7 @@
     import type { BSLItem, NutrientPaths } from "../../lib/client/bsl-item";
     import { VirtualList } from "@cdw/monorepo/shared-svelte-components/virtual-list";
     import { getFlattenedKeys } from "@cdw/monorepo/shared-utils/objects";
+    import { isDetailKey } from "../../lib/client/bsl-item";
     import { getBSLContext } from "../../lib/client/contexts/bsl";
     import CompareTable from "./CompareTable.svelte";
     import FoodCard from "./FoodCard.svelte";
@@ -11,11 +12,7 @@
     const bsl = getBSLContext();
     const bslData = $derived(bsl.data);
 
-    const allPossibleColumns = $derived(
-        getFlattenedKeys(bslData[0] || {}).filter(
-            k => !["code", "description", "name", "topNutrients", "_searchStr"].includes(k),
-        ),
-    );
+    const allPossibleColumns = $derived(getFlattenedKeys(bslData[0] || {}).filter(isDetailKey));
 
     const allTopNutrients = $derived([
         ...new Set(bslData.flatMap((item: BSLItem) => item.topNutrients || [])),

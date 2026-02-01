@@ -1,6 +1,6 @@
 <script lang="ts">
     import { formatValue } from "@cdw/monorepo/shared-utils/objects";
-    import { BSL_NAMES } from "../../lib/client/bsl-item";
+    import { BSL_NAMES, isDetailKey } from "../../lib/client/bsl-item";
     import Self from "./DataTree.svelte";
 
     interface Props {
@@ -11,11 +11,7 @@
     const { data, path }: Props = $props();
 
     function isAllowed([key, value]: [string, unknown]): boolean {
-        return (
-            value !== null &&
-            value !== undefined &&
-            !["topNutrients", "_searchStr", "code", "description", "name"].includes(key)
-        );
+        return value !== null && value !== undefined && isDetailKey(key);
     }
 </script>
 

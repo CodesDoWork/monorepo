@@ -600,7 +600,7 @@ urllib3==2.6.3
     #   sentry-sdk
 wandb==0.24.1
     # via -r requirements.in
-wcwidth==0.4.0
+wcwidth==0.5.3
     # via prompt-toolkit
 webcolors==25.10.0
     # via jsonschema

@@ -1,4 +1,5 @@
 import type { Actions, PageServerLoad } from "./$types";
+import type { IndexedTrack } from "./types";
 import { linkSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { env } from "../../../env";
@@ -42,7 +43,7 @@ export const actions = {
     },
 } satisfies Actions;
 
-function getUserTracks(userLib: string) {
+function getUserTracks(userLib: string): IndexedTrack[] {
     return getTracks()
         .toSorted((a, b) => (a.meta.title ?? "").localeCompare(b.meta.title ?? ""))
         .sort((a, b) => (a.meta.artist ?? "").localeCompare(b.meta.artist ?? ""))
@@ -51,6 +52,7 @@ function getUserTracks(userLib: string) {
                 idx,
                 ...t,
                 has: t.paths.some(path => path.startsWith(userLib)),
-            };
+                freetext: JSON.stringify(t).toLowerCase(),
+            } satisfies IndexedTrack;
         });
 }

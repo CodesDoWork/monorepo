@@ -12,9 +12,7 @@ export function useTrackFilters<T extends IndexedTrack>(tracks: T[]) {
         let tmpTracks = tracks;
 
         if (freetextFilter) {
-            tmpTracks = tmpTracks.filter(t =>
-                JSON.stringify(t).toLowerCase().includes(freetextFilter.toLowerCase()),
-            );
+            tmpTracks = tmpTracks.filter(t => t.freetext.includes(freetextFilter.toLowerCase()));
         }
 
         if (artistFilter) {

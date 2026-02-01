@@ -378,7 +378,7 @@ platformdirs==4.5.1
     #   jupyter-core
     #   pooch
     #   wandb
-pooch==1.8.2
+pooch==1.9.0
     # via librosa
 prometheus-client==0.24.1
     # via jupyter-server

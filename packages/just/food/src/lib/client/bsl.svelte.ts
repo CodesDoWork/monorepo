@@ -14,7 +14,7 @@ export function getBSLData() {
                 const bslItems = rawBslItems.map(rawBSLItemToBSLItem);
                 tagTopNutrients(bslItems, 0.03);
 
-                data = bslItems.slice(0, 200);
+                data = bslItems;
                 isLoading = false;
             });
         });

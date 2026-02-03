@@ -1,24 +1,30 @@
 <script lang="ts">
-    import type { BSLItem } from "../../lib/client/bsl-item";
-    import DataTree from "./DataTree.svelte";
+    import type { Snippet } from "svelte";
+    import { fade } from "svelte/transition";
 
     interface Props {
-        selectedItem: BSLItem | null;
-        toggleCompareItem: (code: string) => void;
-        isInCompare: boolean;
+        isOpen: boolean;
+        title: string;
+        content: Snippet;
+        actions?: Snippet;
     }
 
-    let { selectedItem = $bindable(), isInCompare, toggleCompareItem }: Props = $props();
+    let { isOpen = $bindable(), title, content, actions }: Props = $props();
+
+    function close() {
+        isOpen = false;
+    }
 </script>
 
-{#if selectedItem}
+{#if isOpen}
     <dialog
+        transition:fade={{ duration: 100 }}
         open
         class="
             fixed inset-0 z-50 flex size-full items-center justify-center bg-black/50 p-4
             backdrop-blur-sm
         "
-        onclick={() => (selectedItem = null)}
+        onclick={close}
         aria-modal="true">
         <div
             class="
@@ -39,12 +45,12 @@
                             text-2xl font-bold text-gray-900
                             dark:text-white
                         ">
-                        {selectedItem.description}
+                        {title}
                     </h2>
                 </div>
                 <button
                     title="Close"
-                    onclick={() => (selectedItem = null)}
+                    onclick={close}
                     class="
                         rounded-full border bg-white p-1 text-gray-400 shadow-sm
                         hover:text-gray-600
@@ -62,7 +68,7 @@
             </div>
 
             <div class="flex-1 overflow-y-auto p-6">
-                <DataTree data={selectedItem} />
+                {@render content()}
             </div>
 
             <div
@@ -70,23 +76,9 @@
                     flex justify-end gap-2 border-t border-gray-100 bg-gray-50 p-4
                     dark:border-gray-800 dark:bg-gray-900
                 ">
+                {@render actions?.()}
                 <button
-                    onclick={() => {
-                        if (selectedItem?.code) {
-                            toggleCompareItem(selectedItem.code);
-                        }
-                    }}
-                    class="
-                        rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium
-                        transition-colors
-                        hover:bg-white
-                        dark:border-gray-600 dark:text-gray-200
-                        dark:hover:bg-gray-800
-                    ">
-                    {isInCompare ? "Remove from Compare" : "Add to Compare"}
-                </button>
-                <button
-                    onclick={() => (selectedItem = null)}
+                    onclick={close}
                     class="
                         bg-primary-600
                         hover:bg-primary-700

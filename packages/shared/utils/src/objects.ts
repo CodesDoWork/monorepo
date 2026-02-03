@@ -27,3 +27,15 @@ export function getFlattenedKeys(obj: any, prefix = ""): string[] {
     }
     return keys;
 }
+
+export type PathsOf<T> = T extends object
+    ? {
+          [K in keyof T & (string | number)]: T[K] extends object
+              ? `${K}` | `${K}.${PathsOf<T[K]>}`
+              : `${K}`;
+      }[keyof T & (string | number)]
+    : never;
+
+export type DeepNullable<T> = {
+    [K in keyof T]: T[K] extends object ? DeepNullable<T[K]> : T[K] | null;
+};

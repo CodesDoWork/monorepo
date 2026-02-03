@@ -22,7 +22,7 @@
 </script>
 
 <Layout>
-    <main class="flex min-h-screen flex-col">
+    <div class="flex min-h-screen flex-col">
         {#if bsl.isLoading}
             <div class="m-auto flex items-center gap-8">
                 <Icon icon="eos-icons:bubble-loading" class="size-24" />
@@ -33,5 +33,5 @@
         {:else}
             {@render children?.()}
         {/if}
-    </main>
+    </div>
 </Layout>

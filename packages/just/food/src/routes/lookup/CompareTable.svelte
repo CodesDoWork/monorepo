@@ -1,14 +1,14 @@
 <script lang="ts">
     import type { BSLItem } from "../../lib/client/bsl-item";
-    import { HorizontalItemTable } from "@cdw/monorepo/shared-svelte-components/table";
+    import { HorizontalItemTable } from "@cdw/monorepo/shared-svelte-components/app";
     import { BSL_NAMES } from "../../lib/client/bsl-item";
 
     interface Props {
         compareItems: BSLItem[];
-        selectedColumns: string[];
+        selectedNutrients: string[];
     }
 
-    const { compareItems, selectedColumns }: Props = $props();
+    const { compareItems, selectedNutrients }: Props = $props();
 </script>
 
 <div class="h-full overflow-y-auto p-4">
@@ -16,7 +16,7 @@
         title="Comparison Table"
         info={`${compareItems.length} items`}
         items={compareItems}
-        attributes={selectedColumns.values().toArray()}>
+        attributes={selectedNutrients}>
         {#snippet headerColHeading()}
             Attribute
         {/snippet}
@@ -29,7 +29,7 @@
             </div>
         {/snippet}
         {#snippet headerCol(idx)}
-            {@const attr = selectedColumns[idx]}
+            {@const attr = selectedNutrients[idx]}
             {#if attr}
                 {BSL_NAMES[attr]}
             {/if}

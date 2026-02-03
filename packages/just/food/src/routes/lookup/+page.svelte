@@ -1,63 +1,48 @@
 <script lang="ts">
     import type { BSLItem, NutrientPaths } from "../../lib/client/bsl-item";
+    import type { BSLItemPaths, SelectableItem } from "./types";
     import { VirtualList } from "@cdw/monorepo/shared-svelte-components/virtual-list";
     import { getFlattenedKeys } from "@cdw/monorepo/shared-utils/objects";
     import { isDetailKey } from "../../lib/client/bsl-item";
     import { getBSLContext } from "../../lib/client/contexts/bsl";
     import CompareTable from "./CompareTable.svelte";
     import FoodCard from "./FoodCard.svelte";
-    import FoodDetailsPopup from "./FoodDetailsPopup.svelte";
     import Header from "./Header.svelte";
 
     const bsl = getBSLContext();
     const bslData = $derived(bsl.data);
 
-    const allPossibleColumns = $derived(getFlattenedKeys(bslData[0] || {}).filter(isDetailKey));
+    let nutrients = $state<SelectableItem[]>([]);
+    const selectedNutrients = $derived(nutrients.filter(n => n.isSelected).map(n => n.name));
 
-    const allTopNutrients = $derived([
-        ...new Set(bslData.flatMap((item: BSLItem) => item.topNutrients || [])),
+    let topNutrients = $state<Record<string, SelectableItem>>({});
+    const selectedTopNutrients = $derived(
+        Object.values(topNutrients)
+            .filter(n => n.isSelected)
+            .map(n => n.name),
+    );
+
+    const defaultSelectedNutrients = new Set<BSLItemPaths>([
+        "energy.energy_kcal",
+        "protein_g",
+        "carbohydrates.available_total_g",
+        "fat_total_g",
     ]);
 
-    let selectedTopNutrients = $state(new Set<string>());
-    let isTopNutrientSelectorOpen = $state(false);
+    $effect(() => {
+        nutrients = getFlattenedKeys(bslData[0] || {})
+            .filter(isDetailKey)
+            .map(name => ({
+                name,
+                isSelected: defaultSelectedNutrients.has(name as BSLItemPaths),
+            }));
+
+        topNutrients = [
+            ...new Set(bslData.flatMap((item: BSLItem) => item.topNutrients || [])),
+        ].reduce((all, name) => ({ ...all, [name]: { name, isSelected: false } }), {});
+    });
+
     let topNutrientFilterMode = $state<"any" | "all">("any");
-
-    function toggleTopNutrient(n: string) {
-        const newSet = new Set(selectedTopNutrients);
-        if (newSet.has(n)) {
-            newSet.delete(n);
-        } else {
-            newSet.add(n);
-        }
-        selectedTopNutrients = newSet;
-    }
-
-    function clearTopNutrientFilters() {
-        selectedTopNutrients = new Set();
-    }
-
-    function itemMatchesTopNutrients(item: BSLItem) {
-        if (selectedTopNutrients.size === 0) {
-            return true;
-        }
-
-        const present = new Set(item.topNutrients || []);
-        if (topNutrientFilterMode === "any") {
-            for (const n of selectedTopNutrients) {
-                if (present.has(n as NutrientPaths)) {
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            for (const n of selectedTopNutrients) {
-                if (!present.has(n as NutrientPaths)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-    }
 
     let searchQuery = $state("");
     const searchResults = $derived.by(() => {
@@ -67,34 +52,35 @@
             tmpItems = tmpItems.filter(item => item._searchStr.includes(query));
         }
 
+        function itemMatchesTopNutrients(item: BSLItem) {
+            if (!selectedTopNutrients.length) {
+                return true;
+            }
+
+            const present = new Set(item.topNutrients || []);
+            if (topNutrientFilterMode === "any") {
+                for (const n of selectedTopNutrients) {
+                    if (present.has(n as NutrientPaths)) {
+                        return true;
+                    }
+                }
+                return false;
+            } else {
+                for (const n of selectedTopNutrients) {
+                    if (!present.has(n as NutrientPaths)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }
+
         return tmpItems.filter(item => itemMatchesTopNutrients(item));
     });
 
-    let selectedItem = $state<BSLItem | null>(null);
-    let compareSet = $state(new Set<string>());
     let compareMode = $state(false);
 
-    let selectedColumns = $state(
-        new Set<string>([
-            "energy.energy_kcal",
-            "protein_g",
-            "carbohydrates.available_total_g",
-            "fat_total_g",
-        ]),
-    );
-    let isColumnSelectorOpen = $state(false);
-
-    const compareItems = $derived(bslData.filter(item => compareSet.has(item.code || "")));
-
-    function toggleCompareItem(code: string) {
-        const newSet = new Set(compareSet);
-        if (newSet.has(code)) {
-            newSet.delete(code);
-        } else {
-            newSet.add(code);
-        }
-        compareSet = newSet;
-    }
+    const compareItems = $derived(bslData.filter(item => item.isSelected));
 </script>
 
 <div
@@ -104,17 +90,11 @@
     ">
     <Header
         bind:searchQuery
-        bind:isTopNutrientSelectorOpen
-        bind:isColumnSelectorOpen
         bind:compareMode
         bind:topNutrientFilterMode
-        bind:selectedColumns
-        {compareSet}
-        {allPossibleColumns}
-        {selectedTopNutrients}
-        {allTopNutrients}
-        {toggleTopNutrient}
-        {clearTopNutrientFilters} />
+        {nutrients}
+        topNutrients={Object.values(topNutrients)}
+        selectedItems={compareItems.length} />
     <main
         class="
             relative flex-1 overflow-hidden bg-gray-50
@@ -122,7 +102,7 @@
         ">
         <div class="mx-auto size-full max-w-7xl">
             {#if compareMode}
-                <CompareTable {compareItems} selectedColumns={selectedColumns.values().toArray()} />
+                <CompareTable {compareItems} {selectedNutrients} />
             {:else if searchResults.length === 0}
                 <div
                     class="
@@ -135,22 +115,11 @@
                 <div class="h-full px-4 pt-4">
                     <VirtualList items={searchResults}>
                         {#snippet children(item)}
-                            <FoodCard
-                                {item}
-                                setSelectedItem={item => (selectedItem = item)}
-                                {compareSet}
-                                {toggleCompareItem}
-                                {toggleTopNutrient}
-                                {selectedTopNutrients} />
+                            <FoodCard {item} {topNutrients} />
                         {/snippet}
                     </VirtualList>
                 </div>
             {/if}
         </div>
     </main>
-
-    <FoodDetailsPopup
-        bind:selectedItem
-        {toggleCompareItem}
-        isInCompare={compareSet.has(selectedItem?.code || "")} />
 </div>

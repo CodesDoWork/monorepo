@@ -1,18 +1,33 @@
 <script lang="ts">
     import { formatValue } from "@cdw/monorepo/shared-utils/objects";
-    import { BSL_NAMES, isDetailKey } from "../../lib/client/bsl-item";
     import Self from "./DataTree.svelte";
 
     interface Props {
         data: object;
         path?: string;
+        hasUnit?: boolean;
+        filterEntries?: (entry: [string, unknown]) => boolean;
+        translations?: Record<string, string>;
     }
 
-    const { data, path }: Props = $props();
+    const { data, path, hasUnit, filterEntries, translations }: Props = $props();
 
-    function isAllowed([key, value]: [string, unknown]): boolean {
-        return value !== null && value !== undefined && isDetailKey(key);
-    }
+    const getFullKey = $derived((key: string): string => {
+        return path ? `${path}.${key}` : key;
+    });
+
+    const getKeyDisplay = $derived((key: string): string => {
+        return translations ? translations[getFullKey(key)] || key : key;
+    });
+
+    const entries = $derived.by(() => {
+        if (!data) {
+            return [];
+        }
+
+        const objEntries = Object.entries(data);
+        return filterEntries ? objEntries.filter(filterEntries) : objEntries;
+    });
 </script>
 
 <div
@@ -20,7 +35,7 @@
         space-y-1 border-l-2 border-gray-200 pl-4
         dark:border-gray-700
     ">
-    {#each Object.entries(data).filter(isAllowed) as [key, value]}
+    {#each entries as [key, value]}
         <div
             class="
                 text-sm text-gray-800
@@ -33,9 +48,14 @@
                         dark:text-primary-400
                         font-semibold capitalize
                     ">
-                    {BSL_NAMES[path ? `${path}.${key}` : key] || key}:
+                    {getKeyDisplay(key)}:
                 </span>
-                <Self data={value} path={path ? `${path}.${key}` : key} />
+                <Self
+                    data={value}
+                    path={getFullKey(key)}
+                    {hasUnit}
+                    {filterEntries}
+                    {translations} />
             {:else}
                 <div
                     class="
@@ -48,14 +68,14 @@
                             text-gray-500 capitalize
                             dark:text-gray-400
                         ">
-                        {BSL_NAMES[path ? `${path}.${key}` : key] || key}
+                        {getKeyDisplay(key)}
                     </span>
                     <span
                         class="
                             font-mono tracking-tighter text-nowrap text-gray-900
                             dark:text-gray-100
                         ">
-                        {formatValue(value)}&thinsp;{key.split("_").pop()}
+                        {formatValue(value)}{#if hasUnit}&thinsp;{key.split("_").pop()}{/if}
                     </span>
                 </div>
             {/if}

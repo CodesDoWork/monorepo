@@ -1,3 +1,5 @@
+import type { DeepNullable, PathsOf } from "@cdw/monorepo/shared-utils/objects";
+
 export interface RawBSLItem {
     "BLS Code": string;
     Lebensmittelbezeichnung: string;
@@ -798,22 +800,11 @@ export interface PerfectBSLItem {
 
 export type NutrientPaths = Exclude<PathsOf<PerfectBSLItem>, "code" | "name" | "description">;
 
-type DeepNullable<T> = {
-    [K in keyof T]: T[K] extends object ? DeepNullable<T[K]> : T[K] | null;
-};
-
 export interface BSLItem extends DeepNullable<PerfectBSLItem> {
+    isSelected: boolean;
     topNutrients: NutrientPaths[];
     _searchStr: string;
 }
-
-type PathsOf<T> = T extends object
-    ? {
-          [K in keyof T & (string | number)]: T[K] extends object
-              ? `${K}` | `${K}.${PathsOf<T[K]>}`
-              : `${K}`;
-      }[keyof T & (string | number)]
-    : never;
 
 function num(val: string | number | undefined | null): number | null {
     if (typeof val === "number") {
@@ -830,6 +821,7 @@ function num(val: string | number | undefined | null): number | null {
 
 export function rawBSLItemToBSLItem(raw: RawBSLItem): BSLItem {
     return {
+        isSelected: false,
         topNutrients: [],
         _searchStr: `${raw["BLS Code"]} ${raw.Lebensmittelbezeichnung} ${raw["Food name"]}`
             .replaceAll(" ", "")
@@ -1057,6 +1049,15 @@ export function rawBSLItemToBSLItem(raw: RawBSLItem): BSLItem {
     };
 }
 
+const keysToExcludeFromDisplay: (keyof BSLItem)[] = [
+    "code",
+    "description",
+    "name",
+    "topNutrients",
+    "isSelected",
+    "_searchStr",
+];
+
 export function isDetailKey(key: string): boolean {
-    return !["code", "description", "name", "topNutrients", "_searchStr"].includes(key);
+    return !keysToExcludeFromDisplay.includes(key as keyof BSLItem);
 }

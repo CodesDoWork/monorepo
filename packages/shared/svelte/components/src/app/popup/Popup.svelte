@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
     import { fade } from "svelte/transition";
+    import { ActionButton } from "../buttons";
 
     interface Props {
         isOpen: boolean;
@@ -77,15 +78,7 @@
                     dark:border-gray-800 dark:bg-gray-900
                 ">
                 {@render actions?.()}
-                <button
-                    onclick={close}
-                    class="
-                        bg-primary-600
-                        hover:bg-primary-700
-                        rounded-lg px-4 py-2 text-sm font-medium text-white transition-colors
-                    ">
-                    Close
-                </button>
+                <ActionButton mode="primary" onclick={close}>Close</ActionButton>
             </div>
         </div>
     </dialog>

@@ -2,7 +2,12 @@
     import type { ComponentProps } from "svelte";
     import type { BSLItem, NutrientPaths } from "../../lib/client/bsl-item";
     import type { SelectableItem } from "./types";
-    import { Card, DataTree, Popup } from "@cdw/monorepo/shared-svelte-components/app";
+    import {
+        ActionButton,
+        Card,
+        DataTree,
+        Popup,
+    } from "@cdw/monorepo/shared-svelte-components/app";
     import { getValueByPath } from "@cdw/monorepo/shared-utils/objects";
     import { BSL_NAMES, isDetailKey } from "../../lib/client/bsl-item";
     import NutrientBatch from "./NutrientBatch.svelte";
@@ -91,15 +96,8 @@
             translations={BSL_NAMES} />
     {/snippet}
     {#snippet actions()}
-        <button
-            onclick={() => (item.isSelected = !item.isSelected)}
-            class="
-                rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium transition-colors
-                hover:bg-white
-                dark:border-gray-600 dark:text-gray-200
-                dark:hover:bg-gray-800
-            ">
+        <ActionButton onclick={() => (item.isSelected = !item.isSelected)}>
             {item.isSelected ? "Remove from Compare" : "Add to Compare"}
-        </button>
+        </ActionButton>
     {/snippet}
 </Popup>

@@ -98,7 +98,7 @@
                         class={clsx(
                             cellClass,
                             `
-                                border-b group
+                                group border-b
                                 hover:bg-gray-50
                                 dark:hover:bg-gray-800/50
                             `,
@@ -107,8 +107,10 @@
                             <td
                                 class="
                                     sticky left-0 truncate bg-white p-3 text-sm font-medium
-                                    text-gray-700 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)] group-hover:bg-gray-50
-                                    dark:bg-gray-900 dark:text-gray-300 dark:group-hover:bg-gray-800/50
+                                    text-gray-700 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]
+                                    group-hover:bg-gray-50
+                                    dark:bg-gray-900 dark:text-gray-300
+                                    dark:group-hover:bg-gray-800/50
                                 ">
                                 {@render headerCol(rowIdx)}
                             </td>

@@ -551,7 +551,7 @@ tornado==6.5.4
     #   jupyterlab
     #   notebook
     #   terminado
-tqdm==4.67.2
+tqdm==4.67.3
     # via
     #   datasets
     #   evaluate

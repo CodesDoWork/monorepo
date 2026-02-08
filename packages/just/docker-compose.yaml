@@ -278,6 +278,10 @@ services:
       - CI_SERVER_URL=http://gitlab
       - CI_SERVER_TOKEN=${GITLAB_RUNNER_TOKEN}
     image: ${DOCKER_PROXY}/gitlab/gitlab-runner:v18.7.1
+    labels:
+      ofelia.enabled: true
+      ofelia.job-exec.docker-clean.schedule: 0 0 2 * * *
+      ofelia.job-exec.docker-clean.command: docker image prune -af
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock
 

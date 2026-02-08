@@ -1,12 +1,8 @@
 stages:
   - workspace
-  - deps
-  - env
-  - codegen
   - lint
   - test
   - build
-  - tag
   - analyze
   - deploy
   - validate
@@ -101,7 +97,7 @@ build workspace image:
     - when: on_success
 
 install deps:
-  stage: deps
+  stage: workspace
   variables:
     DEPS_CACHE_POLICY: pull-push
   script:
@@ -114,7 +110,7 @@ install deps:
     - when: on_success
 
 generate env files:
-  stage: env
+  stage: workspace
   variables:
     ENV_CACHE_POLICY: push
   script:
@@ -129,7 +125,7 @@ generate env files:
     - when: on_success
 
 codegen:
-  stage: codegen
+  stage: workspace
   variables:
     CODEGEN_CACHE_POLICY: push
   script:

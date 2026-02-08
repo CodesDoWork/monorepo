@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
     import type { HTMLButtonAttributes } from "svelte/elements";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
 
     interface Props extends HTMLButtonAttributes {
@@ -56,7 +55,7 @@
             `,
     )}>
     {#if icon}
-        <Icon {icon} class={iconClass} />
+        <span class={clsx(iconClass, icon)}></span>
     {/if}
     <span
         class={clsx(

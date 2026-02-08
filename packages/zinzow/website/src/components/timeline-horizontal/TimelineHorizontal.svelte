@@ -1,6 +1,5 @@
 <script lang="ts">
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { fadeInBottom } from "../../lib/common/styles";
     import { P } from "../text";
@@ -99,12 +98,14 @@
             *:size-8
             md:col-start-auto md:row-start-2 md:mt-0 md:-ml-4
         ">
-        <Icon icon="eva:arrow-down-fill" class="md:hidden" />
-        <Icon
-            icon="eva:arrow-right-fill"
+        <span class="
+            icon-[eva--arrow-down-fill]
+            md:hidden
+        "></span>
+        <span
             class="
-                hidden
+                icon-[eva--arrow-right-fill] hidden
                 md:block
-            " />
+            "></span>
     </div>
 </ul>

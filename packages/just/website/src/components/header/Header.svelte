@@ -2,7 +2,6 @@
     import type { LanguageFragment } from "../../graphql/default/generated/graphql";
     import type { Route } from "../../routes/types";
     import type { ThemeState } from "../../states/theme.svelte";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { fade, slide } from "svelte/transition";
     import { Link } from "../texts";
@@ -64,7 +63,7 @@
                         "
                         href={currentRoute?.route}
                         title={currentRoute?.name}>
-                        <Icon icon="carbon:chevron-left" />
+                        <span class="icon-[carbon--chevron-left]"></span>
                     </Link>
                 {/if}
                 <a class={clsx("font-mono font-bold drop-shadow-md")} href="/">{title}</a>
@@ -79,13 +78,14 @@
                 {routes}
                 {currentRoute} />
             <button
+                title="Menu"
                 class="
                     block
                     active:scale-90
                     lg:hidden
                 "
                 onclick={() => (isMobileNavVisible = !isMobileNavVisible)}>
-                <Icon class="size-6" icon="material-symbols:menu" />
+                <span class="icon-[material-symbols--menu] size-6"></span>
             </button>
             {#if isMobileNavVisible}
                 <button

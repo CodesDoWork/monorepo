@@ -2,7 +2,6 @@
     import type { PageData } from "./$types";
     import { H1 } from "@cdw/monorepo/just-shared-svelte-components/texts";
     import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { LinkCard } from "../components/cards";
 
@@ -50,12 +49,12 @@
                         {#if typeof link.icon === "object" && "path" in link.icon}
                             <img src={link.icon.path} alt="icon" class={itemIconClasses} />
                         {:else}
-                            <Icon
-                                icon={typeof link.icon === "string" ? link.icon : link.icon.name}
+                            <span
                                 class={clsx(
                                     itemIconClasses,
+                                    typeof link.icon === "string" ? link.icon : link.icon.name,
                                     typeof link.icon === "object" && link.icon.class,
-                                )} />
+                                )}></span>
                         {/if}
                         {link.title}
                     </LinkCard>

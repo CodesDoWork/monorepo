@@ -41,13 +41,13 @@
                 md:w-auto
             ">
             <ActionButton
-                icon="tabler:settings"
+                icon="icon-[tabler--settings]"
                 iconOnlyWhenSmall
                 onclick={() => (isColumnSelectorOpen = !isColumnSelectorOpen)}>
                 Columns
             </ActionButton>
             <ActionButton
-                icon="fluent:food-apple-20-regular"
+                icon="icon-[fluent--food-apple-20-regular]"
                 iconOnlyWhenSmall
                 iconClass={clsx("size-5")}
                 onclick={() => (isTopNutrientSelectorOpen = !isTopNutrientSelectorOpen)}>

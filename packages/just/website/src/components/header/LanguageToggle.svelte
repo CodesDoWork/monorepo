@@ -2,8 +2,8 @@
     import type { LanguageFragment } from "../../graphql/default/generated/graphql";
     import type { Route } from "../../routes/types";
     import { refreshAll } from "$app/navigation";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
+    import { LanguageIcons } from "../../lib/client/icons";
 
     interface Props {
         class?: string;
@@ -72,7 +72,7 @@
                         <button
                             onclick={() => selectLanguage(language)}
                             class="flex items-center gap-3 px-4 py-2">
-                            <Icon icon={`circle-flags:${language.short}`} class="size-5"></Icon>
+                            <span class={clsx("size-5", LanguageIcons[language.short])}></span>
                             {language.name}
                         </button>
                     </li>

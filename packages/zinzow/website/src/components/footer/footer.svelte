@@ -1,10 +1,10 @@
 <script lang="ts">
     import type { RouteFragment } from "../../graphql/default/generated/graphql";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { smallTextClasses } from "../../lib/common/styles";
     import { WidthBox } from "../content-area";
     import { H5 } from "../heading";
+    import { SocialIcons } from "../icons";
     import { Logo } from "../logo";
 
     interface Props {
@@ -71,7 +71,7 @@
                             target="_blank"
                             title={`${socialMedia.user} @ ${socialMedia.name}`}
                             rel="noopener noreferrer">
-                            <Icon icon={socialMedia.icon} class="size-6" />
+                            <span class={clsx(SocialIcons[socialMedia.icon], "size-6")}></span>
                         </a>
                     {/each}
                 </div>
@@ -132,7 +132,7 @@
                         md:mt-0
                     `,
                 )}>
-                Made with <Icon icon="noto:red-heart" class="inline-block" />&nbsp; by
+                Made with <span class="icon-[noto--red-heart] -mb-px"></span>&nbsp; by
                 <a
                     href="https://justinkonratt.de"
                     target="_blank"

@@ -1,11 +1,11 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     import DirectusImage from "@cdw/monorepo/packages/shared/svelte/components/src/directus-image/DirectusImage.svelte";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { Card } from "../../../components/card";
     import { H1, H2, P } from "../../../components/texts";
     import { TimeLine } from "../../../components/timeline";
+    import { Icons } from "../../../lib/client/icons";
     import CvContent from "./CvContent.svelte";
 
     interface Props {
@@ -75,10 +75,9 @@
                     <ul class="mt-4 space-y-1">
                         {#each data.socials as social}
                             <li class="flex items-center gap-2">
-                                <Icon
-                                    icon={social.icon}
-                                    class="size-5"
-                                    style="color: {social.tone}" />
+                                <span
+                                    class={clsx(Icons[social.icon], "size-5")}
+                                    style="color: {social.tone}"></span>
                                 <a href={social.href}>{social.name}</a>
                             </li>
                         {/each}
@@ -118,28 +117,28 @@
                         {#snippet content(e)}
                             {#if e.duration}
                                 <div class="mt-1 flex items-center gap-1">
-                                    <Icon icon="mingcute:time-duration-line" class="size-4" />
+                                    <span class="icon-[mingcute--time-duration-line] size-4"></span>
                                     <P>{e.duration}</P>
                                 </div>
                             {/if}
                             {#if e.grade}
                                 <div class="flex items-center gap-1">
-                                    <Icon icon="ix:average" class="size-4" />
+                                    <span class="icon-[ix--average] size-4"></span>
                                     <P>Note: {e.grade}</P>
                                 </div>
                             {/if}
                             {#if e.position}
                                 <div class="flex items-center gap-1">
-                                    <Icon icon="icon-park-solid:people" class="size-4" />
+                                    <span class="icon-[icon-park-solid--people] size-4"></span>
                                     <P>{e.position}</P>
                                 </div>
                             {/if}
                             <div class="flex items-center gap-1">
-                                <Icon icon="tdesign:institution-filled" class="size-4" />
+                                <span class="icon-[tdesign--institution-filled] size-4"></span>
                                 <P>{e.institution}</P>
                             </div>
                             <div class="flex items-center gap-1">
-                                <Icon icon="mdi:location" class="size-4" />
+                                <span class="icon-[mdi--location] size-4"></span>
                                 <P>{e.location}</P>
                             </div>
                         {/snippet}

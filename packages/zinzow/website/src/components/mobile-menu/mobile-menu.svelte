@@ -1,6 +1,5 @@
 <script lang="ts">
     import type { RouteFragment } from "../../graphql/default/generated/graphql";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { writable } from "svelte/store";
 
@@ -55,7 +54,7 @@
                 type="button"
                 aria-label="Menü"
                 class="-m-2.5 rounded-md p-2.5">
-                <Icon icon="material-symbols:close" class="size-6" />
+                <span class="icon-[material-symbols--close] size-6"></span>
             </button>
         </div>
         <div class="mt-6 flow-root">
@@ -80,12 +79,14 @@
                             </a>
                             {#if children.length}
                                 <button class="p-1" onclick={toggleRoute(idx)}>
-                                    <Icon
-                                        icon="carbon:chevron-up"
+                                    <span
                                         class={clsx(
-                                            "size-4 text-current transition",
+                                            `
+                                                icon-[carbon--chevron-up] size-4 text-current
+                                                transition
+                                            `,
                                             $routeStates[idx] ? "rotate-0" : `rotate-180`,
-                                        )} /></button>
+                                        )}></span></button>
                             {/if}
                         </div>
                         {#if $routeStates[idx]}

@@ -1,6 +1,10 @@
 export enum Icons {
-    Location = "humbleicons:location",
-    Phone = "ri:phone-line",
-    Email = "material-symbols:mail-outline",
-    File = "material-symbols:file-open-outline",
+    Location = "icon-[humbleicons--location]",
+    Phone = "icon-[ri--phone-line]",
+    Email = "icon-[material-symbols--mail-outline]",
+    File = "icon-[material-symbols--file-open-outline]",
 }
+
+export const SocialIcons: Record<string, string> = {
+    Instagram: "icon-[mdi--instagram]",
+};

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
+    import { Icons } from "../../lib/client/icons";
 
     interface Props {
         class?: string;
@@ -28,6 +28,6 @@
 <div class={labelClass}>
     <span>{name}</span>
     {#if icon}
-        <Icon class="size-6" {icon} />
+        <span class={clsx("size-6", Icons[icon])}></span>
     {/if}
 </div>

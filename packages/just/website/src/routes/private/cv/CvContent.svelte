@@ -1,7 +1,8 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import Icon from "@iconify/svelte";
+    import { clsx } from "clsx";
     import { TechnologiesList } from "../../../components/lists";
+    import { LanguageIcons } from "../../../lib/client/icons";
     import { CvSectionType, CvSectionTypes } from "./types";
 
     interface Props {
@@ -23,7 +24,7 @@
     <ul>
         {#each CvSectionTypes[type].parse(value) as lang}
             <li class="flex items-center gap-2">
-                <Icon icon={lang.icon} class="size-3" />
+                <span class={clsx(LanguageIcons[lang.code], "size-3")}></span>
                 {lang.name} - {lang.level}
             </li>
         {/each}

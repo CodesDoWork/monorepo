@@ -2,7 +2,6 @@
     import type { PageData } from "./$types";
     import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
-    import Icon from "@iconify/svelte";
     import { Card } from "../../components/card";
     import { H2, H4, Link, P } from "../../components/texts";
 
@@ -39,7 +38,7 @@
                                     dark:hover:bg-black/30
                                 ">
                                 <div class="row-span-2">
-                                    <Icon icon="mdi-light:file" class="size-12" />
+                                    <span class="icon-[mdi-light--file] size-12"></span>
                                 </div>
                                 <H4 commandStyle={false} class="col-span-2 mt-0! cursor-pointer">
                                     {item.title}

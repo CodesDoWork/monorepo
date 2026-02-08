@@ -1,6 +1,5 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { aHoverAnimation, textBaseColorClasses } from "../../lib/common/styles";
 
@@ -27,7 +26,7 @@
 </script>
 
 <dt class={className}>
-    <Icon {icon} class={clsx(hrefClass, small ? "size-4" : "size-6", "text-gray-400")} />
+    <span class={clsx(icon, hrefClass, small ? "size-4" : "size-6", "text-gray-400")}></span>
 </dt>
 <dd
     class={clsx(

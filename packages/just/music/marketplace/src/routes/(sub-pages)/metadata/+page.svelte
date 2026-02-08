@@ -47,11 +47,11 @@
                             <div class="flex items-center gap-1">
                                 <ErrorBadge
                                     messages={track.errors}
-                                    icon="material-symbols:error"
-                                    iconClass="*:fill-red-500" />
+                                    icon="icon-[material-symbols--error]"
+                                    iconClass="bg-red-600" />
                                 <ErrorBadge
                                     messages={track.warnings}
-                                    icon="fluent-color:warning-16" />
+                                    icon="icon-[fluent-color--warning-16]" />
                             </div>
                             <span class="col-span-2 italic">
                                 {track.meta.genre?.join(", ") ?? "No Genres"}

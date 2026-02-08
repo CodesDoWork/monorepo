@@ -1,6 +1,4 @@
 <script lang="ts">
-    import Icon from "@iconify/svelte";
-
     interface Props {
         storeFile: string;
     }
@@ -53,13 +51,13 @@
     </div>
 {:else}
     <button {onclick} class="group size-fit cursor-pointer p-1">
-        <Icon
-            icon="zondicons:play-outline"
+        <span
             class="
-                size-5 drop-shadow-md drop-shadow-black/30 transition-transform
+                icon-[zondicons--play-outline] size-5 drop-shadow-md drop-shadow-black/30
+                transition-transform
                 group-hover:scale-107 group-hover:drop-shadow-lg group-hover:drop-shadow-black/30
                 dark:drop-shadow-black
                 dark:group-hover:drop-shadow-black
-            " />
+            "></span>
     </button>
 {/if}

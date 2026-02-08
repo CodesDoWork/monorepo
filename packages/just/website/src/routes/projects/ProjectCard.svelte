@@ -3,7 +3,6 @@
     import type { Project } from "./types";
     import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
     import { normalizeAnchor } from "@cdw/monorepo/shared-utils/html/common";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { Card } from "../../components/card";
     import { Label } from "../../components/label";
@@ -58,7 +57,7 @@
                     2xl:flex-row 2xl:items-center 2xl:gap-6
                 ">
                 <div class="flex items-center gap-1.5 text-sm">
-                    <Icon icon="octicon:law-16" class="inline size-6" />
+                    <span class="icon-[octicon--law-16] inline size-6"></span>
                     <span>{project.license || texts.noLicense}</span>
                 </div>
                 <ul class="flex flex-wrap gap-2">

@@ -11,8 +11,8 @@ var (
 )
 
 type LabelContext struct {
-	value string
-	args []string
+	value         string
+	args          []string
 	luaAccessFile string
 }
 
@@ -64,8 +64,7 @@ var handlers = map[string]Handler{
 		if slices.Contains(truthy, ctx.value) {
 			return NginxBlock{content: "access_by_lua_file /etc/nginx/lua/" + ctx.luaAccessFile}, nil
 		}
-		
+
 		return NginxBlock{}, nil
 	},
 }
-

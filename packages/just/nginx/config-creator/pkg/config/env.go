@@ -3,9 +3,9 @@ package config
 import "os"
 
 type Config struct {
-	ExternalIp       string
+	ExternalIp        string
 	InternalIpPattern string
-	ConfigPath       string
+	ConfigPath        string
 }
 
 func getConfigFromEnv() *Config {
@@ -24,8 +24,8 @@ func getConfigFromEnv() *Config {
 	}
 
 	return &Config{
-		ExternalIp:       externalIp,
+		ExternalIp:        externalIp,
 		InternalIpPattern: internalIpPattern,
-		ConfigPath:       configPath,
+		ConfigPath:        configPath,
 	}
 }

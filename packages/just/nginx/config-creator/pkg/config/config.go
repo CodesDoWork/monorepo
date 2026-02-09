@@ -33,12 +33,12 @@ func CreateConfigFromDocker() {
 func createNginxConfig(config *Config, containers map[string]watcher.NginxContainer) error {
 	slog.Info("Creating Nginx Config", "containers", containers)
 	blocks := getNginxBlocks(config, containers)
-	
+
 	err := os.WriteFile(config.ConfigPath, []byte(blocks.String((0))), 0644)
 	if err != nil {
 		return fmt.Errorf("Failed to write nginx config file: %s", err)
-	} 
-	
+	}
+
 	slog.Info("Wrote nginx config file")
 	return reloadNginx()
 }
@@ -163,22 +163,22 @@ func createNginxLocationBlock(
 
 func blockFromKey(key string, value string, luaAccessFile string, args ...string) NginxBlock {
 	handler, exists := handlers[key]
-    if !exists {
-        slog.Error("Unknown nginx label ignored", "key", key)
-        return NginxBlock{}
-    }
+	if !exists {
+		slog.Error("Unknown nginx label ignored", "key", key)
+		return NginxBlock{}
+	}
 
-    ctx := LabelContext{
-        value:         value,
-        args:          args,
-        luaAccessFile: luaAccessFile,
-    }
+	ctx := LabelContext{
+		value:         value,
+		args:          args,
+		luaAccessFile: luaAccessFile,
+	}
 
-    block, err := handler(ctx)
-    if err != nil {
-        slog.Error("Label processing failed", "key", key, "error", err)
-        return NginxBlock{}
-    }
+	block, err := handler(ctx)
+	if err != nil {
+		slog.Error("Label processing failed", "key", key, "error", err)
+		return NginxBlock{}
+	}
 
-    return block
+	return block
 }

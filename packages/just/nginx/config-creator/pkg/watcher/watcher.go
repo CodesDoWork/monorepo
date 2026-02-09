@@ -46,8 +46,8 @@ func watchDocker(creatorChannel chan<- NginxContainer, destroyerChannel chan<- N
 
 	config := getConfigFromEnv()
 	ctx := context.Background()
-	loadCurrentState(config, apiClient, ctx, creatorChannel)	
-	
+	loadCurrentState(config, apiClient, ctx, creatorChannel)
+
 	filters := make(client.Filters).Add("type", "container")
 	events := apiClient.Events(ctx, client.EventsListOptions{Filters: filters})
 	slog.Info("Watching Docker events...")

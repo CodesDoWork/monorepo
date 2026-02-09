@@ -11,10 +11,11 @@ pkgs.mkShell {
     python313Packages.uv
     texlive.combined.scheme-full # LaTeX
     ltex-ls-plus # LaTeX
-    ffmpeg_7-headless # audio tool (just-music-store, just-music-downloader)
+    ffmpeg_7-headless # audio tool (just-music-store, just-music-marketplace)
     r128gain # music normalization (just-music-store)
     chromium # nx-plugins-lighthouse
     yt-dlp # just-music-marketplace
-    zip
+    zip # just-music-download-addon
+    go
   ];
 }

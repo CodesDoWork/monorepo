@@ -75,6 +75,7 @@
         "@graphql-codegen/typescript-operations": "^5.0.7",
         "@iconify/json": "^2.2.437",
         "@iconify/tailwind4": "^1.2.1",
+        "@naxodev/gonx": "^3.0.0",
         "@nx/devkit": "22.4.5",
         "@nx/esbuild": "22.4.5",
         "@nx/eslint": "22.4.5",

@@ -3,10 +3,10 @@
     import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { byField } from "@cdw/monorepo/shared-utils/filters";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { Card } from "../components/card";
     import { H3, Link } from "../components/texts";
+    import { Icons } from "../lib/client/icons";
 
     interface Props {
         data: PageData;
@@ -54,13 +54,15 @@
                 hover:scale-110
                 md:size-9
             ">
-            <Icon
-                class="
-                    animate-fadeInSubtle size-full opacity-0 drop-shadow-sm transition
-                    hover:text-(--hover-color)
-                "
-                icon={social.icon}
-                style={`--hover-color: ${social.tone}; ${animationDelay(idx)}`} />
+            <span
+                class={clsx(
+                    Icons[social.icon],
+                    `
+                        animate-fadeInSubtle size-full opacity-0 drop-shadow-sm transition
+                        hover:text-(--hover-color)
+                    `,
+                )}
+                style={`--hover-color: ${social.tone}; ${animationDelay(idx)}`}></span>
         </Link>
     {/each}
 </div>
@@ -81,11 +83,7 @@
                 hover:border-l-8 hover:outline-0!
                 md:h-20
             ">
-            <Link
-                title={navLink.name}
-                noStyle
-                class="flex size-full flex-col"
-                href={navLink.route}>
+            <Link title={navLink.name} noStyle class="flex size-full flex-col" href={navLink.route}>
                 <H3 class={headingClass}>{navLink.name}</H3>
                 <p
                     class="

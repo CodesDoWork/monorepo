@@ -17,8 +17,9 @@
     const buttonClass = $derived(
         clsx(
             `
-                bg-pageColor fixed right-4 bottom-4 z-20 rounded-sm px-2 py-1 text-sm font-bold
-                transition-all duration-500
+                bg-pageColor fixed right-4 bottom-4 z-20 cursor-pointer rounded-sm px-2 py-1 text-sm
+                font-bold text-black shadow-md transition-all duration-200
+                hover:scale-104 hover:shadow-lg
             `,
             hidden && "invisible opacity-0",
         ),

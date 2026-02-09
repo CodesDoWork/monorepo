@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
 
     interface Props {
@@ -22,11 +21,16 @@
         lg:m-0
     ">
     <button onclick={() => rotateCol(false)}>
-        <Icon icon="mingcute:left-line" class={clsx(iconClass, "lg:-left-8 lg:-translate-1/2")} />
+        <span class={clsx(iconClass, `
+            icon-[mingcute--left-line]
+            lg:-left-8 lg:-translate-1/2
+        `)}></span>
     </button>
     <button onclick={() => rotateCol(true)}>
-        <Icon
-            icon="mingcute:right-line"
-            class={clsx(iconClass, "lg:-right-8 lg:translate-x-1/2 lg:-translate-y-1/2")} />
+        <span
+            class={clsx(iconClass, `
+                icon-[mingcute--right-line]
+                lg:-right-8 lg:translate-x-1/2 lg:-translate-y-1/2
+            `)}></span>
     </button>
 </div>

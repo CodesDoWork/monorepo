@@ -1,9 +1,10 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
-    import Icon from "@iconify/svelte";
+    import { clsx } from "clsx";
     import { Card } from "../../components/card";
     import { H5, Link } from "../../components/texts";
+    import { Icons } from "../../lib/client/icons";
 
     interface Props {
         socials: PageData["socials"];
@@ -38,13 +39,15 @@
                 "
                 href={social.href}
                 title={social.title}>
-                <Icon
-                    class="
-                        row-span-2 mr-4 size-8 transition-colors
-                        group-hover:text-(--hover-color)
-                        sm:size-10
-                    "
-                    icon={social.icon} />
+                <span
+                    class={clsx(
+                        Icons[social.icon],
+                        `
+                            row-span-2 mr-4 size-8 transition-colors
+                            group-hover:text-(--hover-color)
+                            sm:size-10
+                        `,
+                    )}></span>
                 <H5
                     commandStyle={false}
                     class="

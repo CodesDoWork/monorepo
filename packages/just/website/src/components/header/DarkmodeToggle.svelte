@@ -1,6 +1,5 @@
 <script lang="ts">
     import type { ThemeState } from "../../states/theme.svelte";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { Theme } from "../../states/theme.svelte";
 
@@ -62,6 +61,6 @@
     );
 </script>
 
-<button class={resultClass} disabled={isAnimating} onclick={toggleTheme}>
-    <Icon class={iconClass} {icon} />
+<button class={resultClass} disabled={isAnimating} onclick={toggleTheme} title="Toggle Theme">
+    <span class={clsx(icon, iconClass)}></span>
 </button>

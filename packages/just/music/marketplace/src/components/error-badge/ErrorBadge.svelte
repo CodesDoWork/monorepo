@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
 
     interface Props {
@@ -32,7 +31,7 @@
         bind:this={buttonRef}
         class="group relative p-0.5"
         onclick={() => (showMessages = !showMessages)}>
-        <Icon {icon} class={clsx("size-6", iconClass)} />
+        <span class={clsx("size-6", icon, iconClass)}></span>
         <ul
             class={clsx(
                 `

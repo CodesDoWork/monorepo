@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { Snippet } from "svelte";
     import { refreshAll } from "$app/navigation";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { smallTextClass } from "../../lib/common/styles";
     import { Card } from "../cards";
@@ -34,7 +33,7 @@
 {#if isLoading}
     <section>
         <Card padding class="flex w-fit items-center gap-3 text-xl">
-            <Icon icon="eos-icons:bubble-loading" class="size-6" />
+            <span class="icon-[eos-icons--bubble-loading] size-6"></span>
             <span>Loading{".".repeat(dots)}{@html "&nbsp;".repeat(3 - dots)}</span>
         </Card>
         <p class={clsx("mt-4", smallTextClass)}>

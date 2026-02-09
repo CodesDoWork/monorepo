@@ -14,7 +14,7 @@ const zLanguages = z.array(
         .object({
             name: z.string(),
             level: z.string(),
-            icon: z.string(),
+            code: z.string(),
         })
         .strict(),
 );

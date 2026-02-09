@@ -1,6 +1,5 @@
 <script lang="ts">
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { colorPrimaryClass, fadeInBottom } from "../../lib/common/styles";
     import { H3 } from "../heading";
@@ -49,14 +48,13 @@
                             dark:border-gray-700 dark:bg-black/20
                             dark:hover:bg-black/40
                         ">
-                        <Icon
-                            icon={Icons.File}
-                            class="
+                        <span
+                            class={clsx(Icons.File, `
                                 inline-block size-6 text-gray-600 transition-colors
                                 group-hover:text-gray-900
                                 dark:text-gray-400
                                 dark:group-hover:text-gray-100
-                            " />
+                            `)}></span>
                         <span
                             class={clsx(
                                 colorPrimaryClass,

@@ -2,7 +2,6 @@
     import type { IndexedTrack } from "./types";
     import { Checkbox } from "@cdw/monorepo/shared-svelte-components/forms";
     import { formatDuration } from "@cdw/monorepo/shared-utils/numbers";
-    import Icon from "@iconify/svelte";
     import clsx from "clsx";
     import { Card } from "../../../components/cards";
     import { smallTextClass } from "../../../lib/common/styles";
@@ -52,7 +51,7 @@
                         : `h-0`,
                 )}>
                 {#if track.meta.diskNo || track.meta.diskOf}
-                    <Icon icon="tabler:disc" class="size-5" />
+                    <span class="icon-[tabler--disc] size-5"></span>
                     <span class="mr-8">
                         {track.meta.diskNo}1&nbsp;/&nbsp;4
                         {#if track.meta.diskOf}

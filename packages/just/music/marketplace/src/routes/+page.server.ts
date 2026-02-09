@@ -22,17 +22,17 @@ interface Link {
 
 const furhterLinks: Link[] = [
     {
-        icon: { name: "tabler:music-cog", class: "*:stroke-primary" },
+        icon: { name: "icon-[tabler--music-cog]", class: "bg-primary" },
         title: "Manage Songs",
         href: "/manage",
     },
     {
-        icon: { name: "pajamas:duplicate", class: "*:fill-secondary" },
+        icon: { name: "icon-[pajamas--duplicate]", class: "bg-secondary" },
         title: "Find Duplicates",
         href: "/duplicates",
     },
     {
-        icon: { name: "mdi:tags", class: "*:fill-tertiary" },
+        icon: { name: "icon-[mdi--tags]", class: "bg-tertiary" },
         title: "Check Metadata",
         href: "/metadata",
     },

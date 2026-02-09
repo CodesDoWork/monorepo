@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { RouteFragment } from "../../graphql/default/generated/graphql";
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
-    import Icon from "@iconify/svelte";
     import { clsx } from "clsx";
     import { fadeInBottom } from "../../lib/common/styles";
     import { WidthBox } from "../content-area";
@@ -46,7 +45,7 @@
                     md:hidden
                 ">
                 <button onclick={onMenuClick}>
-                    <Icon icon="ic:round-menu" class="size-6" />
+                    <span class="icon-[ic--round-menu] size-6"></span>
                 </button>
                 <MobileMenu
                     onClose={onMenuClick}

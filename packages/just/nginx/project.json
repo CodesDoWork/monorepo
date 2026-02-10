@@ -4,5 +4,6 @@
     "sourceRoot": "packages/just/nginx",
     "projectType": "application",
     "targets": {},
-    "tags": []
+    "tags": [],
+    "implicitDependencies": ["just-nginx-config-creator"]
 }

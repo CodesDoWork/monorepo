@@ -367,7 +367,7 @@ pandas==3.0.0
     #   evaluate
 pandocfilters==1.5.1
     # via nbconvert
-parso==0.8.5
+parso==0.8.6
     # via jedi
 pexpect==4.9.0
     # via ipython

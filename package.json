@@ -73,7 +73,7 @@
         "@graphql-codegen/plugin-helpers": "^6.1.0",
         "@graphql-codegen/typescript": "^5.0.7",
         "@graphql-codegen/typescript-operations": "^5.0.7",
-        "@iconify/json": "^2.2.438",
+        "@iconify/json": "^2.2.439",
         "@iconify/tailwind4": "^1.2.1",
         "@naxodev/gonx": "^3.0.0",
         "@nx/devkit": "22.4.5",

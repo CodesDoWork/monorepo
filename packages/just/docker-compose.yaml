@@ -12,6 +12,11 @@ services:
   adminer:
     <<: *common
     image: ${DOCKER_PROXY}/adminer:5.4.1
+    labels:
+      nginx.port: ${ADMINER_PORT}
+      nginx.isInternal: true
+      nginx.requiredRole: just-adminer-access
+      nginx.useLuaAccess: true
 
   bitwarden:
     <<: *common
@@ -32,6 +37,9 @@ services:
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
     image: ${DOCKER_PROXY}/vaultwarden/server:1.35.1-alpine
+    labels:
+      nginx.port: ${BITWARDEN_PORT}
+      nginx.maxBodySize: 100M
     volumes:
       - bitwarden-data:/data
 
@@ -60,6 +68,11 @@ services:
       - AUTH_KEYCLOAK_ROLE_MAPPING={"admin":"2c1d9be2-93c2-4693-8200-6351976a034e"}
       - AUTH_KEYCLOAK_GROUP_CLAIM_NAME=groups
     image: ${IMAGE_BASE}/just-cms:${PROJECT_VERSION:-latest}
+    labels:
+      nginx.port: ${CMS_PORT}
+      nginx.requiredRole: just-cms-access
+      nginx.maxBodySize: 100M
+      nginx.location./admin.useLuaAccess: true
     volumes:
       - directus-extension-registry:/directus/extensions/.registry
       - directus-uploads:/directus/uploads
@@ -160,6 +173,10 @@ services:
     healthcheck:
       test: node /app/services/healthcheck
     image: ${DOCKER_PROXY}/lissy93/dashy:3.1.0
+    labels:
+      nginx.port: ${DASHBOARD_PORT}
+      nginx.requiredRole: just-dashboard-access
+      nginx.useLuaAccess: true
     volumes:
       - dashy-config:/app/user-data:ro
 
@@ -182,6 +199,11 @@ services:
       FTLCONF_misc_dnsmasq_lines: >-
         address=/${DOMAIN}/${NGINX_IP}; server=/agrarservicenordost-test.${DOMAIN}/1.1.1.1;
         server=/cms-agrarservicenordost-test.${DOMAIN}/1.1.1.1;
+    labels:
+      nginx.port: ${DNS_WEB_PORT}
+      nginx.isInternal: true
+      nginx.requiredRole: just-dns-access
+      nginx.useLuaAccess: true
     networks:
       default:
         ipv4_address: ${DNS_IP}
@@ -199,6 +221,12 @@ services:
     healthcheck:
       test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
     image: ${IMAGE_BASE}/just-documentation:${PROJECT_VERSION:-latest}
+    labels:
+      nginx.port: ${DOCUMENTATION_PORT}
+      nginx.host: docs.${DOMAIN}
+      nginx.isInternal: true
+      nginx.requiredRole: just-documentation-access
+      nginx.useLuaAccess: true
 
   gitlab:
     environment:
@@ -261,6 +289,16 @@ services:
           }
         ]
     image: ${DOCKER_PROXY}/zengxs/gitlab:18.2.1-ee-arm64
+    labels:
+      nginx.port: ${GITLAB_PORT}
+      nginx.isInternal: true
+      nginx.proxyHeaders.X-Forwarded-Proto: https
+      nginx.proxyHeaders.X-Forwarded-Protocol: https
+      nginx.server.default.maxBodySize: 100M
+      nginx.server.docker.port: ${DOCKER_REGISTRY_PORT}
+      nginx.server.docker.domain: ${DOCKER_REGISTRY}
+      nginx.server.docker.maxBodySize: 1G
+
     restart: always
     volumes:
       - gitlab-config:/etc/gitlab
@@ -315,6 +353,11 @@ services:
     healthcheck:
       test: curl -fs http://localhost:${GRAFANA_PORT}/api/health | grep "ok" || exit 1
     image: ${DOCKER_PROXY}/grafana/grafana:12.3.1
+    labels:
+      nginx.port: ${GRAFANA_PORT}
+      nginx.isInternal: true
+      nginx.requiredRole: just-grafana-access
+      nginx.useLuaAccess: true
     volumes:
       - grafana-storage:/var/lib/grafana
 
@@ -335,6 +378,11 @@ services:
       - KEYCLOAK_ADMIN=${KEYCLOAK_USERNAME}
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_PASSWORD}
     image: ${DOCKER_PROXY}/keycloak/keycloak:26.4.7
+    labels:
+      nginx.domain: auth.${DOMAIN}
+      nginx.port: ${KEYCLOAK_PORT}
+      nginx.proxyHeaders.X-Forwarded-Proto: https
+      nginx.proxyHeaders.X-Forwarded-Protocol: https
 
   mail:
     environment:
@@ -393,6 +441,11 @@ services:
       - ADDITIONAL_SAN=${MAIL_ADDITIONAL_SAN}
     image: ${IMAGE_BASE}/just-mail:${PROJECT_VERSION:-latest}
     labels:
+      nginx.port: ${MAIL_HTTP_PORT}
+      nginx.isInternal: true
+      nginx.requiredRole: just-mail-access
+      nginx.useLuaAccess: true
+      nginx.maxBodySize: 1G
       ofelia.enabled: true
       ofelia.job-exec.copy-certs.schedule: 0 0 3 1 * *
       ofelia.job-exec.copy-certs.command: /cp_certs.sh
@@ -420,6 +473,11 @@ services:
       - MLFLOW_HOST=0.0.0.0
       - MLFLOW_SERVER_ALLOWED_HOSTS=mlflow:${MLFLOW_PORT},mlflow.${DOMAIN}
     image: ${IMAGE_BASE}/shared-mlflow:${PROJECT_VERSION:-latest}
+    labels:
+      nginx.port: ${MLFLOW_PORT}
+      nginx.luaAccessFile: /etc/nginx/lua/mlflow-access.lua
+      nginx.requiredRole: just-mlflow-access
+      nginx.useLuaAccess: true
     volumes:
       - mlflow-artifacts:/mlflow/artifacts
 
@@ -433,10 +491,17 @@ services:
       CMS_URL: ${CMS_URL}
       CMS_TOKEN: ${MUSIC_MARKETPLACE_CMS_TOKEN}
     image: ${IMAGE_BASE}/just-music-marketplace:${PROJECT_VERSION:-latest}
+    labels:
+      nginx.port: ${MUSIC_MARKETPLACE_PORT}
+      nginx.isInternal: true
+      nginx.luaAccessFile: /etc/nginx/lua/music-marketplace-access.lua
+      nginx.requiredRole: just-music-marketplace-access
+      nginx.useLuaAccess: true
+      nginx.location./api/download/status.proxyBuffering: off
     volumes:
       - ${MUSIC_DIR_PATH}:/music
 
-  music-metadata:
+  music-meta:
     <<: *common
     cap_add:
       - CAP_DAC_OVERRIDE
@@ -458,10 +523,15 @@ services:
       retries: 3
       start_period: 40s
     image: ghcr.io/wow-signal-dev/metadata-remote:1.2.0
+    labels:
+      nginx.port: ${MUSIC_METADATA_PORT}
+      nginx.isInternal: true
+      nginx.requiredRole: just-music-metadata-access
+      nginx.useLuaAccess: true
     volumes:
       - ${MUSIC_LIBRARY_PATH}:/music
 
-  music-platform:
+  music:
     <<: *common
     environment:
       - ND_PORT=${MUSIC_PLATFORM_PORT}
@@ -479,6 +549,13 @@ services:
       - ND_UILOGINBACKGROUNDURL=https://images.pexels.com/photos/2111015/pexels-photo-2111015.jpeg?cs=srgb&dl=pexels-francesco-paggiaro-2111015.jpg&fm=jpg&w=1920&h=1280
       - ND_UIWELCOMEMESSAGE="Listen to the best"
     image: ${IMAGE_BASE}/just-music-platform:${PROJECT_VERSION:-latest}
+    labels:
+      nginx.port: ${MUSIC_PLATFORM_PORT}
+      nginx.luaAccessFile: /etc/nginx/lua/music-platform-access.lua;
+      nginx.requiredRole: just-music-platform-access
+      nginx.gzip: off
+      nginx.location./rest.pass: true
+      nginx.location./.useLuaAccess: true
     volumes:
       - navidrome-data:/data
       - navidrome-cache:/data/cache
@@ -499,6 +576,13 @@ services:
       - SYS_PTRACE
       - SYS_ADMIN
     image: ${DOCKER_PROXY}/netdata/netdata:v2.8.4
+    labels:
+      nginx.port: ${NETDATA_PORT}
+      nginx.host: 172.17.0.1 # docker host
+      nginx.isInternal: true
+      nginx.requiredRole: just-netdata-access
+      nginx.useLuaAccess: true
+      nginx.gzip: off
     network_mode: host
     restart: always
     security_opt:
@@ -512,7 +596,7 @@ services:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro
       - /etc/os-release:/host/etc/os-release:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - //var/run/docker.sock:/var/run/docker.sock:ro
 
   nginx:
     <<: *common
@@ -520,8 +604,11 @@ services:
       - CAP_CHOWN
       - CAP_SETGID
       - CAP_SETUID
-    env_file:
-      - .env
+    environment:
+      - DOMAIN=${DOMAIN}
+      - DOCKER_STACK=${STACK_NAME}
+      - EXTERNAL_IPS=${TUNNEL_IP}
+      - INTERNAL_IP_PREFIX=${DEFAULT_NETWORK_PREFIX}
     healthcheck:
       test: curl -f http://localhost || exit 1
     image: ${IMAGE_BASE}/just-nginx:${PROJECT_VERSION:-latest}
@@ -530,10 +617,17 @@ services:
         ipv4_address: ${NGINX_IP}
     volumes:
       - letsencrypt:/etc/letsencrypt:ro
+      - //var/run/docker.sock:/var/run/docker.sock:ro
 
   portainer:
     <<: *common
     image: ${DOCKER_PROXY}/portainer/portainer-ce:2.33.6-alpine
+    labels:
+      nginx.port: ${PORTAINER_PORT}
+      nginx.isInternal: true
+      nginx.requiredRole: just-portainer-access
+      nginx.useLuaAccess: true
+      nginx.gzip: off
     volumes:
       - portainer-data:/data
       - //var/run/docker.sock:/var/run/docker.sock
@@ -562,6 +656,11 @@ services:
     healthcheck:
       test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
     image: ${IMAGE_BASE}/just-prometheus:${PROJECT_VERSION:-latest}
+    labels:
+      nginx.port: ${PROMETHEUS_PORT}
+      nginx.isInternal: true
+      nginx.requiredRole: just-prometheus-access
+      nginx.useLuaAccess: true
     volumes:
       - prometheus-data:/prometheus
 
@@ -576,6 +675,15 @@ services:
         wget -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e
         '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
     image: ${DOCKER_PROXY}/sonarqube:25.12.0.117093-community
+    labels:
+      nginx.port: ${SONARQUBE_PORT}
+      nginx.host: sonar.${DOMAIN}
+      nginx.isInternal: true
+      nginx.requiredRole: just-sonarqube-access
+      nginx.gzip: off
+      nginx.location./api.pass: true
+      nginx.location./batch.pass: true
+      nginx.location./.useLuaAccess: true
     volumes:
       - sonarqube-config:/opt/sonarqube/conf
       - sonarqube-data:/opt/sonarqube/data
@@ -605,6 +713,11 @@ services:
       - INSECURE=true
       - DISABLE_IPV6=true
     image: ghcr.io/wg-easy/wg-easy:15.2.1
+    labels:
+      nginx.port: ${VPN_PORT}
+      nginx.isInternal: true
+      nginx.requiredRole: just-vpn-access
+      nginx.useLuaAccess: true
     ports:
       - 51820:51820/udp
     sysctls:
@@ -626,6 +739,12 @@ services:
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
     image: ${IMAGE_BASE}/just-website:${PROJECT_VERSION:-latest}
+    labels:
+      nginx.port: ${WEBSITE_PORT}
+      nginx.domain: ${DOMAIN}
+      nginx.requiredRole: just-website-private-access
+      nginx.location./private/.isInternal: true
+      nginx.location./private/.useLuaAccess: true
     scale: 3
 
 volumes:

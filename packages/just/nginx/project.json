@@ -3,7 +3,10 @@
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "packages/just/nginx",
     "projectType": "application",
-    "targets": {},
-    "tags": [],
-    "implicitDependencies": ["just-nginx-config-creator"]
+    "targets": {
+        "docker-build": {
+            "dependsOn": ["shared-nginx:build"]
+        }
+    },
+    "tags": []
 }

@@ -65,7 +65,7 @@
         "@apollo/client": "^4.1.4",
         "@cloudflare/kv-asset-handler": "^0.4.2",
         "@cloudflare/workers-types": "^4.20260210.0",
-        "@directus/extensions-sdk": "^17.0.7",
+        "@directus/extensions-sdk": "^17.0.8",
         "@directus/types": "^14.1.0",
         "@graphql-codegen/cli": "^6.1.1",
         "@graphql-codegen/client-preset": "^5.2.2",

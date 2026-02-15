@@ -62,6 +62,7 @@ export const Icons: Record<string, string> = {
     "devicon:vuejs": "icon-[devicon--vuejs]",
     "fa6-brands:wpforms": "icon-[fa6-brands--wpforms]",
     "simple-icons:mlflow": "icon-[simple-icons--mlflow]",
+    "logos:go": "icon-[logos--go]",
 };
 
 export const LanguageIcons: Record<string, string> = {

@@ -712,7 +712,7 @@ services:
       - PORT=${VPN_PORT}
       - INSECURE=true
       - DISABLE_IPV6=true
-    image: ghcr.io/wg-easy/wg-easy:15.2.1
+    image: ghcr.io/wg-easy/wg-easy:15.2.2
     labels:
       nginx.port: ${VPN_PORT}
       nginx.isInternal: true

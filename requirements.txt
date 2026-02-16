@@ -373,7 +373,7 @@ pexpect==4.9.0
     # via ipython
 pillow==12.1.1
     # via matplotlib
-platformdirs==4.5.1
+platformdirs==4.9.2
     # via
     #   jupyter-core
     #   pooch

@@ -572,7 +572,7 @@ traitlets==5.14.3
     #   nbclient
     #   nbconvert
     #   nbformat
-transformers==5.0.0
+transformers==5.2.0
     # via -r requirements.in
 triton==3.6.0
     # via torch

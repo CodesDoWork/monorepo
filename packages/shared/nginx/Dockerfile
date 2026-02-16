@@ -5,7 +5,7 @@ ARG PROJECT_VERSION
 ARG APP_NAME=shared-nginx
 ARG CONFIG_APP_NAME=$APP_NAME-configurator
 ARG APP_DIR=shared/nginx
-ARG CONFIG_APP_DIR=$APP_DIR-configurator
+ARG CONFIG_APP_DIR=$APP_DIR/configurator
 
 FROM $IMAGE_BASE/workspace-base:$PROJECT_VERSION AS base
 FROM $IMAGE_BASE/workspace-deps:$PROJECT_VERSION AS workspace-deps

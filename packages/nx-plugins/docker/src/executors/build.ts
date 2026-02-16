@@ -2,6 +2,7 @@ import type { PromiseExecutor } from "@nx/devkit";
 import type { ExecutorSchema } from "./schema";
 import { projectRoot } from "@cdw/monorepo/nx-plugins-utils";
 import { execAsync } from "@cdw/monorepo/packages/shared/utils/src";
+import { logger } from "@nx/devkit";
 import { dockerImage, getBaseDockerVars, runDockerCommand } from "../utils";
 
 export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ args }, context) => {
@@ -17,12 +18,12 @@ export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ arg
 
         if (CI) {
             const devCacheImage = dockerImage(cacheImageName, "develop");
-            await execAsync("docker", ["manifest", "inspect", devCacheImage]).then(() =>
-                ciOptions.push(`--cache-from type=registry,ref=${devCacheImage}`),
-            );
-            await execAsync("docker", ["manifest", "inspect", cacheImage]).then(() =>
-                ciOptions.push(`--cache-from type=registry,ref=${cacheImage}`),
-            );
+            await execAsync("docker", ["manifest", "inspect", devCacheImage], { logging: false })
+                .then(() => ciOptions.push(`--cache-from type=registry,ref=${devCacheImage}`))
+                .catch(() => logger.warn("Develope cache image not found"));
+            await execAsync("docker", ["manifest", "inspect", cacheImage], { logging: false })
+                .then(() => ciOptions.push(`--cache-from type=registry,ref=${cacheImage}`))
+                .catch(() => logger.warn("Cache image not found"));
         }
 
         const latestImageIfNeeded =

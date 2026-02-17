@@ -7,10 +7,14 @@ interface SecretOptions {
     secrets?: string[];
 }
 
+interface ExecAsyncOptions extends SpawnOptionsWithoutStdio, SecretOptions {
+    logging?: boolean;
+}
+
 export function execAsync(
     command: string,
     args?: (string | false | undefined)[],
-    { secrets, ...options }: SpawnOptionsWithoutStdio & SecretOptions = {},
+    { secrets, logging = true, ...options }: ExecAsyncOptions = {},
 ) {
     const allArgs = (args ?? [])
         .filter(arg => !!arg)
@@ -24,8 +28,11 @@ export function execAsync(
 
     return new Promise<void>((resolve, reject) => {
         const childProcess = spawn(command, allArgs, options);
-        childProcess.stdout.on("data", msg => logger.info(msg.toString()));
-        childProcess.stderr.on("data", msg => logger.info(msg.toString()));
+        if (logging) {
+            childProcess.stdout.on("data", msg => logger.info(msg.toString()));
+            childProcess.stderr.on("data", msg => logger.info(msg.toString()));
+        }
+
         childProcess.on("close", code =>
             code === 0 ? resolve() : reject(new Error(`Process exited with code ${code}`)),
         );

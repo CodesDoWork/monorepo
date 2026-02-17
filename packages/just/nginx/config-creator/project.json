@@ -1,8 +1,0 @@
-{
-    "name": "just-nginx-config-creator",
-    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/just/nginx/config-creator",
-    "projectType": "application",
-    "targets": {},
-    "tags": []
-}

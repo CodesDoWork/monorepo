@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { PageData } from "./$types";
+    import type { Project } from "./types";
     import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { smoothScrollTo } from "@cdw/monorepo/shared-utils/html/client";
@@ -19,26 +20,44 @@
             setTimeout(() => smoothScrollTo(window.location.hash), 0);
         }
     });
+
+    const bottomMargins: Record<number, string> = {
+        0: "mb-8",
+        1: "mb-4 last:mb-8",
+        2: "mb-2 last:mb-4 ",
+    };
+
+    const leftMargins: Record<number, string> = {
+        0: "ml-0",
+        1: "ml-4",
+        2: "ml-10",
+    };
 </script>
 
-<div
+{#snippet displayProject(project: Project, delay: number = 0, level: number = 0)}
+    <li
+        class={clsx(
+            leftMargins[level],
+            project.children?.length ? bottomMargins[level + 1] : bottomMargins[level],
+        )}>
+        <ProjectCard style={animationDelay(delay + 1)} {project} {texts} />
+    </li>
+    {#if project.children?.length}
+        <ul>
+            {#each project.children as child, childIdx (childIdx)}
+                {@render displayProject(child, delay + childIdx + 2, level + 1)}
+            {/each}
+        </ul>
+    {/if}
+{/snippet}
+
+<ul
     class="
         mx-auto mt-12
         md:w-4/5
         lg:w-full
     ">
     {#each projects as project, projectIdx (projectIdx)}
-        <ProjectCard
-            style={animationDelay(projectIdx + 1)}
-            {project}
-            {texts}
-            class={clsx(project.children?.length ? "mb-3" : "mb-6")} />
-        {#each project.children as child, childIdx (childIdx)}
-            <ProjectCard
-                style={animationDelay(projectIdx + childIdx + 2)}
-                project={child}
-                {texts}
-                class={clsx(childIdx < project.children.length - 1 ? "mb-3" : "mb-6", "ml-6")} />
-        {/each}
+        {@render displayProject(project, projectIdx + 1)}
     {/each}
-</div>
+</ul>

@@ -1,0 +1,9 @@
+{
+    "name": "shared-nginx",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/shared/nginx",
+    "projectType": "application",
+    "targets": {},
+    "tags": [],
+    "implicitDependencies": ["shared-nginx-configurator"]
+}

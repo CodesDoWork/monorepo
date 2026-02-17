@@ -16,13 +16,13 @@ type NginxContainer struct {
 }
 
 func WatchContainers(containerChannel chan<- map[string]NginxContainer) {
-	containers := make(map[string]NginxContainer)
 	creatorChannel := make(chan NginxContainer)
 	destroyerChannel := make(chan NginxContainer)
 
-	go watchDocker(creatorChannel, destroyerChannel)
-
+	containers := make(map[string]NginxContainer)
 	containerChannel <- containers
+
+	go watchDocker(creatorChannel, destroyerChannel)
 	for {
 		select {
 		case c := <-creatorChannel:

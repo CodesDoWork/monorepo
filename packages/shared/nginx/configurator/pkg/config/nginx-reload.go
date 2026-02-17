@@ -23,8 +23,8 @@ func reloadNginx() error {
 
 func testConfig() error {
 	testCmd := exec.Command("nginx", "-t")
-	if output, err := testCmd.CombinedOutput(); err != nil {
-		return fmt.Errorf("nginx config test failed: %s", string(output))
+	if _, err := testCmd.CombinedOutput(); err != nil {
+		return fmt.Errorf("nginx config test failed: %s", err.Error())
 	}
 
 	return nil
@@ -32,8 +32,8 @@ func testConfig() error {
 
 func reloadConfig() error {
 	reloadCmd := exec.Command("nginx", "-s", "reload")
-	if output, err := reloadCmd.CombinedOutput(); err != nil {
-		return fmt.Errorf("nginx reload failed: %s", string(output))
+	if _, err := reloadCmd.CombinedOutput(); err != nil {
+		return fmt.Errorf("nginx reload failed: %s", err.Error())
 	}
 
 	return nil

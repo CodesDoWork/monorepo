@@ -13,11 +13,10 @@ FROM $IMAGE_BASE/workspace-deps:$PROJECT_VERSION AS workspace-deps
 
 FROM workspace-deps AS builder
 ARG CONFIG_APP_NAME
-ARG CONFIG_APP_DIR
 
 COPY .gitignore eslint.config.js nx.json tsconfig.json ./
 COPY packages/nx-plugins ./packages/nx-plugins
-COPY packages/$CONFIG_APP_DIR ./packages/$CONFIG_APP_DIR
+COPY packages/shared ./packages/shared
 RUN nx reset
 RUN nx build $CONFIG_APP_NAME
 
@@ -37,4 +36,5 @@ COPY --from=builder --chmod=755 /workspace/dist/packages/$CONFIG_APP_DIR .
 COPY ./packages/$APP_DIR/conf conf.d
 COPY ./packages/$APP_DIR/lua lua
 
+ENV CONFIG_APP_NAME=$CONFIG_APP_NAME
 CMD sh -c "./$CONFIG_APP_NAME & PID_GO=\$!; /usr/local/openresty/bin/openresty -g 'daemon off;' & PID_OR=\$!; trap 'kill \$PID_GO \$PID_OR' SIGTERM SIGQUIT; wait"

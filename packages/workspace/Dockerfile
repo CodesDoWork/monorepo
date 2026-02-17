@@ -19,6 +19,8 @@ RUN apk add --no-cache \
     openjdk25-jre-headless \
     # Chromium for browser tests like lighthouse or e2e tests
     chromium \
+    # Golang
+    go \
     # misc
     zip
 

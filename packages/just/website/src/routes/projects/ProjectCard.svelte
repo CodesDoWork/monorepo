@@ -45,7 +45,7 @@
         <H3 commandStyle={false} class="mt-0!">
             {project.name}
         </H3>
-        <P class="mb-8 max-w-prose">{project.description || "\xA0"}</P>
+        <P class="mb-8 max-w-prose text-pretty">{project.description || "\xA0"}</P>
         <div
             class="
                 flex flex-1 flex-col justify-between gap-8

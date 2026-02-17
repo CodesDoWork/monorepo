@@ -14,7 +14,9 @@
     const { book, style, featuredText }: Props = $props();
 </script>
 
-<Card class="grid h-full grid-cols-[33%_67%] items-start gap-4 p-2 pr-6" {style}>
+<Card
+    class="grid h-full grid-cols-[33%_67%] grid-rows-[auto_1fr_auto] items-start gap-4 p-3 pr-7"
+    {style}>
     <DirectusImage imgClass="rounded" class="max-w-full" img={book.cover} />
     <div>
         <H5 class="mt-0!" commandStyle={false}>{book.title}</H5>

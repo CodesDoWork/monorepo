@@ -31,6 +31,9 @@ query GetProjectsServerData($language: String!) {
         ...Project
         children {
             ...Project
+            children {
+                ...Project
+            }
         }
     }
 

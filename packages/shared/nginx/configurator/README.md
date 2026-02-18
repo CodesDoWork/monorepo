@@ -9,11 +9,11 @@ them.
 
 | Name               | Default                        | Description                           |
 | ------------------ | ------------------------------ | ------------------------------------- |
-| CONFIG_PATH        | /etc/nginx/conf.d/default.conf | Path to nginx config file to write to |
+| DOMAIN             |                                | Domain for `server_name`              |
+| DOCKER_STACK       |                                | Docker stack name                     |
 | EXTERNAL_IPS       |                                | Comma separated list of external ips  |
 | INTERNAL_IP_PREFIX |                                | Internal ip prefix, e.g. 192.168.1.   |
-| DOCKER_STACK       |                                | Docker stack name                     |
-| DOMAIN             |                                | Domain for `server_name`              |
+| CONFIG_PATH        | /etc/nginx/conf.d/default.conf | Path to nginx config file to write to |
 
 ### Labels
 

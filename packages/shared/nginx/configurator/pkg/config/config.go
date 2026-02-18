@@ -124,7 +124,9 @@ func collectServerLabels(containerLabels map[string]string) map[string]map[strin
 
 			servers[server][label] = value
 		} else {
-			commonLabels[key] = value
+			parts := strings.Split(key, ".")[1:]
+			label := strings.Join(parts, ".")
+			commonLabels[label] = value
 		}
 	}
 
@@ -172,7 +174,7 @@ func createNginxServer(config *Config, containerName string, labels map[string]s
 	needsAuthCallbackLocation := false
 	for _, key := range sortByLabelOrder(labels) {
 		value := labels[key]
-		keyParts := strings.Split(key, ".")[1:]
+		keyParts := strings.Split(key, ".")
 		key := keyParts[0]
 		args := keyParts[1:]
 

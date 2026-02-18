@@ -6,3 +6,9 @@
 It connects all services and authenticates requests for services without oidc authentication. It
 also supports internal and external routes by identifying whether requests came from the tunnel or
 from other services. Whenever you access the server, this proxy will be the first connection.
+
+## Environment variables
+
+- Those from [`shared-nginx`](../../shared/nginx/README.md)
+- `MLFLOW_API_KEY`
+- `MUSIC_PLATFORM_AUTH_USERNAME_HEADER`

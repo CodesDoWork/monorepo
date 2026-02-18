@@ -2,6 +2,7 @@ package config
 
 import (
 	"maps"
+	"shared-nginx-configurator/pkg/watcher"
 	"slices"
 	"strings"
 )
@@ -16,8 +17,10 @@ func sortedKeysByLength[T any](m map[string]T) []string {
 	return keys
 }
 
-func sortedKeys[T any](m map[string]T) []string {
-	keys := slices.Collect(maps.Keys(m))
-	slices.Sort(keys)
-	return keys
+func sortedByNames(containers map[string]watcher.NginxContainer) []watcher.NginxContainer {
+	values := slices.Collect(maps.Values(containers))
+	slices.SortFunc(values, func(c1 watcher.NginxContainer, c2 watcher.NginxContainer) int {
+		return strings.Compare(c1.Name, c2.Name)
+	})
+	return values
 }

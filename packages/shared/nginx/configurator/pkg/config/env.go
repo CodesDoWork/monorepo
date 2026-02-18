@@ -9,15 +9,14 @@ type Config struct {
 	ConfigPath        string
 	ExternalIps       []string
 	InternalIpPattern string
-	LetsEncryptDomain string
 	Domain            string
+	LuaDir            string
 }
 
 func getConfigFromEnv() *Config {
 	configPath := os.Getenv("CONFIG_PATH")
 	externalIps := os.Getenv("EXTERNAL_IPS")
 	internalIpPrefix := os.Getenv("INTERNAL_IP_PREFIX")
-	letsEncryptDomain := os.Getenv("LETSENCRYPT_DOMAIN")
 	domain := os.Getenv("DOMAIN")
 
 	if configPath == "" {
@@ -37,7 +36,7 @@ func getConfigFromEnv() *Config {
 		ExternalIps:       strings.Split(externalIps, ","),
 		InternalIpPattern: internalIpPrefix,
 		ConfigPath:        configPath,
-		LetsEncryptDomain: letsEncryptDomain,
 		Domain:            domain,
+		LuaDir:            "/etc/nginx/lua/",
 	}
 }

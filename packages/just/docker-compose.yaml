@@ -290,10 +290,10 @@ services:
         ]
     image: ${DOCKER_PROXY}/zengxs/gitlab:18.2.1-ee-arm64
     labels:
-      nginx.port: ${GITLAB_PORT}
       nginx.isInternal: true
       nginx.proxyHeaders.X-Forwarded-Proto: https
       nginx.proxyHeaders.X-Forwarded-Protocol: https
+      nginx.server.default.port: ${GITLAB_PORT}
       nginx.server.default.maxBodySize: 100M
       nginx.server.docker.port: ${DOCKER_REGISTRY_PORT}
       nginx.server.docker.domain: ${DOCKER_REGISTRY}
@@ -475,7 +475,7 @@ services:
     image: ${IMAGE_BASE}/shared-mlflow:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${MLFLOW_PORT}
-      nginx.luaAccessFile: /etc/nginx/lua/mlflow-access.lua
+      nginx.luaAccessFile: mlflow-access.lua
       nginx.requiredRole: just-mlflow-access
       nginx.useLuaAccess: true
     volumes:
@@ -494,7 +494,7 @@ services:
     labels:
       nginx.port: ${MUSIC_MARKETPLACE_PORT}
       nginx.isInternal: true
-      nginx.luaAccessFile: /etc/nginx/lua/music-marketplace-access.lua
+      nginx.luaAccessFile: music-marketplace-access.lua
       nginx.requiredRole: just-music-marketplace-access
       nginx.useLuaAccess: true
       nginx.location./api/download/status.proxyBuffering: off
@@ -551,7 +551,7 @@ services:
     image: ${IMAGE_BASE}/just-music-platform:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${MUSIC_PLATFORM_PORT}
-      nginx.luaAccessFile: /etc/nginx/lua/music-platform-access.lua;
+      nginx.luaAccessFile: music-platform-access.lua
       nginx.requiredRole: just-music-platform-access
       nginx.gzip: off
       nginx.location./rest.pass: true
@@ -684,7 +684,7 @@ services:
     image: ${DOCKER_PROXY}/sonarqube:25.12.0.117093-community
     labels:
       nginx.port: ${SONARQUBE_PORT}
-      nginx.host: sonar.${DOMAIN}
+      nginx.domain: sonar.${DOMAIN}
       nginx.isInternal: true
       nginx.requiredRole: just-sonarqube-access
       nginx.gzip: off

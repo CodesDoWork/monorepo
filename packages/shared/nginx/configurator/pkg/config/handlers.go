@@ -75,7 +75,7 @@ var labelHandlers = []LabelHandler{
 			}
 
 			if slices.Contains(truthy, ctx.value) {
-				return NginxBlock{content: "access_by_lua_file /etc/nginx/lua/" + ctx.luaAccessFile}, nil
+				return NginxBlock{content: "access_by_lua_file " + ctx.luaAccessFile}, nil
 			}
 
 			return NginxBlock{}, nil

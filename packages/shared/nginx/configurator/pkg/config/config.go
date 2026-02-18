@@ -52,7 +52,7 @@ func createNginxConfig(config *Config, containers map[string]watcher.NginxContai
 func getNginxBlocks(config *Config, containers map[string]watcher.NginxContainer) NginxBlocks {
 	blocks := createInitialBlocks(config)
 	gotNames := make(map[string]bool)
-	for _, container := range containers {
+	for _, container := range sortedByNames(containers) {
 		if gotNames[container.Name] {
 			continue
 		}
@@ -98,8 +98,8 @@ func createInitialBlocks(config *Config) NginxBlocks {
 func createNginxServers(config *Config, container watcher.NginxContainer) NginxBlocks {
 	serverLabels := collectServerLabels(container.Labels)
 	serverBlocks := make(NginxBlocks, 0, len(serverLabels))
-	for _, server := range sortedKeys(serverLabels) {
-		serverBlocks = append(serverBlocks, createNginxServer(config, container.Name, serverLabels[server]))
+	for _, labels := range(serverLabels) {
+		serverBlocks = append(serverBlocks, createNginxServer(config, container.Name, labels))
 	}
 
 	return serverBlocks
@@ -178,7 +178,7 @@ func createNginxServer(config *Config, containerName string, labels map[string]s
 		key := keyParts[0]
 		args := keyParts[1:]
 
-		if key != "useLuaAccess" && strings.Contains(key, "useLuaAccess") {
+		if key == "location" && slices.Contains(args, "useLuaAccess") {
 			needsAuthCallbackLocation = true
 		}
 

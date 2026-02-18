@@ -66,7 +66,7 @@ func getNginxBlocks(config *Config, containers map[string]watcher.NginxContainer
 func createInitialBlocks(config *Config) NginxBlocks {
 	blocks := NginxBlocks{}
 
-	domain := config.LetsEncryptDomain
+	domain := config.Domain
 	if domain != "" {
 		blocks = append(blocks, NginxBlocks{
 			{content: "ssl_certificate /etc/letsencrypt/live/" + domain + "/fullchain.pem"},
@@ -98,8 +98,8 @@ func createInitialBlocks(config *Config) NginxBlocks {
 func createNginxServers(config *Config, container watcher.NginxContainer) NginxBlocks {
 	serverLabels := collectServerLabels(container.Labels)
 	serverBlocks := make(NginxBlocks, 0, len(serverLabels))
-	for _, labels := range(serverLabels) {
-		serverBlocks = append(serverBlocks, createNginxServer(config, container.Name, labels))
+	for _, server := range sortedKeys(serverLabels) {
+		serverBlocks = append(serverBlocks, createNginxServer(config, container.Name, serverLabels[server]))
 	}
 
 	return serverBlocks
@@ -153,7 +153,7 @@ func createNginxServer(config *Config, containerName string, labels map[string]s
 		},
 	}
 
-	if _, has := labels["nginx.domain"]; !has {
+	if _, has := labels["domain"]; !has {
 		if config.Domain == "" {
 			panic("Please set 'DOMAIN' when inferring 'nginx.domain'")
 		}
@@ -165,7 +165,7 @@ func createNginxServer(config *Config, containerName string, labels map[string]s
 	}
 
 	upstream := Upstream{proto: "http", host: containerName, port: "80"}
-	luaAccessFile := "/etc/nginx/lua/access.lua"
+	luaAccessFile := config.LuaDir + "access.lua"
 
 	locations := make(map[string]map[string]string)
 	locations["/"] = make(map[string]string)
@@ -178,7 +178,7 @@ func createNginxServer(config *Config, containerName string, labels map[string]s
 		key := keyParts[0]
 		args := keyParts[1:]
 
-		if strings.Contains(key, "useLuaAccess") {
+		if key != "useLuaAccess" && strings.Contains(key, "useLuaAccess") {
 			needsAuthCallbackLocation = true
 		}
 
@@ -190,7 +190,7 @@ func createNginxServer(config *Config, containerName string, labels map[string]s
 		case "port":
 			upstream.port = value
 		case "luaAccessFile":
-			luaAccessFile = value
+			luaAccessFile = config.LuaDir + value
 		case "location":
 			locationPath := args[0]
 			locationArgs := strings.Join(args[1:], ".")

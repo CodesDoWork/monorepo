@@ -5,7 +5,7 @@
     "projectType": "application",
     "targets": {
         "docker-build": {
-            "dependsOn": ["shared-nginx:build"]
+            "dependsOn": ["shared-nginx:docker-build"]
         }
     },
     "tags": []

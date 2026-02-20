@@ -51,6 +51,8 @@ func createNginxConfig(config *Config, containers map[string]watcher.NginxContai
 
 func getNginxBlocks(config *Config, containers map[string]watcher.NginxContainer) NginxBlocks {
 	blocks := createInitialBlocks(config)
+	slog.Info("Init config file", "blocks", blocks)
+
 	gotNames := make(map[string]bool)
 	for _, container := range sortedByNames(containers) {
 		if gotNames[container.Name] {

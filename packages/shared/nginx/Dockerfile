@@ -31,10 +31,14 @@ RUN mkdir /var/log/nginx
 RUN apk add --no-cache openssl-dev git gcc docker
 RUN luarocks install lua-resty-openidc 1.8.0
 
+RUN sed -i "1i include envs.conf;" /usr/local/openresty/nginx/conf/nginx.conf
+
 WORKDIR /etc/nginx
 COPY --from=builder --chmod=755 /workspace/dist/packages/$CONFIG_APP_DIR .
 COPY ./packages/$APP_DIR/conf conf.d
 COPY ./packages/$APP_DIR/lua lua
 
 ENV CONFIG_APP_NAME=$CONFIG_APP_NAME
-CMD sh -c "./$CONFIG_APP_NAME & PID_GO=\$!; /usr/local/openresty/bin/openresty -g 'daemon off;' & PID_OR=\$!; trap 'kill \$PID_GO \$PID_OR' SIGTERM SIGQUIT; wait"
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

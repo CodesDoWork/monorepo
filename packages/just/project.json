@@ -28,5 +28,17 @@
             }
         }
     },
-    "tags": []
+    "tags": [],
+    "implicitDependencies": [
+        "just-cms",
+        "just-documentation",
+        "just-food",
+        "just-mail",
+        "just-music-marketplace",
+        "just-music-platform",
+        "just-music-store",
+        "just-nginx",
+        "just-prometheus",
+        "just-website"
+    ]
 }

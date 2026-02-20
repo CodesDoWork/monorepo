@@ -18,16 +18,16 @@ local function has_role(res, role, client)
 end
 
 
+local keycloak_domain = os.getenv("KEYCLOAK_DOMAIN")
+local realm = os.getenv("KEYCLOAK_REALM")
+local client_id = os.getenv("NGINX_AUTH_CLIENT_ID")
+local client_secret = os.getenv("NGINX_AUTH_CLIENT_SECRET")
+local session_secret = os.getenv("NGINX_AUTH_SESSION_SECRET")
+
 function M.authenticate()
-    local domain = os.getenv("KEYCLOAK_DOMAIN")
-    local realm = os.getenv("KEYCLOAK_REALM")
-
-    local client_id = os.getenv("NGINX_AUTH_CLIENT_ID")
-    local client_secret = os.getenv("NGINX_AUTH_CLIENT_SECRET")
-
     local opts = {
         redirect_uri = "/callback-auth",
-        discovery = "https://" .. domain .. "/realms/" .. realm .. "/.well-known/openid-configuration",
+        discovery = "https://" .. keycloak_domain .. "/realms/" .. realm .. "/.well-known/openid-configuration",
         client_id = client_id,
         client_secret = client_secret,
         logout_path = "/callback-logout",
@@ -37,7 +37,7 @@ function M.authenticate()
     }
 
     local session_opts = {
-        secret = os.getenv("NGINX_AUTH_SESSION_SECRET"),
+        secret = session_secret,
         cookie_prefix = "nginx_auth_",
         cookie_http_only = true,
         cookie_secure = true,

@@ -10,18 +10,14 @@ directory.
 
 ## Tools
 
-This monorepo uses nx as framework to manage the packages. Natively, it uses typescript, but python
-was added for some projects.
+This monorepo uses nx as framework to manage the packages. Natively, it uses TypeScript, but Go was
+added for some projects.
 
 ### TS
 
 To install the dependencies run the `install` command of the package manager used here or `ni` (when
 `@antfu/ni` is installed).
 
-### Python
+### Go
 
-- Create a virtual environment: `python -m venv .venv` and activate it: `source .venv/bin/activate`
-  or `.venv\Scripts\activate` (Windows).
-- To install the dependencies run `pip install -r requirements.txt`
-- To create the `requirements.txt` file from `requirements.in`, run `uv pip compile requirements.in`
-  (`uv` needed).
+No monorepo behavior yet as just one project is written in Go.

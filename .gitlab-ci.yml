@@ -103,11 +103,7 @@ build workspace image:
 test workspace:
   stage: test
   script:
-    - ls ~
-    - ls ~/.docker
-    - ls /root/.docker
-    - id
-    - docker info
+    - cat /root/.docker/config.json
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*workspace.*/

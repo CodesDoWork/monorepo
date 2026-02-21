@@ -7,6 +7,11 @@
             "outputs": ["{workspaceRoot}/dist/{projectRoot}", "{projectRoot}/.svelte-kit"],
             "cache": true
         },
+        "build-artifacts": {
+            "inputs": ["production", "^production"],
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+            "cache": true
+        },
         "test": {
             "inputs": ["default", "^production"],
             "cache": true

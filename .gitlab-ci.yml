@@ -210,6 +210,19 @@ test:
       when: never
     - when: on_success
 
+build artifacts:
+  stage: build
+  script:
+    - nx affected -t build-artifacts
+  artifacts:
+    paths:
+      - ./dist/**/*.pdf
+  resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
+
 build images:
   stage: build
   script:

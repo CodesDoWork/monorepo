@@ -8,5 +8,6 @@
             "dependsOn": ["shared-nginx:docker-build"]
         }
     },
-    "tags": []
+    "tags": [],
+    "implicitDependencies": ["shared-nginx"]
 }

@@ -32,5 +32,8 @@ RUN git clone https://github.com/mailcow/mailcow-dockerized --branch 2025-12a /o
 WORKDIR /opt/$APP_DIR
 RUN cp -r data/assets/ssl-example/ data/assets/ssl/
 
+HEALTHCHECK --interval=60s --timeout=5s --start-period=30s --retries=3 \
+    CMD curl -fs http://localhost/api/v1/get/status/containers -H 'X-API-Key: $RO_API_KEY' | \
+    jq -e 'map(select(.state != "running")) | length == 0'
 SHELL ["/bin/bash"]
 ENTRYPOINT ["/entrypoint.sh"]

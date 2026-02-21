@@ -100,6 +100,21 @@ build workspace image:
       when: never
     - when: on_success
 
+test workspace:
+  stage: test
+  script:
+    - ls ~
+    - ls ~/.docker
+    - ls /root/.docker
+    - id
+    - docker info
+  resource_group: single
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*workspace.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - when: on_success
+
 install deps:
   stage: deps
   variables:

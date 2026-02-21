@@ -1,8 +1,8 @@
-import { existsSync, mkdirSync } from "node:fs";
+import { cpSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { execAsync } from "@cdw/monorepo/shared-utils/exec";
-import { findNextHigherDirWith } from "@cdw/monorepo/shared-utils/files";
+import { findNextHigherDirWith, mkdir } from "@cdw/monorepo/shared-utils/files";
 import { REPORTS_DIR } from "@cdw/monorepo/workspace-constants";
 import { logger } from "@nx/devkit";
 
@@ -53,11 +53,19 @@ async function runTrivy(params: string[], target: string, options: TrivyOptions)
     const jsonReport = join(INTERNAL_REPORTS_DIR, `${runKey}.json`);
     const workspaceDir = findNextHigherDirWith("nx.json");
 
+    let configFile: string;
+    if (homedir() === "/root") {
+        configFile = "./docker-config.json";
+        cpSync("/root/.docker/config.json", configFile);
+    } else {
+        configFile = `${homedir()}/.docker/config.json`;
+    }
+
     const trivyBaseOptions = [
         "run --rm",
         "--pull always",
         "-v //var/run/docker.sock:/var/run/docker.sock:ro",
-        `-v ${homedir()}/.docker/config.json:/root/.docker/config.json:ro`,
+        `-v ${configFile}:/root/.docker/config.json:ro`,
         `-v ${workspaceDir}/.cache/trivy:/tmp/trivy`,
         `-v ${workspaceDir}:${WORKSPACE_MOUNT}`,
         `${DOCKER_PROXY}/aquasec/trivy`,
@@ -80,7 +88,7 @@ async function runTrivy(params: string[], target: string, options: TrivyOptions)
 
     const failOptions = ["convert", "--exit-code 1", "--severity CRITICAL"];
 
-    createReportsDir(dirname(join(workspaceDir, TRIVY_REPORTS_DIR, `${runKey}.json`)));
+    mkdir(dirname(join(workspaceDir, TRIVY_REPORTS_DIR, `${runKey}.json`)));
     await execAsync("docker", trivyBaseOptions.concat(params).concat(repoOptions).concat(target));
     await execAsync("docker", trivyBaseOptions.concat(htmlConvertOptions).concat(jsonReport));
     const failed = await execAsync(
@@ -97,10 +105,4 @@ async function runTrivy(params: string[], target: string, options: TrivyOptions)
     }
 
     return Promise.resolve();
-}
-
-function createReportsDir(dir: string) {
-    if (!existsSync(dir)) {
-        mkdirSync(dir, { recursive: true });
-    }
 }

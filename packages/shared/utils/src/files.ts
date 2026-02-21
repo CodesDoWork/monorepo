@@ -1,4 +1,4 @@
-import { existsSync } from "node:fs";
+import { existsSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 
 export function findNextHigherDirWith(filename: string): string {
@@ -11,4 +11,10 @@ export function findNextHigherDirWith(filename: string): string {
         dir = dirname(dir);
     }
     return dir;
+}
+
+export function mkdir(dir: string) {
+    if (!existsSync(dir)) {
+        mkdirSync(dir, { recursive: true });
+    }
 }

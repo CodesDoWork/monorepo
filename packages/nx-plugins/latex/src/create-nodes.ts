@@ -5,12 +5,7 @@ export const createNodes = createNodesForProjects(`**/${configFile}`, ({ root })
     return {
         projects: {
             [root]: {
-                targets: {
-                    ...getExecutors("@cdw/monorepo/nx-plugins-latex", "", ["build", "serve"]),
-                    "build-artifacts": {
-                        executor: "@cdw/monorepo/nx-plugins-latex:build",
-                    },
-                },
+                targets: getExecutors("@cdw/monorepo/nx-plugins-latex", "", ["build", "serve"]),
             },
         },
     };

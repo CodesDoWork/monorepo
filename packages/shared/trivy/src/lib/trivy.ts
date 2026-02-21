@@ -58,8 +58,10 @@ async function runTrivy(params: string[], target: string, options: TrivyOptions)
         "--pull always",
         "-v //var/run/docker.sock:/var/run/docker.sock:ro",
         `-v ${homedir()}/.docker/config.json:/root/.docker/config.json:ro`,
+        `-v ${workspaceDir}/.cache/trivy:/tmp/trivy`,
         `-v ${workspaceDir}:${WORKSPACE_MOUNT}`,
         `${DOCKER_PROXY}/aquasec/trivy`,
+        "--cache-dir /tmp/trivy/",
     ];
 
     const repoOptions = [

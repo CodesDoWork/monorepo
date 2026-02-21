@@ -13,6 +13,7 @@ Thumbs.db
 /node_modules
 
 # output
+/.cache
 /dist
 /tmp
 /out-tsc

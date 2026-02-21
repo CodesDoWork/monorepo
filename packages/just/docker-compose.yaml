@@ -291,6 +291,7 @@ services:
     image: ${DOCKER_PROXY}/zengxs/gitlab:18.2.1-ee-arm64
     labels:
       nginx.isInternal: true
+      nginx.proxyHeaders.Host: $$host
       nginx.proxyHeaders.X-Forwarded-Proto: https
       nginx.proxyHeaders.X-Forwarded-Protocol: https
       nginx.server.default.port: ${GITLAB_PORT}

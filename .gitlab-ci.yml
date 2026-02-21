@@ -108,8 +108,9 @@ test workspace:
     - cat ./config.json
     - docker run --rm -v ./config.json:/root/.docker/config.json:ro alpine cat
       /root/.docker/config.json
-    - docker run --rm -v /root/.docker/config.json:/root/.docker/config.json:ro alpine cat
-      /root/.docker/config.json
+    - docker run --rm --mount
+      type=bind,source=/root/.docker/config.json,target=/root/.docker/config.json:ro,readonly alpine
+      cat /root/.docker/config.json
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*workspace.*/

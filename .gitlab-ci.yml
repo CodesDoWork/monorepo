@@ -103,7 +103,7 @@ build workspace image:
 test workspace:
   stage: test
   script:
-    - docker run --rm -it -v /root/.docker/config.json:/root/.docker/config.json:ro alpine cat
+    - docker run --rm -v /root/.docker/config.json:/root/.docker/config.json:ro alpine cat
       /root/.docker/config.json
   resource_group: single
   rules:

@@ -1,0 +1,8 @@
+{
+    "name": "workspace-contants",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "packages/workspace/contants/src",
+    "projectType": "library",
+    "tags": ["shared"],
+    "targets": {}
+}

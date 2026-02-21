@@ -227,7 +227,9 @@ image security:
   script:
     - nx affected -t docker-pull
     - nx affected -t docker-trivy
-  allow_failure: true
+  artifacts:
+    paths:
+      - ./reports/trivy
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
@@ -237,8 +239,10 @@ image security:
 workspace security:
   stage: analyze
   script:
-    - nr trivy
-  allow_failure: true
+    - nx trivy workspace-scripts
+  artifacts:
+    paths:
+      - ./reports/trivy
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
@@ -262,7 +266,7 @@ lighthouse:
       affected -t lighthouse -c development; fi
   artifacts:
     paths:
-      - ./_reports/lighthouse
+      - ./reports/lighthouse
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH

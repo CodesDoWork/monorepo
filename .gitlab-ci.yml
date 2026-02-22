@@ -29,9 +29,9 @@ workflow:
   auto_cancel:
     on_new_commit: interruptible
   rules:
-    - if: ${CI_PIPELINE_SOURCE} == "merge_request_event"
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
       when: never
-    - if: ${CI_COMMIT_BRANCH} == ${DEV_BRANCH} || ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
+    - if: $CI_COMMIT_BRANCH == $DEV_BRANCH || $CI_COMMIT_BRANCH == $MASTER_BRANCH
       when: always
       auto_cancel:
         on_new_commit: none
@@ -96,8 +96,8 @@ build workspace image:
       --platform=linux/arm64 .
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*workspace.*/
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*workspace.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
     - when: on_success
 
@@ -109,8 +109,8 @@ install deps:
     - nci
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*deps.*/
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*deps.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
     - when: on_success
 
@@ -125,7 +125,7 @@ generate env files:
     - nx g env ${STAGE} ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
     - when: on_success
 
@@ -137,7 +137,7 @@ codegen:
     - nx affected -t codegen
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
     - when: on_success
 
@@ -147,9 +147,9 @@ check formatting:
     - nx g exec "nx format:check"
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
-    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
       when: never
     - when: on_success
 
@@ -159,9 +159,9 @@ eslint:
     - nx g exec "nx affected -t lint"
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
-    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
       when: never
     - when: on_success
 
@@ -171,9 +171,9 @@ secretlint:
     - secretlint --secretlintignore .gitignore "**/*"
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
-    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
       when: never
     - when: on_success
 
@@ -183,9 +183,9 @@ svelte check:
     - nx affected -t svelte-check
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
-    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
       when: never
     - when: on_success
 
@@ -195,8 +195,8 @@ sonarqube:
     - sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}
   allow_failure: true
   rules:
-    - if: ${CI_COMMIT_BRANCH} == ${DEV_BRANCH}
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*sonar.*/
+    - if: $CI_COMMIT_BRANCH == $DEV_BRANCH
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*sonar.*/
   resource_group: single
 
 test:
@@ -205,9 +205,9 @@ test:
     - nx affected -t test
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
-    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
       when: never
     - when: on_success
 
@@ -219,7 +219,7 @@ build images:
     - nx docker-build just-documentation
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
     - when: on_success
 
@@ -235,7 +235,7 @@ image security:
       - ./reports/trivy
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
     - when: on_success
 
@@ -249,7 +249,7 @@ workspace security:
       - ./reports/trivy
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
+    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
     - when: on_success
 
@@ -260,8 +260,8 @@ deploy:
       affected -t deploy -c development; fi
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
-    - if: ${CI_COMMIT_BRANCH} == ${DEV_BRANCH}
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+    - if: $CI_COMMIT_BRANCH == $DEV_BRANCH
 
 lighthouse:
   stage: validate
@@ -273,5 +273,5 @@ lighthouse:
       - ./reports/lighthouse
   resource_group: single
   rules:
-    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
-    - if: ${CI_COMMIT_BRANCH} == ${DEV_BRANCH}
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+    - if: $CI_COMMIT_BRANCH == $DEV_BRANCH

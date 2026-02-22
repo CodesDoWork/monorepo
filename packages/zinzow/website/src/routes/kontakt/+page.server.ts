@@ -75,7 +75,6 @@ function createJsonLdThings(lat: number, lng: number): Thing[] {
 const smtpOptions: SMTPConnection.Options = {
     host: env.SMTP_HOST,
     port: env.SMTP_PORT,
-    secure: false,
     auth: {
         user: env.SMTP_USERNAME,
         pass: env.SMTP_PASSWORD,
@@ -127,7 +126,7 @@ export const actions: Actions = {
             const { firstName, lastName, email, message } = data;
             await mailTransport.sendMail({
                 html: `<p>Von: <strong>${firstName} ${lastName}</strong> <<i>${email}</i>></p><br /><br</> <p>${message.replace(/\n/g, "<br />")}</p>`,
-                from: env.SMTP_USERNAME,
+                from: `Agrarservicenordost Webseite <${env.SMTP_USERNAME}>`,
                 to: msgReceiver,
                 subject: `[Webseite] Neue Nachricht von ${firstName} ${lastName}`,
                 attachments: await Promise.all(

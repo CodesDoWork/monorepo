@@ -229,6 +229,7 @@ image security:
     - nx affected -t docker-trivy --parallel 1 --exclude="workspace*"
   allow_failure: true
   artifacts:
+    when: always
     paths:
       - ./reports/trivy
   resource_group: single
@@ -242,6 +243,7 @@ workspace security:
   script:
     - nx trivy workspace-scripts
   artifacts:
+    when: always
     paths:
       - ./reports/trivy
   resource_group: single

@@ -63,7 +63,7 @@
         "@cloudflare/workers-types": "^4.20260227.0",
         "@directus/extensions-sdk": "^17.0.9",
         "@directus/types": "^14.2.1",
-        "@graphql-codegen/cli": "^6.1.1",
+        "@graphql-codegen/cli": "^6.1.2",
         "@graphql-codegen/client-preset": "^5.2.3",
         "@graphql-codegen/introspection": "^5.0.0",
         "@graphql-codegen/plugin-helpers": "^6.1.0",

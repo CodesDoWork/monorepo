@@ -63,7 +63,8 @@
             "@cdw/monorepo/shared-utils/*": [
                 "packages/shared/utils/src/*.ts",
                 "packages/shared/utils/src/*/index.ts"
-            ]
+            ],
+            "@cdw/monorepo/workspace-constants": ["packages/workspace/constants/src/index.ts"]
         },
         "resolveJsonModule": true,
         "allowArbitraryExtensions": true,

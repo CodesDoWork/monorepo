@@ -13,10 +13,12 @@ Thumbs.db
 /node_modules
 
 # output
+/.cache
 /dist
 /tmp
 /out-tsc
 /coverage
+/reports
 
 # misc
 /.nx
@@ -30,9 +32,6 @@ Thumbs.db
 !.vitepress/*.ts
 !.vitepress/theme
 
-# python
-/.venv
-
 vite.config.*.timestamp*
 vitest.config.*.timestamp*
 
@@ -44,8 +43,6 @@ vitest.config.*.timestamp*
 
 # nixos
 /.direnv
-.cursor/rules/nx-rules.mdc
-.github/instructions/nx.instructions.md
 
 # sonar
 /.scannerwork

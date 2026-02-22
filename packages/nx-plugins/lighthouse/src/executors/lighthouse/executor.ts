@@ -6,11 +6,12 @@ import {
     getProjectConfig,
     replaceEnvsInObject,
     replaceEnvsInString,
+    REPORTS_DIR,
 } from "@cdw/monorepo/nx-plugins-utils";
 import { execAsync } from "@cdw/monorepo/shared-utils";
 import { logger } from "@nx/devkit";
 
-const REPORTS_DIR = "_reports/lighthouse";
+const LIGHTHOUSE_REPORTS_DIR = `${REPORTS_DIR}/lighthouse`;
 
 export const runLighthouseExecutor: PromiseExecutor<LighthouseExecutorSchema> = async (
     { url, headers, enabled },
@@ -50,7 +51,7 @@ export const runLighthouseExecutor: PromiseExecutor<LighthouseExecutorSchema> = 
             [
                 ...args,
                 "--output-path",
-                `${join(REPORTS_DIR, projectName ?? "report")}-mobile.html`,
+                `${join(LIGHTHOUSE_REPORTS_DIR, projectName ?? "report")}-mobile.html`,
                 lighthouseUrl,
             ],
             { shell: true },
@@ -62,7 +63,7 @@ export const runLighthouseExecutor: PromiseExecutor<LighthouseExecutorSchema> = 
                 ...args,
                 "--preset=desktop",
                 "--output-path",
-                `${join(REPORTS_DIR, projectName ?? "report")}-desktop.html`,
+                `${join(LIGHTHOUSE_REPORTS_DIR, projectName ?? "report")}-desktop.html`,
                 lighthouseUrl,
             ],
             { shell: true },
@@ -76,8 +77,8 @@ export const runLighthouseExecutor: PromiseExecutor<LighthouseExecutorSchema> = 
 };
 
 function createReportsDir() {
-    if (!existsSync(REPORTS_DIR)) {
-        mkdirSync(REPORTS_DIR, { recursive: true });
+    if (!existsSync(LIGHTHOUSE_REPORTS_DIR)) {
+        mkdirSync(LIGHTHOUSE_REPORTS_DIR, { recursive: true });
     }
 }
 

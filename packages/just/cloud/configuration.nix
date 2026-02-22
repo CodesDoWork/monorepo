@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  system.stateVersion = "24.11";
+  system.stateVersion = "25.11";
   imports = [
     ./hardware-configuration.nix
   ];
@@ -43,7 +43,7 @@
   users.groups.dev = {};
   users.users.jkonratt = {
     isNormalUser = true;
-    extraGroups = [ "dev" "docker" ];
+    extraGroups = [ "dev" "docker" "wheel" ];
     openssh.authorizedKeys.keys = [
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPT2/z3cipQhptV8esRPTUdzXRpBVx+A26ouxTViJLgmYioVEsG0h1JYUBBS1Od4JPIa5PfTLlL4URHjRZqTjMIOevLOHjMSbmyqMWDPU7y/UME+1ZtcUFUrIRKqi8ghnJL0GMbXm12Nc8oTNtER24eDqnrL81ewR1Q0zph7OTD+aMrjWQAFQa2a9XUcZcFSVU8PPTEpxa+qsSCJl5Rf4IgT23e/yY1GXrY9LQpgce95HhM125lKtwkhwNZKHIPg0qe0fhEZAp+k27Czlp/ATberLrEI8txFfXkN/l02O8cMh0pk/y4CZC1yW4ujSI5HVmTrfqmB9B8PplCadDXJ7L rsa-key-20230922"
     ];
@@ -55,6 +55,27 @@
     ];
   };
 
+  security = {
+    sudo = {
+      enable = true;
+      wheelNeedsPassword = false;
+    };
+  };
+
+  system.autoUpgrade = {
+    enable = true;
+    allowReboot = false;
+    dates = "05:00";
+  };
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "5:30";
+      options = "--delete-older-than 14d";
+    };
+    settings.auto-optimise-store = true;
+  };
+
   # permissions
   systemd.tmpfiles.rules = [
     "d /srv 0770 root dev"
@@ -62,24 +83,11 @@
 
   # packages & services
   environment.systemPackages = with pkgs; [
-    docker
     lm_sensors
   ];
 
   virtualisation.docker = {
     enable = true;
-    rootless = {
-      # enable = true;
-      enable = false;
-      setSocketVariable = true;
-    };
-  };
-
-  security.wrappers.docker-rootlesskit = {
-    source = "${pkgs.rootlesskit.out}/bin/rootlesskit";
-    capabilities = "cap_net_bind_service+ep";
-    owner = "root";
-    group = "root";
   };
 
   services.openssh = {

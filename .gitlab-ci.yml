@@ -78,6 +78,7 @@ default:
     - docker network create --driver=bridge builder-network
     - docker buildx create --use --driver-opt network=builder-network --driver-opt
       image=${DOCKER_PROXY}/moby/buildkit:buildx-stable-1 --bootstrap
+  interruptible: true
 
 build workspace image:
   stage: workspace
@@ -147,6 +148,8 @@ check formatting:
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+      when: never
     - when: on_success
 
 eslint:
@@ -156,6 +159,8 @@ eslint:
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
       when: never
     - when: on_success
 
@@ -167,6 +172,8 @@ secretlint:
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+      when: never
     - when: on_success
 
 svelte check:
@@ -177,6 +184,8 @@ svelte check:
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+      when: never
     - when: on_success
 
 sonarqube:
@@ -185,7 +194,7 @@ sonarqube:
     - sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}
   allow_failure: true
   rules:
-    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+    - if: $CI_COMMIT_BRANCH == $DEV_BRANCH
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*sonar.*/
   resource_group: single
 
@@ -196,6 +205,8 @@ test:
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
       when: never
     - when: on_success
 
@@ -214,9 +225,12 @@ build images:
 image security:
   stage: analyze
   script:
-    - nx affected -t docker-pull
-    - nx affected -t docker-trivy
+    - nx affected -t docker-pull --exclude="workspace*"
+    - nx affected -t docker-trivy --parallel 1 --exclude="workspace*"
   allow_failure: true
+  artifacts:
+    paths:
+      - ./reports/trivy
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
@@ -226,8 +240,10 @@ image security:
 workspace security:
   stage: analyze
   script:
-    - nr trivy
-  allow_failure: true
+    - nx trivy workspace-scripts
+  artifacts:
+    paths:
+      - ./reports/trivy
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
@@ -251,7 +267,7 @@ lighthouse:
       affected -t lighthouse -c development; fi
   artifacts:
     paths:
-      - ./_reports/lighthouse
+      - ./reports/lighthouse
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH

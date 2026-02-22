@@ -8,9 +8,25 @@ x-common: &common
   <<: *cap-drop
   restart: always
 
+x-healthcheck: &healthcheck-defaults
+  interval: 30s
+  timeout: 5s
+  retries: 3
+  start_period: 30s
+  start_interval: 5s
+
+x-common-with-healthcheck: &common-with-healthcheck
+  healthcheck:
+    test:
+      - CMD-SHELL
+      - wget -qO- --tries=1 --spider http://127.0.0.1:$${PORT:-80}/ || exit 1
+    <<: *healthcheck-defaults
+
 services:
   adminer:
-    <<: *common
+    <<: *common-with-healthcheck
+    environment:
+      PORT: ${ADMINER_PORT}
     image: ${DOCKER_PROXY}/adminer:5.4.1
     labels:
       nginx.port: ${ADMINER_PORT}
@@ -67,6 +83,9 @@ services:
       - AUTH_KEYCLOAK_SCOPE="openid email client_roles_as_groups"
       - AUTH_KEYCLOAK_ROLE_MAPPING={"admin":"2c1d9be2-93c2-4693-8200-6351976a034e"}
       - AUTH_KEYCLOAK_GROUP_CLAIM_NAME=groups
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD", "wget", "--spider", "-q", "http://directus:${CMS_PORT}/server/health"]
     image: ${IMAGE_BASE}/just-cms:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${CMS_PORT}
@@ -83,9 +102,15 @@ services:
     command: daemon --docker
     environment:
       - TZ=${TZ}
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: ["CMD-SHELL", "[ $(( $(date +%s) - $(cat /tmp/healthcheck) )) -le 30 ] || exit 1"]
     image: ${DOCKER_PROXY}/mcuadros/ofelia:0.3.20
     labels:
       ofelia.enabled: true
+
+      ofelia.job-local.healthcheck.schedule: "@every 30s"
+      ofelia.job-local.healthcheck.command: /bin/sh -c "echo $(date +%s) > /tmp/healthcheck"
 
       ofelia.job-run.backup.command: --verbose backup /data
       ofelia.job-run.backup.environment: |-
@@ -213,13 +238,11 @@ services:
       - pihole-etc:/etc/pihole
 
   documentation:
-    <<: *common
+    <<: *common-with-healthcheck
     cap_add:
       - CAP_CHOWN
       - SETUID
       - SETGID
-    healthcheck:
-      test: wget -qO- http://localhost:${DOCUMENTATION_PORT} || exit 1
     image: ${IMAGE_BASE}/just-documentation:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${DOCUMENTATION_PORT}
@@ -291,6 +314,7 @@ services:
     image: ${DOCKER_PROXY}/zengxs/gitlab:18.2.1-ee-arm64
     labels:
       nginx.isInternal: true
+      nginx.proxyHeaders.Host: $$host
       nginx.proxyHeaders.X-Forwarded-Proto: https
       nginx.proxyHeaders.X-Forwarded-Protocol: https
       nginx.server.default.port: ${GITLAB_PORT}
@@ -298,7 +322,6 @@ services:
       nginx.server.docker.port: ${DOCKER_REGISTRY_PORT}
       nginx.server.docker.domain: ${DOCKER_REGISTRY}
       nginx.server.docker.maxBodySize: 1G
-
     restart: always
     volumes:
       - gitlab-config:/etc/gitlab
@@ -377,6 +400,13 @@ services:
     environment:
       - KEYCLOAK_ADMIN=${KEYCLOAK_USERNAME}
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_PASSWORD}
+    healthcheck:
+      <<: *healthcheck-defaults
+      test:
+        - CMD-SHELL
+        - "exec 3<>/dev/tcp/127.0.0.1/${KEYCLOAK_PORT};echo -e 'GET /health/live HTTP/1.1\r\nhost:
+          http://localhost\r\nConnection: close\r\n\r\n' >&3;if [ $? -eq 0 ]; then echo 'Healthcheck
+          Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;"
     image: ${DOCKER_PROXY}/keycloak/keycloak:26.4.7
     labels:
       nginx.domain: auth.${DOMAIN}
@@ -439,6 +469,12 @@ services:
       - WEBAUTHN_ONLY_TRUSTED_VENDORS=${MAIL_WEBAUTHN_ONLY_TRUSTED_VENDORS}
       - DISABLE_NETFILTER_ISOLATION_RULE=${MAIL_DISABLE_NETFILTER_ISOLATION_RULE}
       - ADDITIONAL_SAN=${MAIL_ADDITIONAL_SAN}
+    healthcheck:
+      <<: *healthcheck-defaults
+      test:
+        - CMD-SHELL
+        - 'curl -fs http://localhost:${MAIL_HTTP_PORT}/api/v1/get/status/containers -H "X-API-Key:
+          ${MAIL_RO_API_KEY}" | jq -e ''map(select(.state != "running")) | length == 0'''
     image: ${IMAGE_BASE}/just-mail:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${MAIL_HTTP_PORT}
@@ -472,6 +508,13 @@ services:
       - MLFLOW_PORT=${MLFLOW_PORT}
       - MLFLOW_HOST=0.0.0.0
       - MLFLOW_SERVER_ALLOWED_HOSTS=mlflow:${MLFLOW_PORT},mlflow.${DOMAIN}
+    healthcheck:
+      <<: *healthcheck-defaults
+      test:
+        - CMD-SHELL
+        - "exec 3<>/dev/tcp/127.0.0.1/${MLFLOW_PORT};echo -e 'GET /health HTTP/1.1\r\nhost:
+          http://localhost\r\nConnection: close\r\n\r\n' >&3;if [ $? -eq 0 ]; then echo 'Healthcheck
+          Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;"
     image: ${IMAGE_BASE}/shared-mlflow:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${MLFLOW_PORT}
@@ -482,7 +525,7 @@ services:
       - mlflow-artifacts:/mlflow/artifacts
 
   music-marketplace:
-    <<: *common
+    <<: *common-with-healthcheck
     environment:
       PORT: ${MUSIC_MARKETPLACE_PORT}
       STORE_DIR: ${MUSIC_STORE_STORE_DIR}
@@ -508,16 +551,10 @@ services:
     environment:
       - PORT=${MUSIC_METADATA_PORT}
     healthcheck:
+      <<: *healthcheck-defaults
       test:
-        [
-          "CMD",
-          "wget",
-          "--no-verbose",
-          "--tries=1",
-          "--spider",
-          "--header='Connection: close'",
-          "http://127.0.0.1:${MUSIC_METADATA_PORT}/health",
-        ]
+        - CMD-SHELL
+        - wget -qO- --tries=1 --spider http://127.0.0.1:${MUSIC_METADATA_PORT}/health || exit 1
       interval: 30s
       timeout: 10s
       retries: 3
@@ -548,6 +585,11 @@ services:
       - ND_SESSIONTIMEOUT=720h
       - ND_UILOGINBACKGROUNDURL=https://images.pexels.com/photos/2111015/pexels-photo-2111015.jpeg?cs=srgb&dl=pexels-francesco-paggiaro-2111015.jpg&fm=jpg&w=1920&h=1280
       - ND_UIWELCOMEMESSAGE="Listen to the best"
+    healthcheck:
+      <<: *healthcheck-defaults
+      test:
+        - CMD-SHELL
+        - wget -qO- --tries=1 --spider http://127.0.0.1:${MUSIC_PLATFORM_PORT}/ping || exit 1
     image: ${IMAGE_BASE}/just-music-platform:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${MUSIC_PLATFORM_PORT}
@@ -599,7 +641,7 @@ services:
       - //var/run/docker.sock:/var/run/docker.sock:ro
 
   nginx:
-    <<: *common
+    <<: *common-with-healthcheck
     cap_add:
       - CAP_CHOWN
       - CAP_SETGID
@@ -616,8 +658,6 @@ services:
       NGINX_AUTH_SESSION_SECRET: ${NGINX_AUTH_SESSION_SECRET}
       MLFLOW_API_KEY: ${MLFLOW_API_KEY}
       MUSIC_PLATFORM_AUTH_USERNAME_HEADER: ${MUSIC_PLATFORM_AUTH_USERNAME_HEADER}
-    healthcheck:
-      test: curl -f http://localhost || exit 1
     image: ${IMAGE_BASE}/just-nginx:${PROJECT_VERSION:-latest}
     networks:
       default:
@@ -628,6 +668,12 @@ services:
 
   portainer:
     <<: *common
+    healthcheck:
+      <<: *healthcheck-defaults
+      test:
+        - CMD-SHELL
+        - wget -qO- --tries=1 --spider http://127.0.0.1:${PORTAINER_PORT}/api/system/status || exit
+          1
     image: ${DOCKER_PROXY}/portainer/portainer-ce:2.33.6-alpine
     labels:
       nginx.port: ${PORTAINER_PORT}
@@ -657,11 +703,11 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   prometheus:
-    <<: *common
+    <<: *common-with-healthcheck
+    environment:
+      PORT: ${PROMETHEUS_PORT}
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    healthcheck:
-      test: wget -qO- http://localhost:${PROMETHEUS_PORT} || exit 1
     image: ${IMAGE_BASE}/just-prometheus:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${PROMETHEUS_PORT}
@@ -678,9 +724,10 @@ services:
       - SONAR_JDBC_PASSWORD=${POSTGRES_PASSWORD}
       - SONAR_JDBC_URL=jdbc:postgresql://${DB_NAME}:${DB_PORT}/sonarqube
     healthcheck:
+      <<: *healthcheck-defaults
       test:
-        wget -qO- http://localhost:9000/api/system/status | grep -q -e '"status":"UP"' -e
-        '"status":"DB_MIGRATION_NEEDED"' -e '"status":"DB_MIGRATION_RUNNING"' || exit 1
+        wget -qO- http://localhost:${SONARQUBE_PORT}/api/system/status | grep -qe '"status":"UP"' ||
+        exit 1
     image: ${DOCKER_PROXY}/sonarqube:25.12.0.117093-community
     labels:
       nginx.port: ${SONARQUBE_PORT}
@@ -700,10 +747,15 @@ services:
     <<: *common
     command:
       - tunnel
+      - --metrics
+      - ${TUNNEL_METRICS}
       - --no-autoupdate
       - run
       - --token
       - ${TUNNEL_TOKEN}
+    healthcheck:
+      <<: *healthcheck-defaults
+      test: cloudflared tunnel --metrics ${TUNNEL_METRICS} ready
     image: ${DOCKER_PROXY}/cloudflare/cloudflared:2025.11.1
     networks:
       default:
@@ -735,7 +787,7 @@ services:
       - /lib/modules:/lib/modules:ro
 
   website:
-    <<: *common
+    <<: *common-with-healthcheck
     environment:
       - URL=${URL}
       - CMS_URL=${CMS_URL}

@@ -100,7 +100,7 @@ func createInitialBlocks(config *Config) NginxBlocks {
 func createNginxServers(config *Config, container watcher.NginxContainer) NginxBlocks {
 	serverLabels := collectServerLabels(container.Labels)
 	serverBlocks := make(NginxBlocks, 0, len(serverLabels))
-	for _, labels := range(serverLabels) {
+	for _, labels := range serverLabels {
 		serverBlocks = append(serverBlocks, createNginxServer(config, container.Name, labels))
 	}
 
@@ -110,7 +110,7 @@ func createNginxServers(config *Config, container watcher.NginxContainer) NginxB
 func collectServerLabels(containerLabels map[string]string) map[string]map[string]string {
 	commonLabels := make(map[string]string)
 	servers := make(map[string]map[string]string)
-	for key, value := range(containerLabels) {
+	for key, value := range containerLabels {
 		if !strings.HasPrefix(key, "nginx.") {
 			continue
 		}
@@ -136,8 +136,8 @@ func collectServerLabels(containerLabels map[string]string) map[string]map[strin
 		servers["default"] = make(map[string]string)
 	}
 
-	for _, labels := range(servers) {
-		for key, value := range(commonLabels) {
+	for _, labels := range servers {
+		for key, value := range commonLabels {
 			labels[key] = value
 		}
 	}

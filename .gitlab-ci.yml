@@ -17,7 +17,7 @@ variables:
   ORGANIZATION: cdw
   PROJECT: monorepo
   IMAGE_BASE: ${CI_REGISTRY}/${ORGANIZATION}/${PROJECT}
-  DOCKER_PROXY: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}
+  DOCKER_PROXY: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/
   DOCKER_VERSION: 27.5.1
   DEPS_CACHE_POLICY: pull
   ENV_CACHE_POLICY: pull
@@ -29,9 +29,9 @@ workflow:
   auto_cancel:
     on_new_commit: interruptible
   rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: ${CI_PIPELINE_SOURCE} == "merge_request_event"
       when: never
-    - if: $CI_COMMIT_BRANCH == $DEV_BRANCH || $CI_COMMIT_BRANCH == $MASTER_BRANCH
+    - if: ${CI_COMMIT_BRANCH} == ${DEV_BRANCH} || ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
       when: always
       auto_cancel:
         on_new_commit: none
@@ -66,18 +66,19 @@ default:
         - ./packages/**/generated
       policy: $CODEGEN_CACHE_POLICY
   before_script:
-    - export PATH="$PWD/node_modules/.bin:$PATH"
-    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ] || [ "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then
-      export NX_BASE=$(git log origin/$CI_COMMIT_BRANCH --first-parent --merges -n 1 --skip 1
-      --format=%H); fi
+    - export PATH="${PWD}/node_modules/.bin:${PATH}"
+    - if [ "${CI_COMMIT_BRANCH}" = "${MASTER_BRANCH}" ] || [ "${CI_COMMIT_BRANCH}" = "${DEV_BRANCH}"
+      ]; then export NX_BASE=$(git log origin/${CI_COMMIT_BRANCH} --first-parent --merges -n 1
+      --skip 1 --format=%H); fi
     # registry logins
-    - echo "$CI_DEPENDENCY_PROXY_PASSWORD" | docker login $CI_DEPENDENCY_PROXY_SERVER -u
-      $CI_DEPENDENCY_PROXY_USER --password-stdin
-    - echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY -u $CI_REGISTRY_USER --password-stdin
+    - echo "${CI_DEPENDENCY_PROXY_PASSWORD}" | docker login ${CI_DEPENDENCY_PROXY_SERVER} -u
+      ${CI_DEPENDENCY_PROXY_USER} --password-stdin
+    - echo "${CI_REGISTRY_PASSWORD}" | docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER}
+      --password-stdin
     # buildx builder
     - docker network create --driver=bridge builder-network
     - docker buildx create --use --driver-opt network=builder-network --driver-opt
-      image=${DOCKER_PROXY}/moby/buildkit:buildx-stable-1 --bootstrap
+      image=${DOCKER_PROXY}moby/buildkit:buildx-stable-1 --bootstrap
   interruptible: true
 
 build workspace image:
@@ -95,8 +96,8 @@ build workspace image:
       --platform=linux/arm64 .
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*workspace.*/
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*workspace.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
       when: never
     - when: on_success
 
@@ -108,8 +109,8 @@ install deps:
     - nci
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*deps.*/
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*deps.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
       when: never
     - when: on_success
 
@@ -118,13 +119,13 @@ generate env files:
   variables:
     ENV_CACHE_POLICY: push
   script:
-    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then export STAGE=PROD; elif [
-      "$CI_COMMIT_BRANCH" = "$DEV_BRANCH" ]; then export STAGE=TEST,PROD; else export
+    - if [ "${CI_COMMIT_BRANCH}" = "${MASTER_BRANCH}" ]; then export STAGE=PROD; elif [
+      "${CI_COMMIT_BRANCH}" = "${DEV_BRANCH}" ]; then export STAGE=TEST,PROD; else export
       STAGE=DEV,TEST,PROD; fi
     - nx g env ${STAGE} ${BITWARDEN_USER} ${BITWARDEN_PASSWORD}
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
       when: never
     - when: on_success
 
@@ -136,7 +137,7 @@ codegen:
     - nx affected -t codegen
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
       when: never
     - when: on_success
 
@@ -146,9 +147,9 @@ check formatting:
     - nx g exec "nx format:check"
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
       when: never
-    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
       when: never
     - when: on_success
 
@@ -158,9 +159,9 @@ eslint:
     - nx g exec "nx affected -t lint"
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
       when: never
-    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
       when: never
     - when: on_success
 
@@ -170,9 +171,9 @@ secretlint:
     - secretlint --secretlintignore .gitignore "**/*"
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
       when: never
-    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
       when: never
     - when: on_success
 
@@ -182,9 +183,9 @@ svelte check:
     - nx affected -t svelte-check
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
       when: never
-    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
       when: never
     - when: on_success
 
@@ -194,8 +195,8 @@ sonarqube:
     - sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}
   allow_failure: true
   rules:
-    - if: $CI_COMMIT_BRANCH == $DEV_BRANCH
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*sonar.*/
+    - if: ${CI_COMMIT_BRANCH} == ${DEV_BRANCH}
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*sonar.*/
   resource_group: single
 
 test:
@@ -204,9 +205,9 @@ test:
     - nx affected -t test
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
       when: never
-    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
       when: never
     - when: on_success
 
@@ -218,7 +219,7 @@ build images:
     - nx docker-build just-documentation
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
       when: never
     - when: on_success
 
@@ -234,7 +235,7 @@ image security:
       - ./reports/trivy
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
       when: never
     - when: on_success
 
@@ -248,29 +249,29 @@ workspace security:
       - ./reports/trivy
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+    - if: ${CI_COMMIT_BRANCH} =~ /ci\/test-.*/
       when: never
     - when: on_success
 
 deploy:
   stage: deploy
   script:
-    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then nx affected -t deploy; else nx affected -t
-      deploy -c development; fi
+    - if [ "${CI_COMMIT_BRANCH}" = "${MASTER_BRANCH}" ]; then nx affected -t deploy; else nx
+      affected -t deploy -c development; fi
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
-    - if: $CI_COMMIT_BRANCH == $DEV_BRANCH
+    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
+    - if: ${CI_COMMIT_BRANCH} == ${DEV_BRANCH}
 
 lighthouse:
   stage: validate
   script:
-    - if [ "$CI_COMMIT_BRANCH" = "$MASTER_BRANCH" ]; then nx affected -t lighthouse; else nx
+    - if [ "${CI_COMMIT_BRANCH}" = "${MASTER_BRANCH}" ]; then nx affected -t lighthouse; else nx
       affected -t lighthouse -c development; fi
   artifacts:
     paths:
       - ./reports/lighthouse
   resource_group: single
   rules:
-    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
-    - if: $CI_COMMIT_BRANCH == $DEV_BRANCH
+    - if: ${CI_COMMIT_BRANCH} == ${MASTER_BRANCH}
+    - if: ${CI_COMMIT_BRANCH} == ${DEV_BRANCH}

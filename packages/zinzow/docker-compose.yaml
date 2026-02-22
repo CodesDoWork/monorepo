@@ -22,7 +22,7 @@ services:
       - DB_DATABASE=directus
       - DB_USER=${POSTGRES_USERNAME}
       - DB_PASSWORD=${POSTGRES_PASSWORD}
-    image: ${DOCKER_PROXY}/directus/directus:11
+    image: ${DOCKER_PROXY}directus/directus:11
     volumes:
       - directus-uploads:/directus/uploads
       - directus-extensions:/directus/extensions
@@ -38,8 +38,8 @@ services:
       - POSTGRES_USER=${POSTGRES_USERNAME}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     healthcheck:
-      test: pg_isready -U $POSTGRES_USERNAME
-    image: ${DOCKER_PROXY}/postgres:15-alpine
+      test: pg_isready -U ${POSTGRES_USERNAME}
+    image: ${DOCKER_PROXY}postgres:15-alpine
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
@@ -51,7 +51,7 @@ services:
       - run
       - --token
       - ${TUNNEL_TOKEN}
-    image: ${DOCKER_PROXY}/cloudflare/cloudflared
+    image: ${DOCKER_PROXY}cloudflare/cloudflared
 
   website:
     <<: *common

@@ -27,7 +27,7 @@ services:
     <<: *common-with-healthcheck
     environment:
       PORT: ${ADMINER_PORT}
-    image: ${DOCKER_PROXY}/adminer:5.4.1
+    image: ${DOCKER_PROXY}adminer:5.4.1
     labels:
       nginx.port: ${ADMINER_PORT}
       nginx.isInternal: true
@@ -52,7 +52,7 @@ services:
       - SMTP_SECURITY=starttls
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
-    image: ${DOCKER_PROXY}/vaultwarden/server:1.35.1-alpine
+    image: ${DOCKER_PROXY}vaultwarden/server:1.35.1-alpine
     labels:
       nginx.port: ${BITWARDEN_PORT}
       nginx.maxBodySize: 100M
@@ -105,7 +105,7 @@ services:
     healthcheck:
       <<: *healthcheck-defaults
       test: ["CMD-SHELL", "[ $(( $(date +%s) - $(cat /tmp/healthcheck) )) -le 30 ] || exit 1"]
-    image: ${DOCKER_PROXY}/mcuadros/ofelia:0.3.20
+    image: ${DOCKER_PROXY}mcuadros/ofelia:0.3.20
     labels:
       ofelia.enabled: true
 
@@ -122,7 +122,7 @@ services:
           "TZ=${TZ}"
         ]
       ofelia.job-run.backup.hostname: server
-      ofelia.job-run.backup.image: ${DOCKER_PROXY}/restic/restic
+      ofelia.job-run.backup.image: ${DOCKER_PROXY}restic/restic
       ofelia.job-run.backup.schedule: 0 0 3 * * *
       ofelia.job-run.backup.volume: |-
         [
@@ -163,7 +163,7 @@ services:
           "RESTIC_PASSWORD=${RESTIC_PASSWORD}",
           "TZ=${TZ}"
         ]
-      ofelia.job-run.forget-backup.image: ${DOCKER_PROXY}/restic/restic
+      ofelia.job-run.forget-backup.image: ${DOCKER_PROXY}restic/restic
       ofelia.job-run.forget-backup.schedule: 0 0 5 * * *
 
       ofelia.job-run.renew-certs.environment: |-
@@ -197,7 +197,7 @@ services:
       - NODE_ENV=production
     healthcheck:
       test: node /app/services/healthcheck
-    image: ${DOCKER_PROXY}/lissy93/dashy:3.1.0
+    image: ${DOCKER_PROXY}lissy93/dashy:3.1.0
     labels:
       nginx.port: ${DASHBOARD_PORT}
       nginx.requiredRole: just-dashboard-access
@@ -216,7 +216,7 @@ services:
       - CAP_SETFCAP
       - CAP_SETGID
       - CAP_SETUID
-    image: ${DOCKER_PROXY}/pihole/pihole:2025.11.1
+    image: ${DOCKER_PROXY}pihole/pihole:2025.11.1
     environment:
       TZ: ${TZ}
       FTLCONF_webserver_api_password: ${DNS_PASSWORD}
@@ -311,7 +311,7 @@ services:
             }
           }
         ]
-    image: ${DOCKER_PROXY}/zengxs/gitlab:18.2.1-ee-arm64
+    image: ${DOCKER_PROXY}zengxs/gitlab:18.2.1-ee-arm64
     labels:
       nginx.isInternal: true
       nginx.proxyHeaders.Host: $$host
@@ -343,7 +343,7 @@ services:
       - DOCKER_PRIVILEGED=true
       - CI_SERVER_URL=http://gitlab
       - CI_SERVER_TOKEN=${GITLAB_RUNNER_TOKEN}
-    image: ${DOCKER_PROXY}/gitlab/gitlab-runner:v18.7.1
+    image: ${DOCKER_PROXY}gitlab/gitlab-runner:v18.7.1
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock
 
@@ -375,7 +375,7 @@ services:
       GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_STRICT: true
     healthcheck:
       test: curl -fs http://localhost:${GRAFANA_PORT}/api/health | grep "ok" || exit 1
-    image: ${DOCKER_PROXY}/grafana/grafana:12.3.1
+    image: ${DOCKER_PROXY}grafana/grafana:12.3.1
     labels:
       nginx.port: ${GRAFANA_PORT}
       nginx.isInternal: true
@@ -407,7 +407,7 @@ services:
         - "exec 3<>/dev/tcp/127.0.0.1/${KEYCLOAK_PORT};echo -e 'GET /health/live HTTP/1.1\r\nhost:
           http://localhost\r\nConnection: close\r\n\r\n' >&3;if [ $? -eq 0 ]; then echo 'Healthcheck
           Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;"
-    image: ${DOCKER_PROXY}/keycloak/keycloak:26.4.7
+    image: ${DOCKER_PROXY}keycloak/keycloak:26.4.7
     labels:
       nginx.domain: auth.${DOMAIN}
       nginx.port: ${KEYCLOAK_PORT}
@@ -617,7 +617,7 @@ services:
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
-    image: ${DOCKER_PROXY}/netdata/netdata:v2.8.4
+    image: ${DOCKER_PROXY}netdata/netdata:v2.8.4
     labels:
       nginx.port: ${NETDATA_PORT}
       nginx.host: 172.17.0.1 # docker host
@@ -674,7 +674,7 @@ services:
         - CMD-SHELL
         - wget -qO- --tries=1 --spider http://127.0.0.1:${PORTAINER_PORT}/api/system/status || exit
           1
-    image: ${DOCKER_PROXY}/portainer/portainer-ce:2.33.6-alpine
+    image: ${DOCKER_PROXY}portainer/portainer-ce:2.33.6-alpine
     labels:
       nginx.port: ${PORTAINER_PORT}
       nginx.isInternal: true
@@ -697,8 +697,8 @@ services:
       POSTGRES_USER: ${POSTGRES_USERNAME}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     healthcheck:
-      test: pg_isready -U $POSTGRES_USERNAME
-    image: ${DOCKER_PROXY}/postgres:18.1-alpine3.23
+      test: pg_isready -U ${POSTGRES_USERNAME}
+    image: ${DOCKER_PROXY}postgres:18.1-alpine3.23
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
@@ -728,7 +728,7 @@ services:
       test:
         wget -qO- http://localhost:${SONARQUBE_PORT}/api/system/status | grep -qe '"status":"UP"' ||
         exit 1
-    image: ${DOCKER_PROXY}/sonarqube:25.12.0.117093-community
+    image: ${DOCKER_PROXY}sonarqube:25.12.0.117093-community
     labels:
       nginx.port: ${SONARQUBE_PORT}
       nginx.domain: sonar.${DOMAIN}
@@ -756,7 +756,7 @@ services:
     healthcheck:
       <<: *healthcheck-defaults
       test: cloudflared tunnel --metrics ${TUNNEL_METRICS} ready
-    image: ${DOCKER_PROXY}/cloudflare/cloudflared:2025.11.1
+    image: ${DOCKER_PROXY}cloudflare/cloudflared:2025.11.1
     networks:
       default:
         ipv4_address: ${TUNNEL_IP}

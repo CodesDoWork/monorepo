@@ -68,7 +68,7 @@ async function runTrivy(params: string[], target: string, options: TrivyOptions)
         `-v ${configFile}:/root/.docker/config.json:ro`,
         `-v ${workspaceDir}/.cache/trivy:/tmp/trivy`,
         `-v ${workspaceDir}:${WORKSPACE_MOUNT}`,
-        `${DOCKER_PROXY}/aquasec/trivy`,
+        `${DOCKER_PROXY}aquasec/trivy`,
         "--cache-dir /tmp/trivy/",
     ];
 

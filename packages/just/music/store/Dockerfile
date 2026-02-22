@@ -1,12 +1,11 @@
 ARG IMAGE_BASE
 ARG PROJECT_VERSION
-ARG DOCKER_PROXY
 
 ARG APP_NAME=just-music-store
 ARG APP_DIR=just/music/store
 
-FROM $IMAGE_BASE/workspace-base:$PROJECT_VERSION AS base
-FROM $IMAGE_BASE/workspace-deps:$PROJECT_VERSION AS workspace-deps
+FROM ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} AS base
+FROM ${IMAGE_BASE}/workspace-deps:${PROJECT_VERSION} AS workspace-deps
 
 
 FROM workspace-deps AS builder
@@ -17,7 +16,7 @@ COPY packages/nx-plugins ./packages/nx-plugins
 COPY packages/shared ./packages/shared
 COPY packages/just ./packages/just
 RUN nx reset
-RUN nx build $APP_NAME
+RUN nx build ${APP_NAME}
 
 
 FROM base
@@ -30,7 +29,7 @@ WORKDIR /app
 RUN apk add --no-cache ffmpeg python3 py3-pip
 RUN pip install r128gain --break-system-packages
 
-COPY --from=builder /workspace/dist/packages/$APP_DIR .
+COPY --from=builder /workspace/dist/packages/${APP_DIR} .
 RUN npm i
 
 USER node

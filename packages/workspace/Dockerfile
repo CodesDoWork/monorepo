@@ -1,10 +1,10 @@
 ARG IMAGE_BASE
 ARG PROJECT_VERSION
 
-FROM $IMAGE_BASE/workspace-base:$PROJECT_VERSION
+FROM ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION}
 WORKDIR /workspace
 
-ENV PATH=/workspace/node_modules/.bin:$PATH
+ENV PATH=/workspace/node_modules/.bin:${PATH}
 ENV SONAR_SCANNER_SKIP_JRE_PROVISIONING=true
 
 RUN apk update

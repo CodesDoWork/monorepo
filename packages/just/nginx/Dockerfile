@@ -4,7 +4,7 @@ ARG PROJECT_VERSION
 ARG APP_DIR=just/nginx
 
 
-FROM $IMAGE_BASE/shared-nginx:$PROJECT_VERSION
+FROM ${IMAGE_BASE}/shared-nginx:${PROJECT_VERSION}
 ARG APP_DIR
 
-COPY ./packages/$APP_DIR/lua/* lua/
+COPY ./packages/${APP_DIR}/lua/* lua/

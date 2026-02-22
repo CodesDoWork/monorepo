@@ -5,7 +5,7 @@ export function getBaseDockerVars() {
     return {
         IMAGE_BASE: process.env.IMAGE_BASE || IMAGE_BASE,
         PROJECT_VERSION: process.env.PROJECT_VERSION || PROJECT_VERSION || "latest",
-        DOCKER_PROXY: process.env.DOCKER_PROXY || DOCKER_PROXY || "docker.io",
+        DOCKER_PROXY: process.env.DOCKER_PROXY || DOCKER_PROXY || "",
         CI: process.env.CI,
     };
 }

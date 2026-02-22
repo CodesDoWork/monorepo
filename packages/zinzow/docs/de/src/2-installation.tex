@@ -185,14 +185,14 @@ Es gibt zwei Möglichkeiten:
 
 Neue Datenbank erstellen:
 \begin{verbatim}
-docker exec -it postgres psql -U $POSTGRES_USERNAME
+docker exec -it postgres psql -U ${POSTGRES_USERNAME}
 CREATE DATABASE directus;
 \end{verbatim}
 
 Alternativ kann ein Dump importiert werden:
 
 \begin{verbatim}
-docker exec -i postgres psql -U $POSTGRES_USERNAME < dump.sql
+docker exec -i postgres psql -U ${POSTGRES_USERNAME} < dump.sql
 \end{verbatim}
 
 \subsubsection{Bilddateien kopieren}

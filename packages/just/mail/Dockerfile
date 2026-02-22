@@ -6,7 +6,7 @@ ARG APP_NAME=just-mail
 ARG APP_DIR=just/mail
 
 
-FROM $DOCKER_PROXY/debian:12.13-slim
+FROM ${DOCKER_PROXY}debian:12.13-slim
 ARG APP_DIR
 
 # install docker
@@ -17,7 +17,7 @@ RUN apt-get update && \
     chmod a+r /etc/apt/keyrings/docker.asc && \
     echo \
     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian \
-    $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+    $(. /etc/os-release && echo "${VERSION_CODENAME}") stable" | \
     tee /etc/apt/sources.list.d/docker.list > /dev/null && \
     apt-get update && \
     apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
@@ -25,11 +25,11 @@ RUN apt-get update && \
 # mandatory dependencies
 RUN apt-get install -y jq
 
-COPY --chmod=555 packages/$APP_DIR/entrypoint.sh /
-COPY --chmod=555 packages/$APP_DIR/cp_certs.sh /
-RUN git clone https://github.com/mailcow/mailcow-dockerized --branch 2026-01 /opt/$APP_DIR
+COPY --chmod=555 packages/${APP_DIR}/entrypoint.sh /
+COPY --chmod=555 packages/${APP_DIR}/cp_certs.sh /
+RUN git clone https://github.com/mailcow/mailcow-dockerized --branch 2026-01 /opt/${APP_DIR}
 
-WORKDIR /opt/$APP_DIR
+WORKDIR /opt/${APP_DIR}
 RUN cp -r data/assets/ssl-example/ data/assets/ssl/
 
 SHELL ["/bin/bash"]

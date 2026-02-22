@@ -1,4 +1,7 @@
-FROM python:3.14.3-slim
+ARG DOCKER_PROXY
+
+
+FROM ${DOCKER_PROXY}python:3.14.3-slim
 
 RUN pip install --no-cache-dir mlflow==3.8.1 psycopg2-binary==2.9.11
 

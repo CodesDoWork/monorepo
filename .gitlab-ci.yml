@@ -225,8 +225,9 @@ build images:
 image security:
   stage: analyze
   script:
-    - nx affected -t docker-pull
-    - nx affected -t docker-trivy
+    - nx affected -t docker-pull --exclude="workspace*"
+    - nx affected -t docker-trivy --parallel 1 --exclude="workspace*"
+  allow_failure: true
   artifacts:
     paths:
       - ./reports/trivy

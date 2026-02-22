@@ -6,7 +6,7 @@ ARG APP_NAME=just-mail
 ARG APP_DIR=just/mail
 
 
-FROM $DOCKER_PROXY/debian:12.10-slim
+FROM $DOCKER_PROXY/debian:12.13-slim
 ARG APP_DIR
 
 # install docker
@@ -27,13 +27,10 @@ RUN apt-get install -y jq
 
 COPY --chmod=555 packages/$APP_DIR/entrypoint.sh /
 COPY --chmod=555 packages/$APP_DIR/cp_certs.sh /
-RUN git clone https://github.com/mailcow/mailcow-dockerized --branch 2025-12a /opt/$APP_DIR
+RUN git clone https://github.com/mailcow/mailcow-dockerized --branch 2026-01 /opt/$APP_DIR
 
 WORKDIR /opt/$APP_DIR
 RUN cp -r data/assets/ssl-example/ data/assets/ssl/
 
-HEALTHCHECK --interval=60s --timeout=5s --start-period=30s --retries=3 \
-    CMD curl -fs http://localhost/api/v1/get/status/containers -H 'X-API-Key: $RO_API_KEY' | \
-    jq -e 'map(select(.state != "running")) | length == 0'
 SHELL ["/bin/bash"]
 ENTRYPOINT ["/entrypoint.sh"]

@@ -13,7 +13,7 @@ export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ arg
         const cacheImage = dockerImage(cacheImageName);
         const platform = CI ? "linux/arm64" : "";
         const ciOptions = CI
-            ? ["--push", "--network=host", `--cache-to type=registry,ref=${cacheImage},mode=max`]
+            ? ["--push", `--cache-to type=registry,ref=${cacheImage},mode=max`]
             : ["--load"];
 
         if (CI) {
@@ -37,6 +37,7 @@ export const dockerBuildExecutor: PromiseExecutor<ExecutorSchema> = async ({ arg
             `-t ${image}`,
             latestImageIfNeeded,
             `-f ${projectRoot(context)}/Dockerfile`,
+            "--network=host",
             `--build-arg IMAGE_BASE=${IMAGE_BASE}`,
             `--build-arg PROJECT_VERSION=${PROJECT_VERSION}`,
             `--build-arg DOCKER_PROXY=${DOCKER_PROXY}`,

@@ -33,7 +33,7 @@
     "dependencies": {
         "@mermaid-js/mermaid-mindmap": "^9.3.0",
         "@t3-oss/env-core": "^0.13.10",
-        "@tailwindcss/vite": "^4.1.18",
+        "@tailwindcss/vite": "^4.2.1",
         "axios": "^1.13.5",
         "chokidar": "^5.0.0",
         "clsx": "^2.1.1",
@@ -127,7 +127,7 @@
         "svelte": "5.53.2",
         "svelte-apollo": "^0.5.0",
         "svelte-check": "^4.4.3",
-        "tailwindcss": "^4.1.18",
+        "tailwindcss": "^4.2.1",
         "tsx": "^4.21.0",
         "typedoc": "0.28.17",
         "typedoc-plugin-markdown": "^4.10.0",

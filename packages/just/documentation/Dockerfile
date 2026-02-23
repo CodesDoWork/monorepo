@@ -21,6 +21,7 @@ RUN nx reset
 RUN nx build ${APP_NAME}
 
 
-FROM ${DOCKER_PROXY}nginx:1.27.1-alpine-slim
+ARG DOCKER_NGINX_VERSION=1.27.1-alpine-slim
+FROM ${DOCKER_PROXY}nginx:${DOCKER_NGINX_VERSION}
 ARG APP_DIR
 COPY --from=builder /workspace/dist/packages/${APP_DIR} /usr/share/nginx/html

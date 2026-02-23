@@ -1,6 +1,8 @@
 ARG DOCKER_PROXY
 
-FROM ${DOCKER_PROXY}renovate/renovate:39.185.0
+
+ARG DOCKER_RENOVATE__RENOVATE_VERSION=43.31.1
+FROM ${DOCKER_PROXY}renovate/renovate:${DOCKER_RENOVATE__RENOVATE_VERSION}
 ARG APP_DIR=shared/renovate
 
 COPY /packages/${APP_DIR}/config.js /usr/src/app/config.js

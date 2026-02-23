@@ -21,15 +21,25 @@ RUN nx reset
 RUN nx build ${CONFIG_APP_NAME}
 
 
-FROM ${DOCKER_PROXY}openresty/openresty:1.27.1.2-5-alpine-fat
+ARG DOCKER_OPENRESTY__OPENRESTY_VERSION=1.27.1.2-11-alpine-fat
+FROM ${DOCKER_PROXY}openresty/openresty:${DOCKER_OPENRESTY__OPENRESTY_VERSION}
 ARG APP_DIR
 ARG CONFIG_APP_DIR
 ARG CONFIG_APP_NAME
 
 RUN mkdir /var/log/nginx
 
-RUN apk add --no-cache openssl-dev git gcc docker
-RUN luarocks install lua-resty-openidc 1.8.0
+ARG APK_OPENSSL_DEV_VERSION=3.5.5-r0
+ARG APK_GIT_VERSION=2.52.0-r0
+ARG APK_GCC_VERSION=15.2.0-r2
+ARG APK_DOCKER_VERSION=29.1.3-r2
+RUN apk add --no-cache \
+    openssl-dev=${APK_OPENSSL_DEV_VERSION} \
+    git=${APK_GIT_VERSION} \
+    gcc=${APK_GCC_VERSION} \
+    docker=${APK_DOCKER_VERSION}
+ARG LUAROCKS_LUA_RESTY_OPENIDC_VERSION=1.8.0
+RUN luarocks install lua-resty-openidc ${LUAROCKS_LUA_RESTY_OPENIDC_VERSION}
 
 RUN sed -i "1i include envs.conf;" /usr/local/openresty/nginx/conf/nginx.conf
 

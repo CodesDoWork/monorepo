@@ -1,14 +1,17 @@
 ARG DOCKER_PROXY
 
 
-FROM ${DOCKER_PROXY}alpine:3.22 AS builder
+ARG DOCKER_ALPINE_VERSION=3.23
+FROM ${DOCKER_PROXY}alpine:${DOCKER_ALPINE_VERSION} AS builder
 ARG APP_DIR=just/prometheus
 
 WORKDIR /app
-RUN apk add envsubst
+ARG APKEDGE_ENVSUBST_VERSION=0.1-r1
+RUN apk add envsubst@edge=${APKEDGE_ENVSUBST_VERSION}
 COPY packages/${APP_DIR}/prometheus.yaml packages/${APP_DIR}/.env ./
 RUN export $(cat .env) && envsubst < prometheus.yaml > ./prometheus-ready.yaml
 
 
-FROM ${DOCKER_PROXY}prom/prometheus:v3.8.1
+ARG DOCKER_PROM__PROMETHEUS_VERSION=v3.9.1
+FROM ${DOCKER_PROXY}prom/prometheus:${DOCKER_PROM_PROMETHEUS_VERSION}
 COPY --from=builder /app/prometheus-ready.yaml /etc/prometheus/prometheus.yml

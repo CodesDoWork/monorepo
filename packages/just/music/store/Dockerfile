@@ -26,7 +26,13 @@ ENV NODE_ENV=production
 
 WORKDIR /app
 
-RUN apk add --no-cache ffmpeg python3 py3-pip
+ARG APK_FFMPEG_VERSION=8.0.1-r1
+ARG APK_PYTHON3_VERSION=3.12.12-r0
+ARG APK_PY3_PIP_VERSION=25.1.1-r1
+RUN apk add --no-cache \
+    ffmpeg=${APK_FFMPEG_VERSION} \
+    python3=${APK_PYTHON3_VERSION} \
+    py3-pip=${APK_PY3_PIP_VERSION}
 RUN pip install r128gain --break-system-packages
 
 COPY --from=builder /workspace/dist/packages/${APP_DIR} .

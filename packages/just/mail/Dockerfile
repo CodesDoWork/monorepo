@@ -6,7 +6,8 @@ ARG APP_NAME=just-mail
 ARG APP_DIR=just/mail
 
 
-FROM ${DOCKER_PROXY}debian:12.13-slim
+ARG DOCKER_DEBIAN_VERSION=12.13-slim
+FROM ${DOCKER_PROXY}debian:${DOCKER_DEBIAN_VERSION}
 ARG APP_DIR
 
 # install docker
@@ -27,7 +28,8 @@ RUN apt-get install -y jq
 
 COPY --chmod=555 packages/${APP_DIR}/entrypoint.sh /
 COPY --chmod=555 packages/${APP_DIR}/cp_certs.sh /
-RUN git clone https://github.com/mailcow/mailcow-dockerized --branch 2026-01 /opt/${APP_DIR}
+ARG GITHUB_MAILCOW__MAILCOW_DOCKERIZED__DATED_VERSION=2026-01
+RUN git clone https://github.com/mailcow/mailcow-dockerized --branch ${GITHUB_MAILCOW_MAILCOW_DOCKERIZED_VERSION} /opt/${APP_DIR}
 
 WORKDIR /opt/${APP_DIR}
 RUN cp -r data/assets/ssl-example/ data/assets/ssl/

@@ -19,21 +19,21 @@ ARG APKEDGE_ZIP_VERSION=3.0-r13
 RUN apk update
 RUN apk add --no-cache \
     # docker
-    docker@edge=${APKEDGE_DOCKER_VERSION} \
-    docker-cli-compose@edge=${APKEDGE_DOCKER_CLI_COMPOSE_VERSION} \
+    docker=${APKEDGE_DOCKER_VERSION} \
+    docker-cli-compose=${APKEDGE_DOCKER_CLI_COMPOSE_VERSION} \
     # dev tools
-    git@edge=${APKEDGE_GIT_VERSION} \
-    openssh-client@edge=${APKEDGE_OPENSSH_VERSION} \
+    git=${APKEDGE_GIT_VERSION} \
+    openssh-client=${APKEDGE_OPENSSH_VERSION} \
     # compiler tools
-    gcompat@edge=${APKEDGE_GCOMPAT_VERSION} \
+    gcompat=${APKEDGE_GCOMPAT_VERSION} \
     # Java JRE for Sonar Scanner
-    openjdk25-jre-headless@edge=${APKEDGE_OPENJDK25_JRE_HEADLESS_VERSION} \
+    openjdk25-jre-headless=${APKEDGE_OPENJDK25_JRE_HEADLESS_VERSION} \
     # Chromium for browser tests like lighthouse or e2e tests
-    chromium@edge=${APKEDGE_CHROMIUM_VERSION} \
+    chromium=${APKEDGE_CHROMIUM_VERSION} \
     # Golang
-    go@edge=${APKEDGE_GO_VERSION} \
+    go=${APKEDGE_GO_VERSION} \
     # misc
-    zip@edge=${APKEDGE_ZIP_VERSION}
+    zip=${APKEDGE_ZIP_VERSION}
 
 ARG NPM___AT__ANTFU__NI_VERSION=28.2.0
 ARG NPM_BUN_VERSION=1.3.9    

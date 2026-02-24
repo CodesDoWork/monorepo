@@ -35,9 +35,9 @@ export const zSecretsConfigObj = z.object({
 });
 
 export const zProjectSecretsConfig = zExtendsConfig
-    .merge(zBitwardenInfosConfig)
-    .merge(zEnvConfig)
-    .merge(zSecretsConfigObj)
+    .extend(zBitwardenInfosConfig.shape)
+    .extend(zEnvConfig.shape)
+    .extend(zSecretsConfigObj.shape)
     .strict();
 export const zRootSecretConfig = z
     .object({

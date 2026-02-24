@@ -8,10 +8,16 @@
     "latex-workshop.latex.autoBuild.run": "never",
     "ltex.language": "auto",
     "files.associations": {
-        ".env.secure.yaml": "yaml"
+        ".env.secure.yaml": "yaml",
+        ".env.secure.config.yaml": "yaml"
     },
     "sonarlint.connectedMode.project": {
         "connectionId": "https-sonar-justinkonratt-de",
         "projectKey": "codesdowork_monorepo"
+    },
+    "yaml.schemas": {
+        "./packages/nx-plugins/secrets-manager/generated/schemas/env.config.schema.json": ".env.secure.config.yaml",
+        "./packages/nx-plugins/secrets-manager/generated/schemas/env.schema.json": "**/.env.secure.yaml",
+        "./packages/nx-plugins/ci/generated/schemas/ci.migrations.schema.json": "**/ci.migrations.yaml"
     }
 }

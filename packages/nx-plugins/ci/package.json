@@ -4,5 +4,8 @@
     "private": true,
     "main": "./src/index.ts",
     "typings": "./src/index.ts",
-    "executors": "./executors.json"
+    "executors": "./executors.json",
+    "scripts": {
+        "codegen": "tsx src/generate-schemas.ts"
+    }
 }

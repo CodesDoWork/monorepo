@@ -18,21 +18,21 @@ ARG APK_GO_VERSION=1.25.7-r0
 ARG APK_ZIP_VERSION=3.0-r13
 RUN apk add --no-cache \
     # docker
-    docker=${APKEDGE_DOCKER_VERSION} \
-    docker-cli-compose=${APKEDGE_DOCKER_CLI_COMPOSE_VERSION} \
+    docker=${APK_DOCKER_VERSION} \
+    docker-cli-compose=${APK_DOCKER_CLI_COMPOSE_VERSION} \
     # dev tools
-    git=${APKEDGE_GIT_VERSION} \
-    openssh-client=${APKEDGE_OPENSSH_VERSION} \
+    git=${APK_GIT_VERSION} \
+    openssh-client=${APK_OPENSSH_VERSION} \
     # compiler tools
-    gcompat=${APKEDGE_GCOMPAT_VERSION} \
+    gcompat=${APK_GCOMPAT_VERSION} \
     # Java JRE for Sonar Scanner
-    openjdk25-jre-headless=${APKEDGE_OPENJDK25_JRE_HEADLESS_VERSION} \
+    openjdk25-jre-headless=${APK_OPENJDK25_JRE_HEADLESS_VERSION} \
     # Chromium for browser tests like lighthouse or e2e tests
-    chromium=${APKEDGE_CHROMIUM_VERSION} \
+    chromium=${APK_CHROMIUM_VERSION} \
     # Golang
-    go=${APKEDGE_GO_VERSION} \
+    go=${APK_GO_VERSION} \
     # misc
-    zip=${APKEDGE_ZIP_VERSION}
+    zip=${APK_ZIP_VERSION}
 
 ARG NPM___AT__ANTFU__NI_VERSION=28.2.0
 ARG NPM_BUN_VERSION=1.3.9    

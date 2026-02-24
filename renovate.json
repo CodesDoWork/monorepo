@@ -26,13 +26,6 @@
         {
             "customType": "regex",
             "fileMatch": ["(^|/)Dockerfile$"],
-            "matchStrings": ["ARG APKEDGE_(?<depName>.*?)_VERSION=(?<currentValue>.*)"],
-            "datasourceTemplate": "repology",
-            "depNameTemplate": "alpine_edge/{{{ replace '_' '-' (lowercase depName) }}}"
-        },
-        {
-            "customType": "regex",
-            "fileMatch": ["(^|/)Dockerfile$"],
             "matchStrings": ["ARG APK_(?<depName>.*?)_VERSION=(?<currentValue>.*)"],
             "datasourceTemplate": "repology",
             "depNameTemplate": "alpine_3_23/{{{ replace '_' '-' (lowercase depName) }}}"

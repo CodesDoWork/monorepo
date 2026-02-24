@@ -5,6 +5,9 @@ ARG DOCKER_PROXY
 ARG APP_NAME=just-cms
 ARG APP_DIR=just/cms
 
+ARG DOCKER_DIRECTUS__DIRECTUS_VERSION=11.14.0
+
+
 FROM ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} AS base
 FROM ${IMAGE_BASE}/workspace-deps:${PROJECT_VERSION} AS workspace-deps
 
@@ -19,8 +22,7 @@ RUN nx reset
 RUN nx build just-cms-dashboard-config
 
 
-ARG DOCKER_DIRECTUS__DIRECTUS_VERSION=11.14.0
-FROM ${DOCKER_PROXY}directus/directus:${DOCKER_DIRECTUS_DIRECTUS_VERSION}
+FROM ${DOCKER_PROXY}directus/directus:${DOCKER_DIRECTUS__DIRECTUS_VERSION}
 ARG APP_DIR
 
 USER root

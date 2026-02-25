@@ -27,6 +27,26 @@
         }),
     );
 
+    function setBackground(prefersDarkmode: boolean) {
+        document.body.style.backgroundColor = (
+            prefersDarkmode ? colors["bg-950"] : colors["bg-500"]
+        ) as string;
+    }
+
+    $effect(() => {
+        function callback(e: MediaQueryListEvent) {
+            setBackground(e.matches);
+        }
+
+        const darkmodePreference = window.matchMedia("(prefers-color-scheme: dark)");
+        darkmodePreference.addEventListener("change", callback);
+        setBackground(darkmodePreference.matches);
+
+        return () => {
+            darkmodePreference.removeEventListener("change", callback);
+        };
+    });
+
     const pageTitle = $derived(
         !currentRoute || currentRoute.name === "Home"
             ? settings.projectName

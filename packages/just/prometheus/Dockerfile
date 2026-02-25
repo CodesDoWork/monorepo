@@ -8,8 +8,8 @@ FROM ${DOCKER_PROXY}alpine:${DOCKER_ALPINE_VERSION} AS builder
 ARG APP_DIR=just/prometheus
 
 WORKDIR /app
-ARG APKEDGE_ENVSUBST_VERSION=0.1-r1
-RUN apk add envsubst@edge=${APKEDGE_ENVSUBST_VERSION}
+ARG APK_GETTEXT_ENVSUBST_VERSION=0.24.1-r1
+RUN apk add gettext-envsubst=${APK_GETTEXT_ENVSUBST_VERSION}
 COPY packages/${APP_DIR}/prometheus.yaml packages/${APP_DIR}/.env ./
 RUN export $(cat .env) && envsubst < prometheus.yaml > ./prometheus-ready.yaml
 

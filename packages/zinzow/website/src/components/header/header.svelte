@@ -33,8 +33,9 @@
                     class={clsx(
                         fadeInBottom,
                         `
-                            size-24 rounded-sm
-                            md:size-32
+                            -ml-4 size-28 rounded-sm
+                            sm:ml-0
+                            md:size-40
                         `,
                     )}
                     style={animationDelay(AnimationPriority.LOGO)} />
@@ -44,7 +45,7 @@
                     relative block
                     md:hidden
                 ">
-                <button onclick={onMenuClick}>
+                <button onclick={onMenuClick} title="Menu" class="mr-2">
                     <span class="icon-[ic--round-menu] size-6"></span>
                 </button>
                 <MobileMenu
@@ -66,14 +67,14 @@
                                 fadeInBottom,
                                 `
                                     group/nav-item
-                                    hover:text-primary
+                                    hover:text-primary-400
                                     dark:hover:text-primary-200
                                     relative transition-all
                                     hover:scale-105
                                 `,
                                 currentRoute?.path.startsWith(route.path)
                                     ? `
-                                        text-primary
+                                        text-primary-400
                                         dark:text-primary-200
                                         scale-105
                                     `

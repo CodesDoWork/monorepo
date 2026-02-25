@@ -41,8 +41,8 @@
         class={clsx(
             $menuAnimation,
             `
-                bg-primary
-                dark:bg-primary-800
+                bg-bg-600
+                dark:bg-bg-900
                 fixed inset-y-0 right-0 z-10 min-w-56 overflow-y-auto p-6 text-(--onPrimary)
                 shadow-lg
                 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10
@@ -66,10 +66,14 @@
                         )}
                         <div
                             class={clsx(
-                                currentRoute?.path.startsWith(route.path) && `text-primary-200`,
+                                currentRoute?.path.startsWith(route.path) &&
+                                    `
+                                        text-primary-400
+                                        dark:text-primary-200
+                                    `,
                                 `
-                                    hover:bg-primary-400
-                                    dark:hover:bg-primary-700
+                                    hover:bg-bg-500
+                                    dark:hover:bg-bg-800
                                     -mx-3 flex items-center justify-between rounded-lg px-3 py-2
                                     text-base/7 font-semibold
                                 `,
@@ -78,7 +82,7 @@
                                 {route.name}
                             </a>
                             {#if children.length}
-                                <button class="p-1" onclick={toggleRoute(idx)}>
+                                <button title="expand" class="p-1" onclick={toggleRoute(idx)}>
                                     <span
                                         class={clsx(
                                             `
@@ -86,7 +90,8 @@
                                                 transition
                                             `,
                                             $routeStates[idx] ? "rotate-0" : `rotate-180`,
-                                        )}></span></button>
+                                        )}></span
+                                    ></button>
                             {/if}
                         </div>
                         {#if $routeStates[idx]}
@@ -95,11 +100,14 @@
                                     <li
                                         class={clsx(
                                             currentRoute?.path.startsWith(child.path)
-                                                ? "text-primary-200"
+                                                ? `
+                                                    text-primary-400
+                                                    dark:text-primary-200
+                                                `
                                                 : "",
                                             `
-                                                hover:bg-primary-400
-                                                dark:hover:bg-primary-700
+                                                hover:bg-bg-500
+                                                dark:hover:bg-bg-800
                                                 flex items-center justify-between rounded-lg py-2
                                                 pr-3 pl-6 text-sm/7 font-semibold
                                             `,

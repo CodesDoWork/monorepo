@@ -21,7 +21,8 @@
             "customType": "regex",
             "fileMatch": ["(^|/)docker-compose\\.ya?ml$"],
             "matchStrings": ["image: ${DOCKER_PROXY}(?<depName>.*?):(?<currentValue>.*?)"],
-            "datasourceTemplate": "docker"
+            "datasourceTemplate": "docker",
+            "depNameTemplate": "{{{ depName }}}"
         },
         {
             "customType": "regex",

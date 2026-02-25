@@ -25,9 +25,10 @@
         fadeInBottom,
         `
             border-primary/20
-            dark:border-primary/80
+            dark:border-primary-400/80
             rounded-lg border px-4 pb-4 shadow-xs
             sm:px-8 sm:pb-8
+            dark:border-2
         `,
     )}>
     <H3>{title}</H3>
@@ -49,12 +50,15 @@
                             dark:hover:bg-black/40
                         ">
                         <span
-                            class={clsx(Icons.File, `
-                                inline-block size-6 text-gray-600 transition-colors
-                                group-hover:text-gray-900
-                                dark:text-gray-400
-                                dark:group-hover:text-gray-100
-                            `)}></span>
+                            class={clsx(
+                                Icons.File,
+                                `
+                                    inline-block size-6 text-gray-600 transition-colors
+                                    group-hover:text-gray-900
+                                    dark:text-gray-400
+                                    dark:group-hover:text-gray-100
+                                `,
+                            )}></span>
                         <span
                             class={clsx(
                                 colorPrimaryClass,

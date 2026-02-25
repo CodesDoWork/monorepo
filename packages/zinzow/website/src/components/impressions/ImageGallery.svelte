@@ -32,7 +32,7 @@
     const itemClass = (isSelected: boolean) =>
         clsx(
             `
-                ring-primary rounded-md shadow-md
+                ring-primary max-h-10 rounded-md shadow-md
                 sm:max-h-24
                 md:max-h-36 md:rounded-lg
                 lg:max-h-40
@@ -48,8 +48,7 @@
 
 <ul
     class="
-        row-start-1 mt-4 mb-2 grid grid-cols-6
-        md:mb-4
+        row-start-1 my-4 grid grid-cols-6
         lg:col-span-2 lg:row-start-auto lg:mb-0
     ">
     {#each columnsArray as colItems, colIdx}

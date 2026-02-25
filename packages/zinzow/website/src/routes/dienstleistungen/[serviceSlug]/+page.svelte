@@ -26,7 +26,7 @@
         <section
             class="
                 grid gap-12
-                md:grid-cols-[50%_1fr]
+                md:grid-cols-[43%_1fr]
                 lg:gap-16
             ">
             <article class={fadeIn} style={animationDelay(1)}>

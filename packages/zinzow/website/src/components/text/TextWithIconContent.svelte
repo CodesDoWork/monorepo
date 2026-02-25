@@ -26,7 +26,16 @@
 </script>
 
 <dt class={className}>
-    <span class={clsx(icon, hrefClass, small ? "size-4" : "size-6", "text-gray-400")}></span>
+    <span
+        class={clsx(
+            icon,
+            hrefClass,
+            small ? "size-4" : "size-6",
+            `
+                text-gray-600
+                dark:text-gray-400
+            `,
+        )}></span>
 </dt>
 <dd
     class={clsx(

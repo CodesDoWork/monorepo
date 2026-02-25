@@ -93,6 +93,13 @@ export default antfu(
         },
     },
     {
+        files: ["**/*.html"],
+        rules: {
+            "format/prettier": "off",
+            "prettier/prettier": "off",
+        },
+    },
+    {
         files: ["**/*.svelte"],
         rules: {
             "svelte/no-at-html-tags": "off",

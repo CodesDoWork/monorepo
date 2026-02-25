@@ -7,21 +7,33 @@ WORKDIR /workspace
 ENV PATH=/workspace/node_modules/.bin:${PATH}
 ENV SONAR_SCANNER_SKIP_JRE_PROVISIONING=true
 
-RUN apk update
+ARG APK_DOCKER_VERSION=29.1.3-r2
+ARG APK_DOCKER_CLI_COMPOSE_VERSION=2.40.3-r3
+ARG APK_GIT_VERSION=2.52.0-r0
+ARG APK_OPENSSH_VERSION=10.2_p1-r0
+ARG APK_GCOMPAT_VERSION=1.1.0-r4
+ARG APK_OPENJDK25_JRE_HEADLESS_VERSION=25.0.2_p10-r1
+ARG APK_CHROMIUM_VERSION=144.0.7559.132-r2
+ARG APK_GO_VERSION=1.25.7-r0
+ARG APK_ZIP_VERSION=3.0-r13
 RUN apk add --no-cache \
     # docker
-    docker docker-cli-compose \
+    docker=${APK_DOCKER_VERSION} \
+    docker-cli-compose=${APK_DOCKER_CLI_COMPOSE_VERSION} \
     # dev tools
-    git openssh-client \
+    git=${APK_GIT_VERSION} \
+    openssh-client=${APK_OPENSSH_VERSION} \
     # compiler tools
-    gcompat \
+    gcompat=${APK_GCOMPAT_VERSION} \
     # Java JRE for Sonar Scanner
-    openjdk25-jre-headless \
+    openjdk25-jre-headless=${APK_OPENJDK25_JRE_HEADLESS_VERSION} \
     # Chromium for browser tests like lighthouse or e2e tests
-    chromium \
+    chromium=${APK_CHROMIUM_VERSION} \
     # Golang
-    go \
+    go=${APK_GO_VERSION} \
     # misc
-    zip
+    zip=${APK_ZIP_VERSION}
 
-RUN npm i -g @antfu/ni@23.3.1 bun@1.2.2
+ARG NPM___AT__ANTFU__NI_VERSION=28.2.0
+ARG NPM_BUN_VERSION=1.3.9    
+RUN npm i -g @antfu/ni@${NPM___AT__ANTFU__NI_VERSION} bun@${NPM_BUN_VERSION}

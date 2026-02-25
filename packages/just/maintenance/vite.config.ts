@@ -5,7 +5,6 @@ import { defineConfig } from "vite";
 
 export default defineConfig(() => ({
     root: import.meta.dirname,
-    base: "./",
     cacheDir: "../../../node_modules/.vite/packages/just/maintenance",
     server: {
         port: 4200,
@@ -36,5 +35,5 @@ export default defineConfig(() => ({
             transformMixedEsModules: true,
         },
     },
-    appType: "custom" as AppType,
+    appType: "spa" as AppType,
 }));

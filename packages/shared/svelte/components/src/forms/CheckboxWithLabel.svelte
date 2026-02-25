@@ -17,7 +17,7 @@
         input = $bindable(),
         ...inputProps
     }: Props = $props();
-    const labelId = `${inputProps.id}-label`;
+    const labelId = $derived(`${inputProps.id}-label`);
 </script>
 
 <div class={clsx(className)} {style}>

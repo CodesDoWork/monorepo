@@ -9,7 +9,7 @@
     }
 
     const { label, class: className, style, ...inputProps }: Props = $props();
-    const labelId = `${inputProps.id}-label`;
+    const labelId = $derived(`${inputProps.id}-label`);
 </script>
 
 <div class={clsx(className, "flex flex-col justify-between")} {style}>

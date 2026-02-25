@@ -184,6 +184,7 @@
                 <FileInputWithLabel
                     style={animationDelay(8)}
                     class={fadeInBottom}
+                    fileInputClass={clsx("dark:hover:bg-primary-400!")}
                     id={attachmentsId}
                     name={attachmentsId}
                     label="Anhang"

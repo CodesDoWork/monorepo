@@ -18,6 +18,7 @@
             position?: string;
             function?: string;
             phone?: string;
+            mail?: string;
         }[];
         animationDelay: number;
     }
@@ -69,16 +70,28 @@
                         {member.function}
                     </p>
                 {/if}
-                {#if member.phone}
-                    <TextWithIcon
-                        class="mx-auto mt-4 max-w-full"
-                        href={`tel:${member.phone}`}
-                        icon={Icons.Phone}
-                        iconContainerClass="pt-1"
-                        small>
-                        {member.phone}
-                    </TextWithIcon>
-                {/if}
+                <div class="mt-4">
+                    {#if member.phone}
+                        <TextWithIcon
+                            class="mx-auto max-w-full"
+                            href={`tel:${member.phone}`}
+                            icon={Icons.Phone}
+                            iconContainerClass="md:pt-1"
+                            small>
+                            {member.phone}
+                        </TextWithIcon>
+                    {/if}
+                    {#if member.mail}
+                        <TextWithIcon
+                            class="mx-auto max-w-full"
+                            href={`mailto:${member.mail}`}
+                            icon={Icons.Email}
+                            iconContainerClass="md:pt-1"
+                            small>
+                            {member.mail}
+                        </TextWithIcon>
+                    {/if}
+                </div>
             </li>
         {/each}
     </ul>

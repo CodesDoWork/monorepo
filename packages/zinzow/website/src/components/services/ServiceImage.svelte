@@ -17,7 +17,7 @@
 <div class={clsx(fadeInBottom, "relative")} style={animationDelay(delay)}>
     <DirectusImage
         {img}
-        imgClass="rounded-xl shadow-lg max-h-72 min-h-56"
+        imgClass="rounded-xl shadow-lg max-h-96 min-h-64"
         class={clsx("w-full", className)} />
     <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-gray-900/10 ring-inset">
     </div>

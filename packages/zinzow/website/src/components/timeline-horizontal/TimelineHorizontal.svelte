@@ -20,8 +20,10 @@
         md:col-start-auto md:row-start-2 md:h-auto md:w-2
     `);
     const verticalLineClass = clsx(`
-        bg-primary absolute top-0 left-1/2 h-[101%] w-1.5 -translate-x-1/2
-        md:top-1/2 md:left-0 md:h-1.5 md:w-[101%] md:translate-x-0 md:-translate-y-1/2
+        bg-primary
+        dark:bg-primary-400
+        absolute top-0 left-1/2 h-[101%] w-1 -translate-x-1/2
+        md:top-1/2 md:left-0 md:h-1 md:w-[101%] md:translate-x-0 md:-translate-y-1/2
     `);
 </script>
 
@@ -69,18 +71,24 @@
                 <div class={verticalLineClass}></div>
                 <div
                     class="
-                        bg-primary absolute top-1/2 left-0 h-1 w-full -translate-y-1/2 rounded-full
+                        bg-primary
+                        dark:bg-primary-400
+                        absolute top-1/2 left-0 h-1 w-full -translate-y-1/2 rounded-full
                         md:top-0 md:left-1/2 md:h-full md:w-1 md:-translate-x-1/2 md:translate-y-0
                     ">
                 </div>
                 <div
-                    class="bg-primary absolute top-1/2 left-1/2 size-3 -translate-1/2 rounded-full">
+                    class="
+                        bg-primary
+                        dark:bg-primary-400
+                        absolute top-1/2 left-1/2 size-3 -translate-1/2 rounded-full
+                    ">
                 </div>
             </div>
             <P
                 lang="de"
                 class="
-                    my-2 self-center
+                    my-2 self-center text-pretty
                     md:mx-2 md:my-0 md:self-start md:pb-2 md:text-center md:hyphens-auto
                     md:transition-all
                     md:group-hover:pt-2 md:group-hover:pb-0 md:group-hover:text-gray-950
@@ -94,14 +102,17 @@
     </div>
     <div
         class="
-            text-primary col-start-2 -mt-4 block size-8 place-self-center self-center
-            *:size-8
+            text-primary
+            dark:text-primary-400
+            col-start-2 -mt-4 block size-7 place-self-center self-center
+            *:size-7
             md:col-start-auto md:row-start-2 md:mt-0 md:-ml-4
         ">
-        <span class="
-            icon-[eva--arrow-down-fill]
-            md:hidden
-        "></span>
+        <span
+            class="
+                icon-[eva--arrow-down-fill]
+                md:hidden
+            "></span>
         <span
             class="
                 icon-[eva--arrow-right-fill] hidden

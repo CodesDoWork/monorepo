@@ -9,6 +9,7 @@
         fileChosenText: string;
         filesChosenText: string;
         dropFilesText: string;
+        inputClass?: string;
     }
 
     const {
@@ -17,6 +18,7 @@
         fileChosenText,
         filesChosenText,
         dropFilesText,
+        inputClass,
         ...inputProps
     }: Props = $props();
 
@@ -65,6 +67,7 @@
             {onclick}
             class={clsx(
                 buttonClass,
+                inputClass,
                 "absolute z-10 size-full",
                 inputProps.errors?.length &&
                     `

@@ -35,5 +35,5 @@ RUN apk add --no-cache \
     zip=${APK_ZIP_VERSION}
 
 ARG NPM___AT__ANTFU__NI_VERSION=28.2.0
-ARG NPM_BUN_VERSION=1.3.9    
+ARG NPM_BUN_VERSION=1.3.10
 RUN npm i -g @antfu/ni@${NPM___AT__ANTFU__NI_VERSION} bun@${NPM_BUN_VERSION}

@@ -184,7 +184,10 @@
                 <FileInputWithLabel
                     style={animationDelay(8)}
                     class={fadeInBottom}
-                    fileInputClass={clsx("dark:hover:bg-primary-400!")}
+                    fileInputClass={clsx(`
+                        dark:hover:bg-primary-300!
+                        dark:bg-primary-400!
+                    `)}
                     id={attachmentsId}
                     name={attachmentsId}
                     label="Anhang"
@@ -204,7 +207,7 @@
                         mailLoading &&
                             `
                                 bg-primary-400
-                                dark:bg-primary-600
+                                dark:bg-primary-300
                             `,
                         `
                             xs:col-start-2 xs:-mt-4

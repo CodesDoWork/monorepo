@@ -88,7 +88,9 @@ export const stylesMap = {
     li: clsx(textBaseColorClasses),
     button: clsx(`
         bg-primary
+        dark:bg-primary-400
         hover:bg-primary-400
+        dark:hover:bg-primary-300
         focus-visible:outline-primary
         cursor-pointer rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-white
         shadow-sm transition-colors duration-100

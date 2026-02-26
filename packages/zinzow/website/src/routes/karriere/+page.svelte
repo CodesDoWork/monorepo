@@ -90,7 +90,7 @@
             fadeInBottom,
             `
                 bg-bg-300
-                dark:bg-bg-900
+                dark:bg-bg-950
                 mx-2 mt-16 rounded-md px-6 py-4 shadow-md
                 sm:mx-8
             `,

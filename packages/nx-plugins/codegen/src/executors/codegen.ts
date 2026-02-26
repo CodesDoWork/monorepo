@@ -9,6 +9,10 @@ export const runCodegenExecutor: PromiseExecutor = async (_, context) => {
         await execAsync("graphql-codegen", ["--config codegen.ts"], {
             cwd: projectDir,
             shell: true,
+            env: {
+                ...process.env,
+                NODE_OPTIONS: "-r tsconfig-paths/register",
+            },
         });
 
         return { success: true };

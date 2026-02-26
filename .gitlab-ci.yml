@@ -144,7 +144,7 @@ codegen:
 check formatting:
   stage: lint
   script:
-    - nx g exec "nx format:check"
+    - nx format:check
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
@@ -156,7 +156,7 @@ check formatting:
 eslint:
   stage: lint
   script:
-    - nx g exec "nx affected -t lint"
+    - nx affected -t lint
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/

@@ -1,27 +1,14 @@
-import type { AppType } from "vite";
-import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
-import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "vite";
 import webExtension from "vite-plugin-web-extension";
+/* eslint-disable-next-line nx/enforce-module-boundaries */
+import { getViteConfig } from "../../../shared/configs/src/vite-config";
 
-export default defineConfig({
-    root: import.meta.dirname,
-    cacheDir: "../../../../node_modules/.vite/packages/just/music/download-addon",
-    plugins: [
-        tailwindcss(),
-        nxViteTsPaths(),
+export default getViteConfig({
+    dirname: import.meta.dirname,
+    svelte: false,
+    extraPlugins: [
         webExtension({
             browser: "firefox",
             manifest: "src/manifest.json",
         }),
     ],
-    build: {
-        outDir: "../../../../dist/packages/just/music/download-addon",
-        emptyOutDir: true,
-        reportCompressedSize: true,
-        commonjsOptions: {
-            transformMixedEsModules: true,
-        },
-    },
-    appType: "custom" as AppType,
 });

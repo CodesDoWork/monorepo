@@ -1,7 +1,0 @@
-{
-    "name": "@cdw/monorepo/nx-plugins-workspace",
-    "private": true,
-    "main": "./src/index.ts",
-    "typings": "./src/index.ts",
-    "generators": "./generators.json"
-}

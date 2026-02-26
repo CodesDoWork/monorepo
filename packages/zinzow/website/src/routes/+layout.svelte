@@ -133,7 +133,7 @@
     style={createCssVariables(colors)}
     class="
         bg-bg
-        dark:bg-bg-950
+        dark:bg-bg-900
         relative grid min-h-screen grid-cols-1 grid-rows-[min-content_1fr_min-content]
         overflow-x-hidden
         dark:text-white

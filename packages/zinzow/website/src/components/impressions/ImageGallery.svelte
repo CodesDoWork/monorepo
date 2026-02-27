@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { DirectusImageParams } from "@cdw/monorepo/shared-svelte-components";
     import type { Video } from "./types";
-    import { DirectusImage, YTVideo } from "@cdw/monorepo/shared-svelte-components";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
     import { fadeInBottom } from "../../lib/common/styles";
@@ -75,13 +75,18 @@
                                 `)}
                                 class={containerClass} />
                         {:else}
-                            <YTVideo
-                                video={item}
-                                class={clsx(
-                                    itemClass(isSelected),
-                                    containerClass,
-                                    `pointer-events-none`,
-                                )} />
+                            <div class="absolute inset-0 z-10 flex items-center justify-center">
+                                <span
+                                    class="
+                                        icon-[logos--youtube-icon] size-4
+                                        sm:size-6
+                                        md:size-10
+                                    "></span>
+                            </div>
+                            <DirectusImage
+                                imgClass={itemClass(isSelected)}
+                                class={containerClass}
+                                img={item.thumbnail} />
                         {/if}
                     </button>
                 </li>

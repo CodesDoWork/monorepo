@@ -32,6 +32,10 @@
 
     $effect(() => addJsonLdThings(jsonldThings));
 
+    const largeImgClass = clsx(`
+        relative h-96 w-full
+        md:h-128
+    `);
     const imgClass = clsx(`
         rounded-md
         md:shadow-lg
@@ -67,15 +71,14 @@
                     2xl:mx-0
                 `,
             )}>
-            <button
-                onclick={() => (gallery.showDialog = isImage(gallery.selectedItem))}
-                class="
-                    relative h-96 w-full
-                    md:h-128
-                ">
-                {#if isImage(gallery.selectedItem)}
+            {#if isImage(gallery.selectedItem)}
+                <button
+                    onclick={() => (gallery.showDialog = isImage(gallery.selectedItem))}
+                    class={largeImgClass}>
                     <DirectusImage img={gallery.selectedItem} {imgClass} class={itemClass} />
-                {:else if gallery.selectedItem}
+                </button>
+            {:else if gallery.selectedItem}
+                <div class={largeImgClass}>
                     {#if isYTAllowed.value}
                         <YTVideo video={gallery.selectedItem} class={clsx(itemClass, imgClass)} />
                     {:else}
@@ -84,22 +87,17 @@
                                 absolute inset-0 z-10 flex items-center justify-center
                                 backdrop-brightness-50
                             ">
-                            <div
-                                role="button"
-                                tabindex="0"
-                                onkeydown={() => {}}
-                                class={stylesMap.button}
-                                onclick={onClickYTEnable}>
+                            <button class={stylesMap.button} onclick={onClickYTEnable}>
                                 {@html allowYTPrompt}
-                            </div>
+                            </button>
                         </div>
                         <DirectusImage
                             class={itemClass}
                             {imgClass}
                             img={gallery.selectedItem.thumbnail} />
                     {/if}
-                {/if}
-            </button>
+                </div>
+            {/if}
             <ImageInfo {...gallery.selectedItem} />
             <ImageNavigation rotateCol={gallery.rotateCol} />
         </div>

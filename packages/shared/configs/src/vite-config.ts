@@ -1,5 +1,5 @@
 import type { AppType, UserConfig } from "vite";
-import { join, resolve } from "node:path";
+import { join, relative, resolve } from "node:path";
 import { nxViteTsPaths } from "@nx/vite/plugins/nx-tsconfig-paths.plugin";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
@@ -18,7 +18,8 @@ interface ViteConfigOptions {
 
 export function getViteConfig(options: ViteConfigOptions): UserConfig {
     const { dirname, svelte = true, fsAllowPaths = [], extraPlugins = [], config = {} } = options;
-    const toRoot = resolve(dirname, workspaceDir);
+    const root = resolve(dirname, workspaceDir);
+    const relativeDirname = relative(root, dirname);
 
     async function sveltekitFix() {
         const cwd = process.cwd();
@@ -35,12 +36,12 @@ export function getViteConfig(options: ViteConfigOptions): UserConfig {
 
     return defineConfig({
         root: dirname,
-        cacheDir: join(toRoot, "node_modules", ".vite", dirname),
+        cacheDir: join(root, "node_modules", ".vite", relativeDirname),
         server: {
             port: 4200,
             host: "0.0.0.0",
             fs: {
-                allow: [process.cwd(), join(toRoot, "node_modules"), ...fsAllowPaths],
+                allow: [process.cwd(), join(root, "node_modules"), ...fsAllowPaths],
             },
         },
         preview: {
@@ -52,7 +53,7 @@ export function getViteConfig(options: ViteConfigOptions): UserConfig {
             plugins: () => [nxViteTsPaths()],
         },
         build: {
-            outDir: join(toRoot, "dist", dirname),
+            outDir: join(root, "dist", relativeDirname),
             emptyOutDir: true,
             reportCompressedSize: true,
             commonjsOptions: {

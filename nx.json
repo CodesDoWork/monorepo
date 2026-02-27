@@ -78,9 +78,6 @@
             "plugin": "@cdw/monorepo/nx-plugins-vitepress"
         },
         {
-            "plugin": "@cdw/monorepo/nx-plugins-workspace"
-        },
-        {
             "plugin": "@cdw/monorepo/nx-plugins-wrangler"
         },
         {

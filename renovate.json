@@ -5,56 +5,58 @@
     "customManagers": [
         {
             "customType": "regex",
-            "fileMatch": ["(^|/)Dockerfile$"],
+            "managerFilePatterns": ["**/Dockerfile"],
             "matchStrings": ["ARG PIP_(?<depName>.*?)_VERSION=(?<currentValue>.*)"],
             "datasourceTemplate": "pypi",
             "depNameTemplate": "{{{ replace '_' '-' (lowercase depName) }}}"
         },
         {
             "customType": "regex",
-            "fileMatch": ["(^|/)Dockerfile$"],
+            "managerFilePatterns": ["**/Dockerfile"],
             "matchStrings": ["ARG DOCKER_(?<depName>.*?)_VERSION=(?<currentValue>.*)"],
             "datasourceTemplate": "docker",
             "depNameTemplate": "{{{ replace '_' '-' (replace '__' '/' (lowercase depName)) }}}"
         },
         {
             "customType": "regex",
-            "fileMatch": ["(^|/)docker-compose\\.ya?ml$"],
-            "matchStrings": ["image: ${DOCKER_PROXY}(?<depName>.*?):(?<currentValue>.*?)"],
+            "managerFilePatterns": ["**/docker-compose.{yml,yaml}"],
+            "matchStrings": [
+                "image:\\s*[\"']?(?:\\$\\{DOCKER_PROXY\\})?(?<depName>[^:\\s'\"#]+):(?<currentValue>[^\\s'\"#]+)"
+            ],
             "datasourceTemplate": "docker",
             "depNameTemplate": "{{{ depName }}}"
         },
         {
             "customType": "regex",
-            "fileMatch": ["(^|/)Dockerfile$"],
+            "managerFilePatterns": ["**/Dockerfile"],
             "matchStrings": ["ARG APK_(?<depName>.*?)_VERSION=(?<currentValue>.*)"],
             "datasourceTemplate": "repology",
             "depNameTemplate": "alpine_3_23/{{{ replace '_' '-' (lowercase depName) }}}"
         },
         {
             "customType": "regex",
-            "fileMatch": ["(^|/)Dockerfile$"],
+            "managerFilePatterns": ["**/Dockerfile"],
             "matchStrings": ["ARG APK22_(?<depName>.*?)_VERSION=(?<currentValue>.*)"],
             "datasourceTemplate": "repology",
             "depNameTemplate": "alpine_3_22/{{{ replace '_' '-' (lowercase depName) }}}"
         },
         {
             "customType": "regex",
-            "fileMatch": ["(^|/)Dockerfile$"],
+            "managerFilePatterns": ["**/Dockerfile"],
             "matchStrings": ["ARG NPM_(?<depName>.*?)_VERSION=(?<currentValue>.*)"],
             "datasourceTemplate": "npm",
             "depNameTemplate": "{{{ replace '_' '-' (replace '__' '/' (replace '__at__' '@' (lowercase depName))) }}}"
         },
         {
             "customType": "regex",
-            "fileMatch": ["(^|/)Dockerfile$"],
+            "managerFilePatterns": ["**/Dockerfile"],
             "matchStrings": ["ARG LUAROCKS_(?<depName>.*?)_VERSION=(?<currentValue>.*)"],
             "datasourceTemplate": "luarocks",
             "depNameTemplate": "{{{ replace '_' '-' (lowercase depName) }}}"
         },
         {
             "customType": "regex",
-            "fileMatch": ["(^|/)Dockerfile$"],
+            "managerFilePatterns": ["**/Dockerfile"],
             "matchStrings": ["ARG GITHUB_(?<depName>.*?)_VERSION=(?<currentValue>.*)"],
             "datasourceTemplate": "github-tags",
             "depNameTemplate": "{{{ replace '_' '-' (replace '__' '/' (lowercase depName)) }}}"

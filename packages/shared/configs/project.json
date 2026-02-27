@@ -1,8 +1,8 @@
 {
-    "name": "nx-plugins-workspace",
+    "name": "shared-configs",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-    "sourceRoot": "packages/nx-plugins/workspace/src",
+    "sourceRoot": "packages/shared/configs/src",
     "projectType": "library",
-    "tags": ["nx-plugins"],
+    "tags": ["shared"],
     "targets": {}
 }

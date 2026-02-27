@@ -11,10 +11,10 @@
         TextareaWithLabel,
     } from "@cdw/monorepo/shared-svelte-components/forms";
     import { addJsonLdThings } from "@cdw/monorepo/shared-svelte-contexts";
+    import { getLocalStorageState } from "@cdw/monorepo/shared-svelte-states";
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { normalizeAnchor } from "@cdw/monorepo/shared-utils/html/common";
     import { clsx } from "clsx";
-    import { onMount } from "svelte";
     import { WidthBox } from "../../components/content-area";
     import { H1, H2 } from "../../components/heading";
     import { Icons } from "../../components/icons";
@@ -38,9 +38,12 @@
         tel,
         email,
         acceptPrivacyPolicy,
+        contactPhoto,
         findUs,
         coordinates,
-        contactPhoto,
+        mapThumbnail,
+        allowMapPrompt,
+        disableMapPrompt,
         jsonldThings,
     } = $derived(data);
 
@@ -51,12 +54,26 @@
     let Marker: Component<{ latLng: LatLngExpression; options?: MarkerOptions }> | null =
         $state(null);
 
-    onMount(async () => {
-        const sveaflet = await import("sveaflet");
-        Map = sveaflet.Map;
-        TileLayer = sveaflet.TileLayer;
-        Marker = sveaflet.Marker;
+    const isOSMAllowed = getLocalStorageState("isOSMAllowed", false);
+    $effect(() => {
+        if (isOSMAllowed.value) {
+            import("sveaflet").then(sveaflet => {
+                Map = sveaflet.Map;
+                TileLayer = sveaflet.TileLayer;
+                Marker = sveaflet.Marker;
+            });
+        } else {
+            Map = null;
+            TileLayer = null;
+            Marker = null;
+        }
     });
+
+    function onClickOSMEnable(event: MouseEvent) {
+        if (!(event.target instanceof HTMLAnchorElement)) {
+            isOSMAllowed.value = true;
+        }
+    }
 
     const attachmentsId = "attachments";
     let mailLoading = $state(false);
@@ -252,7 +269,7 @@
             )}
             id={mapAnchor}>
             <H2>{findUs}</H2>
-            <div class="h-160 max-h-[75vh] w-full overflow-hidden rounded-lg shadow-md">
+            <div class="relative h-160 max-h-[75vh] w-full overflow-hidden rounded-lg shadow-md">
                 {#if Map}
                     <Map options={{ center: coordinates, zoom: 15 }}>
                         <TileLayer
@@ -266,8 +283,26 @@
                             }} />
                         <Marker latLng={coordinates} />
                     </Map>
+                {:else if !isOSMAllowed.value}
+                    <div
+                        class="
+                            absolute inset-0 z-10 flex items-center justify-center
+                            backdrop-brightness-50
+                        ">
+                        <button class={stylesMap.button} onclick={onClickOSMEnable}>
+                            {@html allowMapPrompt}
+                        </button>
+                    </div>
+                    <DirectusImage class="h-full" img={mapThumbnail} />
                 {/if}
             </div>
+            {#if isOSMAllowed.value}
+                <button
+                    class={clsx(stylesMap.button, "mt-4")}
+                    onclick={() => (isOSMAllowed.value = false)}>
+                    {disableMapPrompt}
+                </button>
+            {/if}
         </div>
     </div>
 </WidthBox>

@@ -18,6 +18,11 @@ query GetContactData {
 
         findUs: find_us
         coordinates
+        mapThumbnail: map_thumbnail {
+            ...DirectusImage
+        }
+        allowMapPrompt: allow_map_prompt
+        disableMapPrompt: disable_map_prompt
     }
 }
 

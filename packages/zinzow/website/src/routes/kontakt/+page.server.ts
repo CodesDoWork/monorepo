@@ -45,6 +45,15 @@ export const load: PageServerLoad = async () => {
             assetParams: { quality: 50, width: 720 },
         }),
         coordinates,
+        mapThumbnail: directusImageParams(env.CMS_URL, {
+            ...defaultNull(contact.mapThumbnail),
+            alt: "map thumbnail",
+            assetParams: { quality: 67, width: 1280 },
+        }),
+        allowMapPrompt: formatWYSIWYG(stylesMap, contact.allowMapPrompt, {
+            p: "text-gray-200!",
+            a: "text-gray-200! hover:text-white!",
+        }),
         texts: getTextsFromTranslations(translations, pageIdPrefix),
         jsonldThings: createJsonLdThings(coordinates[1], coordinates[0]),
     };

@@ -20,17 +20,24 @@
         row-start-2 mt-4 mb-8 flex items-center justify-center gap-12
         lg:m-0
     ">
-    <button onclick={() => rotateCol(false)}>
-        <span class={clsx(iconClass, `
-            icon-[mingcute--left-line]
-            lg:-left-8 lg:-translate-1/2
-        `)}></span>
-    </button>
-    <button onclick={() => rotateCol(true)}>
+    <button title="Previous" onclick={() => rotateCol(false)}>
         <span
-            class={clsx(iconClass, `
-                icon-[mingcute--right-line]
-                lg:-right-8 lg:translate-x-1/2 lg:-translate-y-1/2
-            `)}></span>
+            class={clsx(
+                iconClass,
+                `
+                    icon-[mingcute--left-line]
+                    lg:-left-8 lg:-translate-1/2
+                `,
+            )}></span>
+    </button>
+    <button title="Next" onclick={() => rotateCol(true)}>
+        <span
+            class={clsx(
+                iconClass,
+                `
+                    icon-[mingcute--right-line]
+                    lg:-right-8 lg:translate-x-1/2 lg:-translate-y-1/2
+                `,
+            )}></span>
     </button>
 </div>

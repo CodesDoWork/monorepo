@@ -30,13 +30,6 @@
       user = {
         isNormalUser = true;
         extraGroups = [ "dev" "docker" ];
-        openssh.authorizedKeys.keys = [
-          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDPT2/z3cipQhptV8esRPTUdzXRpBVx+A26ouxTViJLgmYioVEsG0h1JYUBBS1Od4JPIa5PfTLlL4URHjRZqTjMIOevLOHjMSbmyqMWDPU7y/UME+1ZtcUFUrIRKqi8ghnJL0GMbXm12Nc8oTNtER24eDqnrL81ewR1Q0zph7OTD+aMrjWQAFQa2a9XUcZcFSVU8PPTEpxa+qsSCJl5Rf4IgT23e/yY1GXrY9LQpgce95HhM125lKtwkhwNZKHIPg0qe0fhEZAp+k27Czlp/ATberLrEI8txFfXkN/l02O8cMh0pk/y4CZC1yW4ujSI5HVmTrfqmB9B8PplCadDXJ7L rsa-key-20230922"
-        ];
-      };
-
-      root = {
-        hashedPassword = "!"
       };
     };
   };
@@ -75,7 +68,7 @@
     ports = [ 18316 ];
     settings = {
       PermitRootLogin = "no";
-      PasswordAuthentication = false;
+      PasswordAuthentication = true;
     };  
   };
 }

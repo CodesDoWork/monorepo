@@ -1,6 +1,11 @@
-FROM python:3.14.3-slim
+ARG DOCKER_PROXY
 
-RUN pip install --no-cache-dir mlflow==3.8.1 psycopg2-binary==2.9.11
 
-SHELL ["bash"]
-ENTRYPOINT [ "mlflow", "server" ]
+ARG DOCKER_PYTHON_VERSION=3.14.3-slim
+FROM ${DOCKER_PROXY}python:${DOCKER_PYTHON_VERSION}
+ARG APP_DIR=shared/mlflow
+
+COPY packages/${APP_DIR}/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+ENTRYPOINT ["mlflow", "server"]

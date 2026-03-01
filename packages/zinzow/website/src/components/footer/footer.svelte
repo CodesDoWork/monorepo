@@ -100,7 +100,7 @@
                                             smallTextClasses,
                                             `
                                                 transition-colors
-                                                hover:text-gray-950
+                                                hover:text-black
                                                 dark:hover:text-white
                                             `,
                                         )}>
@@ -139,7 +139,7 @@
                     rel="noopener noreferrer"
                     class="
                         transition-colors
-                        hover:text-gray-950
+                        hover:text-black
                         dark:hover:text-white
                     ">
                     Justin Konratt

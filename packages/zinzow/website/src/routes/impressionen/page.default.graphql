@@ -9,6 +9,8 @@ query GetImpressionsData {
                 location
             }
         }
+        allowYTPrompt: allow_youtube_prompt
+        disableTPrompt: disable_youtube_prompt
     }
 
     videos: yt_videos {
@@ -17,5 +19,8 @@ query GetImpressionsData {
         description
         location
         tags
+        thumbnail {
+            ...DirectusImage
+        }
     }
 }

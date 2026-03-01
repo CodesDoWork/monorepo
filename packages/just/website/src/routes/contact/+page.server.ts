@@ -52,7 +52,7 @@ function createJsonLdThings(parentData: LayoutServerData): Thing[] {
 const smtpOptions: SMTPConnection.Options = {
     host: env.SMTP_HOST,
     port: env.SMTP_PORT,
-    secure: false,
+    secure: true,
     auth: {
         user: env.SMTP_USERNAME,
         pass: env.SMTP_PASSWORD,
@@ -107,8 +107,8 @@ async function processMessage(event: RequestEvent, msg: Message) {
     try {
         await mailTransport.sendMail({
             html: `<p>From: <strong>${name}</strong> <<i>${email}</i>></p><br /><br</> <p>${message.replace(/\n/g, "<br />")}</p>`,
-            from: env.SMTP_USERNAME,
-            to: env.SMTP_USERNAME,
+            from: `Just Website <${env.SMTP_USERNAME}>`,
+            to: env.CONTACT_EMAIL,
             subject: `[Just-Site] New Message from ${name}`,
         });
         return { success: true, msg: contact.successMsg };

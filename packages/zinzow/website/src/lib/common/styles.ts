@@ -2,7 +2,7 @@ import { clsx } from "clsx";
 
 export const colorPrimaryClass = clsx(`
     text-primary
-    dark:text-primary-400
+    dark:text-primary-300
 `);
 
 export const headlineBaseClasses = clsx(
@@ -43,7 +43,7 @@ export const stylesMap = {
         colorPrimaryClass,
         `
             hover:text-primary-900
-            dark:hover:text-primary-300
+            dark:hover:text-primary-200
         `,
         aHoverAnimation,
     ),
@@ -88,9 +88,10 @@ export const stylesMap = {
     li: clsx(textBaseColorClasses),
     button: clsx(`
         bg-primary
+        dark:bg-primary-400
         hover:bg-primary-400
+        dark:hover:bg-primary-300
         focus-visible:outline-primary
-        dark:hover:bg-primary-600
         cursor-pointer rounded-md px-3.5 py-2.5 text-center text-sm font-semibold text-white
         shadow-sm transition-colors duration-100
         focus-visible:outline-2 focus-visible:outline-offset-2

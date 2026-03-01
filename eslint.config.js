@@ -85,6 +85,10 @@ export default antfu(
     {
         files: ["**/*.html"],
         plugins: { eslintPluginHtml },
+        rules: {
+            "format/prettier": "off",
+            "prettier/prettier": "off",
+        },
     },
     {
         files: ["**/*.toml"],

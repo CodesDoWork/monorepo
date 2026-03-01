@@ -5,8 +5,11 @@ ARG DOCKER_PROXY
 ARG APP_NAME=just-documentation
 ARG APP_DIR=just/documentation
 
-FROM $IMAGE_BASE/workspace-base:$PROJECT_VERSION AS base
-FROM $IMAGE_BASE/workspace-deps:$PROJECT_VERSION AS workspace-deps
+ARG DOCKER_NGINX_VERSION=1.29.5-alpine-slim
+
+
+FROM ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} AS base
+FROM ${IMAGE_BASE}/workspace-deps:${PROJECT_VERSION} AS workspace-deps
 
 
 FROM workspace-deps AS builder
@@ -18,9 +21,9 @@ COPY packages/nx-plugins ./packages/nx-plugins
 COPY packages/shared ./packages/shared
 COPY packages/just ./packages/just
 RUN nx reset
-RUN nx build $APP_NAME
+RUN nx build ${APP_NAME}
 
 
-FROM $DOCKER_PROXY/nginx:1.27.1-alpine-slim
+FROM ${DOCKER_PROXY}nginx:${DOCKER_NGINX_VERSION}
 ARG APP_DIR
-COPY --from=builder /workspace/dist/packages/$APP_DIR /usr/share/nginx/html
+COPY --from=builder /workspace/dist/packages/${APP_DIR} /usr/share/nginx/html

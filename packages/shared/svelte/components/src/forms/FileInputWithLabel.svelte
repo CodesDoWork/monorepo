@@ -5,10 +5,11 @@
 
     interface Props extends ComponentProps<typeof FileInput> {
         label: string;
+        fileInputClass?: string;
     }
 
-    const { label, class: className, style, ...inputProps }: Props = $props();
-    const labelId = `${inputProps.id}-label`;
+    const { label, class: className, fileInputClass, style, ...inputProps }: Props = $props();
+    const labelId = $derived(`${inputProps.id}-label`);
 </script>
 
 <div class={className} {style}>
@@ -23,6 +24,6 @@
     </label>
     <Errors errors={inputProps.errors} />
     <div class="mt-2.5">
-        <FileInput {...inputProps} aria-describedby={labelId} />
+        <FileInput inputClass={fileInputClass} {...inputProps} aria-describedby={labelId} />
     </div>
 </div>

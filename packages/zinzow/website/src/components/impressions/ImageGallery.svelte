@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { DirectusImageParams } from "@cdw/monorepo/shared-svelte-components";
     import type { Video } from "./types";
-    import { DirectusImage, YTVideo } from "@cdw/monorepo/shared-svelte-components";
+    import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
     import { fadeInBottom } from "../../lib/common/styles";
@@ -32,7 +32,7 @@
     const itemClass = (isSelected: boolean) =>
         clsx(
             `
-                ring-primary rounded-md shadow-md
+                ring-primary max-h-10 rounded-md shadow-md
                 sm:max-h-24
                 md:max-h-36 md:rounded-lg
                 lg:max-h-40
@@ -48,8 +48,7 @@
 
 <ul
     class="
-        row-start-1 mt-4 mb-2 grid grid-cols-6
-        md:mb-4
+        row-start-1 my-4 grid grid-cols-6
         lg:col-span-2 lg:row-start-auto lg:mb-0
     ">
     {#each columnsArray as colItems, colIdx}
@@ -76,13 +75,18 @@
                                 `)}
                                 class={containerClass} />
                         {:else}
-                            <YTVideo
-                                video={item}
-                                class={clsx(
-                                    itemClass(isSelected),
-                                    containerClass,
-                                    `pointer-events-none`,
-                                )} />
+                            <div class="absolute inset-0 z-10 flex items-center justify-center">
+                                <span
+                                    class="
+                                        icon-[logos--youtube-icon] size-4
+                                        sm:size-6
+                                        md:size-10
+                                    "></span>
+                            </div>
+                            <DirectusImage
+                                imgClass={itemClass(isSelected)}
+                                class={containerClass}
+                                img={item.thumbnail} />
                         {/if}
                     </button>
                 </li>

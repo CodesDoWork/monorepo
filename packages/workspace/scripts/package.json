@@ -1,0 +1,7 @@
+{
+    "name": "workspace-scripts",
+    "private": true,
+    "scripts": {
+        "trivy": "tsx src/trivy-analyze-fs.ts"
+    }
+}

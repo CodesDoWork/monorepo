@@ -45,6 +45,15 @@ export const load: PageServerLoad = async () => {
             assetParams: { quality: 50, width: 720 },
         }),
         coordinates,
+        mapThumbnail: directusImageParams(env.CMS_URL, {
+            ...defaultNull(contact.mapThumbnail),
+            alt: "map thumbnail",
+            assetParams: { quality: 67, width: 1280 },
+        }),
+        allowMapPrompt: formatWYSIWYG(stylesMap, contact.allowMapPrompt, {
+            p: "text-gray-200!",
+            a: "text-gray-200! hover:text-white!",
+        }),
         texts: getTextsFromTranslations(translations, pageIdPrefix),
         jsonldThings: createJsonLdThings(coordinates[1], coordinates[0]),
     };
@@ -75,7 +84,6 @@ function createJsonLdThings(lat: number, lng: number): Thing[] {
 const smtpOptions: SMTPConnection.Options = {
     host: env.SMTP_HOST,
     port: env.SMTP_PORT,
-    secure: false,
     auth: {
         user: env.SMTP_USERNAME,
         pass: env.SMTP_PASSWORD,
@@ -127,7 +135,7 @@ export const actions: Actions = {
             const { firstName, lastName, email, message } = data;
             await mailTransport.sendMail({
                 html: `<p>Von: <strong>${firstName} ${lastName}</strong> <<i>${email}</i>></p><br /><br</> <p>${message.replace(/\n/g, "<br />")}</p>`,
-                from: env.SMTP_USERNAME,
+                from: `Agrarservicenordost Webseite <${env.SMTP_USERNAME}>`,
                 to: msgReceiver,
                 subject: `[Webseite] Neue Nachricht von ${firstName} ${lastName}`,
                 attachments: await Promise.all(

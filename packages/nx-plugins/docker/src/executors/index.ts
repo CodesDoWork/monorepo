@@ -1,4 +1,4 @@
 export * from "../utils/docker-base";
-export * from "./build";
-export * from "./pull";
-export * from "./push";
+export { dockerBuildExecutor } from "./build";
+export { dockerPullExecutor } from "./pull";
+export { dockerPushExecutor } from "./push";

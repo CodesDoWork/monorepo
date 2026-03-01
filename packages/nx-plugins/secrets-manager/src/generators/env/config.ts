@@ -4,7 +4,7 @@ import path from "node:path";
 import { parse as parseYaml } from "yaml";
 import { zProjectSecretsConfig, zRootSecretConfig } from "./types";
 
-const ROOT_CONFIG_FILE = ".secrets.config.json";
+const ROOT_CONFIG_FILE = ".env.secure.config.yaml";
 const PROJECT_CONFIG_FILE = ".env.secure.yaml";
 
 export function getRootConfig(tree: Tree): RootSecretsConfig {

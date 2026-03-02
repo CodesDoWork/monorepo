@@ -27,7 +27,7 @@ services:
     <<: *common-with-healthcheck
     environment:
       PORT: ${ADMINER_PORT}
-    image: ${DOCKER_PROXY}adminer:5.4.1
+    image: ${DOCKER_PROXY}adminer:5.4.2
     labels:
       nginx.port: ${ADMINER_PORT}
       nginx.isInternal: true

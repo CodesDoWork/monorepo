@@ -42,7 +42,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     }
 
     const response = await resolve(event, {
-        transformPageChunk: ({ html }) => html.replace("%lang%", language.short),
+        transformPageChunk: ({ html }) => html.replace('lang="en"', `lang="${language.short}"`),
     });
 
     if (response.headers.get("content-type") === "text/html") {

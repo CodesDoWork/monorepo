@@ -23,7 +23,9 @@
     );
 
     const selectLanguage = (language: LanguageFragment) => {
-        fetch(`/api/setLanguage/${language.code}`).then(() => refreshAll());
+        fetch(`/api/setLanguage/${language.code}`)
+            .then(() => refreshAll())
+            .then(() => (document.head.parentElement.lang = language.short));
     };
 
     let isSelectionVisible = $state(false);

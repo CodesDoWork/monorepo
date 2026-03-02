@@ -6,7 +6,7 @@ FROM ${DOCKER_PROXY}deluan/navidrome:${DOCKER_DELUAN__NAVIDROME_VERSION}
 
 RUN adduser --disabled-password navidrome
 
-RUN mkdir -p /data
+RUN mkdir -p /data/cache/plugins
 RUN chown -R navidrome:navidrome /data
 RUN mkdir -p /music
 RUN chown -R navidrome:navidrome /music

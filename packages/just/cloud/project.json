@@ -7,7 +7,7 @@
         "deploy": {
             "executor": "@cdw/monorepo/nx-plugins-ci:deploy",
             "options": {
-                "enabled": true,
+                "enabled": false,
                 "files": ["configuration.nix"],
                 "commands": [
                     "sudo mv -vf configuration.nix /etc/nixos/configuration.nix",
@@ -15,8 +15,8 @@
                 ]
             },
             "configurations": {
-                "development": {
-                    "enabled": false
+                "manual": {
+                    "enabled": true
                 }
             }
         }

@@ -21,10 +21,10 @@
 
   # networking
   networking = {
-    hostName = "justCloud";
+    hostName = "just-cloud";
     firewall = {
       enable = true;
-      allowedTCPPorts = [ 22 25 110 143 465 587 993 995 3003 4190 ]; # 22=ssh, 3003=testing, resst=mail
+      allowedTCPPorts = [ 18316 25 110 143 465 587 993 995 3003 4190 ]; # 18316=ssh, 3003=testing, resst=mail
       allowedUDPPorts = [ 51820 ];
       extraCommands = ''
         iptables -A INPUT -i lo -s 192.168.192.0/24 -j ACCEPT
@@ -92,6 +92,7 @@
 
   services.openssh = {
     enable = true;
+    ports = [ 18316 ]
     settings = {
       PermitRootLogin = "yes";
       PasswordAuthentication = false;

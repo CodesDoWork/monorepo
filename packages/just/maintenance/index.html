@@ -23,18 +23,6 @@
             </div>
         </div>
 
-        <script>
-            (function () {
-                if (navigator.language.startsWith("de")) {
-                    document.title = "Wartungsarbeiten";
-                    document.getElementsByTagName("h1")[0].textContent =
-                        "🚧 Wir sind in Kürze zurück!";
-                    document.getElementsByTagName("p")[0].textContent = `
-                        Wir führen derzeit Wartungsarbeiten durch. Die Seite wird bald wieder
-                        verfügbar sein. Vielen Dank für Ihre Geduld!
-                    `;
-                }
-            })();
-        </script>
+        <script src="./src/translate.ts"></script>
     </body>
 </html>

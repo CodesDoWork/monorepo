@@ -255,9 +255,8 @@ func createNginxLocationBlock(
 	if addPass {
 		locationBlock.subBlocks = append(
 			locationBlock.subBlocks,
-			NginxBlock{
-				content: "proxy_pass " + upstream.proto + "://" + upstream.host + ":" + upstream.port,
-			},
+			NginxBlock{content: "set $upstream " + upstream.host + ":" + upstream.port},
+			NginxBlock{content: "proxy_pass " + upstream.proto + "://$upstream"},
 		)
 	}
 

@@ -97,7 +97,7 @@ services:
     labels:
       nginx.port: ${CMS_PORT}
       nginx.requiredRole: just-cms-access
-      nginx.maxBodySize: 100M
+      nginx.maxBodySize: 1G
       nginx.location./admin.useLuaAccess: true
     volumes:
       - directus-extension-registry:/directus/extensions/.registry

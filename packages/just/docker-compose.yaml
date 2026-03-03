@@ -418,7 +418,7 @@ services:
         - "exec 3<>/dev/tcp/127.0.0.1/${KEYCLOAK_PORT};echo -e 'GET /health/live HTTP/1.1\r\nhost:
           http://localhost\r\nConnection: close\r\n\r\n' >&3;if [ $? -eq 0 ]; then echo 'Healthcheck
           Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;"
-    image: ${DOCKER_PROXY}keycloak/keycloak:26.4.7
+    image: ${DOCKER_PROXY}keycloak/keycloak:26.5.4
     labels:
       nginx.domain: auth.${DOMAIN}
       nginx.port: ${KEYCLOAK_PORT}

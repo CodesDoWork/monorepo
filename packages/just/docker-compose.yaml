@@ -112,7 +112,7 @@ services:
     healthcheck:
       <<: *healthcheck-defaults
       test: ["CMD-SHELL", "[ $(( $(date +%s) - $(cat /tmp/healthcheck) )) -le 30 ] || exit 1"]
-    image: ${DOCKER_PROXY}mcuadros/ofelia:0.3.20
+    image: ${DOCKER_PROXY}mcuadros/ofelia:0.3.21
     labels:
       ofelia.enabled: true
 

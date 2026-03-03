@@ -685,7 +685,7 @@ services:
         - CMD-SHELL
         - wget -qO- --tries=1 --spider http://127.0.0.1:${PORTAINER_PORT}/api/system/status || exit
           1
-    image: ${DOCKER_PROXY}portainer/portainer-ce:2.33.6-alpine
+    image: ${DOCKER_PROXY}portainer/portainer-ce:2.39.0-alpine
     labels:
       nginx.port: ${PORTAINER_PORT}
       nginx.isInternal: true

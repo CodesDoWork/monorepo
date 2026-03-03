@@ -628,7 +628,7 @@ services:
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
-    image: ${DOCKER_PROXY}netdata/netdata:v2.8.4
+    image: ${DOCKER_PROXY}netdata/netdata:v2.9.0
     labels:
       nginx.port: ${NETDATA_PORT}
       nginx.host: 172.17.0.1 # docker host

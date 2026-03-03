@@ -354,7 +354,7 @@ services:
       - DOCKER_PRIVILEGED=true
       - CI_SERVER_URL=http://gitlab
       - CI_SERVER_TOKEN=${GITLAB_RUNNER_TOKEN}
-    image: ${DOCKER_PROXY}gitlab/gitlab-runner:v18.7.1
+    image: ${DOCKER_PROXY}gitlab/gitlab-runner:v18.9.0
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock
 

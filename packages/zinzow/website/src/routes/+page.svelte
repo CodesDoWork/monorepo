@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     import { DirectusImage } from "@cdw/monorepo/shared-svelte-components";
+    import { preloadImages } from "@cdw/monorepo/shared-svelte-utils";
     import { animationDelay } from "@cdw/monorepo/shared-utils/css/animation-delay";
     import { clsx } from "clsx";
     import { fly } from "svelte/transition";
@@ -14,14 +15,28 @@
     const { landscapeHeros, portraitHeros, imageCycleTimeMs, intro } = $derived(data);
 
     let currentLandscapeHeroImageIdx = $state(0);
+    const nextLandscapeHeroImageIdx = $derived(
+        (currentLandscapeHeroImageIdx + 1) % landscapeHeros.length,
+    );
     let currentPortraitHeroImageIdx = $state(0);
+    const nextPortraitHeroImageIdx = $derived(
+        (currentPortraitHeroImageIdx + 1) % portraitHeros.length,
+    );
+
     const cycleHeroImage = $derived(function () {
-        currentLandscapeHeroImageIdx = (currentLandscapeHeroImageIdx + 1) % landscapeHeros.length;
-        currentPortraitHeroImageIdx = (currentPortraitHeroImageIdx + 1) % portraitHeros.length;
+        currentLandscapeHeroImageIdx = nextLandscapeHeroImageIdx;
+        currentPortraitHeroImageIdx = nextPortraitHeroImageIdx;
         setTimeout(cycleHeroImage, imageCycleTimeMs);
     });
     $effect(() => {
         setTimeout(cycleHeroImage, imageCycleTimeMs);
+    });
+
+    $effect(() => {
+        preloadImages([
+            landscapeHeros[nextLandscapeHeroImageIdx].src,
+            portraitHeros[nextPortraitHeroImageIdx].src,
+        ]);
     });
 
     const introWords = $derived(intro.split(" "));

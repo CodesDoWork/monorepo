@@ -8,7 +8,7 @@ import { getRoute, transformRoutes } from "./lib/common/routes";
 import { byLanguage, getLanguage } from "./lib/server/language";
 
 export const handle: Handle = async ({ event, resolve }) => {
-    const path = event.url.pathname;
+    const path = decodeURI(event.url.pathname);
     if (priorityRoutes.some(route => path.startsWith(route))) {
         return resolve(event);
     }

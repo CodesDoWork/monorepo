@@ -2,7 +2,7 @@ import { API_ROUTE } from "../../routes/api/constants";
 import { ROUTE_PARAM } from "../../routes/api/getRoute/config";
 
 export async function reroutePath(url: URL, fetch: typeof window.fetch): Promise<string> {
-    const path = url.pathname;
+    const path = decodeURI(url.pathname);
     if (path.startsWith(API_ROUTE)) {
         return path;
     }

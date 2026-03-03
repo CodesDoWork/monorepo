@@ -1,6 +1,8 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import { create } from "xmlbuilder2";
 import { env } from "../../env";
+import { queryDefault } from "../../graphql/default/client";
+import { GetSitemapServerDataDocument } from "../../graphql/default/generated/graphql";
 
 export const GET: RequestHandler = async () => {
     const sitemap = createSitemap(await getSitemapRoutes());
@@ -13,7 +15,11 @@ export const GET: RequestHandler = async () => {
 };
 
 async function getSitemapRoutes(): Promise<Route[]> {
-    return [];
+    const { routes } = await queryDefault({ query: GetSitemapServerDataDocument });
+    return routes.map(r => ({
+        loc: r.path,
+        changefreq: "monthly",
+    }));
 }
 
 function createSitemap(routes: Route[]) {
@@ -36,7 +42,7 @@ function createSitemapEntry(route: Route): SitemapURL {
     return {
         loc: `${env.DOMAIN}${route.loc}`,
         changefreq: route.changefreq || "daily",
-        priority: 1.0 / ((route.loc.match(/\//g)?.length || 0) + 1),
+        priority: 1.0 / ((route.loc.match(/\/[^$]/g)?.length || 0) + 1),
         lastmod: route.lastmod,
     };
 }

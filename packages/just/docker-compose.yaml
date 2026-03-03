@@ -52,7 +52,7 @@ services:
       - SMTP_SECURITY=force_tls
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
-    image: ${DOCKER_PROXY}vaultwarden/server:1.35.1-alpine
+    image: ${DOCKER_PROXY}vaultwarden/server:1.35.4-alpine
     labels:
       nginx.port: ${BITWARDEN_PORT}
       nginx.maxBodySize: 100M

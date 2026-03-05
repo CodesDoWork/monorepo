@@ -7,6 +7,7 @@
     import { createColors, createCssVariables } from "@cdw/monorepo/shared-utils/css/colors";
     import { clsx } from "clsx";
     import { blur } from "svelte/transition";
+    import seoLogo from "../assets/seo-logo.svg";
     import { Footer } from "../components/footer";
     import { Header } from "../components/header";
     import "../tailwind.css";
@@ -114,9 +115,9 @@
 <svelte:head>
     <title>{pageTitle}</title>
     <meta name="robots" content={currentRoute ? "index,follow" : "noindex"} />
-    <meta content="" name="keywords" />
     <meta content={baseUrl} property="og:url" />
-    <meta name="theme-color" content="light-dark(white, black);" />
+    <meta name="theme-color" content={`light-dark(${colors["bg-500"]}, ${colors["bg-950"]});`} />
+    <meta property="og:image" content={seoLogo} />
     {#if currentRoute}
         <link rel="canonical" href={currentRouteUrl} />
         <meta name="description" content={currentRoute.description} />

@@ -225,7 +225,7 @@ services:
       - CAP_SETFCAP
       - CAP_SETGID
       - CAP_SETUID
-    image: ${DOCKER_PROXY}pihole/pihole:2025.11.1
+    image: ${DOCKER_PROXY}pihole/pihole:2026.02.0
     environment:
       TZ: ${TZ}
       FTLCONF_webserver_api_password: ${DNS_PASSWORD}

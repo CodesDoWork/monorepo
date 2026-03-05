@@ -526,7 +526,7 @@ services:
       test:
         - CMD-SHELL
         - >-
-          exec 3<>/dev/tcp/127.0.0.1/${MLFLOW_PORT}; echo -e 'GET /health
+          exec 3<>/dev/tcp/127.0.0.1:${MLFLOW_PORT}; echo -e 'GET /health
           HTTP/1.1\r\nhost:http://localhost\r\nConnection: close\r\n\r\n' >&3; if [ $? -eq 0 ]; then
             echo 'Healthcheck Successful';
             exit 0;
@@ -544,7 +544,7 @@ services:
       - mlflow-artifacts:/mlflow/artifacts
 
   music-marketplace:
-    <<: *common-with-healthcheck
+    <<: *common
     environment:
       PORT: ${MUSIC_MARKETPLACE_PORT}
       STORE_DIR: ${MUSIC_STORE_STORE_DIR}
@@ -552,6 +552,10 @@ services:
       LIBS: ${MUSIC_STORE_LIBS}
       CMS_URL: ${CMS_URL}
       CMS_TOKEN: ${MUSIC_MARKETPLACE_CMS_TOKEN}
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - wget -qO- --tries=1 --spider http://127.0.0.1:$${PORT:-80}/download || exit 1
     image: ${IMAGE_BASE}/just-music-marketplace:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${MUSIC_MARKETPLACE_PORT}

@@ -19,8 +19,7 @@ export const GET: RequestHandler = async () => {
 };
 
 async function getSitemapRoutes(): Promise<SitemapURL[]> {
-    const data = await queryDefault({ query: GetSitemapServerDataDocument });
-    const { routes } = data;
+    const { routes } = await queryDefault({ query: GetSitemapServerDataDocument });
     const transformedRoutes = transformRoutes(routes);
 
     const urls: SitemapURL[] = [];

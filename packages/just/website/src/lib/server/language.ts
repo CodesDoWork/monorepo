@@ -41,7 +41,7 @@ function getLanguageCodeFromRequest(request: Request): string | undefined {
 }
 
 function getLanguageCodeFromUrl(request: Request, routes: TransformedRoute[]): string | undefined {
-    const path = new URL(request.url).pathname;
+    const path = decodeURI(new URL(request.url).pathname);
     return (
         routes.flatMap(r => r.translations).find(t => t.route === path)?.language.short ||
         path.split("/")[1]

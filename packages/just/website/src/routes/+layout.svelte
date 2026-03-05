@@ -126,7 +126,7 @@
     {#if currentRoute}
         <link rel="canonical" href={currentRouteUrl} />
         <meta name="description" content={currentRoute.description} />
-        <meta name="keywords" content={currentRoute.keywords.join(" ")} />
+        <meta name="keywords" content={currentRoute.keywords.join(", ")} />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={currentRoute.description} />
         <meta property="og:url" content={currentRouteUrl} />

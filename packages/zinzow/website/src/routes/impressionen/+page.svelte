@@ -84,7 +84,7 @@
                     {:else}
                         <div
                             class="
-                                absolute inset-0 z-10 flex items-center justify-center
+                                absolute inset-0 z-10 flex items-center justify-center rounded-md
                                 backdrop-brightness-50
                             ">
                             <button class={stylesMap.button} onclick={onClickYTEnable}>

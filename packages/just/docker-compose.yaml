@@ -27,7 +27,7 @@ services:
     <<: *common-with-healthcheck
     environment:
       PORT: ${ADMINER_PORT}
-    image: ${DOCKER_PROXY}adminer:5.4.1
+    image: ${DOCKER_PROXY}adminer:5.4.2
     labels:
       nginx.port: ${ADMINER_PORT}
       nginx.isInternal: true
@@ -52,7 +52,7 @@ services:
       - SMTP_SECURITY=force_tls
       - SMTP_USERNAME=${SMTP_USERNAME}
       - SMTP_PASSWORD=${SMTP_PASSWORD}
-    image: ${DOCKER_PROXY}vaultwarden/server:1.35.1-alpine
+    image: ${DOCKER_PROXY}vaultwarden/server:1.35.4-alpine
     labels:
       nginx.port: ${BITWARDEN_PORT}
       nginx.maxBodySize: 100M
@@ -75,7 +75,7 @@ services:
       - EMAIL_TRANSPORT=smtp
       - EMAIL_SMTP_HOST=${SMTP_HOST}
       - EMAIL_SMTP_PORT=${SMTP_PORT}
-      - EMAIL_SMTP_USERNAME=${SMTP_USERNAME}
+      - EMAIL_SMTP_USER=${SMTP_USERNAME}
       - EMAIL_SMTP_PASSWORD=${SMTP_PASSWORD}
       - EMAIL_SMTP_SECURE=true
       - EMAIL_SMTP_NAME=CMS
@@ -92,12 +92,12 @@ services:
       - AUTH_KEYCLOAK_GROUP_CLAIM_NAME=groups
     healthcheck:
       <<: *healthcheck-defaults
-      test: ["CMD", "wget", "--spider", "-q", "http://directus:${CMS_PORT}/server/health"]
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:${CMS_PORT}/server/health"]
     image: ${IMAGE_BASE}/just-cms:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${CMS_PORT}
       nginx.requiredRole: just-cms-access
-      nginx.maxBodySize: 100M
+      nginx.maxBodySize: 1G
       nginx.location./admin.useLuaAccess: true
     volumes:
       - directus-extension-registry:/directus/extensions/.registry
@@ -112,7 +112,7 @@ services:
     healthcheck:
       <<: *healthcheck-defaults
       test: ["CMD-SHELL", "[ $(( $(date +%s) - $(cat /tmp/healthcheck) )) -le 30 ] || exit 1"]
-    image: ${DOCKER_PROXY}mcuadros/ofelia:0.3.20
+    image: ${DOCKER_PROXY}mcuadros/ofelia:0.3.21
     labels:
       ofelia.enabled: true
 
@@ -225,7 +225,7 @@ services:
       - CAP_SETFCAP
       - CAP_SETGID
       - CAP_SETUID
-    image: ${DOCKER_PROXY}pihole/pihole:2025.11.1
+    image: ${DOCKER_PROXY}pihole/pihole:2026.02.0
     environment:
       TZ: ${TZ}
       FTLCONF_webserver_api_password: ${DNS_PASSWORD}
@@ -354,7 +354,7 @@ services:
       - DOCKER_PRIVILEGED=true
       - CI_SERVER_URL=http://gitlab
       - CI_SERVER_TOKEN=${GITLAB_RUNNER_TOKEN}
-    image: ${DOCKER_PROXY}gitlab/gitlab-runner:v18.7.1
+    image: ${DOCKER_PROXY}gitlab/gitlab-runner:v18.9.0
     volumes:
       - //var/run/docker.sock:/var/run/docker.sock
 
@@ -366,6 +366,7 @@ services:
       GF_SMTP_HOST: ${SMTP_HOST}:${SMTP_PORT}
       GF_SMTP_USER: ${SMTP_USERNAME}
       GF_SMTP_PASSWORD: ${SMTP_PASSWORD}
+      GF_SMTP_FROM_ADDRESS: ${SMTP_USERNAME}
       GF_AUTH_GENERIC_OAUTH_ENABLED: true
       GF_AUTH_GENERIC_OAUTH_NAME: Keycloak
       GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: true
@@ -386,7 +387,7 @@ services:
       GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_STRICT: true
     healthcheck:
       test: curl -fs http://localhost:${GRAFANA_PORT}/api/health | grep "ok" || exit 1
-    image: ${DOCKER_PROXY}grafana/grafana:12.3.1
+    image: ${DOCKER_PROXY}grafana/grafana:12.4.0
     labels:
       nginx.port: ${GRAFANA_PORT}
       nginx.isInternal: true
@@ -418,7 +419,7 @@ services:
         - "exec 3<>/dev/tcp/127.0.0.1/${KEYCLOAK_PORT};echo -e 'GET /health/live HTTP/1.1\r\nhost:
           http://localhost\r\nConnection: close\r\n\r\n' >&3;if [ $? -eq 0 ]; then echo 'Healthcheck
           Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;"
-    image: ${DOCKER_PROXY}keycloak/keycloak:26.4.7
+    image: ${DOCKER_PROXY}keycloak/keycloak:26.5.4
     labels:
       nginx.domain: auth.${DOMAIN}
       nginx.port: ${KEYCLOAK_PORT}
@@ -514,18 +515,25 @@ services:
   mlflow:
     <<: *common
     environment:
-      - MLFLOW_BACKEND_STORE_URI=postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${DB_NAME}:${DB_PORT}/mlflow
-      - MLFLOW_DEFAULT_ARTIFACT_ROOT=/mlflow/artifacts
-      - MLFLOW_PORT=${MLFLOW_PORT}
-      - MLFLOW_HOST=0.0.0.0
-      - MLFLOW_SERVER_ALLOWED_HOSTS=mlflow:${MLFLOW_PORT},mlflow.${DOMAIN}
+      MLFLOW_BACKEND_STORE_URI: postgresql://${POSTGRES_USERNAME}:${POSTGRES_PASSWORD}@${DB_NAME}:${DB_PORT}/mlflow
+      MLFLOW_DEFAULT_ARTIFACT_ROOT: /mlflow/artifacts
+      MLFLOW_PORT: ${MLFLOW_PORT}
+      MLFLOW_HOST: 0.0.0.0
+      MLFLOW_SERVER_ALLOWED_HOSTS: mlflow:${MLFLOW_PORT},mlflow.${DOMAIN}
+      MLFLOW_SERVER_CORS_ALLOWED_ORIGINS: https://mlflow.${DOMAIN}
     healthcheck:
       <<: *healthcheck-defaults
       test:
         - CMD-SHELL
-        - "exec 3<>/dev/tcp/127.0.0.1/${MLFLOW_PORT};echo -e 'GET /health HTTP/1.1\r\nhost:
-          http://localhost\r\nConnection: close\r\n\r\n' >&3;if [ $? -eq 0 ]; then echo 'Healthcheck
-          Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;"
+        - >-
+          exec 3<>/dev/tcp/127.0.0.1/${MLFLOW_PORT}; echo -e 'GET /health
+          HTTP/1.1\r\nhost:http://localhost\r\nConnection: close\r\n\r\n' >&3; if [ $? -eq 0 ]; then
+            echo 'Healthcheck Successful';
+            exit 0;
+          else
+            echo 'Healthcheck Failed';
+            exit 1;
+          fi;
     image: ${IMAGE_BASE}/shared-mlflow:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${MLFLOW_PORT}
@@ -628,7 +636,7 @@ services:
     cap_add:
       - SYS_PTRACE
       - SYS_ADMIN
-    image: ${DOCKER_PROXY}netdata/netdata:v2.8.4
+    image: ${DOCKER_PROXY}netdata/netdata:v2.9.0
     labels:
       nginx.port: ${NETDATA_PORT}
       nginx.host: 172.17.0.1 # docker host
@@ -669,6 +677,11 @@ services:
       NGINX_AUTH_SESSION_SECRET: ${NGINX_AUTH_SESSION_SECRET}
       MLFLOW_API_KEY: ${MLFLOW_API_KEY}
       MUSIC_PLATFORM_AUTH_USERNAME_HEADER: ${MUSIC_PLATFORM_AUTH_USERNAME_HEADER}
+    healthcheck:
+      <<: *healthcheck-defaults
+      test:
+        - CMD-SHELL
+        - wget -qO- --tries=1 --spider https://${DOMAIN}
     image: ${IMAGE_BASE}/just-nginx:${PROJECT_VERSION:-latest}
     networks:
       default:
@@ -685,7 +698,7 @@ services:
         - CMD-SHELL
         - wget -qO- --tries=1 --spider http://127.0.0.1:${PORTAINER_PORT}/api/system/status || exit
           1
-    image: ${DOCKER_PROXY}portainer/portainer-ce:2.33.6-alpine
+    image: ${DOCKER_PROXY}portainer/portainer-ce:2.39.0-alpine
     labels:
       nginx.port: ${PORTAINER_PORT}
       nginx.isInternal: true
@@ -766,7 +779,7 @@ services:
       - ${TUNNEL_TOKEN}
     healthcheck:
       <<: *healthcheck-defaults
-      test: cloudflared tunnel --metrics ${TUNNEL_METRICS} ready
+      test: ["CMD", "cloudflared", "tunnel", "--metrics", "${TUNNEL_METRICS}", "ready"]
     image: ${DOCKER_PROXY}cloudflare/cloudflared:2026.2.0
     networks:
       default:

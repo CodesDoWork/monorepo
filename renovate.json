@@ -29,20 +29,6 @@
         {
             "customType": "regex",
             "managerFilePatterns": ["**/Dockerfile"],
-            "matchStrings": ["ARG APK_(?<depName>.*?)_VERSION=(?<currentValue>.*)"],
-            "datasourceTemplate": "repology",
-            "depNameTemplate": "alpine_3_23/{{{ replace '_' '-' (lowercase depName) }}}"
-        },
-        {
-            "customType": "regex",
-            "managerFilePatterns": ["**/Dockerfile"],
-            "matchStrings": ["ARG APK22_(?<depName>.*?)_VERSION=(?<currentValue>.*)"],
-            "datasourceTemplate": "repology",
-            "depNameTemplate": "alpine_3_22/{{{ replace '_' '-' (lowercase depName) }}}"
-        },
-        {
-            "customType": "regex",
-            "managerFilePatterns": ["**/Dockerfile"],
             "matchStrings": ["ARG NPM_(?<depName>.*?)_VERSION=(?<currentValue>.*)"],
             "datasourceTemplate": "npm",
             "depNameTemplate": "{{{ replace '_' '-' (replace '__' '/' (replace '__at__' '@' (lowercase depName))) }}}"

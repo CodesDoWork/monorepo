@@ -30,15 +30,7 @@ ARG CONFIG_APP_NAME
 
 RUN mkdir /var/log/nginx
 
-ARG APK22_OPENSSL_DEV_VERSION=3.5.5-r0
-ARG APK22_GIT_VERSION=2.49.1-r0
-ARG APK22_GCC_VERSION=14.2.0-r6
-ARG APK22_DOCKER_VERSION=28.3.3-r5
-RUN apk add --no-cache \
-    openssl-dev=${APK22_OPENSSL_DEV_VERSION} \
-    git=${APK22_GIT_VERSION} \
-    gcc=${APK22_GCC_VERSION} \
-    docker=${APK22_DOCKER_VERSION}
+RUN apk add --no-cache openssl-dev git gcc docker
 ARG LUAROCKS_LUA_RESTY_OPENIDC_VERSION=1.8.0
 RUN luarocks install lua-resty-openidc ${LUAROCKS_LUA_RESTY_OPENIDC_VERSION}
 

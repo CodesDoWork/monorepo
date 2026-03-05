@@ -27,8 +27,7 @@ ARG APP_DIR
 ENV NODE_ENV=production
 
 WORKDIR /app
-ARG APK_YT_DLP_VERSION=2026.02.21-r0
-RUN apk add yt-dlp=${APK_YT_DLP_VERSION}
+RUN apk add yt-dlp
 COPY --from=builder /workspace/dist/packages/${APP_DIR} .
 COPY --from=builder /workspace/packages/${APP_DIR}/package.json .
 

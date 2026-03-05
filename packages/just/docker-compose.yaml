@@ -75,7 +75,7 @@ services:
       - EMAIL_TRANSPORT=smtp
       - EMAIL_SMTP_HOST=${SMTP_HOST}
       - EMAIL_SMTP_PORT=${SMTP_PORT}
-      - EMAIL_SMTP_USERNAME=${SMTP_USERNAME}
+      - EMAIL_SMTP_USER=${SMTP_USERNAME}
       - EMAIL_SMTP_PASSWORD=${SMTP_PASSWORD}
       - EMAIL_SMTP_SECURE=true
       - EMAIL_SMTP_NAME=CMS
@@ -92,7 +92,7 @@ services:
       - AUTH_KEYCLOAK_GROUP_CLAIM_NAME=groups
     healthcheck:
       <<: *healthcheck-defaults
-      test: ["CMD", "wget", "--spider", "-q", "http://directus:${CMS_PORT}/server/health"]
+      test: ["CMD", "wget", "--spider", "-q", "http://127.0.0.1:${CMS_PORT}/server/health"]
     image: ${IMAGE_BASE}/just-cms:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${CMS_PORT}
@@ -366,6 +366,7 @@ services:
       GF_SMTP_HOST: ${SMTP_HOST}:${SMTP_PORT}
       GF_SMTP_USER: ${SMTP_USERNAME}
       GF_SMTP_PASSWORD: ${SMTP_PASSWORD}
+      GF_SMTP_FROM_ADDRESS: ${SMTP_USERNAME}
       GF_AUTH_GENERIC_OAUTH_ENABLED: true
       GF_AUTH_GENERIC_OAUTH_NAME: Keycloak
       GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP: true
@@ -524,9 +525,15 @@ services:
       <<: *healthcheck-defaults
       test:
         - CMD-SHELL
-        - "exec 3<>/dev/tcp/127.0.0.1/${MLFLOW_PORT};echo -e 'GET /health HTTP/1.1\r\nhost:
-          http://localhost\r\nConnection: close\r\n\r\n' >&3;if [ $? -eq 0 ]; then echo 'Healthcheck
-          Successful';exit 0;else echo 'Healthcheck Failed';exit 1;fi;"
+        - >-
+          exec 3<>/dev/tcp/127.0.0.1/${MLFLOW_PORT}; echo -e 'GET /health
+          HTTP/1.1\r\nhost:http://localhost\r\nConnection: close\r\n\r\n' >&3; if [ $? -eq 0 ]; then
+            echo 'Healthcheck Successful';
+            exit 0;
+          else
+            echo 'Healthcheck Failed';
+            exit 1;
+          fi;
     image: ${IMAGE_BASE}/shared-mlflow:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${MLFLOW_PORT}
@@ -670,6 +677,11 @@ services:
       NGINX_AUTH_SESSION_SECRET: ${NGINX_AUTH_SESSION_SECRET}
       MLFLOW_API_KEY: ${MLFLOW_API_KEY}
       MUSIC_PLATFORM_AUTH_USERNAME_HEADER: ${MUSIC_PLATFORM_AUTH_USERNAME_HEADER}
+    healthcheck:
+      <<: *healthcheck-defaults
+      test:
+        - CMD-SHELL
+        - wget -qO- --tries=1 --spider https://${DOMAIN}
     image: ${IMAGE_BASE}/just-nginx:${PROJECT_VERSION:-latest}
     networks:
       default:
@@ -767,7 +779,7 @@ services:
       - ${TUNNEL_TOKEN}
     healthcheck:
       <<: *healthcheck-defaults
-      test: cloudflared tunnel --metrics ${TUNNEL_METRICS} ready
+      test: ["CMD", "cloudflared", "tunnel", "--metrics", "${TUNNEL_METRICS}", "ready"]
     image: ${DOCKER_PROXY}cloudflare/cloudflared:2026.2.0
     networks:
       default:

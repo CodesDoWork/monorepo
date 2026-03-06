@@ -13,7 +13,7 @@
     }
 
     const { data }: Props = $props();
-    const { jsonLdThings } = $derived(data);
+    const { routes, jsonLdThings } = $derived(data);
     // svelte-ignore state_referenced_locally
     // because server side data only loaded once
     const { socials } = data;

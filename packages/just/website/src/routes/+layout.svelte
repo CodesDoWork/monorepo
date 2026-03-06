@@ -49,7 +49,7 @@
         }
     });
 
-    const currentRouteUrl = $derived(`${baseUrl}${currentRoute?.route}`);
+    const currentRouteUrl = $derived(currentRoute ? `${baseUrl}${currentRoute?.route}` : undefined);
     const alternateLinks = $derived(
         allRoutes.find(byId(currentRoute?.id))?.translations.map(t => ({
             hreflang: t.language.short,

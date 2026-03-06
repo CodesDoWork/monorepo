@@ -13,7 +13,10 @@
     }
 
     const { data }: Props = $props();
-    const { description, currentRoute, images, jsonldThings } = $derived(data);
+    const { currentRoute, jsonldThings } = $derived(data);
+    // svelte-ignore state_referenced_locally
+    // because server side data only loaded once
+    const { description, images } = data;
 
     const [imgs1, imgs2] = $derived(splitInHalf(images));
 

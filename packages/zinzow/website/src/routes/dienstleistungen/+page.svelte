@@ -14,7 +14,11 @@
     }
 
     const { data }: Props = $props();
-    const { intro, services, currentRoute, jsonldThings } = $derived(data);
+    const { currentRoute, jsonldThings } = $derived(data);
+    // svelte-ignore state_referenced_locally
+    // because server side data only loaded once
+    const { intro, services } = data;
+
     const [services1, services2] = $derived(splitInHalf(services));
 
     $effect(() => addJsonLdThings(jsonldThings));

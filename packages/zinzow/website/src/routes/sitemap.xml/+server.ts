@@ -24,25 +24,23 @@ async function getSitemapRoutes(): Promise<Route[]> {
 
 function createSitemap(routes: Route[]) {
     return {
-        root: {
-            urlset: {
-                "@xmlns": "https://www.sitemaps.org/schemas/sitemap/0.9",
-                "@xmlns:news": "https://www.google.com/schemas/sitemap-news/0.9",
-                "@xmlns:xhtml": "https://www.w3.org/1999/xhtml",
-                "@xmlns:mobile": "https://www.google.com/schemas/sitemap-mobile/1.0",
-                "@xmlns:image": "https://www.google.com/schemas/sitemap-image/1.1",
-                "@xmlns:video": "https://www.google.com/schemas/sitemap-video/1.1",
-                url: routes.map(createSitemapEntry),
-            },
+        urlset: {
+            "@xmlns": "https://www.sitemaps.org/schemas/sitemap/0.9",
+            "@xmlns:news": "https://www.google.com/schemas/sitemap-news/0.9",
+            "@xmlns:xhtml": "https://www.w3.org/1999/xhtml",
+            "@xmlns:mobile": "https://www.google.com/schemas/sitemap-mobile/1.0",
+            "@xmlns:image": "https://www.google.com/schemas/sitemap-image/1.1",
+            "@xmlns:video": "https://www.google.com/schemas/sitemap-video/1.1",
+            url: routes.map(createSitemapEntry),
         },
     };
 }
 
 function createSitemapEntry(route: Route): SitemapURL {
     return {
-        loc: `${env.DOMAIN}${route.loc}`,
+        loc: `${env.URL}${route.loc}`,
         changefreq: route.changefreq || "daily",
-        priority: 1.0 / ((route.loc.match(/\/[^$]/g)?.length || 0) + 1),
+        priority: 0.5 + 0.5 / ((route.loc.match(/\/[^$]/g)?.length || 0) + 1),
         lastmod: route.lastmod,
     };
 }

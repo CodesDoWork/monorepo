@@ -1,36 +1,31 @@
-import type { ActionHandler } from "@directus/types";
+import type { AbstractServiceOptions, ActionHandler, ExtensionsServices } from "@directus/types";
 import type { Logger } from "pino";
+import type { Env } from "./env";
 import type {
     Dashboard_Config,
     Dashboard_Items,
     Dashboard_Pages,
+    Dashboard_Pages_Dashboard_Sections,
     Dashboard_Sections,
     Dashboard_Widgets,
+    Maybe,
 } from "./generated/types";
-import type {
-    AnyObject,
-    AppConfig,
-    DashyConfig,
-    Item,
-    ItemsServiceConstructor,
-    PageConfig,
-    Widget,
-} from "./types";
+import type { AnyObject, AppConfig, DashyConfig, Item, PageConfig, Section, Widget } from "./types";
 import { readdirSync, rmSync, writeFileSync } from "node:fs";
 import { stringify as stringifyYaml } from "yaml";
+import { getEnv } from "./env";
 
 const DASHBOARD_CONFIG_DIR = "/dashy/config";
 const PUBLIC_URL = "PUBLIC_URL";
 
 export function createDashboardConfig(
     logger: Logger,
-    services: AnyObject,
-    env: AnyObject,
+    services: ExtensionsServices,
+    env: unknown,
 ): ActionHandler {
-    const { ItemsService: itemsServiceConstructor } = services;
     return ({ collection }, { schema, accountability }) => {
         if (collection.startsWith("dashboard_") && schema && accountability) {
-            buildConfig(logger, itemsServiceConstructor, { schema, accountability }, env)
+            buildConfig(logger, services, { schema, accountability }, getEnv(env))
                 .then(saveConfig)
                 .then(() => logger.info("Wrote dashboard config to disk"));
         }
@@ -51,13 +46,13 @@ function cleanConfigDir() {
 
 async function buildConfig(
     logger: Logger,
-    ItemsService: ItemsServiceConstructor,
-    serviceOptions: any,
-    env: AnyObject,
+    services: ExtensionsServices,
+    serviceOptions: AbstractServiceOptions,
+    env: Env,
 ): Promise<DashyConfig> {
     logger.info("Building dashboard config");
-    const appConfig = await getAppConfig(ItemsService, serviceOptions);
-    const pages = await getDashboardPages(ItemsService, serviceOptions);
+    const appConfig = await getAppConfig(services, serviceOptions);
+    const pages = await getDashboardPages(services, serviceOptions);
     const config: DashyConfig = {};
     for (const page of pages) {
         config[page.name] = await createPageConfig(page, appConfig, pages, env);
@@ -68,58 +63,66 @@ async function buildConfig(
 }
 
 function getAppConfig(
-    ItemsService: ItemsServiceConstructor,
-    serviceOptions: unknown,
+    services: ExtensionsServices,
+    serviceOptions: AbstractServiceOptions,
 ): Promise<AppConfig> {
-    const configService = new ItemsService("dashboard_config", serviceOptions);
+    const configService = new services.ItemsService<Dashboard_Config>(
+        "dashboard_config",
+        serviceOptions,
+    );
 
     return configService
         .readSingleton({})
-        .then((res: any) => res as Dashboard_Config)
-        .then((res: any) => ({
-            customCss: res.custom_css,
-            defaultOpeningMethod: res.default_opening_method,
-            disableConfigurationForNonAdmin: res.disable_configuration_for_non_admin,
-            hideComponents: {
-                hideFooter: res.hide_footer,
-                hideSettings: res.hide_settings,
-            },
-            iconSize: res.icon_size,
-            layout: res.layout,
-            preventLocalSave: res.prevent_local_save,
-            preventWriteToDisk: res.prevent_write_to_disk,
-            theme: res.theme,
-            webSearch: {
-                openingMethod: res.websearch_opening_method,
-                searchEngine: res.websearch_search_engine,
-            },
-        }));
+        .then(res => res as Dashboard_Config)
+        .then(
+            res =>
+                ({
+                    customCss: res.custom_css ?? "",
+                    defaultOpeningMethod: res.default_opening_method,
+                    disableConfigurationForNonAdmin:
+                        res.disable_configuration_for_non_admin ?? true,
+                    hideComponents: {
+                        hideFooter: res.hide_footer,
+                        hideSettings: res.hide_settings,
+                    },
+                    iconSize: res.icon_size,
+                    layout: res.layout,
+                    preventLocalSave: res.prevent_local_save,
+                    preventWriteToDisk: res.prevent_write_to_disk,
+                    theme: res.theme,
+                    webSearch: {
+                        openingMethod: res.websearch_opening_method,
+                        searchEngine: res.websearch_search_engine,
+                    },
+                }) satisfies AppConfig,
+        );
 }
 
 function getDashboardPages(
-    ItemsService: ItemsServiceConstructor,
-    serviceOptions: unknown,
+    services: ExtensionsServices,
+    serviceOptions: AbstractServiceOptions,
 ): Promise<Dashboard_Pages[]> {
-    const pageService = new ItemsService("dashboard_pages", serviceOptions);
-    return pageService
-        .readByQuery({
-            fields: [
-                "*",
-                "logo.*",
-                "sections.dashboard_sections_id.*",
-                "sections.dashboard_sections_id.items.dashboard_items_id.*",
-                "sections.dashboard_sections_id.items.dashboard_items_id.icon_img.*",
-                "sections.dashboard_sections_id.widgets.dashboard_widgets_id.*",
-            ],
-        })
-        .then((res: Dashboard_Pages[]) => res as Dashboard_Pages[]);
+    const pageService = new services.ItemsService<Dashboard_Pages>(
+        "dashboard_pages",
+        serviceOptions,
+    );
+    return pageService.readByQuery({
+        fields: [
+            "*",
+            "logo.*",
+            "sections.dashboard_sections_id.*",
+            "sections.dashboard_sections_id.items.dashboard_items_id.*",
+            "sections.dashboard_sections_id.items.dashboard_items_id.icon_img.*",
+            "sections.dashboard_sections_id.widgets.dashboard_widgets_id.*",
+        ],
+    });
 }
 
 async function createPageConfig(
     page: Dashboard_Pages,
     config: AppConfig,
     pages: Dashboard_Pages[],
-    env: AnyObject,
+    env: Env,
 ): Promise<PageConfig> {
     return {
         pageInfo: {
@@ -131,33 +134,39 @@ async function createPageConfig(
             path: `${dashyPage.name}.yml`,
         })),
         appConfig: page.name === "conf" ? config : undefined,
-        sections:
-            page.sections
-                ?.map(section => section?.dashboard_sections_id)
-                .filter(Boolean)
-                .map(section => section as Dashboard_Sections)
-                .map(section => ({
-                    name: section.name,
-                    icon: section.icon,
-                    displayData: {
-                        cutToHeight: section.cut_to_height ?? false,
-                    },
-                    items: section.items
-                        ?.map(item => item?.dashboard_items_id)
-                        .filter(Boolean)
-                        .map(item => item as Dashboard_Items)
-                        .map(createSectionItems(env)),
-                    widgets: section.widgets
-                        ?.map(widget => widget?.dashboard_widgets_id)
-                        .filter(Boolean)
-                        .map(widget => widget as Dashboard_Widgets)
-                        .map(createSectionWidgets)
-                        ?.filter(Boolean),
-                })) ?? [],
+        sections: transformPageSections(page.sections ?? [], env),
     };
 }
 
-function createSectionItems(env: AnyObject) {
+function transformPageSections(
+    sections: Maybe<Dashboard_Pages_Dashboard_Sections>[],
+    env: Env,
+): Section[] {
+    return sections
+        .map(section => section?.dashboard_sections_id)
+        .filter(Boolean)
+        .map(section => section as Dashboard_Sections)
+        .map(section => ({
+            name: section.name,
+            icon: section.icon,
+            displayData: {
+                cutToHeight: section.cut_to_height ?? false,
+            },
+            items: section.items
+                ?.map(item => item?.dashboard_items_id)
+                .filter(Boolean)
+                .map(item => item as Dashboard_Items)
+                .map(createSectionItems(env)),
+            widgets: section.widgets
+                ?.map(widget => widget?.dashboard_widgets_id)
+                .filter(Boolean)
+                .map(widget => widget as Dashboard_Widgets)
+                .map(createSectionWidgets)
+                ?.filter(Boolean),
+        }));
+}
+
+function createSectionItems(env: Env) {
     return (item: Dashboard_Items): Item => {
         return {
             title: item.title,

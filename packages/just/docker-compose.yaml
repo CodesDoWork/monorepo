@@ -526,6 +526,7 @@ services:
       test:
         - CMD-SHELL
         - wget -qO- --tries=1 --spider http://127.0.0.1:${MLFLOW_PORT}/health || exit 1
+    image: ${IMAGE_BASE}/shared-mlflow:${PROJECT_VERSION:-latest}
     labels:
       nginx.port: ${MLFLOW_PORT}
       nginx.luaAccessFile: mlflow-access.lua

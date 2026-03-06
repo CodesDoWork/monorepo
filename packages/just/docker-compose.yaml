@@ -525,16 +525,7 @@ services:
       <<: *healthcheck-defaults
       test:
         - CMD-SHELL
-        - >-
-          exec 3<>/dev/tcp/127.0.0.1:${MLFLOW_PORT}; echo -e 'GET /health
-          HTTP/1.1\r\nhost:http://localhost\r\nConnection: close\r\n\r\n' >&3; if [ $? -eq 0 ]; then
-            echo 'Healthcheck Successful';
-            exit 0;
-          else
-            echo 'Healthcheck Failed';
-            exit 1;
-          fi;
-    image: ${IMAGE_BASE}/shared-mlflow:${PROJECT_VERSION:-latest}
+        - wget -qO- --tries=1 --spider http://127.0.0.1:${MLFLOW_PORT}/health || exit 1
     labels:
       nginx.port: ${MLFLOW_PORT}
       nginx.luaAccessFile: mlflow-access.lua

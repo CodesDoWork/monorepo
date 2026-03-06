@@ -18,10 +18,14 @@
     }
 
     const { data }: Props = $props();
-    const { impressions, videos, jsonldThings } = $derived(data);
-    const { allowYTPrompt, disableTPrompt } = $derived(impressions);
+    const { jsonldThings } = $derived(data);
+    // svelte-ignore state_referenced_locally
+    // because server side data only loaded once
+    const { impressions, videos } = data;
+    const { allowYTPrompt, disableTPrompt } = impressions;
+
     const columns = 6;
-    const gallery = $derived(useGallery(impressions.images, videos, columns));
+    const gallery = useGallery(impressions.images, videos, columns);
 
     const isYTAllowed = getLocalStorageState("isYTAllowed", false);
     function onClickYTEnable(event: MouseEvent) {

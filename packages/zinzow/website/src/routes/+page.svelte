@@ -12,7 +12,9 @@
     }
 
     const { data }: Props = $props();
-    const { landscapeHeros, portraitHeros, imageCycleTimeMs, intro } = $derived(data);
+    // svelte-ignore state_referenced_locally
+    // because server side data only loaded once
+    const { landscapeHeros, portraitHeros, imageCycleTimeMs, intro } = data;
 
     let currentLandscapeHeroImageIdx = $state(0);
     const nextLandscapeHeroImageIdx = $derived(

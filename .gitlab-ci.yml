@@ -237,6 +237,8 @@ image security:
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
       when: never
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
+      when: never
     - when: on_success
 
 workspace security:
@@ -250,6 +252,8 @@ workspace security:
   resource_group: single
   rules:
     - if: $CI_COMMIT_BRANCH =~ /ci\/test-.*/
+      when: never
+    - if: $CI_COMMIT_BRANCH == $MASTER_BRANCH
       when: never
     - when: on_success
 

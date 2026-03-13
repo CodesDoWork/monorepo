@@ -5,7 +5,7 @@ ARG DOCKER_PROXY
 ARG APP_NAME=just-documentation
 ARG APP_DIR=just/documentation
 
-ARG DOCKER_NGINX_VERSION=1.29.5-alpine-slim
+ARG DOCKER_NGINX_VERSION=1.29.6-alpine-slim
 
 
 FROM ${IMAGE_BASE}/workspace-base:${PROJECT_VERSION} AS base

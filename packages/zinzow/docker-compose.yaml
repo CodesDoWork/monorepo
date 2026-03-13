@@ -51,7 +51,7 @@ services:
       - run
       - --token
       - ${TUNNEL_TOKEN}
-    image: ${DOCKER_PROXY}cloudflare/cloudflared:2026.2.0
+    image: ${DOCKER_PROXY}cloudflare/cloudflared:2026.3.0
 
   website:
     <<: *common

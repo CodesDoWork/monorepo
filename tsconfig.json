@@ -60,6 +60,7 @@
                 "packages/shared/svelte/transitions/src/index.ts"
             ],
             "@cdw/monorepo/shared-svelte-utils": ["packages/shared/svelte/utils/src/index.ts"],
+            "@cdw/monorepo/shared-svelte-utils/*": ["packages/shared/svelte/utils/src/lib/*.ts"],
             "@cdw/monorepo/shared-trivy": ["packages/shared/trivy/src/index.ts"],
             "@cdw/monorepo/shared-utils": ["packages/shared/utils/src/index.ts"],
             "@cdw/monorepo/shared-utils/*": [

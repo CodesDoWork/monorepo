@@ -1,13 +1,14 @@
+import { HttpStatusCode } from "@cdw/monorepo/shared-utils/http-status-codes";
 import browser from "webextension-polyfill";
 import { checkStreamHealth, getEventsStream, startDownload } from "./api";
 import { getYoutubeCookiesAsNetscape } from "./cookies";
 
 export class DownloadUI {
-    private urlInput = document.getElementById("urlInput") as HTMLInputElement;
-    private btn = document.getElementById("downloadBtn") as HTMLButtonElement;
-    private statusLabel = document.getElementById("status") as HTMLDivElement;
-    private logContent = document.getElementById("logContent") as HTMLDivElement;
-    private logContainer = document.getElementById("logContainer") as HTMLDivElement;
+    private readonly urlInput = document.getElementById("urlInput") as HTMLInputElement;
+    private readonly btn = document.getElementById("downloadBtn") as HTMLButtonElement;
+    private readonly statusLabel = document.getElementById("status") as HTMLDivElement;
+    private readonly logContent = document.getElementById("logContent") as HTMLDivElement;
+    private readonly logContainer = document.getElementById("logContainer") as HTMLDivElement;
     private eventSource: EventSource | null = null;
 
     constructor() {
@@ -37,7 +38,8 @@ export class DownloadUI {
     private async handleDownloadClick() {
         const url = this.urlInput.value;
         if (!url) {
-            return this.updateStatus("Missing URL", true);
+            this.updateStatus("Missing URL", true);
+            return;
         }
 
         try {
@@ -72,7 +74,7 @@ export class DownloadUI {
 
             try {
                 const res = await checkStreamHealth(id);
-                if (res.status === 404) {
+                if (res.status === HttpStatusCode.NOT_FOUND) {
                     this.terminateSession("Session not found (404)", true);
                 } else if (!res.ok) {
                     this.terminateSession(`Stream error: ${res.status}`, true);

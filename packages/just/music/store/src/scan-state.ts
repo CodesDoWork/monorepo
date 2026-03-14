@@ -30,8 +30,8 @@ export class ScanState {
         return this.pendingJobs > 0;
     }
 
-    get done() {
-        return this._done;
+    get isRunning() {
+        return !this._done || this.hasPendingJobs();
     }
 
     get newlyAddedFiles() {
@@ -40,5 +40,10 @@ export class ScanState {
 
     get alreadyIngestedFiles() {
         return this._alreadyIngestedFiles;
+    }
+
+    handleIngest(wasIngested: boolean) {
+        this.decrementPending();
+        wasIngested ? this.incrementNewlyAddedFiles() : this.incrementAlreadyIngestedFiles();
     }
 }

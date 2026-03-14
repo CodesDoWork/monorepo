@@ -1,4 +1,4 @@
-import type { BSLItem } from "../bsl-item";
+import type { BSLItem } from "../bsl-item/bsl-item";
 import { getContext, setContext } from "svelte";
 
 const bslContextKey = "bsl";

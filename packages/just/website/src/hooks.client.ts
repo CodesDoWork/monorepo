@@ -1,9 +1,8 @@
 import type { HandleServerError } from "@sveltejs/kit";
+import { HttpStatusCode } from "@cdw/monorepo/shared-utils/http-status-codes";
 
-export const handleError: HandleServerError = async ({ error, status, message }) => {
-    console.error(error);
-
+export const handleError: HandleServerError = async ({ status, message }) => {
     return {
-        message: status >= 500 ? "Something went wrong" : message,
+        message: status >= HttpStatusCode.INTERNAL_SERVER_ERROR ? "Something went wrong" : message,
     };
 };

@@ -102,9 +102,9 @@ function moveToStore(from: string, to: string): boolean {
 }
 
 function removeDuplicateStoreFiles(storePath: string) {
-    inodeStorePaths.getSameInodePaths(storePath).forEach(path => {
-        if (path !== storePath) {
-            removeFromStore(path);
+    inodeStorePaths.getSameInodePaths(storePath).forEach(trackPath => {
+        if (trackPath !== storePath) {
+            removeFromStore(trackPath);
         }
     });
 }

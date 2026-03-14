@@ -19,6 +19,13 @@
         },
         {
             "customType": "regex",
+            "managerFilePatterns": [".gitlab-ci.yml"],
+            "matchStrings": ["DOCKER_VERSION: (?<currentValue>.*)"],
+            "datasourceTemplate": "docker",
+            "depNameTemplate": "docker"
+        },
+        {
+            "customType": "regex",
             "managerFilePatterns": ["**/docker-compose.{yml,yaml}"],
             "matchStrings": [
                 "image:\\s*[\"']?(?:\\$\\{DOCKER_PROXY\\})?(?<depName>[^:\\s'\"#]+):(?<currentValue>[^\\s'\"#]+)"

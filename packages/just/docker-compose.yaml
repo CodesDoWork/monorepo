@@ -776,7 +776,7 @@ services:
     healthcheck:
       <<: *healthcheck-defaults
       test: ["CMD", "cloudflared", "tunnel", "--metrics", "${TUNNEL_METRICS}", "ready"]
-    image: ${DOCKER_PROXY}cloudflare/cloudflared:2026.2.0
+    image: ${DOCKER_PROXY}cloudflare/cloudflared:2026.3.0
     networks:
       default:
         ipv4_address: ${TUNNEL_IP}

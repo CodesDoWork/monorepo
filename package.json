@@ -42,7 +42,7 @@
         "hyparquet": "^1.25.1",
         "hyparquet-compressors": "^1.1.1",
         "leaflet": "^1.9.4",
-        "mermaid": "~11.12.3",
+        "mermaid": "~11.13.0",
         "music-metadata": "^11.12.3",
         "nodemailer": "^8.0.2",
         "pino": "^10.3.1",

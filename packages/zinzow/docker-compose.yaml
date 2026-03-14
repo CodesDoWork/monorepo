@@ -22,7 +22,7 @@ services:
       - DB_DATABASE=directus
       - DB_USER=${POSTGRES_USERNAME}
       - DB_PASSWORD=${POSTGRES_PASSWORD}
-    image: ${DOCKER_PROXY}directus/directus:11.15.4
+    image: ${DOCKER_PROXY}directus/directus:11.16.1
     volumes:
       - directus-uploads:/directus/uploads
       - directus-extensions:/directus/extensions

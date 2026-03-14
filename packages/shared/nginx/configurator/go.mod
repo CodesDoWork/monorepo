@@ -1,6 +1,6 @@
 module shared-nginx-configurator
 
-go 1.25.5
+go 1.26.1
 
 require (
 	github.com/bep/debounce v1.2.1

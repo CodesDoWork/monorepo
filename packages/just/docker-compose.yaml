@@ -156,7 +156,7 @@ services:
         ]
 
       ofelia.job-run.docker-clean.command: docker image prune -af
-      ofelia.job-run.docker-clean.image: docker:29.2.1-alpine3.23
+      ofelia.job-run.docker-clean.image: docker:29.3.0-alpine3.23
       ofelia.job-run.docker-clean.schedule: "@every 8h"
       ofelia.job-run.docker-clean.volume: "//var/run/docker.sock:/var/run/docker.sock:ro"
 

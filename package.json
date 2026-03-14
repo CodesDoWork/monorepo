@@ -123,7 +123,7 @@
         "prettier-plugin-tailwindcss": "^0.7.2",
         "schema-dts": "^1.1.5",
         "secretlint": "^11.3.1",
-        "simple-git": "^3.32.3",
+        "simple-git": "^3.33.0",
         "svelte": "5.53.12",
         "svelte-apollo": "^0.5.0",
         "svelte-check": "^4.4.5",

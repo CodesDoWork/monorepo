@@ -43,7 +43,7 @@
         "@graphql-codegen/plugin-helpers": "^6.2.0",
         "@graphql-codegen/typescript": "^5.0.9",
         "@graphql-codegen/typescript-operations": "^5.0.9",
-        "@iconify/json": "^2.2.449",
+        "@iconify/json": "^2.2.450",
         "@iconify/tailwind4": "^1.2.3",
         "@naxodev/gonx": "^3.0.0",
         "@nx/devkit": "22.5.4",
@@ -767,7 +767,7 @@
 
     "@iconify-json/simple-icons": ["@iconify-json/simple-icons@1.2.67", "", { "dependencies": { "@iconify/types": "*" } }, "sha512-RGJRwlxyup54L1UDAjCshy3ckX5zcvYIU74YLSnUgHGvqh6B4mvksbGNHAIEp7dZQ6cM13RZVT5KC07CmnFNew=="],
 
-    "@iconify/json": ["@iconify/json@2.2.449", "", { "dependencies": { "@iconify/types": "*", "pathe": "^2.0.3" } }, "sha512-23uDJsjBeUXqK66dchHDN/YulLeXxUDvAKLwYVKzL0UDT7A9UyHtHPwcOUNf0rbA452ZQMVqk8jsyDtg+xcheg=="],
+    "@iconify/json": ["@iconify/json@2.2.450", "", { "dependencies": { "@iconify/types": "*", "pathe": "^2.0.3" } }, "sha512-dltwhGrVC1guhfqIiFJ+jH21aO1C9RRvIOsAYdmsqKOr3vfMkKnwji4pYpxPEEEg3YQCvVDFpyKCKbfI8Gl/ow=="],
 
     "@iconify/tailwind4": ["@iconify/tailwind4@1.2.3", "", { "dependencies": { "@iconify/tools": "^5.0.5", "@iconify/types": "^2.0.0", "@iconify/utils": "^3.1.0" }, "peerDependencies": { "tailwindcss": ">= 4.0.0" } }, "sha512-z8SKiMHRASJKF/IY//87MF88lcB7ulxh8vlhQXXLWsBkNtOh6ese9R41MyGpQeqXdRvQVt+/fX2glQtHFjQ+MA=="],
 

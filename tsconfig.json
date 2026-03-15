@@ -56,6 +56,9 @@
                 "packages/shared/svelte/contexts/src/index.ts"
             ],
             "@cdw/monorepo/shared-svelte-states": ["packages/shared/svelte/states/src/index.ts"],
+            "@cdw/monorepo/shared-svelte-states/*": [
+                "packages/shared/svelte/states/src/lib/*.svelte.ts"
+            ],
             "@cdw/monorepo/shared-svelte-transitions": [
                 "packages/shared/svelte/transitions/src/index.ts"
             ],

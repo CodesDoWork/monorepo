@@ -136,6 +136,10 @@ export default antfu(
                             ],
                         },
                         {
+                            sourceTag: "just-music-download-addon",
+                            onlyDependOnLibsWithTags: ["shared", "just-music:shared"],
+                        },
+                        {
                             sourceTag: "just-music-store",
                             onlyDependOnLibsWithTags: ["shared", "just-music:shared"],
                         },

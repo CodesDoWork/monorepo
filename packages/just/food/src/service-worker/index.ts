@@ -11,7 +11,7 @@ import type { BSLItem, NutrientPaths } from "../lib/client/bsl-item";
 import { asyncBufferFromUrl, parquetReadObjects } from "hyparquet";
 import { compressors } from "hyparquet-compressors";
 import parquetFile from "../data/bls_4_0_2025_de-brotli.parquet?url";
-import { rawBSLItemToBSLItem } from "../lib/client/bsl-item/bsl-item";
+import { rawBSLItemToBSLItem } from "../lib/client/bsl-item";
 
 const self = globalThis.self as unknown as ServiceWorkerGlobalScope;
 

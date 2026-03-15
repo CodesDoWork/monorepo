@@ -107,17 +107,9 @@ type Message = z.infer<typeof zMessage>;
 
 export const actions: Actions = {
     mail: async event => {
-        const formData = await event.request.formData();
-        const data = {
-            firstName: formData.get("firstName").toString(),
-            lastName: formData.get("lastName").toString(),
-            email: formData.get("email").toString(),
-            message: formData.get("message").toString(),
-            privacy: formData.get("privacy") === "on",
-            attachments: formData.getAll("attachments") as File[],
-        };
-        const { attachments, ...nonAttachmentData } = data;
-        const msgResult = zMessage.safeParse(data);
+        const msg = getMsgData(await event.request.formData());
+        const { attachments, ...nonAttachmentData } = msg;
+        const msgResult = zMessage.safeParse(msg);
         if (!msgResult.success) {
             return { data: nonAttachmentData, errors: z.treeifyError(msgResult.error).properties };
         }
@@ -129,24 +121,8 @@ export const actions: Actions = {
             return { data: nonAttachmentData, errors: privacyErrors };
         }
 
-        const { contact } = await queryDefault({ query: GetContactFormDataDocument });
-        const { msgReceiver } = contact;
         try {
-            const { firstName, lastName, email, message } = data;
-            await mailTransport.sendMail({
-                html: `<p>Von: <strong>${firstName} ${lastName}</strong> <<i>${email}</i>></p><br /><br</> <p>${message.replace(/\n/g, "<br />")}</p>`,
-                from: `Agrarservicenordost Webseite <${env.SMTP_USERNAME}>`,
-                to: msgReceiver,
-                subject: `[Webseite] Neue Nachricht von ${firstName} ${lastName}`,
-                attachments: await Promise.all(
-                    attachments
-                        .filter(att => att.name !== "")
-                        .map(async att => ({
-                            filename: att.name,
-                            content: Buffer.from(await att.arrayBuffer()),
-                        })),
-                ),
-            });
+            await sendMail(msg);
             return { success: true };
         } catch (err) {
             const errors: $ZodErrorTree<Message>["properties"] = {
@@ -156,3 +132,35 @@ export const actions: Actions = {
         }
     },
 };
+
+function getMsgData(formData: FormData): Message {
+    return {
+        firstName: formData.get("firstName").toString(),
+        lastName: formData.get("lastName").toString(),
+        email: formData.get("email").toString(),
+        message: formData.get("message").toString(),
+        privacy: formData.get("privacy") === "on",
+        attachments: formData.getAll("attachments") as File[],
+    };
+}
+
+async function sendMail(msg: Message) {
+    const { contact } = await queryDefault({ query: GetContactFormDataDocument });
+    const { msgReceiver } = contact;
+
+    const { firstName, lastName, email, message } = msg;
+    await mailTransport.sendMail({
+        html: `<p>Von: <strong>${firstName} ${lastName}</strong> <<i>${email}</i>></p><br /><br</> <p>${message.replace(/\n/g, "<br />")}</p>`,
+        from: `Agrarservicenordost Webseite <${env.SMTP_USERNAME}>`,
+        to: msgReceiver,
+        subject: `[Webseite] Neue Nachricht von ${firstName} ${lastName}`,
+        attachments: await Promise.all(
+            msg.attachments
+                .filter(att => att.name !== "")
+                .map(async att => ({
+                    filename: att.name,
+                    content: Buffer.from(await att.arrayBuffer()),
+                })),
+        ),
+    });
+}

@@ -53,7 +53,7 @@ export interface BitwardenApi {
     };
 }
 
-interface Cipher {
+export interface Cipher {
     attachments: unknown;
     card: unknown;
     collectionIds: string[];
@@ -94,7 +94,7 @@ interface Cipher {
     viewPassword: boolean;
 }
 
-interface Collection {
+export interface Collection {
     externalId: string | null;
     hidePasswords: boolean;
     id: string;
@@ -134,7 +134,7 @@ interface Profile {
     usesKeyConnector: boolean;
 }
 
-interface Organization {
+export interface Organization {
     accessSecretsManager: boolean;
     allowAdminAccessToAllCollectionItems: boolean;
     enabled: boolean;

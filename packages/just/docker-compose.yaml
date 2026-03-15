@@ -754,6 +754,7 @@ services:
       nginx.domain: sonar.${DOMAIN}
       nginx.isInternal: true
       nginx.requiredRole: just-sonarqube-access
+      nginx.maxBodySize: 100M
       nginx.gzip: off
       nginx.location./api.pass: true
       nginx.location./batch.pass: true

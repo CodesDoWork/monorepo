@@ -1,14 +1,12 @@
 import type { Handle, HandleServerError } from "@sveltejs/kit";
+import { hasAccept, isJsonRequest } from "@cdw/monorepo/shared-svelte-utils/requests";
 import { getErrorData } from "./lib/server/error-data";
 
 export const handle: Handle = async ({ event, resolve }) => {
     const { request } = event;
-    const hasAccept = request.headers.has("accept") && request.headers.get("accept") !== "*/*";
-    if (hasAccept) {
-        if (request.headers.get("accept") === "application/json") {
-            return resolve(event);
-        }
-    } else {
+    if (isJsonRequest(request)) {
+        return resolve(event);
+    } else if (!hasAccept(request)) {
         // svelte returns 405 for accept */* for path "/"
         event.request.headers.set("accept", "text/html");
     }
@@ -27,7 +25,6 @@ interface SvelteKitError {
 }
 
 export const handleError: HandleServerError = async ({ error }) => {
-    console.error(error);
     const { status, text } = error as SvelteKitError;
     return getErrorData(status, text);
 };

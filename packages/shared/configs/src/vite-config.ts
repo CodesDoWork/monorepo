@@ -21,17 +21,9 @@ export function getViteConfig(options: ViteConfigOptions): UserConfig {
     const root = resolve(dirname, workspaceDir);
     const relativeDirname = relative(root, dirname);
 
-    async function sveltekitFix() {
-        const cwd = process.cwd();
-        process.chdir(dirname);
-        const plugin = await import("@sveltejs/kit/vite").then(({ sveltekit }) => sveltekit());
-        process.chdir(cwd);
-        return plugin;
-    }
-
     const plugins = [nxViteTsPaths(), tailwindcss(), ...extraPlugins];
     if (svelte) {
-        plugins.push(sveltekitFix());
+        plugins.push(sveltekitFix(dirname));
     }
 
     return defineConfig({
@@ -63,4 +55,12 @@ export function getViteConfig(options: ViteConfigOptions): UserConfig {
         appType: "custom" as AppType,
         ...config,
     });
+}
+
+async function sveltekitFix(dirname: string) {
+    const cwd = process.cwd();
+    process.chdir(dirname);
+    const plugin = await import("@sveltejs/kit/vite").then(({ sveltekit }) => sveltekit());
+    process.chdir(cwd);
+    return plugin;
 }

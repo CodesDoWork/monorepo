@@ -113,20 +113,26 @@ function matches(value: string | undefined, filter: string) {
     return filter.endsWith(" ") ? value === filter.slice(0, -1) : value?.includes(filter) === true;
 }
 
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void
+type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never) extends (
+    k: infer I,
+) => void
     ? I
     : never;
 
-type FiltersState<F extends readonly Filter<any, any>[]> = UnionToIntersection<F[number]["state"]>;
+type FiltersState<F extends readonly Filter<string, FilterType>[]> = UnionToIntersection<
+    F[number]["state"]
+>;
 
-function getFilterStates<F extends readonly Filter<any, any>[]>(filters: F): FiltersState<F> {
+function getFilterStates<F extends readonly Filter<string, FilterType>[]>(
+    filterList: F,
+): FiltersState<F> {
     const result = {};
-    filters.forEach(f => {
+    filterList.forEach(f => {
         Object.defineProperty(result, f.name, {
             get() {
                 return f.state[f.name];
             },
-            set(value: any) {
+            set(value: (typeof f.state)[string]) {
                 f.state[f.name] = value;
             },
         });

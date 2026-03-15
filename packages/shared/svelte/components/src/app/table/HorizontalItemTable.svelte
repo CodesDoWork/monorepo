@@ -1,4 +1,4 @@
-<script lang="ts" generics="T">
+<script lang="ts" generics="T extends Record<string, unknown>">
     import type { Snippet } from "svelte";
     import { formatValue, getValueByPath } from "@cdw/monorepo/shared-utils/objects";
     import Table from "./Table.svelte";

@@ -1,5 +1,5 @@
 import type { ExecutorContext, PromiseExecutor } from "@nx/devkit";
-import type { LighthouseExecutorSchema, LighthouseHeaders } from "./schema";
+import type { LighthouseAuthHeader, LighthouseExecutorSchema, LighthouseHeaders } from "./schema";
 import { existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import {
@@ -60,20 +60,24 @@ function getLighthouseHeaders(
 ): Record<string, string> {
     const { Authorization, ...lighthouseHeaders } = headers;
     if (Authorization) {
-        const {
-            expanded: { user, password, token, type },
-        } = replaceEnvsInObject(Authorization, context);
-        if (type === "basic" && user && password) {
-            const credentials = Buffer.from(`${user}:${password}`).toString("base64");
-            lighthouseHeaders.Authorization = `Basic ${credentials}`;
-        }
-
-        if (type === "bearer" && token) {
-            lighthouseHeaders.Authorization = `Bearer ${token}`;
-        }
+        lighthouseHeaders.Authorization = getAuth(Authorization, context);
     }
 
     return lighthouseHeaders;
+}
+
+function getAuth(authorization: LighthouseAuthHeader, context: ExecutorContext): string {
+    const { expanded: auth } = replaceEnvsInObject({ ...authorization }, context);
+    if (auth.type === "basic") {
+        const credentials = Buffer.from(`${auth.user}:${auth.password}`).toString("base64");
+        return `Basic ${credentials}`;
+    }
+
+    if (auth.type === "bearer") {
+        return `Bearer ${auth.token}`;
+    }
+
+    throw new Error("Invalid authorization header configuration");
 }
 
 async function runLighthouse(args: string[], output: string, lighthouseUrl: string) {

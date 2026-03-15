@@ -1,4 +1,4 @@
-export interface PerfectBSLItem {
+export interface PerfectBSLItem extends Record<string, unknown> {
     code: string;
     description: string;
     name: string;

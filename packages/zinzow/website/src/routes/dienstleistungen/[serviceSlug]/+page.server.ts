@@ -3,6 +3,7 @@ import type { PageServerLoad } from "./$types";
 import { directusImageParams } from "@cdw/monorepo/shared-svelte-components";
 import { defaultNull } from "@cdw/monorepo/shared-utils/default-null";
 import { formatWYSIWYG, wysiwygToText } from "@cdw/monorepo/shared-utils/html/common";
+import { HttpStatusCode } from "@cdw/monorepo/shared-utils/http-status-codes";
 import { error } from "@sveltejs/kit";
 import { env } from "../../../env";
 import { queryDefault } from "../../../graphql/default/client";
@@ -18,7 +19,10 @@ export const load: PageServerLoad = async ({ url }) => {
     const { services } = servicesData;
 
     if (services.length === 0) {
-        error(404, await getErrorData(404, "Service not found"));
+        error(
+            HttpStatusCode.NOT_FOUND,
+            await getErrorData(HttpStatusCode.NOT_FOUND, "Service not found"),
+        );
     }
 
     const service = services[0];

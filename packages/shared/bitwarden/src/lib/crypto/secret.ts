@@ -2,6 +2,8 @@ import type { BitwardenClient } from "../client";
 import type { EncryptionType } from "./encryption-type";
 import { ByteData } from "./byte-data";
 
+const ivPayloadMacLength = 3;
+
 export class Secret {
     public readonly encType: EncryptionType;
     public readonly iv?: ByteData;
@@ -15,16 +17,9 @@ export class Secret {
         public readonly display: string,
         public readonly organizationId: string | null = null,
     ) {
-        const [encType, key] = display.split(".");
-        const keyInfos =
-            key?.split("|").map(info => new ByteData(Buffer.from(info, "base64"))) || [];
-
-        if (!encType || !key || !keyInfos.length) {
-            throw new Error("Invalid secret");
-        }
-
-        this.encType = +encType;
-        if (keyInfos.length === 3) {
+        const { encType, keyInfos } = this.getEncDetails(display);
+        this.encType = encType;
+        if (keyInfos.length === ivPayloadMacLength) {
             const [iv, payload, mac] = keyInfos;
             this.iv = iv;
             this.payload = payload as ByteData;
@@ -34,6 +29,18 @@ export class Secret {
         } else {
             throw new Error("Invalid secret");
         }
+    }
+
+    private getEncDetails(display: string) {
+        const [encType, key] = display.split(".");
+        const keyInfos =
+            key?.split("|").map(info => new ByteData(Buffer.from(info, "base64"))) || [];
+
+        if (!encType || !keyInfos.length) {
+            throw new Error("Invalid secret");
+        }
+
+        return { encType: Number(encType), keyInfos };
     }
 
     public async getValue(): Promise<ByteData> {

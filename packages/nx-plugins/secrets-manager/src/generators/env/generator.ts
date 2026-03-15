@@ -39,11 +39,11 @@ async function generateEnvFiles(
     options: EnvFilesGeneratorSchema,
     generator: BitwardenEnvGenerator,
 ) {
-    if (projectConfigExists(tree, root) && options.dirs.includes(root)) {
+    if (shouldGenerateEnvFile(tree, root, options)) {
         await generator.createEnvFile(root);
     }
 
-    if (options["no-recursive"] || !options.recursive) {
+    if (!isRecursive(options)) {
         return;
     }
 
@@ -52,6 +52,19 @@ async function generateEnvFiles(
     for (const dir of dirsToProcess) {
         await generateEnvFiles(tree, dir, options, generator);
     }
+}
+
+function shouldGenerateEnvFile(
+    tree: Tree,
+    root: string,
+    options: EnvFilesGeneratorSchema,
+): boolean {
+    return projectConfigExists(tree, root) && options.dirs.includes(root);
+}
+
+function isRecursive(options: EnvFilesGeneratorSchema): boolean {
+    const isNotRecursive = options["no-recursive"] || !options.recursive;
+    return !isNotRecursive;
 }
 
 function getChildDirs(root: string): string[] {
@@ -67,9 +80,7 @@ async function getGitIncludedDirs(dirs: string[]): Promise<string[]> {
 
     const ignoredDirs = await git
         .checkIgnore(dirs)
-        .then(ignoredDirs =>
-            ignoredDirs.map(path.normalize).map(dirPath => dirPath.replace(/"/g, "")),
-        );
+        .then(ds => ds.map(path.normalize).map(dirPath => dirPath.replace(/"/g, "")));
     return dirs.filter(dir => !ignoredDirs.includes(dir));
 }
 

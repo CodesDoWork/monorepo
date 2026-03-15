@@ -15,7 +15,7 @@ export default {
             return getUnauthorizedResponse("Invalid Credentials");
         }
 
-        return await fetch(request);
+        return fetch(request);
     },
 } satisfies ExportedHandler<Env>;
 

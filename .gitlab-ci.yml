@@ -192,7 +192,8 @@ svelte check:
 sonarqube:
   stage: lint
   script:
-    - sonar -Dsonar.host.url=${SONAR_HOST_URL} -Dsonar.token=${SONAR_TOKEN}
+    - sonar -Dsonar.projectVersion=${CI_PIPELINE_IID} -Dsonar.host.url=${SONAR_HOST_URL}
+      -Dsonar.token=${SONAR_TOKEN}
   allow_failure: true
   rules:
     - if: $CI_COMMIT_BRANCH == $DEV_BRANCH

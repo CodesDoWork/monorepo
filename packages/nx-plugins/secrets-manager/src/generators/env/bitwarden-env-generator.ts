@@ -246,11 +246,9 @@ export class BitwardenEnvGenerator {
     ): Promise<string | undefined> {
         for (const stage of this.stages) {
             const cipher = ciphers[stage];
-            if (cipher) {
-                const secretValue = await getCipherSecret(cipher, field);
-                if (secretValue) {
-                    return secretValue;
-                }
+            const secretValue = cipher ? await getCipherSecret(cipher, field) : undefined;
+            if (secretValue) {
+                return secretValue;
             }
         }
 

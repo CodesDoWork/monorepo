@@ -1,2 +1,2 @@
-export * from "./create-nodes";
+export { createNodes } from "./create-nodes";
 export type { VitepressAssets } from "./executors/schema";

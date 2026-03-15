@@ -31,17 +31,17 @@ export function replaceEnvsInArray(
     return replaceEnvsInType(context, replaceEnvs => args.map(replaceEnvs));
 }
 
-export function replaceEnvsInObject(
-    args: Record<string, string>,
+export function replaceEnvsInObject<T extends Record<string, string>>(
+    args: T,
     context: ExecutorContext,
-): ReplaceEnvResult<Record<string, string>> {
+): ReplaceEnvResult<T> {
     return replaceEnvsInType(
         context,
         replaceEnvs =>
             Object.entries(args).reduce(
                 (acc, [key, value]) => ({ ...acc, [key]: replaceEnvs(value) }),
                 {},
-            ) as Record<string, string>,
+            ) as T,
     );
 }
 

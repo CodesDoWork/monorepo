@@ -15,9 +15,9 @@ export async function getCipherSecret(cipher: Cipher, field: string): Promise<st
         secret = cipher.login[field];
     } else {
         const fields: Record<string, Field> = {};
-        for (const field of cipher.fields) {
-            const fieldName = await field.name.getValue();
-            fields[fieldName.str.toLowerCase()] = field;
+        for (const cipherField of cipher.fields) {
+            const fieldName = await cipherField.name.getValue();
+            fields[fieldName.str.toLowerCase()] = cipherField;
         }
 
         secret = fields[field]?.value ?? null;

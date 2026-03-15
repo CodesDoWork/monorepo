@@ -12,29 +12,24 @@ type TransOf<T extends ObjectWithTranslations> =
         ? PreserveNullable<E, T["translations"]>
         : never;
 
-type NextLevel<L extends number> = L extends 1
-    ? 2
-    : L extends 2
-      ? 3
-      : L extends 3
-        ? 4
-        : L extends 4
-          ? 5
-          : never;
+type NextLevels = [1, 2, 3, 4, 5];
+type NextLevel<L extends number> = NextLevels[L];
+type Last<T extends readonly unknown[]> = T extends [...infer _, infer L] ? L : never;
 
-export type FlatTrans<T, L extends number = 1> = L extends 5
-    ? T
-    : NonNullable<T> extends Array<infer E>
-      ? PreserveNullable<FlatTrans<E, NextLevel<L>>[], T>
-      : NonNullable<T> extends ObjectWithTranslations
-        ? PreserveNullable<
-              FlatTrans<Omit<NonNullable<T>, "translations">, NextLevel<L>> &
-                  TransOf<NonNullable<T>>,
-              T
-          >
-        : {
-              [K in keyof T]: FlatTrans<T[K]>;
-          };
+export type FlatTrans<T, L extends number = 1> =
+    L extends Last<NextLevels>
+        ? T
+        : NonNullable<T> extends Array<infer E>
+          ? PreserveNullable<FlatTrans<E, NextLevel<L>>[], T>
+          : NonNullable<T> extends ObjectWithTranslations
+            ? PreserveNullable<
+                  FlatTrans<Omit<NonNullable<T>, "translations">, NextLevel<L>> &
+                      TransOf<NonNullable<T>>,
+                  T
+              >
+            : {
+                  [K in keyof T]: FlatTrans<T[K]>;
+              };
 
 export function flattenTranslations<T>(input: T): FlatTrans<T> {
     return transformTranslations(input) as FlatTrans<T>;
@@ -49,11 +44,12 @@ function transformTranslations(input: unknown): unknown {
         return input.map(transformTranslations);
     }
 
+    return tranformTranslationsOnObject(input);
+}
+
+function tranformTranslationsOnObject(input: object): object {
     if ("translations" in input) {
-        const { translations, ...rest } = input;
-        if (isTranslations(translations)) {
-            input = { ...rest, ...translations[0] };
-        }
+        input = transformTranslationsArrayToObject(input);
     }
 
     return Object.entries(input as object).reduce(
@@ -63,6 +59,11 @@ function transformTranslations(input: unknown): unknown {
         }),
         {},
     );
+}
+
+function transformTranslationsArrayToObject(input: { translations: unknown }) {
+    const { translations, ...rest } = input;
+    return isTranslations(translations) ? { ...rest, ...translations[0] } : input;
 }
 
 function isTranslations(translations: unknown): translations is object[] {

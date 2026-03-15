@@ -1,3 +1,3 @@
 export { BitwardenClient } from "./lib/client";
-export * from "./lib/crypto";
-export * from "./lib/data";
+export { Secret } from "./lib/crypto";
+export type { BitwardenData, Cipher, Collection, Field, Organization, Profile } from "./lib/data";

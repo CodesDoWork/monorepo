@@ -1,1 +1,1 @@
-export * from "./lib/trivy";
+export { trivyAnalyzeFs, trivyAnalyzeImage } from "./lib/trivy";

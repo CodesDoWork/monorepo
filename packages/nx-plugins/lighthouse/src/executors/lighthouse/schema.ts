@@ -5,10 +5,18 @@ export interface LighthouseExecutorSchema {
 }
 
 export type LighthouseHeaders = Record<string, string> & {
-    Authorization?: {
-        user?: string;
-        password?: string;
-        token?: string;
-        type: "basic" | "bearer";
-    };
+    Authorization?: LighthouseAuthHeader;
 };
+
+export type LighthouseAuthHeader = BasicAuthHeader | BearerAuthHeader;
+
+export interface BasicAuthHeader {
+    type: "basic";
+    user: string;
+    password: string;
+}
+
+export interface BearerAuthHeader {
+    type: "bearer";
+    token: string;
+}

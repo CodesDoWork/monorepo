@@ -48,7 +48,6 @@ export function trivyAnalyzeFs(options: TrivyOptions): Promise<void> {
 }
 
 async function runTrivy(params: string[], target: string, options: TrivyOptions): Promise<void> {
-    const { DOCKER_PROXY } = options;
     const runKey = `${target}-${new Date().toISOString()}`;
     const jsonReport = join(INTERNAL_REPORTS_DIR, `${runKey}.json`);
     const workspaceDir = findNextHigherDirWith("nx.json");
@@ -61,31 +60,9 @@ async function runTrivy(params: string[], target: string, options: TrivyOptions)
         configFile = `${homedir()}/.docker/config.json`;
     }
 
-    const trivyBaseOptions = [
-        "run --rm",
-        "--pull always",
-        "-v //var/run/docker.sock:/var/run/docker.sock:ro",
-        `-v ${configFile}:/root/.docker/config.json:ro`,
-        `-v ${workspaceDir}/.cache/trivy:/tmp/trivy`,
-        `-v ${workspaceDir}:${WORKSPACE_MOUNT}`,
-        `${DOCKER_PROXY}aquasec/trivy`,
-        "--cache-dir /tmp/trivy/",
-    ];
-
-    const repoOptions = [
-        "--db-repository ghcr.io/aquasecurity/trivy-db:2,public.ecr.aws/aquasecurity/trivy-db:2",
-        "--java-db-repository ghcr.io/aquasecurity/trivy-java-db:1,public.ecr.aws/aquasecurity/trivy-java-db:1",
-        "--format json",
-        `--output ${jsonReport}`,
-    ];
-
-    const htmlConvertOptions = [
-        "convert",
-        "--format template",
-        "--template @contrib/html.tpl",
-        `--output ${INTERNAL_REPORTS_DIR}/${runKey}.html`,
-    ];
-
+    const trivyBaseOptions = getTrivyBaseOptions(configFile, workspaceDir, options.DOCKER_PROXY);
+    const repoOptions = getRepoOptions(jsonReport);
+    const htmlConvertOptions = getHtmlConvertOptions(runKey);
     const failOptions = ["convert", "--exit-code 1", "--severity CRITICAL"];
 
     mkdir(dirname(join(workspaceDir, TRIVY_REPORTS_DIR, `${runKey}.json`)));
@@ -105,4 +82,39 @@ async function runTrivy(params: string[], target: string, options: TrivyOptions)
     }
 
     return Promise.resolve();
+}
+
+function getTrivyBaseOptions(
+    dockerConfigFile: string,
+    workspaceDir: string,
+    dockerProxy: string,
+): string[] {
+    return [
+        "run --rm",
+        "--pull always",
+        "-v //var/run/docker.sock:/var/run/docker.sock:ro",
+        `-v ${dockerConfigFile}:/root/.docker/config.json:ro`,
+        `-v ${workspaceDir}/.cache/trivy:/tmp/trivy`,
+        `-v ${workspaceDir}:${WORKSPACE_MOUNT}`,
+        `${dockerProxy}aquasec/trivy`,
+        "--cache-dir /tmp/trivy/",
+    ];
+}
+
+function getRepoOptions(outputFile: string): string[] {
+    return [
+        "--db-repository ghcr.io/aquasecurity/trivy-db:2,public.ecr.aws/aquasecurity/trivy-db:2",
+        "--java-db-repository ghcr.io/aquasecurity/trivy-java-db:1,public.ecr.aws/aquasecurity/trivy-java-db:1",
+        "--format json",
+        `--output ${outputFile}`,
+    ];
+}
+
+function getHtmlConvertOptions(runKey: string): string[] {
+    return [
+        "convert",
+        "--format template",
+        "--template @contrib/html.tpl",
+        `--output ${INTERNAL_REPORTS_DIR}/${runKey}.html`,
+    ];
 }

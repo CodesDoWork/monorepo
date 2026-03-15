@@ -1,4 +1,15 @@
-export * from "./app";
+export {
+    ActionButton,
+    Card,
+    DataTree,
+    Header,
+    HorizontalItemTable,
+    Popup,
+    Search,
+    Selection,
+    SmallButton,
+    Table,
+} from "./app";
 export { Button, LinkButton } from "./buttons";
 export type { DirectusImageFile, DirectusImageParams } from "./directus-image";
 export { DirectusImage, directusImageParams } from "./directus-image";

@@ -8,6 +8,7 @@
 /// <reference types="@sveltejs/kit" />
 
 import type { BSLItem, NutrientPaths } from "../lib/client/bsl-item";
+import { getValueByPath } from "@cdw/monorepo/shared-utils/objects";
 import { asyncBufferFromUrl, parquetReadObjects } from "hyparquet";
 import { compressors } from "hyparquet-compressors";
 import parquetFile from "../data/bls_4_0_2025_de-brotli.parquet?url";
@@ -30,10 +31,6 @@ function getBSLData() {
             return bslItems;
         });
     });
-}
-
-function getValueByPath(obj: Record<string, unknown>, path: string): number | bigint {
-    return path.split(".").reduce((acc, part) => acc && acc[part], obj);
 }
 
 function tagTopNutrients(data: BSLItem[], threshold: number) {

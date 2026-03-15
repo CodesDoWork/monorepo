@@ -1,4 +1,4 @@
-export function formatValue(val: unknown, precision: number = 2): string {
+export function formatValue(val: unknown, precision = 2): string {
     if (typeof val === "bigint") {
         return val.toString();
     }
@@ -12,20 +12,39 @@ export function formatValue(val: unknown, precision: number = 2): string {
     return String(val);
 }
 
-export function getValueByPath(obj: any, path: string) {
-    return path.split(".").reduce((acc, part) => acc && acc[part], obj);
+export function getValueByPath<T = unknown>(
+    obj: Record<string, unknown>,
+    path: string,
+): T | undefined {
+    return path
+        .split(".")
+        .reduce<unknown>((acc, part) => (hasKey(acc, part) ? acc[part] : undefined), obj) as
+        | T
+        | undefined;
 }
 
-export function getFlattenedKeys(obj: any, prefix = ""): string[] {
+export function getFlattenedKeys(obj: Record<string, unknown>, prefix = ""): string[] {
     let keys: string[] = [];
     for (const key in obj) {
-        if (typeof obj[key] === "object" && !Array.isArray(obj[key]) && obj[key] !== null) {
-            keys = keys.concat(getFlattenedKeys(obj[key], `${prefix + key}.`));
+        const value = obj[key];
+        if (isObject(value)) {
+            keys = keys.concat(
+                getFlattenedKeys(value as Record<string, unknown>, `${prefix}${key}.`),
+            );
         } else {
             keys.push(prefix + key);
         }
     }
+
     return keys;
+}
+
+export function isObject(obj: unknown): obj is Record<string, unknown> {
+    return typeof obj === "object" && obj !== null && !Array.isArray(obj);
+}
+
+export function hasKey(obj: unknown, key: string): obj is Record<string, unknown> {
+    return isObject(obj) && key in obj;
 }
 
 export type PathsOf<T> = T extends object

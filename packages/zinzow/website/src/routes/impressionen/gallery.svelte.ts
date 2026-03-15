@@ -3,13 +3,10 @@ import type { Video } from "../../components/impressions/types";
 import type { PageData } from "./$types";
 
 type Image = PageData["impressions"]["images"][number];
+type Item = Image | Video;
 
 export function useGallery(images: Image[], videos: Video[], columns: number) {
-    const columnsArray = Array.from({ length: columns }).map(() => [] as (Image | Video)[]);
-    images.forEach((_, idx) => columnsArray[idx % columns].push(images[idx]));
-    videos.forEach((_, idx) => columnsArray[(idx + images.length) % columns].push(videos[idx]));
-
-    let showDialog = $state(false);
+    const columnsArray = buildColumns(images, videos, columns);
 
     let selectedItemCol = $state(0);
     let selectedItemRow = $state(0);
@@ -27,56 +24,32 @@ export function useGallery(images: Image[], videos: Video[], columns: number) {
         clickedSelectedRow = row;
     }
 
-    const rotateRow = $derived((forwards: boolean = true) => {
+    let showDialog = $state(false);
+
+    const rotateRow = $derived((forwards = true) => {
         const nextRow = selectedItemRow + (forwards ? 1 : -1);
         const colLength = columnsArray[selectedItemCol].length;
         selectedItemRow = nextRow >= 0 ? nextRow % colLength : colLength - 1;
     });
 
-    const rotateCol = $derived((forwards: boolean = true) => {
+    const rotateCol = $derived((forwards = true) => {
         const nextCol = selectedItemCol + (forwards ? 1 : -1);
-        let selectedCol = nextCol >= 0 ? nextCol % columns : columns - 1;
-        let selectedRow = selectedItemRow + (nextCol >= 0 ? Math.floor(nextCol / columns) : -1);
-
-        if (selectedRow < 0) {
-            const sortedColLengths = columnsArray
-                .map((col, idx) => ({ length: col.length, idx }))
-                .sort((a, b) => b.idx - a.idx)
-                .sort((a, b) => b.length - a.length);
-            const lastLongCol = sortedColLengths[0].idx;
-
-            selectedCol = lastLongCol;
-            selectedRow = columnsArray[lastLongCol].length - 1;
-        } else if (selectedRow >= columnsArray[selectedCol].length) {
-            selectedCol = 0;
-            selectedRow = 0;
-        }
-
-        selectedItemCol = selectedCol;
-        selectedItemRow = selectedRow;
+        const nextItem = selectNextCol(nextCol, selectedItemRow, columnsArray);
+        selectedItemCol = nextItem.selectedCol;
+        selectedItemRow = nextItem.selectedRow;
     });
 
     const handleKey = $derived((event: KeyboardEvent) => {
-        function handle(func: () => void) {
-            event.preventDefault();
-            func();
-        }
-
-        if (showDialog && event.key === "Escape") {
-            handle(() => (showDialog = false));
-        } else if (!showDialog && event.key === "Enter") {
-            handle(() => (showDialog = true));
-        }
-
-        if (event.key === "ArrowRight") {
-            handle(() => rotateCol());
-        } else if (event.key === "ArrowLeft") {
-            handle(() => rotateCol(false));
-        } else if (event.key === "ArrowUp") {
-            handle(() => rotateRow(false));
-        } else if (event.key === "ArrowDown") {
-            handle(() => rotateRow());
-        }
+        const handle = preventDefaultIfHandled(event);
+        const handlers: Record<string, () => void> = {
+            ArrowRight: () => rotateCol(true),
+            ArrowLeft: () => rotateCol(false),
+            ArrowUp: () => rotateRow(false),
+            ArrowDown: () => rotateRow(true),
+            Escape: () => (showDialog = false),
+            Enter: () => (showDialog = true),
+        };
+        handle(handlers[event.key]);
     });
 
     function resetSelectedItem() {
@@ -116,6 +89,52 @@ export function useGallery(images: Image[], videos: Video[], columns: number) {
         selectItem,
         clickItem,
         resetSelectedItem,
+    };
+}
+
+function buildColumns(images: Image[], videos: Video[], columns: number): Item[][] {
+    const cols: Item[][] = Array.from({ length: columns }, () => [] as Item[]);
+    [...images, ...videos].forEach((item, index) => {
+        cols[index % columns].push(item);
+    });
+
+    return cols;
+}
+
+function selectNextCol(nextCol: number, selectedItemRow: number, columnsArray: Item[][]) {
+    const columns = columnsArray.length;
+    const selectedCol = nextCol >= 0 ? nextCol % columns : columns - 1;
+    const selectedRow = selectedItemRow + (nextCol >= 0 ? Math.floor(nextCol / columns) : -1);
+    return ensureBounds(selectedRow, selectedCol, columnsArray);
+}
+
+function ensureBounds(selectedRow: number, selectedCol: number, columnsArray: Item[][]) {
+    if (selectedRow < 0) {
+        const lastLongesCol = getLasLongestCol(columnsArray);
+        selectedCol = lastLongesCol;
+        selectedRow = columnsArray[lastLongesCol].length - 1;
+    } else if (selectedRow >= columnsArray[selectedCol].length) {
+        selectedCol = 0;
+        selectedRow = 0;
+    }
+
+    return { selectedCol, selectedRow };
+}
+
+function getLasLongestCol(columnsArray: Item[][]) {
+    const sortedColLengths = columnsArray
+        .map((col, idx) => ({ length: col.length, idx }))
+        .sort((a, b) => b.idx - a.idx)
+        .sort((a, b) => b.length - a.length);
+    return sortedColLengths[0].idx;
+}
+
+function preventDefaultIfHandled(event: Event) {
+    return function (func?: () => void) {
+        if (func) {
+            event.preventDefault();
+            func();
+        }
     };
 }
 

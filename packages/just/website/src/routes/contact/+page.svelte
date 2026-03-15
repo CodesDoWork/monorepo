@@ -13,10 +13,7 @@
     }
 
     const { data, form }: Props = $props();
-    const { privacyPolicyRoute, jsonLdThings } = $derived(data);
-    // svelte-ignore state_referenced_locally
-    // because server side data only loaded once
-    const { socials, texts } = data;
+    const { privacyPolicyRoute, jsonLdThings, socials, texts } = $derived(data);
     $effect(() => addJsonLdThings(jsonLdThings));
 
     const { false: mainSocials, true: seeMoreSocials } = $derived(

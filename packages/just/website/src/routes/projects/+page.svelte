@@ -12,10 +12,7 @@
     }
 
     const { data }: Props = $props();
-    const { jsonLdThings } = $derived(data);
-    // svelte-ignore state_referenced_locally
-    // because server side data only loaded once
-    const { projects, texts } = data;
+    const { jsonLdThings, projects, texts } = $derived(data);
     $effect(() => addJsonLdThings(jsonLdThings));
 
     $effect(() => {

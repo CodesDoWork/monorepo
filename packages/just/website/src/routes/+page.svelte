@@ -13,10 +13,7 @@
     }
 
     const { data }: Props = $props();
-    const { routes, jsonLdThings } = $derived(data);
-    // svelte-ignore state_referenced_locally
-    // because server side data only loaded once
-    const { socials } = data;
+    const { routes, jsonLdThings, socials } = $derived(data);
     $effect(() => addJsonLdThings(jsonLdThings));
 
     const homePageLinks = $derived(routes.filter(r => r.inNav));

@@ -7,9 +7,7 @@
     }
 
     const { data }: Props = $props();
-    // svelte-ignore state_referenced_locally
-    // because server side data only loaded once
-    const { content } = data;
+    const { content } = $derived(data);
 </script>
 
 <WidthBox>

@@ -13,14 +13,10 @@
     }
 
     const { data }: Props = $props();
-    const { currentRoute, jsonldThings } = $derived(data);
-    // svelte-ignore state_referenced_locally
-    // because server side data only loaded once
-    const { description, images } = data;
+    const { currentRoute, jsonldThings, description, images } = $derived(data);
+    $effect(() => addJsonLdThings(jsonldThings));
 
     const [imgs1, imgs2] = $derived(splitInHalf(images));
-
-    $effect(() => addJsonLdThings(jsonldThings));
 </script>
 
 <WidthBox class="isolate">

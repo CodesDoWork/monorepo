@@ -27,10 +27,8 @@
     }
 
     const { data, form }: Props = $props();
-    const { jsonldThings } = $derived(data);
-    // svelte-ignore state_referenced_locally
-    // because server side data only loaded once
     const {
+        jsonldThings,
         texts,
         title,
         intro,
@@ -47,7 +45,7 @@
         mapThumbnail,
         allowMapPrompt,
         disableMapPrompt,
-    } = data;
+    } = $derived(data);
 
     const mapAnchor = $derived(normalizeAnchor(findUs));
 

@@ -16,10 +16,16 @@
     }
 
     const { data }: Props = $props();
-    const { currentLanguage, jsonLdThings } = $derived(data);
-    // svelte-ignore state_referenced_locally
-    // because server side data only loaded once
-    const { about, workExperiences, techStack, disc, bigFive, mbti } = data;
+    const {
+        currentLanguage,
+        jsonLdThings,
+        about,
+        workExperiences,
+        techStack,
+        disc,
+        bigFive,
+        mbti,
+    } = $derived(data);
     $effect(() => addJsonLdThings(jsonLdThings));
 
     const cardClass = "flex-col";

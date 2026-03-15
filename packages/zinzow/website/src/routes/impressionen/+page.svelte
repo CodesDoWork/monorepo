@@ -18,10 +18,7 @@
     }
 
     const { data }: Props = $props();
-    const { jsonldThings } = $derived(data);
-    // svelte-ignore state_referenced_locally
-    // because server side data only loaded once
-    const { impressions, videos } = data;
+    const { jsonldThings, impressions, videos } = $derived(data);
     const { allowYTPrompt, disableTPrompt } = impressions;
 
     const columns = 6;

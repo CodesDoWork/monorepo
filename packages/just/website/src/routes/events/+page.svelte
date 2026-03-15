@@ -18,10 +18,7 @@
     }
 
     const { data }: Props = $props();
-    const { currentLanguage, jsonLdThings } = $derived(data);
-    // svelte-ignore state_referenced_locally
-    // because server side data only loaded once
-    const { events, texts } = data;
+    const { currentLanguage, jsonLdThings, events, texts } = $derived(data);
     $effect(() => addJsonLdThings(jsonLdThings));
 
     const overlayContext = getOverlayContext();

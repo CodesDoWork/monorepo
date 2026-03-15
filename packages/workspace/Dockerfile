@@ -21,6 +21,6 @@ RUN apk add --no-cache \
     # Golang
     go
 
-ARG NPM___AT__ANTFU__NI_VERSION=28.3.0
+ARG NPM___AT__ANTFU__NI_VERSION=29.0.0
 ARG NPM_BUN_VERSION=1.3.10
 RUN npm i -g @antfu/ni@${NPM___AT__ANTFU__NI_VERSION} bun@${NPM_BUN_VERSION}

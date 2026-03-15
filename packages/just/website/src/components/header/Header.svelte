@@ -1,7 +1,7 @@
 <script lang="ts">
+    import type { ThemeState } from "@cdw/monorepo/shared-svelte-states/theme";
     import type { LanguageFragment } from "../../graphql/default/generated/graphql";
     import type { Route } from "../../routes/types";
-    import type { ThemeState } from "../../states/theme.svelte";
     import { clsx } from "clsx";
     import { fade, slide } from "svelte/transition";
     import { Link } from "../texts";

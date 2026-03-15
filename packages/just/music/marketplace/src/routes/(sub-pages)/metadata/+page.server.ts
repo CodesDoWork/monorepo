@@ -9,6 +9,9 @@ type MetaKey = keyof Track["meta"];
 const errorFields: MetaKey[] = ["title", "artist", "genre"];
 const warnFields: MetaKey[] = ["year"];
 
+const BAD_BITRATE = 128_000;
+const LOW_BITRATE = 192_000;
+
 export const load: PageServerLoad = async ({ request }) => {
     const userLib = getMusicLib(request);
     const tracks = getTracks()
@@ -29,9 +32,9 @@ export const load: PageServerLoad = async ({ request }) => {
             });
 
             if (meta.bitrate) {
-                if (meta.bitrate < 128_000) {
+                if (meta.bitrate < BAD_BITRATE) {
                     errors.push("<strong>Bitrate</strong> ciritcally low");
-                } else if (meta.bitrate <= 192_000) {
+                } else if (meta.bitrate <= LOW_BITRATE) {
                     warnings.push("<strong>Bitrate</strong> low");
                 }
             }

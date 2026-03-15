@@ -24,9 +24,9 @@ async function getSitemapRoutes(): Promise<SitemapURL[]> {
 
     const urls: SitemapURL[] = [];
     transformedRoutes.forEach(r => {
-        r.translations.forEach(t => {
+        r.translations.forEach(routeTranslation => {
             urls.push({
-                loc: `${env.URL}${t.route}`,
+                loc: `${env.URL}${routeTranslation.route}`,
                 changefreq: "monthly",
                 "xhtml:link": r.translations.map(t => ({
                     "@rel": "alternate",

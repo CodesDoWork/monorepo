@@ -9,6 +9,7 @@
     }
 
     const { filters, class: className }: Props = $props();
+    const { states: filterStates } = $derived(filters);
 </script>
 
 <div
@@ -32,16 +33,16 @@
         ">
         Filters
     </h2>
-    <Input bind:value={filters.freetextFilter} placeholder="Freetext" />
-    <Input bind:value={filters.artistFilter} placeholder="Artist" />
-    <Input bind:value={filters.titleFilter} placeholder="Title" />
-    <Input bind:value={filters.genreFilter} placeholder="Genre" />
-    <Input bind:value={filters.albumFilter} placeholder="Album" />
-    <Input bind:value={filters.yearFilter} placeholder="Year" />
-    <Input bind:value={filters.trackFilter} placeholder="Track Nr." />
-    <Input bind:value={filters.diskFilter} placeholder="Disk Nr." />
+    <Input bind:value={filterStates.freetextFilter} placeholder="Freetext" />
+    <Input bind:value={filterStates.artistFilter} placeholder="Artist" />
+    <Input bind:value={filterStates.titleFilter} placeholder="Title" />
+    <Input bind:value={filterStates.genreFilter} placeholder="Genre" />
+    <Input bind:value={filterStates.albumFilter} placeholder="Album" />
+    <Input bind:value={filterStates.yearFilter} placeholder="Year" />
+    <Input bind:value={filterStates.trackFilter} placeholder="Track Nr." />
+    <Input bind:value={filterStates.diskFilter} placeholder="Disk Nr." />
     <CheckboxWithLabel
-        bind:checked={filters.showOnlyUnsavedFilter}
+        bind:checked={filterStates.showOnlyUnsavedFilter}
         id="showUnsavedOnly"
         class="
             col-span-2

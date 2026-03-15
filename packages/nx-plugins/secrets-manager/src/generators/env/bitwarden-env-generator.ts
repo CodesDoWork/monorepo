@@ -5,7 +5,13 @@ import type {
     Organization,
 } from "@cdw/monorepo/shared-bitwarden";
 import type { Tree } from "@nx/devkit";
-import type { BitwardenInfo, RootSecretsConfig, SecretsConfig } from "./types";
+import type {
+    BitwardenInfo,
+    RootSecretsConfig,
+    SecretEnvConfig,
+    SecretsCollectionConfig,
+    SecretsConfig,
+} from "./types";
 import path from "node:path";
 import { byField, findSafeById } from "@cdw/monorepo/shared-utils";
 import { generateFiles, logger } from "@nx/devkit";
@@ -114,15 +120,20 @@ export class BitwardenEnvGenerator {
     }
 
     private bitwardenInfoToEnv(info: BitwardenInfo, name?: string): string {
-        if (typeof info === "string") {
-            switch (info) {
-                case BitwardenInfoKey.ORGANIZATION_NAME:
-                    return `${name || info}=${this.organizationName}`;
-                case BitwardenInfoKey.PROJECT_NAME:
-                    return `${name || info}=${this.projectName}`;
-            }
-        } else {
-            return this.bitwardenInfoToEnv(info.value, info.name);
+        return typeof info === "string"
+            ? this.bitwardenInfoKeyToEnv(info, name)
+            : this.bitwardenInfoToEnv(info.value, info.name);
+    }
+
+    private bitwardenInfoKeyToEnv(info: BitwardenInfoKey, name?: string): string {
+        name ||= info;
+        switch (info) {
+            case BitwardenInfoKey.ORGANIZATION_NAME:
+                return `${name}=${this.organizationName}`;
+            case BitwardenInfoKey.PROJECT_NAME:
+                return `${name}=${this.projectName}`;
+            default:
+                throw new Error(`Unknown bitwarden info key: ${info}`);
         }
     }
 
@@ -132,40 +143,78 @@ export class BitwardenEnvGenerator {
         currentCollection: string,
     ): Promise<string[]> {
         const envs: string[] = [];
-        for (const [collectionKey, collectionConfig] of Object.entries(secretConfig)) {
-            const prefix = collectionConfig.prefix
-                ? `${collectionKey
-                      .replaceAll("../", "")
-                      .replaceAll("/", "_")
-                      .replaceAll("-", "_")
-                      .toUpperCase()}_`
-                : "";
+        for (const [key, config] of Object.entries(secretConfig)) {
+            await this.collectionToEnv(key, config, root, currentCollection).then(collectionEnvs =>
+                envs.push(...collectionEnvs),
+            );
+        }
 
-            const collection = this.getCollectionName(currentCollection, collectionKey);
-            const ciphers = await this.getCiphers(collection);
-            for (const secretConfig of collectionConfig.vars) {
-                const field = getSecretFieldName(secretConfig);
-                const secretValue = await this.getSecret(ciphers, field);
-                if (secretValue) {
-                    if (typeof secretConfig === "string") {
-                        envs.push(`${prefix}${secretConfig}=${secretValue}`);
-                    } else if (secretConfig.file) {
-                        this.tree.write(
-                            path.join(root, secretConfig.file),
-                            secretValue.replace(/\\n/g, "\n"),
-                        );
-                    } else {
-                        envs.push(`${prefix}${secretConfig.name}=${secretValue}`);
-                    }
-                } else {
-                    logger.warn(
-                        `No secret found for field '${field}' in collection '${collection}' with stages ${this.stages}`,
-                    );
-                }
+        return envs;
+    }
+
+    private async collectionToEnv(
+        collectionKey: string,
+        collectionConfig: SecretsCollectionConfig,
+        root: string,
+        currentCollection: string,
+    ): Promise<string[]> {
+        const envs: string[] = [];
+        const collection = this.getCollectionName(currentCollection, collectionKey);
+        const ciphers = await this.getCiphers(collection);
+        const prefix = this.getCollectionPrefix(collectionKey, collectionConfig);
+        for (const secretConfig of collectionConfig.vars) {
+            const env = await this.secretVarToEnv(secretConfig, collection, ciphers, prefix, root);
+            if (env) {
+                envs.push(env);
             }
         }
 
         return envs;
+    }
+
+    private getCollectionPrefix(key: string, config: SecretsCollectionConfig): string {
+        return config.prefix
+            ? `${key
+                  .replaceAll("../", "")
+                  .replaceAll("/", "_")
+                  .replaceAll("-", "_")
+                  .toUpperCase()}_`
+            : "";
+    }
+
+    private async secretVarToEnv(
+        config: SecretEnvConfig,
+        collection: string,
+        ciphers: Record<string, Cipher>,
+        prefix: string,
+        root: string,
+    ): Promise<string | null> {
+        const field = getSecretFieldName(config);
+        const secretValue = await this.getSecret(ciphers, field);
+        if (!secretValue) {
+            logger.warn(
+                `No secret found for field '${field}' in collection '${collection}' with stages ${this.stages}`,
+            );
+            return null;
+        }
+
+        return this.secretVarValueToEnv(config, secretValue, prefix, root);
+    }
+
+    private async secretVarValueToEnv(
+        config: SecretEnvConfig,
+        secretValue: string,
+        prefix: string,
+        root: string,
+    ): Promise<string | null> {
+        if (typeof config === "string") {
+            return `${prefix}${config}=${secretValue}`;
+        } else if (config.file) {
+            this.tree.write(path.join(root, config.file), secretValue.replace(/\\n/g, "\n"));
+            return null;
+        } else {
+            return `${prefix}${config.name}=${secretValue}`;
+        }
     }
 
     private async getCiphers(collection: string): Promise<Record<string, Cipher>> {

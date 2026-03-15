@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type { ThemeState } from "../../states/theme.svelte";
+    import type { ThemeState } from "@cdw/monorepo/shared-svelte-states/theme";
+    import { ThemeIcons } from "@cdw/monorepo/shared-svelte-states/theme";
     import { clsx } from "clsx";
-    import { Theme } from "../../states/theme.svelte";
 
     interface Props {
         class?: string;
@@ -14,15 +14,7 @@
     const animationDuration = 300;
     let icon = $state("");
     $effect(() => {
-        let iconName: string;
-        if (theme.theme === Theme.Light) {
-            iconName = "material-symbols:dark-mode-outline";
-        } else if (theme.theme === Theme.Dark) {
-            iconName = "material-symbols:desktop-windows-outline-rounded";
-        } else if (theme.theme === Theme.OS) {
-            iconName = "material-symbols:light-mode-outline";
-        }
-
+        const iconName = ThemeIcons[theme.theme];
         if (icon) {
             setTimeout(() => (icon = iconName), animationDuration / 2);
         } else {
@@ -32,17 +24,7 @@
 
     let isAnimating = $state(false);
     const toggleTheme = () => {
-        let nextTheme;
-        if (theme.theme === Theme.Light) {
-            nextTheme = Theme.Dark;
-        } else if (theme.theme === Theme.Dark) {
-            nextTheme = Theme.OS;
-        } else if (theme.theme === Theme.OS) {
-            nextTheme = Theme.Light;
-        }
-
-        theme.theme = nextTheme;
-
+        theme.toggleNextTheme();
         isAnimating = true;
         setTimeout(() => (isAnimating = false), animationDuration);
     };

@@ -7,6 +7,7 @@
     import { page } from "$app/state";
     import { Layout } from "@cdw/monorepo/just-shared-svelte-components";
     import { setJsonLdContext, stringifyJsonLd } from "@cdw/monorepo/shared-svelte-contexts";
+    import { getTheme, Theme } from "@cdw/monorepo/shared-svelte-states/theme";
     import { createColors, createCssVariables } from "@cdw/monorepo/shared-utils/css/colors";
     import { byId } from "@cdw/monorepo/shared-utils/filters";
     import { clsx } from "clsx";
@@ -18,7 +19,6 @@
     import { Title } from "../components/texts";
     import { setOverlayContext } from "../contexts/overlay";
     import { getRoute } from "../lib/common/routes";
-    import { getTheme, Theme } from "../states/theme.svelte";
     import { privateRoute } from "./private/constants";
     import "../app.css";
 

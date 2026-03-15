@@ -28,31 +28,35 @@ watchDirs(
     ...env.LIBS.split(",").map(lib => join(env.LIBS_DIR, lib)),
 );
 
-async function add(path: string) {
-    if (!isMusicFile(path)) {
-        return;
+function add(path: string): Promise<void> {
+    if (isMusicFile(path)) {
+        return addMusicFile(path);
     }
 
+    return Promise.resolve();
+}
+
+async function addMusicFile(path: string): Promise<void> {
     logger.info(`New file: ${path}`);
 
     const inode = getInode(path);
     pathInodes.set(path, inode);
     if (tracks.has(inode)) {
         ingestSong(path, inode, tracks.get(inode)?.paths);
+    } else if (inflight.has(inode)) {
+        await addPathToInflight(path, inode);
     } else {
-        if (inflight.has(inode)) {
-            await inflight.get(inode);
-            const track = tracks.get(inode);
-            if (track) {
-                if (!track.paths.includes(path)) {
-                    track.paths.push(path);
-                    if (path.startsWith(env.STORE_DIR)) {
-                        track.storeFile = basename(path);
-                    }
-                }
-            }
-        } else {
-            ingestSong(path, inode);
+        ingestSong(path, inode);
+    }
+}
+
+async function addPathToInflight(path: string, inode: number) {
+    await inflight.get(inode);
+    const track = tracks.get(inode);
+    if (track && !track.paths.includes(path)) {
+        track.paths.push(path);
+        if (path.startsWith(env.STORE_DIR)) {
+            track.storeFile = basename(path);
         }
     }
 }
@@ -93,21 +97,27 @@ function ingestSong(path: string, inode: number, paths?: string[]) {
 }
 
 function remove(path: string) {
-    if (!isMusicFile(path)) {
-        return;
+    if (isMusicFile(path)) {
+        removeMusicFile(path);
     }
+}
 
+function removeMusicFile(path: string) {
     logger.info(`Removed file: ${path}`);
 
     const inode = pathInodes.get(path);
     pathInodes.delete(path);
     if (inode) {
-        const track = tracks.get(inode);
-        if (track) {
-            track.paths = track.paths.filter(p => p !== path);
-            if (!track.paths.length || !track.paths.some(p => p.startsWith(env.STORE_DIR))) {
-                tracks.delete(inode);
-            }
+        removeTrackIfNotUsed(path, inode);
+    }
+}
+
+function removeTrackIfNotUsed(path: string, inode: number) {
+    const track = tracks.get(inode);
+    if (track) {
+        track.paths = track.paths.filter(p => p !== path);
+        if (!track.paths.length || !track.paths.some(p => p.startsWith(env.STORE_DIR))) {
+            tracks.delete(inode);
         }
     }
 }

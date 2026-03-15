@@ -1,4 +1,4 @@
-import type { BSLItem } from "./bsl-item";
+import type { BSLItem } from "./bsl-item/bsl-item";
 
 export function getBSLData() {
     let data = $state<BSLItem[]>([]);

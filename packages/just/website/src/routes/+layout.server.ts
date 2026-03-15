@@ -32,48 +32,62 @@ async function loadServerData(
     languages: LanguageFragment[],
     allRoutes: TransformedRoute[],
 ) {
-    const data = await queryDefault({
-        query: GetHomeLayoutServerDataDocument,
-        variables: { language: currentLanguage.code },
-    });
+    const layoutData = await getLayoutData(currentLanguage.code);
+    const { siteInfo, routes, serverRoutes } = layoutData;
+    const about = getAboutData(layoutData.about);
+    const socials = layoutData.contact.socials.map(s => s.socialsId).map(mapSocial);
 
-    const { siteInfo, routes, serverRoutes, about, contact } = flattenTranslations(data);
     const homeRoute = getRouteByServerRoute(routes, serverRoutes, "/");
     const privacyPolicyRoute = getRouteByServerRoute(routes, serverRoutes, "/privacy-policy");
-    routes.forEach(r => {
-        const transformedRoute = allRoutes.find(byId(r.id));
-        r.route = transformedRoute.translations.find(byLanguage(currentLanguage)).route;
-    });
+    setRoutesByLanguage(routes, allRoutes, currentLanguage);
 
-    const socials = contact.socials.map(s => s.socialsId).map(mapSocial);
-    const portrait = assetUrl(env.CMS_URL, about.portrait.id, {
-        quality: 80,
-        width: 512,
-        height: 512,
-    });
-
-    const layoutJsonLd = createLayoutJsonLd({
+    const jsonLdData: LayoutJsonLdData = {
         siteInfo,
         currentLanguage,
-        about: { ...about, portrait },
+        about,
         socials,
         homeRoute,
         baseUrl: env.URL,
-    });
+    };
 
+    const layoutJsonLd = createLayoutJsonLd(jsonLdData);
     return {
-        siteInfo,
-        about: { ...about, portrait },
+        ...jsonLdData,
         routes,
-        homeRoute,
         privacyPolicyRoute,
-        currentLanguage,
         serverRoutes,
         allRoutes,
         languages,
-        socials,
         layoutJsonLd,
-        baseUrl: env.URL,
+    };
+}
+
+function getLayoutData(language: string) {
+    return queryDefault({
+        query: GetHomeLayoutServerDataDocument,
+        variables: { language },
+    }).then(flattenTranslations);
+}
+
+function setRoutesByLanguage(
+    routes: Route[],
+    allRoutes: TransformedRoute[],
+    language: LanguageFragment,
+) {
+    routes.forEach(r => {
+        const transformedRoute = allRoutes.find(byId(r.id));
+        r.route = transformedRoute.translations.find(byLanguage(language)).route;
+    });
+}
+
+function getAboutData(about: GetHomeLayoutServerDataQuery["about"]) {
+    return {
+        ...about,
+        portrait: assetUrl(env.CMS_URL, about.portrait.id, {
+            quality: 80,
+            width: 512,
+            height: 512,
+        }),
     };
 }
 

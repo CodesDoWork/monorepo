@@ -7,13 +7,18 @@ import { v4 as uuidV4 } from "uuid";
 export const downloadStatus: Record<string, Record<string, ReadableStream>> = {};
 
 export function getDownloadStatus(userLib: string, id: string): ReadableStream | null {
-    const stream = downloadStatus[userLib]?.[id];
+    const userDownloads = downloadStatus[userLib];
+    if (!userDownloads) {
+        return null;
+    }
+
+    const stream = userDownloads[id];
     if (!stream) {
         return null;
     }
 
     const [branch1, branch2] = stream.tee();
-    downloadStatus[userLib]![id] = branch2;
+    userDownloads[id] = branch2;
 
     return branch1;
 }
@@ -52,7 +57,8 @@ export function download(url: string, userLib: string, cookiesPath: string): str
                 send(msg);
                 controller.close();
                 rmSync(cookiesPath);
-                setTimeout(() => delete userDownloads[id], 60_000);
+                const oneMinuteMS = 60_000;
+                setTimeout(() => delete userDownloads[id], oneMinuteMS);
             });
         },
     });

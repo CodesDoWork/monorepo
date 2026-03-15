@@ -1,1 +1,6 @@
-export * from "./compose-config";
+export {
+    getComposeDirForContext,
+    getServiceInfo,
+    getServiceNetwork,
+    type ServiceInfo,
+} from "./compose-config";

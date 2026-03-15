@@ -1,6 +1,7 @@
 import type { RequestHandler } from "@sveltejs/kit";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { HttpStatusCode } from "@cdw/monorepo/shared-utils/http-status-codes";
 import { error } from "@sveltejs/kit";
 import { env } from "../../../../env";
 import { getMusicLib } from "../../../../lib/server/headers";
@@ -8,7 +9,7 @@ import { getMusicLib } from "../../../../lib/server/headers";
 export const GET: RequestHandler = async ({ request, params }) => {
     const { storeFilename } = params;
     if (!storeFilename) {
-        return error(405, "storeFilename not provided");
+        return error(HttpStatusCode.BAD_REQUEST, "storeFilename not provided");
     }
 
     getMusicLib(request); // for protection
@@ -23,6 +24,6 @@ export const GET: RequestHandler = async ({ request, params }) => {
             },
         });
     } catch {
-        throw error(404, "Audio file not found");
+        throw error(HttpStatusCode.NOT_FOUND, "Audio file not found");
     }
 };

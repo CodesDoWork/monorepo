@@ -23,17 +23,14 @@ function add(path: string) {
         return;
     }
 
-    if (!initialScan.done) {
+    if (initialScan.isRunning) {
         initialScan.incrementPending();
     }
 
     ingestFile(path)
         .then(wasIngested => {
-            if (!initialScan.done || initialScan.hasPendingJobs()) {
-                initialScan.decrementPending();
-                wasIngested
-                    ? initialScan.incrementNewlyAddedFiles()
-                    : initialScan.incrementAlreadyIngestedFiles();
+            if (initialScan.isRunning) {
+                initialScan.handleIngest(wasIngested);
             } else {
                 logger.info((wasIngested ? "Ingested: " : "Skipped ingest: ") + path);
             }

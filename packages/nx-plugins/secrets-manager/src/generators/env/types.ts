@@ -10,7 +10,7 @@ export const zExtendsConfig = z.object({ extends: z.string().optional() });
 export const zEnvValueTypes = z.union([z.string(), z.number(), z.boolean()]);
 export const zEnvConfig = z.object({ env: z.record(z.string(), zEnvValueTypes).default({}) });
 
-export const zBitwardenInfoKeys = z.nativeEnum(BitwardenInfoKey);
+export const zBitwardenInfoKeys = z.enum(BitwardenInfoKey);
 export const zBirwardenInfo = z.union([
     zBitwardenInfoKeys,
     z.object({ name: z.string(), value: zBitwardenInfoKeys }).strict(),
@@ -49,6 +49,7 @@ export const zRootSecretConfig = z
 
 export type BitwardenInfo = z.infer<typeof zBirwardenInfo>;
 export type SecretsConfig = z.infer<typeof zSecretsConfig>;
+export type SecretsCollectionConfig = z.infer<typeof zSecretCollectionConfig>;
 export type SecretEnvConfig = z.infer<typeof zSecretEnvConfig>;
 export type ProjectSecretsConfig = z.infer<typeof zProjectSecretsConfig>;
 export type RootSecretsConfig = z.infer<typeof zRootSecretConfig>;

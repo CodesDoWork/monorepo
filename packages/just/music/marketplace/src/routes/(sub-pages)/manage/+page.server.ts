@@ -29,16 +29,10 @@ export const actions = {
         const selectedTracks = getSelectedTracks(formData);
 
         tracks.forEach(t => {
-            if (t.has && !selectedTracks.includes(t.idx)) {
-                const path = t.paths.find(path => path.startsWith(userLib));
-                if (path) {
-                    rmSync(path);
-                }
-            } else if (!t.has && selectedTracks.includes(t.idx)) {
-                const error = addToStore(t, userLib);
-                if (error) {
-                    errors.push(error);
-                }
+            if (wasTrackRemoved(t, selectedTracks)) {
+                removeTrack(t, userLib);
+            } else if (wasTrackAdded(t, selectedTracks)) {
+                addTrack(t, userLib, errors);
             }
         });
 
@@ -46,30 +40,55 @@ export const actions = {
     },
 } satisfies Actions;
 
+function wasTrackAdded(t: IndexedTrack, selectedTracks: number[]): boolean {
+    return !t.has && selectedTracks.includes(t.idx);
+}
+
+function addTrack(t: IndexedTrack, userLib: string, errors: TrackError[]) {
+    const error = addToStore(t, userLib);
+    if (error) {
+        errors.push(error);
+    }
+}
+
+function wasTrackRemoved(t: IndexedTrack, selectedTracks: number[]): boolean {
+    return t.has && !selectedTracks.includes(t.idx);
+}
+
+function removeTrack(t: IndexedTrack, userLib: string) {
+    const path = t.paths.find(p => p.startsWith(userLib));
+    if (path) {
+        rmSync(path);
+    }
+}
+
 interface TrackError {
     idx: number;
     msg: string;
 }
 
 function addToStore(t: IndexedTrack, userLib: string): TrackError | null {
-    const storePath = t.paths.find(path => path.startsWith(env.STORE_DIR));
-    const artist = t.meta.artist || "Unknown Artist";
-    const title = t.meta.title || "Unknown Title";
-    const album = t.meta.album ? ` [${t.meta.album}]` : "";
-    const track = t.meta.trackNo ? ` #${t.meta.trackNo}` : "";
-    const filename = `${artist} - ${title}${album}${track}.mp3`;
+    const filename = getTrackFilename(t);
     const targetPath = join(userLib, filename);
-
     if (existsSync(targetPath)) {
         return { idx: t.idx, msg: "Song already exists" };
     }
 
+    const storePath = t.paths.find(path => path.startsWith(env.STORE_DIR));
     if (storePath) {
         linkSync(storePath, targetPath);
         return null;
     }
 
     return { idx: t.idx, msg: "No store path found" };
+}
+
+function getTrackFilename(t: IndexedTrack): string {
+    const artist = t.meta.artist || "Unknown Artist";
+    const title = t.meta.title || "Unknown Title";
+    const album = t.meta.album ? ` [${t.meta.album}]` : "";
+    const track = t.meta.trackNo ? ` #${t.meta.trackNo}` : "";
+    return `${artist} - ${title}${album}${track}.mp3`;
 }
 
 function getUserTracks(userLib: string): IndexedTrack[] {

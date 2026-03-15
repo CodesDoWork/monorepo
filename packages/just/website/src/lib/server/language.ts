@@ -1,6 +1,7 @@
 import type { Cookies } from "@sveltejs/kit";
 import type { LanguageFragment } from "../../graphql/default/generated/graphql";
 import type { TransformedRoute } from "../common/routes";
+import { HttpStatusCode } from "@cdw/monorepo/shared-utils/http-status-codes";
 import { error } from "@sveltejs/kit";
 import { env } from "../../env";
 
@@ -51,7 +52,7 @@ function getLanguageCodeFromUrl(request: Request, routes: TransformedRoute[]): s
 function getLanguageFragment(languages: LanguageFragment[], code?: string): LanguageFragment {
     const fallbackLanguage = languages.find(lang => lang.isFallback);
     if (!fallbackLanguage) {
-        error(500, "No fallback language found!");
+        error(HttpStatusCode.INTERNAL_SERVER_ERROR, "No fallback language found!");
     }
 
     return code

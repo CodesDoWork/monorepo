@@ -1,5 +1,5 @@
 import type { PathsOf } from "@cdw/monorepo/packages/shared/utils/src/objects";
-import type { BSLItem } from "../../lib/client/bsl-item";
+import type { BSLItem } from "../../lib/client/bsl-item/bsl-item";
 
 export interface SelectableItem {
     name: string;
